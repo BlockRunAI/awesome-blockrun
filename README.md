@@ -106,9 +106,10 @@ See [research/](./research/) for all reports and methodology.
 
 ## More
 
+- [Ecosystem](./ECOSYSTEM.md) - Partners, facilitators, and integrations
 - [Roadmap](./ROADMAP.md) - What we're building next
 - [Vision](./VISION.md) - The future of AI agent payments
-- [Acknowledgments](./ACKNOWLEDGMENTS.md) - Our partners and contributors
+- [Acknowledgments](./ACKNOWLEDGMENTS.md) - Our contributors
 - [Community](./COMMUNITY.md) - How to get involved
 - [Contributing](./CONTRIBUTING.md) - Contribution guidelines
 
