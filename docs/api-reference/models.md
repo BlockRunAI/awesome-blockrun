@@ -12,17 +12,16 @@ Returns a list of available models with pricing information.
 
 ## Available Models
 
+All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
+
 ### OpenAI GPT-5 Family
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `openai/gpt-5.2` | GPT-5.2 | $1.75/M | $14.00/M | 400K |
-| `openai/gpt-5.1` | GPT-5.1 | $1.25/M | $10.00/M | 400K |
-| `openai/gpt-5` | GPT-5 | $1.25/M | $10.00/M | 400K |
-| `openai/gpt-5-mini` | GPT-5 Mini | $0.25/M | $2.00/M | 400K |
-| `openai/gpt-5-nano` | GPT-5 Nano | $0.05/M | $0.40/M | 400K |
+| `openai/gpt-5-mini` | GPT-5 Mini | $0.25/M | $2.00/M | 200K |
+| `openai/gpt-5-nano` | GPT-5 Nano | $0.05/M | $0.40/M | 128K |
 | `openai/gpt-5.2-pro` | GPT-5.2 Pro | $21.00/M | $168.00/M | 400K |
-| `openai/gpt-5-pro` | GPT-5 Pro | $15.00/M | $120.00/M | 400K |
 
 ### OpenAI GPT-4 Family
 
@@ -44,6 +43,15 @@ Returns a list of available models with pricing information.
 | `openai/o3-mini` | o3-mini | $1.10/M | $4.40/M | 128K |
 | `openai/o4-mini` | o4-mini | $1.10/M | $4.40/M | 128K |
 
+### OpenAI GPT-OSS (Open-Weight)
+
+Apache 2.0 licensed open-weight models, hosted on NVIDIA.
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `openai/gpt-oss-20b` | GPT-OSS 20B | $0.03/M | $0.14/M | 128K |
+| `openai/gpt-oss-120b` | GPT-OSS 120B | $0.18/M | $0.84/M | 128K |
+
 ### Anthropic Claude
 
 | Model ID | Name | Input Price | Output Price | Context |
@@ -60,37 +68,37 @@ Returns a list of available models with pricing information.
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
 | `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.15/M | $0.60/M | 1M |
 
-### xAI
-
-| Model ID | Name | Input Price | Output Price | Context |
-|----------|------|-------------|--------------|---------|
-| `x-ai/grok-4-fast` | Grok 4 Fast | $0.20/M | $0.50/M | 2M |
-
 ### DeepSeek
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `deepseek/deepseek-v3-0324` | DeepSeek V3 | $0.20/M | $0.88/M | 164K |
-| `deepseek/deepseek-r1` | DeepSeek R1 | $0.55/M | $2.19/M | 64K |
+| `deepseek/deepseek-chat` | DeepSeek V3.2 Chat | $0.28/M | $0.42/M | 128K |
+| `deepseek/deepseek-reasoner` | DeepSeek V3.2 Reasoner | $0.28/M | $0.42/M | 128K |
 
-### Meta (via Together.ai)
-
-| Model ID | Name | Input Price | Output Price | Context |
-|----------|------|-------------|--------------|---------|
-| `meta-llama/llama-3.3-70b-instruct` | Llama 3.3 70B | $0.12/M | $0.30/M | 128K |
-| `meta-llama/llama-3.1-405b-instruct` | Llama 3.1 405B | $2.00/M | $2.00/M | 128K |
-
-### Qwen (via Together.ai)
+### Qwen
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `qwen/qwen-2.5-72b-instruct` | Qwen 2.5 72B | $0.07/M | $0.26/M | 128K |
+| `qwen/qwen3-max` | Qwen3 Max | $0.46/M | $1.84/M | 262K |
+| `qwen/qwen-plus` | Qwen Plus | $0.10/M | $0.30/M | 128K |
+| `qwen/qwen-turbo` | Qwen Turbo | $0.02/M | $0.06/M | 128K |
 
-### Mistral
+### xAI (Grok)
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `mistralai/mistral-large` | Mistral Large | $2.00/M | $6.00/M | 128K |
+| `xai/grok-3` | Grok 3 | $3.00/M | $15.00/M | 128K |
+| `xai/grok-3-fast` | Grok 3 Fast | $5.00/M | $25.00/M | 128K |
+| `xai/grok-3-mini` | Grok 3 Mini | $0.30/M | $0.50/M | 128K |
+
+### Coming Soon
+
+These models are configured but not yet available (no API keys):
+
+- **Mistral**: Mistral Large 2, Mistral Medium 3, Codestral, Pixtral Large
+- **Cohere**: Command R+, Command R
+- **Perplexity**: Sonar Pro, Sonar
+- **Meta**: Llama 3.3 70B, Llama 3.1 405B
 
 ### Image Generation
 
@@ -98,6 +106,8 @@ Returns a list of available models with pricing information.
 |----------|------|-------|
 | `openai/dall-e-3` | DALL-E 3 | $0.04-0.08/image |
 | `openai/gpt-image-1` | GPT Image 1 | $0.02-0.04/image |
+| `google/nano-banana` | Nano Banana | $0.05/image |
+| `google/nano-banana-pro` | Nano Banana Pro | $0.10-0.15/image |
 
 ## Model Categories
 
@@ -114,6 +124,7 @@ Prices are per 1 million tokens. Your actual cost depends on:
 
 1. **Input tokens** - Length of your prompt and context
 2. **Output tokens** - Length of the model's response
+3. **Platform fee** - 5% added to provider rates
 
 The SDK calculates the exact price before each request.
 

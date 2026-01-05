@@ -79,7 +79,7 @@ Signatures use [EIP-712](https://eips.ethereum.org/EIPS/eip-712) typed structure
 **Development:**
 ```bash
 # .env file (git-ignored)
-BASE_CHAIN_WALLET_KEY=0x...
+BLOCKRUN_WALLET_KEY=0x...
 ```
 
 **Production:**

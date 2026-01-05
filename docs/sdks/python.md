@@ -24,7 +24,7 @@ print(response)
 
 | Variable | Description |
 |----------|-------------|
-| `BASE_CHAIN_WALLET_KEY` | Your Base chain wallet private key |
+| `BLOCKRUN_WALLET_KEY` | Your Base chain wallet private key |
 | `BLOCKRUN_API_URL` | API endpoint (default: https://blockrun.ai/api) |
 
 ### Client Options
@@ -228,12 +228,12 @@ pytest tests/unit -v                 # Verbose output
 
 Integration tests call the production API and require:
 - A funded Base wallet with USDC ($1+ recommended)
-- `BASE_CHAIN_WALLET_KEY` environment variable set
+- `BLOCKRUN_WALLET_KEY` environment variable set
 - Estimated cost: ~$0.05 per test run
 
 ```bash
 # Set your funded wallet key
-export BASE_CHAIN_WALLET_KEY=0x...
+export BLOCKRUN_WALLET_KEY=0x...
 
 # Run only integration tests
 pytest tests/integration
@@ -242,7 +242,7 @@ pytest tests/integration
 pytest
 ```
 
-Integration tests are automatically skipped if `BASE_CHAIN_WALLET_KEY` is not set.
+Integration tests are automatically skipped if `BLOCKRUN_WALLET_KEY` is not set.
 
 ## Security Best Practices
 
@@ -267,7 +267,7 @@ Integration tests are automatically skipped if `BASE_CHAIN_WALLET_KEY` is not se
 
 ```bash
 # .env (add to .gitignore!)
-BASE_CHAIN_WALLET_KEY=0x...your_private_key_here
+BLOCKRUN_WALLET_KEY=0x...your_private_key_here
 ```
 
 ```python
@@ -278,8 +278,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-if not os.getenv("BASE_CHAIN_WALLET_KEY"):
-    raise ValueError("BASE_CHAIN_WALLET_KEY not set")
+if not os.getenv("BLOCKRUN_WALLET_KEY"):
+    raise ValueError("BLOCKRUN_WALLET_KEY not set")
 
 client = LLMClient()  # Reads from environment
 ```

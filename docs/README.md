@@ -32,7 +32,7 @@ The x402 protocol enables HTTP-native micropayments. When you make an API call:
 ```python
 from blockrun_llm import LLMClient
 
-client = LLMClient()  # Uses BASE_CHAIN_WALLET_KEY env var
+client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY env var
 response = client.chat("openai/gpt-4o", "Hello!")
 print(response)
 ```

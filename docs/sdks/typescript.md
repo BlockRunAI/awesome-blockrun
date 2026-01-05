@@ -18,7 +18,7 @@ yarn add @blockrun/llm
 import { LLMClient } from '@blockrun/llm';
 
 const client = new LLMClient({
-  privateKey: process.env.BASE_CHAIN_WALLET_KEY as `0x${string}`
+  privateKey: process.env.BLOCKRUN_WALLET_KEY as `0x${string}`
 });
 
 const response = await client.chat('openai/gpt-4o', 'Hello!');
@@ -194,7 +194,7 @@ import express from 'express';
 import { LLMClient } from '@blockrun/llm';
 
 const app = express();
-const client = new LLMClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
+const client = new LLMClient({ privateKey: process.env.BLOCKRUN_WALLET_KEY });
 
 app.post('/chat', async (req, res) => {
   try {
@@ -215,7 +215,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { LLMClient } from '@blockrun/llm';
 
 const client = new LLMClient({
-  privateKey: process.env.BASE_CHAIN_WALLET_KEY as `0x${string}`
+  privateKey: process.env.BLOCKRUN_WALLET_KEY as `0x${string}`
 });
 
 export async function POST(request: NextRequest) {
@@ -243,12 +243,12 @@ npm test -- --coverage            # Run with coverage report
 
 Integration tests call the production API and require:
 - A funded Base wallet with USDC ($1+ recommended)
-- `BASE_CHAIN_WALLET_KEY` environment variable set
+- `BLOCKRUN_WALLET_KEY` environment variable set
 - Estimated cost: ~$0.05 per test run
 
 ```bash
 # Set your funded wallet key
-export BASE_CHAIN_WALLET_KEY=0x...
+export BLOCKRUN_WALLET_KEY=0x...
 
 # Run only integration tests
 npm test -- test/integration
@@ -257,7 +257,7 @@ npm test -- test/integration
 npm test run
 ```
 
-Integration tests are automatically skipped if `BASE_CHAIN_WALLET_KEY` is not set.
+Integration tests are automatically skipped if `BLOCKRUN_WALLET_KEY` is not set.
 
 ## Security Best Practices
 
@@ -282,7 +282,7 @@ Integration tests are automatically skipped if `BASE_CHAIN_WALLET_KEY` is not se
 
 ```bash
 # .env (add to .gitignore!)
-BASE_CHAIN_WALLET_KEY=0x...your_private_key_here
+BLOCKRUN_WALLET_KEY=0x...your_private_key_here
 ```
 
 ```typescript
@@ -292,12 +292,12 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-if (!process.env.BASE_CHAIN_WALLET_KEY) {
-  throw new Error('BASE_CHAIN_WALLET_KEY not set');
+if (!process.env.BLOCKRUN_WALLET_KEY) {
+  throw new Error('BLOCKRUN_WALLET_KEY not set');
 }
 
 const client = new LLMClient({
-  privateKey: process.env.BASE_CHAIN_WALLET_KEY as `0x${string}`
+  privateKey: process.env.BLOCKRUN_WALLET_KEY as `0x${string}`
 });
 ```
 
