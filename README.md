@@ -21,7 +21,7 @@ We welcome contributions! Here's how you can help:
 
 All contributors will be recognized in [ACKNOWLEDGMENTS.md](./ACKNOWLEDGMENTS.md).
 
-**Join our community:** [Telegram](https://t.me/blockrunai) | [GitHub Issues](https://github.com/blockrunai/awesome-blockrun/issues)
+**Join our community:** [Telegram](https://t.me/+mroQv4-4hGgzOGUx) | [GitHub Issues](https://github.com/blockrunai/awesome-blockrun/issues)
 
 ---
 
@@ -75,6 +75,14 @@ Help us integrate with more frameworks!
 
 Want to add an integration? [Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or submit a PR!
 
+## Projects Built with BlockRun
+
+| Project | Description | Demo |
+|---------|-------------|------|
+| [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Autonomous AI trading agent for prediction markets. Uses 3-model LLM consensus (GPT, Gemini, Claude) via x402 micropayments. | [Live Demo](https://polymarket-agent-516729397241.europe-west1.run.app) |
+
+*Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)*
+
 ## Research
 
 We analyzed every x402 transaction in December 2025.
@@ -118,7 +126,7 @@ See [research/](./research/) for all reports and methodology.
 - Website: [blockrun.ai](https://blockrun.ai)
 - Twitter: [@BlockRunAI](https://x.com/BlockRunAI)
 - GitHub: [github.com/blockrunai](https://github.com/blockrunai)
-- Telegram: [t.me/blockrunai](https://t.me/blockrunai)
+- Telegram: [t.me/blockrunai](https://t.me/+mroQv4-4hGgzOGUx)
 
 ---
 
