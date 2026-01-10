@@ -23,7 +23,13 @@ BlockRun works with the x402 facilitator network:
 
 ## Integrations
 
-We're building integrations with leading agent frameworks:
+### Community Integrations
+
+| Project | Category | Description |
+|---------|----------|-------------|
+| [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading bot with Visual Cortex for chart analysis |
+
+### Framework Integrations
 
 | Project | Category | Stars | Status | Help Wanted |
 |---------|----------|-------|--------|-------------|
@@ -74,4 +80,4 @@ Interested in partnering with BlockRun?
 - **Agent Frameworks** - Add BlockRun as an LLM provider
 - **AI Providers** - Get listed on our gateway
 
-[Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or reach out on [Telegram](https://t.me/blockrunai).
+[Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or reach out on [Telegram](https://t.me/+mroQv4-4hGgzOGUx).
