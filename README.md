@@ -64,22 +64,24 @@ response = client.chat("Hello!")
 
 ## Integrations
 
-Help us integrate with more frameworks!
-
-| Project | Status | Help Wanted |
+| Project | Status | Description |
 |---------|--------|-------------|
-| [GOAT SDK](https://github.com/crossmint/goat) | In Review | - |
-| [ElizaOS](https://github.com/elizaOS/eliza) | Planned | Plugin development |
-| [AgentKit](https://github.com/coinbase/agentkit) | Planned | Example code |
+| [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
+| [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) MCP Server |
+| [GOAT SDK](https://github.com/crossmint/goat) | In Review | Agent framework integration |
+| [AgentKit](https://github.com/coinbase/agentkit) | Planned | Coinbase agent framework |
 | [LangChain](https://github.com/langchain-ai/langchain) | Planned | Custom LLM provider |
 
 Want to add an integration? [Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or submit a PR!
 
 ## Projects Built with BlockRun
 
-| Project | Description | Demo |
-|---------|-------------|------|
-| [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Autonomous AI trading agent for prediction markets. Uses 3-model LLM consensus (GPT, Gemini, Claude) via x402 micropayments. | [Live Demo](https://polymarket-agent-516729397241.europe-west1.run.app) |
+| Project | Description | Category |
+|---------|-------------|----------|
+| [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Autonomous AI trading agent for prediction markets. Uses 3-model LLM consensus via x402. | Prediction Markets |
+| [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | AI-powered trading bot using LangChain and superforecasting methodologies. | Prediction Markets |
+| [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Crypto futures trading bot with AI-powered signal filtering using Grok sentiment + Claude decisions. | Futures Trading |
+| [Nano Banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Claude Code skill for AI image generation via x402 micropayments. | Image Generation |
 
 *Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)*
 

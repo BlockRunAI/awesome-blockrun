@@ -28,13 +28,22 @@ BlockRun works with the x402 facilitator network:
 | Project | Category | Description |
 |---------|----------|-------------|
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading bot with Visual Cortex for chart analysis |
+| [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | Prediction Markets | AI-powered trading using LangChain and superforecasting |
+| [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Futures Trading | Crypto futures bot with AI signal filtering (Grok + Claude) |
+
+### Claude Code Tools
+
+| Tool | Description | Install |
+|------|-------------|---------|
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server - Access 30+ AI models with zero API keys | `npx @anthropic-ai/claude-code mcp add blockrun-mcp` |
+| [nano-banana-blockrun](https://github.com/BlockRunAI/nano-banana-blockrun) | Image generation skill via x402 micropayments | Claude Code skill |
 
 ### Framework Integrations
 
 | Project | Category | Stars | Status | Help Wanted |
 |---------|----------|-------|--------|-------------|
 | [GOAT SDK](https://github.com/crossmint/goat) | Agent Framework | 150K+ downloads | In Review | - |
-| [ElizaOS](https://github.com/elizaOS/eliza) | Agent Framework | 60K+ | Planned | Plugin development |
+| [ElizaOS](https://github.com/elizaOS/eliza) | Agent Framework | 60K+ | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [AgentKit](https://github.com/coinbase/agentkit) | Agent Framework | Official | Planned | Example code |
 | [LangChain](https://github.com/langchain-ai/langchain) | LLM Framework | 100K+ | Planned | Custom LLM provider |
 | [OctoBot](https://github.com/Drakkar-Software/OctoBot) | Trading Bot | 5K+ | Planned | Integration |
