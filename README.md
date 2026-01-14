@@ -69,6 +69,7 @@ response = client.chat("Hello!")
 | [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) MCP Server |
 | [GOAT SDK](https://github.com/crossmint/goat) | In Review | Agent framework integration |
+| [PredictOS](https://github.com/PredictionXBT/PredictOS) | In Review | [PR #24](https://github.com/PredictionXBT/PredictOS/pull/24) - Prediction market AI agents |
 | [AgentKit](https://github.com/coinbase/agentkit) | Planned | Coinbase agent framework |
 | [LangChain](https://github.com/langchain-ai/langchain) | Planned | Custom LLM provider |
 
