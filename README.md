@@ -78,6 +78,7 @@ Want to add an integration? [Open an issue](https://github.com/blockrunai/awesom
 
 | Project | Description | Category |
 |---------|-------------|----------|
+| [PredictOS](https://github.com/PredictionXBT/PredictOS) | Prediction market analysis platform with multi-AI provider support. BlockRun enables wallet-based pay-per-request access via x402 micropayments. | Prediction Markets |
 | [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Autonomous AI trading agent for prediction markets. Uses 3-model LLM consensus via x402. | Prediction Markets |
 | [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | AI-powered trading bot using LangChain and superforecasting methodologies. | Prediction Markets |
 | [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Crypto futures trading bot with AI-powered signal filtering using Grok sentiment + Claude decisions. | Futures Trading |
