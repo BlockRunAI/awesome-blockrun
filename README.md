@@ -11,6 +11,32 @@
 
 ---
 
+## Integrations
+
+| Project | Status | Description |
+|---------|--------|-------------|
+| [PredictOS](https://github.com/PredictionXBT/PredictOS) | ✅ Released | Multi-AI prediction market platform |
+| [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
+| [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) MCP Server |
+| [GOAT SDK](https://github.com/crossmint/goat) | In Review | Agent framework integration |
+| [AgentKit](https://github.com/coinbase/agentkit) | Planned | Coinbase agent framework |
+| [LangChain](https://github.com/langchain-ai/langchain) | Planned | Custom LLM provider |
+
+## Projects Built with BlockRun
+
+| Project | Description | Category |
+|---------|-------------|----------|
+| [X Portal](https://llm.xprtlai.com/) | LLM chat interface powered by BlockRun | LLM Gateway |
+| [PredictOS](https://github.com/PredictionXBT/PredictOS) | Prediction market analysis platform with multi-AI provider support | Prediction Markets |
+| [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Autonomous AI trading agent using 3-model LLM consensus | Prediction Markets |
+| [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | AI-powered trading bot using LangChain and superforecasting | Prediction Markets |
+| [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Crypto futures bot with Grok sentiment + Claude decisions | Futures Trading |
+| [Nano Banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Claude Code skill for AI image generation via x402 | Image Generation |
+
+*Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)*
+
+---
+
 ## Traction
 
 We analyzed every x402 transaction in December 2025. This is the first real-world proof that AI agents can pay for services at scale.
@@ -24,7 +50,7 @@ We analyzed every x402 transaction in December 2025. This is the first real-worl
 | Projects Using x402 | 1,100+ |
 | Organic Business Activity | 53% |
 
-*Source: [State of x402 2025](./research/State_of_x402_2025.pdf) | [Web Version](./research/WEB_STATE_OF_X402.md)*
+*Source: [State of x402 2025](./research/State_of_x402_2025.pdf) | [Web Version](./research/WEB_STATE_OF_X402.md) | [Deck](https://blockrun.ai/state-x402-2025-deck.pdf)*
 
 ---
 
@@ -50,29 +76,6 @@ BlockRun aggregates services from the x402 facilitator network:
 | [Coinbase CDP](https://coinbase.com/cloud) | x402 protocol infrastructure |
 | [x402 Foundation](https://x402.org) | Protocol development |
 | [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
-
-### Integrations
-
-| Project | Status | Description |
-|---------|--------|-------------|
-| [PredictOS](https://github.com/PredictionXBT/PredictOS) | ✅ Released | Multi-AI prediction market platform |
-| [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
-| [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) MCP Server |
-| [GOAT SDK](https://github.com/crossmint/goat) | In Review | Agent framework integration |
-| [AgentKit](https://github.com/coinbase/agentkit) | Planned | Coinbase agent framework |
-| [LangChain](https://github.com/langchain-ai/langchain) | Planned | Custom LLM provider |
-
-### Projects Built with BlockRun
-
-| Project | Description | Category |
-|---------|-------------|----------|
-| [PredictOS](https://github.com/PredictionXBT/PredictOS) | Prediction market analysis platform with multi-AI provider support | Prediction Markets |
-| [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Autonomous AI trading agent using 3-model LLM consensus | Prediction Markets |
-| [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | AI-powered trading bot using LangChain and superforecasting | Prediction Markets |
-| [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Crypto futures bot with Grok sentiment + Claude decisions | Futures Trading |
-| [Nano Banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Claude Code skill for AI image generation via x402 | Image Generation |
-
-*Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)*
 
 See [ECOSYSTEM.md](./ECOSYSTEM.md) for full partner directory.
 
