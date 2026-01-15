@@ -32,6 +32,7 @@
 | [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | AI-powered trading bot using LangChain and superforecasting | Prediction Markets |
 | [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Crypto futures bot with Grok sentiment + Claude decisions | Futures Trading |
 | [Nano Banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Claude Code skill for AI image generation via x402 | Image Generation |
+| [LLM_trader](https://github.com/qrak/LLM_trader) | AI crypto trading bot with multi-provider support and chart analysis | Crypto Trading |
 
 *Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)*
 
