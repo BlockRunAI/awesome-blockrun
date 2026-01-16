@@ -108,6 +108,7 @@ These models are configured but not yet available (no API keys):
 | `openai/gpt-image-1` | GPT Image 1 | $0.02-0.04/image |
 | `google/nano-banana` | Nano Banana | $0.05/image |
 | `google/nano-banana-pro` | Nano Banana Pro | $0.10-0.15/image |
+| `black-forest/flux-1.1-pro` | Flux 1.1 Pro | $0.04/image |
 
 ## Model Categories
 
