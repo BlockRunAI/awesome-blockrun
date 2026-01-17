@@ -15,7 +15,6 @@
 
 | Project | Status | Description |
 |---------|--------|-------------|
-| [PredictOS](https://github.com/PredictionXBT/PredictOS) | ✅ Released | Multi-AI prediction market platform |
 | [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) MCP Server |
 | [GOAT SDK](https://github.com/crossmint/goat) | In Review | Agent framework integration |
@@ -74,9 +73,7 @@ BlockRun aggregates services from the x402 facilitator network:
 
 | Partner | Relationship |
 |---------|--------------|
-| [Coinbase CDP](https://coinbase.com/cloud) | x402 protocol infrastructure |
 | [x402 Foundation](https://x402.org) | Protocol development |
-| [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
 
 See [ECOSYSTEM.md](./ECOSYSTEM.md) for full partner directory.
 
@@ -177,15 +174,6 @@ See [research/](./research/) for methodology.
 All contributors will be recognized in [ACKNOWLEDGMENTS.md](./ACKNOWLEDGMENTS.md).
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
----
-
-## Links
-
-- Website: [blockrun.ai](https://blockrun.ai)
-- Twitter: [@BlockRunAI](https://x.com/BlockRunAI)
-- GitHub: [github.com/blockrunai](https://github.com/blockrunai)
-- Telegram: [t.me/blockrunai](https://t.me/+mroQv4-4hGgzOGUx)
 
 ---
 
