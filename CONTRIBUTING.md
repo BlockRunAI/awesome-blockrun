@@ -51,7 +51,7 @@ cd awesome-blockrun
 ## Questions?
 
 - [GitHub Issues](https://github.com/blockrunai/awesome-blockrun/issues)
-- [Telegram](https://t.me/blockrunai)
+- [Telegram](https://t.me/+mroQv4-4hGgzOGUx)
 
 ## Recognition
 

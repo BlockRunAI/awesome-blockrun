@@ -5,7 +5,7 @@
 | Channel | Use For |
 |---------|---------|
 | [GitHub Issues](https://github.com/blockrunai/awesome-blockrun/issues) | Bug reports, feature requests, technical questions |
-| [Telegram](https://t.me/blockrunai) | Quick questions, chat, community discussion |
+| [Telegram](https://t.me/+mroQv4-4hGgzOGUx) | Quick questions, chat, community discussion |
 
 ## Stay Updated
 

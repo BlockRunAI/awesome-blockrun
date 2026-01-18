@@ -68,4 +68,4 @@ BlockRun is building the infrastructure for this future.
 
 ---
 
-**Join us:** [GitHub](https://github.com/blockrunai) | [Twitter](https://x.com/BlockRunAI) | [Telegram](https://t.me/blockrunai)
+**Join us:** [GitHub](https://github.com/blockrunai) | [Twitter](https://x.com/BlockRunAI) | [Telegram](https://t.me/+mroQv4-4hGgzOGUx)

@@ -56,6 +56,18 @@ We analyzed every x402 transaction in December 2025. This is the first real-worl
 
 ## Ecosystem
 
+### Alliance Partners
+
+| Partner | Type | Description |
+|---------|------|-------------|
+| [![Circle](https://img.shields.io/badge/Circle-Alliance_Partner-00D4AA)](https://partners.circle.com/partner/blockrunai) | Infrastructure | Official Circle Alliance Partner. Part of Circle's global ecosystem powering USDC payments and stablecoin infrastructure on Base. |
+
+### Strategic Integrators
+
+| Project | Status | Description |
+|---------|--------|-------------|
+| *Announcements coming soon* | 🔜 | Projects committed to building with x402 |
+
 ### x402 Facilitators
 
 BlockRun aggregates services from the x402 facilitator network:

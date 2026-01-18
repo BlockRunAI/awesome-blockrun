@@ -36,4 +36,4 @@ Data collected from:
 
 We plan to publish quarterly reports on the x402 ecosystem.
 
-Want to collaborate on research? [Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or reach out on [Telegram](https://t.me/blockrunai).
+Want to collaborate on research? [Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or reach out on [Telegram](https://t.me/+mroQv4-4hGgzOGUx).
