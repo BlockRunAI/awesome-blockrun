@@ -35,7 +35,7 @@ Client                                   Server
   |  3. Sign payment locally               |
   |  (private key never sent)              |
   |                                        |
-  |  4. POST /api + X-Payment header       |
+  |  4. POST /api + PAYMENT-SIGNATURE      |
   |--------------------------------------->|
   |                                        |
   |  5. Verify signature                   |

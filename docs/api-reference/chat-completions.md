@@ -15,7 +15,7 @@ POST https://blockrun.ai/api/v1/chat/completions
 | Header | Required | Description |
 |--------|----------|-------------|
 | `Content-Type` | Yes | Must be `application/json` |
-| `X-Payment` | Conditional | Base64-encoded x402 payment payload (required after 402) |
+| `PAYMENT-SIGNATURE` | Conditional | Base64-encoded x402 payment payload (required after 402, x402 v2) |
 
 ### Body Parameters
 
@@ -105,7 +105,7 @@ curl -X POST https://blockrun.ai/api/v1/chat/completions \
 # Step 2: Sign payment and retry (SDK handles this automatically)
 curl -X POST https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "X-Payment: <base64-encoded-payment>" \
+  -H "PAYMENT-SIGNATURE: <base64-encoded-payment>" \
   -d '{
     "model": "openai/gpt-4o",
     "messages": [{"role": "user", "content": "Hello!"}]

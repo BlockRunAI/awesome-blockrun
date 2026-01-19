@@ -86,12 +86,12 @@ Key points:
 
 ### Step 4: Retry with Payment
 
-Client sends the request again with the `X-Payment` header:
+Client sends the request again with the `PAYMENT-SIGNATURE` header (x402 v2):
 
 ```bash
 curl -X POST https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "X-Payment: <base64-encoded-payment>" \
+  -H "PAYMENT-SIGNATURE: <base64-encoded-payment>" \
   -d '{"model": "openai/gpt-4o", "messages": [...]}'
 ```
 
