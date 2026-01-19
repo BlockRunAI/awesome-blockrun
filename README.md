@@ -133,7 +133,7 @@ response = client.chat("Hello!")
 
 ### Documentation
 
-**Getting Started:** [Installation](./docs/getting-started/installation.md) | [Quick Start](./docs/getting-started/quick-start.md) | [Authentication](./docs/getting-started/authentication.md)
+**Getting Started:** [Installation](./docs/getting-started/installation.md) | [Quick Start](./docs/getting-started/quick-start.md) | [Prompt Quickstart](./docs/getting-started/prompt-quickstart.md) | [Authentication](./docs/getting-started/authentication.md)
 
 **API Reference:** [Chat Completions](./docs/api-reference/chat-completions.md) | [Models](./docs/api-reference/models.md) | [Errors](./docs/api-reference/errors.md)
 
