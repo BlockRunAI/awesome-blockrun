@@ -13,10 +13,10 @@ Copy and paste this into Claude Code:
 
 ```
 Set up BlockRun for x402 payments in Claude Code:
-1. Install blockrun-mcp
-2. Configure wallet (ask if I have one or want auto-generated)
-3. Help me fund it
-4. Prove it works: show balance → make an LLM call → show balance changed
+1. Install blockrun-mcp: `npx @anthropic-ai/claude-code mcp add blockrun-mcp`
+2. Configure BLOCKRUN_WALLET_KEY (ask if I have a private key or want to generate one)
+3. Show my wallet address and help me fund it with USDC on Base
+4. Prove it works: check balance → make an LLM call → confirm balance decreased
 ```
 
 Claude will walk you through each step interactively.
