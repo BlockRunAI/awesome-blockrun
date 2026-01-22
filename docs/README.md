@@ -1,75 +1,73 @@
 # BlockRun
 
-**Pay-per-request access to AI models via x402 micropayments.**
+**Agents that pay, spend, and trade.**
 
-BlockRun is a unified API gateway that provides access to GPT-5.2, Claude 4, Gemini 2.5, and other frontier AI models with automatic USDC micropayments using the x402 protocol.
+BlockRun is economic infrastructure for the agent era. AI agents discover services, pay in USDC, and execute autonomously — no API keys, no subscriptions.
 
-## Why BlockRun?
+## Products
 
-- **No API Keys to Manage** - Connect your wallet and start using AI models instantly
-- **Pay Only for What You Use** - Micropayments per request, no subscriptions or prepaid credits
-- **Non-Custodial** - Your private key never leaves your machine; payments are signed locally
-- **OpenAI-Compatible API** - Drop-in replacement for existing integrations
-- **Multiple Providers** - Access OpenAI, Anthropic, Google, DeepSeek, and more through one endpoint
+| Product | What It Does | Pricing |
+|---------|--------------|---------|
+| [**Trading**](products/trading/overview.md) | AI analyzes markets, executes trades, manages risk | Free (open source) |
+| [**Creation**](products/creation/x-grow.md) | AI creates optimized posts and images | Pay-per-use |
+| [**Intelligence**](products/intelligence/overview.md) | AI accesses 30+ LLMs via x402 | Provider cost + 5% |
 
-## How It Works
+## Get Started
 
+### Claude Code Users (60 seconds)
+
+```bash
+# Install BlockRun MCP
+claude mcp add blockrun -- npx @blockrun/mcp
+
+# Setup wallet (in Claude Code)
+> blockrun setup
+
+# Fund with $5 USDC on Base, then start using
 ```
-1. Send API request → 2. Receive 402 + price → 3. Sign payment locally → 4. Get AI response
-```
 
-The x402 protocol enables HTTP-native micropayments. When you make an API call:
+→ [Full Claude Code Guide](getting-started/claude-code.md)
 
-1. BlockRun returns `402 Payment Required` with the price
-2. Your SDK signs a USDC payment authorization (EIP-3009)
-3. The request is retried with the signed payment
-4. BlockRun verifies, executes the AI call, and settles the payment on-chain
+### Agent Developers
 
-**Your private key stays on your machine** - it's only used to sign payments locally.
+Building with ElizaOS, AgentKit, or LangChain? We have plugins:
 
-## Quick Example
+- [ElizaOS Plugin](frameworks/elizaos.md)
+- [AgentKit Integration](frameworks/agentkit.md)
+- [LangChain Provider](frameworks/langchain.md)
+
+→ [Agent Developer Guide](getting-started/agent-developers.md)
+
+### SDK Developers
+
+Direct API integration for Python, TypeScript, or Go:
 
 ```python
 from blockrun_llm import LLMClient
 
-client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY env var
+client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY
 response = client.chat("openai/gpt-4o", "Hello!")
-print(response)
 ```
 
-```typescript
-import { LLMClient } from '@blockrun/llm';
+→ [SDK Developer Guide](getting-started/sdk-developers.md)
 
-const client = new LLMClient({ privateKey: '0x...' });
-const response = await client.chat('openai/gpt-4o', 'Hello!');
-console.log(response);
+## How x402 Works
+
+```
+Agent → Request service → Receive 402 + price → Sign payment → Get response
 ```
 
-## Supported Models
+The [x402 protocol](x402/how-it-works.md) embeds payment into HTTP. Your agent:
 
-| Provider | Models |
-|----------|--------|
-| OpenAI | GPT-5.2, GPT-4o, o1, o1-mini |
-| Anthropic | Claude Opus 4, Claude Sonnet 4, Claude Haiku 4.5 |
-| Google | Gemini 3 Pro, Gemini 2.5 Pro, Gemini 2.5 Flash |
-| DeepSeek | DeepSeek V3, DeepSeek R1 |
-| xAI | Grok 4 Fast |
-| Meta | Llama 3.3 70B, Llama 3.1 405B |
-| Qwen | Qwen 2.5 72B |
-| Mistral | Mistral Large |
+1. Requests a service (AI inference, trading signal, image generation)
+2. Receives `HTTP 402 Payment Required` with the price
+3. Signs a USDC payment locally (your key never leaves your machine)
+4. Gets the response with payment settled on-chain
 
-## Supported Networks
-
-| Network | Token | Status |
-|---------|-------|--------|
-| Base | USDC | Live |
-| Solana | USDC | Coming Soon |
-
-- **Protocol:** x402 v2
-- **Settlement:** Instant on-chain
+No API keys. No credit card. Just USDC and a wallet.
 
 ## Links
 
 - **Website:** [blockrun.ai](https://blockrun.ai)
-- **API Endpoint:** `https://blockrun.ai/api`
-- **GitHub:** [github.com/blockrun](https://github.com/blockrun)
+- **GitHub:** [github.com/BlockRunAI](https://github.com/BlockRunAI)
+- **x402 Services:** [618+ live services](https://blockrun.ai/ecosystem/services)

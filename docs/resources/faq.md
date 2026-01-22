@@ -6,151 +6,222 @@ Frequently asked questions about BlockRun.
 
 ### What is BlockRun?
 
-BlockRun is an AI API gateway that accepts stablecoin payments via the x402 protocol. Access OpenAI, Anthropic, Google, and other AI models with just a wallet.
+BlockRun is economic infrastructure for AI agents. It provides:
+- **Trading** — AI that analyzes markets and executes trades (alpha-mcp)
+- **Creation** — AI that creates optimized content and images
+- **Intelligence** — Access to 30+ AI models via x402 micropayments
 
-### Why use BlockRun instead of direct API access?
+### What makes BlockRun different?
 
-- **No API keys** - Your wallet is your identity
-- **No credit cards** - Pay with stablecoin
-- **No subscriptions** - Pay per request
-- **Unified API** - One interface for all providers
-- **Privacy** - No account, no tracking
+| Traditional | BlockRun |
+|-------------|----------|
+| API keys per provider | One wallet for all |
+| Monthly subscriptions | Pay-per-request |
+| Account management | Just fund and use |
+| Complex billing | On-chain transparency |
 
-### Is BlockRun decentralized?
+### Is BlockRun free?
 
-BlockRun uses the x402 protocol for payments, which settles on-chain. The API gateway itself is centralized for performance and reliability.
+- **Trading (alpha-mcp):** Free and open source
+- **Creation:** Pay-per-use ($0.05-0.12 per image)
+- **Intelligence:** Provider cost + 5%
+
+## Products
+
+### What is alpha-mcp?
+
+alpha-mcp is our trading product. It gives Claude the tools to:
+- Analyze markets (technical indicators, sentiment)
+- Execute trades (DEX swaps on Base)
+- Manage risk (hardcoded safety limits)
+
+It's free and open source. See [Trading Overview](../products/trading/overview.md).
+
+### What is x-grow?
+
+x-grow is a Claude Code skill for writing high-performing X posts. It uses real algorithm knowledge to optimize your content. See [x-grow](../products/creation/x-grow.md).
+
+### What is nano-banana?
+
+nano-banana is a Claude Code skill for image generation. Generate images using DALL-E, Flux, or Nano Banana via micropayments. See [nano-banana](../products/creation/nano-banana.md).
 
 ## Payments
 
-### How do I pay?
+### How do payments work?
 
-Fund your wallet with USDC on a supported network (currently Base). The SDK handles payments automatically.
+BlockRun uses the x402 protocol:
+1. Request a service
+2. Receive `HTTP 402 Payment Required` with price
+3. Your SDK signs a USDC authorization locally
+4. Payment settles on-chain, you receive the service
 
-### What's the minimum payment?
+### What currency is accepted?
 
-$0.001 (one-tenth of a cent) per request.
+USDC on Base network.
 
-### Do I need to pre-fund an account?
+### What's the minimum to get started?
 
-No. Keep USDC in your wallet and pay per-request. No deposits or credits.
+$1 is enough for testing. Recommended: $5-20 for regular usage.
+
+### How do I fund my wallet?
+
+Send USDC to your wallet address on Base:
+- [Coinbase](https://coinbase.com) — Direct withdrawal to Base
+- [Base Bridge](https://bridge.base.org) — Bridge from Ethereum
+- [Uniswap](https://app.uniswap.org) — Swap on Base
 
 ### What if a request fails?
 
-You only pay for successful requests. If the AI call fails, no payment is settled.
+You only pay for successful requests. Failed requests don't settle.
 
 ### Can I get a refund?
 
-Once a payment settles, it's final. This is like any blockchain transaction.
+Payments are on-chain and final, like any blockchain transaction.
 
-### How fast is settlement?
+## Trading
 
-Payments settle in ~2 seconds on Base.
+### Is AI trading risky?
+
+Yes. alpha-mcp has built-in risk limits (15% max position, 50% cash reserve, 5% daily loss limit), but all trading carries risk. Only trade what you can afford to lose.
+
+### Can I override the risk limits?
+
+No. Risk limits are hardcoded and cannot be overridden.
+
+### What can alpha-mcp trade?
+
+Tokens on Base via 0x Protocol. Common pairs: ETH/USDC, popular tokens with liquidity.
+
+### Does BlockRun charge trading fees?
+
+No. alpha-mcp is free. You only pay for intelligence (sentiment analysis) and network gas.
 
 ## Technical
 
 ### Which AI models are available?
 
-See [Models](../api-reference/models.md) for the full list including:
-- OpenAI (GPT-4o, o1, etc.)
-- Anthropic (Claude Opus, Sonnet, Haiku)
-- Google (Gemini)
-- And more
+30+ models including:
+- OpenAI (GPT-5.2, GPT-4o, o1)
+- Anthropic (Claude Opus 4, Sonnet 4, Haiku 4.5)
+- Google (Gemini 3 Pro, Gemini 2.5 Flash)
+- DeepSeek (V3, R1)
+- xAI (Grok)
+- Meta (Llama)
+
+Full list: [Models](../api-reference/models.md)
 
 ### Is the API OpenAI-compatible?
 
-Yes! Use the same message format as OpenAI's Chat Completions API.
+Yes. Use the same format as OpenAI's Chat Completions API.
 
-### Can I use BlockRun in production?
+### How do I use BlockRun with Claude Code?
 
-Yes. BlockRun is designed for production use with reliable uptime and fast response times.
+```bash
+claude mcp add blockrun -- npx @blockrun/mcp
+```
 
-### Is there rate limiting?
+Then run `blockrun setup` in Claude Code.
 
-Rate limits are generous for normal usage. Contact us for high-volume needs.
+### What frameworks are supported?
 
-### Do you support streaming?
-
-Streaming support is coming soon.
+- Claude Code (via MCP)
+- ElizaOS (plugin)
+- AgentKit (SDK integration)
+- LangChain (custom LLM class)
+- GOAT SDK (in review)
 
 ## Security
 
 ### Is my private key safe?
 
-Your private key never leaves your device. The SDK only sends signatures, not keys.
+Your private key never leaves your machine. Only cryptographic signatures are sent.
 
-### Can BlockRun access my wallet?
+### Where is my wallet stored?
 
-No. BlockRun can only claim the specific amount you authorize for each request.
+`~/.blockrun/wallet.json` by default.
 
-### What happens if BlockRun is hacked?
+### Can BlockRun steal my funds?
 
-Attackers could only process requests and claim authorized payments. They cannot access your wallet or steal funds beyond what you actively authorize.
+No. BlockRun can only claim the specific amount you authorize per request.
 
-See [Security](../x402/security.md) for more details.
+### Can I use my main wallet?
+
+We recommend a dedicated wallet with small amounts. Don't use your main holdings wallet.
 
 ## Wallet Setup
 
-### Which wallets work?
+### How do I create a wallet?
 
-Any EVM wallet works. You need the private key for signing. Popular options:
-- Create a new wallet with `viem` or `ethers.js`
-- Export key from MetaMask (not recommended for main wallet)
-- Use a dedicated hot wallet
+**Claude Code:**
+```
+blockrun setup
+```
 
-### How do I get a private key?
-
-```typescript
-import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts';
-
-const privateKey = generatePrivateKey();
-const account = privateKeyToAccount(privateKey);
-console.log('Address:', account.address);
-console.log('Private Key:', privateKey);
+**Python:**
+```python
+from blockrun_llm import LLMClient
+client = LLMClient()  # Creates wallet automatically
+print(client.get_address())
 ```
 
 ### How much USDC do I need?
 
-Start with $1-5 for testing. A typical request costs $0.001-0.01.
+| Usage | Amount |
+|-------|--------|
+| Testing | $1-5 |
+| Regular use | $5-20 |
+| Heavy usage | $20-100 |
 
-### How do I get USDC on Base?
+### Can I withdraw my funds?
 
-1. Buy USDC on any exchange
-2. Withdraw to Base network, or
-3. Bridge using the official Base Bridge
+Yes. Your wallet is a standard Ethereum wallet. Import the private key into any Web3 wallet to withdraw.
 
 ## Troubleshooting
 
-### "Insufficient balance" error
+### "MCP not found"
 
-Your wallet doesn't have enough USDC. Check your balance on Base.
+Restart Claude Code after installing:
+```bash
+pkill -f "claude"
+claude
+```
 
-### "Unknown model" error
+### "Wallet not found"
 
-Check the model ID is correct (e.g., `openai/gpt-4o`, not `gpt-4o`).
+Run setup:
+```
+blockrun setup
+```
 
-### "Timeout" error
+### "Insufficient balance"
 
-Increase timeout in client options. Some models (like o1) take longer.
+Check your balance and fund if needed:
+```
+blockrun balance
+```
 
-### Request is slow
+### "Network error"
 
-AI model execution varies. GPT-4o Mini is fastest. o1 and Claude Opus are slower.
+Check internet connection and retry. If persistent, check [BlockRun status](https://blockrun.ai).
 
 ## Support
 
 ### How do I get help?
 
-- Check this FAQ
-- Read the [documentation](../README.md)
-- Open an issue on GitHub
+1. Check this FAQ
+2. Read the [documentation](../README.md)
+3. See [MCP Troubleshooting](../mcp/troubleshooting.md)
+4. Open an issue on [GitHub](https://github.com/BlockRunAI)
 
 ### How do I report bugs?
 
 Open an issue on the relevant GitHub repository:
-- API issues: BlockRun main repo
-- Python SDK: blockrun-llm
-- TypeScript SDK: blockrun-llm-ts
+- General: [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)
+- Trading: [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp)
+- Python SDK: [blockrun-llm](https://github.com/blockrunai/blockrun-llm)
+- TypeScript SDK: [blockrun-llm-ts](https://github.com/blockrunai/blockrun-llm-ts)
 
-### Can I request features?
+### Where can I follow updates?
 
-Yes! Open a feature request on GitHub.
+- [Twitter/X: @BlockRunAI](https://x.com/BlockRunAI)
+- [GitHub: BlockRunAI](https://github.com/BlockRunAI)

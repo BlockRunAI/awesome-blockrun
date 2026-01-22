@@ -4,20 +4,56 @@
 
 ## Getting Started
 
-* [Quick Start](getting-started/quick-start.md)
-* [Installation](getting-started/installation.md)
-* [Authentication](getting-started/authentication.md)
+* [Claude Code Users](getting-started/claude-code.md)
+* [Agent Developers](getting-started/agent-developers.md)
+* [SDK Developers](getting-started/sdk-developers.md)
+* [Wallet Setup](getting-started/wallet-setup.md)
+
+## Products
+
+### Trading
+
+* [Overview](products/trading/overview.md)
+* [Installation](products/trading/installation.md)
+* [Tools Reference](products/trading/tools.md)
+* [Risk Management](products/trading/risk-management.md)
+
+### Creation
+
+* [x-grow](products/creation/x-grow.md)
+* [nano-banana](products/creation/nano-banana.md)
+
+### Intelligence
+
+* [Overview](products/intelligence/overview.md)
+* [Models](api-reference/models.md)
+* [Pricing](products/intelligence/pricing.md)
+
+## MCP & Skills
+
+* [BlockRun MCP](mcp/blockrun-mcp.md)
+* [Skills](mcp/skills.md)
+* [Troubleshooting](mcp/troubleshooting.md)
+
+## Frameworks
+
+* [ElizaOS](frameworks/elizaos.md)
+* [AgentKit](frameworks/agentkit.md)
+* [GOAT SDK](frameworks/goat.md)
+* [LangChain](frameworks/langchain.md)
+
+## SDKs
+
+* [Python](sdks/python.md)
+* [TypeScript](sdks/typescript.md)
+* [Go](sdks/go.md)
 
 ## API Reference
 
 * [Chat Completions](api-reference/chat-completions.md)
+* [Image Generation](api-reference/image-generation.md)
 * [Models](api-reference/models.md)
 * [Error Handling](api-reference/errors.md)
-
-## SDKs
-
-* [Python SDK](sdks/python.md)
-* [TypeScript SDK](sdks/typescript.md)
 
 ## x402 Protocol
 
@@ -25,12 +61,8 @@
 * [Payment Flow](x402/payment-flow.md)
 * [Security](x402/security.md)
 
-## Ecosystem
-
-* [Overview](ecosystem/README.md)
-
 ## Resources
 
-* [Pricing](resources/pricing.md)
 * [FAQ](resources/faq.md)
+* [Ecosystem](resources/ecosystem.md)
 * [Changelog](resources/changelog.md)
