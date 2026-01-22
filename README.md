@@ -2,7 +2,7 @@
 
 **The Discovery Layer for AI Agent Payments**
 
-> 618+ x402 AI services. 63M+ payments. $7.5M USDC volume.
+> The Discovery Layer for AI Agent Payments
 
 [![Website](https://img.shields.io/badge/Website-blockrun.ai-blue)](https://blockrun.ai)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
@@ -18,8 +18,7 @@
 | [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) MCP Server |
 | [GOAT SDK](https://github.com/crossmint/goat) | In Review | Agent framework integration |
-| [AgentKit](https://github.com/coinbase/agentkit) | Planned | Coinbase agent framework |
-| [LangChain](https://github.com/langchain-ai/langchain) | Planned | Custom LLM provider |
+| [AgentKit](https://github.com/coinbase/agentkit) | In Review | Coinbase agent framework |
 
 ## Projects Built with BlockRun
 
@@ -34,23 +33,6 @@
 | [LLM_trader](https://github.com/qrak/LLM_trader) | AI crypto trading bot with multi-provider support and chart analysis | Crypto Trading |
 
 *Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)*
-
----
-
-## Traction
-
-We analyzed every x402 transaction in December 2025. This is the first real-world proof that AI agents can pay for services at scale.
-
-| Metric | Value |
-|--------|-------|
-| x402 Services Indexed | 618+ |
-| Payments Processed | 63 million |
-| USDC Volume | $7.5M |
-| Average Transaction | $0.12 |
-| Projects Using x402 | 1,100+ |
-| Organic Business Activity | 53% |
-
-*Source: [State of x402 2025](./research/State_of_x402_2025.pdf) | [Web Version](./research/WEB_STATE_OF_X402.md) | [Deck](https://blockrun.ai/state-x402-2025-deck.pdf)*
 
 ---
 
