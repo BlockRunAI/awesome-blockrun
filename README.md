@@ -19,6 +19,7 @@
 | [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) MCP Server |
 | [GOAT SDK](https://github.com/crossmint/goat) | In Review | Agent framework integration |
 | [AgentKit](https://github.com/coinbase/agentkit) | In Review | Coinbase agent framework |
+| [Rig](https://github.com/0xPlaygrounds/rig) | [In Review](https://github.com/0xPlaygrounds/rig/pull/1294) | Rust LLM framework |
 
 ## Projects Built with BlockRun
 
