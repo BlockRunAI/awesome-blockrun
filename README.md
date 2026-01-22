@@ -100,9 +100,17 @@ See [VISION.md](./VISION.md) | [ROADMAP.md](./ROADMAP.md) for full details.
 
 | Language | Install | Docs |
 |----------|---------|------|
-| Python | `pip install blockrun-llm` | [Python SDK](./docs/sdks/python.md) |
-| TypeScript | `npm i blockrun-llm` | [TypeScript SDK](./docs/sdks/typescript.md) |
+| Python | `pip install blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm) |
+| TypeScript | `npm i blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm-ts) |
 | Go | `go get github.com/blockrunai/blockrun-llm-go` | [GitHub](https://github.com/blockrunai/blockrun-llm-go) |
+| Ruby | `gem install blockrun` | [GitHub](https://github.com/blockrunai/blockrun-ruby) |
+
+### MCP
+
+| Tool | Description |
+|------|-------------|
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server - Access 30+ AI models in Claude Code with zero API keys |
+| [blockrun-agent-wallet](https://github.com/BlockRunAI/blockrun-agent-wallet) | Agent wallet for AI agents to pay for GPT, Grok, DALL-E and more |
 
 ### Quick Start
 
