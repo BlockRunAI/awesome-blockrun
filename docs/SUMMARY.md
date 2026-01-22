@@ -9,21 +9,19 @@
 * [SDK Developers](getting-started/sdk-developers.md)
 * [Wallet Setup](getting-started/wallet-setup.md)
 
-## Products
-
-### Trading
+## Trading
 
 * [Overview](products/trading/overview.md)
 * [Installation](products/trading/installation.md)
 * [Tools Reference](products/trading/tools.md)
 * [Risk Management](products/trading/risk-management.md)
 
-### Creation
+## Creation
 
 * [x-grow](products/creation/x-grow.md)
 * [nano-banana](products/creation/nano-banana.md)
 
-### Intelligence
+## Intelligence
 
 * [Overview](products/intelligence/overview.md)
 * [Models](api-reference/models.md)
