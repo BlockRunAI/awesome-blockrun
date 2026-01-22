@@ -28,8 +28,6 @@ BlockRun works with the x402 facilitator network:
 | Project | Category | Description |
 |---------|----------|-------------|
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading bot with Visual Cortex for chart analysis |
-| [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | Prediction Markets | AI-powered trading using LangChain and superforecasting |
-| [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Futures Trading | Crypto futures bot with AI signal filtering (Grok + Claude) |
 
 ### Claude Code Tools
 

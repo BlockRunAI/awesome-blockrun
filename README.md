@@ -94,8 +94,6 @@ const response = await client.chat('Hello!');
 | [X Portal](https://llm.xprtlai.com/) | LLM Gateway | LLM chat interface powered by BlockRun |
 | [PredictOS](https://github.com/PredictionXBT/PredictOS) | Prediction Markets | Prediction market analysis platform with multi-AI provider support |
 | [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Prediction Markets | Autonomous AI trading agent using 3-model LLM consensus |
-| [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | Prediction Markets | AI-powered trading bot using LangChain and superforecasting |
-| [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Futures Trading | Crypto futures bot with Grok sentiment + Claude decisions |
 | [Nano Banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Image Generation | Claude Code skill for AI image generation via x402 |
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Crypto Trading | AI crypto trading bot with multi-provider support and chart analysis |
 

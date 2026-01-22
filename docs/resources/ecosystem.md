@@ -35,8 +35,6 @@ Projects built by the community using BlockRun.
 | Project | Category | Description |
 |---------|----------|-------------|
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading with Visual Cortex chart analysis |
-| [Polymarket Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | Prediction Markets | AI trading using LangChain and superforecasting |
-| [AsterDEX Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Futures Trading | Crypto futures with AI signal filtering |
 
 ## x402 Facilitators
 
