@@ -202,5 +202,15 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 ---
 
 <p align="center">
+  <a href="https://blockrunai.github.io/branding/">Brand Kit</a>
+  &nbsp;·&nbsp;
+  <a href="https://blockrun.ai">Website</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/BlockRunAI">Twitter</a>
+  &nbsp;·&nbsp;
+  <a href="https://t.me/+mroQv4-4hGgzOGUx">Telegram</a>
+</p>
+
+<p align="center">
   <b>BlockRun: Let AI agents pay for AI.</b>
 </p>
