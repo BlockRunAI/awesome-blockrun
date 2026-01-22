@@ -2,38 +2,104 @@
 
 **The Discovery Layer for AI Agent Payments**
 
-> The Discovery Layer for AI Agent Payments
-
 [![Website](https://img.shields.io/badge/Website-blockrun.ai-blue)](https://blockrun.ai)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Twitter](https://img.shields.io/badge/Twitter-@BlockRunAI-1DA1F2)](https://x.com/BlockRunAI)
+[![Telegram](https://img.shields.io/badge/Telegram-Join-26A5E4)](https://t.me/+mroQv4-4hGgzOGUx)
 [![Research](https://img.shields.io/badge/Research-State%20of%20x402-orange)](./research/State_of_x402_2025.pdf)
 
 ---
 
-## Integrations
+## Table of Contents
 
-| Project | Status | Description |
-|---------|--------|-------------|
+- [Quick Start](#quick-start)
+- [SDKs](#sdks)
+- [MCP Tools](#mcp-tools)
+- [Framework Integrations](#framework-integrations)
+- [Supported Models](#supported-models)
+- [Projects Built with BlockRun](#projects-built-with-blockrun)
+- [Ecosystem](#ecosystem)
+- [Research](#research)
+- [Vision](#vision)
+- [Community](#community)
+
+---
+
+## Quick Start
+
+```python
+from blockrun_llm import LLMClient
+
+client = LLMClient(private_key="0x...")
+response = client.chat("Hello!")
+# Payment handled automatically via x402
+```
+
+```typescript
+import { LLMClient } from 'blockrun-llm';
+
+const client = new LLMClient({ privateKey: '0x...' });
+const response = await client.chat('Hello!');
+```
+
+---
+
+## SDKs
+
+| Language | Install | Repository |
+|:--------:|---------|:----------:|
+| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | `pip install blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm) |
+| ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) | `npm i blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm-ts) |
+| ![Go](https://img.shields.io/badge/-Go-00ADD8?logo=go&logoColor=white) | `go get github.com/blockrunai/blockrun-llm-go` | [GitHub](https://github.com/blockrunai/blockrun-llm-go) |
+| ![Ruby](https://img.shields.io/badge/-Ruby-CC342D?logo=ruby&logoColor=white) | `gem install blockrun` | [GitHub](https://github.com/blockrunai/blockrun-ruby) |
+
+---
+
+## MCP Tools
+
+| Tool | Description |
+|------|-------------|
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server for Claude Code - Access 30+ AI models with zero API keys |
+| [blockrun-agent-wallet](https://github.com/BlockRunAI/blockrun-agent-wallet) | Agent wallet - Give AI agents a wallet to pay for GPT, Grok, DALL-E and more |
+
+---
+
+## Framework Integrations
+
+| Framework | Status | Integration |
+|-----------|:------:|-------------|
 | [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
-| [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) MCP Server |
-| [GOAT SDK](https://github.com/crossmint/goat) | In Review | Agent framework integration |
-| [AgentKit](https://github.com/coinbase/agentkit) | In Review | Coinbase agent framework |
-| [Rig](https://github.com/0xPlaygrounds/rig) | [In Review](https://github.com/0xPlaygrounds/rig/pull/1294) | Rust LLM framework |
+| [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) |
+| [GOAT SDK](https://github.com/crossmint/goat) | 🔄 In Review | Agent framework integration |
+| [AgentKit](https://github.com/coinbase/agentkit) | 🔄 In Review | Coinbase agent framework |
+| [Rig](https://github.com/0xPlaygrounds/rig) | 🔄 [In Review](https://github.com/0xPlaygrounds/rig/pull/1294) | Rust LLM framework |
+
+---
+
+## Supported Models
+
+| Category | Models |
+|----------|--------|
+| **LLMs** | GPT-4o, GPT-5, Claude, Gemini, DeepSeek, Llama, Qwen |
+| **Reasoning** | o1, o3, Grok |
+| **Image** | DALL-E, Stable Diffusion, Flux |
+| **Voice** | ElevenLabs, OpenAI TTS |
+
+---
 
 ## Projects Built with BlockRun
 
-| Project | Description | Category |
-|---------|-------------|----------|
-| [X Portal](https://llm.xprtlai.com/) | LLM chat interface powered by BlockRun | LLM Gateway |
-| [PredictOS](https://github.com/PredictionXBT/PredictOS) | Prediction market analysis platform with multi-AI provider support | Prediction Markets |
-| [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Autonomous AI trading agent using 3-model LLM consensus | Prediction Markets |
-| [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | AI-powered trading bot using LangChain and superforecasting | Prediction Markets |
-| [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Crypto futures bot with Grok sentiment + Claude decisions | Futures Trading |
-| [Nano Banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Claude Code skill for AI image generation via x402 | Image Generation |
-| [LLM_trader](https://github.com/qrak/LLM_trader) | AI crypto trading bot with multi-provider support and chart analysis | Crypto Trading |
+| Project | Category | Description |
+|---------|:--------:|-------------|
+| [X Portal](https://llm.xprtlai.com/) | LLM Gateway | LLM chat interface powered by BlockRun |
+| [PredictOS](https://github.com/PredictionXBT/PredictOS) | Prediction Markets | Prediction market analysis platform with multi-AI provider support |
+| [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Prediction Markets | Autonomous AI trading agent using 3-model LLM consensus |
+| [Polymarket Trading Bot](https://github.com/BlackSky-Jose/PolyMarket-trading-AI-model) | Prediction Markets | AI-powered trading bot using LangChain and superforecasting |
+| [AsterDEX Trading Bot](https://github.com/BlackSky-Jose/AsterDEX-trading-watermellon) | Futures Trading | Crypto futures bot with Grok sentiment + Claude decisions |
+| [Nano Banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Image Generation | Claude Code skill for AI image generation via x402 |
+| [LLM_trader](https://github.com/qrak/LLM_trader) | Crypto Trading | AI crypto trading bot with multi-provider support and chart analysis |
 
-*Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)*
+> Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)
 
 ---
 
@@ -41,36 +107,50 @@
 
 ### Alliance Partners
 
-| Partner | Type | Description |
-|---------|------|-------------|
-| [![Circle](https://img.shields.io/badge/Circle-Alliance_Partner-00D4AA)](https://partners.circle.com/partner/blockrunai) | Infrastructure | Official Circle Alliance Partner. Part of Circle's global ecosystem powering USDC payments and stablecoin infrastructure on Base. |
-
-### Strategic Integrators
-
-| Project | Status | Description |
-|---------|--------|-------------|
-| *Announcements coming soon* | 🔜 | Projects committed to building with x402 |
+| Partner | Description |
+|---------|-------------|
+| [![Circle](https://img.shields.io/badge/Circle-Alliance_Partner-00D4AA)](https://partners.circle.com/partner/blockrunai) | Official Circle Alliance Partner powering USDC payments on Base |
 
 ### x402 Facilitators
 
 BlockRun aggregates services from the x402 facilitator network:
 
-| Facilitator | Network | Status |
-|-------------|---------|--------|
-| [Coinbase CDP](https://coinbase.com/cloud) | Base, Ethereum | Live |
-| [PayAI](https://payai.network) | Base, Solana | Live |
-| [thirdweb](https://thirdweb.com) | Base, Ethereum | Live |
-| [QuestFlow](https://questflow.ai) | Base | Live |
-| [AnySpend](https://anyspend.com) | Base | Live |
-| [AurraCloud](https://aurracloud.com) | Base | Live |
+| Facilitator | Network |
+|-------------|---------|
+| [Coinbase CDP](https://coinbase.com/cloud) | Base, Ethereum |
+| [PayAI](https://payai.network) | Base, Solana |
+| [thirdweb](https://thirdweb.com) | Base, Ethereum |
+| [QuestFlow](https://questflow.ai) | Base |
+| [AnySpend](https://anyspend.com) | Base |
+| [AurraCloud](https://aurracloud.com) | Base |
 
-### Partners
+### Protocol Partner
 
 | Partner | Relationship |
 |---------|--------------|
 | [x402 Foundation](https://x402.org) | Protocol development |
 
 See [ECOSYSTEM.md](./ECOSYSTEM.md) for full partner directory.
+
+---
+
+## Research
+
+### State of x402 2025
+
+| Format | Link |
+|--------|------|
+| Full Report (PDF) | [State of x402 2025](./research/State_of_x402_2025.pdf) |
+| Web Version | [Markdown](./research/WEB_STATE_OF_X402.md) |
+| Presentation | [Deck](https://blockrun.ai/state-x402-2025-deck.pdf) |
+
+**Key Findings:**
+- Average transaction: $0.12 (true micropayments impossible on traditional rails)
+- 53% of volume is organic business activity
+- Base dominates with 53.3% of services, Solana at 36.6%
+- 76% of services priced at $0.10 or below
+
+See [research/](./research/) for methodology.
 
 ---
 
@@ -94,90 +174,35 @@ See [VISION.md](./VISION.md) | [ROADMAP.md](./ROADMAP.md) for full details.
 
 ---
 
-## For Developers
-
-### SDKs
-
-| Language | Install | Docs |
-|----------|---------|------|
-| Python | `pip install blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm) |
-| TypeScript | `npm i blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm-ts) |
-| Go | `go get github.com/blockrunai/blockrun-llm-go` | [GitHub](https://github.com/blockrunai/blockrun-llm-go) |
-| Ruby | `gem install blockrun` | [GitHub](https://github.com/blockrunai/blockrun-ruby) |
-
-### MCP
-
-| Tool | Description |
-|------|-------------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server - Access 30+ AI models in Claude Code with zero API keys |
-| [blockrun-agent-wallet](https://github.com/BlockRunAI/blockrun-agent-wallet) | Agent wallet for AI agents to pay for GPT, Grok, DALL-E and more |
-
-### Quick Start
-
-```python
-from blockrun_llm import LLMClient
-
-client = LLMClient(private_key="0x...")
-response = client.chat("Hello!")
-# Payment handled automatically via x402
-```
-
-### Documentation
-
-**Getting Started:** [Installation](./docs/getting-started/installation.md) | [Quick Start](./docs/getting-started/quick-start.md) | [Authentication](./docs/getting-started/authentication.md)
-
-**API Reference:** [Chat Completions](./docs/api-reference/chat-completions.md) | [Models](./docs/api-reference/models.md) | [Errors](./docs/api-reference/errors.md)
-
-**x402 Protocol:** [How It Works](./docs/x402/how-it-works.md) | [Payment Flow](./docs/x402/payment-flow.md) | [Security](./docs/x402/security.md)
-
-**Resources:** [Pricing](./docs/resources/pricing.md) | [FAQ](./docs/resources/faq.md) | [Changelog](./docs/resources/changelog.md)
-
-### Supported Models
-
-| Category | Models |
-|----------|--------|
-| LLMs | GPT-4o, GPT-5, Claude, Gemini, DeepSeek, Llama, Qwen |
-| Reasoning | o1, o3, Grok |
-| Image | DALL-E, Stable Diffusion, Flux |
-| Voice | ElevenLabs, OpenAI TTS |
-
----
-
-## Research
-
-| Report | Description |
-|--------|-------------|
-| [State of x402 2025](./research/State_of_x402_2025.pdf) | Full research report (PDF) |
-| [Web Version](./research/WEB_STATE_OF_X402.md) | Markdown version |
-| [Presentation Deck](https://blockrun.ai/state-x402-2025-deck.pdf) | Slides |
-
-Key findings:
-- Average transaction: $0.12 (true micropayments impossible on traditional rails)
-- 53% of volume is organic business activity
-- Base dominates with 53.3% of services, Solana at 36.6%
-- 76% of services priced at $0.10 or below
-
-See [research/](./research/) for methodology.
-
----
-
 ## Community
 
-**Join us:** [Telegram](https://t.me/+mroQv4-4hGgzOGUx) | [GitHub Issues](https://github.com/blockrunai/awesome-blockrun/issues)
+[![Telegram](https://img.shields.io/badge/Telegram-Join_Community-26A5E4?logo=telegram)](https://t.me/+mroQv4-4hGgzOGUx)
+[![GitHub](https://img.shields.io/badge/GitHub-Issues-181717?logo=github)](https://github.com/blockrunai/awesome-blockrun/issues)
 
-### Contribute
+### Contributing
 
-| Contribution | What You Can Do |
-|--------------|-----------------|
-| Code | Add features, fix bugs, improve SDKs |
-| Docs | Improve documentation, add examples |
-| Integrations | Build plugins for agent frameworks |
-| Feedback | Report bugs, request features |
+| Area | What You Can Do |
+|------|-----------------|
+| **Code** | Add features, fix bugs, improve SDKs |
+| **Docs** | Improve documentation, add examples |
+| **Integrations** | Build plugins for agent frameworks |
+| **Feedback** | Report bugs, request features |
 
 All contributors will be recognized in [ACKNOWLEDGMENTS.md](./ACKNOWLEDGMENTS.md).
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
+### Documentation
+
+| Section | Links |
+|---------|-------|
+| **Getting Started** | [Installation](./docs/getting-started/installation.md) &#x2022; [Quick Start](./docs/getting-started/quick-start.md) &#x2022; [Authentication](./docs/getting-started/authentication.md) |
+| **API Reference** | [Chat Completions](./docs/api-reference/chat-completions.md) &#x2022; [Models](./docs/api-reference/models.md) &#x2022; [Errors](./docs/api-reference/errors.md) |
+| **x402 Protocol** | [How It Works](./docs/x402/how-it-works.md) &#x2022; [Payment Flow](./docs/x402/payment-flow.md) &#x2022; [Security](./docs/x402/security.md) |
+| **Resources** | [Pricing](./docs/resources/pricing.md) &#x2022; [FAQ](./docs/resources/faq.md) &#x2022; [Changelog](./docs/resources/changelog.md) |
+
 ---
 
-**BlockRun: Let AI agents pay for AI.**
+<p align="center">
+  <b>BlockRun: Let AI agents pay for AI.</b>
+</p>
