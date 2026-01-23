@@ -100,6 +100,51 @@ address = client.get_wallet_address()
 print(f"Paying from: {address}")
 ```
 
+## Testnet Usage
+
+For development and testing without real USDC, use the Base Sepolia testnet:
+
+```python
+from blockrun_llm import testnet_client
+
+# Create testnet client (uses Base Sepolia)
+client = testnet_client()  # Uses BLOCKRUN_WALLET_KEY
+
+# Chat with testnet model
+response = client.chat("openai/gpt-oss-20b", "Hello!")
+print(response)
+
+# Check testnet USDC balance
+balance = client.get_balance()
+print(f"Testnet USDC: ${balance:.4f}")
+
+# Verify you're on testnet
+print(f"Is testnet: {client.is_testnet()}")  # True
+```
+
+### Testnet Setup
+
+1. Get testnet ETH from [Alchemy Base Sepolia Faucet](https://www.alchemy.com/faucets/base-sepolia)
+2. Get testnet USDC from [Circle USDC Faucet](https://faucet.circle.com/)
+3. Set your wallet key: `export BLOCKRUN_WALLET_KEY=0x...`
+
+### Available Testnet Models
+
+| Model | Price |
+|-------|-------|
+| `openai/gpt-oss-20b` | $0.001/request (flat) |
+| `openai/gpt-oss-120b` | $0.002/request (flat) |
+
+### Manual Testnet Configuration
+
+```python
+from blockrun_llm import LLMClient
+
+# Configure manually with testnet API URL
+client = LLMClient(api_url="https://testnet.blockrun.ai/api")
+response = client.chat("openai/gpt-oss-20b", "Hello!")
+```
+
 ## Async Client
 
 For async/await usage:

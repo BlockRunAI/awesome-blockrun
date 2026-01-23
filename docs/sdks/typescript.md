@@ -99,6 +99,50 @@ const address = client.getWalletAddress();
 console.log(`Paying from: ${address}`);
 ```
 
+## Testnet Usage
+
+For development and testing without real USDC, use the Base Sepolia testnet:
+
+```typescript
+import { testnetClient } from '@blockrun/llm';
+
+// Create testnet client (uses Base Sepolia)
+const client = testnetClient({ privateKey: '0x...' });
+
+// Chat with testnet model
+const response = await client.chat('openai/gpt-oss-20b', 'Hello!');
+console.log(response);
+
+// Verify you're on testnet
+console.log(client.isTestnet()); // true
+```
+
+### Testnet Setup
+
+1. Get testnet ETH from [Alchemy Base Sepolia Faucet](https://www.alchemy.com/faucets/base-sepolia)
+2. Get testnet USDC from [Circle USDC Faucet](https://faucet.circle.com/)
+3. Set your wallet key: `export BASE_CHAIN_WALLET_KEY=0x...`
+
+### Available Testnet Models
+
+| Model | Price |
+|-------|-------|
+| `openai/gpt-oss-20b` | $0.001/request (flat) |
+| `openai/gpt-oss-120b` | $0.002/request (flat) |
+
+### Manual Testnet Configuration
+
+```typescript
+import { LLMClient } from '@blockrun/llm';
+
+// Configure manually with testnet API URL
+const client = new LLMClient({
+  privateKey: '0x...',
+  apiUrl: 'https://testnet.blockrun.ai/api'
+});
+const response = await client.chat('openai/gpt-oss-20b', 'Hello!');
+```
+
 ## Error Handling
 
 ```typescript

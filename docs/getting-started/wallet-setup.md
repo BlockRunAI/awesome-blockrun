@@ -2,6 +2,13 @@
 
 BlockRun uses USDC on Base network for payments. Your agent needs a funded wallet to pay for services.
 
+## Networks
+
+| Network | Chain ID | Usage | USDC |
+|---------|----------|-------|------|
+| **Base Mainnet** | 8453 | Production | Real USDC |
+| **Base Sepolia** | 84532 | Development/Testing | Testnet USDC (free) |
+
 ## How It Works
 
 1. Your agent has a wallet with a private key stored locally
@@ -131,6 +138,47 @@ Your wallet is a standard Ethereum-compatible wallet. You can withdraw anytime u
 
 - Any Web3 wallet (MetaMask, Rainbow, etc.)
 - Import your private key and send to your desired address
+
+## Testnet Setup (Development)
+
+For development and testing, use Base Sepolia testnet with free testnet USDC:
+
+### 1. Get Testnet ETH
+
+Get free testnet ETH for gas from [Alchemy Base Sepolia Faucet](https://www.alchemy.com/faucets/base-sepolia).
+
+### 2. Get Testnet USDC
+
+Get free testnet USDC from [Circle USDC Faucet](https://faucet.circle.com/).
+
+### 3. Configure SDK for Testnet
+
+**Python:**
+```python
+from blockrun_llm import testnet_client
+
+client = testnet_client()  # Uses BLOCKRUN_WALLET_KEY
+response = client.chat("openai/gpt-oss-20b", "Hello!")
+```
+
+**TypeScript:**
+```typescript
+import { testnetClient } from '@blockrun/llm';
+
+const client = testnetClient({ privateKey: '0x...' });
+const response = await client.chat('openai/gpt-oss-20b', 'Hello!');
+```
+
+### Testnet API Endpoint
+
+```
+https://testnet.blockrun.ai/api
+```
+
+### Available Testnet Models
+
+- `openai/gpt-oss-20b` - $0.001/request
+- `openai/gpt-oss-120b` - $0.002/request
 
 ## Troubleshooting
 
