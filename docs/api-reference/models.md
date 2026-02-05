@@ -57,6 +57,7 @@ Apache 2.0 licensed open-weight models, hosted on NVIDIA.
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `anthropic/claude-opus-4` | Claude Opus 4 | $15.00/M | $75.00/M | 200K |
+| `anthropic/claude-opus-4.5` | Claude Opus 4.5 | $5.00/M | $25.00/M | 200K |
 | `anthropic/claude-sonnet-4` | Claude Sonnet 4 | $3.00/M | $15.00/M | 200K |
 | `anthropic/claude-haiku-4.5` | Claude Haiku 4.5 | $1.00/M | $5.00/M | 200K |
 

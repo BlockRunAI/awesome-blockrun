@@ -41,6 +41,7 @@ The 5% margin covers:
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
 | Claude Opus 4 | $15.75 | $78.75 |
+| Claude Opus 4.5 | $5.25 | $26.25 |
 | Claude Sonnet 4 | $3.15 | $15.75 |
 | Claude Haiku 4.5 | $0.84 | $4.20 |
 
