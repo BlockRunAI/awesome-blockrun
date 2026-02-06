@@ -61,6 +61,7 @@ const response = await client.chat('Hello!');
 |------|-------------|
 | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server for Claude Code - Access 30+ AI models with zero API keys |
 | [blockrun-agent-wallet](https://github.com/BlockRunAI/blockrun-agent-wallet) | Agent wallet - Give AI agents a wallet to pay for GPT, Grok, DALL-E and more |
+| [ClawRouter](https://github.com/BlockRunAI/ClawRouter) | Smart LLM router - Routes every request to the cheapest capable model, saving 78% on costs |
 
 ---
 
@@ -80,10 +81,18 @@ const response = await client.chat('Hello!');
 
 | Category | Models |
 |----------|--------|
-| **LLMs** | GPT-4o, GPT-5, Claude, Gemini, DeepSeek, Llama, Qwen |
-| **Reasoning** | o1, o3, Grok |
-| **Image** | DALL-E, Stable Diffusion, Flux |
+| **LLMs** | GPT-4o, GPT-5, Claude, Gemini, DeepSeek, Kimi K2.5, Llama |
+| **Reasoning** | o1, o3, Grok, DeepSeek-R1 |
+| **Image** | DALL-E, Stable Diffusion, Flux, Nano Banana |
 | **Voice** | ElevenLabs, OpenAI TTS |
+
+### New: Moonshot Kimi K2.5
+
+[Kimi K2.5](https://kimi.ai) — Optimized for agentic workflows:
+- **Agent Swarm** — 100 parallel agents, 4.5x faster execution
+- **Extended Tool Chains** — 200-300 sequential calls without drift
+- **Vision-to-Code** — UI mockups to production React
+- **Pricing** — $0.60/M input, $3.00/M output
 
 ---
 
