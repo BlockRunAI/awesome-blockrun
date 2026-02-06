@@ -61,7 +61,6 @@ const response = await client.chat('Hello!');
 |------|-------------|
 | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server for Claude Code - Access 30+ AI models with zero API keys |
 | [blockrun-agent-wallet](https://github.com/BlockRunAI/blockrun-agent-wallet) | Agent wallet - Give AI agents a wallet to pay for GPT, Grok, DALL-E and more |
-| [ClawRouter](https://github.com/BlockRunAI/ClawRouter) | Smart LLM router - Routes every request to the cheapest capable model, saving 78% on costs |
 
 ---
 
@@ -69,6 +68,7 @@ const response = await client.chat('Hello!');
 
 | Framework | Status | Integration |
 |-----------|:------:|-------------|
+| [OpenClaw](https://github.com/openclaw/openclaw) | ✅ Released | [ClawRouter](https://github.com/BlockRunAI/ClawRouter) - Smart LLM router, 78% cost savings |
 | [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) |
 | [GOAT SDK](https://github.com/crossmint/goat) | 🔄 In Review | Agent framework integration |
