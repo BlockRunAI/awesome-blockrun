@@ -43,14 +43,15 @@ All prices shown are provider rates. BlockRun adds a **5% platform fee** to cove
 | `openai/o3-mini` | o3-mini | $1.10/M | $4.40/M | 128K |
 | `openai/o4-mini` | o4-mini | $1.10/M | $4.40/M | 128K |
 
-### OpenAI GPT-OSS (Open-Weight)
+### NVIDIA (Free Tier)
 
-Apache 2.0 licensed open-weight models, hosted on NVIDIA.
+Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `openai/gpt-oss-20b` | GPT-OSS 20B | $0.03/M | $0.14/M | 128K |
-| `openai/gpt-oss-120b` | GPT-OSS 120B | $0.18/M | $0.84/M | 128K |
+| `nvidia/gpt-oss-120b` | GPT-OSS 120B | **FREE** | **FREE** | 128K |
+| `nvidia/gpt-oss-20b` | GPT-OSS 20B | **FREE** | **FREE** | 128K |
+| `nvidia/kimi-k2.5` | Moonshot Kimi K2.5 | $0.001/request | - | 1M |
 
 ### Anthropic Claude
 
@@ -86,11 +87,18 @@ Apache 2.0 licensed open-weight models, hosted on NVIDIA.
 
 ### xAI (Grok)
 
-| Model ID | Name | Input Price | Output Price | Context |
-|----------|------|-------------|--------------|---------|
-| `xai/grok-3` | Grok 3 | $3.00/M | $15.00/M | 128K |
-| `xai/grok-3-fast` | Grok 3 Fast | $5.00/M | $25.00/M | 128K |
-| `xai/grok-3-mini` | Grok 3 Mini | $0.30/M | $0.50/M | 128K |
+| Model ID | Name | Input Price | Output Price | Context | Notes |
+|----------|------|-------------|--------------|---------|-------|
+| `xai/grok-3` | Grok 3 | $3.00/M | $15.00/M | 131K | Flagship |
+| `xai/grok-3-fast` | Grok 3 Fast | $5.00/M | $25.00/M | 131K | Tool calling optimized |
+| `xai/grok-3-mini` | Grok 3 Mini | $0.30/M | $0.50/M | 131K | Fast & affordable |
+| `xai/grok-4-1-fast-reasoning` | Grok 4.1 Fast (Reasoning) | $0.20/M | $0.50/M | **2M** | Latest, chain-of-thought |
+| `xai/grok-4-1-fast-non-reasoning` | Grok 4.1 Fast (Direct) | $0.20/M | $0.50/M | **2M** | Latest, direct response |
+| `xai/grok-4-fast-reasoning` | Grok 4 Fast (Reasoning) | $0.20/M | $0.50/M | **2M** | Step-by-step reasoning |
+| `xai/grok-4-fast-non-reasoning` | Grok 4 Fast (Direct) | $0.20/M | $0.50/M | **2M** | Quick responses |
+| `xai/grok-code-fast-1` | Grok Code Fast 1 | $0.20/M | $1.50/M | 256K | Code generation |
+| `xai/grok-4-0709` | Grok 4 (0709) | $3.00/M | $15.00/M | 256K | Premium quality |
+| `xai/grok-2-vision` | Grok 2 Vision | $2.00/M | $10.00/M | 32K | Vision capabilities |
 
 ### Coming Soon
 
@@ -129,6 +137,8 @@ Prices are per 1 million tokens. Your actual cost depends on:
 3. **Platform fee** - 5% added to provider rates
 
 The SDK calculates the exact price before each request.
+
+**Want to save 78% automatically?** [ClawRouter](../products/routing/clawrouter.md) routes each request to the cheapest model that can handle it.
 
 ## Example
 

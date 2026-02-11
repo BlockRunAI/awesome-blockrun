@@ -22,6 +22,7 @@ The 5% margin covers:
 | DeepSeek V3 | ~7M input tokens |
 | Gemini Flash | ~13M input tokens |
 | DALL-E 3 | ~20 images |
+| **NVIDIA GPT-OSS 120B** | **Unlimited (FREE)** |
 
 ## Full Price List
 
@@ -55,9 +56,18 @@ The 5% margin covers:
 
 ### xAI
 
-| Model | Input (per 1M) | Output (per 1M) |
-|-------|---------------|-----------------|
-| Grok 4 Fast | $5.25 | $26.25 |
+| Model | Input (per 1M) | Output (per 1M) | Context |
+|-------|---------------|-----------------|---------|
+| Grok 3 | $3.15 | $15.75 | 131K |
+| Grok 3 Fast | $5.25 | $26.25 | 131K |
+| Grok 3 Mini | $0.32 | $0.53 | 131K |
+| Grok 4.1 Fast (Reasoning) | $0.21 | $0.53 | 2M |
+| Grok 4.1 Fast (Direct) | $0.21 | $0.53 | 2M |
+| Grok 4 Fast (Reasoning) | $0.21 | $0.53 | 2M |
+| Grok 4 Fast (Direct) | $0.21 | $0.53 | 2M |
+| Grok Code Fast 1 | $0.21 | $1.58 | 256K |
+| Grok 4 (0709) | $3.15 | $15.75 | 256K |
+| Grok 2 Vision | $2.10 | $10.50 | 32K |
 
 ### DeepSeek
 
@@ -65,6 +75,14 @@ The 5% margin covers:
 |-------|---------------|-----------------|
 | DeepSeek V3 | $0.15 | $0.29 |
 | DeepSeek R1 | $0.58 | $2.30 |
+
+### NVIDIA (Free Tier)
+
+| Model | Input (per 1M) | Output (per 1M) | Notes |
+|-------|---------------|-----------------|-------|
+| GPT-OSS 120B | **FREE** | **FREE** | OpenAI open-weight 120B (Apache 2.0) |
+| GPT-OSS 20B | **FREE** | **FREE** | OpenAI open-weight 20B |
+| Kimi K2.5 | $0.001/request | - | Moonshot 1T MoE (flat pricing) |
 
 ### Meta (via Together/Fireworks)
 
@@ -138,6 +156,16 @@ print(f"Requests: {usage['request_count']}")
 ```
 
 ## Cost Optimization Tips
+
+### 0. Use ClawRouter for Automatic Savings
+
+**Save 78% on average** with [ClawRouter](../routing/clawrouter.md) — it automatically routes each request to the cheapest model that can handle it.
+
+```
+/model blockrun/auto
+```
+
+ClawRouter does all the optimization below automatically.
 
 ### 1. Use Cheaper Models for Routine Tasks
 

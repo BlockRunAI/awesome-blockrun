@@ -8,6 +8,7 @@ BlockRun is economic infrastructure for the agent era. AI agents discover servic
 
 | Product | What It Does | Pricing |
 |---------|--------------|---------|
+| [**ClawRouter**](products/routing/clawrouter.md) | Smart LLM router that saves 78% on costs | Free (open source) |
 | [**Trading**](products/trading/overview.md) | AI analyzes markets, executes trades, manages risk | Free (open source) |
 | [**Creation**](products/creation/x-grow.md) | AI creates optimized posts and images | Pay-per-use |
 | [**Intelligence**](products/intelligence/overview.md) | AI accesses 30+ LLMs via x402 | Provider cost + 5% |

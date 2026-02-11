@@ -128,6 +128,8 @@ Process these 500 files using DeepSeek
 
 DeepSeek V3 costs ~1/50th of GPT-4o for similar quality on many tasks.
 
+**Want automatic cost optimization?** Try [ClawRouter](../routing/clawrouter.md) — it saves 78% by routing each request to the cheapest model that can handle it.
+
 ### Second Opinion
 
 Get another model's perspective:

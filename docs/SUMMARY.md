@@ -9,6 +9,10 @@
 * [SDK Developers](getting-started/sdk-developers.md)
 * [Wallet Setup](getting-started/wallet-setup.md)
 
+## Routing
+
+* [ClawRouter](products/routing/clawrouter.md)
+
 ## Trading
 
 * [Overview](products/trading/overview.md)
