@@ -208,6 +208,78 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 
 [View full pricing →](../intelligence/pricing.md)
 
+## SDK Integration
+
+Use ClawRouter's smart routing directly in your code with the `smart_chat()` method:
+
+### Python SDK
+
+```python
+from blockrun_llm import LLMClient
+
+client = LLMClient()
+
+# Auto-route to optimal model
+result = client.smart_chat("What is 2+2?")
+print(result.response)        # "4"
+print(result.model)           # "deepseek/deepseek-chat"
+print(result.routing.tier)    # "SIMPLE"
+print(result.routing.savings) # 0.94 (94% savings)
+
+# Use routing profiles
+result = client.smart_chat("Complex reasoning task...", routing_profile="premium")
+```
+
+[Python SDK Documentation](../../sdks/python.md#smart-routing-clawrouter)
+
+### TypeScript SDK
+
+```typescript
+import { LLMClient } from '@blockrun/llm';
+
+const client = new LLMClient({ privateKey: '0x...' });
+
+// Auto-route to optimal model
+const result = await client.smartChat('What is 2+2?');
+console.log(result.response);        // "4"
+console.log(result.model);           // "deepseek/deepseek-chat"
+console.log(result.routing.tier);    // "SIMPLE"
+console.log(result.routing.savings); // 0.94
+
+// Use routing profiles
+const result2 = await client.smartChat('Complex reasoning task...', {
+  routingProfile: 'premium'
+});
+```
+
+[TypeScript SDK Documentation](../../sdks/typescript.md#smart-routing-clawrouter)
+
+### XRPL SDK (RLUSD)
+
+```python
+from blockrun_llm_xrpl import LLMClient
+
+client = LLMClient()  # Uses BLOCKRUN_XRPL_SEED
+
+# Smart routing works the same on XRPL
+result = client.smart_chat("Prove that sqrt(2) is irrational")
+print(result.model)  # "xai/grok-4-1-fast-reasoning"
+print(result.routing.tier)  # "REASONING"
+```
+
+[XRPL SDK Documentation](../../sdks/xrpl.md#smart-routing-clawrouter)
+
+### Routing Profiles
+
+All SDKs support the same routing profiles:
+
+| Profile | Behavior | Best For |
+|---------|----------|----------|
+| `free` | Always uses free NVIDIA models | Development, testing |
+| `eco` | Maximizes cost savings | Bulk processing |
+| `auto` | Balances quality and cost (default) | Production workloads |
+| `premium` | Always uses top-tier models | Critical tasks |
+
 ## Configuration
 
 ### Environment Variables

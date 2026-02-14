@@ -48,6 +48,7 @@
 
 * [Python](sdks/python.md)
 * [TypeScript](sdks/typescript.md)
+* [XRPL (Python)](sdks/xrpl.md)
 * [Go](sdks/go.md)
 
 ## API Reference

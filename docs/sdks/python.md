@@ -100,6 +100,114 @@ address = client.get_wallet_address()
 print(f"Paying from: {address}")
 ```
 
+## Smart Routing (ClawRouter)
+
+**Save up to 94% on LLM costs automatically.**
+
+The `smart_chat()` method uses ClawRouter's 14-dimension scoring algorithm to route each request to the optimal model. Routing decisions run locally in <1ms — your prompts never leave your machine for routing.
+
+### Basic Usage
+
+```python
+from blockrun_llm import LLMClient
+
+client = LLMClient()
+
+# Let ClawRouter pick the best model automatically
+result = client.smart_chat("What is 2+2?")
+
+print(result.response)           # "4"
+print(result.model)              # "deepseek/deepseek-chat" (cheap model for simple query)
+print(result.routing.tier)       # "SIMPLE"
+print(result.routing.savings)    # 0.94 (94% savings vs baseline)
+```
+
+### Routing Profiles
+
+| Profile | Behavior | Best For |
+|---------|----------|----------|
+| `"free"` | Always uses free NVIDIA models | Development, testing |
+| `"eco"` | Maximizes cost savings | Bulk processing |
+| `"auto"` | Balances quality and cost (default) | Production workloads |
+| `"premium"` | Always uses top-tier models | Critical tasks |
+
+```python
+# Force free models (great for development)
+result = client.smart_chat(
+    "Explain recursion",
+    routing_profile="free"
+)
+print(result.model)  # "nvidia/gpt-oss-120b"
+
+# Maximum savings mode
+result = client.smart_chat(
+    "Summarize this article: ...",
+    routing_profile="eco"
+)
+
+# Premium mode for critical tasks
+result = client.smart_chat(
+    "Review this contract for legal issues...",
+    routing_profile="premium"
+)
+print(result.model)  # "anthropic/claude-opus-4"
+```
+
+### 4-Tier Model Selection
+
+ClawRouter classifies prompts into four tiers:
+
+| Tier | Models | Use Case |
+|------|--------|----------|
+| **SIMPLE** | DeepSeek, Gemini Flash | Q&A, summaries, simple tasks |
+| **MEDIUM** | GPT-4o, Claude Sonnet | Analysis, writing, coding |
+| **COMPLEX** | Claude Opus, GPT-5 | Advanced reasoning, research |
+| **REASONING** | DeepSeek-R1, o1, o3 | Math, logic, proofs |
+
+### Routing Decision Details
+
+```python
+result = client.smart_chat("Prove that √2 is irrational")
+
+# Access full routing decision
+routing = result.routing
+print(f"Model: {routing.model}")           # "deepseek/deepseek-reasoner"
+print(f"Tier: {routing.tier}")             # "REASONING"
+print(f"Confidence: {routing.confidence}") # 0.97
+print(f"Reasoning: {routing.reasoning}")   # "Detected: math proof request..."
+print(f"Estimated cost: ${routing.cost_estimate:.4f}")
+print(f"Baseline cost: ${routing.baseline_cost:.4f}")
+print(f"Savings: {routing.savings:.0%}")   # "97%"
+```
+
+### Smart Routing Types
+
+```python
+from blockrun_llm import (
+    RoutingProfile,    # Literal["free", "eco", "auto", "premium"]
+    RoutingTier,       # Literal["SIMPLE", "MEDIUM", "COMPLEX", "REASONING"]
+    RoutingDecision,   # Full routing details
+    SmartChatResponse, # Response + model + routing
+)
+```
+
+### Async Smart Routing
+
+```python
+import asyncio
+from blockrun_llm import AsyncLLMClient
+
+async def main():
+    async with AsyncLLMClient() as client:
+        result = await client.smart_chat(
+            "What's the weather like?",
+            routing_profile="eco"
+        )
+        print(result.response)
+
+asyncio.run(main())
+```
+
 ## Testnet Usage
 
 For development and testing without real USDC, use the Base Sepolia testnet:

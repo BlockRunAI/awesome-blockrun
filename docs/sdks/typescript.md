@@ -99,6 +99,105 @@ const address = client.getWalletAddress();
 console.log(`Paying from: ${address}`);
 ```
 
+## Smart Routing (ClawRouter)
+
+**Save up to 94% on LLM costs automatically.**
+
+The `smartChat()` method uses ClawRouter's 14-dimension scoring algorithm to route each request to the optimal model. Routing decisions run locally in <1ms — your prompts never leave your machine for routing.
+
+### Basic Usage
+
+```typescript
+import { LLMClient } from '@blockrun/llm';
+
+const client = new LLMClient({
+  privateKey: process.env.BLOCKRUN_WALLET_KEY as `0x${string}`
+});
+
+// Let ClawRouter pick the best model automatically
+const result = await client.smartChat('What is 2+2?');
+
+console.log(result.response);           // "4"
+console.log(result.model);              // "deepseek/deepseek-chat"
+console.log(result.routing.tier);       // "SIMPLE"
+console.log(result.routing.savings);    // 0.94 (94% savings)
+```
+
+### Routing Profiles
+
+| Profile | Behavior | Best For |
+|---------|----------|----------|
+| `"free"` | Always uses free NVIDIA models | Development, testing |
+| `"eco"` | Maximizes cost savings | Bulk processing |
+| `"auto"` | Balances quality and cost (default) | Production workloads |
+| `"premium"` | Always uses top-tier models | Critical tasks |
+
+```typescript
+// Force free models (great for development)
+const result = await client.smartChat('Explain recursion', {
+  routingProfile: 'free'
+});
+console.log(result.model);  // "nvidia/gpt-oss-120b"
+
+// Maximum savings mode
+const result2 = await client.smartChat('Summarize this article: ...', {
+  routingProfile: 'eco'
+});
+
+// Premium mode for critical tasks
+const result3 = await client.smartChat('Review this contract for legal issues...', {
+  routingProfile: 'premium'
+});
+console.log(result3.model);  // "anthropic/claude-opus-4"
+```
+
+### 4-Tier Model Selection
+
+ClawRouter classifies prompts into four tiers:
+
+| Tier | Models | Use Case |
+|------|--------|----------|
+| **SIMPLE** | DeepSeek, Gemini Flash | Q&A, summaries, simple tasks |
+| **MEDIUM** | GPT-4o, Claude Sonnet | Analysis, writing, coding |
+| **COMPLEX** | Claude Opus, GPT-5 | Advanced reasoning, research |
+| **REASONING** | DeepSeek-R1, o1, o3 | Math, logic, proofs |
+
+### Routing Decision Details
+
+```typescript
+const result = await client.smartChat('Prove that √2 is irrational');
+
+// Access full routing decision
+const { routing } = result;
+console.log(`Model: ${routing.model}`);           // "deepseek/deepseek-reasoner"
+console.log(`Tier: ${routing.tier}`);             // "REASONING"
+console.log(`Confidence: ${routing.confidence}`); // 0.97
+console.log(`Reasoning: ${routing.reasoning}`);   // "Detected: math proof..."
+console.log(`Cost: $${routing.costEstimate.toFixed(4)}`);
+console.log(`Baseline: $${routing.baselineCost.toFixed(4)}`);
+console.log(`Savings: ${(routing.savings * 100).toFixed(0)}%`);  // "97%"
+```
+
+### Smart Routing Types
+
+```typescript
+import type {
+  RoutingProfile,      // "free" | "eco" | "auto" | "premium"
+  RoutingTier,         // "SIMPLE" | "MEDIUM" | "COMPLEX" | "REASONING"
+  RoutingDecision,     // Full routing details
+  SmartChatResponse,   // Response + model + routing
+} from '@blockrun/llm';
+```
+
+### With System Prompt
+
+```typescript
+const result = await client.smartChat('Write a haiku about coding', {
+  system: 'You are a poet.',
+  routingProfile: 'auto'
+});
+```
+
 ## Testnet Usage
 
 For development and testing without real USDC, use the Base Sepolia testnet:
