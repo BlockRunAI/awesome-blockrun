@@ -97,7 +97,7 @@ Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
 | `xai/grok-4-fast-reasoning` | Grok 4 Fast (Reasoning) | $0.20/M | $0.50/M | **2M** | Step-by-step reasoning |
 | `xai/grok-4-fast-non-reasoning` | Grok 4 Fast (Direct) | $0.20/M | $0.50/M | **2M** | Quick responses |
 | `xai/grok-code-fast-1` | Grok Code Fast 1 | $0.20/M | $1.50/M | 256K | Code generation |
-| `xai/grok-4-0709` | Grok 4 (0709) | $3.00/M | $15.00/M | 256K | Premium quality |
+| `xai/grok-4-0709` | Grok 4 (0709) | $0.20/M | $1.50/M | 256K | Premium quality |
 | `xai/grok-2-vision` | Grok 2 Vision | $2.00/M | $10.00/M | 32K | Vision capabilities |
 
 ### Coming Soon
