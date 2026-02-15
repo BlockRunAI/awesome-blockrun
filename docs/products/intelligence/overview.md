@@ -20,6 +20,7 @@ No API keys. No monthly bills. Just usage-based payments in USDC.
 | Model | Input | Output |
 |-------|-------|--------|
 | GPT-5.2 | $5.00/M | $15.00/M |
+| GPT-5.2 Codex | $2.50/M | $10.00/M |
 | GPT-4o | $2.50/M | $10.00/M |
 | o1 | $15.00/M | $60.00/M |
 | o1-mini | $3.00/M | $12.00/M |
@@ -27,6 +28,8 @@ No API keys. No monthly bills. Just usage-based payments in USDC.
 ### Anthropic
 | Model | Input | Output |
 |-------|-------|--------|
+| Claude Opus 4.6 | $5.00/M | $25.00/M |
+| Claude Opus 4.5 | $5.00/M | $25.00/M |
 | Claude Opus 4 | $15.00/M | $75.00/M |
 | Claude Sonnet 4 | $3.00/M | $15.00/M |
 | Claude Haiku 4.5 | $0.80/M | $4.00/M |

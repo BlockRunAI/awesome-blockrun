@@ -31,6 +31,7 @@ The 5% margin covers:
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
 | GPT-5.2 | $5.25 | $15.75 |
+| GPT-5.2 Codex | $2.63 | $10.50 |
 | GPT-4o | $2.63 | $10.50 |
 | GPT-4o-mini | $0.16 | $0.63 |
 | o1 | $15.75 | $63.00 |
@@ -41,8 +42,9 @@ The 5% margin covers:
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
-| Claude Opus 4 | $15.75 | $78.75 |
+| Claude Opus 4.6 | $5.25 | $26.25 |
 | Claude Opus 4.5 | $5.25 | $26.25 |
+| Claude Opus 4 | $15.75 | $78.75 |
 | Claude Sonnet 4 | $3.15 | $15.75 |
 | Claude Haiku 4.5 | $0.84 | $4.20 |
 
