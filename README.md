@@ -51,7 +51,7 @@ const response = await client.chat('Hello!');
 | ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | `pip install blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm) |
 | ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) | `npm i blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm-ts) |
 | ![Go](https://img.shields.io/badge/-Go-00ADD8?logo=go&logoColor=white) | `go get github.com/blockrunai/blockrun-llm-go` | [GitHub](https://github.com/blockrunai/blockrun-llm-go) |
-| ![Ruby](https://img.shields.io/badge/-Ruby-CC342D?logo=ruby&logoColor=white) | `gem install blockrun` | [GitHub](https://github.com/blockrunai/blockrun-ruby) |
+| ![XRPL](https://img.shields.io/badge/-XRPL-23292F?logo=xrp&logoColor=white) | `pip install blockrun-llm-xrpl` | [GitHub](https://github.com/BlockRunAI/blockrun-llm-xrpl) |
 
 ---
 
@@ -203,10 +203,10 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 | Section | Links |
 |---------|-------|
-| **Getting Started** | [Installation](./docs/getting-started/installation.md) &#x2022; [Quick Start](./docs/getting-started/quick-start.md) &#x2022; [Authentication](./docs/getting-started/authentication.md) |
+| **Getting Started** | [Claude Code](./docs/getting-started/claude-code.md) &#x2022; [Agent Developers](./docs/getting-started/agent-developers.md) &#x2022; [SDK Developers](./docs/getting-started/sdk-developers.md) &#x2022; [Wallet Setup](./docs/getting-started/wallet-setup.md) |
 | **API Reference** | [Chat Completions](./docs/api-reference/chat-completions.md) &#x2022; [Models](./docs/api-reference/models.md) &#x2022; [Errors](./docs/api-reference/errors.md) |
 | **x402 Protocol** | [How It Works](./docs/x402/how-it-works.md) &#x2022; [Payment Flow](./docs/x402/payment-flow.md) &#x2022; [Security](./docs/x402/security.md) |
-| **Resources** | [Pricing](./docs/resources/pricing.md) &#x2022; [FAQ](./docs/resources/faq.md) &#x2022; [Changelog](./docs/resources/changelog.md) |
+| **Resources** | [Pricing](./docs/products/intelligence/pricing.md) &#x2022; [FAQ](./docs/resources/faq.md) &#x2022; [Changelog](./docs/resources/changelog.md) |
 
 ---
 
