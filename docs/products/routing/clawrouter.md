@@ -59,10 +59,10 @@ All routing decisions happen on your machine. No external API calls.
 
 | Tier | Model | Cost | Use Case |
 |------|-------|------|----------|
-| **SIMPLE** | gemini-2.5-flash | $0.60/M | Q&A, summaries, simple tasks |
-| **MEDIUM** | deepseek-chat | $0.42/M | Analysis, writing, coding |
-| **COMPLEX** | claude-opus-4 | $75.00/M | Advanced reasoning, research |
-| **REASONING** | deepseek-reasoner | $0.42/M | Math, logic, proofs |
+| **SIMPLE** | nvidia/kimi-k2.5 | FREE | Q&A, summaries, simple tasks |
+| **MEDIUM** | xai/grok-code-fast-1 | $2.00/M | Analysis, writing, coding |
+| **COMPLEX** | google/gemini-3.1-pro-preview | $12.00/M | Advanced reasoning, research |
+| **REASONING** | xai/grok-4-1-fast-reasoning | $15.00/M | Math, logic, proofs |
 
 *Prices shown are output costs per 1M tokens (after 5% BlockRun markup)*
 
@@ -121,7 +121,7 @@ Once installed and enabled with `/model blockrun/auto`, ClawRouter works automat
 ```
 You: Explain quantum computing in simple terms
 
-ClawRouter: [Routes to gemini-2.5-flash - $0.60/M]
+ClawRouter: [Routes to nvidia/kimi-k2.5 - FREE]
 Response: Quantum computing uses quantum mechanics...
 ```
 
@@ -138,8 +138,8 @@ You can still override routing for specific requests:
 ClawRouter logs show which model was selected and why:
 
 ```
-[ClawRouter] Prompt complexity: LOW → Tier: SIMPLE → Model: gemini-2.5-flash
-[ClawRouter] Cost: $0.0003 (saved $0.0125 vs. Claude Opus)
+[ClawRouter] Prompt complexity: LOW → Tier: SIMPLE → Model: nvidia/kimi-k2.5
+[ClawRouter] Cost: $0.0000 (saved $0.0150 vs. Claude Opus)
 ```
 
 ## Why ClawRouter?

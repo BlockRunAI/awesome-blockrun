@@ -183,7 +183,7 @@ response = client.chat("deepseek/deepseek-v3", "Summarize this text")
 
 ```python
 # For quick, simple tasks
-response = client.chat("google/gemini-2.5-flash", prompt)
+response = client.chat("google/gemini-2.5-flash-lite", prompt)
 ```
 
 ### 3. Match Model to Task

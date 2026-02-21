@@ -66,9 +66,11 @@ Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `google/gemini-3-pro-preview` | Gemini 3 Pro | $2.00/M | $12.00/M | 1M |
+| `google/gemini-3.1-pro-preview` | Gemini 3.1 Pro Preview | $2.00/M | $12.00/M | 1M |
+| `google/gemini-3-flash-preview` | Gemini 3 Flash Preview | $0.50/M | $3.00/M | 1M |
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
-| `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.15/M | $0.60/M | 1M |
+| `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.30/M | $2.50/M | 1M |
+| `google/gemini-2.5-flash-lite` | Gemini 2.5 Flash Lite | $0.10/M | $0.40/M | 1M |
 
 ### DeepSeek
 

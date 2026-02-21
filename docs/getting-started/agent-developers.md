@@ -152,11 +152,13 @@ results = asyncio.run(process_batch(my_items))
 ## Available Models
 
 ### Speed-Optimized
-- `google/gemini-2.5-flash` — Fastest, cheapest
+- `google/gemini-3-flash-preview` — Fastest with thinking mode
+- `google/gemini-2.5-flash-lite` — Ultra-fast and cheapest
 - `anthropic/claude-haiku-4.5` — Fast, good quality
 
 ### Cost-Optimized
-- `deepseek/deepseek-v3` — Best value
+- `google/gemini-2.5-flash-lite` — Best value ($0.10/$0.40 per 1M)
+- `deepseek/deepseek-v3` — Good value
 - `meta/llama-3.3-70b` — Good open-source option
 
 ### Quality-Optimized

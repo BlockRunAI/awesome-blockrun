@@ -148,8 +148,9 @@ client.chat("anthropic/claude-opus-4", prompt)
 client.chat("anthropic/claude-sonnet-4", prompt)
 
 # Google
-client.chat("google/gemini-3-pro", prompt)
-client.chat("google/gemini-2.5-flash", prompt)
+client.chat("google/gemini-3.1-pro-preview", prompt)
+client.chat("google/gemini-3-flash-preview", prompt)
+client.chat("google/gemini-2.5-flash-lite", prompt)
 
 # DeepSeek
 client.chat("deepseek/deepseek-v3", prompt)
@@ -164,8 +165,8 @@ client.chat("xai/grok-4-fast", prompt)
 | Use Case | Recommended Model |
 |----------|-------------------|
 | General purpose | `openai/gpt-4o` |
-| Cheapest | `deepseek/deepseek-v3` |
-| Fastest | `google/gemini-2.5-flash` |
+| Cheapest | `google/gemini-2.5-flash-lite` |
+| Fastest | `google/gemini-3-flash-preview` |
 | Best reasoning | `openai/o1` |
 | Real-time X data | `xai/grok-4-fast` |
 | Best for code | `anthropic/claude-sonnet-4` |

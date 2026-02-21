@@ -132,8 +132,9 @@ client.Chat("anthropic/claude-opus-4", prompt)
 client.Chat("anthropic/claude-sonnet-4", prompt)
 
 // Google
-client.Chat("google/gemini-3-pro", prompt)
-client.Chat("google/gemini-2.5-flash", prompt)
+client.Chat("google/gemini-3.1-pro-preview", prompt)
+client.Chat("google/gemini-3-flash-preview", prompt)
+client.Chat("google/gemini-2.5-flash-lite", prompt)
 
 // DeepSeek
 client.Chat("deepseek/deepseek-v3", prompt)

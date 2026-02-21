@@ -81,7 +81,7 @@ All BlockRun models are available:
 |----------|--------|
 | OpenAI | gpt-5.2, gpt-4o, o1, o1-mini |
 | Anthropic | claude-opus-4, claude-sonnet-4, claude-haiku-4.5 |
-| Google | gemini-3-pro, gemini-2.5-flash |
+| Google | gemini-3.1-pro-preview, gemini-3-flash-preview, gemini-2.5-flash-lite |
 | DeepSeek | deepseek-v3, deepseek-r1 |
 | xAI | grok-4-fast |
 | Meta | llama-3.3-70b, llama-3.1-405b |

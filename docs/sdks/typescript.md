@@ -316,7 +316,7 @@ const client = new LLMClient({ privateKey: '0x...' });
 const [gpt, claude, gemini] = await Promise.all([
   client.chat('openai/gpt-4o', 'What is 2+2?'),
   client.chat('anthropic/claude-sonnet-4', 'What is 3+3?'),
-  client.chat('google/gemini-2.5-flash', 'What is 4+4?')
+  client.chat('google/gemini-3-flash-preview', 'What is 4+4?')
 ]);
 
 console.log('GPT:', gpt);
