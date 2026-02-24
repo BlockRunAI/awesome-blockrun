@@ -55,6 +55,7 @@
 
 * [Chat Completions](api-reference/chat-completions.md)
 * [Image Generation](api-reference/image-generation.md)
+* [Search](api-reference/search.md)
 * [Models](api-reference/models.md)
 * [Error Handling](api-reference/errors.md)
 
