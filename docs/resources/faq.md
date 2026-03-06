@@ -101,7 +101,7 @@ No. alpha-mcp is free. You only pay for intelligence (sentiment analysis) and ne
 ### Which AI models are available?
 
 30+ models including:
-- OpenAI (GPT-5.2, GPT-4o, o1)
+- OpenAI (GPT-5.4, GPT-5.2, o1)
 - Anthropic (Claude Opus 4, Sonnet 4, Haiku 4.5)
 - Google (Gemini 3 Pro, Gemini 2.5 Flash)
 - DeepSeek (V3, R1)

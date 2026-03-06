@@ -79,7 +79,7 @@ All BlockRun models are available:
 
 | Provider | Models |
 |----------|--------|
-| OpenAI | gpt-5.2, gpt-4o, o1, o1-mini |
+| OpenAI | gpt-5.4, gpt-5.2, o1, o1-mini |
 | Anthropic | claude-opus-4, claude-sonnet-4, claude-haiku-4.5 |
 | Google | gemini-3.1-pro-preview, gemini-3-flash-preview, gemini-2.5-flash-lite |
 | DeepSeek | deepseek-v3, deepseek-r1 |

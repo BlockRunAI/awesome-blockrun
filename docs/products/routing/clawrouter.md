@@ -88,7 +88,7 @@ All routing decisions happen on your machine. No external API calls.
 
 Access all major providers through one wallet:
 
-- **OpenAI**: GPT-4o, GPT-5, o1, o3
+- **OpenAI**: GPT-5.4, GPT-5.2, o1, o3
 - **Anthropic**: Claude Opus 4, Sonnet 4, Haiku 4.5
 - **Google**: Gemini 3 Pro, Gemini 2.5 Pro/Flash
 - **DeepSeek**: DeepSeek V3, DeepSeek Reasoner
@@ -190,6 +190,7 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 
 ### Chat Models
 
+- **OpenAI GPT-5.4 Family**: GPT-5.4, GPT-5.4 Pro
 - **OpenAI GPT-5 Family**: GPT-5.2, GPT-5 Mini, GPT-5 Nano
 - **OpenAI GPT-4 Family**: GPT-4.1, GPT-4o, GPT-4o-mini
 - **OpenAI O-Series**: o1, o3, o3-mini, o4-mini

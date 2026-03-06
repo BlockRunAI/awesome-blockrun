@@ -81,7 +81,7 @@ const response = await client.chat('Hello!');
 
 | Category | Models |
 |----------|--------|
-| **LLMs** | GPT-4o, GPT-5, Claude, Gemini, DeepSeek, Kimi K2.5, Llama |
+| **LLMs** | GPT-5.4, GPT-5, Claude, Gemini, DeepSeek, Kimi K2.5, Llama |
 | **Reasoning** | o1, o3, Grok, DeepSeek-R1 |
 | **Image** | DALL-E, Stable Diffusion, Flux, Nano Banana |
 | **Voice** | ElevenLabs, OpenAI TTS |

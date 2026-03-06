@@ -14,6 +14,13 @@ Returns a list of available models with pricing information.
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
 
+### OpenAI GPT-5.4 Family
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `openai/gpt-5.4` | GPT-5.4 | $2.50/M | $15.00/M | 1M |
+| `openai/gpt-5.4-pro` | GPT-5.4 Pro | $30.00/M | $180.00/M | 1M |
+
 ### OpenAI GPT-5 Family
 
 | Model ID | Name | Input Price | Output Price | Context |

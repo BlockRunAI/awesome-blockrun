@@ -139,8 +139,8 @@ print(f"Spent: ${usage['total_spent']}")
 
 ```python
 # OpenAI
+client.chat("openai/gpt-5.4", prompt)
 client.chat("openai/gpt-5.2", prompt)
-client.chat("openai/gpt-4o", prompt)
 client.chat("openai/o1", prompt)
 
 # Anthropic

@@ -19,9 +19,10 @@ No API keys. No monthly bills. Just usage-based payments in USDC.
 ### OpenAI
 | Model | Input | Output |
 |-------|-------|--------|
-| GPT-5.2 | $5.00/M | $15.00/M |
-| GPT-5.2 Codex | $2.50/M | $10.00/M |
-| GPT-4o | $2.50/M | $10.00/M |
+| GPT-5.4 | $2.50/M | $15.00/M |
+| GPT-5.4 Pro | $30.00/M | $180.00/M |
+| GPT-5.2 | $1.75/M | $14.00/M |
+| GPT-5.2 Codex | $1.75/M | $14.00/M |
 | o1 | $15.00/M | $60.00/M |
 | o1-mini | $3.00/M | $12.00/M |
 
