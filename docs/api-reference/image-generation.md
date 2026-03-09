@@ -64,14 +64,46 @@ POST https://blockrun.ai/api/v1/images/generations
 
 ## Examples
 
-### cURL
+### Via ClawRouter (recommended for local use)
+
+ClawRouter handles x402 payments automatically. Start it with `openclaw gateway start`, then call `localhost:8402` directly.
+
+**Linux / macOS:**
+```bash
+curl -X POST http://localhost:8402/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -d '{"model":"google/nano-banana","prompt":"your prompt here","size":"1024x1024","n":1}'
+```
+
+Open the returned URL directly:
+```bash
+URL=$(curl -s -X POST http://localhost:8402/v1/images/generations \
+  -H "Content-Type: application/json" \
+  -d '{"model":"google/nano-banana","prompt":"your prompt here","size":"1024x1024","n":1}' \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['data'][0]['url'])")
+
+xdg-open "$URL"   # Linux
+open "$URL"        # macOS
+```
+
+**Windows (PowerShell):**
+```powershell
+$body = '{"model":"google/nano-banana","prompt":"your prompt here","size":"1024x1024","n":1}'
+curl.exe -X POST http://localhost:8402/v1/images/generations `
+  -H "Content-Type: application/json" `
+  -d $body
+```
+
+The image is saved to `~/.openclaw/blockrun/images/` and served at `http://localhost:8402/images/<filename>`.
+
+### Direct API (cURL)
 
 ```bash
-curl https://blockrun.ai/api/v1/images/generations \
+curl -X POST https://blockrun.ai/api/v1/images/generations \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $BLOCKRUN_WALLET_KEY" \
+  -H "X-Payment: $PAYMENT_HEADER" \
   -d '{
-    "model": "dall-e-3",
+    "model": "google/nano-banana",
     "prompt": "A minimalist logo for an AI trading company",
     "size": "1024x1024"
   }'
