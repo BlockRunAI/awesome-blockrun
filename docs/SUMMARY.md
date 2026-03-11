@@ -55,7 +55,9 @@
 
 * [Chat Completions](api-reference/chat-completions.md)
 * [Image Generation](api-reference/image-generation.md)
+* [Image Editing (img2img)](api-reference/image-editing.md)
 * [Search](api-reference/search.md)
+* [X/Twitter](api-reference/x-twitter.md)
 * [Models](api-reference/models.md)
 * [Error Handling](api-reference/errors.md)
 

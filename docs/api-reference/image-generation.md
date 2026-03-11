@@ -234,6 +234,7 @@ print(response.data[0].url)
 
 ## Links
 
+- [Image Editing (img2img)](image-editing.md)
 - [nano-banana Skill](../products/creation/nano-banana.md)
 - [Intelligence Pricing](../products/intelligence/pricing.md)
 - [Error Handling](errors.md)
