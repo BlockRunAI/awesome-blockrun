@@ -105,6 +105,7 @@ const response = await client.chat('Hello!');
 | [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Prediction Markets | Autonomous AI trading agent using 3-model LLM consensus |
 | [Nano Banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Image Generation | Claude Code skill for AI image generation via x402 |
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Crypto Trading | AI crypto trading bot with multi-provider support and chart analysis |
+| [Spraay](https://github.com/plagtech/spraay-x402-gateway) | x402 Gateway | Multi-chain x402 payment gateway with dual-provider AI inference (BlockRun + OpenRouter) |
 
 > Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)
 
