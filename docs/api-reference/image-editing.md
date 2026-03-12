@@ -4,8 +4,14 @@ Edit existing images using AI inpainting — pass a source image and describe wh
 
 ## Endpoint
 
+| Network | URL |
+|---------|-----|
+| Base | `https://blockrun.ai/api/v1/images/image2image` |
+| Solana | `https://sol.blockrun.ai/api/v1/images/image2image` |
+
 ```
-POST https://blockrun.ai/api/v1/images/image2image
+POST https://blockrun.ai/api/v1/images/image2image       # Base
+POST https://sol.blockrun.ai/api/v1/images/image2image    # Solana
 ```
 
 ## Request
@@ -96,7 +102,19 @@ curl -X POST http://localhost:8402/v1/images/image2image \
 ```bash
 IMAGE_B64=$(base64 -i ~/photo.png)
 
+# Base
 curl -X POST https://blockrun.ai/api/v1/images/image2image \
+  -H "Content-Type: application/json" \
+  -H "X-Payment: $PAYMENT_HEADER" \
+  -d "{
+    \"model\": \"openai/gpt-image-1\",
+    \"prompt\": \"change the background to a starry sky\",
+    \"image\": \"data:image/png;base64,${IMAGE_B64}\",
+    \"size\": \"1024x1024\"
+  }"
+
+# Solana
+curl -X POST https://sol.blockrun.ai/api/v1/images/image2image \
   -H "Content-Type: application/json" \
   -H "X-Payment: $PAYMENT_HEADER" \
   -d "{
