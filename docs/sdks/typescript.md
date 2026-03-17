@@ -198,6 +198,102 @@ const result = await client.smartChat('Write a haiku about coding', {
 });
 ```
 
+## Prediction Markets (Powered by Predexon)
+
+Access real-time prediction market data from Polymarket, Kalshi, dFlow, Binance, and more via [Predexon](https://predexon.com). No API keys needed — pay-per-request via x402.
+
+### `pm(path, params?)`
+
+Query prediction market GET endpoints. $0.001 per request.
+
+```typescript
+import { LLMClient } from '@blockrun/llm';
+
+const client = new LLMClient();
+
+// List Polymarket markets
+const markets = await client.pm("polymarket/markets");
+
+// List Polymarket events
+const events = await client.pm("polymarket/events");
+
+// Get Polymarket trades
+const trades = await client.pm("polymarket/trades");
+
+// Get candlestick data for a specific condition
+const candles = await client.pm("polymarket/candlesticks/0xabc123...");
+
+// Get wallet profile
+const wallet = await client.pm("polymarket/wallet/0x1234...");
+
+// Get wallet P&L
+const pnl = await client.pm("polymarket/wallet/pnl/0x1234...");
+
+// Get Polymarket leaderboard
+const leaders = await client.pm("polymarket/leaderboard");
+
+// List Kalshi markets
+const kalshiMarkets = await client.pm("kalshi/markets");
+
+// Get Kalshi trades
+const kalshiTrades = await client.pm("kalshi/trades");
+
+// Get Binance candles for a symbol
+const btcCandles = await client.pm("binance/candles/BTCUSDT");
+const ethCandles = await client.pm("binance/candles/ETHUSDT");
+
+// Cross-platform matching
+const pairs = await client.pm("matching-markets/pairs");
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `path` | `string` | Endpoint path, e.g. `"polymarket/markets"`, `"kalshi/markets"` |
+| `params` | `Record<string, string>` | Optional query parameters passed to the endpoint |
+
+**Returns:** `Promise<Record<string, unknown>>` — Raw JSON response from Predexon API
+
+### `pmQuery(path, query)`
+
+Structured query for prediction market POST endpoints. Reserved for future POST endpoints.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `path` | `string` | Endpoint path for a POST query |
+| `query` | `Record<string, unknown>` | JSON body for the structured query |
+
+**Returns:** `Promise<Record<string, unknown>>` — Raw JSON response from Predexon API
+
+> **Note:** All current Predexon endpoints are GET-based and should be accessed via `pm()`. The `pmQuery()` method is available for future POST endpoints as the API expands.
+
+### Available Platforms
+
+| Platform | Available Data |
+|----------|---------------|
+| Polymarket | Markets, Events, Trades, Candlesticks, Orderbooks, Prices, Volume, Activity, Positions, Leaderboards, Wallet Analytics, Smart Money |
+| Kalshi | Markets, Trades, Orderbooks |
+| dFlow | Trades, Wallet Positions, Wallet P&L |
+| Binance | Candles, Ticks |
+| Matching | Cross-platform market matching |
+| Limitless | Orderbooks |
+| Opinion | Orderbooks |
+| Predict.Fun | Orderbooks |
+
+### Solana Usage
+
+```typescript
+import { SolanaLLMClient } from '@blockrun/llm';
+
+const client = new SolanaLLMClient();
+const markets = await client.pm("polymarket/markets");
+```
+
+Works on both `LLMClient` (Base) and `SolanaLLMClient`.
+
 ## Testnet Usage
 
 For development and testing without real USDC, use the Base Sepolia testnet:

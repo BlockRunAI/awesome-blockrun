@@ -60,7 +60,7 @@ All routing decisions happen on your machine. No external API calls.
 | Tier | Model | Cost | Use Case |
 |------|-------|------|----------|
 | **SIMPLE** | nvidia/kimi-k2.5 | FREE | Q&A, summaries, simple tasks |
-| **MEDIUM** | xai/grok-code-fast-1 | $2.00/M | Analysis, writing, coding |
+| **MEDIUM** | deepseek/deepseek-chat | $0.42/M | Analysis, writing, coding |
 | **COMPLEX** | google/gemini-3.1-pro-preview | $12.00/M | Advanced reasoning, research |
 | **REASONING** | xai/grok-4-1-fast-reasoning | $15.00/M | Math, logic, proofs |
 

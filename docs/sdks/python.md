@@ -208,6 +208,117 @@ async def main():
 asyncio.run(main())
 ```
 
+## Prediction Markets (Powered by Predexon)
+
+Access real-time prediction market data from Polymarket, Kalshi, dFlow, Binance, and more via [Predexon](https://predexon.com). No API keys needed — pay-per-request via x402.
+
+### `pm(path, **params)`
+
+Query prediction market GET endpoints. $0.001 per request.
+
+```python
+from blockrun_llm import LLMClient
+
+client = LLMClient()
+
+# List Polymarket markets
+markets = client.pm("polymarket/markets")
+
+# List Polymarket events
+events = client.pm("polymarket/events")
+
+# Get Polymarket trades
+trades = client.pm("polymarket/trades")
+
+# Get candlestick data for a specific condition
+candles = client.pm("polymarket/candlesticks/0xabc123...")
+
+# Get wallet profile
+wallet = client.pm("polymarket/wallet/0x1234...")
+
+# Get wallet P&L
+pnl = client.pm("polymarket/wallet/pnl/0x1234...")
+
+# Get Polymarket leaderboard
+leaders = client.pm("polymarket/leaderboard")
+
+# List Kalshi markets
+kalshi_markets = client.pm("kalshi/markets")
+
+# Get Kalshi trades
+kalshi_trades = client.pm("kalshi/trades")
+
+# Get Binance candles for a symbol
+btc_candles = client.pm("binance/candles/BTCUSDT")
+eth_candles = client.pm("binance/candles/ETHUSDT")
+
+# Cross-platform matching
+pairs = client.pm("matching-markets/pairs")
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `path` | `str` | Endpoint path, e.g. `"polymarket/markets"`, `"kalshi/markets"` |
+| `**params` | keyword args | Query parameters passed to the endpoint |
+
+**Returns:** `Dict[str, Any]` — Raw JSON response from Predexon API
+
+### `pm_query(path, query)`
+
+Structured query for prediction market POST endpoints. Reserved for future POST endpoints.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `path` | `str` | Endpoint path for a POST query |
+| `query` | `Dict[str, Any]` | JSON body for the structured query |
+
+**Returns:** `Dict[str, Any]` — Raw JSON response from Predexon API
+
+> **Note:** All current Predexon endpoints are GET-based and should be accessed via `pm()`. The `pm_query()` method is available for future POST endpoints as the API expands.
+
+### Available Platforms
+
+| Platform | Available Data |
+|----------|---------------|
+| Polymarket | Markets, Events, Trades, Candlesticks, Orderbooks, Prices, Volume, Activity, Positions, Leaderboards, Wallet Analytics, Smart Money |
+| Kalshi | Markets, Trades, Orderbooks |
+| dFlow | Trades, Wallet Positions, Wallet P&L |
+| Binance | Candles, Ticks |
+| Matching | Cross-platform market matching |
+| Limitless | Orderbooks |
+| Opinion | Orderbooks |
+| Predict.Fun | Orderbooks |
+
+### Async Usage
+
+```python
+import asyncio
+from blockrun_llm import AsyncLLMClient
+
+async def main():
+    async with AsyncLLMClient() as client:
+        markets = await client.pm("polymarket/markets")
+        events = await client.pm("polymarket/events")
+        candles = await client.pm("binance/candles/SOLUSDT")
+
+asyncio.run(main())
+```
+
+### Solana Usage
+
+```python
+from blockrun_llm.solana_client import SolanaLLMClient
+
+client = SolanaLLMClient()
+markets = client.pm("polymarket/markets")
+```
+
+Works on all clients: `LLMClient` (Base), `AsyncLLMClient`, and `SolanaLLMClient`.
+
 ## Testnet Usage
 
 For development and testing without real USDC, use the Base Sepolia testnet:

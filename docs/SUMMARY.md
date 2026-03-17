@@ -58,6 +58,7 @@
 * [Image Editing (img2img)](api-reference/image-editing.md)
 * [Search](api-reference/search.md)
 * [X/Twitter](api-reference/x-twitter.md)
+* [Prediction Markets](api-reference/prediction-markets.md)
 * [Models](api-reference/models.md)
 * [Error Handling](api-reference/errors.md)
 
