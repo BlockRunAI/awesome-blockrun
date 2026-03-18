@@ -98,7 +98,7 @@ const response = await client.chat('Hello!');
 
 | Project | Category | Description |
 |---------|:--------:|-------------|
-| [X Portal](https://llm.xprtlai.com/) | LLM Gateway | LLM chat interface powered by BlockRun |
+
 | [PredictOS](https://github.com/PredictionXBT/PredictOS) | Prediction Markets | Prediction market analysis platform with multi-AI provider support |
 | [Polymarket AI Agent](https://github.com/BlockRunAI/polymarket-agent) | Prediction Markets | Autonomous AI trading agent using 3-model LLM consensus |
 | [Nano Banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Image Generation | Claude Code skill for AI image generation via x402 |
