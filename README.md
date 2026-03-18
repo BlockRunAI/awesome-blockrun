@@ -174,7 +174,6 @@ The **x402 protocol** (HTTP 402 "Payment Required") lets any HTTP request includ
 | LLM Gateway | Now | Pay-per-request access to 40+ AI models |
 | Premium Data | Now | Real-time market data, social intelligence, web search |
 | Trust | Q1 2026 | Service ratings, uptime tracking, smart routing |
-| Universal Routing | Q2 2026+ | Price/latency optimization, automatic failover |
 
 See [VISION.md](./VISION.md) | [ROADMAP.md](./ROADMAP.md) for full details.
 
