@@ -51,7 +51,7 @@ const response = await client.chat('Hello!');
 | ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | `pip install blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm) |
 | ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) | `npm i blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm-ts) |
 | ![Go](https://img.shields.io/badge/-Go-00ADD8?logo=go&logoColor=white) | `go get github.com/blockrunai/blockrun-llm-go` | [GitHub](https://github.com/blockrunai/blockrun-llm-go) |
-| ![XRPL](https://img.shields.io/badge/-XRPL-23292F?logo=xrp&logoColor=white) | `pip install blockrun-llm-xrpl` | [GitHub](https://github.com/BlockRunAI/blockrun-llm-xrpl) |
+
 
 ---
 
@@ -60,7 +60,7 @@ const response = await client.chat('Hello!');
 | Tool | Description |
 |------|-------------|
 | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server for Claude Code - Access 30+ AI models with zero API keys |
-| [blockrun-agent-wallet](https://github.com/BlockRunAI/blockrun-agent-wallet) | Agent wallet - Give AI agents a wallet to pay for GPT, Grok, DALL-E and more |
+
 
 ---
 
@@ -71,9 +71,7 @@ const response = await client.chat('Hello!');
 | [OpenClaw](https://github.com/openclaw/openclaw) | ✅ Released | [ClawRouter](https://github.com/BlockRunAI/ClawRouter) - Smart LLM router, 78% cost savings |
 | [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) |
-| [GOAT SDK](https://github.com/crossmint/goat) | 🔄 In Review | Agent framework integration |
-| [AgentKit](https://github.com/coinbase/agentkit) | 🔄 In Review | Coinbase agent framework |
-| [Rig](https://github.com/0xPlaygrounds/rig) | 🔄 [In Review](https://github.com/0xPlaygrounds/rig/pull/1294) | Rust LLM framework |
+
 
 ---
 
