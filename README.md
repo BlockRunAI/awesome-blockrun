@@ -13,10 +13,13 @@
 ## Table of Contents
 
 - [Quick Start](#quick-start)
+- [API Products](#api-products)
+- [Supported Models](#supported-models)
+- [Networks](#networks)
 - [SDKs](#sdks)
 - [MCP Tools](#mcp-tools)
+- [Smart Routing](#smart-routing)
 - [Framework Integrations](#framework-integrations)
-- [Supported Models](#supported-models)
 - [Projects Built with BlockRun](#projects-built-with-blockrun)
 - [Ecosystem](#ecosystem)
 - [Research](#research)
@@ -31,27 +34,147 @@
 from blockrun_llm import LLMClient
 
 client = LLMClient(private_key="0x...")
+
+# Chat with any model — payment handled via x402
 response = client.chat("Hello!")
-# Payment handled automatically via x402
+
+# Smart routing — auto-picks cheapest capable model
+response = client.smart_chat("Summarize this article", profile="eco")
+
+# Image generation
+from blockrun_llm import ImageClient
+img = ImageClient(private_key="0x...")
+result = img.generate("A cyberpunk city at sunset", model="openai/gpt-image-1")
+
+# Real-time search (web, news)
+results = client.search("latest AI agent frameworks")
 ```
 
 ```typescript
-import { LLMClient } from 'blockrun-llm';
+import { LLMClient, ImageClient } from 'blockrun-llm';
 
 const client = new LLMClient({ privateKey: '0x...' });
+
+// Chat with any model
 const response = await client.chat('Hello!');
+
+// Smart routing
+const smart = await client.smartChat('Summarize this', { profile: 'eco' });
+
+
 ```
+
+---
+
+## API Products
+
+BlockRun is a unified API gateway — pay per request with USDC, no API keys needed.
+
+| Product | Endpoint | Pricing | Description |
+|---------|----------|---------|-------------|
+| **LLM Chat** | `/v1/chat/completions` | Per token | OpenAI-compatible, 40+ models, streaming, tool calling |
+| **Image Generation** | `/v1/images/generations` | $0.02–0.15/image | DALL-E 3, GPT Image 1, Nano Banana, Nano Banana Pro |
+| **Image Editing** | `/v1/images/image2image` | Per request | AI-powered inpainting and image-to-image |
+| **Search** | `/v1/search` | $0.025/source | Real-time search across web, news, RSS |
+| **X/Twitter Data** | `/v1/x/*` | Coming Soon | User profiles, tweets, followers, search, trending, analytics |
+| **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | Polymarket, Kalshi, dFlow, Binance Futures |
+| **Models** | `/v1/models` | Free | List all available models with pricing |
+| **Pricing** | `/v1/pricing` | Free | Detailed pricing for all models |
+| **Balance** | `/v1/balance` | Free | Check USDC wallet balance |
+
+### X/Twitter Intelligence (Coming Soon)
+
+Real-time X/Twitter data — user profiles, tweets, followers, search, trending topics, and analytics. Pending partnership agreement with X.
+
+### Prediction Markets
+
+Real-time prediction market data powered by Predexon:
+
+| Market | Endpoints | Price |
+|--------|-----------|-------|
+| **Polymarket** | Markets, events, trades, orderbooks, leaderboards, positions | $0.001–0.005 |
+| **Kalshi** | Markets, trades, orderbooks | $0.001 |
+| **dFlow** | Trades, positions, P&L | $0.001–0.005 |
+| **Binance Futures** | Candles, ticks | $0.005 |
+
+---
+
+## Supported Models
+
+**40+ models** across 10 providers. All accessible through a single OpenAI-compatible API.
+
+### LLMs
+
+| Provider | Models | Input/Output per 1M tokens |
+|----------|--------|---------------------------|
+| **OpenAI** | GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5 Mini, GPT-5 Nano | $0.05–$30.00 / $0.40–$180.00 |
+| **Anthropic** | Claude Opus 4.6, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$5.00 / $5.00–$25.00 |
+| **Google** | Gemini 3.1 Pro, Gemini 3 Pro, Gemini 3 Flash, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
+| **DeepSeek** | DeepSeek Chat (V3.2), DeepSeek Reasoner (V3.2 thinking) | $0.28 / $0.42 |
+| **xAI** | Grok 4.1 Fast, Grok Code Fast 1, Grok 4, Grok 2 Vision | $0.20–$3.00 / $0.50–$15.00 |
+| **Z.AI** | GLM-5, GLM-5 Turbo, GLM-5 Code | $1.00–$1.20 / $3.20–$5.00 |
+| **Moonshot** | Kimi K2.5 (262K context, MoE) | $0.60 / $3.00 |
+| **MiniMax** | MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
+| **NVIDIA** | GPT-OSS 120B, GPT-OSS 20B | **Free** |
+
+### Reasoning
+
+| Model | Price (input/output per 1M) |
+|-------|---------------------------|
+| OpenAI o1 | $15.00 / $60.00 |
+| OpenAI o3 | $2.00 / $8.00 |
+| OpenAI o1-mini, o3-mini | $1.10 / $4.40 |
+| DeepSeek Reasoner | $0.28 / $0.42 |
+
+### Image Generation
+
+| Model | Price per image |
+|-------|----------------|
+| OpenAI GPT Image 1 | $0.02–0.04 |
+| OpenAI DALL-E 3 | $0.04–0.08 |
+| Nano Banana | $0.05 |
+| Nano Banana Pro | $0.10–0.15 |
+
+> Full pricing: `GET /v1/pricing` or see [Pricing docs](./docs/products/intelligence/pricing.md)
+
+---
+
+## Networks
+
+BlockRun runs on two networks with separate gateways:
+
+| Network | Gateway | Asset | Status |
+|---------|---------|-------|--------|
+| **Base** | `blockrun.ai` | USDC | ✅ Live |
+| **Solana** | `sol.blockrun.ai` | USDC | ✅ Live |
+| **Base Sepolia** | `testnet.blockrun.ai` | USDC (testnet) | ✅ Testnet |
+| **Solana Devnet** | `devnet-sol.blockrun.ai` | USDC (devnet) | ✅ Testnet |
+
+**Payment protocol:** x402 (HTTP 402 "Payment Required") — wallet signs payment, no accounts or API keys needed.
 
 ---
 
 ## SDKs
 
-| Language | Install | Repository |
-|:--------:|---------|:----------:|
-| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | `pip install blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm) |
-| ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) | `npm i blockrun-llm` | [GitHub](https://github.com/blockrunai/blockrun-llm-ts) |
-| ![Go](https://img.shields.io/badge/-Go-00ADD8?logo=go&logoColor=white) | `go get github.com/blockrunai/blockrun-llm-go` | [GitHub](https://github.com/blockrunai/blockrun-llm-go) |
+| Language | Install | Features | Repository |
+|:--------:|---------|----------|:----------:|
+| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | `pip install blockrun-llm` | Chat, Images, Search, Prediction Markets, Smart Routing, Solana | [GitHub](https://github.com/blockrunai/blockrun-llm) |
+| ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) | `npm i blockrun-llm` | Chat, Images, Search, OpenAI-compatible drop-in, Smart Routing, Solana | [GitHub](https://github.com/blockrunai/blockrun-llm-ts) |
+| ![Go](https://img.shields.io/badge/-Go-00ADD8?logo=go&logoColor=white) | `go get github.com/blockrunai/blockrun-llm-go` | Chat | [GitHub](https://github.com/blockrunai/blockrun-llm-go) |
 
+### Solana Support
+
+```python
+from blockrun_llm import SolanaLLMClient
+
+client = SolanaLLMClient(private_key="your-solana-private-key")
+response = client.chat("Hello from Solana!")
+# Pays with USDC on Solana via x402
+```
+
+```bash
+pip install blockrun-llm[solana]
+```
 
 ---
 
@@ -59,8 +182,28 @@ const response = await client.chat('Hello!');
 
 | Tool | Description |
 |------|-------------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server for Claude Code - Access 30+ AI models with zero API keys |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server for Claude Code — Chat (40+ models), Images, DEX data, Whale tracking, Trading signals, Token swaps |
 
+**9 tools included:** `blockrun_chat`, `blockrun_image`, `blockrun_models`, `blockrun_wallet`, `blockrun_dex`, `blockrun_whale`, `blockrun_analyze`, `blockrun_signal`, `blockrun_swap`
+
+```bash
+claude mcp add blockrun npx @blockrun/mcp
+```
+
+---
+
+## Smart Routing
+
+[ClawRouter](https://github.com/BlockRunAI/ClawRouter) — routes to the cheapest capable model in <1ms, 100% local, no API calls.
+
+| Profile | Strategy | Example Models |
+|---------|----------|----------------|
+| `free` | Free models only | NVIDIA GPT-OSS 120B/20B |
+| `eco` | Cheapest capable | DeepSeek, Gemini Flash Lite |
+| `auto` | Balanced cost/quality | GPT-5 Mini, Gemini Flash |
+| `premium` | Best quality | Claude Opus 4.6, GPT-5.4 |
+
+Built into both Python and TypeScript SDKs. Also available as standalone: [ClawRouter](https://github.com/BlockRunAI/ClawRouter)
 
 ---
 
@@ -71,26 +214,9 @@ const response = await client.chat('Hello!');
 | [OpenClaw](https://github.com/openclaw/openclaw) | ✅ Released | [ClawRouter](https://github.com/BlockRunAI/ClawRouter) - Smart LLM router, 78% cost savings |
 | [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) |
-
-
----
-
-## Supported Models
-
-| Category | Models |
-|----------|--------|
-| **LLMs** | GPT-5.4, GPT-5, Claude, Gemini, DeepSeek, Kimi K2.5, Llama |
-| **Reasoning** | o1, o3, Grok, DeepSeek-R1 |
-| **Image** | DALL-E, Stable Diffusion, Flux, Nano Banana |
-| **Voice** | ElevenLabs, OpenAI TTS |
-
-### New: Moonshot Kimi K2.5
-
-[Kimi K2.5](https://kimi.ai) — Optimized for agentic workflows:
-- **Agent Swarm** — 100 parallel agents, 4.5x faster execution
-- **Extended Tool Chains** — 200-300 sequential calls without drift
-- **Vision-to-Code** — UI mockups to production React
-- **Pricing** — $0.60/M input, $3.00/M output
+| [GOAT SDK](https://github.com/crossmint/goat) | 🔄 In Review | Agent framework integration |
+| [AgentKit](https://github.com/coinbase/agentkit) | 📋 Planned | Coinbase agent framework |
+| [LangChain](https://github.com/langchain-ai/langchain) | 📋 Planned | Custom LLM provider |
 
 ---
 
@@ -103,6 +229,7 @@ const response = await client.chat('Hello!');
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Crypto Trading | AI crypto trading bot with multi-provider support and chart analysis |
 | [Spraay](https://github.com/plagtech/spraay-x402-gateway) | x402 Gateway | Multi-chain x402 payment gateway with dual-provider AI inference (BlockRun + OpenRouter) |
 | [NoFx](https://github.com/NoFxAiOS/nofx) | Crypto Trading | Personal AI trading assistant - any market, any model, pay with USDC |
+| [Voyage GEO](https://github.com/onvoyage-ai/voyage-geo-agent) | AI Analytics | Generative Engine Optimization - track how AI models reference your brand across ChatGPT, Claude, Gemini & more |
 
 > Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)
 
@@ -115,6 +242,12 @@ const response = await client.chat('Hello!');
 | Partner | Description |
 |---------|-------------|
 | [![Circle](https://img.shields.io/badge/Circle-Alliance_Partner-00D4AA)](https://partners.circle.com/partner/blockrunai) | Official Circle Alliance Partner powering USDC payments on Base |
+
+### Data Partners
+
+| Partner | Product | Description |
+|---------|---------|-------------|
+| [Predexon](https://predexon.com) | Prediction Markets | Polymarket, Kalshi, dFlow, Binance Futures data |
 
 ### x402 Facilitators
 
@@ -172,7 +305,9 @@ The **x402 protocol** (HTTP 402 "Payment Required") lets any HTTP request includ
 | Phase | Timeline | Focus |
 |-------|----------|-------|
 | LLM Gateway | Now | Pay-per-request access to 40+ AI models |
-| Premium Data | Now | Real-time market data, social intelligence, web search |
+| Premium Data | Now | Prediction markets, web search, image generation |
+| X/Twitter Intelligence | Coming Soon | Real-time X/Twitter data (pending X partnership) |
+| Multi-Chain | Now | Base + Solana gateways live |
 | Trust | Q1 2026 | Service ratings, uptime tracking, smart routing |
 
 See [VISION.md](./VISION.md) | [ROADMAP.md](./ROADMAP.md) for full details.
@@ -202,7 +337,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 | Section | Links |
 |---------|-------|
 | **Getting Started** | [Claude Code](./docs/getting-started/claude-code.md) &#x2022; [Agent Developers](./docs/getting-started/agent-developers.md) &#x2022; [SDK Developers](./docs/getting-started/sdk-developers.md) &#x2022; [Wallet Setup](./docs/getting-started/wallet-setup.md) |
-| **API Reference** | [Chat Completions](./docs/api-reference/chat-completions.md) &#x2022; [Models](./docs/api-reference/models.md) &#x2022; [Errors](./docs/api-reference/errors.md) |
+| **API Reference** | [Chat Completions](./docs/api-reference/chat-completions.md) &#x2022; [Images](./docs/api-reference/image-generation.md) &#x2022; [Search](./docs/api-reference/search.md) &#x2022; [X/Twitter](./docs/api-reference/x-twitter.md) &#x2022; [Prediction Markets](./docs/api-reference/prediction-markets.md) &#x2022; [Models](./docs/api-reference/models.md) &#x2022; [Errors](./docs/api-reference/errors.md) |
 | **x402 Protocol** | [How It Works](./docs/x402/how-it-works.md) &#x2022; [Payment Flow](./docs/x402/payment-flow.md) &#x2022; [Security](./docs/x402/security.md) |
 | **Resources** | [Pricing](./docs/products/intelligence/pricing.md) &#x2022; [FAQ](./docs/resources/faq.md) &#x2022; [Changelog](./docs/resources/changelog.md) |
 
