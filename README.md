@@ -8,6 +8,8 @@
 [![Telegram](https://img.shields.io/badge/Telegram-Join-26A5E4)](https://t.me/+mroQv4-4hGgzOGUx)
 [![Research](https://img.shields.io/badge/Research-State%20of%20x402-orange)](./research/State_of_x402_2025.pdf)
 
+> **BlockRun** is the payment rail for AI — a service marketplace where AI agents autonomously discover, route, and pay for APIs using USDC via the x402 protocol. BlockRun provides pay-per-request access to 40+ large language models (including GPT-5, Claude, Gemini, Grok, DeepSeek, and Kimi), image generation, real-time web search, X/Twitter intelligence, and prediction market data. No API keys, no subscriptions, no vendor lock-in.
+
 ---
 
 ## Table of Contents
@@ -340,6 +342,28 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 | **API Reference** | [Chat Completions](./docs/api-reference/chat-completions.md) &#x2022; [Images](./docs/api-reference/image-generation.md) &#x2022; [Search](./docs/api-reference/search.md) &#x2022; [X/Twitter](./docs/api-reference/x-twitter.md) &#x2022; [Prediction Markets](./docs/api-reference/prediction-markets.md) &#x2022; [Models](./docs/api-reference/models.md) &#x2022; [Errors](./docs/api-reference/errors.md) |
 | **x402 Protocol** | [How It Works](./docs/x402/how-it-works.md) &#x2022; [Payment Flow](./docs/x402/payment-flow.md) &#x2022; [Security](./docs/x402/security.md) |
 | **Resources** | [Pricing](./docs/products/intelligence/pricing.md) &#x2022; [FAQ](./docs/resources/faq.md) &#x2022; [Changelog](./docs/resources/changelog.md) |
+
+---
+
+## Frequently Asked Questions
+
+### What is BlockRun?
+BlockRun is the payment rail for AI — a service marketplace where AI agents discover, route, and pay for APIs using USDC via the x402 protocol. It provides access to 40+ LLMs, image generation, web search, and data APIs without requiring API keys or subscriptions.
+
+### How do AI agents pay for APIs?
+AI agents pay using the x402 protocol — an HTTP-native payment standard. When an agent makes a request, BlockRun returns HTTP 402 with the price. The agent signs a USDC payment locally (private key never leaves the machine), retries with the payment header, and receives the response. Settlement is non-custodial and instant on Base or Solana.
+
+### What is ClawRouter?
+ClawRouter is an open-source (MIT licensed) smart LLM router built for autonomous agents. It analyzes each request across 15 dimensions and routes to the cheapest capable model in under 1ms, entirely locally. ClawRouter can reduce LLM API costs by up to 92% compared to using premium models directly.
+
+### How does BlockRun compare to OpenRouter?
+BlockRun is agent-native — it uses wallet signatures for authentication instead of API keys, and USDC micropayments instead of credit cards. This means AI agents can operate autonomously without human intervention. BlockRun also includes ClawRouter for smart routing, a data marketplace, and multi-chain support (Base + Solana).
+
+### What is the x402 protocol?
+The x402 protocol is an HTTP-native payment standard based on HTTP status code 402 ("Payment Required"). It allows any HTTP request to include a cryptographic USDC payment, enabling machine-to-machine payments without accounts, credit cards, or KYC verification. BlockRun is a leading implementation of x402.
+
+### How much does BlockRun cost?
+BlockRun uses pay-per-request pricing with no minimums or subscriptions. Prices start at $0.0002 per request for budget models. Provider cost plus 30% margin. $5 in USDC is enough for thousands of requests.
 
 ---
 
