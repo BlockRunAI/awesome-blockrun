@@ -53,67 +53,67 @@ llm = BlockRunLLM(model="openai/gpt-4o")
 
 ## Usage Examples
 
-### Basic Chain
+### Basic Chain (LCEL)
 
 ```python
-from langchain import LLMChain, PromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
-llm = BlockRunLLM(model="openai/gpt-4o")
+llm = BlockRunLLM(model="anthropic/claude-sonnet-4.6")
 
-prompt = PromptTemplate(
-    input_variables=["topic"],
-    template="Write a brief explanation of {topic}"
-)
+prompt = ChatPromptTemplate.from_template("Write a brief explanation of {topic}")
+chain = prompt | llm | StrOutputParser()
 
-chain = LLMChain(llm=llm, prompt=prompt)
-result = chain.run("x402 micropayments")
+result = chain.invoke({"topic": "x402 micropayments"})
+print(result)
 ```
 
 ### Agent with Tools
 
 ```python
-from langchain.agents import initialize_agent, Tool
-from langchain.tools import DuckDuckGoSearchRun
+from langchain.agents import create_tool_calling_agent, AgentExecutor
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_community.tools import DuckDuckGoSearchRun
 
-llm = BlockRunLLM(model="openai/gpt-4o")
+llm = BlockRunLLM(model="openai/gpt-5.4")
 
-tools = [
-    Tool(
-        name="Search",
-        func=DuckDuckGoSearchRun().run,
-        description="Search the web"
-    )
-]
+tools = [DuckDuckGoSearchRun()]
 
-agent = initialize_agent(
-    tools,
-    llm,
-    agent="zero-shot-react-description",
-    verbose=True
-)
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant."),
+    ("human", "{input}"),
+])
 
-agent.run("What's the current price of ETH?")
+agent = create_tool_calling_agent(llm, tools, prompt)
+executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+result = executor.invoke({"input": "What's the current price of ETH?"})
+print(result["output"])
 ```
 
 ### RAG Pipeline
 
 ```python
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
-from langchain.chains import RetrievalQA
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain.chains import create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.prompts import ChatPromptTemplate
 
-llm = BlockRunLLM(model="openai/gpt-4o")
+llm = BlockRunLLM(model="anthropic/claude-sonnet-4.6")
+embeddings = HuggingFaceEmbeddings()
 
-# Your document retrieval setup
-vectorstore = Chroma(...)
+vectorstore = Chroma(embedding_function=embeddings, persist_directory="./db")
+retriever = vectorstore.as_retriever()
 
-qa_chain = RetrievalQA.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=vectorstore.as_retriever()
+prompt = ChatPromptTemplate.from_template(
+    "Answer based on context:\n{context}\n\nQuestion: {input}"
 )
+combine_chain = create_stuff_documents_chain(llm, prompt)
+rag_chain = create_retrieval_chain(retriever, combine_chain)
 
-result = qa_chain.run("How does x402 payment work?")
+result = rag_chain.invoke({"input": "How does x402 payment work?"})
+print(result["answer"])
 ```
 
 ## Multi-Model Chains
@@ -121,23 +121,20 @@ result = qa_chain.run("How does x402 payment work?")
 Use different models for different tasks:
 
 ```python
-# Cheap model for summarization
-summarizer = BlockRunLLM(model="deepseek/deepseek-v3")
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
-# Premium model for analysis
-analyzer = BlockRunLLM(model="openai/gpt-4o")
+summarizer = BlockRunLLM(model="deepseek/deepseek-chat")
+analyzer = BlockRunLLM(model="openai/gpt-5.4")
 
-# Chain them together
-from langchain import SequentialChain
+summary_prompt = ChatPromptTemplate.from_template("Summarize: {document}")
+analysis_prompt = ChatPromptTemplate.from_template("Analyze this summary: {text}")
 
-summary_chain = LLMChain(llm=summarizer, prompt=summary_prompt)
-analysis_chain = LLMChain(llm=analyzer, prompt=analysis_prompt)
+summary_chain = summary_prompt | summarizer | StrOutputParser()
+analysis_chain = analysis_prompt | analyzer | StrOutputParser()
 
-full_chain = SequentialChain(
-    chains=[summary_chain, analysis_chain],
-    input_variables=["document"],
-    output_variables=["analysis"]
-)
+summary = summary_chain.invoke({"document": "..."})
+analysis = analysis_chain.invoke({"text": summary})
 ```
 
 ## Cost Optimization

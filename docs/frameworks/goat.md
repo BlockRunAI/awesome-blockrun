@@ -1,56 +1,44 @@
 # GOAT SDK Integration
 
-Use BlockRun with GOAT SDK for cross-chain AI agents.
-
-[GOAT SDK](https://github.com/crossmint/goat) (Great Onchain Agent Toolkit) is a framework for building AI agents that can interact with any blockchain. BlockRun provides the AI intelligence layer.
+Use BlockRun with [GOAT SDK](https://github.com/crossmint/goat) (Great Onchain Agent Toolkit) for cross-chain AI agents. GOAT handles blockchain interactions, BlockRun provides AI intelligence via 30+ models with x402 micropayments.
 
 ## Status
 
-**In Review** — BlockRun integration is currently under review for inclusion in GOAT SDK.
+**Pre-Integration** — Official `@goat-sdk/plugin-blockrun` is not yet published. Use BlockRun alongside GOAT via the TypeScript SDK as shown below.
 
-Track progress: [GitHub Issue](https://github.com/crossmint/goat/issues)
+## Quick Start
 
-## Planned Integration
-
-### Installation
+Install both packages:
 
 ```bash
-npm install @goat-sdk/core @goat-sdk/plugin-blockrun
+npm install @goat-sdk/core @blockrun/llm
 ```
 
-### Configuration
+Set your wallet key:
+
+```bash
+export BLOCKRUN_WALLET_KEY=0x...  # Your Base wallet private key
+```
+
+Use BlockRun for AI + GOAT for on-chain execution:
 
 ```typescript
-import { GoatAgent } from '@goat-sdk/core';
-import { BlockRunPlugin } from '@goat-sdk/plugin-blockrun';
+import { getOnChainTools } from '@goat-sdk/adapter-vercel-ai';
+import { BlockRunLLM } from '@blockrun/llm';
 
-const agent = new GoatAgent({
-  plugins: [
-    new BlockRunPlugin({
-      privateKey: process.env.BLOCKRUN_WALLET_KEY,
-      defaultModel: 'openai/gpt-4o'
-    })
-  ]
+const blockrun = new BlockRunLLM({
+  privateKey: process.env.BLOCKRUN_WALLET_KEY,
 });
-```
 
-### Usage
-
-```typescript
-// AI-powered decision making
-const analysis = await agent.blockrun.chat({
-  model: 'openai/gpt-4o',
+const response = await blockrun.chat({
+  model: 'anthropic/claude-sonnet-4.6',
   messages: [
-    { role: 'user', content: 'Analyze ETH/USDC liquidity on Uniswap' }
-  ]
+    { role: 'user', content: 'Analyze ETH/USDC liquidity on Uniswap V3 on Base' }
+  ],
+  max_tokens: 1024,
 });
 
-// Execute cross-chain action based on analysis
-await agent.executeAction({
-  chain: 'base',
-  action: 'swap',
-  params: { from: 'USDC', to: 'ETH', amount: 100 }
-});
+console.log(response.choices[0].message.content);
 ```
 
 ## Architecture
@@ -120,21 +108,31 @@ if (validation.includes('valid')) {
 | Wallet management | Pay-per-request AI |
 | Transaction building | No API key hassle |
 
-## Getting Started (Pre-Integration)
+## Getting Started
 
-Until official integration is released, you can use BlockRun alongside GOAT:
+Use BlockRun's TypeScript SDK alongside GOAT until the official plugin is released:
 
 ```typescript
-import { GoatAgent } from '@goat-sdk/core';
-import { LLMClient } from '@blockrun/llm';
+import { BlockRunLLM } from '@blockrun/llm';
 
-// Initialize separately
-const goat = new GoatAgent({ /* config */ });
-const blockrun = new LLMClient();
+const blockrun = new BlockRunLLM({
+  privateKey: process.env.BLOCKRUN_WALLET_KEY,
+});
 
-// Use together
-const analysis = await blockrun.chat('openai/gpt-4o', 'Analyze opportunity...');
-await goat.executeAction(/* based on analysis */);
+async function analyzeAndAct() {
+  const analysis = await blockrun.chat({
+    model: 'openai/gpt-5.4',
+    messages: [{
+      role: 'user',
+      content: 'Compare Aave USDC yield on Ethereum vs Base. Which is better risk-adjusted?'
+    }],
+    max_tokens: 2048,
+  });
+
+  console.log('AI Analysis:', analysis.choices[0].message.content);
+}
+
+analyzeAndAct();
 ```
 
 ## Links
