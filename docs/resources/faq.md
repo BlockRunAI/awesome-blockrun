@@ -9,7 +9,7 @@ Frequently asked questions about BlockRun.
 BlockRun is economic infrastructure for AI agents. It provides:
 - **Trading** — AI that analyzes markets and executes trades (alpha-mcp)
 - **Creation** — AI that creates optimized content and images
-- **Intelligence** — Access to 30+ AI models via x402 micropayments
+- **Intelligence** — Access to 33+ AI models via x402 micropayments
 
 ### What makes BlockRun different?
 
@@ -100,7 +100,7 @@ No. alpha-mcp is free. You only pay for intelligence (sentiment analysis) and ne
 
 ### Which AI models are available?
 
-30+ models including:
+33+ models including:
 - OpenAI (GPT-5.4, GPT-5.2, o1)
 - Anthropic (Claude Opus 4, Sonnet 4, Haiku 4.5)
 - Google (Gemini 3 Pro, Gemini 2.5 Flash)

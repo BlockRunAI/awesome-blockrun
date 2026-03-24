@@ -89,7 +89,7 @@ from blockrun_llm import LLMClient, APIError, PaymentError
 client = LLMClient()
 
 try:
-    response = client.chat("openai/gpt-4o", "Hello!")
+    response = client.chat("openai/gpt-5.4", "Hello!")
 except PaymentError as e:
     # Payment failed - check USDC balance
     print(f"Payment error: {e}")
@@ -109,7 +109,7 @@ import { LLMClient, APIError, PaymentError } from '@blockrun/llm';
 const client = new LLMClient({ privateKey: '0x...' });
 
 try {
-  const response = await client.chat('openai/gpt-4o', 'Hello!');
+  const response = await client.chat('openai/gpt-5.4', 'Hello!');
 } catch (error) {
   if (error instanceof PaymentError) {
     // Payment failed - check USDC balance
@@ -134,13 +134,13 @@ try {
 
 ### "Unknown model"
 
-1. Check the model ID matches exactly (e.g., `openai/gpt-4o`)
+1. Check the model ID matches exactly (e.g., `openai/gpt-5.4`)
 2. See [available models](models.md) for valid IDs
 
 ### "Timeout"
 
 1. Increase the timeout in client options
-2. Try a faster model (e.g., `gpt-4o-mini` instead of `o1`)
+2. Try a faster model (e.g., `gpt-5.4-mini` instead of `o1`)
 
 ### "Network error"
 

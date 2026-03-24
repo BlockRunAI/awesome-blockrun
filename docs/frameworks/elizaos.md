@@ -2,7 +2,7 @@
 
 Use BlockRun as an LLM provider in ElizaOS agents.
 
-[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 30+ AI models via x402 micropayments.
+[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 33+ AI models via x402 micropayments.
 
 ## Installation
 
@@ -27,7 +27,7 @@ const agent = new ElizaAgent({
   // ... other config
   providers: [
     new BlockRunProvider({
-      defaultModel: 'openai/gpt-4o',
+      defaultModel: 'openai/gpt-5.4',
       sessionBudget: 10.00  // Optional: max spend per session
     })
   ]
@@ -40,7 +40,7 @@ const agent = new ElizaAgent({
 
 ```typescript
 const response = await agent.chat({
-  model: 'openai/gpt-4o',
+  model: 'openai/gpt-5.4',
   messages: [
     { role: 'user', content: 'Hello!' }
   ]
@@ -52,13 +52,13 @@ const response = await agent.chat({
 ```typescript
 // Use specific model
 const response = await agent.chat({
-  model: 'anthropic/claude-sonnet-4',
+  model: 'anthropic/claude-sonnet-4.6',
   messages: [...]
 });
 
 // Use cheap model for bulk tasks
 const response = await agent.chat({
-  model: 'deepseek/deepseek-v3',
+  model: 'deepseek/deepseek-chat',
   messages: [...]
 });
 ```
@@ -80,9 +80,9 @@ All BlockRun models are available:
 | Provider | Models |
 |----------|--------|
 | OpenAI | gpt-5.4, gpt-5.2, o1, o1-mini |
-| Anthropic | claude-opus-4, claude-sonnet-4, claude-haiku-4.5 |
+| Anthropic | claude-opus-4.6, claude-opus-4.5, claude-sonnet-4.6, claude-haiku-4.5 |
 | Google | gemini-3.1-pro-preview, gemini-3-flash-preview, gemini-2.5-flash-lite |
-| DeepSeek | deepseek-v3, deepseek-r1 |
+| DeepSeek | deepseek-chat, deepseek-reasoner |
 | xAI | grok-4-fast |
 | Meta | llama-3.3-70b, llama-3.1-405b |
 
@@ -134,7 +134,7 @@ const agent = new ElizaAgent({
   description: 'An AI trading assistant',
   providers: [
     new BlockRunProvider({
-      defaultModel: 'openai/gpt-4o'
+      defaultModel: 'openai/gpt-5.4'
     })
   ],
   actions: [
@@ -142,7 +142,7 @@ const agent = new ElizaAgent({
   ]
 });
 
-// Agent now has access to 30+ models via BlockRun
+// Agent now has access to 33+ models via BlockRun
 await agent.start();
 ```
 
@@ -151,7 +151,7 @@ await agent.start();
 ```typescript
 try {
   const response = await agent.chat({
-    model: 'openai/gpt-4o',
+    model: 'openai/gpt-5.4',
     messages: [...]
   });
 } catch (error) {
@@ -172,12 +172,12 @@ try {
 ```typescript
 // Use cheap models for routine tasks
 const cheapProvider = new BlockRunProvider({
-  defaultModel: 'deepseek/deepseek-v3'  // 50x cheaper than GPT-4o
+  defaultModel: 'deepseek/deepseek-chat'  // much cheaper than GPT-5.4
 });
 
 // Use premium models for important decisions
 const premiumProvider = new BlockRunProvider({
-  defaultModel: 'openai/gpt-4o'
+  defaultModel: 'openai/gpt-5.4'
 });
 ```
 
@@ -193,8 +193,8 @@ new BlockRunProvider({
 
 ```typescript
 new BlockRunProvider({
-  defaultModel: 'openai/gpt-4o',
-  fallbackModel: 'deepseek/deepseek-v3'  // Use if primary fails
+  defaultModel: 'openai/gpt-5.4',
+  fallbackModel: 'deepseek/deepseek-chat'  // Use if primary fails
 });
 ```
 

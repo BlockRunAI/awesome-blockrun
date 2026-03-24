@@ -14,7 +14,7 @@ pip install blockrun-llm
 from blockrun_llm import LLMClient
 
 client = LLMClient()
-response = client.chat("openai/gpt-4o", "Hello!")
+response = client.chat("openai/gpt-5.4", "Hello!")
 print(response)
 ```
 
@@ -47,7 +47,7 @@ Simple one-line chat interface.
 
 ```python
 response = client.chat(
-    "openai/gpt-4o",
+    "openai/gpt-5.4",
     "Explain quantum computing",
     system="You are a physics teacher.",  # Optional system prompt
     max_tokens=500,                        # Optional max output
@@ -68,7 +68,7 @@ messages = [
 ]
 
 result = client.chat_completion(
-    "openai/gpt-4o",
+    "openai/gpt-5.4",
     messages,
     max_tokens=100,
     temperature=0.7,
@@ -150,7 +150,7 @@ result = client.smart_chat(
     "Review this contract for legal issues...",
     routing_profile="premium"
 )
-print(result.model)  # "anthropic/claude-opus-4"
+print(result.model)  # "anthropic/claude-opus-4.6"
 ```
 
 ### 4-Tier Model Selection
@@ -160,9 +160,9 @@ ClawRouter classifies prompts into four tiers:
 | Tier | Models | Use Case |
 |------|--------|----------|
 | **SIMPLE** | DeepSeek, Gemini Flash | Q&A, summaries, simple tasks |
-| **MEDIUM** | GPT-4o, Claude Sonnet | Analysis, writing, coding |
-| **COMPLEX** | Claude Opus, GPT-5 | Advanced reasoning, research |
-| **REASONING** | DeepSeek-R1, o1, o3 | Math, logic, proofs |
+| **MEDIUM** | GPT-5.4, Claude Sonnet 4.6 | Analysis, writing, coding |
+| **COMPLEX** | Claude Opus 4.6, GPT-5.4 Pro | Advanced reasoning, research |
+| **REASONING** | DeepSeek Reasoner, o1, o3 | Math, logic, proofs |
 
 ### Routing Decision Details
 
@@ -375,12 +375,12 @@ from blockrun_llm import AsyncLLMClient
 async def main():
     async with AsyncLLMClient() as client:
         # Single request
-        response = await client.chat("openai/gpt-4o", "Hello!")
+        response = await client.chat("openai/gpt-5.4", "Hello!")
 
         # Concurrent requests
         tasks = [
-            client.chat("openai/gpt-4o", "What is 2+2?"),
-            client.chat("anthropic/claude-sonnet-4", "What is 3+3?"),
+            client.chat("openai/gpt-5.4", "What is 2+2?"),
+            client.chat("anthropic/claude-sonnet-4.6", "What is 3+3?"),
         ]
         responses = await asyncio.gather(*tasks)
 
@@ -395,7 +395,7 @@ from blockrun_llm import LLMClient, APIError, PaymentError
 client = LLMClient()
 
 try:
-    response = client.chat("openai/gpt-4o", "Hello!")
+    response = client.chat("openai/gpt-5.4", "Hello!")
 except PaymentError as e:
     print(f"Payment failed: {e}")
     # Check your USDC balance
@@ -450,7 +450,7 @@ while True:
         break
 
     messages.append({"role": "user", "content": user_input})
-    result = client.chat_completion("openai/gpt-4o", messages)
+    result = client.chat_completion("openai/gpt-5.4", messages)
 
     assistant_message = result.choices[0].message.content
     messages.append({"role": "assistant", "content": assistant_message})
@@ -466,7 +466,7 @@ from blockrun_llm import LLMClient
 client = LLMClient()
 
 code = client.chat(
-    "anthropic/claude-sonnet-4",
+    "anthropic/claude-sonnet-4.6",
     "Write a Python function to calculate fibonacci numbers",
     system="You are an expert Python developer. Return only code, no explanations."
 )

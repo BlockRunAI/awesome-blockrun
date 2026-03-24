@@ -8,9 +8,47 @@ BlockRun provides access to models from multiple providers through a unified API
 GET https://blockrun.ai/api/v1/models
 ```
 
-Returns a list of available models with pricing information.
+Returns a list of available models with pricing information. The response now includes extended metadata for each model.
 
-## Available Models
+### Response Fields
+
+Each model object in the response includes:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Model identifier (e.g., `openai/gpt-5.4`) |
+| `name` | string | Display name (e.g., "GPT-5.4") |
+| `description` | string | Model description |
+| `provider` | string | Provider name |
+| `inputPrice` | number | Input price per 1M tokens |
+| `outputPrice` | number | Output price per 1M tokens |
+| `context_window` | number | Context window size in tokens |
+| `max_output` | number | Maximum output tokens |
+| `categories` | string[] | Model capabilities: `"chat"`, `"reasoning"`, `"coding"`, `"vision"` |
+| `available` | boolean | Whether the model is currently available |
+
+### Example Response
+
+```json
+{
+  "models": [
+    {
+      "id": "openai/gpt-5.4",
+      "name": "GPT-5.4",
+      "description": "OpenAI's flagship model with 1M context window",
+      "provider": "openai",
+      "inputPrice": 2.50,
+      "outputPrice": 15.00,
+      "context_window": 1000000,
+      "max_output": 32768,
+      "categories": ["chat", "coding", "vision"],
+      "available": true
+    }
+  ]
+}
+```
+
+## Available Models (33 visible)
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
 
@@ -20,25 +58,18 @@ All prices shown are provider rates. BlockRun adds a **5% platform fee** to cove
 |----------|------|-------------|--------------|---------|
 | `openai/gpt-5.4` | GPT-5.4 | $2.50/M | $15.00/M | 1M |
 | `openai/gpt-5.4-pro` | GPT-5.4 Pro | $30.00/M | $180.00/M | 1M |
+| `openai/gpt-5.4-mini` | GPT-5.4 Mini | $0.75/M | $4.50/M | 400K |
+| `openai/gpt-5.4-nano` | GPT-5.4 Nano | $0.05/M | $0.40/M | 128K |
 
 ### OpenAI GPT-5 Family
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `openai/gpt-5.3` | GPT-5.3 | $2.00/M | $12.00/M | 400K |
+| `openai/gpt-5.3-codex` | GPT-5.3 Codex | $2.00/M | $12.00/M | 400K |
 | `openai/gpt-5.2` | GPT-5.2 | $1.75/M | $14.00/M | 400K |
-| `openai/gpt-5-mini` | GPT-5 Mini | $0.25/M | $2.00/M | 200K |
-| `openai/gpt-5-nano` | GPT-5 Nano | $0.05/M | $0.40/M | 128K |
 | `openai/gpt-5.2-pro` | GPT-5.2 Pro | $21.00/M | $168.00/M | 400K |
-
-### OpenAI GPT-4 Family
-
-| Model ID | Name | Input Price | Output Price | Context |
-|----------|------|-------------|--------------|---------|
-| `openai/gpt-4.1` | GPT-4.1 | $2.00/M | $8.00/M | 128K |
-| `openai/gpt-4.1-mini` | GPT-4.1 Mini | $0.40/M | $1.60/M | 128K |
-| `openai/gpt-4.1-nano` | GPT-4.1 Nano | $0.10/M | $0.40/M | 128K |
-| `openai/gpt-4o` | GPT-4o | $2.50/M | $10.00/M | 128K |
-| `openai/gpt-4o-mini` | GPT-4o Mini | $0.15/M | $0.60/M | 128K |
+| `openai/gpt-5-mini` | GPT-5 Mini | $0.25/M | $2.00/M | 200K |
 
 ### OpenAI O-Series (Reasoning)
 
@@ -48,35 +79,26 @@ All prices shown are provider rates. BlockRun adds a **5% platform fee** to cove
 | `openai/o1-mini` | o1-mini | $1.10/M | $4.40/M | 128K |
 | `openai/o3` | o3 | $2.00/M | $8.00/M | 200K |
 | `openai/o3-mini` | o3-mini | $1.10/M | $4.40/M | 128K |
-| `openai/o4-mini` | o4-mini | $1.10/M | $4.40/M | 128K |
-
-### NVIDIA (Free Tier)
-
-Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
-
-| Model ID | Name | Input Price | Output Price | Context |
-|----------|------|-------------|--------------|---------|
-| `nvidia/gpt-oss-120b` | GPT-OSS 120B | **FREE** | **FREE** | 128K |
-| `nvidia/gpt-oss-20b` | GPT-OSS 20B | **FREE** | **FREE** | 128K |
-| `nvidia/kimi-k2.5` | Moonshot Kimi K2.5 | $0.001/request | - | 1M |
 
 ### Anthropic Claude
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `anthropic/claude-opus-4` | Claude Opus 4 | $15.00/M | $75.00/M | 200K |
+| `anthropic/claude-opus-4.6` | Claude Opus 4.6 | $5.00/M | $25.00/M | 1M |
 | `anthropic/claude-opus-4.5` | Claude Opus 4.5 | $5.00/M | $25.00/M | 200K |
-| `anthropic/claude-sonnet-4` | Claude Sonnet 4 | $3.00/M | $15.00/M | 200K |
+| `anthropic/claude-sonnet-4.6` | Claude Sonnet 4.6 | $3.00/M | $15.00/M | 200K |
 | `anthropic/claude-haiku-4.5` | Claude Haiku 4.5 | $1.00/M | $5.00/M | 200K |
 
 ### Google Gemini
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `google/gemini-3.1-pro-preview` | Gemini 3.1 Pro Preview | $2.00/M | $12.00/M | 1M |
+| `google/gemini-3.1-pro` | Gemini 3.1 Pro | $2.00/M | $12.00/M | 1M |
+| `google/gemini-3-pro-preview` | Gemini 3 Pro Preview | $1.50/M | $10.00/M | 1M |
 | `google/gemini-3-flash-preview` | Gemini 3 Flash Preview | $0.50/M | $3.00/M | 1M |
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
 | `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.30/M | $2.50/M | 1M |
+| `google/gemini-3.1-flash-lite` | Gemini 3.1 Flash Lite | $0.10/M | $0.40/M | 1M |
 | `google/gemini-2.5-flash-lite` | Gemini 2.5 Flash Lite | $0.10/M | $0.40/M | 1M |
 
 ### DeepSeek
@@ -86,36 +108,34 @@ Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
 | `deepseek/deepseek-chat` | DeepSeek V3.2 Chat | $0.28/M | $0.42/M | 128K |
 | `deepseek/deepseek-reasoner` | DeepSeek V3.2 Reasoner | $0.28/M | $0.42/M | 128K |
 
-### Qwen
+### Z.AI
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `qwen/qwen3-max` | Qwen3 Max | $0.46/M | $1.84/M | 262K |
-| `qwen/qwen-plus` | Qwen Plus | $0.10/M | $0.30/M | 128K |
-| `qwen/qwen-turbo` | Qwen Turbo | $0.02/M | $0.06/M | 128K |
+| `zhipu/glm-5` | GLM-5 | $1.20/M | $5.00/M | 128K |
+| `zhipu/glm-5-turbo` | GLM-5 Turbo | $1.00/M | $3.20/M | 128K |
 
-### xAI (Grok)
+### Moonshot
 
-| Model ID | Name | Input Price | Output Price | Context | Notes |
-|----------|------|-------------|--------------|---------|-------|
-| `xai/grok-3` | Grok 3 | $3.00/M | $15.00/M | 131K | Flagship |
-| `xai/grok-3-fast` | Grok 3 Fast | $5.00/M | $25.00/M | 131K | Tool calling optimized |
-| `xai/grok-3-mini` | Grok 3 Mini | $0.30/M | $0.50/M | 131K | Fast & affordable |
-| `xai/grok-4-1-fast-reasoning` | Grok 4.1 Fast (Reasoning) | $0.20/M | $0.50/M | **2M** | Latest, chain-of-thought |
-| `xai/grok-4-1-fast-non-reasoning` | Grok 4.1 Fast (Direct) | $0.20/M | $0.50/M | **2M** | Latest, direct response |
-| `xai/grok-4-fast-reasoning` | Grok 4 Fast (Reasoning) | $0.20/M | $0.50/M | **2M** | Step-by-step reasoning |
-| `xai/grok-4-fast-non-reasoning` | Grok 4 Fast (Direct) | $0.20/M | $0.50/M | **2M** | Quick responses |
-| `xai/grok-4-0709` | Grok 4 (0709) | $0.20/M | $1.50/M | 256K | Premium quality |
-| `xai/grok-2-vision` | Grok 2 Vision | $2.00/M | $10.00/M | 32K | Vision capabilities |
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `moonshot/kimi-k2.5` | Kimi K2.5 | $0.60/M | $3.00/M | 262K |
 
-### Coming Soon
+### MiniMax
 
-These models are configured but not yet available (no API keys):
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `minimax/minimax-m2.7` | MiniMax M2.7 | $0.30/M | $1.20/M | 204K |
 
-- **Mistral**: Mistral Large 2, Mistral Medium 3, Codestral, Pixtral Large
-- **Cohere**: Command R+, Command R
-- **Perplexity**: Sonar Pro, Sonar
-- **Meta**: Llama 3.3 70B, Llama 3.1 405B
+### NVIDIA (Free Tier)
+
+Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `nvidia/gpt-oss-120b` | GPT-OSS 120B | **FREE** | **FREE** | 128K |
+| `nvidia/gpt-oss-20b` | GPT-OSS 20B | **FREE** | **FREE** | 128K |
+| `nvidia/kimi-k2.5` | Kimi K2.5 (NVIDIA) | **FREE** | **FREE** | 1M |
 
 ### Image Generation
 
@@ -129,12 +149,19 @@ These models are configured but not yet available (no API keys):
 
 ## Model Categories
 
-Models are tagged with capabilities:
+Each model includes a `categories` array in the API response. Categories indicate model capabilities:
 
 - **chat** - General conversation
 - **reasoning** - Complex problem-solving
 - **coding** - Code generation and analysis
 - **vision** - Image understanding
+
+Filter models by category:
+
+```python
+models = client.list_models()
+reasoning_models = [m for m in models if "reasoning" in m.get("categories", [])]
+```
 
 ## Pricing
 
@@ -158,7 +185,8 @@ client = LLMClient()
 models = client.list_models()
 
 for model in models:
-    print(f"{model['id']}: ${model['inputPrice']}/M input")
+    print(f"{model['id']}: ${model['inputPrice']}/M input, context: {model['context_window']}")
+    print(f"  Categories: {', '.join(model.get('categories', []))}")
 ```
 
 **TypeScript:**
@@ -169,6 +197,7 @@ const client = new LLMClient({ privateKey: '0x...' });
 const models = await client.listModels();
 
 for (const model of models) {
-  console.log(`${model.id}: $${model.inputPrice}/M input`);
+  console.log(`${model.id}: $${model.inputPrice}/M input, context: ${model.contextWindow}`);
+  console.log(`  Categories: ${model.categories.join(', ')}`);
 }
 ```

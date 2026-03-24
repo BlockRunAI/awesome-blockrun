@@ -16,7 +16,7 @@ pip install blockrun-llm
 from blockrun_llm import LLMClient
 
 client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY env var
-response = client.chat("openai/gpt-4o", "Hello!")
+response = client.chat("openai/gpt-5.4", "Hello!")
 print(response)
 ```
 
@@ -30,7 +30,7 @@ npm install @blockrun/llm
 import { LLMClient } from '@blockrun/llm';
 
 const client = new LLMClient();
-const response = await client.chat('openai/gpt-4o', 'Hello!');
+const response = await client.chat('openai/gpt-5.4', 'Hello!');
 console.log(response);
 ```
 
@@ -50,7 +50,7 @@ import (
 
 func main() {
     client := blockrun.NewClient("")
-    response, _ := client.Chat("openai/gpt-4o", "Hello!")
+    response, _ := client.Chat("openai/gpt-5.4", "Hello!")
     fmt.Println(response)
 }
 ```
@@ -86,11 +86,11 @@ client = LLMClient(
 
 ```python
 # Simple
-response = client.chat("openai/gpt-4o", "Hello!")
+response = client.chat("openai/gpt-5.4", "Hello!")
 
 # With options
 response = client.chat(
-    model="openai/gpt-4o",
+    model="openai/gpt-5.4",
     prompt="Explain quantum computing",
     temperature=0.7,
     max_tokens=1000
@@ -105,7 +105,7 @@ messages = [
     {"role": "user", "content": "What is x402?"}
 ]
 
-response = client.chat_messages("openai/gpt-4o", messages)
+response = client.chat_messages("openai/gpt-5.4", messages)
 ```
 
 ### Image Generation
@@ -144,32 +144,32 @@ client.chat("openai/gpt-5.2", prompt)
 client.chat("openai/o1", prompt)
 
 # Anthropic
-client.chat("anthropic/claude-opus-4", prompt)
-client.chat("anthropic/claude-sonnet-4", prompt)
+client.chat("anthropic/claude-opus-4.6", prompt)
+client.chat("anthropic/claude-sonnet-4.6", prompt)
 
 # Google
-client.chat("google/gemini-3.1-pro-preview", prompt)
+client.chat("google/gemini-3.1-pro", prompt)
 client.chat("google/gemini-3-flash-preview", prompt)
 client.chat("google/gemini-2.5-flash-lite", prompt)
 
 # DeepSeek
-client.chat("deepseek/deepseek-v3", prompt)
-client.chat("deepseek/deepseek-r1", prompt)
+client.chat("deepseek/deepseek-chat", prompt)
+client.chat("deepseek/deepseek-reasoner", prompt)
 
-# xAI
-client.chat("xai/grok-4-fast", prompt)
+# Moonshot
+client.chat("moonshot/kimi-k2.5", prompt)
 ```
 
 ### Model Selection Tips
 
 | Use Case | Recommended Model |
 |----------|-------------------|
-| General purpose | `openai/gpt-4o` |
-| Cheapest | `google/gemini-2.5-flash-lite` |
+| General purpose | `openai/gpt-5.4` |
+| Cheapest | `google/gemini-2.5-flash-lite` or `nvidia/gpt-oss-120b` (free) |
 | Fastest | `google/gemini-3-flash-preview` |
-| Best reasoning | `openai/o1` |
-| Real-time X data | `xai/grok-4-fast` |
-| Best for code | `anthropic/claude-sonnet-4` |
+| Best reasoning | `openai/o3` |
+| Best for code | `openai/gpt-5.3-codex` or `anthropic/claude-sonnet-4.6` |
+| Best quality | `anthropic/claude-opus-4.6` |
 
 ## Error Handling
 
@@ -183,7 +183,7 @@ from blockrun_llm import (
 )
 
 try:
-    response = client.chat("openai/gpt-4o", prompt)
+    response = client.chat("openai/gpt-5.4", prompt)
 except InsufficientBalanceError:
     print("Need to fund wallet")
     print(f"Address: {client.get_address()}")
@@ -204,7 +204,7 @@ except APIError as e:
 import asyncio
 
 async def main():
-    response = await client.achat("openai/gpt-4o", "Hello!")
+    response = await client.achat("openai/gpt-5.4", "Hello!")
     print(response)
 
 asyncio.run(main())
@@ -213,14 +213,14 @@ asyncio.run(main())
 ### TypeScript
 
 ```typescript
-const response = await client.chat('openai/gpt-4o', 'Hello!');
+const response = await client.chat('openai/gpt-5.4', 'Hello!');
 ```
 
 ## Streaming (Coming Soon)
 
 ```python
 # Planned API
-for chunk in client.chat_stream("openai/gpt-4o", prompt):
+for chunk in client.chat_stream("openai/gpt-5.4", prompt):
     print(chunk, end="", flush=True)
 ```
 
@@ -232,7 +232,7 @@ Limit spending per session:
 client = LLMClient(session_budget=10.00)  # Max $10
 
 # Will raise InsufficientBudgetError if exceeded
-response = client.chat("openai/gpt-4o", prompt)
+response = client.chat("openai/gpt-5.4", prompt)
 ```
 
 ## Batch Processing
@@ -242,7 +242,7 @@ import asyncio
 
 async def process_batch(items: list) -> list:
     tasks = [
-        client.achat("deepseek/deepseek-v3", f"Process: {item}")
+        client.achat("deepseek/deepseek-chat", f"Process: {item}")
         for item in items
     ]
     return await asyncio.gather(*tasks)
@@ -263,7 +263,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model="openai/gpt-4o",
+    model="openai/gpt-5.4",
     messages=[{"role": "user", "content": "Hello!"}]
 )
 ```
@@ -275,7 +275,7 @@ curl https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $BLOCKRUN_WALLET_KEY" \
   -d '{
-    "model": "openai/gpt-4o",
+    "model": "openai/gpt-5.4",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```
@@ -286,9 +286,9 @@ Pay per request: provider cost + 5%.
 
 | Model | Input/1M | Output/1M |
 |-------|----------|-----------|
-| GPT-4o | $2.63 | $10.50 |
-| DeepSeek V3 | $0.15 | $0.29 |
-| Gemini Flash | $0.08 | $0.32 |
+| GPT-5.4 | $2.63 | $15.75 |
+| DeepSeek Chat | $0.29 | $0.44 |
+| Gemini Flash | $0.32 | $2.63 |
 
 Full pricing: [Intelligence Pricing](../products/intelligence/pricing.md)
 

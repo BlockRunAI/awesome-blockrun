@@ -175,10 +175,10 @@ ClawRouter does all the optimization below automatically.
 
 ```python
 # Expensive
-response = client.chat("openai/gpt-4o", "Summarize this text")
+response = client.chat("openai/gpt-5.4", "Summarize this text")
 
 # 50x cheaper, similar quality
-response = client.chat("deepseek/deepseek-v3", "Summarize this text")
+response = client.chat("deepseek/deepseek-chat", "Summarize this text")
 ```
 
 ### 2. Use Flash Models for Speed

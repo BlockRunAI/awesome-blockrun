@@ -1,6 +1,6 @@
 # Intelligence
 
-AI accesses any LLM. 30+ models, pay-per-request.
+AI accesses any LLM. 33+ models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Meta, and more — without managing API keys or subscriptions.
 
@@ -103,10 +103,10 @@ from blockrun_llm import LLMClient
 client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY
 
 # OpenAI model
-response = client.chat("openai/gpt-4o", "Explain quantum computing")
+response = client.chat("openai/gpt-5.4", "Explain quantum computing")
 
 # DeepSeek (50x cheaper)
-response = client.chat("deepseek/deepseek-v3", "Explain quantum computing")
+response = client.chat("deepseek/deepseek-chat", "Explain quantum computing")
 ```
 
 ### Direct API
@@ -116,7 +116,7 @@ curl https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $BLOCKRUN_WALLET_KEY" \
   -d '{
-    "model": "openai/gpt-4o",
+    "model": "openai/gpt-5.4",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```

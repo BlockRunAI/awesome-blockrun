@@ -2,7 +2,7 @@
 
 Build AI agents that pay for their own intelligence.
 
-This guide is for developers using agent frameworks like ElizaOS, AgentKit, GOAT SDK, or LangChain. BlockRun provides the intelligence layer — 30+ AI models via x402 micropayments.
+This guide is for developers using agent frameworks like ElizaOS, AgentKit, GOAT SDK, or LangChain. BlockRun provides the intelligence layer — 33+ AI models via x402 micropayments.
 
 ## Why BlockRun for Agents?
 
@@ -40,13 +40,13 @@ Fund this address with USDC on Base network.
 
 ```python
 # OpenAI
-response = client.chat("openai/gpt-4o", "Analyze this market data...")
+response = client.chat("openai/gpt-5.4", "Analyze this market data...")
 
 # Anthropic
-response = client.chat("anthropic/claude-sonnet-4", "Review this code...")
+response = client.chat("anthropic/claude-sonnet-4.6", "Review this code...")
 
 # DeepSeek (50x cheaper)
-response = client.chat("deepseek/deepseek-v3", "Summarize these documents...")
+response = client.chat("deepseek/deepseek-chat", "Summarize these documents...")
 ```
 
 ## Framework Integrations
@@ -85,9 +85,9 @@ Get multiple perspectives on important decisions:
 ```python
 def get_consensus(question: str) -> str:
     models = [
-        "openai/gpt-4o",
-        "anthropic/claude-sonnet-4",
-        "deepseek/deepseek-v3"
+        "openai/gpt-5.4",
+        "anthropic/claude-sonnet-4.6",
+        "deepseek/deepseek-chat"
     ]
 
     opinions = []
@@ -97,7 +97,7 @@ def get_consensus(question: str) -> str:
 
     # Synthesize
     return client.chat(
-        "openai/gpt-4o",
+        "openai/gpt-5.4",
         f"Synthesize these opinions:\n{chr(10).join(opinions)}"
     )
 ```
@@ -109,11 +109,11 @@ Use cheap models for routine tasks, premium for important ones:
 ```python
 def smart_route(task: str, importance: str) -> str:
     if importance == "high":
-        model = "openai/gpt-4o"  # $2.50/M
+        model = "openai/gpt-5.4"  # $2.50/M
     elif importance == "medium":
-        model = "anthropic/claude-haiku-4.5"  # $0.80/M
+        model = "anthropic/claude-haiku-4.5"  # $1.00/M
     else:
-        model = "deepseek/deepseek-v3"  # $0.14/M
+        model = "deepseek/deepseek-chat"  # $0.28/M
 
     return client.chat(model, task)
 ```
@@ -129,7 +129,7 @@ try:
     response = client.chat("openai/o1", expensive_prompt)
 except InsufficientBudgetError:
     # Fallback to cheaper model
-    response = client.chat("deepseek/deepseek-v3", expensive_prompt)
+    response = client.chat("deepseek/deepseek-chat", expensive_prompt)
 ```
 
 ### Async Operations
@@ -141,7 +141,7 @@ import asyncio
 
 async def process_batch(items: list) -> list:
     tasks = [
-        client.achat("deepseek/deepseek-v3", f"Process: {item}")
+        client.achat("deepseek/deepseek-chat", f"Process: {item}")
         for item in items
     ]
     return await asyncio.gather(*tasks)
@@ -153,24 +153,22 @@ results = asyncio.run(process_batch(my_items))
 
 ### Speed-Optimized
 - `google/gemini-3-flash-preview` — Fastest with thinking mode
-- `google/gemini-2.5-flash-lite` — Ultra-fast and cheapest
+- `google/gemini-3.1-flash-lite` — Ultra-fast and cheapest
 - `anthropic/claude-haiku-4.5` — Fast, good quality
 
 ### Cost-Optimized
 - `google/gemini-2.5-flash-lite` — Best value ($0.10/$0.40 per 1M)
-- `deepseek/deepseek-v3` — Good value
-- `meta/llama-3.3-70b` — Good open-source option
+- `deepseek/deepseek-chat` — Great value ($0.28/$0.42 per 1M)
+- `nvidia/gpt-oss-120b` — Free (NVIDIA-hosted)
 
 ### Quality-Optimized
-- `openai/gpt-4o` — Best all-around
-- `anthropic/claude-opus-4` — Best for nuanced tasks
+- `openai/gpt-5.4` — Best all-around
+- `anthropic/claude-opus-4.6` — Best for nuanced tasks
 
 ### Reasoning
+- `openai/o3` — Advanced reasoning
 - `openai/o1` — Complex logic
-- `deepseek/deepseek-r1` — Cheaper reasoning
-
-### Real-Time Data
-- `xai/grok-4-fast` — Live X/Twitter access
+- `deepseek/deepseek-reasoner` — Cheaper reasoning
 
 Full list: [Models Reference](../api-reference/models.md)
 
@@ -186,9 +184,9 @@ Example costs per 1M tokens:
 
 | Model | Input | Output |
 |-------|-------|--------|
-| DeepSeek V3 | $0.15 | $0.29 |
-| GPT-4o | $2.63 | $10.50 |
-| Claude Opus | $15.75 | $78.75 |
+| DeepSeek Chat | $0.29 | $0.44 |
+| GPT-5.4 | $2.63 | $15.75 |
+| Claude Opus 4.6 | $5.25 | $26.25 |
 
 Full pricing: [Intelligence Pricing](../products/intelligence/pricing.md)
 

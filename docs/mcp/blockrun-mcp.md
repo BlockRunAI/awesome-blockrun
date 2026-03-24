@@ -1,8 +1,10 @@
 # BlockRun MCP
 
-Give Claude Code access to 30+ AI models with zero API keys.
+Give Claude Code access to 33+ AI models with zero API keys.
 
 BlockRun MCP is a Model Context Protocol server that connects Claude Code to BlockRun's intelligence, trading, and creation capabilities.
+
+**Latest version: v0.4.2**
 
 ## Installation
 
@@ -73,7 +75,7 @@ The MCP exposes these tools to Claude:
 Call any supported LLM model.
 
 ```
-Use GPT-4o to explain this error
+Use GPT-5.4 to explain this error
 ```
 
 ### `blockrun_image`
@@ -84,21 +86,35 @@ Generate images via DALL-E or Nano Banana.
 Generate an image of a futuristic city
 ```
 
-### `blockrun_balance`
+### `blockrun_models`
 
-Check wallet balance.
+List available models with context window sizes and categories.
+
+```
+Show me all available BlockRun models
+```
+
+Returns model details including `context_window`, `max_output`, and `categories` for each model.
+
+### `blockrun_wallet`
+
+Check wallet balance and address.
 
 ```
 blockrun balance
 ```
 
-### `blockrun_setup`
+### Smart Routing
 
-Initialize or display wallet.
+The MCP includes built-in smart routing that selects the best model based on your intent:
 
-```
-blockrun setup
-```
+| Mode | Models | Best For |
+|------|--------|----------|
+| `fast` | Gemini Flash, GPT-5 Mini | Quick responses |
+| `balanced` | GPT-5.4, Claude Sonnet 4.6 | General use |
+| `powerful` | GPT-5.4, Claude Opus 4.6 | Complex tasks |
+| `cheap` | NVIDIA free models, DeepSeek, Gemini Flash | Cost savings |
+| `reasoning` | o3, o1, DeepSeek Reasoner | Logic and math |
 
 ## Configuration
 

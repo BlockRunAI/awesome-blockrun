@@ -2,7 +2,7 @@
 
 **Save 78% on LLM costs. Automatically.**
 
-ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 30+ models, zero API keys.
+ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 33+ models, zero API keys.
 
 ## Overview
 
@@ -84,7 +84,7 @@ All routing decisions happen on your machine. No external API calls.
 - No external API calls for routing decisions
 - Full privacy - your prompts never leave your machine for routing
 
-### 30+ Models
+### 33+ Models
 
 Access all major providers through one wallet:
 
@@ -130,7 +130,7 @@ Response: Quantum computing uses quantum mechanics...
 You can still override routing for specific requests:
 
 ```
-/model openai/gpt-4o
+/model openai/gpt-5.4
 ```
 
 ### View Routing Decision
@@ -193,7 +193,7 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 - **OpenAI GPT-5.4 Family**: GPT-5.4, GPT-5.4 Pro
 - **OpenAI GPT-5 Family**: GPT-5.2, GPT-5 Mini, GPT-5 Nano
 - **OpenAI GPT-4 Family**: GPT-4.1, GPT-4o, GPT-4o-mini
-- **OpenAI O-Series**: o1, o3, o3-mini, o4-mini
+- **OpenAI O-Series**: o1, o1-mini, o3, o3-mini
 - **Anthropic Claude**: Opus 4/4.5, Sonnet 4, Haiku 4.5
 - **Google Gemini**: 3 Pro, 2.5 Pro, 2.5 Flash
 - **DeepSeek**: V3 Chat, V3 Reasoner

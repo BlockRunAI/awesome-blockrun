@@ -21,9 +21,11 @@ const client = new LLMClient({
   privateKey: process.env.BLOCKRUN_WALLET_KEY as `0x${string}`
 });
 
-const response = await client.chat('openai/gpt-4o', 'Hello!');
+const response = await client.chat('openai/gpt-5.4', 'Hello!');
 console.log(response);
 ```
+
+**Latest version: v1.4.3**
 
 ## Configuration
 
@@ -46,7 +48,7 @@ const client = new LLMClient({
 Simple one-line chat interface.
 
 ```typescript
-const response = await client.chat('openai/gpt-4o', 'Explain quantum computing', {
+const response = await client.chat('openai/gpt-5.4', 'Explain quantum computing', {
   system: 'You are a physics teacher.',  // Optional
   maxTokens: 500,                         // Optional
   temperature: 0.7                        // Optional
@@ -67,7 +69,7 @@ const messages: ChatMessage[] = [
   { role: 'user', content: 'What is 2+2?' }
 ];
 
-const result = await client.chatCompletion('openai/gpt-4o', messages, {
+const result = await client.chatCompletion('openai/gpt-5.4', messages, {
   maxTokens: 100,
   temperature: 0.7,
   topP: 0.9
@@ -148,7 +150,7 @@ const result2 = await client.smartChat('Summarize this article: ...', {
 const result3 = await client.smartChat('Review this contract for legal issues...', {
   routingProfile: 'premium'
 });
-console.log(result3.model);  // "anthropic/claude-opus-4"
+console.log(result3.model);  // "anthropic/claude-opus-4.6"
 ```
 
 ### 4-Tier Model Selection
@@ -158,9 +160,9 @@ ClawRouter classifies prompts into four tiers:
 | Tier | Models | Use Case |
 |------|--------|----------|
 | **SIMPLE** | DeepSeek, Gemini Flash | Q&A, summaries, simple tasks |
-| **MEDIUM** | GPT-4o, Claude Sonnet | Analysis, writing, coding |
-| **COMPLEX** | Claude Opus, GPT-5 | Advanced reasoning, research |
-| **REASONING** | DeepSeek-R1, o1, o3 | Math, logic, proofs |
+| **MEDIUM** | GPT-5.4, Claude Sonnet 4.6 | Analysis, writing, coding |
+| **COMPLEX** | Claude Opus 4.6, GPT-5.4 Pro | Advanced reasoning, research |
+| **REASONING** | DeepSeek Reasoner, o1, o3 | Math, logic, proofs |
 
 ### Routing Decision Details
 
@@ -346,7 +348,7 @@ import { LLMClient, APIError, PaymentError } from '@blockrun/llm';
 const client = new LLMClient({ privateKey: '0x...' });
 
 try {
-  const response = await client.chat('openai/gpt-4o', 'Hello!');
+  const response = await client.chat('openai/gpt-5.4', 'Hello!');
 } catch (error) {
   if (error instanceof PaymentError) {
     console.error('Payment failed:', error.message);
@@ -391,11 +393,13 @@ interface ChatUsage {
 interface Model {
   id: string;
   name: string;
+  description: string;
   provider: string;
   inputPrice: number;
   outputPrice: number;
-  contextWindow: number;
-  maxOutput: number;
+  contextWindow: number;   // mapped from API's context_window
+  maxOutput: number;        // mapped from API's max_output
+  categories: string[];     // e.g., ["chat", "reasoning", "coding", "vision"]
   available: boolean;
 }
 ```
@@ -410,8 +414,8 @@ import { LLMClient } from '@blockrun/llm';
 const client = new LLMClient({ privateKey: '0x...' });
 
 const [gpt, claude, gemini] = await Promise.all([
-  client.chat('openai/gpt-4o', 'What is 2+2?'),
-  client.chat('anthropic/claude-sonnet-4', 'What is 3+3?'),
+  client.chat('openai/gpt-5.4', 'What is 2+2?'),
+  client.chat('anthropic/claude-sonnet-4.6', 'What is 3+3?'),
   client.chat('google/gemini-3-flash-preview', 'What is 4+4?')
 ]);
 
@@ -438,7 +442,7 @@ const client = new LLMClient({ privateKey: process.env.BLOCKRUN_WALLET_KEY });
 app.post('/chat', async (req, res) => {
   try {
     const { message } = req.body;
-    const response = await client.chat('openai/gpt-4o', message);
+    const response = await client.chat('openai/gpt-5.4', message);
     res.json({ response });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -459,7 +463,7 @@ const client = new LLMClient({
 
 export async function POST(request: NextRequest) {
   const { message } = await request.json();
-  const response = await client.chat('openai/gpt-4o', message);
+  const response = await client.chat('openai/gpt-5.4', message);
   return NextResponse.json({ response });
 }
 ```

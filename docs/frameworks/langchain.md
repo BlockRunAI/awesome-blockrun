@@ -26,10 +26,10 @@ from blockrun_llm import LLMClient
 class BlockRunLLM(LLM):
     """BlockRun LLM provider for LangChain."""
 
-    model: str = "openai/gpt-4o"
+    model: str = "openai/gpt-5.4"
     client: Any = None
 
-    def __init__(self, model: str = "openai/gpt-4o", **kwargs):
+    def __init__(self, model: str = "openai/gpt-5.4", **kwargs):
         super().__init__(**kwargs)
         self.model = model
         self.client = LLMClient()
@@ -48,7 +48,7 @@ class BlockRunLLM(LLM):
         return response
 
 # Usage
-llm = BlockRunLLM(model="openai/gpt-4o")
+llm = BlockRunLLM(model="openai/gpt-5.4")
 ```
 
 ## Usage Examples
@@ -143,12 +143,12 @@ analysis = analysis_chain.invoke({"text": summary})
 # Use model routing based on task complexity
 def get_model_for_task(task_type: str) -> str:
     if task_type == "simple":
-        return "deepseek/deepseek-v3"  # $0.14/M tokens
+        return "deepseek/deepseek-chat"  # $0.14/M tokens
     elif task_type == "complex":
-        return "openai/gpt-4o"  # $2.50/M tokens
+        return "openai/gpt-5.4"  # $2.50/M tokens
     elif task_type == "reasoning":
         return "openai/o1"  # $15/M tokens
-    return "openai/gpt-4o"
+    return "openai/gpt-5.4"
 
 # Dynamic model selection
 llm = BlockRunLLM(model=get_model_for_task("simple"))

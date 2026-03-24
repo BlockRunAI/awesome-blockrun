@@ -2,11 +2,38 @@
 
 All notable changes to BlockRun.
 
+## [2026-03-24]
+
+### API Changes
+- `/api/v1/models` now returns extended metadata for each model: `name`, `description`, `context_window`, `max_output`, and `categories`
+- Model categories indicate capabilities: `chat`, `reasoning`, `coding`, `vision`
+
+### Models
+- 33 visible models across 9 providers (Base), 31 on Solana
+- Added GPT-5.4 Mini ($0.75/$4.50, 400K context)
+- Added GPT-5.4 Nano, GPT-5.3, GPT-5.3 Codex
+- Added Claude Opus 4.6 (1M context), Claude Sonnet 4.6
+- Added Gemini 3.1 Pro, Gemini 3 Pro Preview, Gemini 3.1 Flash Lite
+- Added NVIDIA Kimi K2.5 (free tier)
+- Removed xAI/Grok, Qwen, and legacy GPT-4 family from visible lineup (hidden, still routable via API)
+
+### SDK Updates
+- TypeScript SDK (`@blockrun/llm`) v1.4.3: Model type now includes `categories`, `contextWindow`, `maxOutput`, properly mapped from API
+- MCP Server (`@blockrun/mcp`) v0.4.2: `blockrun_models` shows context window and categories, smart routing updated to current models
+
+### MCP Smart Routing
+- `fast`: Gemini Flash, GPT-5 Mini
+- `balanced`: GPT-5.4, Claude Sonnet 4.6
+- `powerful`: GPT-5.4, Claude Opus 4.6
+- `cheap`: NVIDIA free models, DeepSeek, Gemini Flash
+- `reasoning`: o3, o1, DeepSeek Reasoner
+
+---
+
 ## [Unreleased]
 
 ### Coming Soon
 - Streaming support
-- Solana network support
 - Additional AI providers
 
 ---

@@ -55,7 +55,7 @@ Use GPT-5 to get a second opinion on this code
 Ask Grok what's trending on X right now
 ```
 
-Claude automatically routes to 30+ AI models and pays via x402.
+Claude automatically routes to 33+ AI models and pays via x402.
 
 ### Trading (alpha-mcp)
 
@@ -102,7 +102,7 @@ BlockRun provides Claude Code skills that extend what Claude can do:
 - **Trading tools:** Free (open source)
 
 $1 gets you approximately:
-- ~1,000 GPT-4o calls
+- ~500 GPT-5.4 calls
 - ~10,000 DeepSeek calls
 - ~20 DALL-E images
 

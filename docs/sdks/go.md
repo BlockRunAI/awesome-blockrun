@@ -1,6 +1,6 @@
 # Go SDK
 
-The Go SDK for BlockRun provides access to 30+ AI models via x402 micropayments.
+The Go SDK for BlockRun provides access to 33+ AI models via x402 micropayments.
 
 ## Installation
 
@@ -23,7 +23,7 @@ func main() {
     // Uses BLOCKRUN_WALLET_KEY env var
     client := blockrun.NewClient("")
 
-    response, err := client.Chat("openai/gpt-4o", "Hello!")
+    response, err := client.Chat("openai/gpt-5.4", "Hello!")
     if err != nil {
         panic(err)
     }
@@ -58,10 +58,10 @@ client := blockrun.NewClientWithOptions(blockrun.Options{
 
 ```go
 // Simple chat
-response, err := client.Chat("openai/gpt-4o", "Hello!")
+response, err := client.Chat("openai/gpt-5.4", "Hello!")
 
 // With options
-response, err := client.ChatWithOptions("openai/gpt-4o", "Explain x402", blockrun.ChatOptions{
+response, err := client.ChatWithOptions("openai/gpt-5.4", "Explain x402", blockrun.ChatOptions{
     Temperature: 0.7,
     MaxTokens:   1000,
 })
@@ -75,7 +75,7 @@ messages := []blockrun.Message{
     {Role: "user", Content: "What is x402?"},
 }
 
-response, err := client.ChatMessages("openai/gpt-4o", messages)
+response, err := client.ChatMessages("openai/gpt-5.4", messages)
 ```
 
 ### Image Generation
@@ -103,7 +103,7 @@ fmt.Printf("Balance: $%.2f USDC\n", balance)
 ## Error Handling
 
 ```go
-response, err := client.Chat("openai/gpt-4o", prompt)
+response, err := client.Chat("openai/gpt-5.4", prompt)
 if err != nil {
     switch e := err.(type) {
     case *blockrun.InsufficientBalanceError:
@@ -124,12 +124,12 @@ if err != nil {
 ```go
 // OpenAI
 client.Chat("openai/gpt-5.2", prompt)
-client.Chat("openai/gpt-4o", prompt)
+client.Chat("openai/gpt-5.4", prompt)
 client.Chat("openai/o1", prompt)
 
 // Anthropic
-client.Chat("anthropic/claude-opus-4", prompt)
-client.Chat("anthropic/claude-sonnet-4", prompt)
+client.Chat("anthropic/claude-opus-4.6", prompt)
+client.Chat("anthropic/claude-sonnet-4.6", prompt)
 
 // Google
 client.Chat("google/gemini-3.1-pro-preview", prompt)
@@ -137,7 +137,7 @@ client.Chat("google/gemini-3-flash-preview", prompt)
 client.Chat("google/gemini-2.5-flash-lite", prompt)
 
 // DeepSeek
-client.Chat("deepseek/deepseek-v3", prompt)
+client.Chat("deepseek/deepseek-chat", prompt)
 
 // xAI
 client.Chat("xai/grok-4-fast", prompt)
@@ -155,7 +155,7 @@ func processItems(client *blockrun.Client, items []string) ([]string, error) {
     for i, item := range items {
         i, item := i, item
         g.Go(func() error {
-            response, err := client.Chat("deepseek/deepseek-v3", item)
+            response, err := client.Chat("deepseek/deepseek-chat", item)
             if err != nil {
                 return err
             }
@@ -179,7 +179,7 @@ client := blockrun.NewClientWithOptions(blockrun.Options{
 })
 
 // Will return error if budget exceeded
-response, err := client.Chat("openai/gpt-4o", prompt)
+response, err := client.Chat("openai/gpt-5.4", prompt)
 if err != nil {
     if _, ok := err.(*blockrun.BudgetExceededError); ok {
         fmt.Println("Session budget exceeded")
@@ -204,7 +204,7 @@ type TradingBot struct {
 
 func (b *TradingBot) AnalyzeMarket(asset string) (string, error) {
     prompt := fmt.Sprintf("Analyze %s for trading: technicals, sentiment, recommendation", asset)
-    return b.client.Chat("openai/gpt-4o", prompt)
+    return b.client.Chat("openai/gpt-5.4", prompt)
 }
 
 func (b *TradingBot) Run() {

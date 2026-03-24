@@ -59,7 +59,7 @@ BlockRun works with the x402 facilitator network:
 
 | Tool | Description | Install |
 |------|-------------|---------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server — Chat (40+ models), Images, DEX data, Whale tracking, Trading signals, Token swaps | `claude mcp add blockrun npx @blockrun/mcp` |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server (v0.4.2) — Chat (33+ models), Images, Smart routing, Context window & category info | `claude mcp add blockrun npx @blockrun/mcp` |
 | [nano-banana-blockrun](https://github.com/BlockRunAI/nano-banana-blockrun) | Image generation skill via x402 micropayments | Claude Code skill |
 
 ### Framework Integrations
@@ -99,15 +99,14 @@ BlockRun routes to these AI providers via x402:
 
 | Provider | Models | Input/Output per 1M tokens |
 |----------|--------|---------------------------|
-| OpenAI | GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5 Mini, GPT-5 Nano, o1, o3 | $0.05–$30.00 / $0.40–$180.00 |
-| Anthropic | Claude Opus 4.6, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$5.00 / $5.00–$25.00 |
-| Google | Gemini 3.1 Pro, Gemini 3 Pro, Gemini 3 Flash, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
+| OpenAI | GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5.4 Mini, GPT-5 Mini, GPT-5.4 Nano, o1, o1-mini, o3, o3-mini | $0.05–$30.00 / $0.40–$180.00 |
+| Anthropic | Claude Opus 4.6, Claude Opus 4.5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$5.00 / $5.00–$25.00 |
+| Google | Gemini 3.1 Pro, Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 3.1 Flash Lite, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
 | DeepSeek | DeepSeek Chat (V3.2), DeepSeek Reasoner | $0.28 / $0.42 |
-| xAI | Grok 4.1 Fast, Grok Code Fast 1, Grok 4, Grok 2 Vision | $0.20–$3.00 / $0.50–$15.00 |
-| Z.AI | GLM-5, GLM-5 Turbo, GLM-5 Code | $1.00–$1.20 / $3.20–$5.00 |
+| Z.AI | GLM-5, GLM-5 Turbo | $1.00–$1.20 / $3.20–$5.00 |
 | Moonshot | Kimi K2.5 (262K context, MoE) | $0.60 / $3.00 |
 | MiniMax | MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
-| NVIDIA | GPT-OSS 120B, GPT-OSS 20B | **Free** |
+| NVIDIA | GPT-OSS 120B, GPT-OSS 20B, Kimi K2.5 | **Free** |
 
 ### Image Models
 

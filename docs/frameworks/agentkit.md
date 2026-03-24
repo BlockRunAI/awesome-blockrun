@@ -12,7 +12,7 @@ AgentKit provides:
 - Asset management
 
 BlockRun adds:
-- 30+ AI model access
+- 33+ AI model access
 - Pay-per-request intelligence
 - No API key management
 
@@ -49,7 +49,7 @@ blockrun = LLMClient()
 
 # Get AI analysis
 analysis = blockrun.chat(
-    "openai/gpt-4o",
+    "openai/gpt-5.4",
     f"Analyze this portfolio: {agent_kit.get_balances()}"
 )
 
@@ -62,13 +62,13 @@ if "buy" in analysis.lower():
 
 ```python
 # Get opinions from multiple models
-gpt_opinion = blockrun.chat("openai/gpt-4o", market_question)
-claude_opinion = blockrun.chat("anthropic/claude-sonnet-4", market_question)
-deepseek_opinion = blockrun.chat("deepseek/deepseek-v3", market_question)
+gpt_opinion = blockrun.chat("openai/gpt-5.4", market_question)
+claude_opinion = blockrun.chat("anthropic/claude-sonnet-4.6", market_question)
+deepseek_opinion = blockrun.chat("deepseek/deepseek-chat", market_question)
 
 # Aggregate and decide
 final_decision = blockrun.chat(
-    "openai/gpt-4o",
+    "openai/gpt-5.4",
     f"Synthesize these opinions: {gpt_opinion}, {claude_opinion}, {deepseek_opinion}"
 )
 ```
@@ -112,7 +112,7 @@ class TradingBot:
         4. Recommendation (buy/hold/sell)
         """
 
-        response = self.blockrun.chat("openai/gpt-4o", prompt)
+        response = self.blockrun.chat("openai/gpt-5.4", prompt)
         return {"analysis": response, "asset": asset}
 
     async def execute_trade(self, decision: dict):
@@ -141,13 +141,13 @@ AgentKit handles gas fees for transactions. BlockRun handles AI costs.
 ```python
 # Use cheap models for routine analysis
 routine_analysis = blockrun.chat(
-    "deepseek/deepseek-v3",  # ~$0.14/M tokens
+    "deepseek/deepseek-chat",  # ~$0.14/M tokens
     "Quick market check..."
 )
 
 # Use premium models for important decisions
 important_decision = blockrun.chat(
-    "openai/gpt-4o",  # ~$2.50/M tokens
+    "openai/gpt-5.4",  # ~$2.50/M tokens
     "Should I execute this $10k trade?"
 )
 ```

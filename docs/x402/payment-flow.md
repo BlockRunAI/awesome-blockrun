@@ -21,7 +21,7 @@ Client sends a normal API request:
 ```bash
 curl -X POST https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -d '{"model": "openai/gpt-4o", "messages": [...]}'
+  -d '{"model": "openai/gpt-5.4", "messages": [...]}'
 ```
 
 ### Step 2: 402 Response
@@ -92,7 +92,7 @@ Client sends the request again with the `PAYMENT-SIGNATURE` header (x402 v2):
 curl -X POST https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "PAYMENT-SIGNATURE: <base64-encoded-payment>" \
-  -d '{"model": "openai/gpt-4o", "messages": [...]}'
+  -d '{"model": "openai/gpt-5.4", "messages": [...]}'
 ```
 
 The payment payload contains:
@@ -162,12 +162,12 @@ The SDKs handle this entire flow automatically:
 
 ```python
 # Python - all 5 steps happen behind the scenes
-response = client.chat("openai/gpt-4o", "Hello!")
+response = client.chat("openai/gpt-5.4", "Hello!")
 ```
 
 ```typescript
 // TypeScript - all 5 steps happen behind the scenes
-const response = await client.chat('openai/gpt-4o', 'Hello!');
+const response = await client.chat('openai/gpt-5.4', 'Hello!');
 ```
 
 ## Error Scenarios
