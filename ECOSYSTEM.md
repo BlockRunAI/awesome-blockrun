@@ -52,6 +52,7 @@ BlockRun works with the x402 facilitator network:
 
 | Project | Category | Description |
 |---------|----------|-------------|
+| [Arch Tools](https://archtools.dev) | AI Tools / MCP | 53 production-ready AI tools via MCP with x402 USDC payments on Base L2. Web scraping, crypto data, AI generation, OCR, and more. |
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading bot with Visual Cortex for chart analysis |
 | [Voyage GEO](https://github.com/onvoyage-ai/voyage-geo-agent) | AI Analytics | Generative Engine Optimization - track AI brand mentions across multiple models |
 
