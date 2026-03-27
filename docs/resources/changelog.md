@@ -32,6 +32,9 @@ All notable changes to BlockRun.
 
 ## [Unreleased]
 
+### Added
+- **Continue Integration** — ClawRouter merged as a native provider in [Continue](https://github.com/continuedev/continue) (32K+ ⭐), the open-source AI code assistant. Users can now select ClawRouter directly in Continue's provider settings for cost-optimized model routing. ([PR #11751](https://github.com/continuedev/continue/pull/11751))
+
 ### Coming Soon
 - Streaming support
 - Additional AI providers

@@ -66,6 +66,7 @@ BlockRun works with the x402 facilitator network:
 
 | Project | Category | Stars | Status | Help Wanted |
 |---------|----------|-------|--------|-------------|
+| [Continue](https://github.com/continuedev/continue) | IDE Extension | 32K+ | ✅ Released | [Native provider](https://github.com/continuedev/continue/pull/11751) |
 | [GOAT SDK](https://github.com/crossmint/goat) | Agent Framework | 150K+ downloads | In Review | - |
 | [ElizaOS](https://github.com/elizaOS/eliza) | Agent Framework | 60K+ | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [AgentKit](https://github.com/coinbase/agentkit) | Agent Framework | Official | Planned | Example code |

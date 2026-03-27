@@ -12,13 +12,16 @@
 
 | Project | Status | Link |
 |---------|--------|------|
+| Continue | ✅ Merged | [continuedev/continue#11751](https://github.com/continuedev/continue/pull/11751) |
 | GOAT SDK | In Review | [crossmint/goat](https://github.com/crossmint/goat) |
 
 ## Contributors
 
 Thank you to everyone who has contributed to BlockRun!
 
-<!-- Contributors will be listed here as they join -->
+| Contributor | Contribution |
+|-------------|--------------|
+| [Dallin Romney](https://github.com/RomneyDa) (@RomneyDa) | Reviewed & merged ClawRouter into Continue as a native provider |
 
 ---
 
