@@ -8,7 +8,7 @@
 [![Telegram](https://img.shields.io/badge/Telegram-Join-26A5E4)](https://t.me/+mroQv4-4hGgzOGUx)
 [![Research](https://img.shields.io/badge/Research-State%20of%20x402-orange)](./research/State_of_x402_2025.pdf)
 
-> **BlockRun** is the payment rail for AI — a service marketplace where AI agents autonomously discover, route, and pay for APIs using USDC via the x402 protocol. BlockRun provides pay-per-request access to 33+ large language models (including GPT-5, Claude, Gemini, Grok, DeepSeek, and Kimi), image generation, real-time web search, X/Twitter intelligence, and prediction market data. No API keys, no subscriptions, no vendor lock-in.
+> **BlockRun** is the payment rail for AI — a service marketplace where AI agents autonomously discover, route, and pay for APIs using USDC via the x402 protocol. BlockRun provides pay-per-request access to 41+ large language models (including GPT-5, Claude, Gemini, Grok, DeepSeek, and Kimi), image generation, neural web search (Exa), and prediction market data. No API keys, no subscriptions, no vendor lock-in.
 
 ---
 
@@ -48,8 +48,8 @@ from blockrun_llm import ImageClient
 img = ImageClient(private_key="0x...")
 result = img.generate("A cyberpunk city at sunset", model="openai/gpt-image-1")
 
-# Real-time search (web, news)
-results = client.search("latest AI agent frameworks")
+# Neural web search via Exa
+results = client.search("latest AI agent frameworks")  # $0.01/search on Base or Solana
 ```
 
 ```typescript
@@ -74,19 +74,14 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 
 | Product | Endpoint | Pricing | Description |
 |---------|----------|---------|-------------|
-| **LLM Chat** | `/v1/chat/completions` | Per token | OpenAI-compatible, 33+ models, streaming, tool calling |
+| **LLM Chat** | `/v1/chat/completions` | Per token | OpenAI-compatible, 41+ models, streaming, tool calling |
 | **Image Generation** | `/v1/images/generations` | $0.02–0.15/image | DALL-E 3, GPT Image 1, Nano Banana, Nano Banana Pro |
 | **Image Editing** | `/v1/images/image2image` | Per request | AI-powered inpainting and image-to-image |
-| **Search** | `/v1/search` | $0.025/source | Real-time search across web, news, RSS |
-| **X/Twitter Data** | `/v1/x/*` | Coming Soon | User profiles, tweets, followers, search, trending, analytics |
+| **Web Search** | `/api/v1/exa/*` | $0.01/search | Neural web search, find-similar, page contents, AI answers (Exa) |
 | **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | Polymarket, Kalshi, dFlow, Binance Futures |
 | **Models** | `/v1/models` | Free | List all available models with pricing |
 | **Pricing** | `/v1/pricing` | Free | Detailed pricing for all models |
 | **Balance** | `/v1/balance` | Free | Check USDC wallet balance |
-
-### X/Twitter Intelligence (Coming Soon)
-
-Real-time X/Twitter data — user profiles, tweets, followers, search, trending topics, and analytics. Pending partnership agreement with X.
 
 ### Prediction Markets
 
@@ -103,7 +98,7 @@ Real-time prediction market data powered by Predexon:
 
 ## Supported Models
 
-**33 models** across 9 providers. All accessible through a single OpenAI-compatible API.
+**41 models** across 9 providers. All accessible through a single OpenAI-compatible API.
 
 ### LLMs
 
@@ -113,7 +108,7 @@ Real-time prediction market data powered by Predexon:
 | **Anthropic** | Claude Opus 4.6, Claude Opus 4.5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$5.00 / $5.00–$25.00 |
 | **Google** | Gemini 3.1 Pro, Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 3.1 Flash Lite, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
 | **DeepSeek** | DeepSeek Chat (V3.2), DeepSeek Reasoner (V3.2 thinking) | $0.28 / $0.42 |
-| **Z.AI** | GLM-5, GLM-5 Turbo | $1.00–$1.20 / $3.20–$5.00 |
+| **Z.AI** | GLM-5, GLM-5 Turbo | $0.001/request (limited promotion) |
 | **Moonshot** | Kimi K2.5 (262K context, MoE) | $0.60 / $3.00 |
 | **MiniMax** | MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
 | **NVIDIA** | GPT-OSS 120B, GPT-OSS 20B, Kimi K2.5 | **Free** |
@@ -146,8 +141,8 @@ BlockRun runs on two networks with separate gateways:
 
 | Network | Gateway | Asset | Status |
 |---------|---------|-------|--------|
-| **Base** | `blockrun.ai` | USDC | ✅ Live (33 models) |
-| **Solana** | `sol.blockrun.ai` | USDC | ✅ Live (31 models) |
+| **Base** | `blockrun.ai` | USDC | ✅ Live (41 models) |
+| **Solana** | `sol.blockrun.ai` | USDC | ✅ Live |
 | **Base Sepolia** | `testnet.blockrun.ai` | USDC (testnet) | ✅ Testnet |
 | **Solana Devnet** | `devnet-sol.blockrun.ai` | USDC (devnet) | ✅ Testnet |
 
@@ -183,7 +178,7 @@ pip install blockrun-llm[solana]
 
 | Tool | Description |
 |------|-------------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server for Claude Code (v0.4.2) — Chat (33+ models), Images, Smart routing, Context window & category info |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server for Claude Code (v0.4.2) — Chat (41+ models), Images, Smart routing, Context window & category info |
 
 **9 tools included:** `blockrun_chat`, `blockrun_image`, `blockrun_models`, `blockrun_wallet`, `blockrun_dex`, `blockrun_whale`, `blockrun_analyze`, `blockrun_signal`, `blockrun_swap`
 
@@ -249,6 +244,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 
 | Partner | Product | Description |
 |---------|---------|-------------|
+| [Exa](https://exa.ai) | Web Search | Neural web search, find-similar, page contents, AI-grounded answers |
 | [Predexon](https://predexon.com) | Prediction Markets | Polymarket, Kalshi, dFlow, Binance Futures data |
 
 ### x402 Facilitators
@@ -306,9 +302,8 @@ The **x402 protocol** (HTTP 402 "Payment Required") lets any HTTP request includ
 
 | Phase | Timeline | Focus |
 |-------|----------|-------|
-| LLM Gateway | Now | Pay-per-request access to 33+ AI models |
-| Premium Data | Now | Prediction markets, web search, image generation |
-| X/Twitter Intelligence | Coming Soon | Real-time X/Twitter data (pending X partnership) |
+| LLM Gateway | Now | Pay-per-request access to 41+ AI models |
+| Premium Data | Now | Neural web search (Exa), prediction markets, image generation |
 | Multi-Chain | Now | Base + Solana gateways live |
 | Trust | Q1 2026 | Service ratings, uptime tracking, smart routing |
 
@@ -348,7 +343,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 ## Frequently Asked Questions
 
 ### What is BlockRun?
-BlockRun is the payment rail for AI — a service marketplace where AI agents discover, route, and pay for APIs using USDC via the x402 protocol. It provides access to 33+ LLMs, image generation, web search, and data APIs without requiring API keys or subscriptions.
+BlockRun is the payment rail for AI — a service marketplace where AI agents discover, route, and pay for APIs using USDC via the x402 protocol. It provides access to 41+ LLMs, image generation, neural web search (Exa), and prediction market data without requiring API keys or subscriptions.
 
 ### How do AI agents pay for APIs?
 AI agents pay using the x402 protocol — an HTTP-native payment standard. When an agent makes a request, BlockRun returns HTTP 402 with the price. The agent signs a USDC payment locally (private key never leaves the machine), retries with the payment header, and receives the response. Settlement is non-custodial and instant on Base or Solana.
