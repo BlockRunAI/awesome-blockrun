@@ -337,12 +337,8 @@ The **x402 protocol** (HTTP 402 "Payment Required") lets any HTTP request includ
 | Phase | Timeline | Focus |
 |-------|----------|-------|
 | LLM Gateway | Now | Pay-per-request access to 41+ AI models |
-<<<<<<< HEAD
-| Premium Data | Now | Neural web search (Exa), prediction markets, image generation |
-=======
-| Premium Data | Now | Prediction markets, web search, DEX data, image generation |
+| Premium Data | Now | Neural web search (Exa), prediction markets, DEX data, image generation |
 | Agent Wallets | Q2 2026 | Per-agent budgets, spending enforcement, cost attribution |
->>>>>>> 75a9243 (docs: update positioning — MCP-first strategy, remove Twitter data, add blockrun-mcp vs ClawRouter clarity)
 | Multi-Chain | Now | Base + Solana gateways live |
 | Trust | Q2 2026 | Service ratings, uptime tracking, smart routing |
 
