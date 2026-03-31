@@ -8,7 +8,12 @@
 [![Telegram](https://img.shields.io/badge/Telegram-Join-26A5E4)](https://t.me/+mroQv4-4hGgzOGUx)
 [![Research](https://img.shields.io/badge/Research-State%20of%20x402-orange)](./research/State_of_x402_2025.pdf)
 
-> **BlockRun** is the payment rail for AI — a service marketplace where AI agents autonomously discover, route, and pay for APIs using USDC via the x402 protocol. BlockRun provides pay-per-request access to 41+ large language models (including GPT-5, Claude, Gemini, Grok, DeepSeek, and Kimi), image generation, neural web search (Exa), and prediction market data. No API keys, no subscriptions, no vendor lock-in.
+> **BlockRun** is the payment rail for AI — a service marketplace where AI agents autonomously discover, route, and pay for APIs using USDC via the x402 protocol. BlockRun provides pay-per-request access to 41+ large language models (including GPT-5, Claude, Gemini, Grok, DeepSeek, and Kimi), image generation, neural web search (Exa), DEX data, trading signals, and prediction market data. No API keys, no subscriptions, no vendor lock-in.
+>
+> **For Claude Code users:** Add BlockRun in one command — access 41 models, DEX data, trading signals, and more without managing any API keys.
+> ```bash
+> claude mcp add blockrun npx @blockrun/mcp
+> ```
 
 ---
 
@@ -78,6 +83,7 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 | **Image Generation** | `/v1/images/generations` | $0.02–0.15/image | DALL-E 3, GPT Image 1, Nano Banana, Nano Banana Pro |
 | **Image Editing** | `/v1/images/image2image` | Per request | AI-powered inpainting and image-to-image |
 | **Web Search** | `/api/v1/exa/*` | $0.01/search | Neural web search, find-similar, page contents, AI answers (Exa) |
+| **DEX Data** | `/v1/dex/*` | Free | Real-time token prices, volume, liquidity across chains (DexScreener) |
 | **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | Polymarket, Kalshi, dFlow, Binance Futures |
 | **Models** | `/v1/models` | Free | List all available models with pricing |
 | **Pricing** | `/v1/pricing` | Free | Detailed pricing for all models |
@@ -176,15 +182,43 @@ pip install blockrun-llm[solana]
 
 ## MCP Tools
 
-| Tool | Description |
-|------|-------------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server for Claude Code (v0.4.2) — Chat (41+ models), Images, Smart routing, Context window & category info |
+### blockrun-mcp — Zero API Key Access for Claude Code Users
 
-**9 tools included:** `blockrun_chat`, `blockrun_image`, `blockrun_models`, `blockrun_wallet`, `blockrun_dex`, `blockrun_whale`, `blockrun_analyze`, `blockrun_signal`, `blockrun_swap`
+**[blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)** is the primary entry point for Claude Code developers. One command gives Claude access to 41 models, real-time market data, trading signals, image generation, and more — with no API keys and no accounts.
 
 ```bash
 claude mcp add blockrun npx @blockrun/mcp
 ```
+
+**Who it's for:** Developers who don't want to manage 7 different provider accounts and API keys. Pay per request with USDC, one wallet covers everything.
+
+**14 tools included:**
+
+| Tool | What it does |
+|------|-------------|
+| `blockrun_chat` | Chat with 41+ models (GPT-5, Claude, Gemini, DeepSeek, and more) |
+| `blockrun_models` | List available models with pricing |
+| `blockrun_wallet` | Manage wallet, set budgets, track spending |
+| `blockrun_image` | Generate or edit images (DALL-E 3, Flux, Nano Banana) |
+| `blockrun_dex` | Real-time DEX token prices, volume, liquidity (free) |
+| `blockrun_signal` | Trading signals with RSI + MACD + EMA indicators |
+| `blockrun_analyze` | Combined DEX + whale data with AI synthesis |
+| `blockrun_whale` | Track large ETH transfers |
+| `blockrun_swap` | Token swaps on Base via 0x aggregator |
+| `blockrun_search` | Real-time web + news search with AI summaries |
+| `blockrun_exa` | Neural semantic search |
+| `blockrun_markets` | Prediction market data (Polymarket, Kalshi, Binance) |
+
+### ClawRouter — Cost Optimizer for Existing API Key Users
+
+**[ClawRouter](https://github.com/BlockRunAI/ClawRouter)** is for developers who already have API keys and want to cut costs. It routes each request to the cheapest capable model in <1ms, 100% locally.
+
+**Who it's for:** Power users already paying for Claude/GPT/Gemini who want 40-92% cost reduction without changing their workflow.
+
+> **blockrun-mcp vs ClawRouter:**
+> - New to multi-model access? → Start with **blockrun-mcp** (no API keys needed)
+> - Already have API keys, want to save money? → Add **ClawRouter** (smart routing)
+> - Both installed? → Maximum coverage: zero-friction access + cost optimization
 
 ---
 
@@ -303,9 +337,14 @@ The **x402 protocol** (HTTP 402 "Payment Required") lets any HTTP request includ
 | Phase | Timeline | Focus |
 |-------|----------|-------|
 | LLM Gateway | Now | Pay-per-request access to 41+ AI models |
+<<<<<<< HEAD
 | Premium Data | Now | Neural web search (Exa), prediction markets, image generation |
+=======
+| Premium Data | Now | Prediction markets, web search, DEX data, image generation |
+| Agent Wallets | Q2 2026 | Per-agent budgets, spending enforcement, cost attribution |
+>>>>>>> 75a9243 (docs: update positioning — MCP-first strategy, remove Twitter data, add blockrun-mcp vs ClawRouter clarity)
 | Multi-Chain | Now | Base + Solana gateways live |
-| Trust | Q1 2026 | Service ratings, uptime tracking, smart routing |
+| Trust | Q2 2026 | Service ratings, uptime tracking, smart routing |
 
 See [VISION.md](./VISION.md) | [ROADMAP.md](./ROADMAP.md) for full details.
 
@@ -334,7 +373,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 | Section | Links |
 |---------|-------|
 | **Getting Started** | [Claude Code](./docs/getting-started/claude-code.md) &#x2022; [Agent Developers](./docs/getting-started/agent-developers.md) &#x2022; [SDK Developers](./docs/getting-started/sdk-developers.md) &#x2022; [Wallet Setup](./docs/getting-started/wallet-setup.md) |
-| **API Reference** | [Chat Completions](./docs/api-reference/chat-completions.md) &#x2022; [Images](./docs/api-reference/image-generation.md) &#x2022; [Search](./docs/api-reference/search.md) &#x2022; [X/Twitter](./docs/api-reference/x-twitter.md) &#x2022; [Prediction Markets](./docs/api-reference/prediction-markets.md) &#x2022; [Models](./docs/api-reference/models.md) &#x2022; [Errors](./docs/api-reference/errors.md) |
+| **API Reference** | [Chat Completions](./docs/api-reference/chat-completions.md) &#x2022; [Images](./docs/api-reference/image-generation.md) &#x2022; [Search](./docs/api-reference/search.md) &#x2022; [Prediction Markets](./docs/api-reference/prediction-markets.md) &#x2022; [Models](./docs/api-reference/models.md) &#x2022; [Errors](./docs/api-reference/errors.md) |
 | **x402 Protocol** | [How It Works](./docs/x402/how-it-works.md) &#x2022; [Payment Flow](./docs/x402/payment-flow.md) &#x2022; [Security](./docs/x402/security.md) |
 | **Resources** | [Pricing](./docs/products/intelligence/pricing.md) &#x2022; [FAQ](./docs/resources/faq.md) &#x2022; [Changelog](./docs/resources/changelog.md) |
 
