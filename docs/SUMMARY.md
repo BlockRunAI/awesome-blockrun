@@ -57,6 +57,7 @@
 * [Image Generation](api-reference/image-generation.md)
 * [Image Editing (img2img)](api-reference/image-editing.md)
 * [Search](api-reference/search.md)
+* [Exa Web Search](api-reference/exa-search.md)
 * [X/Twitter](api-reference/x-twitter.md)
 * [Prediction Markets](api-reference/prediction-markets.md)
 * [Models](api-reference/models.md)
