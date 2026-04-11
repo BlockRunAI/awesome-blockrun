@@ -20,6 +20,7 @@ Projects, integrations, and partners building with BlockRun and x402.
 | **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
 | **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | ✅ Live |
+| **Modal Sandbox** | `/v1/modal/*` | $0.001–0.01 | ✅ Live |
 | **X/Twitter Data** | `/v1/x/*` | TBD | 🔜 Coming Soon |
 | **Models** | `/v1/models` | Free | ✅ Live |
 | **Pricing** | `/v1/pricing` | Free | ✅ Live |
@@ -88,6 +89,7 @@ BlockRun works with the x402 facilitator network:
 | [x402 Foundation](https://x402.org) | Protocol development |
 | [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
 | [Predexon](https://predexon.com) | Prediction market data |
+| [Modal](https://modal.com) | Sandbox compute (isolated code execution) |
 
 ## AI Providers
 

@@ -47,6 +47,7 @@ BlockRun works with the x402 facilitator network:
 | [x402 Foundation](https://x402.org) | Protocol development |
 | [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
 | [Predexon](https://predexon.com) | Prediction market data (Polymarket, Kalshi, dFlow, Binance) |
+| [Modal](https://modal.com) | Sandbox compute (managed Python sandboxes for isolated code execution) |
 
 ## Community Integrations
 

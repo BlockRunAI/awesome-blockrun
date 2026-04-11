@@ -280,6 +280,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 |---------|---------|-------------|
 | [Exa](https://exa.ai) | Web Search | Neural web search, find-similar, page contents, AI-grounded answers |
 | [Predexon](https://predexon.com) | Prediction Markets | Polymarket, Kalshi, dFlow, Binance Futures data |
+| [Modal](https://modal.com) | Sandbox Compute | Managed Python sandboxes for isolated code execution |
 
 ### x402 Facilitators
 
