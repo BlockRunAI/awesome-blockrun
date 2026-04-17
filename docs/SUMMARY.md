@@ -56,6 +56,7 @@
 * [Chat Completions](api-reference/chat-completions.md)
 * [Image Generation](api-reference/image-generation.md)
 * [Image Editing (img2img)](api-reference/image-editing.md)
+* [Video Generation](api-reference/video-generation.md)
 * [Music Generation](api-reference/music-generation.md)
 * [Search](api-reference/search.md)
 * [Exa Web Search](api-reference/exa-search.md)

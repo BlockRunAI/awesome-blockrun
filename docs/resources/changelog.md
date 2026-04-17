@@ -2,6 +2,25 @@
 
 All notable changes to BlockRun.
 
+## [2026-04-17]
+
+### Added — xAI Grok Imagine
+- **Video generation** — new endpoint `POST /api/v1/videos/generations` with `xai/grok-imagine-video` ($0.050/sec, 8-second clips, text or image-to-video). The endpoint handles xAI's async job + polling internally so callers get the MP4 URL in a single request. See [Video Generation](../api-reference/video-generation.md).
+- **Grok Imagine image models** — `xai/grok-imagine-image` ($0.02/image) and `xai/grok-imagine-image-pro` ($0.07/image) added to `POST /api/v1/images/generations`.
+- **Grok 4.20 chat models** (hidden, API-routable) — `xai/grok-4.20-reasoning`, `xai/grok-4.20-non-reasoning`, `xai/grok-4.20-multi-agent`. 2M context, vision-capable, $2/M in · $6/M out.
+
+### Added — Permanent media URLs via GCS backup
+- Every generated image and video is now mirrored to BlockRun's Google Cloud Storage bucket and returned through a blockrun-hosted proxy URL (`/api/media/...`). Upstream URLs from `imgen.x.ai` and `vidgen.x.ai` are temporary — the returned `url` is permanent.
+- Image/video responses now include:
+  - `url` — permanent proxy URL (falls back to upstream if the backup step fails)
+  - `source_url` — original upstream URL (for debugging / comparison)
+  - `backed_up` — boolean indicating whether GCS mirroring succeeded
+
+### API Changes
+- `GET /api/v1/models` now includes video models with `billing_mode: "per_second"` and `pricing: { per_second, default_duration_seconds, max_duration_seconds }`.
+
+---
+
 ## [2026-03-24]
 
 ### API Changes
