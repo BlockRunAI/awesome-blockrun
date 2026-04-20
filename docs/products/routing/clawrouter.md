@@ -89,11 +89,11 @@ All routing decisions happen on your machine. No external API calls.
 Access all major providers through one wallet:
 
 - **OpenAI**: GPT-5.4, GPT-5.2, o1, o3
-- **Anthropic**: Claude Opus 4, Sonnet 4, Haiku 4.5
+- **Anthropic**: Claude Opus 4.7, Sonnet 4.6, Haiku 4.5
 - **Google**: Gemini 3 Pro, Gemini 2.5 Pro/Flash
 - **DeepSeek**: DeepSeek V3, DeepSeek Reasoner
-- **xAI**: Grok 3, Grok 4 (2M context)
-- **Moonshot**: Kimi K2.5
+- **xAI**: Grok 4.20, Grok 4 Fast (2M context)
+- **Moonshot**: Kimi K2.6 (flagship, vision + reasoning), Kimi K2.5
 - **NVIDIA**: GPT-OSS 120B (FREE)
 
 [View all models →](../intelligence/pricing.md)
@@ -198,7 +198,7 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 - **Google Gemini**: 3 Pro, 2.5 Pro, 2.5 Flash
 - **DeepSeek**: V3 Chat, V3 Reasoner
 - **xAI Grok**: Grok 3, Grok 4 (2M context), Grok Mini
-- **Moonshot**: Kimi K2.5 (1M context)
+- **Moonshot**: Kimi K2.6 flagship (256K, vision + reasoning), Kimi K2.5 legacy
 - **NVIDIA Free**: GPT-OSS 120B, GPT-OSS 20B
 
 ### Image Generation

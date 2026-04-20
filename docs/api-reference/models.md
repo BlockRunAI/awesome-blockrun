@@ -119,7 +119,10 @@ All prices shown are provider rates. BlockRun adds a **5% platform fee** to cove
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `moonshot/kimi-k2.5` | Kimi K2.5 | $0.60/M | $3.00/M | 262K |
+| `moonshot/kimi-k2.6` | Kimi K2.6 (flagship) | $0.95/M | $4.00/M | 256K |
+| `moonshot/kimi-k2.5` | Kimi K2.5 (legacy) | $0.60/M | $3.00/M | 262K |
+
+K2.6 is multi-modal (vision + text input) and returns `reasoning_content` on completions. K2.5 is still routable but superseded.
 
 ### MiniMax
 
