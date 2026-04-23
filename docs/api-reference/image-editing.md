@@ -31,7 +31,7 @@ POST https://sol.blockrun.ai/api/v1/images/image2image    # Solana
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `model` | string | No | Model to use (default: `openai/gpt-image-1`) |
+| `model` | string | No | Model to use (default: `openai/gpt-image-2`). Supported: `openai/gpt-image-1`, `openai/gpt-image-2` |
 | `prompt` | string | Yes | Description of edits to make |
 | `image` | string | Yes | Source image as base64 data URI (`data:image/png;base64,...`) |
 | `mask` | string | No | Mask image as base64 data URI (white = area to edit) |
@@ -43,6 +43,7 @@ POST https://sol.blockrun.ai/api/v1/images/image2image    # Solana
 | Model ID | Provider | Sizes | Pricing |
 |----------|----------|-------|---------|
 | `openai/gpt-image-1` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.02-0.04 |
+| `openai/gpt-image-2` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.06-0.12 |
 
 ## Response
 
@@ -143,6 +144,9 @@ Prices include 5% BlockRun margin:
 | GPT Image 1 | 1024x1024 | $0.021 |
 | GPT Image 1 | 1536x1024 | $0.042 |
 | GPT Image 1 | 1024x1536 | $0.042 |
+| ChatGPT Images 2.0 | 1024x1024 | $0.063 |
+| ChatGPT Images 2.0 | 1536x1024 | $0.126 |
+| ChatGPT Images 2.0 | 1024x1536 | $0.126 |
 
 ## Error Codes
 

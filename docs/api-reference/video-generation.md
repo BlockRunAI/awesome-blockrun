@@ -1,6 +1,6 @@
 # Video Generation API
 
-Generate short AI videos with xAI's Grok Imagine. Text or image prompt in, MP4 URL out.
+Generate short AI videos with xAI's Grok Imagine or ByteDance's Seedance. Text or image prompt in, MP4 URL out.
 
 ## Endpoint
 
@@ -29,11 +29,14 @@ POST https://blockrun.ai/api/v1/videos/generations
 
 ### Available Models
 
-| Model ID | Provider | Output | Billing |
-|----------|----------|--------|---------|
-| `xai/grok-imagine-video` | xAI | 8s MP4 | $0.050/second (default 8s = $0.42 with margin) |
+| Model ID | Provider | Default / Max | Billing |
+|----------|----------|---------------|---------|
+| `xai/grok-imagine-video` | xAI | 8s / 8s MP4 | $0.050/second (default 8s = $0.42 with margin) |
+| `bytedance/seedance-1.5-pro` | ByteDance | 5s / 10s MP4 | $0.030/second (default 5s = $0.158 with margin) |
+| `bytedance/seedance-2.0-fast` | ByteDance | 5s / 10s MP4 | $0.150/second (default 5s = $0.788 with margin) |
+| `bytedance/seedance-2.0` | ByteDance | 5s / 10s MP4 | $0.300/second (default 5s = $1.575 with margin) |
 
-xAI's Grok Imagine Video accepts text and/or image input and returns an 8-second MP4 clip.
+All models accept text prompts and an optional `image_url` for image-to-video. Output is 720p MP4. `seedance-2.0-fast` generates in ~60–80 s; `seedance-2.0` (Pro) may take longer and can occasionally hit the 85 s timeout — in that case the request returns 504 and **no payment is taken**.
 
 ## Response
 
@@ -120,9 +123,12 @@ curl -X POST http://localhost:8402/v1/videos/generations \
 
 ## Pricing
 
-| Model | Unit | Price | Margin | Billed (8s) |
-|-------|------|-------|--------|-------------|
-| `xai/grok-imagine-video` | per second | $0.050 | 5% | $0.42 |
+| Model | Unit | Price | Margin | Default billed |
+|-------|------|-------|--------|----------------|
+| `xai/grok-imagine-video` | per second | $0.050 | 5% | 8s = $0.420 |
+| `bytedance/seedance-1.5-pro` | per second | $0.030 | 5% | 5s = $0.158 |
+| `bytedance/seedance-2.0-fast` | per second | $0.150 | 5% | 5s = $0.788 |
+| `bytedance/seedance-2.0` | per second | $0.300 | 5% | 5s = $1.575 |
 
 ## Error Codes
 
@@ -133,7 +139,7 @@ curl -X POST http://localhost:8402/v1/videos/generations \
 | 403 | Content policy violation |
 | 429 | Rate limit exceeded (xAI caps at 60 RPM) |
 | 500 | Server error |
-| 504 | Video generation timed out (xAI job did not complete within 180s) |
+| 504 | Video generation timed out (upstream job did not finish within the 85s cap). No payment is taken. |
 
 ## Links
 

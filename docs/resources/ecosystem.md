@@ -112,6 +112,7 @@ BlockRun routes to these providers via x402:
 | Model | Price per image |
 |-------|----------------|
 | OpenAI GPT Image 1 | $0.02–0.04 |
+| OpenAI ChatGPT Images 2.0 | $0.06–0.12 |
 | OpenAI DALL-E 3 | $0.04–0.08 |
 | Nano Banana | $0.05 |
 | Nano Banana Pro | $0.10–0.15 |

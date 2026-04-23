@@ -146,9 +146,19 @@ Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
 |----------|------|-------|
 | `openai/dall-e-3` | DALL-E 3 | $0.04-0.08/image |
 | `openai/gpt-image-1` | GPT Image 1 | $0.02-0.04/image |
+| `openai/gpt-image-2` | ChatGPT Images 2.0 | $0.06-0.12/image |
 | `google/nano-banana` | Nano Banana | $0.05/image |
 | `google/nano-banana-pro` | Nano Banana Pro | $0.10-0.15/image |
 | `black-forest/flux-1.1-pro` | Flux 1.1 Pro | $0.04/image |
+
+### Video Generation
+
+| Model ID | Name | Price |
+|----------|------|-------|
+| `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec (8s default) |
+| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | $0.03/sec (5s default) |
+| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | $0.15/sec (5s default) |
+| `bytedance/seedance-2.0` | Seedance 2.0 Pro | $0.30/sec (5s default) |
 
 ## Model Categories
 

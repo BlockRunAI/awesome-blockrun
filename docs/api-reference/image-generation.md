@@ -1,6 +1,6 @@
 # Image Generation API
 
-Generate images using DALL-E, GPT Image, Google Nano Banana, CogView-4, or xAI Grok Imagine.
+Generate images using DALL-E, GPT Image (including ChatGPT Images 2.0), Google Nano Banana, CogView-4, or xAI Grok Imagine.
 
 ## Endpoint
 
@@ -35,6 +35,7 @@ POST https://blockrun.ai/api/v1/images/generations
 |----------|----------|-------|-------|
 | `openai/dall-e-3` | OpenAI | 1024x1024, 1024x1792, 1792x1024 | $0.042 |
 | `openai/gpt-image-1` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.021 |
+| `openai/gpt-image-2` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.063 |
 | `google/nano-banana` | Google | 1024x1024 | $0.053 |
 | `google/nano-banana-pro` | Google | 1024x1024, 2048x2048, 4096x4096 | $0.105 |
 | `zai/cogview-4` | Zhipu AI | 512x512 – 1440x1440 | $0.015 |
@@ -76,7 +77,7 @@ POST https://blockrun.ai/api/v1/images/generations
 |-------|------|-------------|
 | `created` | integer | Unix timestamp |
 | `data` | array | Array of generated images |
-| `data[].url` | string | Permanent URL. When GCS backup succeeds, this is a blockrun-hosted proxy URL; otherwise the upstream URL. For `openai/gpt-image-1` this is a base64 data URI |
+| `data[].url` | string | Permanent URL. When GCS backup succeeds, this is a blockrun-hosted proxy URL; otherwise the upstream URL. For `openai/gpt-image-1` and `openai/gpt-image-2` this is a base64 data URI |
 | `data[].source_url` | string | Original upstream URL (omitted for data URIs) |
 | `data[].backed_up` | boolean | `true` when the image was mirrored to BlockRun's GCS bucket (omitted for data URIs) |
 | `data[].revised_prompt` | string | Expanded prompt (DALL-E 3 only) |
@@ -174,6 +175,8 @@ console.log(result2.data[0].url);
 | DALL-E 3 Standard | 1024x1024 | $0.042 |
 | DALL-E 3 Wide | 1792x1024 | $0.084 |
 | GPT Image 1 | 1024x1024 | $0.021 |
+| ChatGPT Images 2.0 | 1024x1024 | $0.063 |
+| ChatGPT Images 2.0 | 1536x1024 / 1024x1536 | $0.126 |
 | Grok Imagine | 1024x1024 | $0.021 |
 | Grok Imagine Pro | 1024x1024 | $0.074 |
 | Nano Banana | 1024x1024 | $0.053 |
@@ -199,7 +202,8 @@ console.log(result2.data[0].url);
 | Highest quality | `google/nano-banana-pro` |
 | Fast & reliable | `google/nano-banana` |
 | Best prompt following | `openai/dall-e-3` |
-| Image editing (img2img) | `openai/gpt-image-1` |
+| Image editing (img2img) | `openai/gpt-image-1` or `openai/gpt-image-2` |
+| Multilingual text in images / character consistency | `openai/gpt-image-2` |
 | xAI-style stylization | `xai/grok-imagine-image-pro` |
 
 ## OpenAI Compatibility
