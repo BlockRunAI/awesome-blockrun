@@ -2,6 +2,19 @@
 
 All notable changes to BlockRun.
 
+## [2026-04-25]
+
+### Models
+- **Added `openai/gpt-5.5`** — released 2026-04-23, first fully retrained base since GPT-4.5. 1M context, 128K output, native agent + computer use. Pricing: $5.00 / $30.00 per 1M tokens.
+- Promoted `openai/gpt-5.5` to `FEATURED_MODEL_IDS` (replaces `openai/gpt-5.4` as the OpenAI flagship surfaced on the homepage and discover pages).
+
+### SDK Updates
+- Python SDK (`blockrun-llm`) **0.17.0**: `PREMIUM_TIERS["MEDIUM"]` primary now `openai/gpt-5.5`; `gpt-5.4` demoted to first fallback. `estimate_cost` baseline rebased from $2.50/$15 to $5.00/$30 to match the new flagship. `__version__` and `VERSION` reconciled (was 0.16.1 vs 0.15.0).
+- TypeScript SDK (`@blockrun/llm`) **1.11.0**: catalog refreshed with `openai/gpt-5.5`. `VERSION` and `package.json` reconciled (was 1.9.0 vs 1.10.1).
+- Go SDK (`blockrun-llm-go`) **0.4.0**: `RoutingPremium.TierMedium` primary now `openai/gpt-5.5` (was `gpt-5.4`).
+
+---
+
 ## [2026-04-17]
 
 ### Added — xAI Grok Imagine

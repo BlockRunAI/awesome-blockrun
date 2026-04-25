@@ -10,7 +10,7 @@ ClawRouter analyzes your prompt and automatically picks the right model tier:
 
 - **Simple questions** → Cheap models (DeepSeek, Gemini Flash)
 - **Medium complexity** → Balanced models (GPT-4o-mini, Claude Haiku)
-- **Complex reasoning** → Premium models (Claude Opus, GPT-5)
+- **Complex reasoning** → Premium models (Claude Opus, GPT-5.5)
 - **Code generation** → Specialized models (Claude Sonnet, DeepSeek Coder)
 
 **Result:** 78% average cost savings with no quality loss.
@@ -88,7 +88,7 @@ All routing decisions happen on your machine. No external API calls.
 
 Access all major providers through one wallet:
 
-- **OpenAI**: GPT-5.4, GPT-5.2, o1, o3
+- **OpenAI**: GPT-5.5, GPT-5.4, GPT-5.2, o1, o3
 - **Anthropic**: Claude Opus 4.7, Sonnet 4.6, Haiku 4.5
 - **Google**: Gemini 3 Pro, Gemini 2.5 Pro/Flash
 - **DeepSeek**: DeepSeek V3, DeepSeek Reasoner
@@ -130,7 +130,7 @@ Response: Quantum computing uses quantum mechanics...
 You can still override routing for specific requests:
 
 ```
-/model openai/gpt-5.4
+/model openai/gpt-5.5
 ```
 
 ### View Routing Decision
@@ -190,6 +190,7 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 
 ### Chat Models
 
+- **OpenAI GPT-5.5 Family**: GPT-5.5
 - **OpenAI GPT-5.4 Family**: GPT-5.4, GPT-5.4 Pro
 - **OpenAI GPT-5 Family**: GPT-5.2, GPT-5 Mini, GPT-5 Nano
 - **OpenAI GPT-4 Family**: GPT-4.1, GPT-4o, GPT-4o-mini

@@ -97,7 +97,7 @@ BlockRun routes to these providers via x402:
 
 | Provider | Models | Input/Output per 1M tokens |
 |----------|--------|---------------------------|
-| OpenAI | GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5 Mini, GPT-5 Nano, o1, o3 | $0.05–$30.00 / $0.40–$180.00 |
+| OpenAI | GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5 Mini, GPT-5 Nano, o1, o3 | $0.05–$30.00 / $0.40–$180.00 |
 | Anthropic | Claude Opus 4.6, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$5.00 / $5.00–$25.00 |
 | Google | Gemini 3.1 Pro, Gemini 3 Pro, Gemini 3 Flash, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
 | DeepSeek | DeepSeek Chat (V3.2), DeepSeek Reasoner | $0.28 / $0.42 |

@@ -19,6 +19,7 @@ No API keys. No monthly bills. Just usage-based payments in USDC.
 ### OpenAI
 | Model | Input | Output |
 |-------|-------|--------|
+| GPT-5.5 | $5.00/M | $30.00/M |
 | GPT-5.4 | $2.50/M | $15.00/M |
 | GPT-5.4 Pro | $30.00/M | $180.00/M |
 | GPT-5.2 | $1.75/M | $14.00/M |
@@ -103,7 +104,7 @@ from blockrun_llm import LLMClient
 client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY
 
 # OpenAI model
-response = client.chat("openai/gpt-5.4", "Explain quantum computing")
+response = client.chat("openai/gpt-5.5", "Explain quantum computing")
 
 # DeepSeek (50x cheaper)
 response = client.chat("deepseek/deepseek-chat", "Explain quantum computing")
@@ -116,7 +117,7 @@ curl https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $BLOCKRUN_WALLET_KEY" \
   -d '{
-    "model": "openai/gpt-5.4",
+    "model": "openai/gpt-5.5",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```

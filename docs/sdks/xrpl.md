@@ -14,7 +14,7 @@ pip install blockrun-llm-xrpl
 from blockrun_llm_xrpl import LLMClient
 
 client = LLMClient()  # Uses BLOCKRUN_XRPL_SEED from env
-response = client.chat("openai/gpt-5.4", "Hello!")
+response = client.chat("openai/gpt-5.5", "Hello!")
 print(response)
 ```
 
@@ -59,7 +59,7 @@ Simple one-line chat interface.
 
 ```python
 response = client.chat(
-    "openai/gpt-5.4",
+    "openai/gpt-5.5",
     "Explain quantum computing",
     system="You are a physics teacher.",  # Optional system prompt
     max_tokens=500,                        # Optional max output
@@ -80,7 +80,7 @@ messages = [
 ]
 
 result = client.chat_completion(
-    "openai/gpt-5.4",
+    "openai/gpt-5.5",
     messages,
     max_tokens=100,
     temperature=0.7,
@@ -268,11 +268,11 @@ from blockrun_llm_xrpl import AsyncLLMClient
 async def main():
     async with AsyncLLMClient() as client:
         # Single request
-        response = await client.chat("openai/gpt-5.4", "Hello!")
+        response = await client.chat("openai/gpt-5.5", "Hello!")
 
         # Concurrent requests
         tasks = [
-            client.chat("openai/gpt-5.4", "What is 2+2?"),
+            client.chat("openai/gpt-5.5", "What is 2+2?"),
             client.chat("anthropic/claude-sonnet-4.6", "What is 3+3?"),
         ]
         responses = await asyncio.gather(*tasks)
@@ -288,7 +288,7 @@ from blockrun_llm_xrpl import LLMClient, APIError, PaymentError
 client = LLMClient()
 
 try:
-    response = client.chat("openai/gpt-5.4", "Hello!")
+    response = client.chat("openai/gpt-5.5", "Hello!")
 except PaymentError as e:
     print(f"Payment failed: {e}")
     # Check your RLUSD balance
@@ -342,7 +342,7 @@ All models from BlockRun Intelligence are available:
 
 | Provider | Models |
 |----------|--------|
-| **OpenAI** | gpt-5.4, gpt-5.4-pro, gpt-5.3, gpt-5.2, gpt-5.4-mini, gpt-5-mini, gpt-5.4-nano, o1, o1-mini, o3, o3-mini |
+| **OpenAI** | gpt-5.5, gpt-5.4, gpt-5.4-pro, gpt-5.3, gpt-5.2, gpt-5.4-mini, gpt-5-mini, gpt-5.4-nano, o1, o1-mini, o3, o3-mini |
 | **Anthropic** | claude-opus-4.6, claude-opus-4.5, claude-sonnet-4.6, claude-haiku-4.5 |
 | **Google** | gemini-3.1-pro-preview, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
 | **xAI** | grok-4.1, grok-4, grok-3, grok-3-fast |

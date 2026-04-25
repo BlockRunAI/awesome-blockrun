@@ -21,7 +21,7 @@ POST https://blockrun.ai/api/v1/chat/completions
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `model` | string | Yes | Model ID (e.g., `openai/gpt-5.4`) |
+| `model` | string | Yes | Model ID (e.g., `openai/gpt-5.5`) |
 | `messages` | array | Yes | Array of message objects |
 | `max_tokens` | integer | No | Maximum tokens to generate (default: 1024) |
 | `temperature` | number | No | Sampling temperature (0-2) |
@@ -43,7 +43,7 @@ POST https://blockrun.ai/api/v1/chat/completions
   "id": "chatcmpl-abc123",
   "object": "chat.completion",
   "created": 1703123456,
-  "model": "gpt-5.4",
+  "model": "gpt-5.5",
   "choices": [
     {
       "index": 0,
@@ -98,7 +98,7 @@ The `X-Payment-Required` header contains the full payment requirements.
 curl -X POST https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "openai/gpt-5.4",
+    "model": "openai/gpt-5.5",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 
@@ -107,7 +107,7 @@ curl -X POST https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "PAYMENT-SIGNATURE: <base64-encoded-payment>" \
   -d '{
-    "model": "openai/gpt-5.4",
+    "model": "openai/gpt-5.5",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```
@@ -121,7 +121,7 @@ from blockrun_llm import LLMClient
 client = LLMClient()
 
 # Simple chat
-response = client.chat("openai/gpt-5.4", "Hello!")
+response = client.chat("openai/gpt-5.5", "Hello!")
 
 # Full completion with options
 messages = [
@@ -129,7 +129,7 @@ messages = [
     {"role": "user", "content": "What is 2+2?"}
 ]
 result = client.chat_completion(
-    "openai/gpt-5.4",
+    "openai/gpt-5.5",
     messages,
     max_tokens=100,
     temperature=0.7
@@ -144,14 +144,14 @@ import { LLMClient } from '@blockrun/llm';
 const client = new LLMClient({ privateKey: '0x...' });
 
 // Simple chat
-const response = await client.chat('openai/gpt-5.4', 'Hello!');
+const response = await client.chat('openai/gpt-5.5', 'Hello!');
 
 // Full completion with options
 const messages = [
   { role: 'system', content: 'You are helpful.' },
   { role: 'user', content: 'What is 2+2?' }
 ];
-const result = await client.chatCompletion('openai/gpt-5.4', messages, {
+const result = await client.chatCompletion('openai/gpt-5.5', messages, {
   maxTokens: 100,
   temperature: 0.7
 });

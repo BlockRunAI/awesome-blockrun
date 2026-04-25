@@ -21,7 +21,7 @@ const client = new LLMClient({
   privateKey: process.env.BLOCKRUN_WALLET_KEY as `0x${string}`
 });
 
-const response = await client.chat('openai/gpt-5.4', 'Hello!');
+const response = await client.chat('openai/gpt-5.5', 'Hello!');
 console.log(response);
 ```
 
@@ -48,7 +48,7 @@ const client = new LLMClient({
 Simple one-line chat interface.
 
 ```typescript
-const response = await client.chat('openai/gpt-5.4', 'Explain quantum computing', {
+const response = await client.chat('openai/gpt-5.5', 'Explain quantum computing', {
   system: 'You are a physics teacher.',  // Optional
   maxTokens: 500,                         // Optional
   temperature: 0.7                        // Optional
@@ -69,7 +69,7 @@ const messages: ChatMessage[] = [
   { role: 'user', content: 'What is 2+2?' }
 ];
 
-const result = await client.chatCompletion('openai/gpt-5.4', messages, {
+const result = await client.chatCompletion('openai/gpt-5.5', messages, {
   maxTokens: 100,
   temperature: 0.7,
   topP: 0.9
@@ -160,7 +160,7 @@ ClawRouter classifies prompts into four tiers:
 | Tier | Models | Use Case |
 |------|--------|----------|
 | **SIMPLE** | DeepSeek, Gemini Flash | Q&A, summaries, simple tasks |
-| **MEDIUM** | GPT-5.4, Claude Sonnet 4.6 | Analysis, writing, coding |
+| **MEDIUM** | GPT-5.5, Claude Sonnet 4.6 | Analysis, writing, coding |
 | **COMPLEX** | Claude Opus 4.6, GPT-5.4 Pro | Advanced reasoning, research |
 | **REASONING** | DeepSeek Reasoner, o1, o3 | Math, logic, proofs |
 
@@ -348,7 +348,7 @@ import { LLMClient, APIError, PaymentError } from '@blockrun/llm';
 const client = new LLMClient({ privateKey: '0x...' });
 
 try {
-  const response = await client.chat('openai/gpt-5.4', 'Hello!');
+  const response = await client.chat('openai/gpt-5.5', 'Hello!');
 } catch (error) {
   if (error instanceof PaymentError) {
     console.error('Payment failed:', error.message);
@@ -414,7 +414,7 @@ import { LLMClient } from '@blockrun/llm';
 const client = new LLMClient({ privateKey: '0x...' });
 
 const [gpt, claude, gemini] = await Promise.all([
-  client.chat('openai/gpt-5.4', 'What is 2+2?'),
+  client.chat('openai/gpt-5.5', 'What is 2+2?'),
   client.chat('anthropic/claude-sonnet-4.6', 'What is 3+3?'),
   client.chat('google/gemini-3-flash-preview', 'What is 4+4?')
 ]);
@@ -442,7 +442,7 @@ const client = new LLMClient({ privateKey: process.env.BLOCKRUN_WALLET_KEY });
 app.post('/chat', async (req, res) => {
   try {
     const { message } = req.body;
-    const response = await client.chat('openai/gpt-5.4', message);
+    const response = await client.chat('openai/gpt-5.5', message);
     res.json({ response });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -463,7 +463,7 @@ const client = new LLMClient({
 
 export async function POST(request: NextRequest) {
   const { message } = await request.json();
-  const response = await client.chat('openai/gpt-5.4', message);
+  const response = await client.chat('openai/gpt-5.5', message);
   return NextResponse.json({ response });
 }
 ```

@@ -30,6 +30,7 @@ The 5% margin covers:
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
+| GPT-5.5 | $5.25 | $31.50 |
 | GPT-5.4 | $2.63 | $15.75 |
 | GPT-5.4 Pro | $31.50 | $189.00 |
 | GPT-5.2 | $1.84 | $14.70 |
@@ -175,7 +176,7 @@ ClawRouter does all the optimization below automatically.
 
 ```python
 # Expensive
-response = client.chat("openai/gpt-5.4", "Summarize this text")
+response = client.chat("openai/gpt-5.5", "Summarize this text")
 
 # 50x cheaper, similar quality
 response = client.chat("deepseek/deepseek-chat", "Summarize this text")

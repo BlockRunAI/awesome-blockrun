@@ -16,8 +16,8 @@ Each model object in the response includes:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `id` | string | Model identifier (e.g., `openai/gpt-5.4`) |
-| `name` | string | Display name (e.g., "GPT-5.4") |
+| `id` | string | Model identifier (e.g., `openai/gpt-5.5`) |
+| `name` | string | Display name (e.g., "GPT-5.5") |
 | `description` | string | Model description |
 | `provider` | string | Provider name |
 | `inputPrice` | number | Input price per 1M tokens |
@@ -33,14 +33,14 @@ Each model object in the response includes:
 {
   "models": [
     {
-      "id": "openai/gpt-5.4",
-      "name": "GPT-5.4",
-      "description": "OpenAI's flagship model with 1M context window",
+      "id": "openai/gpt-5.5",
+      "name": "GPT-5.5",
+      "description": "OpenAI's flagship — first fully retrained base since GPT-4.5; 1M context, 128K output, native agent + computer use",
       "provider": "openai",
-      "inputPrice": 2.50,
-      "outputPrice": 15.00,
-      "context_window": 1000000,
-      "max_output": 32768,
+      "inputPrice": 5.00,
+      "outputPrice": 30.00,
+      "context_window": 1050000,
+      "max_output": 128000,
       "categories": ["chat", "coding", "vision"],
       "available": true
     }
@@ -51,6 +51,14 @@ Each model object in the response includes:
 ## Available Models (33 visible)
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
+
+### OpenAI GPT-5.5 Family
+
+Released 2026-04-23 — first fully retrained base since GPT-4.5.
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `openai/gpt-5.5` | GPT-5.5 | $5.00/M | $30.00/M | 1M |
 
 ### OpenAI GPT-5.4 Family
 

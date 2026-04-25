@@ -23,7 +23,7 @@ func main() {
     // Uses BLOCKRUN_WALLET_KEY env var
     client := blockrun.NewClient("")
 
-    response, err := client.Chat("openai/gpt-5.4", "Hello!")
+    response, err := client.Chat("openai/gpt-5.5", "Hello!")
     if err != nil {
         panic(err)
     }
@@ -58,10 +58,10 @@ client := blockrun.NewClientWithOptions(blockrun.Options{
 
 ```go
 // Simple chat
-response, err := client.Chat("openai/gpt-5.4", "Hello!")
+response, err := client.Chat("openai/gpt-5.5", "Hello!")
 
 // With options
-response, err := client.ChatWithOptions("openai/gpt-5.4", "Explain x402", blockrun.ChatOptions{
+response, err := client.ChatWithOptions("openai/gpt-5.5", "Explain x402", blockrun.ChatOptions{
     Temperature: 0.7,
     MaxTokens:   1000,
 })
@@ -75,7 +75,7 @@ messages := []blockrun.Message{
     {Role: "user", Content: "What is x402?"},
 }
 
-response, err := client.ChatMessages("openai/gpt-5.4", messages)
+response, err := client.ChatMessages("openai/gpt-5.5", messages)
 ```
 
 ### Image Generation
@@ -103,7 +103,7 @@ fmt.Printf("Balance: $%.2f USDC\n", balance)
 ## Error Handling
 
 ```go
-response, err := client.Chat("openai/gpt-5.4", prompt)
+response, err := client.Chat("openai/gpt-5.5", prompt)
 if err != nil {
     switch e := err.(type) {
     case *blockrun.InsufficientBalanceError:
@@ -124,7 +124,7 @@ if err != nil {
 ```go
 // OpenAI
 client.Chat("openai/gpt-5.2", prompt)
-client.Chat("openai/gpt-5.4", prompt)
+client.Chat("openai/gpt-5.5", prompt)
 client.Chat("openai/o1", prompt)
 
 // Anthropic
@@ -179,7 +179,7 @@ client := blockrun.NewClientWithOptions(blockrun.Options{
 })
 
 // Will return error if budget exceeded
-response, err := client.Chat("openai/gpt-5.4", prompt)
+response, err := client.Chat("openai/gpt-5.5", prompt)
 if err != nil {
     if _, ok := err.(*blockrun.BudgetExceededError); ok {
         fmt.Println("Session budget exceeded")
@@ -204,7 +204,7 @@ type TradingBot struct {
 
 func (b *TradingBot) AnalyzeMarket(asset string) (string, error) {
     prompt := fmt.Sprintf("Analyze %s for trading: technicals, sentiment, recommendation", asset)
-    return b.client.Chat("openai/gpt-5.4", prompt)
+    return b.client.Chat("openai/gpt-5.5", prompt)
 }
 
 func (b *TradingBot) Run() {
