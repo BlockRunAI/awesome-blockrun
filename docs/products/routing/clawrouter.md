@@ -41,19 +41,97 @@ ClawRouter will now automatically route all requests to the optimal model.
 
 ## How It Works
 
+ClawRouter does **not** pick "the cheapest model that can handle the prompt" — that framing was tested in v0.12.47 and reverted within 24 hours when fast/cheap models started giving shallow answers on hard tasks. The real architecture is **tier-first, model-second**, with a multi-objective scoring system optimized across quality, cost, and latency simultaneously.
+
+For the full technical deep-dive, see [Inside ClawRouter's Decision Layer](https://blockrun.ai/signal/clawrouter-quality-vs-cost-real-time-routing). The summary:
+
+### The Decision Pipeline (<1ms, fully local)
+
+```
+1. Lexical scoring        → 14 weighted dimensions, score ∈ [-1, 1] each
+2. Tier mapping           → SIMPLE / MEDIUM / COMPLEX / REASONING
+3. Confidence calibration → sigmoid; below 0.7 → AMBIGUOUS → defaults to MEDIUM
+4. Profile resolution     → auto / eco / premium → primary + ordered fallback
+5. Capability filtering   → context window, tool calling, vision
+```
+
+No external API calls. No LLM inference in the classification step. Pure keyword matching and arithmetic.
+
 ### 14-Dimension Scoring
 
-ClawRouter uses a multi-factor scoring system that runs locally in <1ms:
+The classifier reads the prompt and scores it across 14 weighted dimensions. Weights sum to 1.0:
 
-1. **Prompt complexity** - Length, structure, nested reasoning
-2. **Task type** - Code, math, creative writing, analysis
-3. **Context requirements** - How much context the model needs
-4. **Quality needs** - When only the best model will do
-5. **Cost constraints** - Always pick the cheapest capable model
-6. **Speed requirements** - Fast models for simple tasks
-7. **And 8 more factors...**
+| Dimension | Weight | Detects |
+|---|---|---|
+| reasoningMarkers | 0.18 | "prove", "theorem", "step by step" |
+| codePresence | 0.15 | "function", "class", "import", backticks |
+| multiStepPatterns | 0.12 | "first…then", numbered lists, "step N" |
+| technicalTerms | 0.10 | "algorithm", "kubernetes", "distributed" |
+| tokenCount | 0.08 | <50 tokens vs >500 tokens |
+| creativeMarkers | 0.05 | "story", "poem", "brainstorm" |
+| questionComplexity | 0.05 | >3 question marks |
+| agenticTask | 0.04 | "edit", "deploy", "fix", "debug" |
+| constraintCount | 0.04 | "at most", "within", "O()" |
+| imperativeVerbs | 0.03 | "build", "create", "implement" |
+| outputFormat | 0.03 | "json", "yaml", "table", "csv" |
+| simpleIndicators | 0.02 | "what is", "hello", "define" |
+| referenceComplexity | 0.02 | "the code above", "the API docs" |
+| domainSpecificity | 0.02 | "quantum", "FPGA", "genomics" |
 
-All routing decisions happen on your machine. No external API calls.
+**Multilingual:** Every keyword list ships in 9 languages (EN, ZH, JA, RU, DE, ES, PT, KO, AR). "证明这个定理" triggers the same reasoning classification as "prove this theorem."
+
+### Tier Mapping
+
+The weighted score lands on a single axis with three boundaries:
+
+```
+SIMPLE  <  0.0  <  MEDIUM  <  0.3  <  COMPLEX  <  0.5  <  REASONING
+```
+
+We classify the *request*, not the model. Tier first, model second.
+
+### Sigmoid Confidence Calibration
+
+When a score lands near a tier boundary, we don't trust it. The router runs:
+
+```
+confidence = 1 / (1 + exp(-12 × distance_from_boundary))
+```
+
+If confidence drops below 0.7, the request is reclassified as AMBIGUOUS and **defaults to MEDIUM, never SIMPLE.** The router fails upward, never downward — under uncertainty we'd rather spend a bit more than ship a bad result.
+
+### Quality-First Fallback Chains
+
+Each tier × profile combination resolves to a primary model plus an ordered fallback chain. Fallback ordering is the most important property of the system — the primary handles the happy path, the fallback handles reality (rate limits, outages, payment failures).
+
+We descend by **quality first**, then trade quality for speed. Example COMPLEX-tier fallback under `auto`:
+
+```
+gemini-3-pro-preview      IQ 48, 1,352ms  ← primary
+gemini-3-flash-preview    IQ 46, 1,398ms
+grok-4-0709               IQ 41, 1,348ms
+gemini-2.5-pro                   1,294ms
+claude-sonnet-4.6         IQ 52, 2,110ms
+deepseek-chat             IQ 32, 1,431ms
+gemini-2.5-flash          IQ 20, 1,238ms
+gpt-5.4                   IQ 57, 6,213ms  ← last resort
+```
+
+GPT-5.4 sits last despite the highest IQ — its 6.2s latency creates a worse compounded experience across multi-step workflows than a slightly-lower-IQ model that completes in 1.4s.
+
+### Runtime Capability Filtering
+
+Before any model is dispatched, the candidate set is filtered against three hard constraints:
+
+1. **Context window fit** — must hold (input + estimated output) × 1.10 safety buffer
+2. **Tool calling** — if request includes tools, only function-calling models stay
+3. **Vision** — if request includes images, only vision-capable models stay
+
+A "cheaper" model lacking a required capability is removed from the candidate set, **never silently substituted.** This prevents the classic multi-step failure mode where a tool-call step gets routed to a model that can't actually call tools.
+
+### Per-Request x402 Isolation
+
+Every request is its own settled x402 transaction. There is no session state to corrupt. A provider failure on step 7 of a 20-step workflow doesn't cascade — the proxy walks the fallback chain in isolation for that single request, settles the call, and the workflow continues. Stale-session-state failure modes don't exist for ClawRouter, because we don't have sessions.
 
 ### 4-Tier Model Selection
 
