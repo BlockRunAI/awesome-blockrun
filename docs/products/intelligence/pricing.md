@@ -22,7 +22,7 @@ The 5% margin covers:
 | DeepSeek V3 | ~7M input tokens |
 | Gemini Flash | ~13M input tokens |
 | DALL-E 3 | ~20 images |
-| **NVIDIA GPT-OSS 120B** | **Unlimited (FREE)** |
+| **NVIDIA free tier** (DeepSeek V4 Pro/Flash, Nemotron Nano Omni, Qwen3, Llama 4, GLM-4.7, Mistral — 9 models) | **Unlimited (FREE)** |
 
 ## Full Price List
 
@@ -83,11 +83,22 @@ The 5% margin covers:
 
 ### NVIDIA (Free Tier)
 
+Last refreshed 2026-04-28. `nvidia/gpt-oss-120b` and `nvidia/gpt-oss-20b` were
+retired this date — NVIDIA's free build.nvidia.com tier reserves the right to
+use prompts/outputs for service improvement, which conflicts with our
+data-privacy policy.
+
 | Model | Input (per 1M) | Output (per 1M) | Notes |
 |-------|---------------|-----------------|-------|
-| GPT-OSS 120B | **FREE** | **FREE** | OpenAI open-weight 120B (Apache 2.0) |
-| GPT-OSS 20B | **FREE** | **FREE** | OpenAI open-weight 20B |
-| Kimi K2.5 | $0.001/request | - | Moonshot 1T MoE (flat pricing) |
+| `nvidia/deepseek-v4-pro` | **FREE** | **FREE** | 1.6T MoE / 49B active, 1M context — flagship reasoning |
+| `nvidia/deepseek-v4-flash` | **FREE** | **FREE** | 284B / 13B active MoE, 1M context — ~5× faster than V4 Pro |
+| `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | **FREE** | **FREE** | 31B / 3.2B active, 256K context — only vision-capable free model |
+| `nvidia/qwen3-next-80b-a3b-thinking` | **FREE** | **FREE** | 116 tok/s — reasoning flagship with thinking mode |
+| `nvidia/mistral-small-4-119b` | **FREE** | **FREE** | 114 tok/s — fastest free chat |
+| `nvidia/glm-4.7` | **FREE** | **FREE** | 237 tok/s — GLM-4.7 with thinking mode |
+| `nvidia/llama-4-maverick` | **FREE** | **FREE** | Meta Llama 4 Maverick MoE |
+| `nvidia/qwen3-coder-480b` | **FREE** | **FREE** | Coding-optimised 480B MoE |
+| `nvidia/deepseek-v3.2` | **FREE** | **FREE** | Legacy V3.2 — auto-upgrades to V4 Pro via fallback |
 
 ### Meta (via Together/Fireworks)
 

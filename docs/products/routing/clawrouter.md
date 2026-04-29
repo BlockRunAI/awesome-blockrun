@@ -135,12 +135,14 @@ Every request is its own settled x402 transaction. There is no session state to 
 
 ### 4-Tier Model Selection
 
-| Tier | Model | Cost | Use Case |
-|------|-------|------|----------|
-| **SIMPLE** | nvidia/kimi-k2.5 | FREE | Q&A, summaries, simple tasks |
-| **MEDIUM** | deepseek/deepseek-chat | $0.42/M | Analysis, writing, coding |
-| **COMPLEX** | google/gemini-3.1-pro-preview | $12.00/M | Advanced reasoning, research |
-| **REASONING** | xai/grok-4-1-fast-reasoning | $15.00/M | Math, logic, proofs |
+Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0 routing across the NVIDIA tier):
+
+| Tier | Model (auto) | Cost | Free-tier fallback | Use Case |
+|------|-------|------|--------------------|----------|
+| **SIMPLE** | moonshot/kimi-k2.6 | $0.95/M in / $4.00/M out | `nvidia/deepseek-v4-flash` (FREE) | Q&A, summaries, simple tasks |
+| **MEDIUM** | google/gemini-2.5-flash | $0.30/M in / $2.50/M out | `nvidia/deepseek-v4-pro` (FREE) | Analysis, writing, coding |
+| **COMPLEX** | google/gemini-3.1-pro | $1.31/M in / $5.25/M out | `nvidia/qwen3-next-80b-a3b-thinking` (FREE) | Advanced reasoning, research |
+| **REASONING** | deepseek/deepseek-reasoner | $0.28/M in / $0.42/M out | `nvidia/deepseek-v4-pro` (FREE) | Math, logic, proofs |
 
 *Prices shown are output costs per 1M tokens (after 5% BlockRun markup)*
 
@@ -172,7 +174,7 @@ Access all major providers through one wallet:
 - **DeepSeek**: DeepSeek V3, DeepSeek Reasoner
 - **xAI**: Grok 4.20, Grok 4 Fast (2M context)
 - **Moonshot**: Kimi K2.6 (flagship, vision + reasoning), Kimi K2.5
-- **NVIDIA**: GPT-OSS 120B (FREE)
+- **NVIDIA (all FREE)**: DeepSeek V4 Pro/Flash (1M ctx), Nemotron Nano Omni (vision), Qwen3-Next 80B Thinking, Mistral Small 4 119B, GLM-4.7, Llama 4 Maverick, Qwen3 Coder 480B, DeepSeek V3.2 (9 models)
 
 [View all models →](../intelligence/pricing.md)
 
@@ -199,7 +201,7 @@ Once installed and enabled with `/model blockrun/auto`, ClawRouter works automat
 ```
 You: Explain quantum computing in simple terms
 
-ClawRouter: [Routes to nvidia/kimi-k2.5 - FREE]
+ClawRouter: [Routes to nvidia/deepseek-v4-flash - FREE]
 Response: Quantum computing uses quantum mechanics...
 ```
 
@@ -216,7 +218,7 @@ You can still override routing for specific requests:
 ClawRouter logs show which model was selected and why:
 
 ```
-[ClawRouter] Prompt complexity: LOW → Tier: SIMPLE → Model: nvidia/kimi-k2.5
+[ClawRouter] Prompt complexity: LOW → Tier: SIMPLE → Model: nvidia/deepseek-v4-flash (free profile)
 [ClawRouter] Cost: $0.0000 (saved $0.0150 vs. Claude Opus)
 ```
 

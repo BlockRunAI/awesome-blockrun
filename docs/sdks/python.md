@@ -137,7 +137,7 @@ result = client.smart_chat(
     "Explain recursion",
     routing_profile="free"
 )
-print(result.model)  # "nvidia/gpt-oss-120b"
+print(result.model)  # "nvidia/deepseek-v4-flash" (cheapest capable for SIMPLE tier)
 
 # Maximum savings mode
 result = client.smart_chat(

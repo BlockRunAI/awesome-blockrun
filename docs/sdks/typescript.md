@@ -139,7 +139,7 @@ console.log(result.routing.savings);    // 0.94 (94% savings)
 const result = await client.smartChat('Explain recursion', {
   routingProfile: 'free'
 });
-console.log(result.model);  // "nvidia/gpt-oss-120b"
+console.log(result.model);  // "nvidia/deepseek-v4-flash" (cheapest capable for SIMPLE tier)
 
 // Maximum savings mode
 const result2 = await client.smartChat('Summarize this article: ...', {
