@@ -13,9 +13,10 @@ The same paths are available on each gateway. The 402 response advertises which 
 | `blockrun.ai` | Base mainnet — `eip155:8453` | USDC `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` | Per-call onchain | Default gateway. EIP-3009 / x402 v2. |
 | `sol.blockrun.ai` | Solana mainnet — `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDC SPL `EPjFWdd5AufqSSqeM2qN1xzybapC8C4wEBmGbV4Vu5JLs` | Per-call onchain | Solana SPL transfers. |
 | `nano.blockrun.ai` | Base mainnet via Circle Gateway | USDC | Batched (Nanopayments) | Gas-free, sub-cent floor, batched onchain settlement. See [the Nanopayments launch post](https://blockrun.ai/signal/nanopayments-mainnet-circle-gateway). |
+| `xrpl.blockrun.ai` | XRP Ledger | RLUSD (Ripple-issued USD) | Per-call onchain | Facilitator: t54.ai. Native XRPL payment channels. SDK: [`blockrun-llm-xrpl`](../sdks/xrpl.md). |
 | `testnet.blockrun.ai` | Base Sepolia — `eip155:84532` | USDC `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | Per-call onchain | Free test USDC. Smaller model catalog. |
 
-All gateways implement [x402 v2](https://x402.org). The verifier/facilitator is Coinbase CDP for Base; native verification on Solana.
+All gateways implement [x402 v2](https://x402.org). Facilitators: Coinbase CDP for Base, native Solana verification, t54.ai for XRPL.
 
 ## Discovery
 
@@ -25,7 +26,7 @@ GET https://blockrun.ai/openapi.json         # Full OpenAPI 3.1 spec (read by x4
 GET https://blockrun.ai/api/v1/models        # Live model catalog with pricing
 ```
 
-Replace `blockrun.ai` with `sol.blockrun.ai`, `nano.blockrun.ai`, or `testnet.blockrun.ai` to discover the same endpoints scoped to a different network.
+Replace `blockrun.ai` with `sol.blockrun.ai`, `nano.blockrun.ai`, `xrpl.blockrun.ai`, or `testnet.blockrun.ai` to discover the same endpoints scoped to a different network.
 
 ## AI Model Gateway
 
@@ -131,7 +132,7 @@ Partnership upgrade in progress. These endpoints return HTTP 503 with a waitlist
 Every paid endpoint follows the same flow:
 
 1. Client sends request without payment → server returns `HTTP 402` with `accepts[]` describing network, asset, amount, `payTo`, and resource URL
-2. Client signs a payment authorization (EIP-3009 on EVM, SPL transfer on Solana)
+2. Client signs a payment authorization (EIP-3009 on EVM, SPL transfer on Solana, XRPL payment channel on `xrpl.blockrun.ai`)
 3. Client retries with the `PAYMENT-SIGNATURE` header (x402 v2)
 4. Server verifies via the network's facilitator, executes the API call, settles onchain
 5. Server returns the response with `X-Payment-Receipt` (tx hash)
