@@ -70,6 +70,7 @@
 
 * [How x402 Works](x402/how-it-works.md)
 * [Payment Flow](x402/payment-flow.md)
+* [Endpoints](x402/endpoints.md)
 * [Security](x402/security.md)
 
 ## Resources
