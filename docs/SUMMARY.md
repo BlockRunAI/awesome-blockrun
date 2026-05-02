@@ -60,7 +60,6 @@
 * [Music Generation](api-reference/music-generation.md)
 * [Search](api-reference/search.md)
 * [Exa Web Search](api-reference/exa-search.md)
-* [X/Twitter](api-reference/x-twitter.md)
 * [Prediction Markets](api-reference/prediction-markets.md)
 * [Modal Sandbox](api-reference/modal-sandbox.md)
 * [Models](api-reference/models.md)
