@@ -259,18 +259,49 @@ const pairs = await client.pm("matching-markets/pairs");
 
 ### `pmQuery(path, query)`
 
-Structured query for prediction market POST endpoints. Reserved for future POST endpoints.
+Structured query for prediction market POST endpoints. Used for bulk wallet identity lookup and any future POST endpoints.
+
+```typescript
+// Bulk wallet identity lookup (Tier 2, $0.005)
+const batch = await client.pmQuery("polymarket/wallet/identities", {
+  addresses: ["0xabc...", "0xdef...", "0x123..."],  // up to 200
+});
+```
 
 **Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `path` | `string` | Endpoint path for a POST query |
+| `path` | `string` | Endpoint path for a POST query, e.g. `"polymarket/wallet/identities"` |
 | `query` | `Record<string, unknown>` | JSON body for the structured query |
 
 **Returns:** `Promise<Record<string, unknown>>` — Raw JSON response from Predexon API
 
-> **Note:** All current Predexon endpoints are GET-based and should be accessed via `pm()`. The `pmQuery()` method is available for future POST endpoints as the API expands.
+### Predexon v2 Convenience Helpers
+
+Thin wrappers over `pm()` / `pmQuery()` for the most common v2 endpoints.
+
+```typescript
+// Canonical cross-venue markets (Tier 1)
+const markets   = await client.pmMarkets({ venue: "polymarket", status: "active" });
+const listings  = await client.pmListings({ category: "elections" });
+const outcome   = await client.pmOutcome("PXM-12345");
+
+// Polymarket keyset pagination (Tier 1)
+const page      = await client.pmPolymarketMarketsKeyset({ limit: "100" });
+const nextPage  = await client.pmPolymarketEventsKeyset({
+  pagination_key: (page.pagination as Record<string, string>).next_key,
+});
+
+// Sports markets (Tier 1)
+const categories = await client.pmSportsCategories();
+const games      = await client.pmSportsMarkets({ league: "NBA", status: "open" });
+
+// Wallet identity & on-chain clustering (Tier 2)
+const ident   = await client.pmWalletIdentity("0xabc...");
+const batch   = await client.pmWalletIdentities(["0xabc...", "0xdef..."]);  // up to 200
+const cluster = await client.pmWalletCluster("0xabc...");
+```
 
 ### Available Platforms
 

@@ -267,18 +267,47 @@ pairs = client.pm("matching-markets/pairs")
 
 ### `pm_query(path, query)`
 
-Structured query for prediction market POST endpoints. Reserved for future POST endpoints.
+Structured query for prediction market POST endpoints. Used for bulk wallet identity lookup and any future POST endpoints.
+
+```python
+# Bulk wallet identity lookup (Tier 2, $0.005)
+batch = client.pm_query("polymarket/wallet/identities", {
+    "addresses": ["0xabc...", "0xdef...", "0x123..."],  # up to 200
+})
+```
 
 **Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `path` | `str` | Endpoint path for a POST query |
+| `path` | `str` | Endpoint path for a POST query, e.g. `"polymarket/wallet/identities"` |
 | `query` | `Dict[str, Any]` | JSON body for the structured query |
 
 **Returns:** `Dict[str, Any]` — Raw JSON response from Predexon API
 
-> **Note:** All current Predexon endpoints are GET-based and should be accessed via `pm()`. The `pm_query()` method is available for future POST endpoints as the API expands.
+### Predexon v2 Convenience Helpers
+
+Thin wrappers over `pm()` / `pm_query()` for the most common v2 endpoints. Each forwards keyword arguments as query parameters.
+
+```python
+# Canonical cross-venue markets (Tier 1)
+markets   = client.pm_markets(venue="polymarket", status="active")
+listings  = client.pm_listings(category="elections")
+outcome   = client.pm_outcome("PXM-12345")
+
+# Polymarket keyset pagination (Tier 1)
+page      = client.pm_polymarket_markets_keyset(limit="100")
+next_page = client.pm_polymarket_events_keyset(pagination_key=page["pagination"]["next_key"])
+
+# Sports markets (Tier 1)
+categories = client.pm_sports_categories()
+games      = client.pm_sports_markets(league="NBA", status="open")
+
+# Wallet identity & on-chain clustering (Tier 2)
+ident   = client.pm_wallet_identity("0xabc...")
+batch   = client.pm_wallet_identities(["0xabc...", "0xdef..."])  # up to 200
+cluster = client.pm_wallet_cluster("0xabc...")
+```
 
 ### Available Platforms
 
