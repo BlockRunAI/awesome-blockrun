@@ -35,8 +35,7 @@ POST https://blockrun.ai/api/v1/audio/generations
 
 | Model ID | Price | Notes |
 |----------|-------|-------|
-| `minimax/music-2.5+` | $0.1575 | Latest flagship, best quality |
-| `minimax/music-2.5` | $0.1575 | Stable version |
+| `minimax/music-2.5+` | $0.1575 | MiniMax flagship — supports lyrics, instrumental, and style prompts |
 
 ## Response
 
@@ -163,7 +162,6 @@ result = requests.post(
 | Model | MiniMax Cost | BlockRun Price |
 |-------|-------------|----------------|
 | minimax/music-2.5+ | ¥1.0 (~$0.138) | $0.1575 |
-| minimax/music-2.5 | ¥1.0 (~$0.138) | $0.1575 |
 
 Prices include 5% BlockRun margin. Paid in USDC on Base network.
 

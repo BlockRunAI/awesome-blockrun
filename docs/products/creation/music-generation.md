@@ -10,8 +10,7 @@ Generate full-length music tracks with lyrics, instrumental, or custom style pro
 
 | Model | Price | Notes |
 |-------|-------|-------|
-| minimax/music-2.5+ | $0.1575 | Latest MiniMax flagship, best quality |
-| minimax/music-2.5 | $0.1575 | Stable version, same quality |
+| minimax/music-2.5+ | $0.1575 | MiniMax flagship — supports lyrics, instrumental, and style prompts |
 
 ## Endpoint
 
@@ -162,7 +161,6 @@ Create an instrumental ambient track for a meditation app
 | Model | MiniMax Cost | BlockRun Price | Margin |
 |-------|-------------|----------------|--------|
 | music-2.5+ | ¥1.0 (~$0.138) | $0.1575 | ~14% |
-| music-2.5 | ¥1.0 (~$0.138) | $0.1575 | ~14% |
 
 Prices in USD, paid in USDC on Base network.
 
