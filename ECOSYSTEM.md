@@ -37,6 +37,7 @@ BlockRun works with the x402 facilitator network:
 | [AnySpend](https://anyspend.com) | Base | `mainnet.anyspend.com/x402/discovery/resources` |
 | [AurraCloud](https://aurracloud.com) | Base | `x402-facilitator.aurracloud.com/discovery/resources` |
 | [thirdweb](https://thirdweb.com) | Base, Ethereum | `api.thirdweb.com/v1/payments/x402/discovery/resources` |
+| [AlgoVoi](https://algovoi.co.uk) | Base, Solana, Stellar, Algorand, VOI, Hedera, Tempo | `api.algovoi.co.uk/.well-known/pay-skills.json` |
 
 ## Partners
 
