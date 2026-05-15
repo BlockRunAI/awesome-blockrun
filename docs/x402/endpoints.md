@@ -50,7 +50,8 @@ Per-model pricing is published at `/api/v1/models` and embedded in every 402 res
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
 | POST | `/api/v1/search` | Web search (Exa-backed) | ~$0.005 / call |
-| GET/POST | `/api/v1/exa/{path}` | Exa raw passthrough (search, contents, find_similar) | Per-tier |
+| GET/POST | `/api/v1/exa/{path}` | Exa raw passthrough (search, contents, find_similar, answer) | Per-tier |
+| POST | `/api/v1/exa/answer` | Exa AI answer — returns a direct answer with citations | Per-tier |
 
 ## Sandbox Compute (Modal)
 
@@ -91,28 +92,6 @@ Real-time and historical prices. List endpoints are free; price/history endpoint
 | GET | `/api/v1/commodity/list` | Commodities (free) |
 | GET | `/api/v1/commodity/price/{symbol}` | Commodity spot |
 | GET | `/api/v1/commodity/history/{symbol}` | Commodity OHLC |
-
-## X / Twitter (AttentionVC) — Currently Paused
-
-Partnership upgrade in progress. These endpoints return HTTP 503 with a waitlist link. Subscribe via `POST /api/v1/x/waitlist`. Pricing below applies on resume.
-
-| Method | Path | Resumed pricing |
-|---|---|---|
-| POST | `/api/v1/x/trending` | $0.002 |
-| POST | `/api/v1/x/articles/rising` | $0.001 |
-| POST | `/api/v1/x/search` | $0.001 |
-| POST | `/api/v1/x/users/info` | $0.001 |
-| POST | `/api/v1/x/users/lookup` | $0.001 |
-| POST | `/api/v1/x/users/tweets` | $0.001 |
-| POST | `/api/v1/x/users/mentions` | $0.001 |
-| POST | `/api/v1/x/users/followers` | $0.001 |
-| POST | `/api/v1/x/users/following` | $0.001 |
-| POST | `/api/v1/x/users/followings` | $0.001 |
-| POST | `/api/v1/x/users/verified-followers` | $0.001 |
-| POST | `/api/v1/x/tweets/lookup` | $0.001 |
-| POST | `/api/v1/x/tweets/replies` | $0.001 |
-| POST | `/api/v1/x/tweets/thread` | $0.001 |
-| POST | `/api/v1/x/waitlist` | Free |
 
 ## Free Endpoints
 
