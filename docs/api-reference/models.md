@@ -48,7 +48,9 @@ Each model object in the response includes:
 }
 ```
 
-## Available Models (33 visible)
+## Available Models (41 visible)
+
+> The 41 visible models below are surfaced on the homepage and `GET /v1/models`. An additional ~36 deprecated / superseded model IDs remain routable for backwards compatibility but are hidden from the catalog.
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
 

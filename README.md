@@ -80,11 +80,19 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 | Product | Endpoint | Pricing | Description |
 |---------|----------|---------|-------------|
 | **LLM Chat** | `/v1/chat/completions` | Per token | OpenAI-compatible, 41+ models, streaming, tool calling |
-| **Image Generation** | `/v1/images/generations` | $0.02–0.15/image | DALL-E 3, GPT Image 1, Nano Banana, Nano Banana Pro |
+| **Anthropic-Compat** | `/v1/messages` | Per token | Drop-in for Claude's Messages API |
+| **Image Generation** | `/v1/images/generations` | $0.015–0.10/image | DALL-E 3, GPT Image 1/2, Nano Banana / Pro, Grok Imagine / Pro, CogView-4 |
 | **Image Editing** | `/v1/images/image2image` | Per request | AI-powered inpainting and image-to-image |
+| **Video Generation** | `/v1/videos/generations` | Per M tokens | Seedance 1.5 Pro, 2.0 Fast, 2.0 Pro (with BytePlus RealFace support); Grok Imagine Video |
+| **Music Generation** | `/v1/audio/generations` | Per track | Suno-powered text-to-music |
+| **Voice Calls** | `/v1/voice/call` | $0.54/call (flat, ≤30min) | Outbound AI conversation calls — Bland.ai upstream |
+| **Phone Numbers** | `/v1/phone/numbers/*` | $5/30 days | Wallet-owned US/CA numbers — Twilio upstream |
+| **Surf Crypto Data** | `/api/v1/surf/*` | $0.001–0.02 | 83 endpoints: CEX, on-chain SQL, prediction markets, wallet labels, social mindshare, news, search (asksurf.ai) |
 | **Web Search** | `/api/v1/exa/*` | $0.01/search | Neural web search, find-similar, page contents, AI answers (Exa) |
-| **DEX Data** | `/v1/dex/*` | Free | Real-time token prices, volume, liquidity across chains (DexScreener) |
-| **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | Polymarket, Kalshi, dFlow, Binance Futures |
+| **DEX Aggregation** | `/api/v1/zerox/*` | Free | 0x Swap V2 + Gasless V2 across 100+ venues |
+| **Sandbox Runtime** | `/api/v1/modal/*` | Per run | Secure isolated Python execution (Modal) |
+| **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | Polymarket, Kalshi, dFlow, Binance Futures (Predexon) |
+| **Trading Markets** | `/api/v1/markets/*` | $0.001 | Equity tickers across US, KR, JP, CN, etc. |
 | **Models** | `/v1/models` | Free | List all available models with pricing |
 | **Pricing** | `/v1/pricing` | Free | Detailed pricing for all models |
 | **Balance** | `/v1/balance` | Free | Check USDC wallet balance |

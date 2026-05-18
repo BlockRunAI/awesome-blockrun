@@ -7,7 +7,7 @@ Projects, integrations, and partners building with BlockRun and x402.
 | Product | Description | Link |
 |---------|-------------|------|
 | [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp) | AI crypto trading for Claude | [GitHub](https://github.com/BlockRunAI/alpha-mcp) |
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server (v0.4.2) for 33+ AI models, images, smart routing | [GitHub](https://github.com/BlockRunAI/blockrun-mcp) |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server (v0.4.2) for 41+ AI models, images, video, music, voice, prediction markets, crypto data, sandbox runtime, smart routing | [GitHub](https://github.com/BlockRunAI/blockrun-mcp) |
 | [x-grow](https://github.com/BlockRunAI/x-grow) | X post optimization skill | [GitHub](https://github.com/BlockRunAI/x-grow) |
 | [nano-banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Image generation skill | [GitHub](https://github.com/BlockRunAI/nano-banana-blockrun) |
 
@@ -16,10 +16,19 @@ Projects, integrations, and partners building with BlockRun and x402.
 | Product | Endpoint | Pricing | Status |
 |---------|----------|---------|--------|
 | **LLM Chat** | `/v1/chat/completions` | Per token | ✅ Live |
-| **Image Generation** | `/v1/images/generations` | $0.02–0.15/image | ✅ Live |
+| **Anthropic-Compat** | `/v1/messages` | Per token | ✅ Live |
+| **Image Generation** | `/v1/images/generations` | $0.015–0.10/image | ✅ Live |
 | **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
+| **Video Generation** | `/v1/videos/generations` | Per M tokens | ✅ Live |
+| **Music Generation** | `/v1/audio/generations` | Per track | ✅ Live |
+| **Voice Calls** | `/v1/voice/call` | $0.54 flat | ✅ Live |
+| **Phone Numbers** | `/v1/phone/numbers/*` | $5/30 days | ✅ Live |
+| **Surf Crypto Data** | `/api/v1/surf/*` (83 endpoints) | $0.001–0.02 | ✅ Live |
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
+| **Exa Web Search** | `/api/v1/exa/*` | $0.002–0.01 | ✅ Live |
+| **0x Swap (DEX)** | `/api/v1/zerox/*` | Free | ✅ Live |
 | **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | ✅ Live |
+| **Trading Markets** | `/api/v1/markets/*` | $0.001 | ✅ Live |
 | **Modal Sandbox** | `/v1/modal/*` | $0.001–0.01 | ✅ Live |
 | **Models** | `/v1/models` | Free | ✅ Live |
 | **Pricing** | `/v1/pricing` | Free | ✅ Live |
@@ -89,6 +98,13 @@ BlockRun works with the x402 facilitator network:
 | [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
 | [Predexon](https://predexon.com) | Prediction market data |
 | [Modal](https://modal.com) | Sandbox compute (isolated code execution) |
+| [Surf (asksurf.ai)](https://asksurf.ai) | Crypto data — 83 endpoints (CEX, on-chain SQL, prediction markets, wallet labels, social, news) |
+| [Bland.ai](https://bland.ai) | Conversational voice AI — outbound calls |
+| [Twilio](https://twilio.com) | Phone-number provisioning (wallet-owned US/CA numbers) |
+| [token360](https://token360.ai) | Video generation (Seedance 1.5/2.0 with BytePlus RealFace) |
+| [Exa](https://exa.ai) | Neural web search |
+| [0x](https://0x.org) | DEX aggregation (Swap V2 + Gasless V2) |
+| [Suno](https://suno.com) | Music generation |
 
 ## AI Providers
 

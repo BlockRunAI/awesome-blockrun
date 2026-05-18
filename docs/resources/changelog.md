@@ -2,6 +2,39 @@
 
 All notable changes to BlockRun.
 
+## [2026-05-18]
+
+### Added — Surf crypto data partnership
+- **`/api/v1/surf/*`** — 83 crypto data endpoints in three flat price tiers ($0.001 / $0.005 / $0.02), covering CEX prices, on-chain SQL (sub-second ClickHouse, 80+ tables), Polymarket/Kalshi/dFlow prediction markets, wallet labels (smart-money, KOL, exchange), social mindshare, AI-curated news, and project/fund/token/wallet search. Payment settles 1:1 directly to Surf's treasury — BlockRun takes no margin in exchange for being the discovery + x402 layer. See [Surf API reference](../api-reference/surf.md).
+- **`blockrun_surf` MCP tool** added to the BlockRun MCP server.
+- Surf added as a partner in [Ecosystem](ecosystem.md).
+
+### Added — Phone & Voice partnership (Bland.ai + Twilio)
+- **`/api/v1/voice/call`** — outbound AI conversation calls. **$0.54 flat per call** (up to 30 min, default 5 min). Bland.ai upstream.
+- **`/api/v1/phone/numbers/buy`** — provision a wallet-owned US/CA phone number for $5 (30-day lease). Twilio upstream. Ownership recorded in Firestore against the calling wallet — only that wallet can use the number as caller ID or renew it.
+- **`/api/v1/phone/numbers/renew`** — extend lease by 30 days for $5.
+- **`/api/v1/phone/numbers/list`** — list a wallet's active numbers.
+- **`GET /api/v1/voice/call/{id}`** — free polling endpoint for call status / transcript / recording.
+- See [Phone & Voice API reference](../api-reference/voice-phone.md).
+
+### Added — BytePlus RealFace for Seedance video
+- `bytedance/seedance-2.0-fast` and `bytedance/seedance-2.0` now accept a `real_face_asset_id` parameter (`ta_xxxxxx` format) for face-reference image-to-video. Asset IDs are managed in BytePlus's RealFace catalog.
+
+### Added — Brand: Franklin → Franklin Agent
+- Renamed the autonomous-agent product across the entire site, docs, and SDKs. Repo (`BlockRunAI/Franklin`) and CSS unchanged; surface copy now consistently says "Franklin Agent" to disambiguate from the personal name.
+
+### Changed — Seedance pricing migrated to per-M-token
+- Old per-second pricing ($0.03–$0.30 / sec) is deprecated. New per-M-token pricing aligned with token360 upstream:
+  - `seedance-1.5-pro`: $4.32/M tokens (flat, 480p default)
+  - `seedance-2.0-fast`: $11.20/M (text-only) or $6.60/M (with image input)
+  - `seedance-2.0`: $14/M (text-only) or $8.60/M (with image input)
+- Default resolution is 480p (token360 default). Effective rate at 10,128 tok/sec.
+
+### Added — Rate-limit transparency
+- 429 responses now carry `Retry-After` (RFC-7231 standard) + `X-RateLimit-Source: <provider>` headers, plus body fields `code: "RATE_LIMITED"`, `source`, `retry_after_seconds`. Clients can fail over to a same-tier model on a different provider, or honor the retry interval. See [Rate Limits](../api-reference/rate-limits.md) — there is no platform-side QPS/RPM/TPM quota on paid inference; upstream provider limits apply.
+
+---
+
 ## [2026-04-25]
 
 ### Models

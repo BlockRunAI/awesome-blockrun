@@ -1,6 +1,6 @@
 # BlockRun MCP
 
-Give Claude Code access to 33+ AI models with zero API keys.
+Give Claude Code access to 41+ AI models, 80+ crypto data endpoints, voice calls, image/video/music generation, prediction markets, and a sandbox runtime — all with zero API keys.
 
 BlockRun MCP is a Model Context Protocol server that connects Claude Code to BlockRun's intelligence, trading, and creation capabilities.
 
@@ -102,6 +102,58 @@ Check wallet balance and address.
 
 ```
 blockrun balance
+```
+
+### `blockrun_video`
+
+Generate video from text or image (Seedance 1.5 Pro, 2.0 Fast, 2.0 Pro; Grok Imagine Video). 2.0 Fast/Pro support BytePlus RealFace asset IDs.
+
+```
+Generate a 5-second video of a sunset over Tokyo
+```
+
+### `blockrun_music`
+
+Generate music tracks from a text prompt (Suno upstream).
+
+```
+Compose a 60-second lo-fi hip-hop loop
+```
+
+### `blockrun_search`
+
+Live web search (Grok-grounded).
+
+### `blockrun_exa`
+
+Neural web search — find URLs, read pages, get cited answers, find similar.
+
+### `blockrun_modal`
+
+Run isolated Python code in a secure sandbox.
+
+### `blockrun_dex`
+
+DEX market data + 0x Swap (free, no payment).
+
+### `blockrun_markets`
+
+Live equity ticker data across US, KR, JP, CN, and other stock markets.
+
+### `blockrun_price`
+
+Real-time crypto + stablecoin prices.
+
+### `blockrun_x`
+
+X (Twitter) data for an agent — recent posts, profile, trends.
+
+### `blockrun_surf`
+
+Crypto data via Surf — 83 endpoints across exchanges, on-chain analytics, prediction markets, wallet labels, social mindshare, news, and search. See [Surf API reference](../api-reference/surf.md).
+
+```
+What's the BTC funding rate on Binance perps right now, and how does it compare to the 7-day average?
 ```
 
 ### Smart Routing
