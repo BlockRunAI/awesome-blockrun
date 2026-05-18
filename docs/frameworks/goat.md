@@ -1,6 +1,6 @@
 # GOAT SDK Integration
 
-Use BlockRun with [GOAT SDK](https://github.com/crossmint/goat) (Great Onchain Agent Toolkit) for cross-chain AI agents. GOAT handles blockchain interactions, BlockRun provides AI intelligence via 33+ models with x402 micropayments.
+Use BlockRun with [GOAT SDK](https://github.com/crossmint/goat) (Great Onchain Agent Toolkit) for cross-chain AI agents. GOAT handles blockchain interactions, BlockRun provides AI intelligence via 55+ models with x402 micropayments.
 
 ## Status
 
@@ -104,7 +104,7 @@ if (validation.includes('valid')) {
 | GOAT Provides | BlockRun Adds |
 |---------------|---------------|
 | Cross-chain execution | AI decision making |
-| Protocol integrations | 33+ model access |
+| Protocol integrations | 55+ model access |
 | Wallet management | Pay-per-request AI |
 | Transaction building | No API key hassle |
 

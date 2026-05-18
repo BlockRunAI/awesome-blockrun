@@ -5,7 +5,7 @@ Get started with BlockRun in 60 seconds. Give your Claude agent superpowers.
 ## Quick Install
 
 ```bash
-claude mcp add blockrun -- npx @blockrun/mcp
+claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
 ```
 
 That's it. The MCP server is now available to Claude Code.
@@ -55,7 +55,7 @@ Use GPT-5 to get a second opinion on this code
 Ask Grok what's trending on X right now
 ```
 
-Claude automatically routes to 33+ AI models and pays via x402.
+Claude automatically routes to 55+ AI models and pays via x402.
 
 ### Trading (alpha-mcp)
 

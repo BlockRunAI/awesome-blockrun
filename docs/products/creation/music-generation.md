@@ -135,7 +135,7 @@ curl -s -X POST https://blockrun.ai/api/v1/audio/generations \
 ## Via BlockRun MCP (Claude Code)
 
 ```bash
-claude mcp add blockrun -- npx @blockrun/mcp
+claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
 ```
 
 Then in Claude:

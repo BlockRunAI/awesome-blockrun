@@ -22,7 +22,7 @@ claude skill add nano-banana
 Or via the BlockRun MCP which includes image generation:
 
 ```bash
-claude mcp add blockrun -- npx @blockrun/mcp
+claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
 ```
 
 ## Usage

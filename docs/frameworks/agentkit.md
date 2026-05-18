@@ -12,7 +12,7 @@ AgentKit provides:
 - Asset management
 
 BlockRun adds:
-- 33+ AI model access
+- 55+ AI model access
 - Pay-per-request intelligence
 - No API key management
 

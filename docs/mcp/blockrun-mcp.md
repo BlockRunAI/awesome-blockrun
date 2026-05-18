@@ -1,6 +1,6 @@
 # BlockRun MCP
 
-Give Claude Code access to 41+ AI models, 80+ crypto data endpoints, voice calls, image/video/music generation, prediction markets, and a sandbox runtime — all with zero API keys.
+Give Claude Code access to 55+ AI models, 80+ crypto data endpoints, voice calls, image/video/music generation, prediction markets, and a sandbox runtime — all with zero API keys.
 
 BlockRun MCP is a Model Context Protocol server that connects Claude Code to BlockRun's intelligence, trading, and creation capabilities.
 
@@ -9,7 +9,7 @@ BlockRun MCP is a Model Context Protocol server that connects Claude Code to Blo
 ## Installation
 
 ```bash
-claude mcp add blockrun -- npx @blockrun/mcp
+claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
 ```
 
 That's it. Restart Claude Code and the MCP is available.
@@ -38,7 +38,7 @@ That's it. Restart Claude Code and the MCP is available.
 ### 1. Install MCP
 
 ```bash
-claude mcp add blockrun -- npx @blockrun/mcp
+claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
 ```
 
 ### 2. Setup Wallet
@@ -68,85 +68,30 @@ Or ask: "What's my BlockRun wallet balance?"
 
 ## Available Tools
 
-The MCP exposes these tools to Claude:
+The MCP exposes 10 tools to Claude:
 
 ### `blockrun_chat`
 
-Call any supported LLM model.
+Call any supported LLM model — plus image, video, and music generation when smart-routed.
 
 ```
 Use GPT-5.4 to explain this error
-```
-
-### `blockrun_image`
-
-Generate images via DALL-E or Nano Banana.
-
-```
 Generate an image of a futuristic city
-```
-
-### `blockrun_models`
-
-List available models with context window sizes and categories.
-
-```
-Show me all available BlockRun models
-```
-
-Returns model details including `context_window`, `max_output`, and `categories` for each model.
-
-### `blockrun_wallet`
-
-Check wallet balance and address.
-
-```
-blockrun balance
-```
-
-### `blockrun_video`
-
-Generate video from text or image (Seedance 1.5 Pro, 2.0 Fast, 2.0 Pro; Grok Imagine Video). 2.0 Fast/Pro support BytePlus RealFace asset IDs.
-
-```
 Generate a 5-second video of a sunset over Tokyo
-```
-
-### `blockrun_music`
-
-Generate music tracks from a text prompt (Suno upstream).
-
-```
 Compose a 60-second lo-fi hip-hop loop
 ```
 
 ### `blockrun_search`
 
-Live web search (Grok-grounded).
+Live web and news search (Grok-grounded).
 
 ### `blockrun_exa`
 
-Neural web search — find URLs, read pages, get cited answers, find similar.
-
-### `blockrun_modal`
-
-Run isolated Python code in a secure sandbox.
-
-### `blockrun_dex`
-
-DEX market data + 0x Swap (free, no payment).
+Neural semantic web search — find URLs, read pages, get cited answers, find similar.
 
 ### `blockrun_markets`
 
-Live equity ticker data across US, KR, JP, CN, and other stock markets.
-
-### `blockrun_price`
-
-Real-time crypto + stablecoin prices.
-
-### `blockrun_x`
-
-X (Twitter) data for an agent — recent posts, profile, trends.
+Predexon prediction markets — Polymarket, Kalshi, sports markets.
 
 ### `blockrun_surf`
 
@@ -154,6 +99,34 @@ Crypto data via Surf — 83 endpoints across exchanges, on-chain analytics, pred
 
 ```
 What's the BTC funding rate on Binance perps right now, and how does it compare to the 7-day average?
+```
+
+### `blockrun_price`
+
+Pyth-grounded real-time quotes — crypto, FX, commodities, stocks.
+
+### `blockrun_dex`
+
+0x Swap — Permit2 + Gasless V2 aggregation across 100+ venues (free passthrough).
+
+### `blockrun_phone`
+
+AI voice calls + wallet-owned US/CA phone numbers. See [Phone & Voice reference](../api-reference/voice-phone.md).
+
+```
+Call +14155551234 and ask if Tuesday at 7pm is available for a reservation for two.
+```
+
+### `blockrun_models`
+
+List all available models with live pricing, context windows, and categories.
+
+### `blockrun_wallet`
+
+USDC balance, agent budgets, wallet setup.
+
+```
+blockrun balance
 ```
 
 ### Smart Routing

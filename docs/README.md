@@ -11,7 +11,7 @@ BlockRun is economic infrastructure for the agent era. AI agents discover servic
 | [**ClawRouter**](products/routing/clawrouter.md) | Smart LLM router that saves 78% on costs | Free (open source) |
 | [**Trading**](products/trading/overview.md) | AI analyzes markets, executes trades, manages risk | Free (open source) |
 | [**Creation**](products/creation/x-grow.md) | AI creates optimized posts and images | Pay-per-use |
-| [**Intelligence**](products/intelligence/overview.md) | AI accesses 33+ LLMs via x402 | Provider cost + 5% |
+| [**Intelligence**](products/intelligence/overview.md) | AI accesses 55+ LLMs via x402 | Provider cost + 5% |
 
 ## Get Started
 
@@ -19,7 +19,7 @@ BlockRun is economic infrastructure for the agent era. AI agents discover servic
 
 ```bash
 # Install BlockRun MCP
-claude mcp add blockrun -- npx @blockrun/mcp
+claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
 
 # Setup wallet (in Claude Code)
 > blockrun setup

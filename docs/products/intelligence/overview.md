@@ -1,6 +1,6 @@
 # Intelligence
 
-AI accesses any LLM. 33+ models, pay-per-request.
+AI accesses any LLM. 55+ models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Meta, and more — without managing API keys or subscriptions.
 
@@ -83,7 +83,7 @@ The 5% covers:
 ### Claude Code Users
 
 ```bash
-claude mcp add blockrun -- npx @blockrun/mcp
+claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
 ```
 
 Then:
