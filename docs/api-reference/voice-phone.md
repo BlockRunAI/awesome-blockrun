@@ -158,8 +158,10 @@ Poll for call status, transcript, and final outcome. **Free** — no payment req
   "to": "+12133610872",
   "status": "completed",
   "answered_by": "human",
-  "duration_seconds": 142,
-  "ended_reason": "user_hangup",
+  "call_length": 1.42,
+  "call_ended_by": "USER",
+  "ended_by": "USER",
+  "ended_by_reason": "The callee (the person you called) hung up. This is normal — humans typically end calls once they've answered your question. Not a system error.",
   "summary": "Called Andy to ask him to take a break. Andy agreed and said he'd log off at 6pm.",
   "transcript": [
     { "role": "assistant", "text": "Hi Andy, this is Vicky's assistant calling..." },
@@ -170,6 +172,29 @@ Poll for call status, transcript, and final outcome. **Free** — no payment req
 ```
 
 `status` values: `started`, `ringing`, `in-progress`, `completed`, `failed`, `no_answer`, `busy`.
+
+### `ended_by` — why the call ended
+
+BlockRun synthesizes an `ended_by` field on the GET response so you can distinguish "the callee hung up" (normal) from "the system errored" (bug). Always check this field before assuming a failure.
+
+| `ended_by` | Meaning | Charge? |
+|------------|---------|---------|
+| `USER` | **The callee hung up.** Most common outcome. After they answer your AI's question, humans typically end the call. The transcript will look "cut off" because the AI was mid-response — that's expected. Not a system error. | Yes (already settled) |
+| `ASSISTANT` | The AI ended the call gracefully — task complete, exit-instruction triggered, or `max_duration` approached. | Yes |
+| `TIMEOUT` | Hit the `max_duration` cap. Pass a larger value next time if you expect long conversations. | Yes |
+| `NO_ANSWER` | Line rang out, no human picked up. | Yes |
+| `BUSY` | Destination was busy. | Yes |
+| `VOICEMAIL` | Voicemail picked up — the AI hung up. | Yes |
+| `ERROR` | Bland/Twilio surfaced an explicit error (carrier, routing, etc.). | **No** — failed-call legs are not charged. |
+| `IN_PROGRESS` | Call hasn't ended yet — keep polling. | Pending |
+
+If you keep seeing `ended_by: USER` and want longer conversations, **update your `task`** to give the AI a clearer exit instruction:
+
+```text
+Call my friend Andy at +12133610872. Ask him whether he wants Italian or Sushi for dinner tonight. After he answers, confirm the restaurant choice back to him, then thank him politely and end the call. Do not keep talking past the answer.
+```
+
+Without an explicit "end the call after X" instruction, the AI tends to keep volunteering follow-up questions, and the callee — having already answered what they thought you wanted — hangs up first.
 
 ---
 
