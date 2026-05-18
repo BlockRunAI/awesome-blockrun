@@ -25,5 +25,5 @@ See [Search](search.md) for the full request/response shape and pricing.
 
 There is currently **no replacement** for per-user lookups (followers, followings,
 profile stats) or per-tweet lookups (replies, threads). If you need those, please
-contact us at [vicky@blockrun.ai](mailto:vicky@blockrun.ai) — they may return
+contact us at [care@blockrun.ai](mailto:care@blockrun.ai) — they may return
 under a different gateway later, but not under `/api/v1/x/*`.
