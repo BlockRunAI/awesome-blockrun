@@ -92,7 +92,7 @@ BlockRun's pay-per-call model uses **economic pricing as the abuse boundary** in
 - A bad actor running 10,000 calls/sec costs themselves 10,000× the per-call price — at OpenAI/Anthropic prices that's actual money out of their wallet, not free abuse.
 - Hard quotas would force every customer into the same bucket regardless of willingness-to-pay, defeating the value proposition.
 
-If you need **guaranteed capacity** (dedicated key pool, reserved provider TPM, custom 429 behavior, or an SLA), reach out about **enterprise dedicated capacity** — we'll provision isolated capacity outside the shared pool. Email `vicky.fuyu@gmail.com` or DM `@bc1max` on Telegram.
+If you need **guaranteed capacity** (dedicated key pool, reserved provider TPM, custom 429 behavior, or an SLA), reach out about **enterprise dedicated capacity** — we'll provision isolated capacity outside the shared pool. Email `vicky@blockrun.ai` or DM `@bc1max` on Telegram.
 
 ## Discovery endpoint quotas (metadata only)
 
