@@ -65,6 +65,7 @@
 * [Modal Sandbox](api-reference/modal-sandbox.md)
 * [Models](api-reference/models.md)
 * [Error Handling](api-reference/errors.md)
+* [Rate Limits](api-reference/rate-limits.md)
 
 ## x402 Protocol
 
