@@ -1,6 +1,8 @@
 # Phone & Voice
 
-Outbound AI voice calls and wallet-owned US/CA phone numbers — for AI agents. No telecom account, no Bland.ai signup, no Twilio dashboard. Your wallet *is* the phone account.
+Outbound AI voice calls and wallet-owned phone numbers — for AI agents. No telecom account, no Bland.ai signup, no Twilio dashboard. Your wallet *is* the phone account.
+
+**Default country:** US (no regulatory friction). Other countries can be requested via the `country` parameter — see [Country availability](#country-availability) below.
 
 Powered by [Bland.ai](https://bland.ai) (voice AI) + [Twilio](https://twilio.com) (carrier numbers), with x402 settlement at every step.
 
@@ -9,7 +11,7 @@ Powered by [Bland.ai](https://bland.ai) (voice AI) + [Twilio](https://twilio.com
 An autonomous agent wants to call a restaurant to confirm a reservation, or call a vendor to verify a price. Traditionally that requires: a Twilio account, a Bland.ai account, KYC, a credit card, a long-lived API key, an outbound caller ID number you bought and manage, plus per-minute billing reconciliation.
 
 BlockRun collapses all of it to two endpoints and one wallet:
-1. `POST /v1/phone/numbers/buy` — $5, get a US/CA number for 30 days.
+1. `POST /v1/phone/numbers/buy` — $5, get a US number for 30 days (default; other countries via `country` parameter).
 2. `POST /v1/voice/call` — $0.54, place an outbound call with an AI voice + Bland conversational task.
 
 Wallet ownership is recorded in Firestore — only the wallet that bought a number can use it to place calls, and only that wallet can renew it.
@@ -20,7 +22,7 @@ Wallet ownership is recorded in Firestore — only the wallet that bought a numb
 
 | Endpoint | Method | Price | Description |
 |----------|--------|-------|-------------|
-| `/api/v1/phone/numbers/buy` | POST | **$5.00** | Provision a new US/CA number for the calling wallet (30-day lease) |
+| `/api/v1/phone/numbers/buy` | POST | **$5.00** | Provision a new number for the calling wallet (30-day lease). US default; other countries via `country` parameter (may require Twilio compliance setup — see below). |
 | `/api/v1/phone/numbers/renew` | POST | **$5.00** | Extend an active number's lease by 30 days |
 | `/api/v1/phone/numbers/list` | POST | $0.001 | List the calling wallet's active numbers |
 | `/api/v1/voice/call` | POST | **$0.54** | Place an outbound AI call (max 30 min, default 5 min) |
@@ -30,14 +32,28 @@ Wallet ownership is recorded in Firestore — only the wallet that bought a numb
 
 ## POST /api/v1/phone/numbers/buy
 
-Provisions a new US or Canada phone number from Twilio's catalog, registers ownership against the calling wallet's address, and grants a 30-day lease.
+Provisions a new phone number from Twilio's catalog in your chosen country, registers ownership against the calling wallet's address, and grants a 30-day lease.
 
 ### Request Body
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `country` | string | No | `"US"` or `"CA"`. Default: `"US"` |
-| `area_code` | string | No | Preferred US/CA area code (e.g. `"415"`, `"212"`). Best-effort — falls back to a random number in-country if none available. |
+| `country` | string | No | ISO 2-letter code. Default: `"US"`. See [Country availability](#country-availability) for which other countries are pre-enabled. |
+| `area_code` | string | No | Preferred area code (US/CA: 3 digits). Best-effort — falls back to any in-country number if none available. |
+
+### Country availability
+
+| Country | Status |
+|---------|--------|
+| **US** | ✅ default — always works, all area codes |
+| **CA** | ✅ usually works without friction |
+| All others (MX, BR, AR, CL, CO, EU, AU, JP, KR, IN, etc.) | ⚠️ requires Twilio **Regulatory Bundle** approval on our account first |
+
+Twilio requires per-country KYC documentation (address proof, business identity) before allowing number purchase in most non-US/CA countries. The bundle is account-level — once it's approved by Twilio for a country, all subsequent purchases work transparently.
+
+**If you need a number outside the US:** call the endpoint with your desired `country` code. If Twilio rejects the purchase with a regulatory error, our gateway forwards a 502 with the upstream message. Email `care@blockrun.ai` with the country you need — we'll provision the regulatory bundle (usually 1–5 business days for Twilio review) and let you know when the country is live.
+
+Pricing is flat **$5 / 30 days** regardless of country (we absorb the Twilio cost difference). Renewal also $5.
 
 ### Response
 
@@ -319,7 +335,8 @@ The number is owned by **the wallet address that paid the buy x402**. Lose your 
 
 ## Limitations
 
-- **US and CA only** for now. International numbers + international destinations coming later.
+- **Number provisioning**: US is the default and always works. Other countries are supported via the `country` parameter but typically require Twilio Regulatory Bundle (KYC) approval first — see [Country availability](#country-availability). Request a country via `care@blockrun.ai`.
+- **Call destinations**: any international destination Bland.ai supports — no geo restriction on the `phone_number` (callee) field, only on the `from` (caller-ID) number.
 - **Outbound only.** Inbound receive is on the roadmap.
 - **30-min hard cap per call.** Longer dial-and-stay use cases require a custom integration.
 - **One Bland voice model per call.** Custom voice cloning requires upstream Bland account (we can't pass that through anonymously yet).
