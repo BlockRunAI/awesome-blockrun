@@ -11,7 +11,10 @@ All notable changes to BlockRun.
 - **Video playground** at `/models/bytedance-seedance-2.0-fast` (and 2.0 Pro) now shows a dropdown of the connected wallet's enrolled portraits instead of asking users to paste a `ta_xxx` manually.
 - Header **Models** dropdown now exposes "Portrait Studio".
 
-This is the zero-KYC counterpart to RealFace — use Virtual Portrait for AI-generated personas / mascots / avatars; use [RealFace](https://blockrun.ai/docs/video/real-person-ip) (separate flow with mandatory H5 identity verification) for authorized real-person likeness.
+### Removed — RealFace (real-person likeness) is no longer offered
+- BlockRun does not offer real-person likeness in video generation. The upstream verification path requires KYC (live selfie + government ID upload), which conflicts with our wallet-only, no-KYC stance.
+- `/docs/video/real-person-ip` now explains why and points to Virtual Portrait. The `real_face_asset_id` API field is preserved for backwards compatibility but is documented as accepting Virtual Portrait ids only.
+- Use Virtual Portrait for any character-consistency use case (mascot, persona, avatar, virtual spokesperson). For real-person video, BlockRun is the wrong tool.
 
 ### Changed — Seedance defaults bumped to 720p + synced audio
 - `/api/v1/videos/generations` now defaults `resolution: "720p"` for all Seedance models (was 480p). Override by passing an explicit `resolution` (`360p` / `480p` / `720p` / `1080p` / `4K`).
@@ -21,7 +24,7 @@ This is the zero-KYC counterpart to RealFace — use Virtual Portrait for AI-gen
 - `tokensPerSecondAtDefault` updated to **20,256** in the model catalog (was 10,128).
 
 ### Fixed — Seedance copyright-filter UX
-- The video playground now distinguishes Seedance's content-policy rejections from generic errors. On rejection, users see a clear "You were not charged" message + suggestions (rephrase with generic descriptors, switch to Grok Imagine Video, or enroll a RealFace / Virtual Portrait asset for authorized likeness).
+- The video playground now distinguishes Seedance's content-policy rejections from generic errors. On rejection, users see a clear "You were not charged" message + suggestions (rephrase with generic descriptors, switch to Grok Imagine Video, or enroll a Virtual Portrait for consistent characters).
 
 ---
 
@@ -40,8 +43,9 @@ This is the zero-KYC counterpart to RealFace — use Virtual Portrait for AI-gen
 - **`GET /api/v1/voice/call/{id}`** — free polling endpoint for call status / transcript / recording.
 - See [Phone & Voice API reference](../api-reference/voice-phone.md).
 
-### Added — BytePlus RealFace for Seedance video
+### Added — BytePlus RealFace for Seedance video *(deprecated 2026-05-22 — see [Removed](#removed--realface-real-person-likeness-is-no-longer-offered))*
 - `bytedance/seedance-2.0-fast` and `bytedance/seedance-2.0` now accept a `real_face_asset_id` parameter (`ta_xxxxxx` format) for face-reference image-to-video. Asset IDs are managed in BytePlus's RealFace catalog.
+- **Superseded by [Virtual Portrait enrollment](../api-reference/virtual-portrait.md) (2026-05-22)** — the API field name is preserved, but the only supported asset type is now a BlockRun-issued Virtual Portrait (`POST /v1/portrait/enroll`). Real-person likeness is not offered.
 
 ### Added — Brand: Franklin → Franklin Agent
 - Renamed the autonomous-agent product across the entire site, docs, and SDKs. Repo (`BlockRunAI/Franklin`) and CSS unchanged; surface copy now consistently says "Franklin Agent" to disambiguate from the personal name.

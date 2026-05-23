@@ -101,7 +101,7 @@ BlockRun works with the x402 facilitator network:
 | [Surf (asksurf.ai)](https://asksurf.ai) | Crypto data — 83 endpoints (CEX, on-chain SQL, prediction markets, wallet labels, social, news) |
 | [Bland.ai](https://bland.ai) | Conversational voice AI — outbound calls |
 | [Twilio](https://twilio.com) | Phone-number provisioning (wallet-owned US/CA numbers) |
-| [token360](https://token360.ai) | Video generation (Seedance 1.5/2.0 with BytePlus RealFace) |
+| [token360](https://token360.ai) | Video generation (Seedance 1.5/2.0) + Virtual Portrait enrollment |
 | [Exa](https://exa.ai) | Neural web search |
 | [0x](https://0x.org) | DEX aggregation (Swap V2 + Gasless V2) |
 | [Suno](https://suno.com) | Music generation |

@@ -25,21 +25,21 @@ POST https://blockrun.ai/api/v1/videos/generations
 | `model` | string | Yes | Video model ID (see below) |
 | `prompt` | string | Yes | Text description of the video to generate |
 | `image_url` | string | No | Optional seed image URL for image-to-video |
-| `real_face_asset_id` | string | No | Face-reference asset ID (`ta_xxxxxx`) — either a **Virtual Portrait** (zero-KYC, enroll via [/v1/portrait/enroll](virtual-portrait.md)) or a **RealFace** asset (KYC'd real-person likeness; see [walkthrough](https://blockrun.ai/docs/video/real-person-ip)). **Seedance 2.0 fast/pro only.** Mutually exclusive with `image_url`. |
+| `real_face_asset_id` | string | No | Virtual Portrait asset ID (`ta_xxxxxx`) — enroll an AI character via [/v1/portrait/enroll](virtual-portrait.md) ($0.50, no KYC). Keeps the same character across multiple Seedance videos. **Seedance 2.0 fast/pro only.** Mutually exclusive with `image_url`. (Real-person likeness is [not supported](https://blockrun.ai/docs/video/real-person-ip).) |
 | `duration_seconds` | integer | No | Duration billed for (defaults to model's default) |
 | `resolution` | string | No | `360p` / `480p` / `720p` / `1080p` / `4K`. **Seedance defaults to `720p`**; Grok uses its own default. Higher resolutions cost more tokens upstream. |
 | `generate_audio` | boolean | No | Synced audio in the output. **Seedance defaults: `true` for text-to-video, `false` for image/face-conditioned**. Pass an explicit value to override. Grok ignores this field. |
 
 ### Available Models
 
-| Model ID | Provider | Default / Max | Default Res | Billing | RealFace / Portrait |
-|----------|----------|---------------|-------------|---------|---------------------|
+| Model ID | Provider | Default / Max | Default Res | Billing | Virtual Portrait |
+|----------|----------|---------------|-------------|---------|------------------|
 | `xai/grok-imagine-video` | xAI | 8s / 8s MP4 | 720p | $0.050/second (8s clip ≈ $0.40) | – |
-| `bytedance/seedance-1.5-pro` | token360 (ByteDance) | 5s / 10s MP4 | **720p + audio (t2v)** | **$4.32 / M tokens** (flat) ≈ $0.46/5s | – |
-| `bytedance/seedance-2.0-fast` | token360 (ByteDance) | 5s / 10s MP4 | **720p + audio (t2v)** | **$11.20 / M (text)** or **$6.60 / M (image input)** ≈ $1.19/5s t2v | ✅ |
-| `bytedance/seedance-2.0` | token360 (ByteDance) | 5s / 10s MP4 | **720p + audio (t2v)** | **$14 / M (text)** or **$8.60 / M (image input)** ≈ $1.49/5s t2v | ✅ |
+| `bytedance/seedance-1.5-pro` | ByteDance | 5s / 10s MP4 | **720p + audio (t2v)** | **$4.32 / M tokens** (flat) ≈ $0.46/5s | – |
+| `bytedance/seedance-2.0-fast` | ByteDance | 5s / 10s MP4 | **720p + audio (t2v)** | **$11.20 / M (text)** or **$6.60 / M (image input)** ≈ $1.19/5s t2v | ✅ |
+| `bytedance/seedance-2.0` | ByteDance | 5s / 10s MP4 | **720p + audio (t2v)** | **$14 / M (text)** or **$8.60 / M (image input)** ≈ $1.49/5s t2v | ✅ |
 
-All models accept text prompts and an optional `image_url` for image-to-video. Seedance 2.0 fast/pro additionally accept a `real_face_asset_id` (Virtual Portrait or RealFace). Output is MP4 — 720p by default for Seedance with synced audio in the t2v path; 480p / 1080p / 4K are available via the `resolution` parameter.
+All models accept text prompts and an optional `image_url` for image-to-video. Seedance 2.0 fast/pro additionally accept a `real_face_asset_id` for AI-character consistency (see [Virtual Portrait](virtual-portrait.md)). Output is MP4 — 720p by default for Seedance with synced audio in the t2v path; 480p / 1080p / 4K are available via the `resolution` parameter.
 
 `seedance-2.0-fast` generates in ~60–80 s; `seedance-2.0` (Pro) may take longer and can occasionally hit the 180 s per-model timeout — in that case the request returns 504 and **no payment is taken**.
 
@@ -53,16 +53,9 @@ Seedance is billed by token360 in tokens, not seconds — at the **720p** defaul
 
 The image-input rate is cheaper because token360's underlying inference uses fewer tokens when conditioning on a frame. Drop to `resolution: "480p"` for roughly half the cost; bump to `1080p` / `4K` for higher fidelity at proportional cost.
 
-### Face-reference video (Seedance 2.0 fast / pro)
+### Virtual Portrait — character consistency (Seedance 2.0 fast / pro)
 
-`real_face_asset_id` lets you condition generation on a pre-registered face asset and keep the same character across multiple videos. Two flavours, both produce a `ta_xxxxxx` id:
-
-| Asset type | Use when | KYC | Enroll via | Cost |
-|------------|----------|-----|------------|------|
-| **Virtual Portrait** | AI-generated character / persona / avatar | **None** | [`POST /v1/portrait/enroll`](virtual-portrait.md) — fully in-product on BlockRun | **$0.50 USDC** per enrollment, one-time |
-| **RealFace** | Authorized real-person likeness | H5 selfie + ID by the rights-holder (120 s window) | See [walkthrough](https://blockrun.ai/docs/video/real-person-ip) | Upstream pricing |
-
-Once enrolled, both are used identically:
+`real_face_asset_id` lets you condition generation on a pre-registered AI character and keep the same face across multiple videos. Enroll once via [`POST /v1/portrait/enroll`](virtual-portrait.md) ($0.50 USDC, no KYC), then reuse the returned `ta_xxxxxx` id:
 
 ```json
 {
@@ -72,7 +65,9 @@ Once enrolled, both are used identically:
 }
 ```
 
-Asset IDs must start with `ta_`. The asset is referenced by token360 as `asset://ta_xxxxxx` and used as the first frame's face reference. Cannot be combined with `image_url`. Browse / enroll your wallet's portraits at [blockrun.ai/studio/portrait](https://blockrun.ai/studio/portrait).
+Asset IDs must start with `ta_`. Used as the first frame's face reference. Cannot be combined with `image_url`. Browse / enroll your wallet's portraits at [blockrun.ai/studio/portrait](https://blockrun.ai/studio/portrait).
+
+**Real-person likeness is not supported** on BlockRun — the upstream verification flow requires KYC (selfie + ID). See [the dedicated note](https://blockrun.ai/docs/video/real-person-ip) for the reasoning.
 
 ## Response
 
@@ -188,7 +183,7 @@ Seedance tokens-per-second: **~20,256 at the default 720p**. Drop to `resolution
 ## Links
 
 - [Virtual Portrait Enrollment](virtual-portrait.md) — zero-KYC `ta_xxx` for character consistency
-- [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip) — RealFace flow (KYC required)
+- [Real-person video — not supported](https://blockrun.ai/docs/video/real-person-ip) — why BlockRun doesn't offer real-person likeness
 - [Image Generation](image-generation.md) — for still images via Grok Imagine and other providers
 - [Music Generation](music-generation.md) — for audio
 - [Error Handling](errors.md)
