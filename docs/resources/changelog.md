@@ -4,19 +4,19 @@ All notable changes to BlockRun.
 
 ## [2026-05-22]
 
-### Added — Virtual Portrait enrollment (Token360, no KYC)
-- **`POST /api/v1/portrait/enroll`** — $0.50 USDC per enrollment, x402-gated. Submits an AI-generated character image to Token360 as a `VIRTUAL_PORTRAIT` asset and returns a `ta_xxxxxx` id usable as `real_face_asset_id` on Seedance 2.0 / 2.0-fast. Settlement happens only after Token360 succeeds — no charge on upload failure. See [Virtual Portrait API reference](../api-reference/virtual-portrait.md).
+### Added — Virtual Portrait enrollment (no KYC)
+- **`POST /api/v1/portrait/enroll`** — $0.50 USDC per enrollment, x402-gated. Registers an AI-generated character image as a Virtual Portrait and returns a `ta_xxxxxx` id usable as `real_face_asset_id` on Seedance 2.0 / 2.0-fast. Settlement happens only after enrollment succeeds — no charge on upload failure. See [Virtual Portrait API reference](../api-reference/virtual-portrait.md).
 - **`GET /api/v1/wallet/<address>/portraits`** — lists the portraits a wallet has enrolled. Free, rate-limited (20 req/hr/IP, shared with the wallet-reconciliation bucket).
 - **[blockrun.ai/studio/portrait](https://blockrun.ai/studio/portrait)** — web UI: connect wallet → name + image URL → sign → copy `ta_xxx`. Existing portraits listed below the form.
 - **Video playground** at `/models/bytedance-seedance-2.0-fast` (and 2.0 Pro) now shows a dropdown of the connected wallet's enrolled portraits instead of asking users to paste a `ta_xxx` manually.
 - Header **Models** dropdown now exposes "Portrait Studio".
 
-This is the zero-KYC counterpart to BytePlus RealFace — use Virtual Portrait for AI-generated personas / mascots / avatars; use [RealFace](https://blockrun.ai/docs/video/real-person-ip) (separate Token360 console flow with H5 identity verification) for authorized real-person likeness.
+This is the zero-KYC counterpart to RealFace — use Virtual Portrait for AI-generated personas / mascots / avatars; use [RealFace](https://blockrun.ai/docs/video/real-person-ip) (separate flow with mandatory H5 identity verification) for authorized real-person likeness.
 
 ### Changed — Seedance defaults bumped to 720p + synced audio
 - `/api/v1/videos/generations` now defaults `resolution: "720p"` for all Seedance models (was 480p). Override by passing an explicit `resolution` (`360p` / `480p` / `720p` / `1080p` / `4K`).
-- `/api/v1/videos/generations` now defaults `generate_audio: true` for text-to-video Seedance calls (`false` for image-conditioned or `real_face_asset_id` calls, where audio defaults are off per Token360 guidance). Pass an explicit boolean to override.
-- Output now matches JiMeng / BytePlus directly — same resolution, same multimodal audio path. Per-clip cost ≈ 2× the old 480p baseline because Token360 meters by tokens and 720p doubles the per-second count.
+- `/api/v1/videos/generations` now defaults `generate_audio: true` for text-to-video Seedance calls (`false` for image-conditioned or `real_face_asset_id` calls, where audio defaults are off per upstream guidance). Pass an explicit boolean to override.
+- Output now matches JiMeng / BytePlus directly — same resolution, same multimodal audio path. Per-clip cost ≈ 2× the old 480p baseline because Seedance meters by tokens and 720p doubles the per-second count.
 - Updated pricing table: **$0.46 / $1.19 / $1.49** per 5s 720p clip for 1.5-pro / 2.0-fast / 2.0 (was $0.22 / $0.57 / $0.71 at 480p, text-to-video).
 - `tokensPerSecondAtDefault` updated to **20,256** in the model catalog (was 10,128).
 

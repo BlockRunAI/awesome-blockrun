@@ -1,8 +1,8 @@
 # Virtual Portrait Enrollment
 
-Enroll an AI-generated character image as a Token360 `VIRTUAL_PORTRAIT` asset and get back a `ta_xxxxxxxx` id you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0-fast call. Use this when you want **the same character across multiple videos** without dealing with KYC.
+Enroll an AI-generated character image as a Virtual Portrait and get back a `ta_xxxxxxxx` id you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0-fast call. Use this when you want **the same character across multiple videos** without dealing with KYC.
 
-> **No KYC required.** This is the lightweight path for AI-generated personas, mascots, avatars, virtual spokespeople. For an **authorized real-person likeness**, use the [RealFace flow](https://blockrun.ai/docs/video/real-person-ip) instead — it includes mandatory H5 selfie verification through Token360's console.
+> **No KYC required.** This is the lightweight path for AI-generated personas, mascots, avatars, virtual spokespeople. For an **authorized real-person likeness**, use the [RealFace flow](https://blockrun.ai/docs/video/real-person-ip) instead — it includes mandatory H5 selfie verification.
 
 | | |
 |---|---|
@@ -26,19 +26,19 @@ You can use the web UI at [blockrun.ai/studio/portrait](https://blockrun.ai/stud
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `name` | string | Yes | Display name for organization in your portrait list (1–64 chars) |
-| `image_url` | string | Yes | Public `https://` URL pointing to a JPG / PNG / WEBP image. Server-side fetched and uploaded to Token360 as multipart. **Max 10 MB.** Permanent — Token360 holds the canonical copy |
+| `image_url` | string | Yes | Public `https://` URL pointing to a JPG / PNG / WEBP image. Server-side fetched and registered as a Virtual Portrait asset. **Max 10 MB.** |
 
 ### What makes a good portrait image
 
-Token360 conditions the video on the supplied image as a face/character reference. Best results when:
+Seedance conditions video generation on the supplied image as a face/character reference. Best results when:
 
 - **Single subject, face clearly visible** (front or 3/4 angle, eyes open)
 - **Neutral expression** — extreme expressions reduce the model's ability to apply prompted emotions
 - **Clean background** (or at least not visually competing with the subject)
 - **Even lighting** — heavy shadows on the face degrade character consistency
-- **High resolution** — 1024×1024 or larger; Token360 downscales gracefully but blurry inputs propagate
+- **High resolution** — 1024×1024 or larger; we downscale gracefully but blurry inputs propagate
 
-Images that fail Token360's content filter (NSFW, recognizable real-celebrity likeness without consent) will be rejected at the upload step.
+Images that fail the upstream content filter (NSFW, recognizable real-celebrity likeness without consent) will be rejected at enrollment.
 
 ## Payment flow (x402)
 
@@ -46,9 +46,9 @@ Standard BlockRun two-step:
 
 1. **First request without `X-Payment`** → server returns `402 Payment Required` with x402 challenge headers
 2. Sign the EIP-3009 transfer authorization for **$0.50 USDC on Base**
-3. **Retry the same request with `X-Payment: <base64>`** → server verifies, calls Token360, settles the payment after Token360 succeeds, returns the `ta_xxx`
+3. **Retry the same request with `X-Payment: <base64>`** → server verifies, registers the portrait, settles the payment after registration succeeds, returns the `ta_xxx`
 
-Settlement happens **after** Token360 acknowledges the asset. If Token360 fails (content filter, network error), no payment is taken — the route returns 502 and the caller can retry with a fresh signature. If settlement itself fails after a successful Token360 upload, BlockRun absorbs the cost rather than leave the user with a paid-but-unrecoverable state.
+Settlement happens **after** the portrait is successfully enrolled. If enrollment fails (content filter, network error), no payment is taken — the route returns 502 and the caller can retry with a fresh signature. If settlement itself fails after a successful enrollment, BlockRun absorbs the cost rather than leave the user with a paid-but-unrecoverable state.
 
 If you're using `clawrouter` locally, this flow is fully automatic — just call the endpoint.
 
@@ -78,7 +78,7 @@ If you're using `clawrouter` locally, this flow is fully automatic — just call
 | Field | Description |
 |-------|-------------|
 | `asset_id` | The `ta_…` id to pass as `real_face_asset_id` on Seedance |
-| `group_id` | Token360 asset-group id (`tg_…`) — exposed for debugging / future delete operations |
+| `group_id` | Internal asset-group id — exposed for debugging / future delete operations |
 | `usage.compatible_models` | Which BlockRun video models accept this asset id |
 | `settlement.tx_hash` | The Base settlement transaction (verify on BaseScan) |
 
@@ -161,14 +161,14 @@ The video playground at `/models/bytedance-seedance-2.0-fast` reads this same li
 | 400 | `image_url must be an http(s) URL` | URL missing `https://` scheme |
 | 402 | `Payment Required` | First request — sign + retry with `X-Payment` header |
 | 402 | `Payment verification failed` | Signature didn't match what was quoted (amount, recipient, nonce) — re-sign |
-| 502 | varies | Token360 rejected the upload (content filter, image too big, network) — **no payment taken**, safe to retry with a different image |
+| 502 | varies | Enrollment failed (content filter, image too big, network) — **no payment taken**, safe to retry with a different image |
 | 429 | `Rate limit exceeded` | Listing endpoint only — back off per `Retry-After` header |
 
 ## Storage and privacy
 
 - Wallet → portrait list is stored in BlockRun's GCS (`gs://blockrun-prod-2026-logs/portraits/<wallet>.json`)
-- The image URL you supplied is kept for previewing in the UI; the canonical image bytes live with Token360
-- We do not analyze, redistribute, or use your portrait images for any purpose other than serving the asset back to your wallet and forwarding to Token360 for Seedance generation
+- The image URL you supplied is kept for previewing in the UI; the canonical image bytes are stored upstream with the inference provider
+- We do not analyze, redistribute, or use your portrait images for any purpose other than serving the asset back to your wallet and forwarding it for Seedance generation
 - Delete is not currently exposed via API — open a GitHub issue or email vicky@blockrun.ai if you need an entry removed
 
 ## Links

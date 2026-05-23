@@ -25,7 +25,7 @@ POST https://blockrun.ai/api/v1/videos/generations
 | `model` | string | Yes | Video model ID (see below) |
 | `prompt` | string | Yes | Text description of the video to generate |
 | `image_url` | string | No | Optional seed image URL for image-to-video |
-| `real_face_asset_id` | string | No | Token360 face-reference asset ID (`ta_xxxxxx`) — either a **Virtual Portrait** (zero-KYC, enroll via [/v1/portrait/enroll](virtual-portrait.md)) or a **RealFace** asset (KYC'd real-person likeness via Token360 console; see [walkthrough](https://blockrun.ai/docs/video/real-person-ip)). **Seedance 2.0 fast/pro only.** Mutually exclusive with `image_url`. |
+| `real_face_asset_id` | string | No | Face-reference asset ID (`ta_xxxxxx`) — either a **Virtual Portrait** (zero-KYC, enroll via [/v1/portrait/enroll](virtual-portrait.md)) or a **RealFace** asset (KYC'd real-person likeness; see [walkthrough](https://blockrun.ai/docs/video/real-person-ip)). **Seedance 2.0 fast/pro only.** Mutually exclusive with `image_url`. |
 | `duration_seconds` | integer | No | Duration billed for (defaults to model's default) |
 | `resolution` | string | No | `360p` / `480p` / `720p` / `1080p` / `4K`. **Seedance defaults to `720p`**; Grok uses its own default. Higher resolutions cost more tokens upstream. |
 | `generate_audio` | boolean | No | Synced audio in the output. **Seedance defaults: `true` for text-to-video, `false` for image/face-conditioned**. Pass an explicit value to override. Grok ignores this field. |
@@ -60,7 +60,7 @@ The image-input rate is cheaper because token360's underlying inference uses few
 | Asset type | Use when | KYC | Enroll via | Cost |
 |------------|----------|-----|------------|------|
 | **Virtual Portrait** | AI-generated character / persona / avatar | **None** | [`POST /v1/portrait/enroll`](virtual-portrait.md) — fully in-product on BlockRun | **$0.50 USDC** per enrollment, one-time |
-| **RealFace** | Authorized real-person likeness | H5 selfie + ID by the rights-holder (120 s window) | Token360 console — see [walkthrough](https://blockrun.ai/docs/video/real-person-ip) | Token360 console pricing |
+| **RealFace** | Authorized real-person likeness | H5 selfie + ID by the rights-holder (120 s window) | See [walkthrough](https://blockrun.ai/docs/video/real-person-ip) | Upstream pricing |
 
 Once enrolled, both are used identically:
 
@@ -188,7 +188,7 @@ Seedance tokens-per-second: **~20,256 at the default 720p**. Drop to `resolution
 ## Links
 
 - [Virtual Portrait Enrollment](virtual-portrait.md) — zero-KYC `ta_xxx` for character consistency
-- [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip) — Token360 RealFace flow (KYC required)
+- [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip) — RealFace flow (KYC required)
 - [Image Generation](image-generation.md) — for still images via Grok Imagine and other providers
 - [Music Generation](music-generation.md) — for audio
 - [Error Handling](errors.md)
