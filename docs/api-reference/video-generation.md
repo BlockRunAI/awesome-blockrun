@@ -29,6 +29,10 @@ POST https://blockrun.ai/api/v1/videos/generations
 | `duration_seconds` | integer | No | Duration billed for (defaults to model's default) |
 | `resolution` | string | No | `360p` / `480p` / `720p` / `1080p` / `4K`. **Seedance defaults to `720p`**; Grok uses its own default. Higher resolutions cost more tokens upstream. |
 | `generate_audio` | boolean | No | Synced audio in the output. **Seedance defaults: `true` for text-to-video, `false` for image/face-conditioned**. Pass an explicit value to override. Grok ignores this field. |
+| `aspect_ratio` | string | No | Output aspect ratio: `adaptive` / `16:9` / `9:16` / `1:1` / `4:3` / `3:4` / `21:9` / `9:21`. Seedance only — silently ignored by xAI Grok. |
+| `seed` | integer | No | Reproducibility seed (Seedance). Same seed + same prompt + same params ≈ same clip. |
+| `watermark` | boolean | No | Embed the upstream Seedance watermark on the output. Defaults to off at the gateway. |
+| `return_last_frame` | boolean | No | Return the last frame as a still image alongside the clip — useful for chaining one video into the next. Seedance only. |
 
 ### Available Models
 
