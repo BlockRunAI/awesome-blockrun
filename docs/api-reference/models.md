@@ -162,12 +162,16 @@ Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
 
 ### Video Generation
 
-| Model ID | Name | Price |
-|----------|------|-------|
-| `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec (8s default) |
-| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | $0.03/sec (5s default) |
-| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | $0.15/sec (5s default) |
-| `bytedance/seedance-2.0` | Seedance 2.0 Pro | $0.30/sec (5s default) |
+Seedance defaults to **720p with synced audio** for text-to-video; pass `resolution` / `generate_audio` to override. See [Video Generation API](video-generation.md).
+
+| Model ID | Name | Price (5s 720p default) |
+|----------|------|--------------------------|
+| `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec (8s = $0.40) |
+| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | ~$0.092/sec ($0.46 / 5s clip; flat) |
+| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.238/sec ($1.19 / 5s clip t2v; $0.70 with image input) |
+| `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.298/sec ($1.49 / 5s clip t2v; $0.91 with image input) |
+
+For character consistency across multiple Seedance videos, enroll a [Virtual Portrait](virtual-portrait.md) ($0.50 one-time, no KYC) and pass the returned `ta_xxx` as `real_face_asset_id`.
 
 ## Model Categories
 

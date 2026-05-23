@@ -25,35 +25,44 @@ POST https://blockrun.ai/api/v1/videos/generations
 | `model` | string | Yes | Video model ID (see below) |
 | `prompt` | string | Yes | Text description of the video to generate |
 | `image_url` | string | No | Optional seed image URL for image-to-video |
-| `real_face_asset_id` | string | No | BytePlus RealFace asset ID (`ta_xxxxxx`) for face-reference video. **Seedance 2.0 fast/pro only.** Mutually exclusive with `image_url`. |
+| `real_face_asset_id` | string | No | Token360 face-reference asset ID (`ta_xxxxxx`) — either a **Virtual Portrait** (zero-KYC, enroll via [/v1/portrait/enroll](virtual-portrait.md)) or a **RealFace** asset (KYC'd real-person likeness via Token360 console; see [walkthrough](https://blockrun.ai/docs/video/real-person-ip)). **Seedance 2.0 fast/pro only.** Mutually exclusive with `image_url`. |
 | `duration_seconds` | integer | No | Duration billed for (defaults to model's default) |
+| `resolution` | string | No | `360p` / `480p` / `720p` / `1080p` / `4K`. **Seedance defaults to `720p`**; Grok uses its own default. Higher resolutions cost more tokens upstream. |
+| `generate_audio` | boolean | No | Synced audio in the output. **Seedance defaults: `true` for text-to-video, `false` for image/face-conditioned**. Pass an explicit value to override. Grok ignores this field. |
 
 ### Available Models
 
-| Model ID | Provider | Default / Max | Default Res | Billing | RealFace |
-|----------|----------|---------------|-------------|---------|----------|
+| Model ID | Provider | Default / Max | Default Res | Billing | RealFace / Portrait |
+|----------|----------|---------------|-------------|---------|---------------------|
 | `xai/grok-imagine-video` | xAI | 8s / 8s MP4 | 720p | $0.050/second (8s clip ≈ $0.40) | – |
-| `bytedance/seedance-1.5-pro` | token360 (ByteDance) | 5s / 10s MP4 | 480p | **$4.32 / M tokens** (flat) | – |
-| `bytedance/seedance-2.0-fast` | token360 (ByteDance) | 5s / 10s MP4 | 480p | **$11.20 / M (text)** or **$6.60 / M (image input)** | ✅ |
-| `bytedance/seedance-2.0` | token360 (ByteDance) | 5s / 10s MP4 | 480p | **$14 / M (text)** or **$8.60 / M (image input)** | ✅ |
+| `bytedance/seedance-1.5-pro` | token360 (ByteDance) | 5s / 10s MP4 | **720p + audio (t2v)** | **$4.32 / M tokens** (flat) ≈ $0.46/5s | – |
+| `bytedance/seedance-2.0-fast` | token360 (ByteDance) | 5s / 10s MP4 | **720p + audio (t2v)** | **$11.20 / M (text)** or **$6.60 / M (image input)** ≈ $1.19/5s t2v | ✅ |
+| `bytedance/seedance-2.0` | token360 (ByteDance) | 5s / 10s MP4 | **720p + audio (t2v)** | **$14 / M (text)** or **$8.60 / M (image input)** ≈ $1.49/5s t2v | ✅ |
 
-All models accept text prompts and an optional `image_url` for image-to-video. Seedance 2.0 fast/pro additionally accept a `real_face_asset_id`. Output is MP4 (720p for Grok, 480p default for Seedance).
+All models accept text prompts and an optional `image_url` for image-to-video. Seedance 2.0 fast/pro additionally accept a `real_face_asset_id` (Virtual Portrait or RealFace). Output is MP4 — 720p by default for Seedance with synced audio in the t2v path; 480p / 1080p / 4K are available via the `resolution` parameter.
 
-`seedance-2.0-fast` generates in ~60–80 s; `seedance-2.0` (Pro) may take longer and can occasionally hit the 85 s timeout — in that case the request returns 504 and **no payment is taken**.
+`seedance-2.0-fast` generates in ~60–80 s; `seedance-2.0` (Pro) may take longer and can occasionally hit the 180 s per-model timeout — in that case the request returns 504 and **no payment is taken**.
 
 ### Seedance per-M-token billing (vs old per-second)
 
-Seedance is billed by token360 in tokens, not seconds — a 5-second 480p clip uses ~50,600 tokens at ~10,128 tok/sec. The new pricing reflects token360's upstream cost exactly:
+Seedance is billed by token360 in tokens, not seconds — at the **720p** default, a 5-second clip uses ~101,300 tokens (≈ 20,256 tok/sec). The pricing reflects token360's upstream cost exactly:
 
-- `seedance-1.5-pro` at $4.32/M ≈ $0.22 per 5s clip (text-only or image-input — flat)
-- `seedance-2.0-fast` at $11.20/M ≈ $0.57 per 5s clip text-only; $6.60/M ≈ $0.33 with image input
-- `seedance-2.0` at $14/M ≈ $0.71 per 5s clip text-only; $8.60/M ≈ $0.44 with image input
+- `seedance-1.5-pro` at $4.32/M ≈ $0.46 per 5s 720p clip (text-only or image-input — flat)
+- `seedance-2.0-fast` at $11.20/M ≈ $1.19 per 5s 720p clip text-only; $6.60/M ≈ $0.70 with image input
+- `seedance-2.0` at $14/M ≈ $1.49 per 5s 720p clip text-only; $8.60/M ≈ $0.91 with image input
 
-The image-input rate is cheaper because token360's underlying inference uses fewer tokens when conditioning on a frame.
+The image-input rate is cheaper because token360's underlying inference uses fewer tokens when conditioning on a frame. Drop to `resolution: "480p"` for roughly half the cost; bump to `1080p` / `4K` for higher fidelity at proportional cost.
 
-### BytePlus RealFace (Seedance 2.0 only)
+### Face-reference video (Seedance 2.0 fast / pro)
 
-`real_face_asset_id` lets you condition video generation on a pre-registered face asset from the BytePlus RealFace catalog. Useful for: avatar-style talking-head video, character consistency across generations.
+`real_face_asset_id` lets you condition generation on a pre-registered face asset and keep the same character across multiple videos. Two flavours, both produce a `ta_xxxxxx` id:
+
+| Asset type | Use when | KYC | Enroll via | Cost |
+|------------|----------|-----|------------|------|
+| **Virtual Portrait** | AI-generated character / persona / avatar | **None** | [`POST /v1/portrait/enroll`](virtual-portrait.md) — fully in-product on BlockRun | **$0.50 USDC** per enrollment, one-time |
+| **RealFace** | Authorized real-person likeness | H5 selfie + ID by the rights-holder (120 s window) | Token360 console — see [walkthrough](https://blockrun.ai/docs/video/real-person-ip) | Token360 console pricing |
+
+Once enrolled, both are used identically:
 
 ```json
 {
@@ -63,7 +72,7 @@ The image-input rate is cheaper because token360's underlying inference uses few
 }
 ```
 
-Asset IDs must start with `ta_` and be registered in your BytePlus RealFace account. The asset is referenced by token360 as `asset://ta_xxxxxx` and used as the first frame's face reference. Cannot be combined with `image_url`.
+Asset IDs must start with `ta_`. The asset is referenced by token360 as `asset://ta_xxxxxx` and used as the first frame's face reference. Cannot be combined with `image_url`. Browse / enroll your wallet's portraits at [blockrun.ai/studio/portrait](https://blockrun.ai/studio/portrait).
 
 ## Response
 
@@ -150,14 +159,20 @@ curl -X POST http://localhost:8402/v1/videos/generations \
 
 ## Pricing
 
-| Model | Unit | Price | Default 5s cost (approx.) |
-|-------|------|-------|---------------------------|
+| Model | Unit | Price | Default 5s 720p cost (approx.) |
+|-------|------|-------|---------------------------------|
 | `xai/grok-imagine-video` | per second | $0.050 | 8s = $0.40 |
-| `bytedance/seedance-1.5-pro` | per M tokens (flat) | $4.32 | $0.22 |
-| `bytedance/seedance-2.0-fast` | per M tokens | $11.20 text / $6.60 image | $0.57 text / $0.33 image |
-| `bytedance/seedance-2.0` | per M tokens | $14.00 text / $8.60 image | $0.71 text / $0.44 image |
+| `bytedance/seedance-1.5-pro` | per M tokens (flat) | $4.32 | $0.46 |
+| `bytedance/seedance-2.0-fast` | per M tokens | $11.20 text / $6.60 image | $1.19 text / $0.70 image |
+| `bytedance/seedance-2.0` | per M tokens | $14.00 text / $8.60 image | $1.49 text / $0.91 image |
 
-Seedance tokens-per-second: ~10,128 at the default 480p resolution.
+Seedance tokens-per-second: **~20,256 at the default 720p**. Drop to `resolution: "480p"` for roughly half the per-clip cost.
+
+**One-time enrollment fees (separate from per-call billing):**
+
+| Action | Endpoint | Price |
+|--------|----------|-------|
+| Virtual Portrait enrollment | [`POST /v1/portrait/enroll`](virtual-portrait.md) | $0.50 USDC per asset (no KYC) |
 
 ## Error Codes
 
@@ -172,6 +187,8 @@ Seedance tokens-per-second: ~10,128 at the default 480p resolution.
 
 ## Links
 
+- [Virtual Portrait Enrollment](virtual-portrait.md) — zero-KYC `ta_xxx` for character consistency
+- [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip) — Token360 RealFace flow (KYC required)
 - [Image Generation](image-generation.md) — for still images via Grok Imagine and other providers
 - [Music Generation](music-generation.md) — for audio
 - [Error Handling](errors.md)
