@@ -5,7 +5,7 @@ All notable changes to BlockRun.
 ## [2026-05-24]
 
 ### Added — RealFace enrollment (real-person likeness, no KYC)
-- **`POST /api/v1/realface/init`** + **`POST /api/v1/realface/enroll`** — full RealFace flow now live. The rights-holder scans a QR on their phone and completes a brief liveness check (nod + blink, ~1 minute), BlockRun's backend uploads the face photo and waits for an upstream biometric match, returns a `ta_xxxxxx` id usable as `real_face_asset_id` on Seedance 2.0 / 2.0-fast. **$1.00 USDC per enrollment**, one-time. See [RealFace API reference](../api-reference/realface.md).
+- **`POST /api/v1/realface/init`** + **`POST /api/v1/realface/enroll`** — full RealFace flow now live. The rights-holder scans a QR on their phone and completes a brief liveness check (nod + blink, ~1 minute), BlockRun's backend uploads the face photo and waits for an upstream biometric match, returns a `ta_xxxxxx` id usable as `real_face_asset_id` on Seedance 2.0 / 2.0-fast. **$0.01 USDC per enrollment** (promotional pricing), one-time. See [RealFace API reference](../api-reference/realface.md).
 - **No KYC required.** No government ID, no account login, no name verification. Only a face-match between the live H5 capture and the photo you supply. Biometric data flows phone → upstream identity service directly, never touches BlockRun servers.
 - **`GET /api/v1/realface/status?groupId=…`** — free polling endpoint, used by the studio UI to detect H5 completion.
 - **`GET /api/v1/wallet/<address>/realfaces`** — symmetric to `/portraits`, lists a wallet's enrolled RealFaces.

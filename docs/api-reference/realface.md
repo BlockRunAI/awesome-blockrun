@@ -6,8 +6,8 @@ Enroll a real person's face as a `ta_xxxxxxxx` asset you can pass as `real_face_
 
 | | |
 |---|---|
-| **Endpoints** | `POST /v1/realface/init` (free, returns h5Link) · `POST /v1/realface/enroll` ($1.00 USDC, finalizes) · `GET /v1/realface/status?groupId=…` (free polling) |
-| **Price** | **$1.00 USDC** per enrollment, one-time, settled to BlockRun's Base wallet via x402 |
+| **Endpoints** | `POST /v1/realface/init` (free, returns h5Link) · `POST /v1/realface/enroll` ($0.01 USDC, finalizes) · `GET /v1/realface/status?groupId=…` (free polling) |
+| **Price** | **$0.01 USDC** per enrollment, one-time, settled to BlockRun's Base wallet via x402 |
 | **Auth** | x402 micropayment header on finalize — no API key needed |
 | **Network** | Base (USDC, EIP-3009 `exact`) |
 | **Returns** | `ta_xxxxxxxx…` asset id, usable as `real_face_asset_id` on Seedance 2.0 / 2.0-fast |
@@ -33,7 +33,7 @@ You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/stud
     →    ... (after H5 completes)
     →    { status: "active", ready_to_finalize: true }
 
-[4] POST /v1/realface/enroll                     — PAID ($1.00 USDC)
+[4] POST /v1/realface/enroll                     — PAID ($0.01 USDC)
     body: { "name": "...", "image_url": "https://...", "group_id": "..." }
     headers: { "x-payment": "<x402 base64>" }
     →    { asset_id: "ta_…", group_id: "...", ... }
@@ -83,6 +83,45 @@ Send the `h5_link` to the rights-holder. Easiest way: render it as a QR they sca
 
 The H5 session token expires after **120 seconds**. If they don't finish in time, call `/init` again with `{ "groupId": "<existing>" }` to refresh.
 
+### What the rights-holder sees on their phone
+
+| Step | What happens |
+|---|---|
+| 1 | They open the link (scan the QR with their phone camera — iOS / Android both auto-detect QR codes — and tap the banner that pops up). The H5 page loads in their phone browser. URL is `kyc.byteintl.com` (our identity-verification partner) |
+| 2 | Browser asks **"Allow camera access?"** — they tap **Allow** |
+| 3 | A circle appears with a live camera feed. They position their face inside |
+| 4 | The page prompts **"please nod"** then **"please blink"** — they do each action for ~1-2 seconds. Total recording is **2-4 seconds** |
+| 5 | Page shows **"Verification completed. You can close this page now."** — they close the tab |
+
+Total time: **~60 seconds** including the QR scan and camera permission prompt. No login, no password, no email confirmation, no ID upload, no name entry.
+
+### Alternate path (camera blocked or not available)
+
+If they tap **Deny** on camera permission, the H5 offers a fallback:
+
+1. Page shows "Use the alternate authentication method"
+2. They record a 2-4 second video using the phone's native camera app, doing the same nod + blink
+3. They upload the video file
+4. Same end result, ~30s slower
+
+### What data leaves their phone
+
+- Live face video (or alternate uploaded video) → `kyc.byteintl.com` (the upstream identity service)
+- **Nothing goes to BlockRun** during the phone session. We don't see the video, the camera feed, or any biometric template
+- The upstream service stores enough to perform a one-time face-match against the photo you supply in step 4. Once the match is decided, your photo is the asset of record — the live video is not referenced again in subsequent Seedance generations
+
+### Failure modes on the phone
+
+| What they see | Cause | Recovery |
+|---|---|---|
+| "Session expired" | They took longer than 120s | Operator clicks "Generate fresh QR" in the studio (or calls `/init` again with `{groupId: …}`), they re-scan and try again |
+| "Verification failed" | Poor lighting, face out of frame, didn't complete the action prompt | The H5 typically offers an in-session retry |
+| 404 / "Not found" | Historical backend webhook race at our partner (fixed 2026-05-24) | If it recurs, contact support — this is a regression, not user error |
+
+### No phone? Use a laptop
+
+The H5 link works in any modern browser with a webcam. The rights-holder can open it on a laptop and grant the webcam permission — same flow.
+
 ## Step 3: Poll for completion (FREE)
 
 ```
@@ -105,7 +144,7 @@ When `status` transitions to `"active"` (and `ready_to_finalize: true`), the rig
 
 Poll every 3-5 seconds. Free but rate-limited (same bucket as wallet reconciliation, 20/hour/IP).
 
-## Step 4: Finalize (PAID, $1.00 USDC)
+## Step 4: Finalize (PAID, $0.01 USDC)
 
 ```
 POST https://blockrun.ai/api/v1/realface/enroll
@@ -132,7 +171,7 @@ POST https://blockrun.ai/api/v1/realface/enroll
 Same two-step pattern as other paid BlockRun endpoints:
 
 1. First call without `X-Payment` → server returns `402 Payment Required` with x402 challenge headers
-2. Sign the EIP-3009 transfer authorization for **$1.00 USDC on Base**
+2. Sign the EIP-3009 transfer authorization for **$0.01 USDC on Base**
 3. Retry the same request with `X-Payment: <base64>`
 
 Settlement happens **after** the upstream face-match succeeds. Failure modes that do NOT settle:
@@ -235,7 +274,7 @@ The video playground reads this same list and shows it in the `real_face_asset_i
 | | Virtual Portrait | RealFace |
 |---|---|---|
 | Asset target | AI-generated character | Real person |
-| Price | $0.50 USDC | $1.00 USDC |
+| Price | $0.50 USDC | $0.01 USDC |
 | Liveness check | Not required | Required (~1 minute on phone) |
 | Upstream verification | None | Biometric match against H5 live face |
 | KYC / government ID | Not required | Not required |
