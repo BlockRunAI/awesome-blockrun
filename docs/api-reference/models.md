@@ -171,7 +171,7 @@ Seedance defaults to **720p with synced audio** for text-to-video; pass `resolut
 | `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.238/sec ($1.19 / 5s clip t2v; $0.70 with image input) |
 | `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.298/sec ($1.49 / 5s clip t2v; $0.91 with image input) |
 
-For character consistency across multiple Seedance videos, enroll a [Virtual Portrait](virtual-portrait.md) ($0.50 one-time, no KYC) and pass the returned `ta_xxx` as `real_face_asset_id`.
+For character consistency across multiple Seedance videos, enroll a [Virtual Portrait](virtual-portrait.md) ($0.50 one-time, no KYC) for AI characters, or a [RealFace](realface.md) ($1.00 one-time, no KYC, requires brief on-phone liveness check) for real people. Pass the returned `ta_xxx` as `real_face_asset_id`.
 
 ## Model Categories
 

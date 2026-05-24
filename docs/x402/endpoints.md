@@ -41,8 +41,12 @@ OpenAI-compatible. 50+ chat models from OpenAI, Anthropic, Google, xAI, DeepSeek
 | POST | `/api/v1/images/image2image` | Image edit / inpainting (gpt-image-1, gpt-image-2) | Per image |
 | POST | `/api/v1/videos/generations` | Video generation (Seedance, Grok Imagine Video) | Per second, varies |
 | GET  | `/api/v1/videos/generations/{id}` | Async video poll | Free |
-| POST | `/api/v1/portrait/enroll` | Enroll AI character as a Token360 Virtual Portrait (`ta_xxx`) for Seedance | **$0.50 / enrollment** |
+| POST | `/api/v1/portrait/enroll` | Enroll AI character as a Virtual Portrait (`ta_xxx`) for Seedance | **$0.50 / enrollment** |
 | GET  | `/api/v1/wallet/{address}/portraits` | List a wallet's enrolled Virtual Portraits | Free (rate-limited) |
+| POST | `/api/v1/realface/init` | Create a RealFace enrollment session, returns h5Link for phone liveness check | Free (rate-limited) |
+| POST | `/api/v1/realface/enroll` | Finalize RealFace enrollment after H5 completes (uploads face + biometric match) | **$1.00 / enrollment** |
+| GET  | `/api/v1/realface/status` | Poll the state of a RealFace enrollment group | Free (rate-limited) |
+| GET  | `/api/v1/wallet/{address}/realfaces` | List a wallet's enrolled RealFaces | Free (rate-limited) |
 | POST | `/api/v1/audio/generations` | Music / audio (MiniMax Music) | Per track |
 
 Per-model pricing is published at `/api/v1/models` and embedded in every 402 response.

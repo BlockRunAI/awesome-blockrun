@@ -2,7 +2,7 @@
 
 Enroll an AI-generated character image as a Virtual Portrait and get back a `ta_xxxxxxxx` id you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0-fast call. Use this when you want **the same character across multiple videos** without dealing with KYC.
 
-> **No KYC required.** This is the only character-anchoring path BlockRun supports — designed for AI-generated personas, mascots, avatars, virtual spokespeople. **Real-person likeness is not supported** (the upstream verification flow requires KYC, which conflicts with our wallet-only stance). See [the note](https://blockrun.ai/docs/video/real-person-ip).
+> **No KYC required.** Use this for AI-generated personas, mascots, avatars, virtual spokespeople — no liveness step needed because the asset is understood to be a synthetic character. For **real-person likeness**, use [RealFace](realface.md) (also no KYC, but requires a brief liveness check on the rights-holder's phone to prove consent).
 
 | | |
 |---|---|
@@ -174,6 +174,7 @@ The video playground at `/models/bytedance-seedance-2.0-fast` reads this same li
 ## Links
 
 - [Video Generation API](video-generation.md) — using the `ta_xxx` you just enrolled
-- [Real-person video — not supported](https://blockrun.ai/docs/video/real-person-ip) — why BlockRun doesn't offer real-person likeness
+- [RealFace Enrollment](realface.md) — same `ta_xxx` mechanic but for a real person (requires liveness check, still no KYC)
+- [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip) — visual walkthrough of the RealFace flow
 - [Portrait Studio UI](https://blockrun.ai/studio/portrait) — web flow for non-developers
 - [x402 Payment Flow](../x402/payment-flow.md) — how the 402 / sign / retry handshake works

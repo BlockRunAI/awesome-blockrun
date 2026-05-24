@@ -57,6 +57,7 @@
 * [Image Editing (img2img)](api-reference/image-editing.md)
 * [Video Generation](api-reference/video-generation.md)
 * [Virtual Portrait Enrollment](api-reference/virtual-portrait.md)
+* [RealFace Enrollment](api-reference/realface.md)
 * [Music Generation](api-reference/music-generation.md)
 * [Search](api-reference/search.md)
 * [Exa Web Search](api-reference/exa-search.md)

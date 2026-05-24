@@ -2,6 +2,22 @@
 
 All notable changes to BlockRun.
 
+## [2026-05-24]
+
+### Added — RealFace enrollment (real-person likeness, no KYC)
+- **`POST /api/v1/realface/init`** + **`POST /api/v1/realface/enroll`** — full RealFace flow now live. The rights-holder scans a QR on their phone and completes a brief liveness check (nod + blink, ~1 minute), BlockRun's backend uploads the face photo and waits for an upstream biometric match, returns a `ta_xxxxxx` id usable as `real_face_asset_id` on Seedance 2.0 / 2.0-fast. **$1.00 USDC per enrollment**, one-time. See [RealFace API reference](../api-reference/realface.md).
+- **No KYC required.** No government ID, no account login, no name verification. Only a face-match between the live H5 capture and the photo you supply. Biometric data flows phone → upstream identity service directly, never touches BlockRun servers.
+- **`GET /api/v1/realface/status?groupId=…`** — free polling endpoint, used by the studio UI to detect H5 completion.
+- **`GET /api/v1/wallet/<address>/realfaces`** — symmetric to `/portraits`, lists a wallet's enrolled RealFaces.
+- **[blockrun.ai/studio/realface](https://blockrun.ai/studio/realface)** — web UI: connect wallet → upload image URL → click Start → QR + countdown → poll for H5 completion → sign payment → copy `ta_xxx`.
+- **Video playground dropdown** now combines Virtual Portrait + RealFace assets into a single `real_face_asset_id` selector, grouped by type.
+- Header **Models** dropdown adds "RealFace Studio".
+
+### Reversed — earlier 2026-05-22 "RealFace removed" entry
+- The 2026-05-22 changelog entry "Removed — RealFace" was based on an integration that was blocked by an upstream webhook bug at our inference partner. The partner shipped a fix on 2026-05-24; we verified the end-to-end flow (group active after H5 → photo upload → `ta_xxx` active in 6s → Seedance video generated in 86s using the enrolled face). The original conclusion that RealFace requires KYC was wrong — actual flow is liveness-only (nod + blink), no ID or account binding.
+
+---
+
 ## [2026-05-22]
 
 ### Added — Virtual Portrait enrollment (no KYC)
@@ -11,10 +27,8 @@ All notable changes to BlockRun.
 - **Video playground** at `/models/bytedance-seedance-2.0-fast` (and 2.0 Pro) now shows a dropdown of the connected wallet's enrolled portraits instead of asking users to paste a `ta_xxx` manually.
 - Header **Models** dropdown now exposes "Portrait Studio".
 
-### Removed — RealFace (real-person likeness) is no longer offered
-- BlockRun does not offer real-person likeness in video generation. The upstream verification path requires KYC (live selfie + government ID upload), which conflicts with our wallet-only, no-KYC stance.
-- `/docs/video/real-person-ip` now explains why and points to Virtual Portrait. The `real_face_asset_id` API field is preserved for backwards compatibility but is documented as accepting Virtual Portrait ids only.
-- Use Virtual Portrait for any character-consistency use case (mascot, persona, avatar, virtual spokesperson). For real-person video, BlockRun is the wrong tool.
+### ~~Removed — RealFace (real-person likeness) is no longer offered~~ *(reversed on 2026-05-24, see latest entry)*
+- ~~BlockRun does not offer real-person likeness in video generation.~~ This conclusion was wrong — upstream had a webhook bug that made the group never transition to active; once fixed, the flow works without KYC. RealFace was reinstated on 2026-05-24.
 
 ### Changed — Seedance defaults bumped to 720p + synced audio
 - `/api/v1/videos/generations` now defaults `resolution: "720p"` for all Seedance models (was 480p). Override by passing an explicit `resolution` (`360p` / `480p` / `720p` / `1080p` / `4K`).
