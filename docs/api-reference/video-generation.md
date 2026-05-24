@@ -25,7 +25,7 @@ POST https://blockrun.ai/api/v1/videos/generations
 | `model` | string | Yes | Video model ID (see below) |
 | `prompt` | string | Yes | Text description of the video to generate |
 | `image_url` | string | No | Optional seed image URL for image-to-video |
-| `real_face_asset_id` | string | No | Face-reference asset ID (`ta_xxxxxx`) — either a [Virtual Portrait](virtual-portrait.md) (AI character, $0.50, no KYC) or a [RealFace](realface.md) (real person, $0.01, no KYC, requires brief liveness check on phone). Keeps the same character / person across multiple Seedance videos. **Seedance 2.0 fast/pro only.** Mutually exclusive with `image_url`. |
+| `real_face_asset_id` | string | No | Face-reference asset ID (`ta_xxxxxx`) — either a [Virtual Portrait](virtual-portrait.md) (AI character, $0.01, no KYC) or a [RealFace](realface.md) (real person, $0.01, no KYC, requires brief liveness check on phone). Keeps the same character / person across multiple Seedance videos. **Seedance 2.0 fast/pro only.** Mutually exclusive with `image_url`. |
 | `duration_seconds` | integer | No | Duration billed for (defaults to model's default) |
 | `resolution` | string | No | `360p` / `480p` / `720p` / `1080p` / `4K`. **Seedance defaults to `720p`**; Grok uses its own default. Higher resolutions cost more tokens upstream. |
 | `generate_audio` | boolean | No | Synced audio in the output. **Seedance defaults: `true` for text-to-video, `false` for image/face-conditioned**. Pass an explicit value to override. Grok ignores this field. |
@@ -63,7 +63,7 @@ The image-input rate is cheaper because token360's underlying inference uses few
 
 | Asset type | Use when | KYC? | Liveness? | Cost | Enroll via |
 |---|---|---|---|---|---|
-| [**Virtual Portrait**](virtual-portrait.md) | AI-generated character, mascot, avatar | No | No | $0.50 USDC, one-time | [`POST /v1/portrait/enroll`](virtual-portrait.md) or [studio/portrait](https://blockrun.ai/studio/portrait) |
+| [**Virtual Portrait**](virtual-portrait.md) | AI-generated character, mascot, avatar | No | No | $0.01 USDC, one-time | [`POST /v1/portrait/enroll`](virtual-portrait.md) or [studio/portrait](https://blockrun.ai/studio/portrait) |
 | [**RealFace**](realface.md) | Real person you have permission to use | No | Yes (~1 min on phone) | $0.01 USDC, one-time (promo) | [`POST /v1/realface/init`](realface.md) + [`/enroll`](realface.md) or [studio/realface](https://blockrun.ai/studio/realface) |
 
 Both are passed identically on the video call:
@@ -176,7 +176,8 @@ Seedance tokens-per-second: **~20,256 at the default 720p**. Drop to `resolution
 
 | Action | Endpoint | Price |
 |--------|----------|-------|
-| Virtual Portrait enrollment | [`POST /v1/portrait/enroll`](virtual-portrait.md) | $0.50 USDC per asset (no KYC) |
+| Virtual Portrait enrollment | [`POST /v1/portrait/enroll`](virtual-portrait.md) | $0.01 USDC per asset (no KYC) |
+| RealFace enrollment | [`POST /v1/realface/enroll`](realface.md) | $0.01 USDC per asset (no KYC, requires on-phone liveness) |
 
 ## Error Codes
 

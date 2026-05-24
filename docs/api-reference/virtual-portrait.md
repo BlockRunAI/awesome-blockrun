@@ -7,7 +7,7 @@ Enroll an AI-generated character image as a Virtual Portrait and get back a `ta_
 | | |
 |---|---|
 | **Endpoint** | `POST https://blockrun.ai/api/v1/portrait/enroll` |
-| **Price** | **$0.50 USDC** per enrollment (one-time, settled to BlockRun's Base wallet via x402) |
+| **Price** | **$0.01 USDC** per enrollment (one-time, settled to BlockRun's Base wallet via x402) |
 | **Auth** | x402 micropayment header — no API key needed |
 | **Network** | Base (USDC, EIP-3009 `exact`) |
 | **Returns** | `ta_xxxxxxxx…` asset id for use with `real_face_asset_id` on Seedance 2.0 / 2.0-fast |
@@ -45,7 +45,7 @@ Images that fail the upstream content filter (NSFW, recognizable real-celebrity 
 Standard BlockRun two-step:
 
 1. **First request without `X-Payment`** → server returns `402 Payment Required` with x402 challenge headers
-2. Sign the EIP-3009 transfer authorization for **$0.50 USDC on Base**
+2. Sign the EIP-3009 transfer authorization for **$0.01 USDC on Base**
 3. **Retry the same request with `X-Payment: <base64>`** → server verifies, registers the portrait, settles the payment after registration succeeds, returns the `ta_xxx`
 
 Settlement happens **after** the portrait is successfully enrolled. If enrollment fails (content filter, network error), no payment is taken — the route returns 502 and the caller can retry with a fresh signature. If settlement itself fails after a successful enrollment, BlockRun absorbs the cost rather than leave the user with a paid-but-unrecoverable state.

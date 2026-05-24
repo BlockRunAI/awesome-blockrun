@@ -2,6 +2,12 @@
 
 All notable changes to BlockRun.
 
+## [2026-05-24 — late]
+
+### Changed — Virtual Portrait enrollment dropped to $0.01 (parity with RealFace)
+- **`POST /api/v1/portrait/enroll`**: $0.50 → **$0.01 USDC**. Token360 charges nothing for asset storage, so per-enrollment margin was always trivial; the old $0.50 was friction without offsetting cost. Now matches RealFace pricing — both are 1¢ to encourage adoption, and we make our money on the downstream Seedance per-clip revenue.
+- All UI, docs, video-playground tooltips, and asset-storage comments updated to reflect the new price.
+
 ## [2026-05-24]
 
 ### Added — RealFace enrollment (real-person likeness, no KYC)
