@@ -91,7 +91,6 @@ BlockRun provides Claude Code skills that extend what Claude can do:
 
 | Skill | What It Does |
 |-------|-------------|
-| [x-grow](../products/creation/x-grow.md) | Write algorithm-optimized X posts |
 | [nano-banana](../products/creation/nano-banana.md) | Generate images via micropayments |
 | [alpha-mcp](../products/trading/overview.md) | AI crypto trading with risk management |
 
@@ -143,5 +142,5 @@ For more help, see [MCP Troubleshooting](../mcp/troubleshooting.md).
 ## Next Steps
 
 - [Install Trading Agent](../products/trading/installation.md)
-- [Try x-grow for X posts](../products/creation/x-grow.md)
+- [Generate images with nano-banana](../products/creation/nano-banana.md)
 - [Explore all models](../products/intelligence/overview.md)

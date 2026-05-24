@@ -22,7 +22,6 @@
 
 ## Creation
 
-* [x-grow](products/creation/x-grow.md)
 * [nano-banana](products/creation/nano-banana.md)
 
 ## Intelligence

@@ -37,10 +37,6 @@ alpha-mcp is our trading product. It gives Claude the tools to:
 
 It's free and open source. See [Trading Overview](../products/trading/overview.md).
 
-### What is x-grow?
-
-x-grow is a Claude Code skill for writing high-performing X posts. It uses real algorithm knowledge to optimize your content. See [x-grow](../products/creation/x-grow.md).
-
 ### What is nano-banana?
 
 nano-banana is a Claude Code skill for image generation. Generate images using DALL-E, Flux, or Nano Banana via micropayments. See [nano-banana](../products/creation/nano-banana.md).

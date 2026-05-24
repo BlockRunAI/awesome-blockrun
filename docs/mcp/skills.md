@@ -6,7 +6,6 @@ Skills extend what Claude Code can do. They're like plugins that add specific ca
 
 | Skill | Description | Install |
 |-------|-------------|---------|
-| [x-grow](../products/creation/x-grow.md) | X post optimization | `claude skill add x-grow` |
 | [nano-banana](../products/creation/nano-banana.md) | Image generation | `claude skill add nano-banana` |
 | [alpha-mcp](../products/trading/overview.md) | Crypto trading | `claude mcp add @blockrun/alpha` |
 
@@ -22,9 +21,6 @@ Skills are prompt-based extensions that teach Claude new workflows. Unlike MCP s
 ### From BlockRun
 
 ```bash
-# Add x-grow skill
-claude skill add x-grow
-
 # Add nano-banana skill
 claude skill add nano-banana
 ```
@@ -46,20 +42,16 @@ cp my-skill.md ~/.claude/skills/
 Skills are invoked with slash commands:
 
 ```
-/x-grow draft "AI agents in crypto"
-```
-
-```
-/x-grow review
+/nano-banana "a minimalist logo for a crypto trading bot"
 ```
 
 Or by natural language when Claude recognizes the task:
 
 ```
-Help me write a high-performing X post about AI trading
+Generate an image of a futuristic AI agent
 ```
 
-Claude will use the x-grow skill automatically.
+Claude will use the nano-banana skill automatically.
 
 ## Creating Custom Skills
 
@@ -109,7 +101,7 @@ The body of the skill file is instructions for Claude. Write it like you're teac
 | What they provide | Instructions | Tools |
 | Written in | Markdown | Code (JS/Python) |
 | Installation | `skill add` | `mcp add` |
-| Example | x-grow | blockrun-mcp |
+| Example | nano-banana | blockrun-mcp |
 
 **Use skills when:** You want to teach Claude a workflow
 **Use MCP when:** You need Claude to call external services
@@ -120,7 +112,6 @@ Skills often work alongside MCP servers:
 
 | Skill | Uses MCP |
 |-------|----------|
-| x-grow | blockrun-mcp (for images) |
 | nano-banana | blockrun-mcp (for generation) |
 | alpha-mcp | alpha-mcp (for trading tools) |
 
@@ -135,13 +126,13 @@ claude skill list
 ### Remove a Skill
 
 ```bash
-claude skill remove x-grow
+claude skill remove nano-banana
 ```
 
 ### Update a Skill
 
 ```bash
-claude skill update x-grow
+claude skill update nano-banana
 ```
 
 ## Troubleshooting
@@ -172,6 +163,5 @@ claude skill add skill-name
 
 ## Links
 
-- [x-grow Skill](../products/creation/x-grow.md)
 - [nano-banana Skill](../products/creation/nano-banana.md)
 - [BlockRun MCP](blockrun-mcp.md)

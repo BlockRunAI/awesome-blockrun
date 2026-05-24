@@ -125,19 +125,6 @@ Images are saved to your current directory or a specified path.
 ✅ "Wide angle view"
 ```
 
-## Integration with x-grow
-
-nano-banana powers the image mode in [x-grow](x-grow.md):
-
-```
-/x-grow image "AI agent trading dashboard"
-```
-
-Images are automatically optimized for X (Twitter) engagement:
-- 16:9 aspect ratio
-- High contrast
-- Mobile-friendly
-
 ## Wallet Requirements
 
 You need a funded wallet on Base network. See [Wallet Setup](../../getting-started/wallet-setup.md).
@@ -173,5 +160,4 @@ Complex prompts may take longer. Wait up to 30 seconds.
 ## Links
 
 - [GitHub: nano-banana-blockrun](https://github.com/BlockRunAI/nano-banana-blockrun)
-- [x-grow (X post optimization)](x-grow.md)
 - [Wallet Setup](../../getting-started/wallet-setup.md)
