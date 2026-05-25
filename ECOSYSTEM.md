@@ -85,6 +85,7 @@ BlockRun works with the x402 facilitator network:
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading bot with Visual Cortex for chart analysis |
 | [Voyage GEO](https://github.com/onvoyage-ai/voyage-geo-agent) | AI Analytics | Generative Engine Optimization - track AI brand mentions across multiple models |
 | [PulseNetwork](https://pulsenetwork.theaslangroupllc.com) | API Catalog | 76-origin x402 API catalog (950+ pay-per-call intelligence endpoints: token safety, macro, geopolitical, sports, clinical trials) — purchasable by BlockRun-powered agents via CDP/PayAI facilitator discovery |
+| [TensorFeed](https://tensorfeed.ai) | AI Intelligence | AI-industry intelligence for agents: vendor pricing, model status, deprecations, CVEs, capital, research. Daily-fresh JSON feeds. Premium endpoints priced in USDC via x402, cataloged in CDP Bazaar ([manifest](https://tensorfeed.ai/.well-known/x402.json), [/developers](https://tensorfeed.ai/developers)) |
 
 ### Claude Code Tools
 
