@@ -2,7 +2,7 @@
 
 Build AI agents that pay for their own intelligence.
 
-This guide is for developers using agent frameworks like ElizaOS, AgentKit, GOAT SDK, or LangChain. BlockRun provides the intelligence layer — 55+ AI models via x402 micropayments.
+This guide is for developers using agent frameworks like ElizaOS, AgentKit, GOAT SDK, or LangChain. BlockRun provides the intelligence layer — 50+ AI models via x402 micropayments.
 
 ## Why BlockRun for Agents?
 

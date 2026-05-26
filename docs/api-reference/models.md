@@ -48,9 +48,9 @@ Each model object in the response includes:
 }
 ```
 
-## Available Models (55+ across chat / image / video / voice)
+## Available Models (50+ across chat / image / video / voice)
 
-> 55+ models total across all categories: 41 visible LLMs + 8 image + 4 video + 1 music, plus ~36 deprecated / superseded LLM IDs that remain routable for backwards compatibility but are hidden from the catalog.
+> 50+ models total across all categories: 41 visible LLMs + 8 image + 4 video + 1 music, plus ~36 deprecated / superseded LLM IDs that remain routable for backwards compatibility but are hidden from the catalog.
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
 

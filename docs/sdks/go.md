@@ -1,6 +1,6 @@
 # Go SDK
 
-The Go SDK for BlockRun provides access to 55+ AI models via x402 micropayments.
+The Go SDK for BlockRun provides access to 50+ AI models via x402 micropayments.
 
 ## Installation
 

@@ -2,7 +2,7 @@
 
 Use BlockRun as an LLM provider in ElizaOS agents.
 
-[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 55+ AI models via x402 micropayments.
+[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 50+ AI models via x402 micropayments.
 
 ## Installation
 
@@ -142,7 +142,7 @@ const agent = new ElizaAgent({
   ]
 });
 
-// Agent now has access to 55+ models via BlockRun
+// Agent now has access to 50+ models via BlockRun
 await agent.start();
 ```
 

@@ -7,7 +7,7 @@ Projects, integrations, and partners building with BlockRun and x402.
 | Product | Description | Link |
 |---------|-------------|------|
 | [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp) | AI crypto trading for Claude | [GitHub](https://github.com/BlockRunAI/alpha-mcp) |
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server (v0.4.2) for 55+ AI models, images, video, music, voice, prediction markets, crypto data, sandbox runtime, smart routing | [GitHub](https://github.com/BlockRunAI/blockrun-mcp) |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server (v0.4.2) for 50+ AI models, images, video, music, voice, prediction markets, crypto data, sandbox runtime, smart routing | [GitHub](https://github.com/BlockRunAI/blockrun-mcp) |
 | [nano-banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Image generation skill | [GitHub](https://github.com/BlockRunAI/nano-banana-blockrun) |
 
 ## API Products
