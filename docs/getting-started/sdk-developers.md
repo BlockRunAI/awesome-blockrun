@@ -113,7 +113,7 @@ response = client.chat_messages("openai/gpt-5.4", messages)
 ```python
 image_url = client.generate_image(
     prompt="A futuristic city at sunset",
-    model="dall-e-3",
+    model="google/nano-banana",
     size="1024x1024"
 )
 ```

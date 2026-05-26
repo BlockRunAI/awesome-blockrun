@@ -43,7 +43,7 @@ Get USDC on Base:
 Generate a logo for a crypto trading bot
 ```
 
-Claude uses nano-banana to generate images via DALL-E, Flux, or Google's Nano Banana model. ~$0.05-0.12 per image.
+Claude uses nano-banana to generate images via Google's Nano Banana, OpenAI GPT Image, CogView-4, or xAI Grok Imagine. ~$0.015-0.12 per image.
 
 ### Access Other AI Models
 
@@ -103,7 +103,7 @@ BlockRun provides Claude Code skills that extend what Claude can do:
 $1 gets you approximately:
 - ~500 GPT-5.4 calls
 - ~10,000 DeepSeek calls
-- ~20 DALL-E images
+- ~20–65 image generations
 
 ## Security
 

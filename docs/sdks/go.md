@@ -83,7 +83,7 @@ response, err := client.ChatMessages("openai/gpt-5.5", messages)
 ```go
 imageURL, err := client.GenerateImage(blockrun.ImageRequest{
     Prompt: "A futuristic city",
-    Model:  "dall-e-3",
+    Model:  "google/nano-banana",
     Size:   "1024x1024",
 })
 ```

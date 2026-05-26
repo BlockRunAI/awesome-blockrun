@@ -284,9 +284,10 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 
 ### Image Generation
 
-- DALL-E 3
-- Nano Banana
-- Flux 1.1 Pro
+- GPT Image 1 / ChatGPT Images 2.0
+- Nano Banana / Nano Banana Pro
+- CogView-4
+- Grok Imagine
 
 [View full pricing →](../intelligence/pricing.md)
 

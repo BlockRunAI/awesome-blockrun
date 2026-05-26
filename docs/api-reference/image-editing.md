@@ -31,7 +31,7 @@ POST https://sol.blockrun.ai/api/v1/images/image2image    # Solana
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `model` | string | No | Model to use (default: `openai/gpt-image-2`). Supported: `openai/gpt-image-1`, `openai/gpt-image-2` |
+| `model` | string | No | Model to use (default: `openai/gpt-image-2`). Supported: `openai/gpt-image-1`, `openai/gpt-image-2`, `google/nano-banana`, `google/nano-banana-pro` |
 | `prompt` | string | Yes | Description of edits to make |
 | `image` | string | Yes | Source image as base64 data URI (`data:image/png;base64,...`) |
 | `mask` | string | No | Mask image as base64 data URI (white = area to edit) |
@@ -40,10 +40,12 @@ POST https://sol.blockrun.ai/api/v1/images/image2image    # Solana
 
 ### Supported Models
 
-| Model ID | Provider | Sizes | Pricing |
-|----------|----------|-------|---------|
-| `openai/gpt-image-1` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.02-0.04 |
-| `openai/gpt-image-2` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.06-0.12 |
+| Model ID | Provider | Mask | Sizes | Pricing |
+|----------|----------|------|-------|---------|
+| `openai/gpt-image-1` | OpenAI | ✅ | 1024x1024, 1536x1024, 1024x1536 | $0.02-0.04 |
+| `openai/gpt-image-2` | OpenAI | ✅ | 1024x1024, 1536x1024, 1024x1536 | $0.06-0.12 |
+| `google/nano-banana` | Google (Gemini 2.5 Flash Image) | ❌ prompt-only | 1024x1024 | $0.05 |
+| `google/nano-banana-pro` | Google (Gemini 3 Pro Image) | ❌ prompt-only | 1024x1024, 2048x2048, 4096x4096 | $0.10-0.15 |
 
 ## Response
 
@@ -128,6 +130,8 @@ curl -X POST https://sol.blockrun.ai/api/v1/images/image2image \
 
 ## Mask Usage
 
+> **Mask is OpenAI-only.** Masks apply to `openai/gpt-image-1` and `openai/gpt-image-2`. Google `nano-banana` / `nano-banana-pro` are prompt-only — passing a `mask` to a Google model returns `400`.
+
 The mask defines which parts of the image to edit:
 
 - **White pixels** = areas to edit (AI generates new content here)
@@ -147,6 +151,10 @@ Prices include 5% BlockRun margin:
 | ChatGPT Images 2.0 | 1024x1024 | $0.063 |
 | ChatGPT Images 2.0 | 1536x1024 | $0.126 |
 | ChatGPT Images 2.0 | 1024x1536 | $0.126 |
+| Nano Banana | 1024x1024 | $0.0525 |
+| Nano Banana Pro | 1024x1024 | $0.105 |
+| Nano Banana Pro | 2048x2048 | $0.105 |
+| Nano Banana Pro | 4096x4096 | $0.1575 |
 
 ## Error Codes
 

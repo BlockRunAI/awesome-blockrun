@@ -154,7 +154,6 @@ Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
 
 | Model ID | Name | Price |
 |----------|------|-------|
-| `openai/dall-e-3` | DALL-E 3 | $0.04-0.08/image |
 | `openai/gpt-image-1` | GPT Image 1 | $0.02-0.04/image |
 | `openai/gpt-image-2` | ChatGPT Images 2.0 | $0.06-0.12/image |
 | `google/nano-banana` | Nano Banana | $0.05/image |

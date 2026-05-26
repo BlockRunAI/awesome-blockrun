@@ -68,7 +68,7 @@ const response = await agent.chat({
 ```typescript
 const image = await agent.generateImage({
   prompt: 'A futuristic AI agent',
-  model: 'dall-e-3',
+  model: 'google/nano-banana',
   size: '1024x1024'
 });
 ```

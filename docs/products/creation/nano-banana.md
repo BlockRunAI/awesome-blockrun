@@ -2,7 +2,7 @@
 
 Image generation via micropayments. No API keys needed.
 
-nano-banana is a Claude Code skill that lets you generate images using DALL-E, Flux, or Google's Nano Banana model. Your private key never leaves your machine.
+nano-banana is a Claude Code skill that lets you generate images using Google's Nano Banana, OpenAI GPT Image, CogView-4, or xAI Grok Imagine models. Your private key never leaves your machine.
 
 ## Available Models
 
@@ -10,7 +10,10 @@ nano-banana is a Claude Code skill that lets you generate images using DALL-E, F
 |-------|-------|----------|
 | Google Nano Banana | $0.05 | Fast, affordable generation |
 | Google Nano Banana Pro | $0.10 | Higher quality outputs |
-| OpenAI DALL-E 3 | $0.04-0.12 | Premium image generation |
+| OpenAI GPT Image 1 | $0.02-0.04 | Native GPT-4o image generation |
+| OpenAI ChatGPT Images 2.0 | $0.06-0.12 | Premium quality, text rendering, edits |
+| Zhipu CogView-4 | $0.015 | Cheapest, Chinese prompts |
+| xAI Grok Imagine | $0.02-0.07 | Stylized generation |
 
 ## Installation
 
@@ -40,7 +43,7 @@ Create an image of a futuristic AI agent
 ### With Model Selection
 
 ```
-Use DALL-E to generate a professional headshot
+Use GPT Image to generate a professional headshot
 ```
 
 ```
@@ -69,9 +72,9 @@ Generate a 16:9 banner image of blockchain nodes
 |-------|------------|-------|
 | Nano Banana | 1024x1024 | $0.05 |
 | Nano Banana Pro | 1024x1024 | $0.10 |
-| DALL-E 3 Standard | 1024x1024 | $0.04 |
-| DALL-E 3 HD | 1024x1792 | $0.08 |
-| DALL-E 3 HD Wide | 1792x1024 | $0.12 |
+| GPT Image 1 | 1024x1024 | $0.02 |
+| ChatGPT Images 2.0 | 1024x1024 | $0.06 |
+| CogView-4 | up to 1440x1440 | $0.015 |
 
 ## Example Session
 

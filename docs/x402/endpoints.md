@@ -36,7 +36,7 @@ OpenAI-compatible. 50+ chat models from OpenAI, Anthropic, Google, xAI, DeepSeek
 |---|---|---|---|
 | POST | `/api/v1/chat/completions` | OpenAI-compatible chat | Token-based, see `/api/v1/models` |
 | POST | `/api/v1/messages` | Anthropic-compatible messages | Token-based |
-| POST | `/api/v1/images/generations` | Image generation (DALL-E 3, gpt-image-1/2, Nano Banana, Grok Imagine, Flux) | Per image, per size |
+| POST | `/api/v1/images/generations` | Image generation (gpt-image-1/2, Nano Banana, CogView-4, Grok Imagine) | Per image, per size |
 | GET  | `/api/v1/images/generations/{id}` | Async image poll for slow models (gpt-image-2, etc.) | Free |
 | POST | `/api/v1/images/image2image` | Image edit / inpainting (gpt-image-1, gpt-image-2) | Per image |
 | POST | `/api/v1/videos/generations` | Video generation (Seedance, Grok Imagine Video) | Per second, varies |

@@ -21,7 +21,7 @@ The 5% margin covers:
 | GPT-4o | ~400K input tokens |
 | DeepSeek V3 | ~7M input tokens |
 | Gemini Flash | ~13M input tokens |
-| DALL-E 3 | ~20 images |
+| Image generation | ~20–65 images |
 | **NVIDIA free tier** (DeepSeek V4 Pro/Flash, Nemotron Nano Omni, Qwen3, Llama 4, GLM-4.7, Mistral — 9 models) | **Unlimited (FREE)** |
 
 ## Full Price List
@@ -123,11 +123,14 @@ data-privacy policy.
 
 | Model | Price per Image |
 |-------|-----------------|
-| DALL-E 3 Standard (1024x1024) | $0.04 |
-| DALL-E 3 HD (1024x1792) | $0.08 |
-| DALL-E 3 HD Wide (1792x1024) | $0.12 |
+| GPT Image 1 (1024x1024) | $0.02 |
+| GPT Image 1 (wide/tall) | $0.04 |
+| ChatGPT Images 2.0 (1024x1024) | $0.06 |
+| ChatGPT Images 2.0 (wide/tall) | $0.12 |
 | Nano Banana | $0.05 |
 | Nano Banana Pro | $0.10 |
+| CogView-4 | $0.015 |
+| Grok Imagine | $0.02 |
 
 ## Cost Comparison: BlockRun vs Direct
 

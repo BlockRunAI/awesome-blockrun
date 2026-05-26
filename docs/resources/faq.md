@@ -39,7 +39,7 @@ It's free and open source. See [Trading Overview](../products/trading/overview.m
 
 ### What is nano-banana?
 
-nano-banana is a Claude Code skill for image generation. Generate images using DALL-E, Flux, or Nano Banana via micropayments. See [nano-banana](../products/creation/nano-banana.md).
+nano-banana is a Claude Code skill for image generation. Generate images using Nano Banana, GPT Image, CogView-4, or Grok Imagine via micropayments. See [nano-banana](../products/creation/nano-banana.md).
 
 ## Payments
 

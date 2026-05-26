@@ -1,6 +1,6 @@
 # Image Generation API
 
-Generate images using DALL-E, GPT Image (including ChatGPT Images 2.0), Google Nano Banana, CogView-4, or xAI Grok Imagine.
+Generate images using GPT Image (including ChatGPT Images 2.0), Google Nano Banana, CogView-4, or xAI Grok Imagine.
 
 ## Endpoint
 
@@ -26,14 +26,13 @@ POST https://blockrun.ai/api/v1/images/generations
 | `model` | string | Yes | Model to use (see below) |
 | `prompt` | string | Yes | Image description |
 | `size` | string | No | Image dimensions (default: "1024x1024") |
-| `quality` | string | No | "standard" or "hd" (DALL-E 3 only) |
+| `quality` | string | No | "standard" or "hd" (model-dependent) |
 | `n` | integer | No | Number of images (default: 1) |
 
 ### Available Models
 
 | Model ID | Provider | Sizes | Price |
 |----------|----------|-------|-------|
-| `openai/dall-e-3` | OpenAI | 1024x1024, 1024x1792, 1792x1024 | $0.042 |
 | `openai/gpt-image-1` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.021 |
 | `openai/gpt-image-2` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.063 |
 | `google/nano-banana` | Google | 1024x1024 | $0.053 |
@@ -80,9 +79,9 @@ POST https://blockrun.ai/api/v1/images/generations
 | `data[].url` | string | Permanent URL. When GCS backup succeeds, this is a blockrun-hosted proxy URL; otherwise the upstream URL. For `openai/gpt-image-1` and `openai/gpt-image-2` this is a base64 data URI |
 | `data[].source_url` | string | Original upstream URL (omitted for data URIs) |
 | `data[].backed_up` | boolean | `true` when the image was mirrored to BlockRun's GCS bucket (omitted for data URIs) |
-| `data[].revised_prompt` | string | Expanded prompt (DALL-E 3 only) |
+| `data[].revised_prompt` | string | Expanded prompt (when the model rewrites it) |
 
-> **Why both `url` and `source_url`?** Most providers return temporary URLs (OpenAI DALL-E URLs expire in 60 min, xAI Grok Imagine URLs are flagged `xai-tmp-*`). BlockRun mirrors each generated image to Google Cloud Storage and returns the permanent proxy URL as `url`.
+> **Why both `url` and `source_url`?** Most providers return temporary URLs (OpenAI image URLs expire in 60 min, xAI Grok Imagine URLs are flagged `xai-tmp-*`). BlockRun mirrors each generated image to Google Cloud Storage and returns the permanent proxy URL as `url`.
 
 ## Examples
 
@@ -135,10 +134,10 @@ result = client.generate(
 )
 print(result.data[0].url)
 
-# DALL-E 3
+# Nano Banana (Gemini 2.5 Flash Image)
 result = client.generate(
     "A futuristic AI robot",
-    model="openai/dall-e-3",
+    model="google/nano-banana",
     size="1024x1024"
 )
 print(result.data[0].url)
@@ -158,9 +157,9 @@ const result = await client.generate('a futuristic city at night', {
 });
 console.log(result.data[0].url);
 
-// DALL-E 3
+// Nano Banana (Gemini 2.5 Flash Image)
 const result2 = await client.generate('A futuristic AI robot', {
-  model: 'openai/dall-e-3',
+  model: 'google/nano-banana',
   size: '1024x1024',
 });
 console.log(result2.data[0].url);
@@ -172,8 +171,6 @@ console.log(result2.data[0].url);
 |-------|------|-------|
 | CogView-4 | up to 1440x1440 | **$0.015** |
 | CogView-4 | 1440x1440 | $0.02 |
-| DALL-E 3 Standard | 1024x1024 | $0.042 |
-| DALL-E 3 Wide | 1792x1024 | $0.084 |
 | GPT Image 1 | 1024x1024 | $0.021 |
 | ChatGPT Images 2.0 | 1024x1024 | $0.063 |
 | ChatGPT Images 2.0 | 1536x1024 / 1024x1536 | $0.126 |
@@ -201,8 +198,8 @@ console.log(result2.data[0].url);
 | Chinese prompts | `zai/cogview-4` |
 | Highest quality | `google/nano-banana-pro` |
 | Fast & reliable | `google/nano-banana` |
-| Best prompt following | `openai/dall-e-3` |
-| Image editing (img2img) | `openai/gpt-image-1` or `openai/gpt-image-2` |
+| Best prompt following | `openai/gpt-image-2` |
+| Image editing (img2img) | `openai/gpt-image-1`, `openai/gpt-image-2`, or `google/nano-banana` |
 | Multilingual text in images / character consistency | `openai/gpt-image-2` |
 | xAI-style stylization | `xai/grok-imagine-image-pro` |
 
