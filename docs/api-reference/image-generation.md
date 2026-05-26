@@ -199,7 +199,8 @@ console.log(result2.data[0].url);
 | Highest quality | `google/nano-banana-pro` |
 | Fast & reliable | `google/nano-banana` |
 | Best prompt following | `openai/gpt-image-2` |
-| Image editing (img2img) | `openai/gpt-image-1`, `openai/gpt-image-2`, or `google/nano-banana` |
+| Image editing (img2img) | `openai/gpt-image-1`, `openai/gpt-image-2`, `google/nano-banana`, or `google/nano-banana-pro` |
+| Multi-image fusion (ref + logo → 1 image) | `google/nano-banana(-pro)` (≤3) or `openai/gpt-image-1/2` (≤4) — see [Image Editing](image-editing.md) |
 | Multilingual text in images / character consistency | `openai/gpt-image-2` |
 | xAI-style stylization | `xai/grok-imagine-image-pro` |
 

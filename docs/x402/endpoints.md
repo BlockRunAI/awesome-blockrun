@@ -38,7 +38,7 @@ OpenAI-compatible. 50+ chat models from OpenAI, Anthropic, Google, xAI, DeepSeek
 | POST | `/api/v1/messages` | Anthropic-compatible messages | Token-based |
 | POST | `/api/v1/images/generations` | Image generation (gpt-image-1/2, Nano Banana, CogView-4, Grok Imagine) | Per image, per size |
 | GET  | `/api/v1/images/generations/{id}` | Async image poll for slow models (gpt-image-2, etc.) | Free |
-| POST | `/api/v1/images/image2image` | Image edit / inpainting (gpt-image-1, gpt-image-2) | Per image |
+| POST | `/api/v1/images/image2image` | Image edit / inpainting + multi-image fusion (gpt-image-1/2, Nano Banana, Nano Banana Pro) | Per image |
 | POST | `/api/v1/videos/generations` | Video generation (Seedance, Grok Imagine Video) | Per second, varies |
 | GET  | `/api/v1/videos/generations/{id}` | Async video poll | Free |
 | POST | `/api/v1/portrait/enroll` | Enroll AI character as a Virtual Portrait (`ta_xxx`) for Seedance | **$0.01 / enrollment** |
