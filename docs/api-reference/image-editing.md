@@ -2,11 +2,11 @@
 
 Edit existing images — pass one or more source images and describe what to change.
 
-> **Requests are `application/json` with base64 data URIs** (not OpenAI's
-> `multipart/form-data` file upload). Send `image` as a `data:image/...;base64,…`
-> string, or a JSON **array** of them for multi-image fusion. The OpenAI SDK's
-> native `images.edit()` sends multipart and will not work here — use the
-> BlockRun SDK, ClawRouter, or a raw JSON request.
+> **Two request formats are accepted:**
+> - **`application/json`** — `image` as a `data:image/...;base64,…` string, or a JSON **array** of them for multi-image fusion. (BlockRun-native.)
+> - **`multipart/form-data`** — OpenAI's format: repeated `image[]=@file` fields (plus `mask`, `model`, `prompt`, `size`, `n`). Files are converted internally.
+>
+> **Payment is always x402** (the `X-Payment` / `PAYMENT-SIGNATURE` header), regardless of body format. So you can send an OpenAI-shaped multipart body, but you still attach an x402 payment — the OpenAI SDK's native Bearer-key auth does **not** settle payment here. Use the BlockRun SDK / ClawRouter (which handle x402), or send either body format with your own x402 header.
 
 ## Endpoint
 
@@ -155,13 +155,12 @@ result — e.g. a reference image + a brand logo, composed by a single prompt.
 - `mask` **cannot** be combined with a multi-image array (mask is single-region only) → `400`.
 - Exceeding a provider's image cap → `400`.
 
-> **Format note — this is JSON, not multipart.** OpenAI's `/v1/images/edits`
-> takes files as `multipart/form-data` with repeated `image[]=@file` fields.
-> BlockRun's endpoint is **`application/json`**: pass `image` as a JSON **array
-> of base64 data URIs** (single image = a plain string). Because of this, the
-> OpenAI SDK's native `images.edit()` (which sends multipart) does **not** work
-> against BlockRun — use the BlockRun SDK, ClawRouter, or a raw JSON request as
-> shown below.
+> **Two ways to send multiple images:**
+> - **JSON** (shown below): `image` as a JSON **array of base64 data URIs**.
+> - **Multipart** (OpenAI's format): repeated `image[]=@file` fields, e.g.
+>   `-F "image[]=@ref.png" -F "image[]=@logo.png"`.
+>
+> Both are accepted. Payment is still x402 in either case (see the format note at the top).
 
 ```bash
 REF_B64=$(base64 -i ~/reference-post.png)
@@ -181,7 +180,19 @@ curl -X POST https://blockrun.ai/api/v1/images/image2image \
   }"
 ```
 
-Single-image requests are unchanged — `image` as a plain string still works.
+Same request in **OpenAI multipart format** (repeated `image[]`):
+
+```bash
+curl -X POST https://blockrun.ai/api/v1/images/image2image \
+  -H "X-Payment: $PAYMENT_HEADER" \
+  -F "model=google/nano-banana" \
+  -F "prompt=place the brand logo in the corner, vintage warm palette, no text overlay" \
+  -F "image[]=@reference-post.png" \
+  -F "image[]=@brand-logo.png" \
+  -F "size=1024x1024"
+```
+
+Single-image requests are unchanged — `image` as a plain string (JSON) or a single `image[]`/`image` file (multipart) both work.
 
 ## Pricing
 
