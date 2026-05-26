@@ -53,6 +53,7 @@
 ## API Reference
 
 * [Chat Completions](api-reference/chat-completions.md)
+* [Rate Limits](rate-limits.md)
 * [Image Generation](api-reference/image-generation.md)
 * [Image Editing (img2img)](api-reference/image-editing.md)
 * [Video Generation](api-reference/video-generation.md)
