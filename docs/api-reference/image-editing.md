@@ -33,8 +33,8 @@ POST https://sol.blockrun.ai/api/v1/images/image2image    # Solana
 |-----------|------|----------|-------------|
 | `model` | string | No | Model to use (default: `openai/gpt-image-2`). Supported: `openai/gpt-image-1`, `openai/gpt-image-2`, `google/nano-banana`, `google/nano-banana-pro` |
 | `prompt` | string | Yes | Description of edits to make |
-| `image` | string | Yes | Source image as base64 data URI (`data:image/png;base64,...`) |
-| `mask` | string | No | Mask image as base64 data URI (white = area to edit) |
+| `image` | string \| string[] | Yes | Source image as a base64 data URI, **or an array of data URIs** to fuse multiple sources into one variant (e.g. a reference image + a brand logo). OpenAI-compatible `image[]`. Max 4 images for OpenAI, 3 for Google. |
+| `mask` | string | No | Mask image as base64 data URI (white = area to edit). Single-image only — cannot be combined with a multi-image `image[]` array. |
 | `size` | string | No | Output size (default: `1024x1024`) |
 | `n` | integer | No | Number of images to generate (default: 1) |
 
@@ -138,6 +138,37 @@ The mask defines which parts of the image to edit:
 - **Black pixels** = areas to keep unchanged
 
 If no mask is provided, the AI will edit the entire image based on the prompt.
+
+## Multi-image input (image fusion)
+
+Pass an **array** of source images in `image` to fuse several inputs into one
+result — e.g. a reference image + a brand logo, composed by a single prompt.
+This is OpenAI-compatible `image[]`.
+
+- **OpenAI** `gpt-image-1` / `gpt-image-2`: up to **4** source images.
+- **Google** `nano-banana` / `nano-banana-pro`: up to **3** source images (earlier images act as primary composition anchors).
+- `mask` **cannot** be combined with a multi-image array (mask is single-region only) → `400`.
+- Exceeding a provider's image cap → `400`.
+
+```bash
+REF_B64=$(base64 -i ~/reference-post.png)
+LOGO_B64=$(base64 -i ~/brand-logo.png)
+
+curl -X POST https://blockrun.ai/api/v1/images/image2image \
+  -H "Content-Type: application/json" \
+  -H "X-Payment: $PAYMENT_HEADER" \
+  -d "{
+    \"model\": \"google/nano-banana\",
+    \"prompt\": \"place the brand logo in the corner, vintage warm palette, no text overlay\",
+    \"image\": [
+      \"data:image/png;base64,${REF_B64}\",
+      \"data:image/png;base64,${LOGO_B64}\"
+    ],
+    \"size\": \"1024x1024\"
+  }"
+```
+
+Single-image requests are unchanged — `image` as a plain string still works.
 
 ## Pricing
 
