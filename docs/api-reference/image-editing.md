@@ -1,6 +1,12 @@
 # Image Editing API (img2img)
 
-Edit existing images using AI inpainting — pass a source image and describe what to change.
+Edit existing images — pass one or more source images and describe what to change.
+
+> **Requests are `application/json` with base64 data URIs** (not OpenAI's
+> `multipart/form-data` file upload). Send `image` as a `data:image/...;base64,…`
+> string, or a JSON **array** of them for multi-image fusion. The OpenAI SDK's
+> native `images.edit()` sends multipart and will not work here — use the
+> BlockRun SDK, ClawRouter, or a raw JSON request.
 
 ## Endpoint
 
@@ -143,12 +149,19 @@ If no mask is provided, the AI will edit the entire image based on the prompt.
 
 Pass an **array** of source images in `image` to fuse several inputs into one
 result — e.g. a reference image + a brand logo, composed by a single prompt.
-This is OpenAI-compatible `image[]`.
 
 - **OpenAI** `gpt-image-1` / `gpt-image-2`: up to **4** source images.
 - **Google** `nano-banana` / `nano-banana-pro`: up to **3** source images (earlier images act as primary composition anchors).
 - `mask` **cannot** be combined with a multi-image array (mask is single-region only) → `400`.
 - Exceeding a provider's image cap → `400`.
+
+> **Format note — this is JSON, not multipart.** OpenAI's `/v1/images/edits`
+> takes files as `multipart/form-data` with repeated `image[]=@file` fields.
+> BlockRun's endpoint is **`application/json`**: pass `image` as a JSON **array
+> of base64 data URIs** (single image = a plain string). Because of this, the
+> OpenAI SDK's native `images.edit()` (which sends multipart) does **not** work
+> against BlockRun — use the BlockRun SDK, ClawRouter, or a raw JSON request as
+> shown below.
 
 ```bash
 REF_B64=$(base64 -i ~/reference-post.png)
