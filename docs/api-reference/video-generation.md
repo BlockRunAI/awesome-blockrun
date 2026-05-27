@@ -10,6 +10,16 @@ Generate short AI videos with **OpenAI Sora 2**, **xAI Grok Imagine**, or **Byte
 
 ---
 
+## Sample output
+
+A real `azure/sora-2` clip generated through this exact API — 4s, 720p, synced audio (text-to-video):
+
+<video src="https://blockrun.ai/api/media/media/videos/2026/05/27/video_6a1670cac7a081909309f1b6b85fbb40-6af6c7a4.mp4" controls muted width="480"></video>
+
+> ▶️ [Open the sample clip directly](https://blockrun.ai/api/media/media/videos/2026/05/27/video_6a1670cac7a081909309f1b6b85fbb40-6af6c7a4.mp4) if the inline player doesn't load.
+
+---
+
 ## How it works — async submit → poll → settle
 
 Video generation is **asynchronous and two-step**. A clip takes ~60–180s upstream, far longer than a single HTTP request should stay open, so the flow is:
