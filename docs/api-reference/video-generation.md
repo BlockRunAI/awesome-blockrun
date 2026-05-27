@@ -45,7 +45,7 @@ Key guarantees:
 
 | Model ID | Provider | Durations (sec) | Resolution | Image-to-video | Synced audio | Character / RealFace asset |
 |---|---|---|---|---|---|---|
-| `azure/sora-2` | OpenAI (via Azure) | **4 / 8 / 12** (default 4 — only these three) | 720p, portrait or landscape | ❌ | ✅ | ❌ |
+| `azure/sora-2` | OpenAI (via Azure) | **4 / 8 / 12** (default 4 — only these three) | 720p, portrait or landscape | ✅ (non-human only) | ✅ | ❌ |
 | `xai/grok-imagine-video` | xAI | 8 (fixed) | upstream default | ✅ | — | ❌ |
 | `bytedance/seedance-1.5-pro` | ByteDance (Token360) | default 5, max 10 | 720p (default) | ✅ | ✅ (t2v) | ❌ |
 | `bytedance/seedance-2.0-fast` | ByteDance (Token360) | default 5, max 10 | 720p (default) | ✅ | ✅ (t2v) | ✅ |
@@ -63,11 +63,11 @@ Notes:
 
 Whether you can seed generation from an image — and how — depends on the subject:
 
-- **Non-human subject** (product, scene, animal, object): pass `image_url` (a public URL to the first frame) on **Grok** or any **Seedance** model. Seedance image-to-video is also ~40% cheaper than its text-to-video.
+- **Non-human subject** (product, scene, animal, object): pass `image_url` (a public URL to the first frame) on **`azure/sora-2`**, **Grok**, or any **Seedance** model. For `azure/sora-2` the gateway resizes the seed image server-side to Sora's exact required dimensions (1280×720 / 720×1280). Seedance image-to-video is also ~40% cheaper than its text-to-video.
 - **A specific real person**: you cannot upload a face to Sora (see the note below). Use **Seedance 2.0 / 2.0-fast + a RealFace `ta_xxxx` asset** — enroll the person once *with their consent* ([RealFace](realface.md), ~1-min on-phone liveness, $0.01), then pass `real_face_asset_id`. Details in [Character consistency](#character-consistency-seedance-20-fast--pro) below.
 - **An AI character / mascot**: same flow with a [Virtual Portrait](virtual-portrait.md) asset (no KYC, $0.01).
 
-> **Sora is text-to-video only on BlockRun.** Both OpenAI's and Azure's Sora 2 **reject reference images that contain human faces** — a three-stage moderation pipeline blocks any recognizable person to prevent deepfakes. OpenAI's only consented-likeness path is *Cameo*, which requires per-person live verification rather than a general image upload. So real-person video goes through the RealFace + Seedance route above; non-human image-to-video works on Grok and Seedance via `image_url`.
+> **Sora reference images cannot contain human faces.** Both OpenAI's and Azure's Sora 2 **reject reference images that contain human faces** — a three-stage moderation pipeline blocks any recognizable person to prevent deepfakes. OpenAI's only consented-likeness path is *Cameo* (per-person live verification), not a general image upload. So on BlockRun: **`azure/sora-2` does image-to-video for non-human subjects** (`image_url`, resized server-side to Sora's exact dimensions); and **real-person video goes through Seedance 2.0 + RealFace** (the consent-based route above).
 
 ---
 
@@ -77,7 +77,7 @@ Whether you can seed generation from an image — and how — depends on the sub
 |---|---|---|---|
 | `model` | string | No | Video model ID (default `xai/grok-imagine-video`). See table above. |
 | `prompt` | string | **Yes** | Text description of the video to generate. |
-| `image_url` | string (URL) | No | Seed image for image-to-video. Only models with image-to-video support (everything except `azure/sora-2`). Mutually exclusive with `real_face_asset_id`. |
+| `image_url` | string (URL) | No | Seed image for image-to-video (all video models support it). For `azure/sora-2` the image is resized server-side to Sora's exact dimensions and must not contain a human face. Mutually exclusive with `real_face_asset_id`. |
 | `real_face_asset_id` | string | No | Character/face reference asset (`ta_xxxxxx`) from a [Virtual Portrait](virtual-portrait.md) (AI character) or [RealFace](realface.md) (real person). **Seedance 2.0 / 2.0-fast only.** Mutually exclusive with `image_url`. |
 | `duration_seconds` | integer | No | Duration to bill for. Defaults to the model default. Must respect the model's max (and, for Sora 2, the discrete `{4,8,12}` set) or you get a `400`. |
 | `resolution` | string | No | `360p` / `480p` / `540p` / `720p` / `1080p` / `1K` / `2K` / `4K`. **Seedance defaults to `720p`**; higher resolutions cost more tokens upstream. Seedance only. |
