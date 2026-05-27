@@ -59,6 +59,18 @@ Notes:
 
 ---
 
+## Image-to-video options
+
+Whether you can seed generation from an image — and how — depends on the subject:
+
+- **Non-human subject** (product, scene, animal, object): pass `image_url` (a public URL to the first frame) on **Grok** or any **Seedance** model. Seedance image-to-video is also ~40% cheaper than its text-to-video.
+- **A specific real person**: you cannot upload a face to Sora (see the note below). Use **Seedance 2.0 / 2.0-fast + a RealFace `ta_xxxx` asset** — enroll the person once *with their consent* ([RealFace](realface.md), ~1-min on-phone liveness, $0.01), then pass `real_face_asset_id`. Details in [Character consistency](#character-consistency-seedance-20-fast--pro) below.
+- **An AI character / mascot**: same flow with a [Virtual Portrait](virtual-portrait.md) asset (no KYC, $0.01).
+
+> **Sora is text-to-video only on BlockRun.** Both OpenAI's and Azure's Sora 2 **reject reference images that contain human faces** — a three-stage moderation pipeline blocks any recognizable person to prevent deepfakes. OpenAI's only consented-likeness path is *Cameo*, which requires per-person live verification rather than a general image upload. So real-person video goes through the RealFace + Seedance route above; non-human image-to-video works on Grok and Seedance via `image_url`.
+
+---
+
 ## Request parameters (POST body, JSON)
 
 | Parameter | Type | Required | Description |
