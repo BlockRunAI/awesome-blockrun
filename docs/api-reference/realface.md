@@ -12,7 +12,7 @@ Enroll a real person's face as a `ta_xxxxxxxx` asset you can pass as `real_face_
 | **Network** | Base (USDC, EIP-3009 `exact`) |
 | **Returns** | `ta_xxxxxxxx…` asset id, usable as `real_face_asset_id` on Seedance 2.0 / 2.0-fast |
 
-You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/studio/realface) — connect wallet, paste image URL, get QR for the rights-holder to scan, pay $1, copy the `ta_xxx`. The endpoints below are for SDK / programmatic use.
+You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/studio/realface) — connect wallet, paste image URL, get QR for the rights-holder to scan, pay $0.01, copy the `ta_xxx`. The endpoints below are for SDK / programmatic use.
 
 ## Flow
 
@@ -197,7 +197,7 @@ If settlement itself fails after a successful enrollment, BlockRun absorbs the c
     "compatible_models": ["bytedance/seedance-2.0", "bytedance/seedance-2.0-fast"],
     "how_to_use": "Pass \"real_face_asset_id\": \"ta_f85b20b9394e47be9502d819bee7929c\" on a Seedance video generation request."
   },
-  "price": { "amount": "1.000000", "currency": "USD" },
+  "price": { "amount": "0.010000", "currency": "USD" },
   "settlement": {
     "success": true,
     "tx_hash": "0x…",

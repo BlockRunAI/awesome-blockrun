@@ -66,7 +66,7 @@ If you're using `clawrouter` locally, this flow is fully automatic — just call
     "compatible_models": ["bytedance/seedance-2.0", "bytedance/seedance-2.0-fast"],
     "how_to_use": "Pass \"real_face_asset_id\": \"ta_abcdef1234567890\" on a Seedance video generation request."
   },
-  "price": { "amount": "0.500000", "currency": "USD" },
+  "price": { "amount": "0.010000", "currency": "USD" },
   "settlement": {
     "success": true,
     "tx_hash": "0x9f3a…",
