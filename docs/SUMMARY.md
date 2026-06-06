@@ -60,6 +60,7 @@
 * [Virtual Portrait Enrollment](api-reference/virtual-portrait.md)
 * [RealFace Enrollment](api-reference/realface.md)
 * [Music Generation](api-reference/music-generation.md)
+* [Text-to-Speech & Sound Effects](api-reference/text-to-speech.md)
 * [Search](api-reference/search.md)
 * [Exa Web Search](api-reference/exa-search.md)
 * [0x Swap (DEX)](api-reference/zerox-swap.md)
