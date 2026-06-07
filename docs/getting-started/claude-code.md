@@ -5,7 +5,7 @@ Get started with BlockRun in 60 seconds. Give your Claude agent superpowers.
 ## Quick Install
 
 ```bash
-claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 That's it. The MCP server is now available to Claude Code.

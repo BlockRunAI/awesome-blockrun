@@ -9,7 +9,7 @@ BlockRun MCP is a Model Context Protocol server that connects Claude Code to Blo
 ## Installation
 
 ```bash
-claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 That's it. Restart Claude Code and the MCP is available.
@@ -38,7 +38,7 @@ That's it. Restart Claude Code and the MCP is available.
 ### 1. Install MCP
 
 ```bash
-claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 ### 2. Setup Wallet
@@ -68,7 +68,7 @@ Or ask: "What's my BlockRun wallet balance?"
 
 ## Available Tools
 
-The MCP exposes 10 tools to Claude:
+The MCP exposes 16 tools to Claude:
 
 ### `blockrun_chat`
 

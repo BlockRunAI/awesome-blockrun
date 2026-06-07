@@ -83,7 +83,7 @@ The 5% covers:
 ### Claude Code Users
 
 ```bash
-claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 Then:

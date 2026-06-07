@@ -31,7 +31,7 @@ npm config set prefix ~/.npm-global
 export PATH=~/.npm-global/bin:$PATH
 
 # Retry installation
-claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 ### "Node not found"
@@ -146,7 +146,7 @@ claude mcp list
 # Should show "blockrun" in the list
 # If not, reinstall:
 claude mcp remove blockrun
-claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 ### "Invalid model"

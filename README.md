@@ -12,7 +12,7 @@
 >
 > **For Claude Code users:** Add BlockRun in one command — access 55+ models, DEX data, trading signals, and more without managing any API keys.
 > ```bash
-> claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+> claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 > ```
 
 ---
@@ -195,22 +195,28 @@ pip install blockrun-llm[solana]
 **[blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)** is the primary entry point for Claude Code developers. One command gives Claude access to 55+ models, real-time market data, image/video/music generation, AI voice calls, crypto data, and more — with no API keys and no accounts.
 
 ```bash
-claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 **Who it's for:** Developers who don't want to manage 7 different provider accounts and API keys. Pay per request with USDC, one wallet covers everything.
 
-**10 tools included:**
+**16 tools included:**
 
 | Tool | What it does |
 |------|-------------|
-| `blockrun_chat` | 55+ AI models + image/video/music generation (GPT-5, Claude, Gemini, DeepSeek, Seedance, Nano Banana, Suno, and more) |
-| `blockrun_search` | Live web and news search (Grok-grounded) |
+| `blockrun_chat` | 66+ AI models (GPT-5.5, Claude, Gemini, Grok, DeepSeek, Kimi, and more) |
+| `blockrun_image` | Image generation — gpt-image-2, Nano Banana Pro, Grok Imagine, CogView-4 |
+| `blockrun_video` | Video generation — Sora 2, Seedance 2.0, Grok Imagine Video |
+| `blockrun_realface` | Enroll a real person (liveness) for Seedance real-person video |
+| `blockrun_music` | MiniMax music generation |
+| `blockrun_speech` | ElevenLabs text-to-speech + cinematic sound effects |
+| `blockrun_search` | Live web, news, and X search (Grok-grounded) |
 | `blockrun_exa` | Neural semantic search + grounded answers |
-| `blockrun_markets` | Predexon: Polymarket, Kalshi, sports markets |
-| `blockrun_surf` | 80+ crypto data endpoints (CEX, on-chain SQL, social, wallet labels) |
+| `blockrun_markets` | Polymarket, Kalshi, sports markets |
+| `blockrun_surf` | 84 crypto data endpoints (CEX, on-chain SQL, social, wallet labels) |
 | `blockrun_price` | Pyth quotes: crypto, FX, commodities, stocks |
-| `blockrun_dex` | 0x Swap: Permit2 + Gasless V2 aggregation |
+| `blockrun_dex` | Live DEX prices and liquidity via DexScreener (free) |
+| `blockrun_modal` | Sandboxed code execution — disposable container, optional GPU |
 | `blockrun_phone` | AI voice calls + wallet-owned US/CA numbers |
 | `blockrun_models` | List all models with live pricing |
 | `blockrun_wallet` | USDC balance, agent budgets, setup |

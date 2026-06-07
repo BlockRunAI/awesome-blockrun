@@ -113,7 +113,7 @@ Yes. Use the same format as OpenAI's Chat Completions API.
 ### How do I use BlockRun with Claude Code?
 
 ```bash
-claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 Then run `blockrun setup` in Claude Code.

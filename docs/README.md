@@ -19,7 +19,7 @@ BlockRun is economic infrastructure for the agent era. AI agents discover servic
 
 ```bash
 # Install BlockRun MCP
-claude mcp add blockrun --transport http https://mcp.blockrun.ai/mcp
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 
 # Setup wallet (in Claude Code)
 > blockrun setup
