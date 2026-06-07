@@ -99,6 +99,15 @@ Real-time and historical prices. List endpoints are free; price/history endpoint
 | GET | `/api/v1/commodity/price/{symbol}` | Commodity spot |
 | GET | `/api/v1/commodity/history/{symbol}` | Commodity OHLC |
 
+## Blockchain RPC (Tatum)
+
+Standard JSON-RPC 2.0 to 40+ chains through one endpoint — no API key. EVM (`eth_*`) and non-EVM methods. See [Multi-chain RPC](../api-reference/multi-chain-rpc.md).
+
+| Method | Path | Purpose | Pricing |
+|---|---|---|---|
+| POST | `/api/v1/rpc/{network}` | Multi-chain JSON-RPC — `ethereum`, `base`, `solana`, `polygon`, `bsc`, `arbitrum`, `bitcoin`, `xrp`, `sui`… (40+, aliases supported) | **$0.002 / call** (batch priced per element) |
+| POST | `/api/v1/solana/rpc` | Solana JSON-RPC (also reachable via `/api/v1/rpc/solana`) | Per-method, returned in 402 |
+
 ## Free Endpoints
 
 | Method | Path | Purpose |

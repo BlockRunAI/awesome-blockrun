@@ -68,7 +68,7 @@ Or ask: "What's my BlockRun wallet balance?"
 
 ## Available Tools
 
-The MCP exposes 17 tools to Claude:
+The MCP exposes 18 tools to Claude:
 
 ### `blockrun_chat`
 

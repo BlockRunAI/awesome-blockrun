@@ -67,6 +67,7 @@
 * [Prediction Markets](api-reference/prediction-markets.md)
 * [Modal Sandbox](api-reference/modal-sandbox.md)
 * [Surf — Crypto Data](api-reference/surf.md)
+* [Multi-chain RPC](api-reference/multi-chain-rpc.md)
 * [Phone & Voice](api-reference/voice-phone.md)
 * [Models](api-reference/models.md)
 * [Error Handling](api-reference/errors.md)

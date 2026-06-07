@@ -60,7 +60,7 @@ BlockRun works with the x402 facilitator network:
 
 | Tool | Description | Install |
 |------|-------------|---------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server (v0.20.x) — 17 tools across 66+ AI models, image/video/music/speech gen, voice calls, crypto data (Surf), prediction markets, DEX prices, raw JSON-RPC (40+ chains), sandboxed code exec, search | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server (v0.21.x) — 18 tools across 66+ AI models, image/video/music/speech gen, voice calls, crypto data (Surf), prediction markets, DEX prices, raw JSON-RPC (40+ chains), DeFi TVL/yields, sandboxed code exec, search | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
 | [nano-banana-blockrun](https://github.com/BlockRunAI/nano-banana-blockrun) | Image generation skill via x402 micropayments | Claude Code skill |
 
 ### Framework Integrations
