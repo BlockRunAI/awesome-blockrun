@@ -200,7 +200,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 
 **Who it's for:** Developers who don't want to manage 7 different provider accounts and API keys. Pay per request with USDC, one wallet covers everything.
 
-**16 tools included:**
+**17 tools included:**
 
 | Tool | What it does |
 |------|-------------|
@@ -216,6 +216,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 | `blockrun_surf` | 84 crypto data endpoints (CEX, on-chain SQL, social, wallet labels) |
 | `blockrun_price` | Pyth quotes: crypto, FX, commodities, stocks |
 | `blockrun_dex` | Live DEX prices and liquidity via DexScreener (free) |
+| `blockrun_rpc` | Raw JSON-RPC on 40+ chains — Ethereum, Base, Solana, Bitcoin, Sui, NEAR (Tatum gateway) |
 | `blockrun_modal` | Sandboxed code execution — disposable container, optional GPU |
 | `blockrun_phone` | AI voice calls + wallet-owned US/CA numbers |
 | `blockrun_models` | List all models with live pricing |
