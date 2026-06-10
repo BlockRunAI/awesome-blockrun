@@ -54,6 +54,71 @@ POST https://blockrun.ai/api/v1/images/generations
 | `1344x768` | Landscape / banner |
 | `1440x1440` | High resolution |
 
+## How it works — hybrid sync/async flow & settlement
+
+This endpoint is **hybrid**: fast generations complete synchronously, slow ones
+switch to an async job you poll. The split is purely by elapsed time:
+
+1. **`POST /v1/images/generations`** with an `x-payment` (or
+   `PAYMENT-SIGNATURE`) header. The gateway **verifies** the payment
+   authorization (no USDC moves yet) and starts generation.
+2. **Fast path (≤30s inline window — most models):** generation finishes
+   inline. The gateway settles the payment and returns **`200`** with the
+   standard `{ created, data: [...] }` body below. This is the only moment a
+   fast-path call is charged.
+3. **Slow path (>30s — e.g. `openai/gpt-image-2` under load):** the gateway
+   returns **`202`** with an async job envelope `{ id, status: "queued",
+   poll_url, price, payment_status: "verified" }`. **No USDC has moved.**
+4. **`GET {poll_url}`** — poll every 2–5s with an `x-payment` header signed by
+   the **same wallet** (a fresh signature works; the gateway enforces wallet
+   binding, not signature byte-equality; with no header it returns a normal
+   x402 `402` challenge so clients can re-sign automatically). While the job
+   runs you get `202` (`status: queued | in_progress`). When it finishes you
+   get `200` with the image URLs, and **that is the moment you are charged** —
+   settlement happens exactly once, on the first poll that observes
+   `status: "completed"`.
+
+| Guarantee | Meaning |
+|-----------|---------|
+| `payment_status: "verified"` | Signature/authorization checked only — **not** a charge. |
+| Upstream fails (`status: "failed"`) | `payment_status: "not_charged"` — no USDC is ever transferred. |
+| You never poll | Nothing settles; the signed authorization simply expires. You are not charged. |
+| Idempotent re-polls | Polling an already-settled job returns the same URLs again (`payment.status: "already_settled"`) — never double-charged. |
+| Settlement timing | Fast path: inside the `200` POST. Slow path: on the first `completed` poll. Identical to `/v1/videos/generations` and `/v1/images/image2image`. |
+
+### Async job envelope (`202`)
+
+```json
+{
+  "id": "img_8f3a…",
+  "object": "image.generation.job",
+  "status": "queued",
+  "model": "openai/gpt-image-2",
+  "size": "1024x1024",
+  "n": 1,
+  "price": { "amount": "0.063000", "currency": "USD" },
+  "payment_status": "verified",
+  "created": 1706000000,
+  "poll_url": "/api/v1/images/generations/img_8f3a…",
+  "poll_instructions": "…"
+}
+```
+
+`status` enum: `queued` → `in_progress` → `completed` | `failed`.
+
+### Poll responses
+
+- **`202` running:** `{ id, object, status: "queued" | "in_progress", model, payment_status: "verified" }`
+- **`200` completed (charged here):** the standard body below plus
+  `price: { amount, currency }` and `payment: { status: "settled", tx_hash, network }`,
+  with `PAYMENT-RESPONSE` and `X-Payment-Receipt` (on-chain tx hash) headers.
+- **`200` failed (not charged):** `{ id, object, status: "failed", model, error, payment_status: "not_charged" }`
+
+> **OpenAI-compatible clients:** plain OpenAI SDKs don't understand the `202`
+> envelope. Use a model that completes inline, or the official BlockRun SDKs —
+> Go `blockrun-llm-go ≥ v0.17.0` handles the hybrid flow transparently and
+> always returns the synchronous `{data:[...]}` shape.
+
 ## Response
 
 ```json
@@ -66,7 +131,9 @@ POST https://blockrun.ai/api/v1/images/generations
       "backed_up": true,
       "revised_prompt": "..."
     }
-  ]
+  ],
+  "price": { "amount": "0.015000", "currency": "USD" },
+  "payment": { "status": "settled", "tx_hash": "0x…", "network": "base" }
 }
 ```
 

@@ -53,6 +53,29 @@ POST https://sol.blockrun.ai/api/v1/images/image2image    # Solana
 | `google/nano-banana` | Google (Gemini 2.5 Flash Image) | ❌ prompt-only | 1024x1024 | $0.05 |
 | `google/nano-banana-pro` | Google (Gemini 3 Pro Image) | ❌ prompt-only | 1024x1024, 2048x2048, 4096x4096 | $0.10-0.15 |
 
+## Hybrid sync/async flow & settlement
+
+Like [`/v1/images/generations`](image-generation.md#how-it-works--hybrid-syncasync-flow--settlement),
+this endpoint is **hybrid** — it is *not* always synchronous:
+
+- **Fast edits (≤30s inline window):** `200` with the standard
+  `{ created, data: [...] }` body below. Payment settles inside this response.
+- **Slow edits (>30s — multi-image gpt-image-2 fusion routinely takes longer):**
+  `202` with an async job envelope `{ id, status, poll_url, price,
+  payment_status: "verified" }`. **Nothing has been charged yet.** Poll
+  `GET {poll_url}` (it lives under `/v1/images/generations/{id}` — edits share
+  the same job store) with an `x-payment` header from the same wallet every
+  2–5s. USDC settles exactly once, on the first poll that observes
+  `status: "completed"`. A job that ends `failed`, or that you never poll, is
+  **never charged**.
+
+The envelope fields, poll responses, status enum
+(`queued → in_progress → completed | failed`) and settlement guarantees are
+identical to image generation — see the
+[full spec there](image-generation.md#how-it-works--hybrid-syncasync-flow--settlement).
+Go SDK `blockrun-llm-go ≥ v0.17.0` (`ImageClient.Edit`) handles the hybrid
+flow transparently and always returns the synchronous shape.
+
 ## Response
 
 ```json
@@ -63,7 +86,9 @@ POST https://sol.blockrun.ai/api/v1/images/image2image    # Solana
       "url": "https://...",
       "revised_prompt": "A photo with the background changed to..."
     }
-  ]
+  ],
+  "price": { "amount": "0.063000", "currency": "USD" },
+  "payment": { "status": "settled", "tx_hash": "0x…", "network": "base" }
 }
 ```
 
@@ -75,6 +100,9 @@ POST https://sol.blockrun.ai/api/v1/images/image2image    # Solana
 | `data` | array | Array of edited images |
 | `data[].url` | string | URL to edited image |
 | `data[].revised_prompt` | string | Expanded prompt |
+| `price.amount` | string | USD charged for this call |
+| `payment.status` | string | `settled` \| `already_settled` |
+| `payment.tx_hash` | string | On-chain USDC settlement tx (also in `X-Payment-Receipt` header) |
 
 ## Examples
 
