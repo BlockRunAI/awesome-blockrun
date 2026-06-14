@@ -117,7 +117,7 @@ BlockRun routes to these providers via x402:
 | DeepSeek | DeepSeek Chat (V3.2), DeepSeek Reasoner | $0.28 / $0.42 |
 | xAI | Grok 4.1 Fast, Grok Code Fast 1, Grok 4, Grok 2 Vision | $0.20–$3.00 / $0.50–$15.00 |
 | Z.AI | GLM-5, GLM-5 Turbo, GLM-5 Code | $1.00–$1.20 / $3.20–$5.00 |
-| Moonshot | Kimi K2.5 (262K context, MoE) | $0.60 / $3.00 |
+| Moonshot | Kimi K2.7 (256K, multi-modal flagship), Kimi K2.5 | $0.60–$0.95 / $3.00–$4.00 |
 | MiniMax | MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
 | NVIDIA | GPT-OSS 120B, GPT-OSS 20B | **Free** |
 

@@ -165,7 +165,7 @@ client.chat("moonshot/kimi-k2.5", prompt)
 | Use Case | Recommended Model |
 |----------|-------------------|
 | General purpose | `openai/gpt-5.4` |
-| Cheapest | `google/gemini-2.5-flash-lite` or `nvidia/deepseek-v4-flash` (free) |
+| Cheapest | `google/gemini-2.5-flash-lite` or `nvidia/qwen3-next-80b-a3b-instruct` (free) |
 | Fastest | `google/gemini-3-flash-preview` |
 | Best reasoning | `openai/o3` |
 | Best for code | `openai/gpt-5.3-codex` or `anthropic/claude-sonnet-4.6` |

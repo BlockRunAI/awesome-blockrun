@@ -94,7 +94,6 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `anthropic/claude-fable-5` | Claude Fable 5 | $10.00/M | $50.00/M | 1M |
 | `anthropic/claude-opus-4.8` | Claude Opus 4.8 | $5.00/M | $25.00/M | 1M |
 | `anthropic/claude-opus-4.7` | Claude Opus 4.7 | $5.00/M | $25.00/M | 1M |
 | `anthropic/claude-opus-4.6` | Claude Opus 4.6 | $5.00/M | $25.00/M | 1M |
@@ -102,13 +101,7 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 | `anthropic/claude-sonnet-4.6` | Claude Sonnet 4.6 | $3.00/M | $15.00/M | 200K |
 | `anthropic/claude-haiku-4.5` | Claude Haiku 4.5 | $1.00/M | $5.00/M | 200K |
 
-**Claude Fable 5 notes** — Anthropic's most capable model (Mythos-class tier above Opus). API behavior differs from the Opus family:
-
-- **Thinking is always on** and billed as output tokens. You cannot disable it; any `thinking` configuration other than `{"type": "adaptive"}` is ignored by the gateway (forwarding it would be rejected upstream).
-- **No sampling parameters** — `temperature`, `top_p`, and `top_k` are not supported by the model. The gateway drops them from your request so calls succeed (the same values sent directly to the provider would fail).
-- **New tokenizer** — the same text measures roughly 30% more tokens than on Opus models. Re-baseline your budgets; don't reuse token counts measured on other models.
-- **Safety refusals** — the model may decline a request with HTTP 200 and `stop_reason: "refusal"` (`finish_reason: "content_filter"` on the OpenAI-compatible endpoint). Check the stop reason before reading content.
-- **No assistant prefill** — a trailing `assistant` message is rejected; use system-prompt instructions or structured outputs instead.
+**Opus 4.7 / 4.8 notes** — these flagship models reject all sampling parameters (`temperature`, `top_p`, `top_k`); the gateway drops them so calls succeed. They use adaptive thinking (built-in, not API-configurable). The model may decline a request with HTTP 200 and `stop_reason: "refusal"` (`finish_reason: "content_filter"` on the OpenAI-compatible endpoint) — check the stop reason before reading content.
 
 ### Google Gemini
 
@@ -140,10 +133,11 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `moonshot/kimi-k2.6` | Kimi K2.6 (flagship) | $0.95/M | $4.00/M | 256K |
+| `moonshot/kimi-k2.7` | Kimi K2.7 (flagship) | $0.95/M | $4.00/M | 256K |
+| `moonshot/kimi-k2.6` | Kimi K2.6 | $0.95/M | $4.00/M | 256K |
 | `moonshot/kimi-k2.5` | Kimi K2.5 (legacy) | $0.60/M | $3.00/M | 262K |
 
-K2.6 is multi-modal (vision + text input) and returns `reasoning_content` on completions. K2.5 is still routable but superseded.
+K2.7 is the current flagship — multi-modal (image + **video** + text input), 256K context, returns `reasoning_content` on completions. K2.6 is the previous-gen multi-modal model; K2.5 is still routable but superseded.
 
 ### MiniMax
 

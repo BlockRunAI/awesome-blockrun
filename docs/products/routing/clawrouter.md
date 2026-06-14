@@ -139,10 +139,10 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 
 | Tier | Model (auto) | Cost | Free-tier fallback | Use Case |
 |------|-------|------|--------------------|----------|
-| **SIMPLE** | moonshot/kimi-k2.6 | $0.95/M in / $4.00/M out | `nvidia/deepseek-v4-flash` (FREE) | Q&A, summaries, simple tasks |
-| **MEDIUM** | google/gemini-2.5-flash | $0.30/M in / $2.50/M out | `nvidia/deepseek-v4-pro` (FREE) | Analysis, writing, coding |
-| **COMPLEX** | google/gemini-3.1-pro | $1.31/M in / $5.25/M out | `nvidia/qwen3-next-80b-a3b-thinking` (FREE) | Advanced reasoning, research |
-| **REASONING** | deepseek/deepseek-reasoner | $0.28/M in / $0.42/M out | `nvidia/deepseek-v4-pro` (FREE) | Math, logic, proofs |
+| **SIMPLE** | moonshot/kimi-k2.6 | $0.95/M in / $4.00/M out | `nvidia/mistral-nemotron` (FREE) | Q&A, summaries, simple tasks |
+| **MEDIUM** | google/gemini-2.5-flash | $0.30/M in / $2.50/M out | `nvidia/qwen3-next-80b-a3b-instruct` (FREE) | Analysis, writing, coding |
+| **COMPLEX** | google/gemini-3.1-pro | $1.31/M in / $5.25/M out | `nvidia/qwen3.5-122b-a10b` (FREE) | Advanced reasoning, research |
+| **REASONING** | deepseek/deepseek-reasoner | $0.28/M in / $0.42/M out | `nvidia/qwen3-next-80b-a3b-instruct` (FREE) | Math, logic, proofs |
 
 *Prices shown are output costs per 1M tokens (after 5% BlockRun markup)*
 
@@ -201,7 +201,7 @@ Once installed and enabled with `/model blockrun/auto`, ClawRouter works automat
 ```
 You: Explain quantum computing in simple terms
 
-ClawRouter: [Routes to nvidia/deepseek-v4-flash - FREE]
+ClawRouter: [Routes to nvidia/qwen3-next-80b-a3b-instruct - FREE]
 Response: Quantum computing uses quantum mechanics...
 ```
 
@@ -218,7 +218,7 @@ You can still override routing for specific requests:
 ClawRouter logs show which model was selected and why:
 
 ```
-[ClawRouter] Prompt complexity: LOW → Tier: SIMPLE → Model: nvidia/deepseek-v4-flash (free profile)
+[ClawRouter] Prompt complexity: LOW → Tier: SIMPLE → Model: nvidia/qwen3-next-80b-a3b-instruct (free profile)
 [ClawRouter] Cost: $0.0000 (saved $0.0150 vs. Claude Opus)
 ```
 

@@ -83,22 +83,25 @@ The 5% margin covers:
 
 ### NVIDIA (Free Tier)
 
-Last refreshed 2026-04-28. `nvidia/gpt-oss-120b` and `nvidia/gpt-oss-20b` were
-retired this date — NVIDIA's free build.nvidia.com tier reserves the right to
-use prompts/outputs for service improvement, which conflicts with our
-data-privacy policy.
+Last refreshed 2026-06-14. The free tier runs on NVIDIA's on-demand NIM
+deployments, which retire/recover unpredictably; a self-healing health gate
+routes around any model whose upstream is down and auto-recovers it. The list
+below is the current live lineup. Models that NVIDIA retired upstream
+(DeepSeek V4 Flash/Pro, Qwen3 Coder 480B, Devstral 2, Qwen3-Next Thinking,
+GLM-4.7) are auto-rerouted to a healthy free model, so existing calls still work.
 
 | Model | Input (per 1M) | Output (per 1M) | Notes |
 |-------|---------------|-----------------|-------|
-| `nvidia/deepseek-v4-pro` | **FREE** | **FREE** | 1.6T MoE / 49B active, 1M context — flagship reasoning |
-| `nvidia/deepseek-v4-flash` | **FREE** | **FREE** | 284B / 13B active MoE, 1M context — ~5× faster than V4 Pro |
-| `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | **FREE** | **FREE** | 31B / 3.2B active, 256K context — only vision-capable free model |
-| `nvidia/qwen3-next-80b-a3b-thinking` | **FREE** | **FREE** | 116 tok/s — reasoning flagship with thinking mode |
-| `nvidia/mistral-small-4-119b` | **FREE** | **FREE** | 114 tok/s — fastest free chat |
-| `nvidia/glm-4.7` | **FREE** | **FREE** | 237 tok/s — GLM-4.7 with thinking mode |
-| `nvidia/llama-4-maverick` | **FREE** | **FREE** | Meta Llama 4 Maverick MoE |
-| `nvidia/qwen3-coder-480b` | **FREE** | **FREE** | Coding-optimised 480B MoE |
-| `nvidia/deepseek-v3.2` | **FREE** | **FREE** | Legacy V3.2 — auto-upgrades to V4 Pro via fallback |
+| `nvidia/qwen3-next-80b-a3b-instruct` | **FREE** | **FREE** | 3B active MoE, 262K context — reasoning + coding flagship, fast |
+| `nvidia/qwen3.5-122b-a10b` | **FREE** | **FREE** | 10B active MoE — balanced reasoning + coding |
+| `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | **FREE** | **FREE** | 31B / 3.2B active, 256K context — vision-capable (images, video) |
+| `nvidia/mistral-large-3-675b` | **FREE** | **FREE** | Mistral's flagship 675B — free |
+| `nvidia/mistral-nemotron` | **FREE** | **FREE** | Mistral × NVIDIA — fast free chat |
+| `nvidia/seed-oss-36b` | **FREE** | **FREE** | ByteDance Seed-OSS — open-source coder |
+| `nvidia/step-3.7-flash` | **FREE** | **FREE** | StepFun Step 3.7 Flash — fast lightweight reasoning |
+| `nvidia/nemotron-nano-9b-v2` | **FREE** | **FREE** | Compact + fast, for high-volume light tasks |
+| `nvidia/nemotron-nano-12b-v2-vl` | **FREE** | **FREE** | Vision-language, compact |
+| `nvidia/llama-4-maverick` | **FREE** | **FREE** | Meta Llama 4 Maverick MoE — fast general-purpose |
 
 ### Meta (via Together/Fireworks)
 
