@@ -295,6 +295,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 | [Exa](https://exa.ai) | Web Search | Neural web search, find-similar, page contents, AI-grounded answers |
 | [Predexon](https://predexon.com) | Prediction Markets | Polymarket, Kalshi, dFlow, Binance Futures data |
 | [Modal](https://modal.com) | Sandbox Compute | Managed Python sandboxes for isolated code execution |
+| [LoneStarOracle](https://lonestaroracle.xyz) | Data Services | 39 x402-native AI data services on Base — token forensics, smart contract audits, weather consensus, on-chain intel, commodity signals. MCP at mcp.lonestaroracle.xyz |
 
 ### x402 Facilitators
 
