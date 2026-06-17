@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 50+ LLMs plus image, video, and music models from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+description: List and price 60+ LLMs plus image, video, and music models from one unified BlockRun API, with a flat 5% platform fee over provider rates.
 ---
 
 # Models
@@ -56,7 +56,7 @@ Each model object in the response includes:
 ## Available Models (50+ across chat / image / video / voice)
 
 :::note
-50+ models total across all categories: 41 visible LLMs + 8 image + 4 video + 1 music, plus ~36 deprecated / superseded LLM IDs that remain routable for backwards compatibility but are hidden from the catalog.
+60+ models across all categories — LLMs plus image, video, music, and voice. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.

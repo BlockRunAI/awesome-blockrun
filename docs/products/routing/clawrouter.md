@@ -7,7 +7,7 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 
 **Save 78% on LLM costs. Automatically.**
 
-ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 50+ models, zero API keys.
+ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 60+ models, zero API keys.
 
 :::tip{title="In a hurry?"}
 Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it.
@@ -456,7 +456,7 @@ No. AI model access requires internet. But routing decisions are made locally.
 ::::cards
 
 :::card{title="View all models" href="../intelligence/overview.md" icon="Brain"}
-50+ LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, and the free NVIDIA tier.
+60+ LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, and the free NVIDIA tier.
 :::
 
 :::card{title="Check pricing" href="../intelligence/pricing.md" icon="Zap"}

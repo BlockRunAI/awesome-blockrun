@@ -98,7 +98,7 @@ The full list of 18 `blockrun_*` tools — chat, image, video, search, markets, 
 :::
 
 :::card{title="Explore the models" href="../products/intelligence/overview.md" icon="Brain"}
-50+ LLMs with live pricing, plus smart routing to cut costs automatically.
+60+ LLMs with live pricing, plus smart routing to cut costs automatically.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}

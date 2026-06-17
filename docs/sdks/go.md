@@ -1,11 +1,11 @@
 ---
 title: Go SDK
-description: The Go SDK for BlockRun — call 50+ AI models, generate images, and manage wallets over x402 micropayments with no API keys.
+description: The Go SDK for BlockRun — call 60+ AI models, generate images, and manage wallets over x402 micropayments with no API keys.
 ---
 
 # Go SDK
 
-The Go SDK for BlockRun provides access to 50+ AI models via x402 micropayments — pay per call in USDC, no API keys.
+The Go SDK for BlockRun provides access to 60+ AI models via x402 micropayments — pay per call in USDC, no API keys.
 
 **Source:** [github.com/BlockRunAI/blockrun-llm-go](https://github.com/BlockRunAI/blockrun-llm-go) · `go get github.com/BlockRunAI/blockrun-llm-go` · MIT
 
@@ -261,7 +261,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 50+ models with live pricing to pick the right one for each call.
+Browse all 60+ models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
