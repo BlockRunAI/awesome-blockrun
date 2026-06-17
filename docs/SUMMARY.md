@@ -4,14 +4,25 @@
 
 ## Getting Started
 
+* [5-Minute Quickstart](getting-started/quickstart.md)
 * [Claude Code Users](getting-started/claude-code.md)
-* [Agent Developers](getting-started/agent-developers.md)
 * [SDK Developers](getting-started/sdk-developers.md)
+* [Agent Developers](getting-started/agent-developers.md)
 * [Wallet Setup](getting-started/wallet-setup.md)
+
+## Intelligence
+
+* [Overview](products/intelligence/overview.md)
+* [Models](api-reference/models.md)
+* [Pricing](products/intelligence/pricing.md)
 
 ## Routing
 
 * [ClawRouter](products/routing/clawrouter.md)
+
+## Creation
+
+* [nano-banana](products/creation/nano-banana.md)
 
 ## Trading
 
@@ -19,16 +30,6 @@
 * [Installation](products/trading/installation.md)
 * [Tools Reference](products/trading/tools.md)
 * [Risk Management](products/trading/risk-management.md)
-
-## Creation
-
-* [nano-banana](products/creation/nano-banana.md)
-
-## Intelligence
-
-* [Overview](products/intelligence/overview.md)
-* [Models](api-reference/models.md)
-* [Pricing](products/intelligence/pricing.md)
 
 ## MCP & Skills
 

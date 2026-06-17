@@ -1,74 +1,90 @@
-# BlockRun
+---
+title: Introduction
+description: BlockRun is economic infrastructure for the agent era — AI agents discover services, pay in USDC over x402, and execute autonomously with no API keys and no subscriptions.
+---
+
+# What is BlockRun?
 
 **Agents that pay, spend, and trade.**
 
-BlockRun is economic infrastructure for the agent era. AI agents discover services, pay in USDC, and execute autonomously — no API keys, no subscriptions.
+BlockRun is economic infrastructure for the agent era. AI agents discover services, pay in USDC over the [x402 protocol](x402/how-it-works.md), and execute autonomously — **no API keys, no subscriptions, no credit card.** One funded wallet unlocks 50+ LLMs, media generation, real-time data, and on-chain execution.
 
-## Products
+:::tip{title="In a hurry?"}
+Jump to the [5-Minute Quickstart](getting-started/quickstart.md) and make your first paid call.
+:::
 
-| Product | What It Does | Pricing |
-|---------|--------------|---------|
-| [**ClawRouter**](products/routing/clawrouter.md) | Smart LLM router that saves 78% on costs | Free (open source) |
-| [**Trading**](products/trading/overview.md) | AI analyzes markets, executes trades, manages risk | Free (open source) |
-| [**Creation**](products/creation/nano-banana.md) | AI generates images via micropayments | Pay-per-use |
-| [**Intelligence**](products/intelligence/overview.md) | AI accesses 50+ LLMs via x402 | Provider cost + 5% |
+## How it works
 
-## Get Started
+::::steps
 
-### Claude Code Users (60 seconds)
+:::step{title="Fund a wallet"}
+BlockRun creates a non-custodial wallet on first run. Send a few dollars of USDC on **Base** (or **Solana**). Your private key never leaves your machine.
+:::
 
-```bash
-# Install BlockRun MCP
-claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
+:::step{title="Call any service"}
+Ask for an LLM completion, an image, a market quote, a swap. Your client signs an x402 payment locally and the request settles in the same round-trip.
+:::
 
-# Setup wallet (in Claude Code)
-> blockrun setup
+:::step{title="Pay only for what you use"}
+Each call costs a fraction of a cent — provider cost plus a small margin, with a $0.001 floor. No monthly bill, no seats, no minimums.
+:::
 
-# Fund with $5 USDC on Base, then start using
-```
+::::
 
-→ [Full Claude Code Guide](getting-started/claude-code.md)
+## Start building
 
-### Agent Developers
+Pick the path that matches how you work.
 
-Building with ElizaOS, AgentKit, or LangChain? We have plugins:
+::::cards
 
-- [ElizaOS Plugin](frameworks/elizaos.md)
-- [AgentKit Integration](frameworks/agentkit.md)
-- [LangChain Provider](frameworks/langchain.md)
+:::card{title="I use Claude Code / Cursor" href="getting-started/quickstart.md" icon="Terminal"}
+One MCP install adds 18 `blockrun_*` tools to your assistant. Best for Claude Code, Cursor, and other MCP clients.
+:::
 
-→ [Agent Developer Guide](getting-started/agent-developers.md)
+:::card{title="I'm building an agent / backend" href="getting-started/sdk-developers.md" icon="Code"}
+Drop-in SDKs for Python, TypeScript, and Go — plus framework plugins for ElizaOS, AgentKit, and LangChain.
+:::
 
-### SDK Developers
+:::card{title="Set up my wallet" href="getting-started/wallet-setup.md" icon="Wallet"}
+Fund on Base or Solana, switch chains, manage budgets, and understand how settlement works.
+:::
 
-Direct API integration for Python, TypeScript, or Go:
+::::
 
-```python
-from blockrun_llm import LLMClient
+## Explore by capability
 
-client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY
-response = client.chat("openai/gpt-5.4", "Hello!")
-```
+Four product families, one payment layer.
 
-→ [SDK Developer Guide](getting-started/sdk-developers.md)
+::::cards
 
-## How x402 Works
+:::card{title="Intelligence" href="products/intelligence/overview.md" icon="Brain"}
+50+ LLMs (GPT, Claude, Gemini, DeepSeek, Grok, Kimi, Llama) through one OpenAI-compatible API. Pay per request.
+:::
 
-```
-Agent → Request service → Receive 402 + price → Sign payment → Get response
-```
+:::card{title="Routing" href="products/routing/clawrouter.md" icon="Route"}
+ClawRouter scores each prompt and picks the cheapest model that can handle it — up to **78% lower** LLM cost.
+:::
 
-The [x402 protocol](x402/how-it-works.md) embeds payment into HTTP. Your agent:
+:::card{title="Creation" href="products/creation/nano-banana.md" icon="Image"}
+Image, video (Sora 2, Seedance), music, and voice generation via micropayments. No API keys.
+:::
 
-1. Requests a service (AI inference, trading signal, image generation)
-2. Receives `HTTP 402 Payment Required` with the price
-3. Signs a USDC payment locally (your key never leaves your machine)
-4. Gets the response with payment settled on-chain
+:::card{title="Trading" href="products/trading/overview.md" icon="TrendingUp"}
+Technical analysis, DEX data, sentiment, and 0x swaps with hardcoded risk guardrails. Your AI becomes a trader.
+:::
 
-No API keys. No credit card. Just USDC and a wallet.
+::::
+
+## Why x402?
+
+The [x402 protocol](x402/how-it-works.md) puts payment directly into HTTP. Your agent requests a service, receives `HTTP 402 Payment Required` with a price, signs a USDC authorization locally, and gets the response with payment settled on-chain — all in one round-trip.
+
+:::note
+No API keys to rotate, no subscriptions to cancel, no per-provider signups. Just USDC and a wallet you control.
+:::
 
 ## Links
 
 - **Website:** [blockrun.ai](https://blockrun.ai)
 - **GitHub:** [github.com/BlockRunAI](https://github.com/BlockRunAI)
-- **x402 Services:** [618+ live services](https://blockrun.ai/ecosystem/services)
+- **x402 Services:** [live service directory](https://blockrun.ai/ecosystem/services)
