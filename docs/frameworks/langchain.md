@@ -1,23 +1,29 @@
+---
+title: LangChain Integration
+description: Wrap BlockRun in a custom LangChain LLM class that handles x402 payments automatically — chains, agents, and RAG over 50+ models.
+---
+
 # LangChain Integration
 
-Use BlockRun as an LLM provider in LangChain.
+Use BlockRun as an LLM provider in LangChain — a custom LLM class handles x402 payments automatically across chains, agents, and RAG.
 
 [LangChain](https://github.com/langchain-ai/langchain) is the most popular framework for building LLM applications. BlockRun provides a custom LLM class that handles x402 payments automatically.
 
-## Status
+:::note{title="Planned"}
+Official LangChain integration is in development. For now, use the BlockRun SDK directly alongside LangChain, or use the custom provider below.
+:::
 
-**Planned** — Official LangChain integration is in development.
+## Setup
 
-For now, use the BlockRun SDK directly alongside LangChain, or use the custom provider below.
+::::steps
 
-## Installation
-
+:::step{title="Install LangChain and the BlockRun SDK"}
 ```bash
 pip install langchain blockrun-llm
 ```
+:::
 
-## Custom LLM Provider
-
+:::step{title="Define a custom LLM provider"}
 ```python
 from typing import Any, List, Optional
 from langchain.llms.base import LLM
@@ -50,6 +56,9 @@ class BlockRunLLM(LLM):
 # Usage
 llm = BlockRunLLM(model="openai/gpt-5.4")
 ```
+:::
+
+::::
 
 ## Usage Examples
 
@@ -210,3 +219,21 @@ See [Intelligence Pricing](../products/intelligence/pricing.md).
 - [LangChain Documentation](https://python.langchain.com)
 - [BlockRun Python SDK](../sdks/python.md)
 - [Agent Developer Guide](../getting-started/agent-developers.md)
+
+## What's next?
+
+::::cards
+
+:::card{title="BlockRun Python SDK" href="../sdks/python.md" icon="Code"}
+Reference for the `LLMClient` that backs the custom LangChain provider.
+:::
+
+:::card{title="Wallet Setup" href="../getting-started/wallet-setup.md" icon="Wallet"}
+Fund a wallet on Base or Solana before your first paid chain run.
+:::
+
+:::card{title="Intelligence Pricing" href="../products/intelligence/pricing.md" icon="TrendingUp"}
+Per-model pricing so you can route cheap vs. premium by task.
+:::
+
+::::

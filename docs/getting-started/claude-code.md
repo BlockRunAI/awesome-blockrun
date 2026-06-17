@@ -1,17 +1,29 @@
+---
+title: Claude Code Users
+description: Install BlockRun MCP in Claude Code, fund a wallet with USDC on Base or Solana, and give your agent 50+ models, images, and live data.
+---
+
 # Claude Code Users
 
 Get started with BlockRun in 60 seconds. Give your Claude agent superpowers.
 
-## Quick Install
+:::tip{title="In a hurry?"}
+The whole setup is three steps below — install, fund, go. No API keys, no subscription.
+:::
 
+## Install, fund, and go
+
+::::steps
+
+:::step{title="Install the MCP"}
 ```bash
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 That's it. The MCP server is now available to Claude Code.
+:::
 
-## Setup Your Wallet
-
+:::step{title="Set up your wallet"}
 In Claude Code, say:
 
 ```
@@ -22,9 +34,9 @@ Claude will:
 1. Generate a new wallet (or use an existing one)
 2. Show you your wallet address
 3. Explain how to fund it
+:::
 
-## Fund Your Wallet
-
+:::step{title="Fund your wallet"}
 Send USDC to your wallet address on **Base network**:
 
 - **Recommended:** $5-20 for regular usage
@@ -34,6 +46,9 @@ Get USDC on Base:
 - [Coinbase](https://coinbase.com) - withdraw directly to Base
 - [Base Bridge](https://bridge.base.org) - bridge from Ethereum
 - [Uniswap](https://app.uniswap.org) - swap on Base
+:::
+
+::::
 
 ### Prefer Solana?
 
@@ -44,7 +59,11 @@ blockrun_wallet action:"chain" chain:"solana"
 blockrun_wallet action:"setup"
 ```
 
-Then send USDC (SPL) on the **Solana** network (Coinbase → pick "Solana", or Phantom/Solflare/Backpack). Switch back with `blockrun_wallet action:"chain" chain:"base"`. Note: image, music, speech, video, paid stock prices, smart routing, and native Anthropic (`claude-*`) settle on Base only.
+Then send USDC (SPL) on the **Solana** network (Coinbase → pick "Solana", or Phantom/Solflare/Backpack). Switch back with `blockrun_wallet action:"chain" chain:"base"`.
+
+:::info
+Image, music, speech, video, paid stock prices, smart routing, and native Anthropic (`claude-*`) settle on Base only.
+:::
 
 ## What You Can Do Now
 
@@ -150,8 +169,20 @@ blockrun balance
 
 For more help, see [MCP Troubleshooting](../mcp/troubleshooting.md).
 
-## Next Steps
+## What's next?
 
-- [Install Trading Agent](../products/trading/installation.md)
-- [Generate images with nano-banana](../products/creation/nano-banana.md)
-- [Explore all models](../products/intelligence/overview.md)
+::::cards
+
+:::card{title="Browse the MCP tools" href="../mcp/blockrun-mcp.md" icon="Boxes"}
+The full list of 18 `blockrun_*` tools — chat, image, video, search, markets, RPC, and more.
+:::
+
+:::card{title="Generate images" href="../products/creation/nano-banana.md" icon="Image"}
+Create images via micropayments with the nano-banana skill.
+:::
+
+:::card{title="Explore all models" href="../products/intelligence/overview.md" icon="Brain"}
+50+ LLMs with live pricing, plus smart routing to cut costs automatically.
+:::
+
+::::

@@ -1,6 +1,11 @@
+---
+title: Payment Flow
+description: Step-by-step breakdown of an x402 payment — request, 402 response, EIP-3009 signature, retry, verify, execute, and on-chain settlement.
+---
+
 # Payment Flow
 
-Step-by-step breakdown of how x402 payments work.
+Step-by-step breakdown of how x402 payments work — from the first unpaid request to on-chain settlement.
 
 ## Overview
 
@@ -14,8 +19,9 @@ Every x402 payment follows this sequence:
 
 ## Detailed Flow
 
-### Step 1: Initial Request
+::::steps
 
+:::step{title="Initial Request"}
 Client sends a normal API request:
 
 ```bash
@@ -23,9 +29,9 @@ curl -X POST https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{"model": "openai/gpt-5.4", "messages": [...]}'
 ```
+:::
 
-### Step 2: 402 Response
-
+:::step{title="402 Response"}
 Server returns payment requirements:
 
 ```http
@@ -56,9 +62,9 @@ The `X-Payment-Required` header contains:
   }
 }
 ```
+:::
 
-### Step 3: Sign Authorization
-
+:::step{title="Sign Authorization"}
 The client creates an EIP-3009 `TransferWithAuthorization` signature:
 
 ```typescript
@@ -83,9 +89,9 @@ Key points:
 - Private key never leaves the client
 - Authorization expires in 5 minutes (`validBefore`)
 - Clock skew tolerance of 10 minutes (`validAfter`)
+:::
 
-### Step 4: Retry with Payment
-
+:::step{title="Retry with Payment"}
 Client sends the request again with the `PAYMENT-SIGNATURE` header (x402 v2):
 
 ```bash
@@ -124,9 +130,9 @@ The payment payload contains:
   }
 }
 ```
+:::
 
-### Step 5: Verify, Execute, Settle
-
+:::step{title="Verify, Execute, Settle"}
 The server:
 
 1. **Verifies** the payment signature with the Facilitator
@@ -155,20 +161,31 @@ Server                          Facilitator                    Blockchain
   |                                 |                              |
   |  7. Return response to client   |                              |
 ```
+:::
+
+::::
 
 ## SDK Handling
 
 The SDKs handle this entire flow automatically:
 
+::::tabs
+
+:::tab{label="Python"}
 ```python
 # Python - all 5 steps happen behind the scenes
 response = client.chat("openai/gpt-5.4", "Hello!")
 ```
+:::
 
+:::tab{label="TypeScript"}
 ```typescript
 // TypeScript - all 5 steps happen behind the scenes
 const response = await client.chat('openai/gpt-5.4', 'Hello!');
 ```
+:::
+
+::::
 
 ## Error Scenarios
 
@@ -219,3 +236,21 @@ Typical payment flow timing:
 | **Total overhead** | **~200ms** |
 
 The payment overhead is minimal compared to AI model execution time.
+
+## What's next?
+
+::::cards
+
+:::card{title="How x402 Works" href="how-it-works.md" icon="Zap"}
+The protocol concepts behind this flow — 402, authorizations, facilitator.
+:::
+
+:::card{title="Security" href="security.md" icon="Wallet"}
+Why signing an authorization keeps your funds non-custodial.
+:::
+
+:::card{title="Endpoints" href="endpoints.md" icon="Boxes"}
+Every x402-enabled endpoint and the networks each gateway accepts.
+:::
+
+::::

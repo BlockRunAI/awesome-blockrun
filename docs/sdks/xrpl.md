@@ -1,15 +1,25 @@
+---
+title: XRPL SDK (Python)
+description: The official BlockRun Python SDK for the XRP Ledger — call 50+ LLMs over x402 micropayments paid in RLUSD, with no API keys.
+---
+
 # XRPL SDK (Python)
 
-The official Python SDK for BlockRun on the XRP Ledger, using RLUSD for micropayments.
+The official Python SDK for BlockRun on the XRP Ledger, using RLUSD for micropayments — pay per call, no API keys.
 
-## Installation
+:::tip{title="In a hurry?"}
+New to BlockRun? See the [5-Minute Quickstart](../getting-started/quickstart.md) for the Base/Solana flow, then use this page for the XRPL-specific RLUSD setup.
+:::
 
+::::steps
+
+:::step{title="Install"}
 ```bash
 pip install blockrun-llm-xrpl
 ```
+:::
 
-## Quick Start
-
+:::step{title="Make your first call"}
 ```python
 from blockrun_llm_xrpl import LLMClient
 
@@ -19,6 +29,9 @@ print(response)
 ```
 
 That's it. The SDK handles x402 payment with RLUSD automatically.
+:::
+
+::::
 
 ## Configuration
 
@@ -49,7 +62,9 @@ client = LLMClient(
 5. The t54.ai facilitator settles the payment on-chain
 6. You receive the AI response
 
-**Your seed never leaves your machine** — it's only used for local signing.
+:::warning{title="Your seed stays local"}
+Your seed never leaves your machine — it's only used for local signing. Never commit it to version control or share it in logs.
+:::
 
 ## Methods
 
@@ -231,10 +246,25 @@ print(f"Seed: {seed}")  # Save this securely!
 
 ### Fund Your Wallet
 
-1. Get XRP for transaction fees (~1 XRP is plenty)
-2. Set up a trust line to the RLUSD issuer
-3. Acquire RLUSD from a DEX or exchange
-4. Export your seed: `export BLOCKRUN_XRPL_SEED=sEd...`
+::::steps
+
+:::step{title="Get XRP for fees"}
+Get XRP for transaction fees (~1 XRP is plenty).
+:::
+
+:::step{title="Set up a trust line"}
+Set up a trust line to the RLUSD issuer.
+:::
+
+:::step{title="Acquire RLUSD"}
+Acquire RLUSD from a DEX or exchange.
+:::
+
+:::step{title="Export your seed"}
+Export your seed: `export BLOCKRUN_XRPL_SEED=sEd...`
+:::
+
+::::
 
 ### Secure Setup
 
@@ -370,3 +400,21 @@ See [Intelligence Pricing](../products/intelligence/pricing.md) for full pricing
 - **PyPI**: [blockrun-llm-xrpl](https://pypi.org/project/blockrun-llm-xrpl/)
 - **GitHub**: [github.com/BlockRunAI/blockrun-llm-xrpl](https://github.com/BlockRunAI/blockrun-llm-xrpl)
 - **XRPL Explorer**: [xrpscan.com](https://xrpscan.com)
+
+## What's next?
+
+::::cards
+
+:::card{title="5-Minute Quickstart" href="../getting-started/quickstart.md" icon="Rocket"}
+Fund a wallet with USDC and make your first paid call in under five minutes.
+:::
+
+:::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
+Browse all 50+ models with live pricing to pick the right one for each call.
+:::
+
+:::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
+Understand x402, on-chain settlement, and why there are no API keys.
+:::
+
+::::

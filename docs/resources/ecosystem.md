@@ -1,3 +1,8 @@
+---
+title: Ecosystem
+description: Products, SDKs, framework integrations, networks, x402 facilitators, partners, AI providers, and community projects building with BlockRun.
+---
+
 # Ecosystem
 
 Projects, integrations, and partners building with BlockRun and x402.
@@ -158,3 +163,21 @@ Interested in partnering with BlockRun?
 - **Data Providers** — Monetize your API via x402
 
 Contact: [Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or [Telegram](https://t.me/+mroQv4-4hGgzOGUx)
+
+## What's next?
+
+::::cards
+
+:::card{title="5-Minute Quickstart" href="../getting-started/quickstart.md" icon="Rocket"}
+Fund a wallet and make your first paid call across any of these products.
+:::
+
+:::card{title="API Reference" href="../api-reference/models.md" icon="Book"}
+Per-endpoint docs for every live API product listed above.
+:::
+
+:::card{title="Changelog" href="changelog.md" icon="ArrowRight"}
+What shipped recently across the gateway, SDKs, and integrations.
+:::
+
+::::

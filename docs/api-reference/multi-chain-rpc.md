@@ -1,3 +1,8 @@
+---
+title: Multi-chain RPC
+description: Standard JSON-RPC 2.0 access to 40+ blockchains through one endpoint, paid $0.002 per call in USDC over x402 — no account, no API key, no monthly plan.
+---
+
 # Multi-chain RPC — one endpoint, 40+ chains
 
 Standard JSON-RPC 2.0 access to 40+ blockchains through a single endpoint. No account, no API key, no monthly plan — pay **$0.002 per call** in USDC over x402. Built for AI agents that read on-chain data across many chains from one wallet.
@@ -17,6 +22,10 @@ POST /api/v1/rpc/{network}
 Swap `{network}` for the chain. Body is a standard JSON-RPC 2.0 request; the response is returned verbatim from the upstream node. EVM (`eth_*`) and non-EVM (`getSlot`, …) methods both work. A JSON-RPC **batch** (array body) is priced per element.
 
 **Flat price: $0.002 per call.** No payment header → HTTP 402 quoting the exact price; add an x402 payment header (a wallet signature) → the result, settled in USDC on Base. Hot reads are cached.
+
+:::info{title="402 quotes the price"}
+A request with no payment header returns `402 Payment Required` with the exact $0.002 quote and Base USDC instructions. Re-send with the `PAYMENT-SIGNATURE` header to get the result.
+:::
 
 ## Supported networks (40+)
 
@@ -65,8 +74,20 @@ curl -X POST https://blockrun.ai/api/v1/rpc/solana \
 
 Via the BlockRun MCP server, agents call the `blockrun_rpc` tool: `{ network, method, params }`.
 
-## See also
+## What's next?
 
-- [Multi-chain RPC landing page](https://blockrun.ai/multi-chain-rpc) — overview + FAQ
-- [BlockRun vs Alchemy](https://blockrun.ai/vs-alchemy) — when to use which
-- [x402 endpoints](../x402/endpoints.md) — the full paid endpoint table
+::::cards
+
+:::card{title="x402 endpoints" href="../x402/endpoints.md" icon="Route"}
+The full paid endpoint table — every service you can call from one wallet.
+:::
+
+:::card{title="BlockRun vs Alchemy" href="https://blockrun.ai/vs-alchemy" icon="Zap"}
+When to use pay-per-call RPC versus a traditional node-provider plan.
+:::
+
+:::card{title="Error handling" href="errors.md" icon="Code"}
+Status codes and how unsupported networks and payment failures surface.
+:::
+
+::::

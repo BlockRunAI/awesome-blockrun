@@ -1,3 +1,8 @@
+---
+title: Intelligence Pricing
+description: BlockRun Intelligence pricing — provider cost plus 5%, a full per-token price list, image rates, and a free NVIDIA tier of 10 models.
+---
+
 # Intelligence Pricing
 
 Pay only for what you use. Provider cost + 5%.
@@ -23,6 +28,10 @@ The 5% margin covers:
 | Gemini Flash | ~13M input tokens |
 | Image generation | ~20–65 images |
 | **NVIDIA free tier** (DeepSeek V4 Pro/Flash, Nemotron Nano Omni, Qwen3, Llama 4, GLM-4.7, Mistral — 9 models) | **Unlimited (FREE)** |
+
+:::tip{title="Start with the free tier"}
+The NVIDIA tier costs $0 — reasoning, coding, and vision models with no per-token charge. You still need a funded wallet for the x402 handshake, but these calls don't draw it down.
+:::
 
 ## Full Price List
 
@@ -236,8 +245,20 @@ Just: `provider_cost × 1.05`
 - **Settlement:** Instant, on-chain
 - **Verification:** [Basescan](https://basescan.org)
 
-## Next Steps
+## What's next?
 
-- [Models Reference](../../api-reference/models.md)
-- [Intelligence Overview](overview.md)
-- [Wallet Setup](../../getting-started/wallet-setup.md)
+::::cards
+
+:::card{title="Intelligence overview" href="overview.md" icon="Brain"}
+How the OpenAI-compatible API works and which model fits each task.
+:::
+
+:::card{title="Smart routing" href="../routing/clawrouter.md" icon="Route"}
+Save 78% on average by routing each request to the cheapest capable model.
+:::
+
+:::card{title="Wallet setup" href="../../getting-started/wallet-setup.md" icon="Wallet"}
+Fund on Base or Solana to start calling models.
+:::
+
+::::

@@ -1,25 +1,31 @@
+---
+title: ElizaOS Integration
+description: Add the BlockRun plugin to ElizaOS so your agents reach 50+ AI models via x402 micropayments — no per-provider API keys.
+---
+
 # ElizaOS Integration
 
-Use BlockRun as an LLM provider in ElizaOS agents.
+Use BlockRun as an LLM provider in ElizaOS agents — one plugin unlocks 50+ models paid per request over x402.
 
 [ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 50+ AI models via x402 micropayments.
 
-## Installation
+## Setup
 
+::::steps
+
+:::step{title="Install the plugin"}
 ```bash
 npm install elizaos-plugin-blockrun
 ```
+:::
 
-## Configuration
-
-### Environment Variables
-
+:::step{title="Set your wallet key"}
 ```bash
 export BLOCKRUN_WALLET_KEY=0x...your_private_key...
 ```
+:::
 
-### Agent Configuration
-
+:::step{title="Register the provider"}
 ```typescript
 import { BlockRunProvider } from 'elizaos-plugin-blockrun';
 
@@ -33,6 +39,9 @@ const agent = new ElizaAgent({
   ]
 });
 ```
+:::
+
+::::
 
 ## Usage
 
@@ -49,19 +58,27 @@ const response = await agent.chat({
 
 ### Model Selection
 
+::::tabs
+
+:::tab{label="Premium model"}
 ```typescript
-// Use specific model
 const response = await agent.chat({
   model: 'anthropic/claude-sonnet-4.6',
   messages: [...]
 });
+```
+:::
 
-// Use cheap model for bulk tasks
+:::tab{label="Cheap model (bulk)"}
+```typescript
 const response = await agent.chat({
   model: 'deepseek/deepseek-chat',
   messages: [...]
 });
 ```
+:::
+
+::::
 
 ### Image Generation
 
@@ -204,3 +221,21 @@ new BlockRunProvider({
 - [ElizaOS Documentation](https://github.com/elizaOS/eliza)
 - [BlockRun Models](../api-reference/models.md)
 - [Agent Developer Guide](../getting-started/agent-developers.md)
+
+## What's next?
+
+::::cards
+
+:::card{title="Models Reference" href="../api-reference/models.md" icon="Brain"}
+Every model available through BlockRun, with live pricing.
+:::
+
+:::card{title="Wallet Setup" href="../getting-started/wallet-setup.md" icon="Wallet"}
+Fund your agent's wallet on Base or Solana and manage budgets.
+:::
+
+:::card{title="Agent Developer Guide" href="../getting-started/agent-developers.md" icon="Boxes"}
+Build autonomous agents that pay as they work.
+:::
+
+::::

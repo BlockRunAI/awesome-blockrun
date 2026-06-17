@@ -1,3 +1,8 @@
+---
+title: Rate Limits
+description: BlockRun adds no throttle on paid model calls — you only hit the upstream provider's TPM/RPM, surfaced transparently as a 429 with Retry-After.
+---
+
 # Rate Limits
 
 BlockRun is a pass-through gateway: for **paid** model calls it does **not** add
@@ -6,6 +11,10 @@ provider's** capacity limits (tokens-per-minute / requests-per-minute on the
 provider tier backing that model). When an upstream provider throttles a
 request, BlockRun surfaces it to you transparently as an HTTP `429` so you can
 back off or fail over.
+
+:::info{title="No platform throttle on paid calls"}
+For paid model calls there is no BlockRun-side per-request limit — your only ceiling is the upstream provider's TPM/RPM. Some non-LLM endpoints (image generation, async job submission, wallet reconciliation, RealFace init) carry small per-IP limits to bound abuse and real upstream cost.
+:::
 
 ## The `429` response
 
@@ -62,8 +71,20 @@ In both cases the failover is automatic and internal — you only see a `429` wh
 
 Some non-LLM endpoints (image generation, async job submission, wallet reconciliation, RealFace init) carry small per-IP limits to bound abuse and real upstream cost. When exceeded they also return `429`; the same `Retry-After` guidance applies.
 
-## Links
+## What's next?
 
-- [Chat Completions](api-reference/chat-completions.md)
-- [Models](api-reference/models.md)
-- [x402 Endpoints](x402/endpoints.md)
+::::cards
+
+:::card{title="Chat Completions" href="api-reference/chat-completions.md" icon="Brain"}
+The paid LLM endpoint where upstream provider limits apply.
+:::
+
+:::card{title="Models" href="api-reference/models.md" icon="Boxes"}
+The model catalog and which provider backs each one.
+:::
+
+:::card{title="x402 Endpoints" href="x402/endpoints.md" icon="Zap"}
+The full list of x402-gated endpoints and their pricing.
+:::
+
+::::

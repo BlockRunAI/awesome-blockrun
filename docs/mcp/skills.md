@@ -1,6 +1,15 @@
+---
+title: Skills
+description: BlockRun skills extend Claude Code with prompt-based workflows — install, invoke, and author skills that teach Claude how to use BlockRun tools.
+---
+
 # Skills
 
 Skills extend what Claude Code can do. They're like plugins that add specific capabilities.
+
+:::note
+A **skill** teaches Claude *how* to do a task; an **MCP server** gives Claude the *tools* to call. They often work together — the nano-banana skill uses the BlockRun MCP to generate images.
+:::
 
 ## Available Skills
 
@@ -161,7 +170,20 @@ claude skill remove skill-name
 claude skill add skill-name
 ```
 
-## Links
+## What's next?
 
-- [nano-banana Skill](../products/creation/nano-banana.md)
-- [BlockRun MCP](blockrun-mcp.md)
+::::cards
+
+:::card{title="nano-banana skill" href="../products/creation/nano-banana.md" icon="Image"}
+Generate images via micropayments with the bundled skill.
+:::
+
+:::card{title="BlockRun MCP" href="blockrun-mcp.md" icon="Boxes"}
+The MCP server and the 18 tools skills build on.
+:::
+
+:::card{title="Troubleshooting" href="troubleshooting.md" icon="Search"}
+Resolve skill and MCP issues.
+:::
+
+::::

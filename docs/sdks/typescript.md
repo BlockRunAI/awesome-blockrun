@@ -1,16 +1,39 @@
+---
+title: TypeScript SDK
+description: The official BlockRun TypeScript/JavaScript SDK — call 50+ LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+---
+
 # TypeScript SDK
 
-The official TypeScript/JavaScript SDK for BlockRun.
+The official TypeScript/JavaScript SDK for BlockRun — pay per call in USDC, no API keys or subscriptions.
+
+:::tip{title="In a hurry?"}
+New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md) first to fund a wallet, then come back for the full SDK reference.
+:::
 
 ## Installation
 
+::::tabs
+
+:::tab{label="npm"}
 ```bash
 npm install @blockrun/llm
-# or
+```
+:::
+
+:::tab{label="pnpm"}
+```bash
 pnpm add @blockrun/llm
-# or
+```
+:::
+
+:::tab{label="yarn"}
+```bash
 yarn add @blockrun/llm
 ```
+:::
+
+::::
 
 ## Quick Start
 
@@ -458,9 +481,9 @@ console.log('Gemini:', gemini);
 
 ### Streaming (Coming Soon)
 
-```typescript
-// Streaming support is planned for a future release
-```
+:::info
+Streaming support is planned for a future release.
+:::
 
 ### Express.js Integration
 
@@ -538,7 +561,9 @@ Integration tests are automatically skipped if `BLOCKRUN_WALLET_KEY` is not set.
 
 ### Private Key Management
 
-> **Warning:** Never commit private keys to version control!
+:::warning{title="Never commit private keys"}
+Never commit private keys to version control. A leaked key can drain your funded wallet.
+:::
 
 ✅ **Do:**
 - Use environment variables for private keys
@@ -615,3 +640,21 @@ Keep the SDK updated to receive security patches:
 ```bash
 npm update @blockrun/llm
 ```
+
+## What's next?
+
+::::cards
+
+:::card{title="5-Minute Quickstart" href="../getting-started/quickstart.md" icon="Rocket"}
+Fund a wallet with USDC and make your first paid call in under five minutes.
+:::
+
+:::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
+Browse all 50+ models with live pricing to pick the right one for each call.
+:::
+
+:::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
+Understand x402, USDC settlement, and why there are no API keys.
+:::
+
+::::

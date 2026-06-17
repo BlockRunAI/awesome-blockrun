@@ -1,15 +1,25 @@
+---
+title: Go SDK
+description: The Go SDK for BlockRun — call 50+ AI models, generate images, and manage wallets over x402 micropayments with no API keys.
+---
+
 # Go SDK
 
-The Go SDK for BlockRun provides access to 50+ AI models via x402 micropayments.
+The Go SDK for BlockRun provides access to 50+ AI models via x402 micropayments — pay per call in USDC, no API keys.
 
-## Installation
+:::tip{title="In a hurry?"}
+New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md) first to fund a wallet, then come back for the full SDK reference.
+:::
 
+::::steps
+
+:::step{title="Install"}
 ```bash
 go get github.com/blockrunai/blockrun-llm-go
 ```
+:::
 
-## Quick Start
-
+:::step{title="Make your first call"}
 ```go
 package main
 
@@ -30,6 +40,9 @@ func main() {
     fmt.Println(response)
 }
 ```
+:::
+
+::::
 
 ## Configuration
 
@@ -38,6 +51,10 @@ func main() {
 ```bash
 export BLOCKRUN_WALLET_KEY=0x...your_private_key...
 ```
+
+:::warning{title="Keep your key safe"}
+Never commit private keys to version control. Use a dedicated payment wallet funded with only small amounts, and load the key from an environment variable.
+:::
 
 ### Programmatic
 
@@ -232,3 +249,21 @@ func main() {
 - [GitHub: blockrun-llm-go](https://github.com/blockrunai/blockrun-llm-go)
 - [Models Reference](../api-reference/models.md)
 - [SDK Developer Guide](../getting-started/sdk-developers.md)
+
+## What's next?
+
+::::cards
+
+:::card{title="5-Minute Quickstart" href="../getting-started/quickstart.md" icon="Rocket"}
+Fund a wallet with USDC and make your first paid call in under five minutes.
+:::
+
+:::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
+Browse all 50+ models with live pricing to pick the right one for each call.
+:::
+
+:::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
+Understand x402, USDC settlement, and why there are no API keys.
+:::
+
+::::

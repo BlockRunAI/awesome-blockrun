@@ -1,8 +1,15 @@
+---
+title: Virtual Portrait Enrollment
+description: Enroll an AI-generated character (no KYC, no liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0-fast videos — $0.01 USDC.
+---
+
 # Virtual Portrait Enrollment
 
 Enroll an AI-generated character image as a Virtual Portrait and get back a `ta_xxxxxxxx` id you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0-fast call. Use this when you want **the same character across multiple videos** without dealing with KYC.
 
-> **No KYC required.** Use this for AI-generated personas, mascots, avatars, virtual spokespeople — no liveness step needed because the asset is understood to be a synthetic character. For **real-person likeness**, use [RealFace](realface.md) (also no KYC, but requires a brief liveness check on the rights-holder's phone to prove consent).
+:::note{title="No KYC required"}
+Use this for AI-generated personas, mascots, avatars, virtual spokespeople — no liveness step needed because the asset is understood to be a synthetic character. For **real-person likeness**, use [RealFace](realface.md) (also no KYC, but requires a brief liveness check on the rights-holder's phone to prove consent).
+:::
 
 | | |
 |---|---|
@@ -84,8 +91,9 @@ If you're using `clawrouter` locally, this flow is fully automatic — just call
 
 ## Examples
 
-### Via cURL (manual x402 flow)
+::::tabs
 
+:::tab{label="cURL (manual x402)"}
 ```bash
 # Step 1: probe — returns 402 with challenge headers
 curl -i -X POST https://blockrun.ai/api/v1/portrait/enroll \
@@ -99,9 +107,9 @@ curl -X POST https://blockrun.ai/api/v1/portrait/enroll \
   -H "X-Payment: $PAYMENT_HEADER" \
   -d '{"name":"My Spokesperson","image_url":"https://example.com/character.jpg"}'
 ```
+:::
 
-### Via ClawRouter
-
+:::tab{label="ClawRouter"}
 ClawRouter handles the x402 dance for you:
 
 ```bash
@@ -109,6 +117,9 @@ curl -X POST http://localhost:8402/v1/portrait/enroll \
   -H "Content-Type: application/json" \
   -d '{"name":"My Spokesperson","image_url":"https://example.com/character.jpg"}'
 ```
+:::
+
+::::
 
 ### Using the enrolled portrait
 
@@ -171,10 +182,22 @@ The video playground at `/models/bytedance-seedance-2.0-fast` reads this same li
 - We do not analyze, redistribute, or use your portrait images for any purpose other than serving the asset back to your wallet and forwarding it for Seedance generation
 - Delete is not currently exposed via API — open a GitHub issue or email vicky@blockrun.ai if you need an entry removed
 
-## Links
+## What's next?
 
-- [Video Generation API](video-generation.md) — using the `ta_xxx` you just enrolled
-- [RealFace Enrollment](realface.md) — same `ta_xxx` mechanic but for a real person (requires liveness check, still no KYC)
-- [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip) — visual walkthrough of the RealFace flow
-- [Portrait Studio UI](https://blockrun.ai/studio/portrait) — web flow for non-developers
-- [x402 Payment Flow](../x402/payment-flow.md) — how the 402 / sign / retry handshake works
+::::cards
+
+:::card{title="Video Generation" href="video-generation.md" icon="Image"}
+Pass the `ta_xxx` you just enrolled as `real_face_asset_id` on a Seedance call.
+:::
+
+:::card{title="RealFace Enrollment" href="realface.md" icon="Boxes"}
+Same `ta_xxx` mechanic but for a real person — requires liveness, still no KYC.
+:::
+
+:::card{title="x402 Payment Flow" href="../x402/payment-flow.md" icon="Zap"}
+How the 402 / sign / retry handshake works behind the paid enroll call.
+:::
+
+::::
+
+Also useful: [Portrait Studio UI](https://blockrun.ai/studio/portrait) (web flow for non-developers) · [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip).

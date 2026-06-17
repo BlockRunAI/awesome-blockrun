@@ -1,3 +1,8 @@
+---
+title: Modal Sandbox
+description: Secure on-demand code runtime for AI agents — create a sandbox, execute commands, inspect output, and terminate, paid per call in USDC over x402.
+---
+
 # Modal Sandbox
 
 Secure code runtime for AI agents. Create a sandbox session, execute commands, inspect outputs, and terminate — all via x402 payments.
@@ -11,12 +16,12 @@ AI agents that need to run code face a dilemma: executing on the host is unsafe,
 - 1 exec ($0.001) — run the code
 - 1 terminate ($0.001) — clean up
 
-## Public Beta Limits
-
+:::warning{title="Public beta limits"}
 - Base only
 - Managed Python 3.11 sandbox
 - Up to 1 vCPU, 1 GiB RAM, 5 minute sandbox lifetime
 - Custom images, GPU sandboxes, and `setup_commands` are not enabled on the public API yet
+:::
 
 ## Endpoints
 
@@ -142,28 +147,53 @@ curl -X POST https://blockrun.ai/api/v1/modal/sandbox/create \
 
 ### Full session with payment
 
+::::steps
+
+:::step{title="Create the sandbox ($0.01)"}
 ```bash
-# 1. Create sandbox ($0.01)
 curl -X POST https://blockrun.ai/api/v1/modal/sandbox/create \
   -H "Content-Type: application/json" \
   -H "x-payment: <x402_payment_token>" \
   -d '{"image": "python:3.11", "timeout": 300}'
+```
+:::
 
-# 2. Execute code ($0.001)
+:::step{title="Execute code ($0.001)"}
+```bash
 curl -X POST https://blockrun.ai/api/v1/modal/sandbox/exec \
   -H "Content-Type: application/json" \
   -H "x-payment: <x402_payment_token>" \
   -d '{"sandbox_id": "sb-xxx", "command": ["python", "-c", "print(2+2)"]}'
+```
+:::
 
-# 3. Terminate ($0.001)
+:::step{title="Terminate ($0.001)"}
+```bash
 curl -X POST https://blockrun.ai/api/v1/modal/sandbox/terminate \
   -H "Content-Type: application/json" \
   -H "x-payment: <x402_payment_token>" \
   -d '{"sandbox_id": "sb-xxx"}'
 ```
+:::
+
+::::
 
 ## Notes
 
 - Sandboxes auto-terminate after the configured timeout (default: 5 minutes, max: 5 minutes)
 - Sandbox creation may take 5-15 seconds depending on the image
 - The `sandbox_id` is required for all subsequent operations — store it after creation
+
+## What's next?
+
+::::cards
+
+:::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
+Pair sandbox execution with an LLM to write, run, and debug code autonomously.
+:::
+
+:::card{title="Error handling" href="errors.md" icon="Code"}
+Status codes and how the SDKs surface payment and runtime failures.
+:::
+
+::::

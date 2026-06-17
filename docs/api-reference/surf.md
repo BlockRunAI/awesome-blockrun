@@ -1,3 +1,8 @@
+---
+title: Surf — Crypto Data API
+description: 83 crypto-data endpoints (CEX, on-chain SQL, prediction markets, wallet labels, social, news) priced per call in USDC over x402 — no Surf account, just a wallet.
+---
+
 # Surf — Crypto Data API
 
 Real-time crypto data for AI agents. 83 endpoints across exchanges, on-chain analytics, prediction markets, wallet labels, social mindshare, news, and search — all priced per call in USDC. No Surf account, no API key, just a wallet.
@@ -99,8 +104,9 @@ The SQL endpoint runs against Surf's ClickHouse cluster — 80+ tables across Et
 
 ## SDK Usage
 
-### TypeScript
+::::tabs
 
+:::tab{label="TypeScript"}
 ```typescript
 import { LLMClient } from '@blockrun/llm';
 
@@ -119,9 +125,9 @@ const flows = await client.surf('POST', 'onchain/sql', {
   query: 'SELECT chain, sum(value_usd) FROM bridge_tx WHERE block_time > now() - INTERVAL 7 DAY GROUP BY chain',
 });
 ```
+:::
 
-### Python
-
+:::tab{label="Python"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -138,14 +144,17 @@ pos = client.surf('GET', 'prediction-market/polymarket/positions',
 result = client.surf('POST', 'onchain/sql',
                      {'query': 'SELECT count() FROM tx WHERE chain = \'base\''})
 ```
+:::
 
-### MCP (Claude Code / OpenClaw)
-
+:::tab{label="MCP"}
 ```text
 Use blockrun_surf to look up the current funding rate for BTC-USDT-PERP and compare it to the 7-day average.
 ```
 
 The `blockrun_surf` MCP tool ships with [BlockRun MCP](../mcp/blockrun-mcp.md). It accepts `endpoint`, `params`, and `method` and handles the x402 settlement automatically.
+:::
+
+::::
 
 ---
 
@@ -249,10 +258,22 @@ Payment is in USDC on Base or Solana via x402. **Settles 1:1 directly to Surf's 
 
 ---
 
-## Links
+## What's next?
 
-- [Surf marketplace page](https://blockrun.ai/marketplace/surf)
-- [Surf (upstream)](https://asksurf.ai)
-- [BlockRun MCP `blockrun_surf` tool](../mcp/blockrun-mcp.md)
-- [Rate Limits](rate-limits.md)
-- [Error Handling](errors.md)
+::::cards
+
+:::card{title="BlockRun MCP" href="../mcp/blockrun-mcp.md" icon="Boxes"}
+The `blockrun_surf` tool and the rest of the `blockrun_*` toolset.
+:::
+
+:::card{title="Rate Limits" href="rate-limits.md" icon="Zap"}
+How Surf upstream throttling surfaces — and why you're never charged for a 429.
+:::
+
+:::card{title="Error Handling" href="errors.md" icon="Code"}
+The gateway-wide error envelope across all paid endpoints.
+:::
+
+::::
+
+Also useful: [Surf marketplace page](https://blockrun.ai/marketplace/surf) · [Surf (upstream)](https://asksurf.ai).

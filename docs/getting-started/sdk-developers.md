@@ -1,13 +1,23 @@
+---
+title: SDK Developers
+description: Integrate BlockRun directly with the Python, TypeScript, or Go SDKs — chat, images, wallet ops, async, and an OpenAI-compatible API.
+---
+
 # SDK Developers
 
 Direct API integration with Python, TypeScript, or Go.
 
 This guide is for developers who want to integrate BlockRun directly into their applications using our SDKs.
 
+:::note{title="What you need"}
+A wallet private key in `BLOCKRUN_WALLET_KEY` (or let the SDK auto-generate one), funded with a few dollars of USDC on Base. See [Wallet Setup](wallet-setup.md).
+:::
+
 ## Quick Start
 
-### Python
+::::tabs
 
+:::tab{label="Python"}
 ```bash
 pip install blockrun-llm
 ```
@@ -19,9 +29,9 @@ client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY env var
 response = client.chat("openai/gpt-5.4", "Hello!")
 print(response)
 ```
+:::
 
-### TypeScript
-
+:::tab{label="TypeScript"}
 ```bash
 npm install @blockrun/llm
 ```
@@ -33,9 +43,9 @@ const client = new LLMClient();
 const response = await client.chat('openai/gpt-5.4', 'Hello!');
 console.log(response);
 ```
+:::
 
-### Go
-
+:::tab{label="Go"}
 ```bash
 go get github.com/blockrunai/blockrun-llm-go
 ```
@@ -54,6 +64,9 @@ func main() {
     fmt.Println(response)
 }
 ```
+:::
+
+::::
 
 ## Configuration
 
@@ -198,8 +211,9 @@ except APIError as e:
 
 ## Async Support
 
-### Python
+::::tabs
 
+:::tab{label="Python"}
 ```python
 import asyncio
 
@@ -209,12 +223,15 @@ async def main():
 
 asyncio.run(main())
 ```
+:::
 
-### TypeScript
-
+:::tab{label="TypeScript"}
 ```typescript
 const response = await client.chat('openai/gpt-5.4', 'Hello!');
 ```
+:::
+
+::::
 
 ## Streaming (Coming Soon)
 
@@ -305,8 +322,20 @@ Full pricing: [Intelligence Pricing](../products/intelligence/pricing.md)
 - [Models](../api-reference/models.md)
 - [Error Handling](../api-reference/errors.md)
 
-## Next Steps
+## What's next?
 
-- [Wallet Setup](wallet-setup.md)
-- [Models Reference](../api-reference/models.md)
-- [Pricing](../products/intelligence/pricing.md)
+::::cards
+
+:::card{title="Set up your wallet" href="wallet-setup.md" icon="Wallet"}
+Fund on Base or Solana, configure keys, and run on testnet.
+:::
+
+:::card{title="Models reference" href="../api-reference/models.md" icon="Brain"}
+Every model ID, context window, and live price.
+:::
+
+:::card{title="Pricing" href="../products/intelligence/pricing.md" icon="TrendingUp"}
+Provider cost + 5%, no subscriptions or minimums.
+:::
+
+::::

@@ -1,6 +1,15 @@
+---
+title: How x402 Works
+description: x402 is an HTTP-native micropayment protocol — agents pay per request in USDC by signing a local authorization, no API keys or subscriptions.
+---
+
 # How x402 Works
 
 x402 is a protocol for HTTP-native micropayments. It extends HTTP with payment capabilities using the `402 Payment Required` status code.
+
+:::info{title="The one-line version"}
+Your client requests a service, gets a `402` with a price, signs a USDC authorization locally, and retries — payment settles on-chain in the same round-trip. No keys leave your machine.
+:::
 
 ## The Problem
 
@@ -120,8 +129,20 @@ The payment payload includes:
 - **Instant Payments** - No invoicing or collections
 - **Global** - Works anywhere crypto works
 
-## Learn More
+## What's next?
 
-- [Payment Flow](payment-flow.md) - Step-by-step payment process
-- [Security](security.md) - Security model and best practices
-- [x402 Specification](https://x402.org) - Full protocol specification
+::::cards
+
+:::card{title="Payment Flow" href="payment-flow.md" icon="Route"}
+Step-by-step breakdown of the request, signature, and settlement.
+:::
+
+:::card{title="Security" href="security.md" icon="Wallet"}
+The threat model, non-custodial guarantees, and best practices.
+:::
+
+:::card{title="x402 Specification" href="https://x402.org" icon="Book"}
+The full protocol specification.
+:::
+
+::::

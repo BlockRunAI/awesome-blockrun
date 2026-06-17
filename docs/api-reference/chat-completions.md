@@ -1,6 +1,11 @@
+---
+title: Chat Completions
+description: OpenAI-compatible Chat Completions endpoint for 50+ LLMs, paid per request in USDC over x402 — no API keys, no subscriptions.
+---
+
 # Chat Completions
 
-The Chat Completions API is OpenAI-compatible, making it easy to migrate existing code.
+The Chat Completions API is OpenAI-compatible, making it easy to migrate existing code. Point your client at BlockRun, pick a model, and pay per request in USDC over x402.
 
 ## Endpoint
 
@@ -89,10 +94,15 @@ When you first make a request without payment, you'll receive:
 
 The `X-Payment-Required` header contains the full payment requirements.
 
+:::info{title="402 is the normal flow, not an error"}
+The first request returns `402 Payment Required` with a price quote. Sign it and retry with the `PAYMENT-SIGNATURE` header to get your completion. The SDKs do this round-trip automatically.
+:::
+
 ## Example
 
-### Using cURL
+::::tabs
 
+:::tab{label="cURL"}
 ```bash
 # Step 1: Get price (will return 402)
 curl -X POST https://blockrun.ai/api/v1/chat/completions \
@@ -111,10 +121,9 @@ curl -X POST https://blockrun.ai/api/v1/chat/completions \
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```
+:::
 
-### Using the SDK
-
-**Python:**
+:::tab{label="Python"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -136,8 +145,9 @@ result = client.chat_completion(
 )
 print(result.choices[0].message.content)
 ```
+:::
 
-**TypeScript:**
+:::tab{label="TypeScript"}
 ```typescript
 import { LLMClient } from '@blockrun/llm';
 
@@ -157,3 +167,20 @@ const result = await client.chatCompletion('openai/gpt-5.5', messages, {
 });
 console.log(result.choices[0].message.content);
 ```
+:::
+
+::::
+
+## What's next?
+
+::::cards
+
+:::card{title="Browse all models" href="models.md" icon="Brain"}
+50+ LLMs with live pricing — pick the right model and ID for your call.
+:::
+
+:::card{title="Error handling" href="errors.md" icon="Code"}
+Status codes, error shapes, and how the SDKs surface payment failures.
+:::
+
+::::

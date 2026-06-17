@@ -1,3 +1,8 @@
+---
+title: Wallet Setup
+description: Create and fund a BlockRun wallet with USDC on Base or Solana, manage keys and budgets, and run on testnet — your private key never leaves your machine.
+---
+
 # Wallet Setup
 
 BlockRun accepts USDC on **Base** (default) or **Solana** for payments. Your agent needs a funded wallet to pay for services.
@@ -10,7 +15,9 @@ BlockRun accepts USDC on **Base** (default) or **Solana** for payments. Your age
 | **Base Sepolia** | 84532 | Development/Testing | Testnet USDC (free) |
 | **Solana Mainnet** | — | Production | USDC (SPL) |
 
-> **MCP users:** switch to Solana with `blockrun_wallet action:"chain" chain:"solana"` then `blockrun_wallet action:"setup"` — no env vars or restart. See [Claude Code MCP](../mcp/blockrun-mcp.md#pay-on-solana-optional). Some tools (image, music, speech, video, paid stock prices, smart routing, native Anthropic) settle on Base only.
+:::info{title="MCP users: pay on Solana"}
+Switch to Solana with `blockrun_wallet action:"chain" chain:"solana"` then `blockrun_wallet action:"setup"` — no env vars or restart. See [Claude Code MCP](../mcp/blockrun-mcp.md#pay-on-solana-optional). Some tools (image, music, speech, video, paid stock prices, smart routing, native Anthropic) settle on Base only.
+:::
 
 ## How It Works
 
@@ -135,6 +142,10 @@ View your wallet on [Basescan](https://basescan.org) by searching your address.
 - Use your main wallet with large holdings
 - Ignore transaction failures
 
+:::danger
+Never commit your private key or paste it into a shared chat. Anyone with the key controls the wallet and its funds.
+:::
+
 ## Withdraw Funds
 
 Your wallet is a standard Ethereum-compatible wallet. You can withdraw anytime using:
@@ -146,16 +157,17 @@ Your wallet is a standard Ethereum-compatible wallet. You can withdraw anytime u
 
 For development and testing, use Base Sepolia testnet with free testnet USDC:
 
-### 1. Get Testnet ETH
+::::steps
 
+:::step{title="Get testnet ETH"}
 Get free testnet ETH for gas from [Alchemy Base Sepolia Faucet](https://www.alchemy.com/faucets/base-sepolia).
+:::
 
-### 2. Get Testnet USDC
-
+:::step{title="Get testnet USDC"}
 Get free testnet USDC from [Circle USDC Faucet](https://faucet.circle.com/).
+:::
 
-### 3. Configure SDK for Testnet
-
+:::step{title="Configure the SDK for testnet"}
 **Python:**
 ```python
 from blockrun_llm import testnet_client
@@ -171,6 +183,9 @@ import { testnetClient } from '@blockrun/llm';
 const client = testnetClient({ privateKey: '0x...' });
 const response = await client.chat('openai/gpt-oss-20b', 'Hello!');
 ```
+:::
+
+::::
 
 ### Testnet API Endpoint
 
@@ -205,8 +220,20 @@ ls ~/.blockrun/
 blockrun setup
 ```
 
-## Next Steps
+## What's next?
 
-- [Claude Code Guide](claude-code.md)
-- [SDK Developer Guide](sdk-developers.md)
-- [Agent Developer Guide](agent-developers.md)
+::::cards
+
+:::card{title="Claude Code guide" href="claude-code.md" icon="Terminal"}
+Install the MCP and use your funded wallet from Claude Code.
+:::
+
+:::card{title="SDK developers" href="sdk-developers.md" icon="Code"}
+Wire the wallet into Python, TypeScript, or Go integrations.
+:::
+
+:::card{title="Agent developers" href="agent-developers.md" icon="Boxes"}
+Give agents a wallet that pays for their own intelligence.
+:::
+
+::::

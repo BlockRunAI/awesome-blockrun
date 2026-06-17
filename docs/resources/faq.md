@@ -1,6 +1,11 @@
+---
+title: FAQ
+description: Common questions about BlockRun — what it is, how x402 payments work, supported models and frameworks, wallet security, and troubleshooting.
+---
+
 # FAQ
 
-Frequently asked questions about BlockRun.
+Frequently asked questions about BlockRun — payments, products, models, wallets, and troubleshooting.
 
 ## General
 
@@ -221,3 +226,21 @@ Open an issue on the relevant GitHub repository:
 
 - [Twitter/X: @BlockRunAI](https://x.com/BlockRunAI)
 - [GitHub: BlockRunAI](https://github.com/BlockRunAI)
+
+## What's next?
+
+::::cards
+
+:::card{title="5-Minute Quickstart" href="../getting-started/quickstart.md" icon="Rocket"}
+Fund a wallet and make your first paid call in under five minutes.
+:::
+
+:::card{title="Ecosystem" href="ecosystem.md" icon="Boxes"}
+Products, SDKs, framework integrations, partners, and community projects.
+:::
+
+:::card{title="MCP Troubleshooting" href="../mcp/troubleshooting.md" icon="Terminal"}
+Fixes for the most common Claude Code / MCP setup issues.
+:::
+
+::::

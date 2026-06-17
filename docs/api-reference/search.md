@@ -1,3 +1,8 @@
+---
+title: Search API
+description: Real-time search across X/Twitter, web, and news via Grok Live Search — pay per source in USDC over x402, no API key.
+---
+
 # Search API
 
 Real-time search across X/Twitter, web, and news using Grok AI.
@@ -110,8 +115,9 @@ Search pricing is per-source with a 5% BlockRun margin:
 
 ## Examples
 
-### cURL
+::::tabs
 
+:::tab{label="cURL"}
 ```bash
 # Step 1: Get price (will return 402)
 curl -X POST https://blockrun.ai/api/v1/search \
@@ -132,9 +138,9 @@ curl -X POST https://blockrun.ai/api/v1/search \
     "max_results": 10
   }'
 ```
+:::
 
-### Python
-
+:::tab{label="Python"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -156,9 +162,9 @@ print(results["summary"])
 for cite in results["citations"]:
     print(f"  - {cite['title']}: {cite['url']}")
 ```
+:::
 
-### TypeScript
-
+:::tab{label="TypeScript"}
 ```typescript
 import { LLMClient } from '@blockrun/llm';
 
@@ -180,6 +186,9 @@ results.citations.forEach(cite =>
   console.log(`  - ${cite.title}: ${cite.url}`)
 );
 ```
+:::
+
+::::
 
 ## Chat Completions Alternative
 
@@ -225,8 +234,20 @@ This gives you the raw chat completion response with search-augmented context. T
 }
 ```
 
-## Links
+## What's next?
 
-- [Chat Completions](chat-completions.md)
-- [Intelligence Pricing](../products/intelligence/pricing.md)
-- [Error Handling](errors.md)
+::::cards
+
+:::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
+Add `search_parameters` to any chat call for search-augmented context.
+:::
+
+:::card{title="Intelligence Pricing" href="../products/intelligence/pricing.md" icon="TrendingUp"}
+Per-token model pricing alongside the per-source search cost.
+:::
+
+:::card{title="Error Handling" href="errors.md" icon="Code"}
+The gateway-wide error envelope and 402 / 429 handling.
+:::
+
+::::

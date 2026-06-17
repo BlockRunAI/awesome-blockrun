@@ -1,3 +1,8 @@
+---
+title: Intelligence
+description: BlockRun Intelligence gives your agent 50+ LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
+---
+
 # Intelligence
 
 AI accesses any LLM. 50+ models, pay-per-request.
@@ -78,10 +83,15 @@ The 5% covers:
 
 **No subscriptions. No minimums. No prepaid credits.**
 
+:::tip{title="Cut costs automatically"}
+Don't want to pick models by hand? [ClawRouter](../routing/clawrouter.md) routes each request to the cheapest model that can handle it — up to 78% lower cost.
+:::
+
 ## Quick Start
 
-### Claude Code Users
+::::tabs
 
+:::tab{label="Claude Code"}
 ```bash
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
@@ -95,9 +105,9 @@ Use GPT-5 to review this code
 ```
 Ask DeepSeek to optimize this for cost
 ```
+:::
 
-### SDK Users
-
+:::tab{label="Python SDK"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -109,9 +119,9 @@ response = client.chat("openai/gpt-5.5", "Explain quantum computing")
 # DeepSeek (50x cheaper)
 response = client.chat("deepseek/deepseek-chat", "Explain quantum computing")
 ```
+:::
 
-### Direct API
-
+:::tab{label="Direct API"}
 ```bash
 curl https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
@@ -121,6 +131,9 @@ curl https://blockrun.ai/api/v1/chat/completions \
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```
+:::
+
+::::
 
 ## Use Cases
 
@@ -178,9 +191,20 @@ client = LLMClient(session_budget=5.00)  # Max $5 per session
 
 No need for separate accounts at OpenAI, Anthropic, Google, etc. One USDC wallet covers everything.
 
-## Next Steps
+## What's next?
 
-- [Pricing Details](pricing.md)
-- [Models List](../../api-reference/models.md)
-- [SDK Documentation](../../sdks/python.md)
-- [Wallet Setup](../../getting-started/wallet-setup.md)
+::::cards
+
+:::card{title="Pricing details" href="pricing.md" icon="Zap"}
+Full per-token price list, the free tier, and a what-$1-gets-you breakdown.
+:::
+
+:::card{title="Smart routing" href="../routing/clawrouter.md" icon="Route"}
+Let ClawRouter pick the cheapest capable model on every request.
+:::
+
+:::card{title="Wallet setup" href="../../getting-started/wallet-setup.md" icon="Wallet"}
+Fund on Base or Solana to start calling models.
+:::
+
+::::

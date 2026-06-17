@@ -1,3 +1,8 @@
+---
+title: Trading Tools Reference
+description: The 7 alpha-mcp tools for autonomous crypto trading — signals, DEX data, sentiment, swaps, portfolio, risk checks, and trade memory.
+---
+
 # Trading Tools Reference
 
 alpha-mcp provides 7 tools for autonomous crypto trading.
@@ -104,7 +109,9 @@ Buy $50 worth of PEPE with USDC
 
 **Pricing:** Network gas only (no BlockRun fee)
 
-**Safety:** Subject to risk management limits. See [Risk Management](risk-management.md).
+:::warning{title="Subject to risk limits"}
+Every swap is validated by `alpha_risk` first. Trades that breach a hardcoded limit are rejected — see [Risk Management](risk-management.md).
+:::
 
 ---
 
@@ -228,8 +235,20 @@ Claude:
    → Logged: "Bought ETH on bullish MACD crossover"
 ```
 
-## Next Steps
+## What's next?
 
-- [Risk Management](risk-management.md) — Understand safety limits
-- [Installation](installation.md) — Get started
-- [Overview](overview.md) — Product introduction
+::::cards
+
+:::card{title="Risk management" href="risk-management.md" icon="TrendingUp"}
+Understand the safety limits enforced before every swap.
+:::
+
+:::card{title="Installation" href="installation.md" icon="Terminal"}
+Get alpha-mcp running in Claude Code.
+:::
+
+:::card{title="Overview" href="overview.md" icon="Book"}
+What alpha-mcp does and how it pays for its own intelligence.
+:::
+
+::::

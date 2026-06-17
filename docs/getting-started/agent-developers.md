@@ -1,3 +1,8 @@
+---
+title: Agent Developers
+description: Build AI agents that pay for their own intelligence — 50+ models via x402 micropayments, with framework plugins for ElizaOS, AgentKit, and LangChain.
+---
+
 # Agent Developers
 
 Build AI agents that pay for their own intelligence.
@@ -15,18 +20,26 @@ This guide is for developers using agent frameworks like ElizaOS, AgentKit, GOAT
 
 ## Quick Start
 
-### 1. Install the SDK
+Install the SDK for your language:
 
+::::tabs
+:::tab{label="Python"}
 ```bash
-# Python
 pip install blockrun-llm
-
-# TypeScript
+```
+:::
+:::tab{label="TypeScript"}
+```bash
 npm install @blockrun/llm
 ```
+:::
+::::
 
-### 2. Setup Wallet
+Then set up a wallet and make your first call:
 
+::::steps
+
+:::step{title="Set up the wallet"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -35,9 +48,9 @@ print(f"Wallet address: {client.get_address()}")
 ```
 
 Fund this address with USDC on Base network.
+:::
 
-### 3. Use Any Model
-
+:::step{title="Use any model"}
 ```python
 # OpenAI
 response = client.chat("openai/gpt-5.4", "Analyze this market data...")
@@ -48,6 +61,9 @@ response = client.chat("anthropic/claude-sonnet-4.6", "Review this code...")
 # DeepSeek (50x cheaper)
 response = client.chat("deepseek/deepseek-chat", "Summarize these documents...")
 ```
+:::
+
+::::
 
 ## Framework Integrations
 
@@ -221,6 +237,10 @@ print(client.get_address())
 - Only signatures sent to API
 - All payments verifiable on [Basescan](https://basescan.org)
 
+:::warning
+Never commit `BLOCKRUN_WALLET_KEY` to git or share your private key. Use a dedicated agent wallet funded with only what the session needs.
+:::
+
 ## Error Handling
 
 ```python
@@ -249,10 +269,20 @@ except RateLimitError:
 4. **Monitor balance** — Set up alerts when low
 5. **Log model usage** — Track costs per task type
 
-## Next Steps
+## What's next?
 
-- [ElizaOS Integration](../frameworks/elizaos.md)
-- [AgentKit Integration](../frameworks/agentkit.md)
-- [Python SDK](../sdks/python.md)
-- [TypeScript SDK](../sdks/typescript.md)
-- [Wallet Setup](wallet-setup.md)
+::::cards
+
+:::card{title="ElizaOS Integration" href="../frameworks/elizaos.md" icon="Boxes"}
+Drop the BlockRun plugin into an ElizaOS agent.
+:::
+
+:::card{title="SDK reference" href="sdk-developers.md" icon="Code"}
+Full Python, TypeScript, and Go SDK APIs, config, and error handling.
+:::
+
+:::card{title="Set up your wallet" href="wallet-setup.md" icon="Wallet"}
+Fund on Base or Solana, manage budgets, and understand settlement.
+:::
+
+::::

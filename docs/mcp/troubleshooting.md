@@ -1,6 +1,15 @@
+---
+title: MCP Troubleshooting
+description: Fix common BlockRun MCP issues — installation, wallet, connection, tool, and environment errors — with copy-paste solutions and quick fixes.
+---
+
 # MCP Troubleshooting
 
 Common issues and solutions for BlockRun MCP.
+
+:::tip
+Most problems are solved by restarting Claude Code and confirming the wallet is funded on the active chain — jump to the [Quick Reference](#quick-reference) for the fastest fix.
+:::
 
 ## Installation Issues
 
@@ -206,7 +215,11 @@ echo $BASE_RPC_URL
 blockrun_wallet action:"chain" chain:"solana"   # provisions + activates the Solana wallet
 blockrun_wallet action:"setup"                  # Solana address + funding QR
 ```
-Applies instantly — no env vars, no file editing, no restart. Switch back with `chain:"base"`. Note: `blockrun_image`, `blockrun_music`, `blockrun_speech`, `blockrun_video`, paid stock `blockrun_price`, `blockrun_chat routing:"smart"`, and native Anthropic (`claude-*`) settle on Base only.
+Applies instantly — no env vars, no file editing, no restart. Switch back with `chain:"base"`.
+
+:::info
+`blockrun_image`, `blockrun_music`, `blockrun_speech`, `blockrun_video`, paid stock `blockrun_price`, `blockrun_chat routing:"smart"`, and native Anthropic (`claude-*`) settle on Base only.
+:::
 
 ## Getting Help
 
@@ -231,14 +244,21 @@ DEBUG=* claude
 
 If you can't resolve an issue:
 
-1. Gather info:
-   - Error message
-   - Steps to reproduce
-   - Claude Code version: `claude --version`
-   - Node version: `node --version`
-   - OS: `uname -a`
+::::steps
 
-2. Report at [GitHub Issues](https://github.com/BlockRunAI/blockrun-mcp/issues)
+:::step{title="Gather info"}
+- Error message
+- Steps to reproduce
+- Claude Code version: `claude --version`
+- Node version: `node --version`
+- OS: `uname -a`
+:::
+
+:::step{title="Open an issue"}
+Report at [GitHub Issues](https://github.com/BlockRunAI/blockrun-mcp/issues).
+:::
+
+::::
 
 ## Quick Reference
 
@@ -249,3 +269,21 @@ If you can't resolve an issue:
 | No balance | Fund wallet on Base |
 | Network error | Check internet, retry |
 | Tool error | `claude mcp list` to verify |
+
+## What's next?
+
+::::cards
+
+:::card{title="BlockRun MCP" href="blockrun-mcp.md" icon="Boxes"}
+Setup, tools, and configuration for the MCP server.
+:::
+
+:::card{title="Wallet setup" href="../getting-started/wallet-setup.md" icon="Wallet"}
+Fund on Base or Solana and fix balance issues at the source.
+:::
+
+:::card{title="Claude Code guide" href="../getting-started/claude-code.md" icon="Terminal"}
+The 60-second install and first-call walkthrough.
+:::
+
+::::

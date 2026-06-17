@@ -1,8 +1,17 @@
+---
+title: x402 Endpoints
+description: Complete catalog of every x402-enabled BlockRun endpoint across all gateway domains — for x402scan, the Circle ecosystem, and protocol integrators.
+---
+
 # x402 Endpoints
 
 Complete catalog of every x402-enabled endpoint BlockRun exposes, across all gateway domains. Intended for x402scan, the Circle x402 ecosystem, and protocol integrators.
 
 For programmatic integration, prefer the discovery endpoints at the bottom of this page — they always reflect the live state.
+
+:::tip{title="Don't hard-code prices"}
+Pricing is embedded in every 402 response and published live at `/api/v1/models`. Read amounts at request time rather than copying them from this page.
+:::
 
 ## Gateways
 
@@ -148,3 +157,21 @@ Pricing is also embedded in every 402 response, so clients should not hard-code 
 - GitHub: [BlockRunAI](https://github.com/BlockRunAI)
 - Site: [blockrun.ai](https://blockrun.ai)
 - x402 protocol: [x402.org](https://x402.org)
+
+## What's next?
+
+::::cards
+
+:::card{title="Payment Flow" href="payment-flow.md" icon="Route"}
+The request, signature, and settlement sequence every endpoint follows.
+:::
+
+:::card{title="How x402 Works" href="how-it-works.md" icon="Zap"}
+Protocol concepts behind the 402 response and on-chain settlement.
+:::
+
+:::card{title="Security" href="security.md" icon="Wallet"}
+The threat model and non-custodial guarantees for paid calls.
+:::
+
+::::

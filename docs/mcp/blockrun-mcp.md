@@ -1,3 +1,8 @@
+---
+title: BlockRun MCP
+description: A Model Context Protocol server that gives Claude Code 50+ models, crypto data, voice calls, media generation, and prediction markets with zero API keys.
+---
+
 # BlockRun MCP
 
 Give Claude Code access to 50+ AI models, 80+ crypto data endpoints, voice calls, image/video/music generation, prediction markets, and a sandbox runtime — all with zero API keys.
@@ -13,6 +18,10 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 That's it. Restart Claude Code and the MCP is available.
+
+:::tip
+Failed calls aren't charged. You only pay when a request succeeds and settles on-chain.
+:::
 
 ## What It Enables
 
@@ -35,28 +44,40 @@ That's it. Restart Claude Code and the MCP is available.
 
 ## Setup
 
-### 1. Install MCP
+::::steps
 
+:::step{title="Install the MCP"}
 ```bash
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
+:::
 
-### 2. Setup Wallet
-
+:::step{title="Set up the wallet"}
 In Claude Code:
 ```
 blockrun setup
 ```
 
 This creates or displays your wallet address.
+:::
 
-### 3. Fund Wallet
-
+:::step{title="Fund the wallet"}
 Send USDC to your wallet on Base network:
 - [Coinbase](https://coinbase.com) — withdraw directly to Base
 - [Base Bridge](https://bridge.base.org) — bridge from Ethereum
 
 Recommended: $5-20 to start.
+:::
+
+:::step{title="Verify"}
+```
+blockrun balance
+```
+
+Or ask: "What's my BlockRun wallet balance?"
+:::
+
+::::
 
 ### Pay on Solana (optional)
 
@@ -69,15 +90,9 @@ blockrun_wallet action:"setup"                  # shows the Solana address + fun
 
 Then send USDC (SPL) on the **Solana** network — from Coinbase (pick "Solana"), Phantom, Solflare, or Backpack. Switch back anytime with `blockrun_wallet action:"chain" chain:"base"`.
 
+:::info
 **Base-only** (these need Base regardless of active chain): `blockrun_image`, `blockrun_music`, `blockrun_speech`, `blockrun_video`, paid stock `blockrun_price`, `blockrun_chat routing:"smart"`, and native Anthropic (`claude-*`) models. On Solana, pass `model:` or `mode:` to `blockrun_chat` explicitly.
-
-### 4. Verify
-
-```
-blockrun balance
-```
-
-Or ask: "What's my BlockRun wallet balance?"
+:::
 
 ## Available Tools
 
@@ -249,3 +264,21 @@ Fund your wallet if needed.
 - [GitHub: blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)
 - [npm: @blockrun/mcp](https://www.npmjs.com/package/@blockrun/mcp)
 - [Claude Code Users Guide](../getting-started/claude-code.md)
+
+## What's next?
+
+::::cards
+
+:::card{title="Claude Code guide" href="../getting-started/claude-code.md" icon="Terminal"}
+The 60-second walkthrough for installing and using the MCP.
+:::
+
+:::card{title="Skills" href="skills.md" icon="Zap"}
+Add prompt-based skills that teach Claude how to use the tools.
+:::
+
+:::card{title="Troubleshooting" href="troubleshooting.md" icon="Search"}
+Fix install, wallet, network, and tool issues fast.
+:::
+
+::::

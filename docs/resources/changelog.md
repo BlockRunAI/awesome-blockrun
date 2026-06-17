@@ -1,6 +1,11 @@
+---
+title: Changelog
+description: All notable changes to BlockRun — gateway endpoints, model lineup, pricing, and SDK releases, newest first.
+---
+
 # Changelog
 
-All notable changes to BlockRun.
+All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
 ## [2026-05-24 — late]
 

@@ -1,3 +1,8 @@
+---
+title: Models
+description: List and price 50+ LLMs plus image, video, and music models from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+---
+
 # Models
 
 BlockRun provides access to models from multiple providers through a unified API.
@@ -50,7 +55,9 @@ Each model object in the response includes:
 
 ## Available Models (50+ across chat / image / video / voice)
 
-> 50+ models total across all categories: 41 visible LLMs + 8 image + 4 video + 1 music, plus ~36 deprecated / superseded LLM IDs that remain routable for backwards compatibility but are hidden from the catalog.
+:::note
+50+ models total across all categories: 41 visible LLMs + 8 image + 4 video + 1 music, plus ~36 deprecated / superseded LLM IDs that remain routable for backwards compatibility but are hidden from the catalog.
+:::
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
 
@@ -101,7 +108,9 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 | `anthropic/claude-sonnet-4.6` | Claude Sonnet 4.6 | $3.00/M | $15.00/M | 200K |
 | `anthropic/claude-haiku-4.5` | Claude Haiku 4.5 | $1.00/M | $5.00/M | 200K |
 
-**Opus 4.7 / 4.8 notes** — these flagship models reject all sampling parameters (`temperature`, `top_p`, `top_k`); the gateway drops them so calls succeed. They use adaptive thinking (built-in, not API-configurable). The model may decline a request with HTTP 200 and `stop_reason: "refusal"` (`finish_reason: "content_filter"` on the OpenAI-compatible endpoint) — check the stop reason before reading content.
+:::warning{title="Opus 4.7 / 4.8 behavior"}
+These flagship models reject all sampling parameters (`temperature`, `top_p`, `top_k`); the gateway drops them so calls succeed. They use adaptive thinking (built-in, not API-configurable). The model may decline a request with HTTP 200 and `stop_reason: "refusal"` (`finish_reason: "content_filter"` on the OpenAI-compatible endpoint) — check the stop reason before reading content.
+:::
 
 ### Google Gemini
 
@@ -207,7 +216,9 @@ The SDK calculates the exact price before each request.
 
 ## Example
 
-**Python:**
+::::tabs
+
+:::tab{label="Python"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -218,8 +229,9 @@ for model in models:
     print(f"{model['id']}: ${model['inputPrice']}/M input, context: {model['context_window']}")
     print(f"  Categories: {', '.join(model.get('categories', []))}")
 ```
+:::
 
-**TypeScript:**
+:::tab{label="TypeScript"}
 ```typescript
 import { LLMClient } from '@blockrun/llm';
 
@@ -231,3 +243,24 @@ for (const model of models) {
   console.log(`  Categories: ${model.categories.join(', ')}`);
 }
 ```
+:::
+
+::::
+
+## What's next?
+
+::::cards
+
+:::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
+Call any model ID from this catalog through the OpenAI-compatible endpoint.
+:::
+
+:::card{title="Image Generation" href="image-generation.md" icon="Image"}
+Generate images with the GPT Image, Nano Banana, and CogView model family.
+:::
+
+:::card{title="Save 78% with ClawRouter" href="../products/routing/clawrouter.md" icon="Route"}
+Route each prompt to the cheapest model that can handle it, automatically.
+:::
+
+::::

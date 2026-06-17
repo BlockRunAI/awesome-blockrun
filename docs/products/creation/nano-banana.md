@@ -1,8 +1,17 @@
+---
+title: nano-banana
+description: nano-banana is a Claude Code skill for generating images via Nano Banana, GPT Image, CogView-4, or Grok Imagine — paid per image with USDC, no API keys.
+---
+
 # nano-banana
 
 Image generation via micropayments. No API keys needed.
 
 nano-banana is a Claude Code skill that lets you generate images using Google's Nano Banana, OpenAI GPT Image, CogView-4, or xAI Grok Imagine models. Your private key never leaves your machine.
+
+:::note{title="What you need"}
+A funded wallet on Base — $5–10 covers roughly 50–100 images. Your private key stays local; only EIP-712 signatures are sent.
+:::
 
 ## Available Models
 
@@ -160,7 +169,20 @@ Complex prompts may take longer. Wait up to 30 seconds.
 - All payments verifiable on [Basescan](https://basescan.org)
 - No account needed — just a wallet
 
-## Links
+## What's next?
 
-- [GitHub: nano-banana-blockrun](https://github.com/BlockRunAI/nano-banana-blockrun)
-- [Wallet Setup](../../getting-started/wallet-setup.md)
+::::cards
+
+:::card{title="Music generation" href="music-generation.md" icon="Zap"}
+Generate full-length tracks with lyrics or instrumental, paid per track.
+:::
+
+:::card{title="Wallet setup" href="../../getting-started/wallet-setup.md" icon="Wallet"}
+Fund a Base wallet to start generating.
+:::
+
+:::card{title="GitHub: nano-banana-blockrun" href="https://github.com/BlockRunAI/nano-banana-blockrun" icon="Code"}
+Source for the nano-banana Claude Code skill.
+:::
+
+::::

@@ -1,3 +1,8 @@
+---
+title: Video Generation API
+description: Generate short AI videos with Sora 2, Grok Imagine, or Seedance — async submit-poll-settle, paid per call in USDC, no charge on timeout or failure.
+---
+
 # Video Generation API
 
 Generate short AI videos with **OpenAI Sora 2**, **xAI Grok Imagine**, or **ByteDance Seedance**. Text (or image) prompt in, MP4 URL out — paid per call with USDC on Base via x402.
@@ -6,7 +11,9 @@ Generate short AI videos with **OpenAI Sora 2**, **xAI Grok Imagine**, or **Byte
 - **Poll:** `GET https://blockrun.ai/v1/videos/generations/{id}?model=…&duration=…`
 - **Payment:** x402, **USDC on Base** mainnet (`network: "base"`, `x402Version: 2`). Minimum charge $0.001.
 
-> The `/v1/...` and `/api/v1/...` paths are equivalent (the gateway rewrites `/v1` → `/api/v1`). Examples below use `/v1`.
+:::note
+The `/v1/...` and `/api/v1/...` paths are equivalent (the gateway rewrites `/v1` → `/api/v1`). Examples below use `/v1`.
+:::
 
 ---
 
@@ -24,8 +31,21 @@ A real `azure/sora-2` clip generated through this exact API — 4s, 720p, synced
 
 Video generation is **asynchronous and two-step**. A clip takes ~60–180s upstream, far longer than a single HTTP request should stay open, so the flow is:
 
-1. **`POST /v1/videos/generations`** — verifies your x402 payment (verify only, **no charge yet**) and submits the upstream job. Returns `202` in ~3–20s with a job `id` and a `poll_url`.
-2. **`GET {poll_url}`** — poll every 5–10s with an `x-payment` header signed by the **same wallet**. While the job runs you get `202`. When it finishes you get `200` with the video URL, and **that is the moment you are charged** (settlement happens on the first `completed` poll).
+::::steps
+
+:::step{title="Submit the job"}
+**`POST /v1/videos/generations`** — verifies your x402 payment (verify only, **no charge yet**) and submits the upstream job. Returns `202` in ~3–20s with a job `id` and a `poll_url`.
+:::
+
+:::step{title="Poll until completed"}
+**`GET {poll_url}`** — poll every 5–10s with an `x-payment` header signed by the **same wallet**. While the job runs you get `202`. When it finishes you get `200` with the video URL, and **that is the moment you are charged** (settlement happens on the first `completed` poll).
+:::
+
+::::
+
+:::tip{title="No charge on timeout or failure"}
+Settlement only fires on a `completed` poll. If the upstream job fails, times out, or you never poll, **no USDC moves**. Re-polling an already-settled job returns the same video URL (`payment.status: "already_settled"`) — you are never double-charged.
+:::
 
 Key guarantees:
 
@@ -37,7 +57,9 @@ Key guarantees:
 | **Replay-protected** | Each signed authorization can submit exactly one job (nonce claim on POST). |
 | **Durable output** | The clip is mirrored to BlockRun's GCS bucket before settlement; `data[].url` is the permanent BlockRun-hosted URL, `data[].source_url` is the (often temporary) upstream URL. |
 
-> **SDKs and ClawRouter hide all of this.** The TypeScript `VideoClient` and the local ClawRouter proxy run the submit+poll loop for you, so you make a single call and get the finished video back. The two-step contract below is only relevant if you call the raw HTTP API yourself.
+:::note{title="SDKs and ClawRouter hide all of this"}
+The TypeScript `VideoClient` and the local ClawRouter proxy run the submit+poll loop for you, so you make a single call and get the finished video back. The two-step contract below is only relevant if you call the raw HTTP API yourself.
+:::
 
 ---
 
@@ -67,7 +89,9 @@ Whether you can seed generation from an image — and how — depends on the sub
 - **A specific real person**: you cannot upload a face to Sora (see the note below). Use **Seedance 2.0 / 2.0-fast + a RealFace `ta_xxxx` asset** — enroll the person once *with their consent* ([RealFace](realface.md), ~1-min on-phone liveness, $0.01), then pass `real_face_asset_id`. Details in [Character consistency](#character-consistency-seedance-20-fast--pro) below.
 - **An AI character / mascot**: same flow with a [Virtual Portrait](virtual-portrait.md) asset (no KYC, $0.01).
 
-> **Sora reference images cannot contain human faces.** Both OpenAI's and Azure's Sora 2 **reject reference images that contain human faces** — a three-stage moderation pipeline blocks any recognizable person to prevent deepfakes. OpenAI's only consented-likeness path is *Cameo* (per-person live verification), not a general image upload. So on BlockRun: **`azure/sora-2` does image-to-video for non-human subjects** (`image_url`, resized server-side to Sora's exact dimensions); and **real-person video goes through Seedance 2.0 + RealFace** (the consent-based route above).
+:::warning{title="Sora reference images cannot contain human faces"}
+Both OpenAI's and Azure's Sora 2 **reject reference images that contain human faces** — a three-stage moderation pipeline blocks any recognizable person to prevent deepfakes. OpenAI's only consented-likeness path is *Cameo* (per-person live verification), not a general image upload. So on BlockRun: **`azure/sora-2` does image-to-video for non-human subjects** (`image_url`, resized server-side to Sora's exact dimensions); and **real-person video goes through Seedance 2.0 + RealFace** (the consent-based route above).
+:::
 
 ---
 
@@ -203,7 +227,10 @@ On settlement the response also carries `PAYMENT-RESPONSE` and `X-Payment-Receip
 
 ## Examples
 
-### TypeScript SDK (`@blockrun/llm`) — handles submit + poll for you
+::::tabs
+
+:::tab{label="TypeScript SDK"}
+The `@blockrun/llm` `VideoClient` handles submit + poll for you.
 
 ```ts
 import { VideoClient } from "@blockrun/llm";
@@ -221,19 +248,21 @@ console.log(result.txHash);       // settlement tx
 
 `VideoClient` polls internally up to its `timeout` (default 300000ms / 5 min). Options mirror the request params: `model`, `imageUrl`, `realFaceAssetId`, `durationSeconds`, `aspectRatio`, `resolution`, `generateAudio`, `seed`, `watermark`, `returnLastFrame`.
 
-> The Python SDK does not yet ship a video helper — use the raw two-step HTTP flow below (sign the POST and the poll with the same wallet), or ClawRouter.
+The Python SDK does not yet ship a video helper — use the raw two-step HTTP flow (sign the POST and the poll with the same wallet), or ClawRouter.
+:::
 
-### ClawRouter (local proxy — auto x402, single call)
-
-ClawRouter signs payments and runs the poll loop, so you just POST and wait for the finished clip.
+:::tab{label="ClawRouter"}
+ClawRouter (local proxy) signs payments and runs the poll loop, so you just POST and wait for the finished clip.
 
 ```bash
 curl -X POST http://localhost:8402/v1/videos/generations \
   -H "Content-Type: application/json" \
   -d '{ "model": "azure/sora-2", "prompt": "a neon-lit cyberpunk street, slow dolly forward", "duration_seconds": 8 }'
 ```
+:::
 
-### Raw HTTP — two steps
+:::tab{label="Raw HTTP"}
+Two steps — submit, then poll until completed.
 
 **Step 1 — submit:**
 
@@ -252,6 +281,9 @@ curl "https://blockrun.ai/v1/videos/generations/azure%3Avidjob_abc123?model=azur
   -H "X-Payment: $FRESH_PAYMENT_HEADER_SAME_WALLET"
 # → 202 in_progress … repeat every 5–10s … → 200 completed { data:[{url}], payment:{status:"settled"} }
 ```
+:::
+
+::::
 
 ### Image-to-video (Grok / Seedance)
 
@@ -307,9 +339,22 @@ Set your HTTP client timeout to at least 180s per poll. The POST handler itself 
 
 ---
 
-## Links
+## What's next?
 
-- [Virtual Portrait Enrollment](virtual-portrait.md) — zero-KYC `ta_xxx` for AI-character consistency
-- [RealFace Enrollment](realface.md) — real-person likeness with on-phone liveness (no KYC)
-- [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip)
-- [Image Generation](image-generation.md) · [Music Generation](music-generation.md) · [Error Handling](errors.md)
+::::cards
+
+:::card{title="Virtual Portrait" href="virtual-portrait.md" icon="Boxes"}
+Zero-KYC `ta_xxx` enrollment for AI-character consistency across clips.
+:::
+
+:::card{title="RealFace Enrollment" href="realface.md" icon="Image"}
+Real-person likeness with on-phone liveness — still no KYC.
+:::
+
+:::card{title="Image Generation" href="image-generation.md" icon="Image"}
+Generate stills you can then seed into image-to-video.
+:::
+
+::::
+
+Also useful: [Music Generation](music-generation.md) · [Error Handling](errors.md) · [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip).

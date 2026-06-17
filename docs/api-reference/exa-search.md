@@ -1,3 +1,8 @@
+---
+title: Exa Web Search
+description: Real-time neural web search for AI agents — search, read, synthesize, and discover across the live web, paid per call in USDC over x402.
+---
+
 # Exa Web Search
 
 Real-time neural web search for AI agents. Four endpoints that give your agent a live internet connection — search, read, synthesize, and discover.
@@ -246,28 +251,24 @@ const news = await client.exaSearch("Coinbase x402 announcement", {
 
 ## SDK Usage
 
-### TypeScript
+::::tabs
 
-```typescript
-import { LLMClient } from '@blockrun/llm';
+:::tab{label="cURL"}
+```bash
+# Step 1: Request returns 402 with payment instructions
+curl -X POST https://blockrun.ai/api/v1/exa/search \
+  -H "Content-Type: application/json" \
+  -d '{"query": "x402 protocol implementations", "numResults": 5}'
 
-const client = new LLMClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
-
-// Search
-const results = await client.exaSearch("x402 payment protocol", { numResults: 5 });
-
-// Get a cited answer
-const answer = await client.exaAnswer("What is the x402 protocol?");
-
-// Read page contents
-const pages = await client.exaContents(["https://x402.org", "https://blockrun.ai"]);
-
-// Find similar pages
-const similar = await client.exaFindSimilar("https://blockrun.ai", { numResults: 10 });
+# Step 2: Pay and retry (SDK handles this automatically)
+curl -X POST https://blockrun.ai/api/v1/exa/search \
+  -H "Content-Type: application/json" \
+  -H "X-PAYMENT: <signed-payment-payload>" \
+  -d '{"query": "x402 protocol implementations", "numResults": 5}'
 ```
+:::
 
-### Python
-
+:::tab{label="Python"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -286,21 +287,29 @@ pages = client.exa_contents(["https://x402.org", "https://blockrun.ai"])
 # Find similar pages
 similar = client.exa_find_similar("https://blockrun.ai", num_results=10)
 ```
+:::
 
-### cURL
+:::tab{label="TypeScript"}
+```typescript
+import { LLMClient } from '@blockrun/llm';
 
-```bash
-# Step 1: Request returns 402 with payment instructions
-curl -X POST https://blockrun.ai/api/v1/exa/search \
-  -H "Content-Type: application/json" \
-  -d '{"query": "x402 protocol implementations", "numResults": 5}'
+const client = new LLMClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
 
-# Step 2: Pay and retry (SDK handles this automatically)
-curl -X POST https://blockrun.ai/api/v1/exa/search \
-  -H "Content-Type: application/json" \
-  -H "X-PAYMENT: <signed-payment-payload>" \
-  -d '{"query": "x402 protocol implementations", "numResults": 5}'
+// Search
+const results = await client.exaSearch("x402 payment protocol", { numResults: 5 });
+
+// Get a cited answer
+const answer = await client.exaAnswer("What is the x402 protocol?");
+
+// Read page contents
+const pages = await client.exaContents(["https://x402.org", "https://blockrun.ai"]);
+
+// Find similar pages
+const similar = await client.exaFindSimilar("https://blockrun.ai", { numResults: 10 });
 ```
+:::
+
+::::
 
 ---
 
@@ -339,8 +348,20 @@ Payment is in USDC on Base or Solana via x402. No account needed — your wallet
 | 503 | Exa integration not configured |
 | 502 | Exa upstream error |
 
-## Links
+## What's next?
 
-- [Chat Completions](chat-completions.md)
-- [Search (Grok live search)](search.md)
-- [Error Handling](errors.md)
+::::cards
+
+:::card{title="Search (Grok live search)" href="search.md" icon="Search"}
+Real-time web, news, and X/Twitter search via Grok Live Search.
+:::
+
+:::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
+Feed grounded search results into any of 50+ LLMs for synthesis.
+:::
+
+:::card{title="Error handling" href="errors.md" icon="Code"}
+Status codes and how the SDKs surface payment and upstream failures.
+:::
+
+::::

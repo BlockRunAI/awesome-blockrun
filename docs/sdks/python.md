@@ -1,15 +1,25 @@
+---
+title: Python SDK
+description: The official BlockRun Python SDK — call 50+ LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+---
+
 # Python SDK
 
-The official Python SDK for BlockRun.
+The official Python SDK for BlockRun — pay per call in USDC, no API keys or subscriptions.
 
-## Installation
+:::tip{title="In a hurry?"}
+New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md) first to fund a wallet, then come back for the full SDK reference.
+:::
 
+::::steps
+
+:::step{title="Install"}
 ```bash
 pip install blockrun-llm
 ```
+:::
 
-## Quick Start
-
+:::step{title="Make your first call"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -17,6 +27,9 @@ client = LLMClient()
 response = client.chat("openai/gpt-5.5", "Hello!")
 print(response)
 ```
+:::
+
+::::
 
 ## Configuration
 
@@ -542,7 +555,9 @@ Integration tests are automatically skipped if `BLOCKRUN_WALLET_KEY` is not set.
 
 ### Private Key Management
 
-> **Warning:** Never commit private keys to version control!
+:::warning{title="Never commit private keys"}
+Never commit private keys to version control. A leaked key can drain your funded wallet.
+:::
 
 ✅ **Do:**
 - Use environment variables for private keys
@@ -621,3 +636,21 @@ Keep the SDK updated to receive security patches:
 ```bash
 pip install --upgrade blockrun-llm
 ```
+
+## What's next?
+
+::::cards
+
+:::card{title="5-Minute Quickstart" href="../getting-started/quickstart.md" icon="Rocket"}
+Fund a wallet with USDC and make your first paid call in under five minutes.
+:::
+
+:::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
+Browse all 50+ models with live pricing to pick the right one for each call.
+:::
+
+:::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
+Understand x402, USDC settlement, and why there are no API keys.
+:::
+
+::::

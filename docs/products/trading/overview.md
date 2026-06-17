@@ -1,3 +1,8 @@
+---
+title: Trading with alpha-mcp
+description: alpha-mcp gives Claude the tools to analyze markets, execute swaps on Base, and manage risk autonomously — with hardcoded safety limits.
+---
+
 # Trading with alpha-mcp
 
 Your AI just became a trader.
@@ -69,13 +74,27 @@ alpha-mcp has hardcoded risk limits that **cannot be overridden**:
 | Min cash reserve | 50% |
 | Stop-loss trigger | 15% |
 
-See [Risk Management](risk-management.md) for details.
+:::warning{title="Limits are hardcoded"}
+These guardrails live in code, not in a prompt — neither you nor the AI can override them. See [Risk Management](risk-management.md) for the full enforcement model.
+:::
 
-## Next Steps
+## What's next?
 
-- [Installation Guide](installation.md)
-- [Tools Reference](tools.md)
-- [Risk Management](risk-management.md)
+::::cards
+
+:::card{title="Install alpha-mcp" href="installation.md" icon="Terminal"}
+Add the MCP to Claude Code and fund a wallet on Base.
+:::
+
+:::card{title="Tools reference" href="tools.md" icon="Boxes"}
+The 7 tools — signals, DEX data, sentiment, swaps, portfolio, risk, memory.
+:::
+
+:::card{title="Risk management" href="risk-management.md" icon="TrendingUp"}
+How the hardcoded safety limits protect your capital.
+:::
+
+::::
 
 ## Links
 

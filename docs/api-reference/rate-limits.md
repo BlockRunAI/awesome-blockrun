@@ -1,6 +1,15 @@
+---
+title: Rate Limits
+description: Paid inference has no BlockRun-side quota — your only ceiling is the upstream provider's RPM/TPM, surfaced as a 429 with a Retry-After hint.
+---
+
 # Rate Limits
 
 BlockRun's rate-limiting model is intentionally minimal: **paid inference endpoints have no platform-side quota.** You pay per call in USDC via x402, and the cost of a paid request is the only cap on call volume. The effective rate limit your code will see comes from the upstream provider whose model you called (OpenAI, Anthropic, Google, etc.) — not from BlockRun's gateway.
+
+:::info{title="No platform quota on paid inference"}
+There is **no per-wallet quota, no daily cap, no TPM/RPM limit** imposed by BlockRun on paid inference. The economic cost of each call (settled in USDC at request time) is the abuse boundary. Only discovery/metadata endpoints carry small per-IP limits.
+:::
 
 ## Summary
 
@@ -111,3 +120,21 @@ with HTTP 429 and `X-RateLimit-Reset: <unix-ms>`. Wait until reset, then retry.
 - **Paid inference:** there is no platform cap; the upstream provider's per-model RPM/TPM is your ceiling. Concurrency above that ceiling requires either fail-over to other providers or enterprise dedicated capacity.
 - **Discovery endpoints:** cache locally — `/v1/models` updates only when we ship a model change.
 - **Enterprise dedicated capacity:** isolated key pools, reserved provider TPM, custom SLAs. Contact us.
+
+## What's next?
+
+::::cards
+
+:::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
+The paid LLM endpoint — where upstream RPM/TPM limits actually apply.
+:::
+
+:::card{title="Error Handling" href="errors.md" icon="Code"}
+The full gateway error envelope, including the 429 shape.
+:::
+
+:::card{title="Models" href="models.md" icon="Boxes"}
+The discovery endpoint to cache locally and avoid the per-IP metadata limit.
+:::
+
+::::

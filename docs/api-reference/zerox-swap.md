@@ -1,3 +1,8 @@
+---
+title: 0x Swap (DEX)
+description: Best-execution DEX aggregation for AI agents — a free public passthrough to the 0x V2 Swap API (Permit2 + Gasless V2), monetized via a 20 bps affiliate fee.
+---
+
 # 0x Swap (DEX)
 
 Best-execution DEX aggregation for AI agents. BlockRun proxies the [0x V2 Swap API](https://docs.0x.org/0x-swap-api/introduction) — Permit2 swaps and Gasless V2 — as a **free public passthrough**. No API key required from the caller. No x402 payment.
@@ -24,7 +29,9 @@ AI agents that swap tokens. Ask an agent to rebalance a wallet, take profit, dol
 | `/api/v1/zerox/gasless/chains` | GET | — | List chains where Gasless V2 is supported |
 | `/api/v1/zerox/swap/chains` | GET | — | List chains where Swap V2 is supported |
 
-> **Note on affiliate injection.** BlockRun force-sets `swapFeeRecipient`, `swapFeeBps=20`, and `swapFeeToken=<sellToken>` on every `price` and `quote` call (Swap and Gasless). Caller-supplied values for these three params are stripped before the request reaches 0x — this slot is BlockRun's.
+:::note{title="Affiliate injection"}
+BlockRun force-sets `swapFeeRecipient`, `swapFeeBps=20`, and `swapFeeToken=<sellToken>` on every `price` and `quote` call (Swap and Gasless). Caller-supplied values for these three params are stripped before the request reaches 0x — this slot is BlockRun's.
+:::
 
 ---
 
@@ -50,8 +57,9 @@ The fee amount is also returned in the response under `fees.integratorFee`. Disp
 
 Three steps: get a firm quote → sign the Permit2 EIP-712 → submit the transaction yourself (you pay gas).
 
-### 1. Indicative price
+::::steps
 
+:::step{title="Indicative price"}
 ```bash
 curl "https://blockrun.ai/api/v1/zerox/price?\
 chainId=8453&\
@@ -64,9 +72,9 @@ taker=0xYourWallet"
 (Above: 10 USDC → WETH on Base. `chainId=8453` is Base mainnet.)
 
 Use `price` to display a quote in your UI without committing the route. No EIP-712 is returned.
+:::
 
-### 2. Firm quote
-
+:::step{title="Firm quote"}
 ```bash
 curl "https://blockrun.ai/api/v1/zerox/quote?\
 chainId=8453&\
@@ -85,12 +93,15 @@ Response contains:
 - `fees.integratorFee.type` — `"volume"`
 
 The fee math is `(20 / 10000) * sellAmount` in the sell-token's smallest unit. For 10 USDC (10_000_000 base units), `integratorFee.amount` is `20000` (= $0.02).
+:::
 
-### 3. Sign and submit
-
+:::step{title="Sign and submit"}
 Sign `permit2.eip712` with the taker wallet, append the signature to `transaction.data` per the 0x Permit2 contract ABI, and broadcast `transaction`. Your caller pays gas. The 20 bps is settled to BlockRun in the same transaction.
 
 For end-to-end signing examples in TypeScript/viem and Python/web3.py, see the [0x Permit2 quickstart](https://docs.0x.org/0x-swap-api/guides/swap-tokens-with-0x-swap-api).
+:::
+
+::::
 
 ---
 
@@ -98,8 +109,9 @@ For end-to-end signing examples in TypeScript/viem and Python/web3.py, see the [
 
 Four steps: firm gasless quote → sign EIP-712 (trade + optional approval) → submit signatures → poll status. Your caller never broadcasts a transaction.
 
-### 1. Firm quote
+::::steps
 
+:::step{title="Firm quote"}
 ```bash
 curl "https://blockrun.ai/api/v1/zerox/gasless/quote?\
 chainId=8453&\
@@ -110,9 +122,9 @@ taker=0xYourWallet"
 ```
 
 Response contains `trade.eip712` (always) and `approval.eip712` (only if the sell token requires a one-time Permit approval). The same `fees.integratorFee` block appears as in Swap V2.
+:::
 
-### 2. Submit signed payload
-
+:::step{title="Submit signed payload"}
 ```bash
 curl -X POST "https://blockrun.ai/api/v1/zerox/gasless/submit" \
   -H "Content-Type: application/json" \
@@ -124,14 +136,17 @@ curl -X POST "https://blockrun.ai/api/v1/zerox/gasless/submit" \
 ```
 
 Returns a `tradeHash`.
+:::
 
-### 3. Poll status
-
+:::step{title="Poll status"}
 ```bash
 curl "https://blockrun.ai/api/v1/zerox/gasless/status/<tradeHash>"
 ```
 
 Status progresses `pending → submitted → confirmed`. The 0x relayer pays gas; the affiliate fee still applies and settles on-chain at fill time.
+:::
+
+::::
 
 ### Eligibility check
 
@@ -250,14 +265,28 @@ The two paths below are present on the gateway for **BlockRun reconciliation onl
 | `/api/v1/zerox/trade-analytics/swap` | Swap V2 trade history under BlockRun's key |
 | `/api/v1/zerox/trade-analytics/gasless` | Gasless V2 trade history under BlockRun's key |
 
-> **TODO:** auth-gate these to admin callers only. Tracked separately; not blocking the public Swap surface.
+:::warning{title="Do not call from end-user agents"}
+**TODO:** auth-gate these to admin callers only. Tracked separately; not blocking the public Swap surface.
+:::
 
 ---
 
-## Links
+## What's next?
 
-- [0x Swap API docs](https://docs.0x.org/0x-swap-api/introduction)
-- [0x monetization guide](https://docs.0x.org/docs/0x-swap-api/guides/monetize-your-app-using-swap)
-- [Permit2 quickstart](https://docs.0x.org/0x-swap-api/guides/swap-tokens-with-0x-swap-api)
-- [Gasless V2 docs](https://0x.org/docs/gasless/introduction)
-- [Error Handling](errors.md)
+::::cards
+
+:::card{title="Trading Overview" href="../products/trading/overview.md" icon="TrendingUp"}
+How agents combine market data, sentiment, and 0x swaps with risk guardrails.
+:::
+
+:::card{title="Surf — Crypto Data" href="surf.md" icon="Search"}
+Prices, funding, wallet labels, and on-chain SQL to inform a swap decision.
+:::
+
+:::card{title="Error Handling" href="errors.md" icon="Code"}
+The gateway-wide error envelope; 0x bodies are passed through verbatim.
+:::
+
+::::
+
+Also useful: [0x Swap API docs](https://docs.0x.org/0x-swap-api/introduction) · [0x monetization guide](https://docs.0x.org/docs/0x-swap-api/guides/monetize-your-app-using-swap) · [Permit2 quickstart](https://docs.0x.org/0x-swap-api/guides/swap-tokens-with-0x-swap-api) · [Gasless V2 docs](https://0x.org/docs/gasless/introduction).

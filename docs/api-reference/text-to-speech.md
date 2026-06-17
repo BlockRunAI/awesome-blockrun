@@ -1,3 +1,8 @@
+---
+title: Text-to-Speech & Sound Effects API
+description: ElevenLabs voice synthesis and cinematic sound effects behind x402 — billed per character, no subscription, failed generations never charged.
+---
+
 # Text-to-Speech & Sound Effects API
 
 Ultra-realistic voice synthesis and cinematic sound effects powered by ElevenLabs, behind x402. Pay per call in USDC — no ElevenLabs subscription, no API keys.
@@ -44,7 +49,9 @@ GET  https://blockrun.ai/api/v1/audio/voices           # list voices (free)
 | `elevenlabs/multilingual-v2` | $0.10 / 1k chars | 10,000 | Studio-grade narration |
 | `elevenlabs/v3` | $0.10 / 1k chars | 5,000 | Maximum expressiveness |
 
-> Price = `(characters / 1000) × model rate`, plus a 5% platform fee, minimum **$0.001** per request.
+:::info
+Price = `(characters / 1000) × model rate`, plus a 5% platform fee, minimum **$0.001** per request. The price is quoted up front in the 402 challenge and settlement only fires after the audio is generated — a failed generation is never charged.
+:::
 
 ### Response
 
@@ -94,3 +101,21 @@ Returns the available voices with their `voice_id`, `name`, and `alias` (if mapp
 - Audio is stored by BlockRun and returned as a permanent hosted URL.
 - The price is recomputed from the request body on the paid call, so a payment signed for short text cannot be reused to synthesize longer text.
 - Settlement happens only after successful synthesis; upstream failures are not charged.
+
+## What's next?
+
+::::cards
+
+:::card{title="Voice & Phone" href="voice-phone.md" icon="Zap"}
+Place outbound AI voice calls from a wallet-owned number — synthesis plus telephony.
+:::
+
+:::card{title="Music Generation" href="music-generation.md" icon="Image"}
+Generate full tracks from a prompt, billed per track in USDC.
+:::
+
+:::card{title="Error Handling" href="errors.md" icon="Code"}
+The gateway-wide error envelope and 402 handling.
+:::
+
+::::

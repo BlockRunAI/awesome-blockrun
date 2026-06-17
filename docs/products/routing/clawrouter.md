@@ -1,8 +1,17 @@
+---
+title: ClawRouter
+description: ClawRouter is a smart LLM router for OpenClaw that picks the optimal model per prompt — up to 78% lower cost with no API keys.
+---
+
 # ClawRouter
 
 **Save 78% on LLM costs. Automatically.**
 
 ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 50+ models, zero API keys.
+
+:::tip{title="In a hurry?"}
+Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it.
+:::
 
 ## Overview
 
@@ -295,8 +304,9 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 
 Use ClawRouter's smart routing directly in your code with the `smart_chat()` method:
 
-### Python SDK
+::::tabs
 
+:::tab{label="Python"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -314,9 +324,9 @@ result = client.smart_chat("Complex reasoning task...", routing_profile="premium
 ```
 
 [Python SDK Documentation](../../sdks/python.md#smart-routing-clawrouter)
+:::
 
-### TypeScript SDK
-
+:::tab{label="TypeScript"}
 ```typescript
 import { LLMClient } from '@blockrun/llm';
 
@@ -336,9 +346,9 @@ const result2 = await client.smartChat('Complex reasoning task...', {
 ```
 
 [TypeScript SDK Documentation](../../sdks/typescript.md#smart-routing-clawrouter)
+:::
 
-### XRPL SDK (RLUSD)
-
+:::tab{label="XRPL (RLUSD)"}
 ```python
 from blockrun_llm_xrpl import LLMClient
 
@@ -351,6 +361,9 @@ print(result.routing.tier)  # "REASONING"
 ```
 
 [XRPL SDK Documentation](../../sdks/xrpl.md#smart-routing-clawrouter)
+:::
+
+::::
 
 ### Routing Profiles
 
@@ -453,12 +466,23 @@ Yes. ClawRouter is [fully open source](https://github.com/BlockRunAI/ClawRouter)
 
 No. AI model access requires internet. But routing decisions are made locally.
 
-## Next Steps
+## What's next?
 
-- [View All Models](../intelligence/overview.md)
-- [Check Pricing](../intelligence/pricing.md)
-- [Setup Wallet](../../getting-started/wallet-setup.md)
-- [View on GitHub](https://github.com/BlockRunAI/ClawRouter)
+::::cards
+
+:::card{title="View all models" href="../intelligence/overview.md" icon="Brain"}
+50+ LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, and the free NVIDIA tier.
+:::
+
+:::card{title="Check pricing" href="../intelligence/pricing.md" icon="Zap"}
+Per-token pricing, the free tier, and a what-$1-gets-you breakdown.
+:::
+
+:::card{title="Set up your wallet" href="../../getting-started/wallet-setup.md" icon="Wallet"}
+Fund on Base or Solana and start routing in minutes.
+:::
+
+::::
 
 ## Support
 

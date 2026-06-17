@@ -1,3 +1,8 @@
+---
+title: Image Generation API
+description: Generate images with GPT Image, Nano Banana, CogView-4, or Grok Imagine through one OpenAI-compatible endpoint, paid per call in USDC over x402.
+---
+
 # Image Generation API
 
 Generate images using GPT Image (including ChatGPT Images 2.0), Google Nano Banana, CogView-4, or xAI Grok Imagine.
@@ -114,10 +119,9 @@ switch to an async job you poll. The split is purely by elapsed time:
   with `PAYMENT-RESPONSE` and `X-Payment-Receipt` (on-chain tx hash) headers.
 - **`200` failed (not charged):** `{ id, object, status: "failed", model, error, payment_status: "not_charged" }`
 
-> **OpenAI-compatible clients:** plain OpenAI SDKs don't understand the `202`
-> envelope. Use a model that completes inline, or the official BlockRun SDKs —
-> Go `blockrun-llm-go ≥ v0.17.0` handles the hybrid flow transparently and
-> always returns the synchronous `{data:[...]}` shape.
+:::warning{title="OpenAI-compatible clients and the async envelope"}
+Plain OpenAI SDKs don't understand the `202` envelope. Use a model that completes inline, or the official BlockRun SDKs — Go `blockrun-llm-go ≥ v0.17.0` handles the hybrid flow transparently and always returns the synchronous `{data:[...]}` shape.
+:::
 
 ## Response
 
@@ -148,7 +152,9 @@ switch to an async job you poll. The split is purely by elapsed time:
 | `data[].backed_up` | boolean | `true` when the image was mirrored to BlockRun's GCS bucket (omitted for data URIs) |
 | `data[].revised_prompt` | string | Expanded prompt (when the model rewrites it) |
 
-> **Why both `url` and `source_url`?** Most providers return temporary URLs (OpenAI image URLs expire in 60 min, xAI Grok Imagine URLs are flagged `xai-tmp-*`). BlockRun mirrors each generated image to Google Cloud Storage and returns the permanent proxy URL as `url`.
+:::info{title="Why both url and source_url?"}
+Most providers return temporary URLs (OpenAI image URLs expire in 60 min, xAI Grok Imagine URLs are flagged `xai-tmp-*`). BlockRun mirrors each generated image to Google Cloud Storage and returns the permanent proxy URL as `url`.
+:::
 
 ## Examples
 
@@ -173,8 +179,11 @@ open "$URL"   # macOS
 xdg-open "$URL"   # Linux
 ```
 
-### Direct API (cURL)
+### Direct API
 
+::::tabs
+
+:::tab{label="cURL"}
 ```bash
 curl -X POST https://blockrun.ai/api/v1/images/generations \
   -H "Content-Type: application/json" \
@@ -185,9 +194,9 @@ curl -X POST https://blockrun.ai/api/v1/images/generations \
     "size": "1024x1024"
   }'
 ```
+:::
 
-### Python
-
+:::tab{label="Python"}
 ```python
 from blockrun_llm import ImageClient
 
@@ -209,9 +218,9 @@ result = client.generate(
 )
 print(result.data[0].url)
 ```
+:::
 
-### TypeScript
-
+:::tab{label="TypeScript"}
 ```typescript
 import { ImageClient } from '@blockrun/llm';
 
@@ -231,6 +240,9 @@ const result2 = await client.generate('A futuristic AI robot', {
 });
 console.log(result2.data[0].url);
 ```
+:::
+
+::::
 
 ## Pricing
 
@@ -291,11 +303,20 @@ response = client.images.generate(
 print(response.data[0].url)
 ```
 
-## Links
+## What's next?
 
-- [Video Generation](video-generation.md)
-- [Image Editing (img2img)](image-editing.md)
-- [Music Generation](music-generation.md)
-- [nano-banana Skill](../products/creation/nano-banana.md)
-- [Intelligence Pricing](../products/intelligence/pricing.md)
-- [Error Handling](errors.md)
+::::cards
+
+:::card{title="Image Editing (img2img)" href="image-editing.md" icon="Image"}
+Edit or fuse existing images with the same model lineup and settlement flow.
+:::
+
+:::card{title="Video Generation" href="video-generation.md" icon="Image"}
+Generate video clips with Grok Imagine and Seedance over the same async flow.
+:::
+
+:::card{title="Error handling" href="errors.md" icon="Code"}
+Status codes, content-policy rejections, and how the SDKs surface failures.
+:::
+
+::::

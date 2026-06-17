@@ -1,10 +1,17 @@
+---
+title: music-generation
+description: Generate full-length AI music tracks with lyrics, instrumental, or style prompts via MiniMax — paid per track with USDC on Base, no API keys.
+---
+
 # music-generation
 
 AI music generation via micropayments. No API keys needed.
 
 Generate full-length music tracks with lyrics, instrumental, or custom style prompts — paid per track with USDC on Base.
 
-> **Note:** MiniMax always generates a ~3 minute track per call. Generation takes 1-3 minutes. Plan accordingly.
+:::note
+MiniMax always generates a ~3 minute track per call. Generation takes 1-3 minutes. Plan accordingly.
+:::
 
 ## Available Models
 
@@ -57,6 +64,10 @@ POST /api/v1/audio/generations
 
 The `url` is a time-limited CDN link (expires in ~24h). Download immediately if you need to store the file.
 
+:::warning{title="Set a long client timeout"}
+Generation takes 1-3 minutes. Do not set your client timeout below 200 seconds or the request will abort before the track is ready.
+:::
+
 ## Payment
 
 Same x402 flow as all BlockRun endpoints:
@@ -78,8 +89,11 @@ Same x402 flow as all BlockRun endpoints:
 }
 ```
 
-## Usage with Python SDK
+## Usage
 
+::::tabs
+
+:::tab{label="Python"}
 ```python
 import blockrun_llm
 from blockrun_llm.x402 import parse_payment_required, create_payment_payload
@@ -120,9 +134,9 @@ track_url = result.json()["data"][0]["url"]
 print(f"Track: {track_url}")
 print(f"Tx: {result.headers['X-Payment-Receipt']}")
 ```
+:::
 
-## Usage with curl
-
+:::tab{label="curl"}
 ```bash
 # Step 1: get 402
 curl -s -X POST https://blockrun.ai/api/v1/audio/generations \
@@ -131,6 +145,9 @@ curl -s -X POST https://blockrun.ai/api/v1/audio/generations \
 
 # Step 2: pay and generate (use SDK for signing)
 ```
+:::
+
+::::
 
 ## Via BlockRun MCP (Claude Code)
 
@@ -184,8 +201,20 @@ Insufficient USDC balance. Check your wallet on [Basescan](https://basescan.org)
 ### "Cannot specify lyrics when instrumental=true"
 Remove `lyrics` field or set `instrumental: false`.
 
-## Links
+## What's next?
 
-- [API Endpoint](https://blockrun.ai/api/v1/audio/generations)
-- [Image Generation (nano-banana)](nano-banana.md)
-- [Wallet Setup](../../getting-started/wallet-setup.md)
+::::cards
+
+:::card{title="Image generation (nano-banana)" href="nano-banana.md" icon="Image"}
+Generate images via micropayments with the same x402 flow.
+:::
+
+:::card{title="Wallet setup" href="../../getting-started/wallet-setup.md" icon="Wallet"}
+Fund a Base wallet to start generating tracks.
+:::
+
+:::card{title="API endpoint" href="https://blockrun.ai/api/v1/audio/generations" icon="Code"}
+The live `/api/v1/audio/generations` endpoint.
+:::
+
+::::

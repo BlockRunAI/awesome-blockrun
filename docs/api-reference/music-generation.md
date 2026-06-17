@@ -1,8 +1,15 @@
+---
+title: Music Generation API
+description: Generate full-length music tracks with lyrics, instrumental, or custom style prompts via MiniMax, paid per call in USDC over x402.
+---
+
 # Music Generation API
 
 Generate full-length music tracks with lyrics, instrumental, or custom style prompts.
 
-> **Heads up:** MiniMax generates a ~3 minute track per call regardless of duration hints. Generation takes 1-3 minutes. Set your client timeout to at least 200 seconds.
+:::warning{title="Generation is slow — raise your timeout"}
+MiniMax generates a ~3 minute track per call regardless of duration hints. Generation takes 1-3 minutes. Set your client timeout to at least 200 seconds.
+:::
 
 ## Endpoint
 
@@ -61,6 +68,10 @@ POST https://blockrun.ai/api/v1/audio/generations
 | `data[].url` | string | Time-limited CDN URL (expires ~24h). Download immediately. |
 | `data[].duration_seconds` | integer | Actual duration of generated track |
 | `data[].lyrics` | string | Generated lyrics (if not instrumental) |
+
+:::note{title="Download the track immediately"}
+`data[].url` is a time-limited CDN URL that expires in roughly 24 hours. Fetch and store the file as soon as the call returns.
+:::
 
 ## Examples
 
@@ -211,8 +222,20 @@ Prices include 5% BlockRun margin. Paid in USDC on Base network.
 ```
 MiniMax will auto-generate matching lyrics.
 
-## Links
+## What's next?
 
-- [Image Generation](image-generation.md)
-- [Intelligence Pricing](../products/intelligence/pricing.md)
-- [Error Handling](errors.md)
+::::cards
+
+:::card{title="Image Generation" href="image-generation.md" icon="Image"}
+Generate images from a text prompt with the same pay-per-call model.
+:::
+
+:::card{title="Video Generation" href="video-generation.md" icon="Image"}
+Generate video clips with Grok Imagine and Seedance.
+:::
+
+:::card{title="Error handling" href="errors.md" icon="Code"}
+Status codes and how generation timeouts and payment failures surface.
+:::
+
+::::

@@ -1,6 +1,15 @@
+---
+title: Risk Management
+description: alpha-mcp enforces five hardcoded trading limits — position size, exposure, daily loss, cash reserve, and stop-loss — that neither the AI nor the user can override.
+---
+
 # Risk Management
 
 alpha-mcp has hardcoded safety limits to protect your capital. These limits **cannot be overridden** by the AI or by users.
+
+:::danger{title="No override mechanism exists"}
+The limits below live in code, not in a prompt. There is no flag, setting, or instruction — to Claude or otherwise — that can bypass them. Asking to "ignore the risk limits" or "override safety for this one trade" will always be rejected.
+:::
 
 ## Built-in Limits
 
@@ -11,6 +20,10 @@ alpha-mcp has hardcoded safety limits to protect your capital. These limits **ca
 | **Daily loss threshold** | 5% | Trading pauses if daily loss exceeds 5% |
 | **Min cash reserve** | 50% | Always keep 50% in stablecoins |
 | **Stop-loss trigger** | 15% | Auto-exit positions down 15% |
+
+:::warning{title="The numbers are fixed"}
+15% max position, 50% exposure cap, 5% daily loss, 50% cash reserve, 15% stop-loss. These values are not user-configurable in the current version.
+:::
 
 ## How Enforcement Works
 
@@ -151,8 +164,20 @@ Claude will show:
 
 Currently, risk limits are fixed. Future versions may support user-configurable limits with minimum safety floors.
 
-## Next Steps
+## What's next?
 
-- [Tools Reference](tools.md)
-- [Installation](installation.md)
-- [Overview](overview.md)
+::::cards
+
+:::card{title="Tools reference" href="tools.md" icon="Boxes"}
+See how `alpha_risk` gates every swap.
+:::
+
+:::card{title="Installation" href="installation.md" icon="Terminal"}
+Get alpha-mcp running in Claude Code.
+:::
+
+:::card{title="Overview" href="overview.md" icon="Book"}
+What alpha-mcp does and how it trades autonomously.
+:::
+
+::::

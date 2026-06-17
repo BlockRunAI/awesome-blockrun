@@ -1,6 +1,11 @@
+---
+title: Security
+description: The x402 security model — your private key never leaves your device, payments are scoped authorizations, and BlockRun can never claim more than you signed.
+---
+
 # Security
 
-How x402 keeps your funds and data safe.
+How x402 keeps your funds and data safe — your key stays local, every payment is a scoped authorization, and nothing can claim more than you signed.
 
 ## Key Security Properties
 
@@ -76,6 +81,10 @@ Signatures use [EIP-712](https://eips.ethereum.org/EIPS/eip-712) typed structure
 
 ### Private Key Storage
 
+:::danger{title="Never commit or transmit your private key"}
+Anyone with your `BLOCKRUN_WALLET_KEY` controls the wallet's full balance. Keep it in a git-ignored `.env` for development and a secret manager in production — never hard-code it or send it to any server.
+:::
+
 **Development:**
 ```bash
 # .env file (git-ignored)
@@ -89,6 +98,10 @@ BLOCKRUN_WALLET_KEY=0x...
 ```
 
 ### Wallet Hygiene
+
+:::warning
+Use a **dedicated** wallet for BlockRun and fund it only with what you expect to spend. If the key is ever exposed, the loss is capped at that wallet's balance — never your main holdings.
+:::
 
 1. **Use a dedicated wallet** - Don't use your main wallet
 2. **Fund incrementally** - Add USDC as needed
@@ -147,3 +160,21 @@ Found a security issue? Please report responsibly:
 1. Do not disclose publicly
 2. Email security concerns to the BlockRun team
 3. Allow time for fixes before disclosure
+
+## What's next?
+
+::::cards
+
+:::card{title="How x402 Works" href="how-it-works.md" icon="Zap"}
+The protocol concepts behind authorizations and settlement.
+:::
+
+:::card{title="Payment Flow" href="payment-flow.md" icon="Route"}
+See exactly what gets signed and sent at each step.
+:::
+
+:::card{title="Wallet Setup" href="../getting-started/wallet-setup.md" icon="Wallet"}
+Create a dedicated wallet and fund it safely on Base or Solana.
+:::
+
+::::

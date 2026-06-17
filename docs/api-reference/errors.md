@@ -1,3 +1,8 @@
+---
+title: Error Handling
+description: HTTP status codes, error response shapes, and SDK error classes for BlockRun — including why 402 Payment Required is part of the normal x402 flow.
+---
+
 # Error Handling
 
 BlockRun uses standard HTTP status codes and returns detailed error information.
@@ -52,7 +57,9 @@ BlockRun uses standard HTTP status codes and returns detailed error information.
 }
 ```
 
-**This is not an error** - it's part of the normal x402 flow. The SDK handles this automatically.
+:::info{title="402 is not an error"}
+A `402 Payment Required` is part of the normal x402 flow — the gateway is quoting a price. Sign and retry with payment and the SDKs handle this round-trip automatically.
+:::
 
 ### 402 - Payment Rejected
 
@@ -82,7 +89,9 @@ BlockRun uses standard HTTP status codes and returns detailed error information.
 
 ## SDK Error Classes
 
-**Python:**
+::::tabs
+
+:::tab{label="Python"}
 ```python
 from blockrun_llm import LLMClient, APIError, PaymentError
 
@@ -101,8 +110,9 @@ except Exception as e:
     # Network or other error
     print(f"Error: {e}")
 ```
+:::
 
-**TypeScript:**
+:::tab{label="TypeScript"}
 ```typescript
 import { LLMClient, APIError, PaymentError } from '@blockrun/llm';
 
@@ -123,6 +133,9 @@ try {
   }
 }
 ```
+:::
+
+::::
 
 ## Troubleshooting
 
@@ -146,3 +159,17 @@ try {
 
 1. Check your internet connection
 2. Verify `blockrun.ai/api` is accessible
+
+## What's next?
+
+::::cards
+
+:::card{title="Chat Completions" href="chat-completions.md" icon="Code"}
+The OpenAI-compatible endpoint where most errors surface — request shape and the 402 flow.
+:::
+
+:::card{title="Available models" href="models.md" icon="Brain"}
+Valid model IDs to avoid "Unknown model" errors, with pricing and context windows.
+:::
+
+::::

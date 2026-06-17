@@ -1,8 +1,17 @@
+---
+title: Phone & Voice
+description: Outbound AI voice calls and wallet-owned phone numbers for agents — $5 per number (30 days), $0.54 flat per call, no telecom account.
+---
+
 # Phone & Voice
 
 Outbound AI voice calls and wallet-owned phone numbers — for AI agents. No telecom account, no Bland.ai signup, no Twilio dashboard. Your wallet *is* the phone account.
 
 **Default country:** US (no regulatory friction). Other countries can be requested via the `country` parameter — see [Country availability](#country-availability) below.
+
+:::info{title="Costs"}
+A number is **$5 / 30 days** (renew for $5). Each outbound call is **$0.54 flat** (up to 30 min, default 5). Polling status / fetching a transcript is **free**. Failed call legs (`ended_by: ERROR`) and 429/502 upstream errors are **not charged**. All settled in USDC on Base or Solana via x402.
+:::
 
 Powered by [Bland.ai](https://bland.ai) (voice AI) + [Twilio](https://twilio.com) (carrier numbers), with x402 settlement at every step.
 
@@ -216,8 +225,9 @@ Without an explicit "end the call after X" instruction, the AI tends to keep vol
 
 ## SDK Usage
 
-### TypeScript
+::::tabs
 
+:::tab{label="TypeScript"}
 ```typescript
 import { LLMClient } from '@blockrun/llm';
 
@@ -243,9 +253,9 @@ do {
 
 console.log('Call ended:', status.summary);
 ```
+:::
 
-### Python
-
+:::tab{label="Python"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -271,14 +281,17 @@ while True:
 
 print(status['summary'])
 ```
+:::
 
-### MCP (Claude Code / OpenClaw)
-
+:::tab{label="MCP"}
 ```text
 Use blockrun_wallet to confirm I own a phone number, then use the BlockRun voice tool to call +14155551234 and tell them I'll be 10 minutes late.
 ```
 
 (Voice MCP tools may ship under different names — check the BlockRun MCP tool list.)
+:::
+
+::::
 
 ---
 
@@ -357,9 +370,22 @@ The number is owned by **the wallet address that paid the buy x402**. Lose your 
 
 ---
 
-## Links
+## What's next?
 
-- [Phone & Voice marketplace page](https://blockrun.ai/marketplace/phone)
-- [Bland.ai (upstream voice)](https://bland.ai)
-- [Rate Limits](rate-limits.md)
-- [Error Handling](errors.md)
+::::cards
+
+:::card{title="Text-to-Speech" href="text-to-speech.md" icon="Zap"}
+Standalone ElevenLabs voice synthesis and sound effects, billed per character.
+:::
+
+:::card{title="Rate Limits" href="rate-limits.md" icon="TrendingUp"}
+How Bland/Twilio upstream throttling surfaces as 429 — and why you're not charged.
+:::
+
+:::card{title="Error Handling" href="errors.md" icon="Code"}
+The gateway-wide error envelope across all paid endpoints.
+:::
+
+::::
+
+Also useful: [Phone & Voice marketplace page](https://blockrun.ai/marketplace/phone) · [Bland.ai (upstream voice)](https://bland.ai).

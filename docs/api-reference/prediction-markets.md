@@ -1,10 +1,17 @@
+---
+title: Prediction Markets API
+description: Real-time prediction market data across Polymarket, Kalshi, and more — plus wallet identity, clustering, and sports markets, paid per call in USDC over x402.
+---
+
 # Prediction Markets API
 
 Access real-time prediction market data via x402 micropayments. Powered by [Predexon](https://predexon.com).
 
 Unified access to Polymarket, Kalshi, dFlow, Binance, Limitless, Opinion, Predict.Fun, sports markets, plus UMA Oracle resolution data, canonical cross-venue market IDs, and on-chain wallet identity & clustering — all through a single API.
 
-> Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`). Predexon's separate Trading API (order placement, fund management) is intentionally not exposed.
+:::note
+Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`). Predexon's separate Trading API (order placement, fund management) is intentionally not exposed.
+:::
 
 ## Networks
 
@@ -289,8 +296,9 @@ Returns sports games grouped with all venue outcomes (Kalshi, Polymarket, etc.) 
 
 ## SDK Usage
 
-### Python
+::::tabs
 
+:::tab{label="Python"}
 ```python
 from blockrun_llm import LLMClient
 
@@ -327,9 +335,9 @@ identities = client.pm_query(
 # Binance ($0.005)
 candles = client.pm("binance/candles/BTCUSDT", interval="1h", limit=24)
 ```
+:::
 
-### TypeScript
-
+:::tab{label="TypeScript"}
 ```typescript
 import { LLMClient } from "blockrun-llm";
 
@@ -355,15 +363,18 @@ const games = await client.pm("sports/markets", { league: "mlb", status: "open" 
 // Binance ($0.005)
 const candles = await client.pm("binance/candles/BTCUSDT", { interval: "1h", limit: "24" });
 ```
+:::
 
-### Solana
-
+:::tab{label="Solana"}
 ```python
 from blockrun_llm.solana_client import SolanaLLMClient
 
 client = SolanaLLMClient()
 markets = client.pm("polymarket/markets", search="bitcoin")
 ```
+:::
+
+::::
 
 Works on all clients: `LLMClient` (Base), `AsyncLLMClient`, and `SolanaLLMClient`.
 
@@ -374,3 +385,21 @@ Works on all clients: `LLMClient` (Base), `AsyncLLMClient`, and `SolanaLLMClient
 These endpoints are powered by [Predexon](https://predexon.com) — a unified prediction market data aggregator. Payments go directly to the Predexon treasury via x402.
 
 Full Predexon API documentation: [docs.predexon.com](https://docs.predexon.com)
+
+## What's next?
+
+::::cards
+
+:::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
+Feed market and wallet data into an LLM to analyze odds and positioning.
+:::
+
+:::card{title="Multi-chain RPC" href="multi-chain-rpc.md" icon="Route"}
+Read on-chain data across 40+ chains to complement wallet identity lookups.
+:::
+
+:::card{title="Error handling" href="errors.md" icon="Code"}
+Status codes and how the SDKs surface payment failures.
+:::
+
+::::

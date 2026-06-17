@@ -1,27 +1,33 @@
+---
+title: GOAT SDK Integration
+description: Combine GOAT SDK's cross-chain execution with BlockRun's 50+ AI models, paid per request over x402 — until the official plugin ships.
+---
+
 # GOAT SDK Integration
 
 Use BlockRun with [GOAT SDK](https://github.com/crossmint/goat) (Great Onchain Agent Toolkit) for cross-chain AI agents. GOAT handles blockchain interactions, BlockRun provides AI intelligence via 50+ models with x402 micropayments.
 
-## Status
-
-**Pre-Integration** — Official `@goat-sdk/plugin-blockrun` is not yet published. Use BlockRun alongside GOAT via the TypeScript SDK as shown below.
+:::note{title="Pre-Integration"}
+Official `@goat-sdk/plugin-blockrun` is not yet published. Use BlockRun alongside GOAT via the TypeScript SDK as shown below.
+:::
 
 ## Quick Start
 
-Install both packages:
+::::steps
 
+:::step{title="Install both packages"}
 ```bash
 npm install @goat-sdk/core @blockrun/llm
 ```
+:::
 
-Set your wallet key:
-
+:::step{title="Set your wallet key"}
 ```bash
 export BLOCKRUN_WALLET_KEY=0x...  # Your Base wallet private key
 ```
+:::
 
-Use BlockRun for AI + GOAT for on-chain execution:
-
+:::step{title="Use BlockRun for AI + GOAT for on-chain execution"}
 ```typescript
 import { getOnChainTools } from '@goat-sdk/adapter-vercel-ai';
 import { BlockRunLLM } from '@blockrun/llm';
@@ -40,6 +46,9 @@ const response = await blockrun.chat({
 
 console.log(response.choices[0].message.content);
 ```
+:::
+
+::::
 
 ## Architecture
 
@@ -141,3 +150,21 @@ analyzeAndAct();
 - [Crossmint](https://crossmint.com)
 - [BlockRun TypeScript SDK](../sdks/typescript.md)
 - [Agent Developer Guide](../getting-started/agent-developers.md)
+
+## What's next?
+
+::::cards
+
+:::card{title="BlockRun TypeScript SDK" href="../sdks/typescript.md" icon="Code"}
+Full reference for `BlockRunLLM` and the payment flow it wraps.
+:::
+
+:::card{title="Agent Developer Guide" href="../getting-started/agent-developers.md" icon="Brain"}
+Patterns for cross-chain agents that pay per request.
+:::
+
+:::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
+Understand x402, USDC settlement, and why there are no API keys.
+:::
+
+::::

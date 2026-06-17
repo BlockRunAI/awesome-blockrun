@@ -1,8 +1,15 @@
+---
+title: RealFace Enrollment
+description: Enroll a real person's face (no KYC, ~1-min on-phone liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0-fast videos.
+---
+
 # RealFace Enrollment
 
 Enroll a real person's face as a `ta_xxxxxxxx` asset you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0-fast call. Use this when you want **a real person to appear consistently across multiple videos** (talking head, spokesperson, character continuity).
 
-> **No KYC required.** No government ID, no account login, no name verification. Just a brief on-phone liveness check (nod + blink, ~1 minute) that proves the person enrolling is the same as the person in the photo. The biometric data is processed by the upstream identity service — BlockRun never sees it. For purely AI-generated characters (no real person involved), use [Virtual Portrait](virtual-portrait.md) instead ($0.01, no liveness step).
+:::note{title="No KYC required"}
+No government ID, no account login, no name verification. Just a brief on-phone liveness check (nod + blink, ~1 minute) that proves the person enrolling is the same as the person in the photo. The biometric data is processed by the upstream identity service — BlockRun never sees it. For purely AI-generated characters (no real person involved), use [Virtual Portrait](virtual-portrait.md) instead ($0.01, no liveness step).
+:::
 
 | | |
 |---|---|
@@ -41,7 +48,9 @@ You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/stud
 
 The whole sequence typically completes in under 3 minutes (mostly the user finding their phone and tapping through the H5).
 
-## Step 1: Initialize (FREE)
+::::steps
+
+:::step{title="Initialize (FREE)"}
 
 ```
 POST https://blockrun.ai/api/v1/realface/init
@@ -76,8 +85,9 @@ POST https://blockrun.ai/api/v1/realface/init
 ### Rate limiting
 
 Free but **rate-limited to 10 init calls per hour per IP** because each call generates an upstream session (real cost). For honest single-user usage this is plenty; if you hit `429`, wait or use the refresh path on an existing group.
+:::
 
-## Step 2: H5 (the rights-holder's phone)
+:::step{title="H5 (the rights-holder's phone)"}
 
 Send the `h5_link` to the rights-holder. Easiest way: render it as a QR they scan with their phone camera. The H5 page does the liveness verification — no account, no ID, just camera or video recording.
 
@@ -121,8 +131,9 @@ If they tap **Deny** on camera permission, the H5 offers a fallback:
 ### No phone? Use a laptop
 
 The H5 link works in any modern browser with a webcam. The rights-holder can open it on a laptop and grant the webcam permission — same flow.
+:::
 
-## Step 3: Poll for completion (FREE)
+:::step{title="Poll for completion (FREE)"}
 
 ```
 GET https://blockrun.ai/api/v1/realface/status?groupId=legacy_rf_…
@@ -143,8 +154,9 @@ GET https://blockrun.ai/api/v1/realface/status?groupId=legacy_rf_…
 When `status` transitions to `"active"` (and `ready_to_finalize: true`), the rights-holder has completed the H5 and you can move to step 4.
 
 Poll every 3-5 seconds. Free but rate-limited (same bucket as wallet reconciliation, 20/hour/IP).
+:::
 
-## Step 4: Finalize (PAID, $0.01 USDC)
+:::step{title="Finalize (PAID, $0.01 USDC)"}
 
 ```
 POST https://blockrun.ai/api/v1/realface/enroll
@@ -205,6 +217,9 @@ If settlement itself fails after a successful enrollment, BlockRun absorbs the c
   }
 }
 ```
+:::
+
+::::
 
 ## Using the enrolled ta_xxx
 
@@ -280,10 +295,22 @@ The video playground reads this same list and shows it in the `real_face_asset_i
 | KYC / government ID | Not required | Not required |
 | Compatible models | Seedance 2.0 / 2.0-fast | Seedance 2.0 / 2.0-fast |
 
-## Links
+## What's next?
 
-- [Video Generation API](video-generation.md) — using the `ta_xxx` you just enrolled
-- [Virtual Portrait Enrollment](virtual-portrait.md) — zero-liveness option for AI characters
-- [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip) — visual walkthrough with screenshots
-- [RealFace Studio UI](https://blockrun.ai/studio/realface) — web flow for non-developers
-- [x402 Payment Flow](../x402/payment-flow.md) — how the 402 / sign / retry handshake works
+::::cards
+
+:::card{title="Video Generation" href="video-generation.md" icon="Image"}
+Pass the `ta_xxx` you just enrolled as `real_face_asset_id` on a Seedance 2.0 / 2.0-fast call.
+:::
+
+:::card{title="Virtual Portrait" href="virtual-portrait.md" icon="Boxes"}
+The zero-liveness option for AI-generated characters — same `ta_xxx` mechanic, $0.01.
+:::
+
+:::card{title="x402 Payment Flow" href="../x402/payment-flow.md" icon="Zap"}
+How the 402 / sign / retry handshake works behind the paid finalize call.
+:::
+
+::::
+
+Also useful: [Real-person video walkthrough](https://blockrun.ai/docs/video/real-person-ip) (screenshots) · [RealFace Studio UI](https://blockrun.ai/studio/realface) (web flow for non-developers).

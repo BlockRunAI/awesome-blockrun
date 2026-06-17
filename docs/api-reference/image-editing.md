@@ -1,12 +1,18 @@
+---
+title: Image Editing API (img2img)
+description: Edit or fuse existing images with GPT Image, Nano Banana, and more — JSON or OpenAI multipart input, paid per call in USDC over x402.
+---
+
 # Image Editing API (img2img)
 
 Edit existing images — pass one or more source images and describe what to change.
 
-> **Two request formats are accepted:**
-> - **`application/json`** — `image` as a `data:image/...;base64,…` string, or a JSON **array** of them for multi-image fusion. (BlockRun-native.)
-> - **`multipart/form-data`** — OpenAI's format: repeated `image[]=@file` fields (plus `mask`, `model`, `prompt`, `size`, `n`). Files are converted internally.
->
-> **Payment is always x402** (the `X-Payment` / `PAYMENT-SIGNATURE` header), regardless of body format. So you can send an OpenAI-shaped multipart body, but you still attach an x402 payment — the OpenAI SDK's native Bearer-key auth does **not** settle payment here. Use the BlockRun SDK / ClawRouter (which handle x402), or send either body format with your own x402 header.
+:::info{title="Two request formats are accepted"}
+- **`application/json`** — `image` as a `data:image/...;base64,…` string, or a JSON **array** of them for multi-image fusion. (BlockRun-native.)
+- **`multipart/form-data`** — OpenAI's format: repeated `image[]=@file` fields (plus `mask`, `model`, `prompt`, `size`, `n`). Files are converted internally.
+
+**Payment is always x402** (the `X-Payment` / `PAYMENT-SIGNATURE` header), regardless of body format. So you can send an OpenAI-shaped multipart body, but you still attach an x402 payment — the OpenAI SDK's native Bearer-key auth does **not** settle payment here. Use the BlockRun SDK / ClawRouter (which handle x402), or send either body format with your own x402 header.
+:::
 
 ## Endpoint
 
@@ -68,6 +74,10 @@ this endpoint is **hybrid** — it is *not* always synchronous:
   2–5s. USDC settles exactly once, on the first poll that observes
   `status: "completed"`. A job that ends `failed`, or that you never poll, is
   **never charged**.
+
+:::note{title="No charge until the image is ready"}
+On the slow async path nothing is debited at submit time (`payment_status: "verified"`). USDC settles exactly once — on the first poll that sees `status: "completed"`. Failed jobs and never-polled jobs are never charged.
+:::
 
 The envelope fields, poll responses, status enum
 (`queued → in_progress → completed | failed`) and settlement guarantees are
@@ -164,7 +174,9 @@ curl -X POST https://sol.blockrun.ai/api/v1/images/image2image \
 
 ## Mask Usage
 
-> **Mask is OpenAI-only.** Masks apply to `openai/gpt-image-1` and `openai/gpt-image-2`. Google `nano-banana` / `nano-banana-pro` are prompt-only — passing a `mask` to a Google model returns `400`.
+:::warning{title="Mask is OpenAI-only"}
+Masks apply to `openai/gpt-image-1` and `openai/gpt-image-2`. Google `nano-banana` / `nano-banana-pro` are prompt-only — passing a `mask` to a Google model returns `400`.
+:::
 
 The mask defines which parts of the image to edit:
 
@@ -183,12 +195,13 @@ result — e.g. a reference image + a brand logo, composed by a single prompt.
 - `mask` **cannot** be combined with a multi-image array (mask is single-region only) → `400`.
 - Exceeding a provider's image cap → `400`.
 
-> **Two ways to send multiple images:**
-> - **JSON** (shown below): `image` as a JSON **array of base64 data URIs**.
-> - **Multipart** (OpenAI's format): repeated `image[]=@file` fields, e.g.
->   `-F "image[]=@ref.png" -F "image[]=@logo.png"`.
->
-> Both are accepted. Payment is still x402 in either case (see the format note at the top).
+:::info{title="Two ways to send multiple images"}
+- **JSON** (shown below): `image` as a JSON **array of base64 data URIs**.
+- **Multipart** (OpenAI's format): repeated `image[]=@file` fields, e.g.
+  `-F "image[]=@ref.png" -F "image[]=@logo.png"`.
+
+Both are accepted. Payment is still x402 in either case (see the format note at the top).
+:::
 
 ```bash
 REF_B64=$(base64 -i ~/reference-post.png)
@@ -249,7 +262,16 @@ Prices include 5% BlockRun margin:
 | 500 | Server error |
 | 504 | Image editing timed out |
 
-## Links
+## What's next?
 
-- [Image Generation API](image-generation.md)
-- [ClawRouter README](https://github.com/blockrunai/ClawRouter)
+::::cards
+
+:::card{title="Image Generation" href="image-generation.md" icon="Image"}
+Generate images from a text prompt with the same model lineup and hybrid settlement flow.
+:::
+
+:::card{title="ClawRouter" href="https://github.com/blockrunai/ClawRouter" icon="Terminal"}
+The `/img2img` slash command reads local files and handles x402 payments for you.
+:::
+
+::::

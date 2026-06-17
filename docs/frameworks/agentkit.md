@@ -1,6 +1,11 @@
+---
+title: AgentKit Integration
+description: Pair Coinbase AgentKit with BlockRun so your agents both hold on-chain assets and pay per request for 50+ AI models.
+---
+
 # AgentKit Integration
 
-Use BlockRun with Coinbase AgentKit for wallet-enabled AI agents.
+Use BlockRun with Coinbase AgentKit for wallet-enabled AI agents — AgentKit holds assets and executes trades, BlockRun pays for the intelligence.
 
 [AgentKit](https://github.com/coinbase/agentkit) is Coinbase's framework for building AI agents with wallet capabilities. Combined with BlockRun, your agents can both hold assets AND pay for AI intelligence.
 
@@ -16,14 +21,17 @@ BlockRun adds:
 - Pay-per-request intelligence
 - No API key management
 
-## Installation
+## Setup
 
+::::steps
+
+:::step{title="Install both packages"}
 ```bash
 pip install coinbase-agentkit blockrun-llm
 ```
+:::
 
-## Configuration
-
+:::step{title="Initialize AgentKit and BlockRun"}
 ```python
 from coinbase_agentkit import AgentKit
 from blockrun_llm import LLMClient
@@ -34,6 +42,9 @@ agent_kit = AgentKit.from_cdp()
 # Initialize BlockRun for AI
 blockrun = LLMClient(private_key=agent_kit.wallet.private_key)
 ```
+:::
+
+::::
 
 ## Usage
 
@@ -166,3 +177,21 @@ important_decision = blockrun.chat(
 - [Coinbase CDP](https://coinbase.com/cloud)
 - [BlockRun Python SDK](../sdks/python.md)
 - [Agent Developer Guide](../getting-started/agent-developers.md)
+
+## What's next?
+
+::::cards
+
+:::card{title="BlockRun Python SDK" href="../sdks/python.md" icon="Code"}
+Full reference for the `LLMClient` that powers AI payments in your agent.
+:::
+
+:::card{title="Agent Developer Guide" href="../getting-started/agent-developers.md" icon="Brain"}
+Patterns for building autonomous agents that pay as they work.
+:::
+
+:::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
+Understand x402, USDC settlement, and why there are no API keys.
+:::
+
+::::
