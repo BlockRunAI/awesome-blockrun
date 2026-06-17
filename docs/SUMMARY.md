@@ -10,6 +10,10 @@
 * [Agent Developers](getting-started/agent-developers.md)
 * [Wallet Setup](getting-started/wallet-setup.md)
 
+## Franklin
+
+* [Franklin Agent](products/franklin.md)
+
 ## Intelligence
 
 * [Overview](products/intelligence/overview.md)
@@ -36,13 +40,6 @@
 * [BlockRun MCP](mcp/blockrun-mcp.md)
 * [Skills](mcp/skills.md)
 * [Troubleshooting](mcp/troubleshooting.md)
-
-## Frameworks
-
-* [ElizaOS](frameworks/elizaos.md)
-* [AgentKit](frameworks/agentkit.md)
-* [GOAT SDK](frameworks/goat.md)
-* [LangChain](frameworks/langchain.md)
 
 ## SDKs
 
@@ -83,5 +80,13 @@
 ## Resources
 
 * [FAQ](resources/faq.md)
+* [Examples & recipes](resources/examples.md)
 * [Ecosystem](resources/ecosystem.md)
 * [Changelog](resources/changelog.md)
+
+## Community integrations
+
+* [ElizaOS](frameworks/elizaos.md)
+* [AgentKit](frameworks/agentkit.md)
+* [GOAT SDK](frameworks/goat.md)
+* [LangChain](frameworks/langchain.md)
