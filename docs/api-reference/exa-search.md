@@ -357,7 +357,7 @@ Real-time web, news, and X/Twitter search via Grok Live Search.
 :::
 
 :::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
-Feed grounded search results into any of 50+ LLMs for synthesis.
+Feed grounded search results into any of 60+ LLMs for synthesis.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}

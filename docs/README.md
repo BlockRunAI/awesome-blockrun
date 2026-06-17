@@ -7,7 +7,7 @@ description: BlockRun is economic infrastructure for the agent era — AI agents
 
 **Agents that pay, spend, and trade.**
 
-BlockRun is economic infrastructure for the agent era. AI agents discover services, pay in USDC over the [x402 protocol](x402/how-it-works.md), and execute autonomously — **no API keys, no subscriptions, no credit card.** One funded wallet unlocks 50+ LLMs, media generation, real-time data, and on-chain execution.
+BlockRun is economic infrastructure for the agent era. AI agents discover services, pay in USDC over the [x402 protocol](x402/how-it-works.md), and execute autonomously — **no API keys, no subscriptions, no credit card.** One funded wallet unlocks 60+ LLMs, media generation, real-time data, and on-chain execution.
 
 :::tip{title="In a hurry?"}
 Jump to the [5-Minute Quickstart](getting-started/quickstart.md) and make your first paid call.
@@ -38,7 +38,7 @@ Pick the path that matches how you work.
 ::::cards
 
 :::card{title="I want an autonomous agent" href="products/franklin.md" icon="Rocket"}
-Franklin — the AI agent with a wallet. Writes code and spends USDC across 55+ models and paid APIs. Free to start.
+Franklin — the AI agent with a wallet. Writes code and spends USDC across 60+ models and paid APIs. Free to start.
 :::
 
 :::card{title="I use Claude Code / Cursor" href="getting-started/quickstart.md" icon="Terminal"}
@@ -62,7 +62,7 @@ Four product families, one payment layer.
 ::::cards
 
 :::card{title="Intelligence" href="products/intelligence/overview.md" icon="Brain"}
-50+ LLMs (GPT, Claude, Gemini, DeepSeek, Grok, Kimi, Llama) through one OpenAI-compatible API. Pay per request.
+60+ LLMs (GPT, Claude, Gemini, DeepSeek, Grok, Kimi, Llama) through one OpenAI-compatible API. Pay per request.
 :::
 
 :::card{title="Routing" href="products/routing/clawrouter.md" icon="Route"}

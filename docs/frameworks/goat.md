@@ -1,11 +1,11 @@
 ---
 title: GOAT SDK Integration
-description: Combine GOAT SDK's cross-chain execution with BlockRun's 50+ AI models, paid per request over x402 — until the official plugin ships.
+description: Combine GOAT SDK's cross-chain execution with BlockRun's 60+ AI models, paid per request over x402 — until the official plugin ships.
 ---
 
 # GOAT SDK Integration
 
-Use BlockRun with [GOAT SDK](https://github.com/crossmint/goat) (Great Onchain Agent Toolkit) for cross-chain AI agents. GOAT handles blockchain interactions, BlockRun provides AI intelligence via 50+ models with x402 micropayments.
+Use BlockRun with [GOAT SDK](https://github.com/crossmint/goat) (Great Onchain Agent Toolkit) for cross-chain AI agents. GOAT handles blockchain interactions, BlockRun provides AI intelligence via 60+ models with x402 micropayments.
 
 :::note{title="Community integration — pre-release"}
 No official `@goat-sdk/plugin-blockrun` yet; use BlockRun alongside GOAT via the [TypeScript SDK](../sdks/typescript.md) as shown below. BlockRun's primary paths are [Franklin](../products/franklin.md), the [MCP](../mcp/blockrun-mcp.md), and the SDKs.
