@@ -37,12 +37,16 @@ Pick the path that matches how you work.
 
 ::::cards
 
+:::card{title="I want an autonomous agent" href="products/franklin.md" icon="Rocket"}
+Franklin — the AI agent with a wallet. Writes code and spends USDC across 55+ models and paid APIs. Free to start.
+:::
+
 :::card{title="I use Claude Code / Cursor" href="getting-started/quickstart.md" icon="Terminal"}
 One MCP install adds 18 `blockrun_*` tools to your assistant. Best for Claude Code, Cursor, and other MCP clients.
 :::
 
 :::card{title="I'm building an agent / backend" href="getting-started/sdk-developers.md" icon="Code"}
-Drop-in SDKs for Python, TypeScript, and Go — plus framework plugins for ElizaOS, AgentKit, and LangChain.
+Drop-in SDKs for Python, TypeScript, and Go — pay-per-call, OpenAI-compatible.
 :::
 
 :::card{title="Set up my wallet" href="getting-started/wallet-setup.md" icon="Wallet"}
