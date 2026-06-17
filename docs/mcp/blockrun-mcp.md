@@ -206,7 +206,7 @@ The MCP includes built-in smart routing that selects the best model based on you
 | `coding` | Coding-tuned models | Code generation/review |
 | `glm` | Zhipu GLM-5 / GLM-5-Turbo | Flat-rate ($0.001/call) bulk |
 
-`mode` picks a model by intent in one hop. For prompt-aware selection (the scorer reads the prompt and picks the cheapest capable model), use `routing:"smart"` with a `routing_profile` instead — see [Smart Routing](../products/intelligence/smart-routing.md).
+`mode` picks a model by intent in one hop. For prompt-aware selection (the scorer reads the prompt and picks the cheapest capable model), use `routing:"smart"` with a `routing_profile` instead — see [ClawRouter / Smart Routing](../products/routing/clawrouter.md).
 
 ## Configuration
 
