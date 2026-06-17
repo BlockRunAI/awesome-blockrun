@@ -223,6 +223,85 @@ const result = await client.smartChat('Write a haiku about coding', {
 });
 ```
 
+## Drop-in OpenAI / Anthropic clients
+
+Already using the `openai` or `@anthropic-ai/sdk` packages? Swap the import and point it at BlockRun — your wallet key replaces the API key, everything else is the same shape.
+
+::::tabs
+
+:::tab{label="OpenAI-compatible"}
+```typescript
+import { OpenAI } from '@blockrun/llm';
+
+const client = new OpenAI({ walletKey: process.env.BLOCKRUN_WALLET_KEY });
+
+const res = await client.chat.completions.create({
+  model: 'openai/gpt-5.5',
+  messages: [{ role: 'user', content: 'Hello!' }],
+});
+console.log(res.choices[0].message.content);
+
+// Streaming: set stream:true → returns an AsyncIterable of chunks
+const stream = await client.chat.completions.create({ model: 'openai/gpt-5.5', messages, stream: true });
+for await (const chunk of stream) process.stdout.write(chunk.choices[0]?.delta?.content ?? '');
+```
+:::
+
+:::tab{label="Anthropic-compatible"}
+```typescript
+import { Anthropic } from '@blockrun/llm';
+
+const client = new Anthropic({ walletKey: process.env.BLOCKRUN_WALLET_KEY });
+const msg = await client.messages.create({
+  model: 'anthropic/claude-opus-4.8',
+  max_tokens: 512,
+  messages: [{ role: 'user', content: 'Hello!' }],
+});
+```
+:::
+
+::::
+
+`create()` mirrors the upstream params (`model`, `messages`, `max_tokens`, `temperature`, `top_p`, `tools`, `tool_choice`, `response_format`, `stop`, `n`, penalties).
+
+## Specialized clients
+
+Like the Python SDK, every non-chat capability has its own client class, exported from `@blockrun/llm`. Each takes the same options (`{ walletKey | privateKey, apiUrl?, timeout? }`) and returns Promises.
+
+:::note{title="Shared instantiation"}
+Construct any client with `new XClient({ walletKey })` (or rely on `BLOCKRUN_WALLET_KEY` / `~/.blockrun/.session`). All expose `getWalletAddress()`.
+:::
+
+```typescript
+import {
+  ImageClient, VideoClient, MusicClient, SpeechClient, VoiceClient,
+  PhoneClient, PortraitClient, SearchClient, PriceClient, SurfClient, RpcClient,
+} from '@blockrun/llm';
+
+// Image — generate + edit/fuse
+const img = new ImageClient();
+const out = await img.generate('A sunset over mountains', { model: 'google/nano-banana', size: '1024x1024' });
+const fused = await img.edit('Place the logo on the shirt', [subjectDataUri, logoDataUri]);
+
+// Video — async submit→poll handled internally
+const vid = new VideoClient();
+const clip = await vid.generate('a red apple spinning', { model: 'bytedance/seedance-2.0', durationSeconds: 5, resolution: '720p' });
+
+// Speech + sound effects
+const tts = new SpeechClient();
+const audio = await tts.generate('Hello!', { voice: 'sarah', responseFormat: 'mp3' });
+
+// Search, prices, crypto data, RPC
+const search = new SearchClient();
+const news   = await search.search('agent payments', { sources: ['web', 'news'], maxResults: 10 });
+const px     = new PriceClient();
+const btc    = await px.price('crypto', 'BTC-USD');
+const rpc    = new RpcClient();
+const block  = await rpc.call('ethereum', 'eth_blockNumber');   // $0.002/call
+```
+
+The full method surface mirrors the Python SDK (see the [Python](python.md) page for per-method params, pricing tiers, and `ta_…` identity assets); the only differences are camelCase options and `Promise` returns.
+
 ## Prediction Markets (Powered by Predexon)
 
 Access real-time prediction market data from Polymarket, Kalshi, dFlow, Binance, and more via [Predexon](https://predexon.com). No API keys needed — pay-per-request via x402.
