@@ -9,8 +9,8 @@ Use BlockRun as an LLM provider in LangChain — a custom LLM class handles x402
 
 [LangChain](https://github.com/langchain-ai/langchain) is the most popular framework for building LLM applications. BlockRun provides a custom LLM class that handles x402 payments automatically.
 
-:::note{title="Planned"}
-Official LangChain integration is in development. For now, use the BlockRun SDK directly alongside LangChain, or use the custom provider below.
+:::note{title="Community integration — planned"}
+No official LangChain package yet; use the custom provider below or the BlockRun [SDK](../sdks/python.md) directly. BlockRun's primary paths are [Franklin](../products/franklin.md), the [MCP](../mcp/blockrun-mcp.md), and the SDKs.
 :::
 
 ## Setup

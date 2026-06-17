@@ -1,13 +1,17 @@
 ---
 title: Agent Developers
-description: Build AI agents that pay for their own intelligence — 50+ models via x402 micropayments, with framework plugins for ElizaOS, AgentKit, and LangChain.
+description: Build AI agents that pay for their own intelligence — 50+ models via x402 micropayments. Use Franklin, the SDKs, or the MCP; integrate with frameworks if you already use one.
 ---
 
 # Agent Developers
 
 Build AI agents that pay for their own intelligence.
 
-This guide is for developers using agent frameworks like ElizaOS, AgentKit, GOAT SDK, or LangChain. BlockRun provides the intelligence layer — 50+ AI models via x402 micropayments.
+This guide is for agent developers. The primary paths are **[Franklin](../products/franklin.md)** (our autonomous agent), the **[SDKs](../sdks/python.md)**, and the **[BlockRun MCP](../mcp/blockrun-mcp.md)** — all on one wallet, 50+ models via x402 micropayments. Already using a framework (ElizaOS, AgentKit, GOAT, LangChain)? See [Community integrations](../frameworks/elizaos.md).
+
+:::tip{title="Fastest path: Franklin"}
+Want an agent that already spends autonomously? [Franklin](../products/franklin.md) is one install (`npm install -g @blockrun/franklin`) and runs free out of the box — fund a wallet to unlock everything.
+:::
 
 ## Why BlockRun for Agents?
 
