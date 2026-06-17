@@ -348,21 +348,6 @@ const result2 = await client.smartChat('Complex reasoning task...', {
 [TypeScript SDK Documentation](../../sdks/typescript.md#smart-routing-clawrouter)
 :::
 
-:::tab{label="XRPL (RLUSD)"}
-```python
-from blockrun_llm_xrpl import LLMClient
-
-client = LLMClient()  # Uses BLOCKRUN_XRPL_SEED
-
-# Smart routing works the same on XRPL
-result = client.smart_chat("Prove that sqrt(2) is irrational")
-print(result.model)  # "xai/grok-4-1-fast-reasoning"
-print(result.routing.tier)  # "REASONING"
-```
-
-[XRPL SDK Documentation](../../sdks/xrpl.md#smart-routing-clawrouter)
-:::
-
 ::::
 
 ### Routing Profiles

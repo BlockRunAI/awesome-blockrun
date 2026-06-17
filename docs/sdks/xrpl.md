@@ -1,15 +1,17 @@
 ---
-title: XRPL SDK (Python)
-description: The official BlockRun Python SDK for the XRP Ledger — call 50+ LLMs over x402 micropayments paid in RLUSD, with no API keys.
+title: XRPL SDK (Python) — deprecated
+description: The BlockRun XRPL SDK (pay-on-XRPL with RLUSD) is deprecated. Use Base or Solana for new integrations.
 ---
 
 # XRPL SDK (Python)
 
-The official Python SDK for BlockRun on the XRP Ledger, using RLUSD for micropayments — pay per call, no API keys.
+:::danger{title="Deprecated — being sunset"}
+The XRPL pay-on-XRPL SDK (`blockrun-llm-xrpl`, RLUSD settlement on the XRP Ledger) is being **sunset** and is no longer recommended for new integrations. Use the [Python SDK](python.md) or [TypeScript SDK](typescript.md) on **Base** or **Solana** instead — same models, same API, actively maintained.
 
-:::tip{title="In a hurry?"}
-New to BlockRun? See the [5-Minute Quickstart](../getting-started/quickstart.md) for the Base/Solana flow, then use this page for the XRPL-specific RLUSD setup.
+This page remains for reference for existing XRPL integrations. Read-only XRP/XRPL access via [Multi-chain RPC](../api-reference/multi-chain-rpc.md) is unaffected and stays supported.
 :::
+
+The Python SDK for BlockRun on the XRP Ledger, using RLUSD for micropayments — pay per call, no API keys.
 
 ::::steps
 
