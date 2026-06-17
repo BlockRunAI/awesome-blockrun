@@ -109,9 +109,29 @@ Generate a 5-second video of a sunset over Tokyo
 Compose a 60-second lo-fi hip-hop loop
 ```
 
+**Parameters**
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `message` | string | The prompt (or use `messages` for multi-turn). |
+| `model` | string | Explicit model id, e.g. `openai/gpt-5.5`. Overrides `mode`. |
+| `mode` | enum | Pick a model by intent instead of by name: `fast`, `balanced`, `powerful`, `cheap`, `reasoning`, `free`, `coding`, `glm`. |
+| `routing` | `"smart"` | Run ClawRouter's local scorer to choose the cheapest capable model. Pair with `routing_profile`. |
+| `routing_profile` | enum | `free` · `eco` · `auto` (default) · `premium`. Only used when `routing:"smart"`. |
+| `system` | string | System prompt. |
+| `max_tokens` | number | Default `1024`. |
+| `temperature` | number | Default `1`. |
+| `messages` | array | `[{role:"user"\|"assistant"\|"system", content}]` for multi-turn. |
+| `agent_id` | string | Attribute the spend to a sub-agent budget (see `blockrun_wallet`). |
+
+```
+blockrun_chat mode:"reasoning" message:"Prove there are infinitely many primes"
+blockrun_chat routing:"smart" routing_profile:"eco" message:"Summarize this thread"
+```
+
 ### `blockrun_search`
 
-Live web and news search (Grok-grounded).
+Live web and news search (Grok-grounded). Params: `query` (required), `sources` (`web` · `x` · `news`), `max_results` (1–50, default 10), `from_date` / `to_date` (`YYYY-MM-DD`).
 
 ### `blockrun_exa`
 
@@ -151,10 +171,24 @@ List all available models with live pricing, context windows, and categories.
 
 ### `blockrun_wallet`
 
-USDC balance, agent budgets, wallet setup.
+USDC balance, wallet setup, chain switching, and per-agent budget delegation.
+
+**`action`** (default `status`):
+
+| action | What it does | Extra params |
+|--------|--------------|--------------|
+| `status` | Address, USDC balance, session spend | — |
+| `setup` | Print address + funding QR (creates wallet on first run) | — |
+| `chain` | Switch active chain | `chain:"base"` \| `"solana"` |
+| `budget` | Set/clear a global session spend cap | `budget_action:"set"\|"clear"`, `budget_amount` |
+| `delegate` | Allocate a spend limit to a sub-agent | `agent_id`, `agent_limit` |
+| `revoke` | Remove a sub-agent's budget | `agent_id` |
+| `report` | Per-agent spending breakdown | — |
 
 ```
-blockrun balance
+blockrun_wallet action:"status"
+blockrun_wallet action:"budget" budget_action:"set" budget_amount:5.00
+blockrun_wallet action:"delegate" agent_id:"researcher" agent_limit:2.00
 ```
 
 ### Smart Routing
@@ -165,9 +199,14 @@ The MCP includes built-in smart routing that selects the best model based on you
 |------|--------|----------|
 | `fast` | Gemini Flash, GPT-5 Mini | Quick responses |
 | `balanced` | GPT-5.4, Claude Sonnet 4.6 | General use |
-| `powerful` | GPT-5.4, Claude Opus 4.6 | Complex tasks |
+| `powerful` | GPT-5.4, Claude Opus 4.8 | Complex tasks |
 | `cheap` | NVIDIA free models, DeepSeek, Gemini Flash | Cost savings |
-| `reasoning` | o3, o1, DeepSeek Reasoner | Logic and math |
+| `reasoning` | o3, DeepSeek Reasoner | Logic and math |
+| `free` | NVIDIA-hosted open models only | Development, zero-cost |
+| `coding` | Coding-tuned models | Code generation/review |
+| `glm` | Zhipu GLM-5 / GLM-5-Turbo | Flat-rate ($0.001/call) bulk |
+
+`mode` picks a model by intent in one hop. For prompt-aware selection (the scorer reads the prompt and picks the cheapest capable model), use `routing:"smart"` with a `routing_profile` instead — see [ClawRouter / Smart Routing](../products/routing/clawrouter.md).
 
 ## Configuration
 

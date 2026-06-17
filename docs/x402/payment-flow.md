@@ -85,10 +85,37 @@ const signature = await wallet.signTypedData({
 });
 ```
 
+The domain and types are the standard EIP-3009 definition for USDC. On **Base** (chain `eip155:8453`):
+
+```typescript
+const USDC_DOMAIN = {
+  name: 'USD Coin',
+  version: '2',
+  chainId: 8453,
+  verifyingContract: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
+};
+
+const TRANSFER_WITH_AUTHORIZATION_TYPES = {
+  TransferWithAuthorization: [
+    { name: 'from',        type: 'address' },
+    { name: 'to',          type: 'address' },
+    { name: 'value',       type: 'uint256' }, // amount in micro-USDC (6 decimals)
+    { name: 'validAfter',  type: 'uint256' }, // unix seconds
+    { name: 'validBefore', type: 'uint256' }, // unix seconds
+    { name: 'nonce',       type: 'bytes32' }, // random 32 bytes, single-use
+  ],
+};
+```
+
 Key points:
 - Private key never leaves the client
 - Authorization expires in 5 minutes (`validBefore`)
 - Clock skew tolerance of 10 minutes (`validAfter`)
+- `value` is micro-USDC: `$0.001` → `"1000"`
+- The header value is the **base64 of the JSON payment payload** shown in the next step (`btoa(JSON.stringify(payload))`)
+
+:::note{title="Paying on Solana"}
+On the Solana gateway (`sol.blockrun.ai`, network `solana:…`) the 402 advertises USDC-SPL (`EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v`, 6 decimals) and the authorization is signed for the SPL transfer instead of EIP-3009. The SDKs pick the right scheme automatically from the `accepts[]` entry.
 :::
 
 :::step{title="Retry with Payment"}

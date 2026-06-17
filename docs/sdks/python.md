@@ -7,6 +7,8 @@ description: The official BlockRun Python SDK — call 50+ LLMs, smart routing, 
 
 The official Python SDK for BlockRun — pay per call in USDC, no API keys or subscriptions.
 
+**Source:** [github.com/BlockRunAI/blockrun-llm](https://github.com/BlockRunAI/blockrun-llm) · [PyPI: blockrun-llm](https://pypi.org/project/blockrun-llm/) · MIT
+
 :::tip{title="In a hurry?"}
 New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md) first to fund a wallet, then come back for the full SDK reference.
 :::
@@ -219,6 +221,218 @@ async def main():
         print(result.response)
 
 asyncio.run(main())
+```
+
+## Specialized clients
+
+`LLMClient` covers chat and routing. Everything else — image, video, music, speech, voice, search, prices, RPC, and more — lives in a dedicated client class. Each is imported from `blockrun_llm` and constructed independently.
+
+:::note{title="Every client shares one constructor"}
+`Client(private_key=None, api_url=None, timeout=...)`. The key is resolved in order: the `private_key` argument → `BLOCKRUN_WALLET_KEY` → `BASE_CHAIN_WALLET_KEY` → `~/.blockrun/.session`. So if you've run `blockrun_wallet setup`, no argument is needed. Every client also exposes `get_wallet_address()` and `close()`.
+:::
+
+### Media generation
+
+#### `ImageClient`
+
+```python
+from blockrun_llm import ImageClient
+
+img = ImageClient()  # timeout defaults to 200s (gpt-image-2 at high res is slow)
+
+# Generate — default model google/nano-banana, default size 1024x1024
+res = img.generate("A cute cat astronaut, studio lighting", model="google/nano-banana-pro", size="1024x1024", n=1)
+print(res.data[0].url)
+
+# Edit / fusion — pass one data URI, or 2–4 to fuse (OpenAI ≤4, Nano Banana ≤3)
+res = img.edit("Place this logo on the t-shirt", image=["data:image/png;base64,...", "data:image/png;base64,..."])
+print(res.data[0].url)
+```
+
+Models: `google/nano-banana`, `google/nano-banana-pro`, `openai/gpt-image-1`, `openai/gpt-image-2`, `zai/cogview-4`, `xai/grok-imagine-image(-pro)`, `black-forest/flux-1.1-pro`.
+
+#### `VideoClient`
+
+```python
+from blockrun_llm import VideoClient
+
+vid = VideoClient()  # timeout 360s; submit→poll handled for you (budget 900s, re-signs mid-poll)
+
+res = vid.generate(
+    "a red apple spinning on a marble counter",
+    model="bytedance/seedance-2.0",
+    duration_seconds=5,
+    resolution="720p",          # 360p | 480p | 720p | 1080p | 4K (Seedance)
+    aspect_ratio="16:9",        # adaptive | 16:9 | 9:16 | 1:1 | 4:3 | 3:4 | 21:9 | 9:21
+    generate_audio=True,
+)
+print(res.data[0].url)
+```
+
+:::note{title="Image-to-video inputs are mutually exclusive"}
+Pass exactly one of `image_url` (first-frame), `real_face_asset_id` (a `ta_…` Virtual Portrait / RealFace asset), or `reference_image_urls` (≤9). `last_frame_url` seeds the final frame. `generate_from_content(content=[...])` accepts the Seedance `content[]` array.
+:::
+
+#### `MusicClient`
+
+```python
+from blockrun_llm import MusicClient
+
+music = MusicClient()
+res = music.generate("upbeat synthwave, driving bassline", model="minimax/music-2.5+", instrumental=True)
+print(res.data[0].url)   # URL expires ~24h; download promptly. ~$0.1575/track
+# For vocals: instrumental=False with lyrics="..." (passing both instrumental=True and lyrics raises ValueError)
+```
+
+#### `SpeechClient`
+
+```python
+from blockrun_llm import SpeechClient
+
+tts = SpeechClient()
+res = tts.generate("Hello from BlockRun!", model="elevenlabs/flash-v2.5", voice="sarah", response_format="mp3", speed=1.0)
+print(res.data[0].url)
+
+# Sound effects (flat $0.05/generation)
+sfx = tts.sound_effect("rain on a tin roof", duration_seconds=6.0)
+
+voices = tts.list_voices()  # free, 60 req/min/IP
+```
+
+Voices: `sarah`, `george`, `laura`, `charlie`, `river`, `roger`, `callum`, `harry`, or a raw ElevenLabs `voice_id`. Formats: `mp3` (default), `opus`, `pcm`, `wav`. Speed `0.7`–`1.2`. Billed per character (`chars/1000 × rate`, $0.001 floor) — flash/turbo cap 40k chars, multilingual-v2 10k, v3 5k.
+
+### Data & infrastructure
+
+#### `SearchClient` — Grok Live Search
+
+```python
+from blockrun_llm import SearchClient
+
+search = SearchClient()
+res = search.search("latest agent-payments news", sources=["web", "news"], max_results=10)  # x | web | news
+print(res.summary)
+for c in res.citations:
+    print(c)
+```
+
+`max_results` 1–50 (default 10); optional `from_date`/`to_date` (`YYYY-MM-DD`). Priced ~$0.025/source.
+
+#### `PriceClient` — crypto / FX / commodities / stocks
+
+```python
+from blockrun_llm import PriceClient
+
+px = PriceClient()                              # set require_wallet=False to use only free categories
+btc = px.price("crypto", "BTC-USD")             # crypto, fx, commodity are FREE; usstock, stocks are paid
+print(btc.price, btc.publishTime)
+
+bars = px.history("crypto", "BTC-USD", resolution="D", from_ts=1700000000, to_ts=1710000000)
+symbols = px.list_symbols("crypto", q="ETH", limit=20)
+```
+
+For `stocks`, pass `market` (`us`, `hk`, `jp`, `kr`, `gb`, `de`, `fr`, `nl`, `ie`, `lu`, `cn`, `ca`) and optionally `session` (`pre`/`post`/`on`). Resolutions: `1,5,15,60,240,D,W,M`.
+
+#### `SurfClient` — crypto data (80+ endpoints)
+
+```python
+from blockrun_llm import SurfClient
+
+surf = SurfClient()
+ranking = surf.call("market/ranking", params={"limit": 20})   # auto GET/POST from the catalog
+catalog = surf.endpoints()                                     # static: every path + tier + price
+```
+
+Tiers: T1 `$0.001` (reads/lists), T2 `$0.005` (AI rankings/trends/search), T3 `$0.020` (heavy LLM + on-chain SQL). Use `surf.get(path, params)` / `surf.post(path, body)` for explicit verbs.
+
+#### `RpcClient` — multi-chain JSON-RPC (40+ chains)
+
+```python
+from blockrun_llm import RpcClient
+
+rpc = RpcClient()
+res = rpc.call("ethereum", "eth_blockNumber")          # $0.002/call
+print(int(res.result, 16), "cache_hit:", res.cache_hit)
+
+# JSON-RPC 2.0 batch — billed $0.002 × N
+batch = rpc.batch("polygon", [{"method": "eth_blockNumber"}, {"method": "eth_gasPrice"}])
+```
+
+Networks accept names or aliases: `ethereum`/`eth`, `base`, `arbitrum`/`arb`, `optimism`/`op`, `polygon`/`matic`, `bsc`/`bnb`, `solana`/`sol`, `bitcoin`/`btc`, `ripple`/`xrp`, and ~30 more (EVM + non-EVM).
+
+### Identity & telephony
+
+#### `PhoneClient` — number provisioning + lookups
+
+```python
+from blockrun_llm import PhoneClient
+
+phone = PhoneClient()
+info  = phone.lookup("+14155552671")          # $0.01 — carrier + line type
+fraud = phone.lookup_fraud("+14155552671")    # $0.05 — + SIM-swap / call-forwarding signals
+num   = phone.buy_number(country="US", area_code="415")  # $5 / 30 days (settles after Twilio confirms)
+phone.renew_number(num["phone_number"])       # $5 / +30 days
+phone.list_numbers()                          # $0.001
+phone.release_number(num["phone_number"])     # free
+```
+
+#### `VoiceClient` — outbound AI phone calls
+
+```python
+from blockrun_llm import VoiceClient
+
+voice = VoiceClient()
+call = voice.call(
+    to="+14155552671",
+    task="Confirm the 3pm dental appointment and offer to reschedule if needed.",
+    voice="maya",            # nat | josh | maya | june | paige | derek | florian, or a Bland.ai id
+    max_duration=5,          # 1–30 minutes
+    language="en-US",
+)
+print(call["call_id"])
+status = voice.get_status(call["call_id"])   # free; transcript + recording_url once completed
+```
+
+`$0.54`/call. `from_` is auto-picked if your wallet owns exactly one provisioned number (see `PhoneClient.buy_number`).
+
+#### `PortraitClient` & `RealFaceClient` — `ta_…` identity assets for video
+
+```python
+from blockrun_llm import PortraitClient, RealFaceClient
+
+# Virtual Portrait — AI character, no KYC, $0.01 one-time
+portrait = PortraitClient()
+p = portrait.enroll("My Spokesperson", "https://example.com/character.jpg")
+print(p.asset_id)   # ta_xxxxxxxx → pass to VideoClient(real_face_asset_id=...)
+
+# RealFace — real person, requires on-phone liveness check, $0.01
+rf = RealFaceClient()
+init = rf.init("Jane Doe")            # render init.h5_link as a QR for the subject
+rf.wait_for_active(init.group_id)     # blocks until liveness passes (default 180s)
+asset = rf.enroll("Jane Doe", "https://example.com/jane.jpg", init.group_id)
+print(asset.asset_id)                 # ta_xxxxxxxx
+```
+
+### LLMClient extras: sandbox, DeFi, DEX, on-ramp, balances
+
+Beyond chat, `LLMClient` exposes:
+
+```python
+from blockrun_llm import LLMClient
+client = LLMClient()
+
+# Modal secure sandbox
+sb = client.modal_sandbox_create()
+out = client.modal_sandbox_exec(sb["id"], code="print(2+2)")
+client.modal_sandbox_status(sb["id"]); client.modal_sandbox_terminate(sb["id"])
+
+# DeFi (DeFiLlama) + DEX (0x)
+yields = client.defi_yields(); protocols = client.defi_protocols()
+quote  = client.dex_quote(...); gasless = client.dex_gasless_quote(...)
+
+# Wallet helpers
+print(client.get_balance())    # USDC on the active chain
+print(client.get_spending())   # session totals: {"total_usd": ..., "calls": ...}
+print(client.onramp())         # Coinbase on-ramp link
 ```
 
 ## Prediction Markets (Powered by Predexon)
