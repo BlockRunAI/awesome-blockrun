@@ -7,6 +7,8 @@ description: The official BlockRun Python SDK — call 50+ LLMs, smart routing, 
 
 The official Python SDK for BlockRun — pay per call in USDC, no API keys or subscriptions.
 
+**Source:** [github.com/BlockRunAI/blockrun-llm](https://github.com/BlockRunAI/blockrun-llm) · [PyPI: blockrun-llm](https://pypi.org/project/blockrun-llm/) · MIT
+
 :::tip{title="In a hurry?"}
 New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md) first to fund a wallet, then come back for the full SDK reference.
 :::

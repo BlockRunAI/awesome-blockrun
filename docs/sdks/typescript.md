@@ -7,6 +7,8 @@ description: The official BlockRun TypeScript/JavaScript SDK — call 50+ LLMs, 
 
 The official TypeScript/JavaScript SDK for BlockRun — pay per call in USDC, no API keys or subscriptions.
 
+**Source:** [github.com/BlockRunAI/blockrun-llm-ts](https://github.com/BlockRunAI/blockrun-llm-ts) · [npm: @blockrun/llm](https://www.npmjs.com/package/@blockrun/llm) · MIT
+
 :::tip{title="In a hurry?"}
 New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md) first to fund a wallet, then come back for the full SDK reference.
 :::
