@@ -197,6 +197,17 @@ echo $BASE_RPC_URL
 # https://mainnet.base.org
 ```
 
+### Want to pay on Solana instead of Base
+
+**Cause:** The MCP pays on Base by default. You don't switch chains with env vars — use the wallet tool.
+
+**Solution:** In Claude Code, run:
+```
+blockrun_wallet action:"chain" chain:"solana"   # provisions + activates the Solana wallet
+blockrun_wallet action:"setup"                  # Solana address + funding QR
+```
+Applies instantly — no env vars, no file editing, no restart. Switch back with `chain:"base"`. Note: `blockrun_image`, `blockrun_music`, `blockrun_speech`, `blockrun_video`, paid stock `blockrun_price`, `blockrun_chat routing:"smart"`, and native Anthropic (`claude-*`) settle on Base only.
+
 ## Getting Help
 
 ### Check Logs

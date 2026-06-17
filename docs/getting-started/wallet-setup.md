@@ -1,13 +1,16 @@
 # Wallet Setup
 
-BlockRun uses USDC on Base network for payments. Your agent needs a funded wallet to pay for services.
+BlockRun accepts USDC on **Base** (default) or **Solana** for payments. Your agent needs a funded wallet to pay for services.
 
 ## Networks
 
 | Network | Chain ID | Usage | USDC |
 |---------|----------|-------|------|
-| **Base Mainnet** | 8453 | Production | Real USDC |
+| **Base Mainnet** | 8453 | Production (default) | Real USDC |
 | **Base Sepolia** | 84532 | Development/Testing | Testnet USDC (free) |
+| **Solana Mainnet** | — | Production | USDC (SPL) |
+
+> **MCP users:** switch to Solana with `blockrun_wallet action:"chain" chain:"solana"` then `blockrun_wallet action:"setup"` — no env vars or restart. See [Claude Code MCP](../mcp/blockrun-mcp.md#pay-on-solana-optional). Some tools (image, music, speech, video, paid stock prices, smart routing, native Anthropic) settle on Base only.
 
 ## How It Works
 

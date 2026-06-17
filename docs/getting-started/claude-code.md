@@ -35,6 +35,17 @@ Get USDC on Base:
 - [Base Bridge](https://bridge.base.org) - bridge from Ethereum
 - [Uniswap](https://app.uniswap.org) - swap on Base
 
+### Prefer Solana?
+
+The MCP holds a Solana wallet too. Switch with two tool calls — no env vars, no file editing, no restart:
+
+```
+blockrun_wallet action:"chain" chain:"solana"
+blockrun_wallet action:"setup"
+```
+
+Then send USDC (SPL) on the **Solana** network (Coinbase → pick "Solana", or Phantom/Solflare/Backpack). Switch back with `blockrun_wallet action:"chain" chain:"base"`. Note: image, music, speech, video, paid stock prices, smart routing, and native Anthropic (`claude-*`) settle on Base only.
+
 ## What You Can Do Now
 
 ### Image Generation

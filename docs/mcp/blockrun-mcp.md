@@ -58,6 +58,19 @@ Send USDC to your wallet on Base network:
 
 Recommended: $5-20 to start.
 
+### Pay on Solana (optional)
+
+The MCP pays on **Base** by default but holds a Solana wallet too. To pay in USDC on Solana, no env vars, file editing, or restart needed — two tool calls:
+
+```
+blockrun_wallet action:"chain" chain:"solana"   # provisions + activates the Solana wallet
+blockrun_wallet action:"setup"                  # shows the Solana address + funding QR
+```
+
+Then send USDC (SPL) on the **Solana** network — from Coinbase (pick "Solana"), Phantom, Solflare, or Backpack. Switch back anytime with `blockrun_wallet action:"chain" chain:"base"`.
+
+**Base-only** (these need Base regardless of active chain): `blockrun_image`, `blockrun_music`, `blockrun_speech`, `blockrun_video`, paid stock `blockrun_price`, `blockrun_chat routing:"smart"`, and native Anthropic (`claude-*`) models. On Solana, pass `model:` or `mode:` to `blockrun_chat` explicitly.
+
 ### 4. Verify
 
 ```
