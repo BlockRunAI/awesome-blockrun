@@ -47,7 +47,7 @@ console.log(response);
 
 :::tab{label="Go"}
 ```bash
-go get github.com/blockrunai/blockrun-llm-go
+go get github.com/BlockRunAI/blockrun-llm-go
 ```
 
 ```go
@@ -55,7 +55,7 @@ package main
 
 import (
     "fmt"
-    blockrun "github.com/blockrunai/blockrun-llm-go"
+    blockrun "github.com/BlockRunAI/blockrun-llm-go"
 )
 
 func main() {

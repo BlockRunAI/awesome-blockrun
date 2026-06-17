@@ -7,6 +7,10 @@ description: Pair Coinbase AgentKit with BlockRun so your agents both hold on-ch
 
 Use BlockRun with Coinbase AgentKit for wallet-enabled AI agents — AgentKit holds assets and executes trades, BlockRun pays for the intelligence.
 
+:::note{title="Community integration"}
+BlockRun's primary paths are [Franklin](../products/franklin.md), the [BlockRun MCP](../mcp/blockrun-mcp.md), and the [SDKs](../sdks/python.md). Framework integrations like this one are community-maintained.
+:::
+
 [AgentKit](https://github.com/coinbase/agentkit) is Coinbase's framework for building AI agents with wallet capabilities. Combined with BlockRun, your agents can both hold assets AND pay for AI intelligence.
 
 ## Overview

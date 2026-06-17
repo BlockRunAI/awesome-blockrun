@@ -17,7 +17,7 @@ New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md)
 
 :::step{title="Install"}
 ```bash
-go get github.com/blockrunai/blockrun-llm-go
+go get github.com/BlockRunAI/blockrun-llm-go
 ```
 :::
 
@@ -28,7 +28,7 @@ package main
 import (
     "fmt"
     "os"
-    blockrun "github.com/blockrunai/blockrun-llm-go"
+    blockrun "github.com/BlockRunAI/blockrun-llm-go"
 )
 
 func main() {
@@ -214,7 +214,7 @@ package main
 import (
     "fmt"
     "time"
-    blockrun "github.com/blockrunai/blockrun-llm-go"
+    blockrun "github.com/BlockRunAI/blockrun-llm-go"
 )
 
 type TradingBot struct {
@@ -248,7 +248,7 @@ func main() {
 
 ## Links
 
-- [GitHub: blockrun-llm-go](https://github.com/blockrunai/blockrun-llm-go)
+- [GitHub: blockrun-llm-go](https://github.com/BlockRunAI/blockrun-llm-go)
 - [Models Reference](../api-reference/models.md)
 - [SDK Developer Guide](../getting-started/sdk-developers.md)
 
