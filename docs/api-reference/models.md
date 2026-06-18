@@ -135,8 +135,10 @@ These flagship models reject all sampling parameters (`temperature`, `top_p`, `t
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `zhipu/glm-5` | GLM-5 | $1.20/M | $5.00/M | 128K |
-| `zhipu/glm-5-turbo` | GLM-5 Turbo | $1.00/M | $3.20/M | 128K |
+| `zai/glm-5.2` | GLM-5.2 (flagship) | $1.40/M | $4.40/M | 1M |
+| `zai/glm-5.1` | GLM-5.1 | $1.40/M | $4.40/M | 200K |
+| `zai/glm-5` | GLM-5 | $0.60/M | $1.92/M | 200K |
+| `zai/glm-5-turbo` | GLM-5 Turbo | $1.20/M | $4.00/M | 200K |
 
 ### Moonshot
 
