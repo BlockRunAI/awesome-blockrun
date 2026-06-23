@@ -67,6 +67,26 @@ POST https://blockrun.ai/api/v1/chat/completions
 }
 ```
 
+### Usage Fields
+
+| Field | Always present | Notes |
+|-------|---|---|
+| `prompt_tokens` | yes | Full prompt size; cache reads already folded in |
+| `completion_tokens` | yes | Output tokens; includes thinking/reasoning for all providers |
+| `total_tokens` | yes | Sum of prompt + completion |
+| `prompt_tokens_details.cached_tokens` | when cache hit | Prompt tokens read from cache (OpenAI convention) |
+| `prompt_tokens_details.cached_creation_tokens` | when cache write | Prompt tokens written to cache this turn (BlockRun extension) |
+| `cache_read_input_tokens` | when cache hit | Same as `prompt_tokens_details.cached_tokens` — Anthropic/Bedrock native label |
+| `cache_creation_input_tokens` | when cache write | Same as `prompt_tokens_details.cached_creation_tokens` — Anthropic/Bedrock native label |
+| `completion_tokens_details.reasoning_tokens` | when reasoning | OpenAI GPT-5.x / o-series only; forwarded verbatim. Not available for Anthropic/Bedrock (thinking tokens already included in `completion_tokens`) |
+
+**Protocol naming convention:**
+- **Claude native `/v1/messages`**: `usage.input_tokens`, `usage.output_tokens`, `usage.cache_creation_input_tokens`, `usage.cache_read_input_tokens`
+- **OpenAI-compat `/v1/chat/completions`**: `usage.prompt_tokens_details.cached_tokens` (reads), `usage.prompt_tokens_details.cached_creation_tokens` (writes), `usage.completion_tokens_details.reasoning_tokens` (reasoning)
+
+**Enabling prompt caching on Anthropic models:**
+Pass `"prompt_cache": true` in the request body, or embed `cache_control` blocks in your message content directly — both are honored.
+
 ### Payment Required (402)
 
 When you first make a request without payment, you'll receive:
