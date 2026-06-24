@@ -65,19 +65,19 @@ The TypeScript `VideoClient` and the local ClawRouter proxy run the submit+poll 
 
 ## Available models
 
-| Model ID | Provider | Durations (sec) | Resolution | Image-to-video | Synced audio | Character / RealFace asset |
+| Model ID | Name | Durations (sec) | Resolution | Image-to-video | Synced audio | Character / RealFace asset |
 |---|---|---|---|---|---|---|
-| `azure/sora-2` | OpenAI (via Azure) | **4 / 8 / 12** (default 4 — only these three) | 720p, portrait or landscape | ✅ (non-human only) | ✅ | ❌ |
-| `xai/grok-imagine-video` | xAI | 8 (fixed) | upstream default | ✅ | — | ❌ |
-| `bytedance/seedance-1.5-pro` | ByteDance (Token360) | default 5, max 10 | 720p (default) | ✅ | ✅ (t2v) | ❌ |
-| `bytedance/seedance-2.0-fast` | ByteDance (Token360) | default 5, max 10 | 720p (default) | ✅ | ✅ (t2v) | ✅ |
-| `bytedance/seedance-2.0` (Pro) | ByteDance (Token360) | default 5, max 10 | 720p (default) | ✅ | ✅ (t2v) | ✅ |
+| `azure/sora-2` | Sora 2 | **4 / 8 / 12** (default 4 — only these three) | 720p, portrait or landscape | ✅ (non-human only) | ✅ | ❌ |
+| `xai/grok-imagine-video` | Grok Imagine Video | 1–15 (default 8) | upstream default | ✅ | — | ❌ |
+| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | default 5, max 12 | 720p (default) | ✅ | ✅ (t2v) | ❌ |
+| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | default 5, max 15 | 720p (default) | ✅ | ✅ (t2v) | ✅ |
+| `bytedance/seedance-2.0` (Pro) | Seedance 2.0 Pro | default 5, max 15 | 720p (default) | ✅ | ✅ (t2v) | ✅ |
 
 Notes:
 
 - **Sora 2** accepts only `duration_seconds` of **4, 8, or 12** — any other value returns `400` listing the allowed set. Text-to-video only (no `image_url`). Output is 720p with synchronized audio, portrait or landscape.
-- **Grok Imagine** is fixed at 8s; it accepts an optional `image_url` and ignores the Seedance-only tuning params (`resolution`, `aspect_ratio`, `generate_audio`, etc.).
-- **Seedance** is Token360-backed. The gateway bumps the default to **720p** and sets `generate_audio` per the t2v/i2v split below. Only Seedance **2.0** / **2.0-fast** accept a `real_face_asset_id` (`ta_xxxx`) for character/identity consistency. `seedance-2.0-fast` finishes in ~60–80s; `seedance-2.0` (Pro) is higher quality and slower.
+- **Grok Imagine** accepts `duration_seconds` from **1 to 15** (default 8); it accepts an optional `image_url` and ignores the Seedance-only tuning params (`resolution`, `aspect_ratio`, `generate_audio`, etc.).
+- **Seedance** supports a default of 5s and a per-tier maximum — **`seedance-2.0` / `seedance-2.0-fast` allow up to 15s, `seedance-1.5-pro` up to 12s** (the gateway returns `400` for a `duration_seconds` above the tier max). The gateway bumps the default to **720p** and sets `generate_audio` per the t2v/i2v split below. Only Seedance **2.0** / **2.0-fast** accept a `real_face_asset_id` (`ta_xxxx`) for character/identity consistency, multiple reference images, and reference video/audio (r2v). `seedance-2.0-fast` finishes in ~60–80s; `seedance-2.0` (Pro) is higher quality and slower.
 
 ---
 
@@ -85,12 +85,12 @@ Notes:
 
 Whether you can seed generation from an image — and how — depends on the subject:
 
-- **Non-human subject** (product, scene, animal, object): pass `image_url` (a public URL to the first frame) on **`azure/sora-2`**, **Grok**, or any **Seedance** model. For `azure/sora-2` the gateway resizes the seed image server-side to Sora's exact required dimensions (1280×720 / 720×1280). Seedance image-to-video is also ~40% cheaper than its text-to-video.
+- **Non-human subject** (product, scene, animal, object): pass `image_url` (a public URL to the first frame) on **`azure/sora-2`**, **Grok**, or any **Seedance** model. For `azure/sora-2` the gateway resizes the seed image server-side to Sora's exact required dimensions (1280×720 / 720×1280). Seedance image-to-video is billed at the same per-token rate as text-to-video.
 - **A specific real person**: you cannot upload a face to Sora (see the note below). Use **Seedance 2.0 / 2.0-fast + a RealFace `ta_xxxx` asset** — enroll the person once *with their consent* ([RealFace](realface.md), ~1-min on-phone liveness, $0.01), then pass `real_face_asset_id`. Details in [Character consistency](#character-consistency-seedance-20-fast--pro) below.
 - **An AI character / mascot**: same flow with a [Virtual Portrait](virtual-portrait.md) asset (no KYC, $0.01).
 
 :::warning{title="Sora reference images cannot contain human faces"}
-Both OpenAI's and Azure's Sora 2 **reject reference images that contain human faces** — a three-stage moderation pipeline blocks any recognizable person to prevent deepfakes. OpenAI's only consented-likeness path is *Cameo* (per-person live verification), not a general image upload. So on BlockRun: **`azure/sora-2` does image-to-video for non-human subjects** (`image_url`, resized server-side to Sora's exact dimensions); and **real-person video goes through Seedance 2.0 + RealFace** (the consent-based route above).
+`azure/sora-2` **rejects reference images that contain human faces** — a moderation pipeline blocks any recognizable person to prevent deepfakes, and there is no general human-likeness image-upload path. So on BlockRun: **`azure/sora-2` does image-to-video for non-human subjects** (`image_url`, resized server-side to Sora's exact dimensions); and **real-person video goes through Seedance 2.0 + RealFace** (the consent-based route above).
 :::
 
 ---
@@ -103,7 +103,12 @@ Both OpenAI's and Azure's Sora 2 **reject reference images that contain human fa
 | `prompt` | string | **Yes** | Text description of the video to generate. |
 | `image_url` | string (URL) | No | Seed image for image-to-video (all video models support it). For `azure/sora-2` the image is resized server-side to Sora's exact dimensions and must not contain a human face. Mutually exclusive with `real_face_asset_id`. |
 | `real_face_asset_id` | string | No | Character/face reference asset (`ta_xxxxxx`) from a [Virtual Portrait](virtual-portrait.md) (AI character) or [RealFace](realface.md) (real person). **Seedance 2.0 / 2.0-fast only.** Mutually exclusive with `image_url`. |
-| `duration_seconds` | integer | No | Duration to bill for. Defaults to the model default. Must respect the model's max (and, for Sora 2, the discrete `{4,8,12}` set) or you get a `400`. |
+| `last_frame_url` | string (URL) | No | Final-frame target for first-and-last-frame interpolation. Send with `image_url` (first frame). **Seedance only** (1.5-pro, 2.0-fast, 2.0). |
+| `reference_image_urls` | string[] | No | Multiple reference images for character/style consistency (cited as "image 1", "image 2"). **`seedance-2.0` / `seedance-2.0-fast` only.** |
+| `reference_videos` | array of `{url}` | No | Reference videos for reference-to-video (r2v). Up to 3. **`seedance-2.0` / `seedance-2.0-fast` only.** Adds a token surcharge (see Pricing). Flat `video_url` is rejected — use this array. |
+| `reference_audios` | array of `{url}` | No | Reference audios for r2v. Up to 3, each ≤15.2s. **`seedance-2.0` / `seedance-2.0-fast` only.** Adds a token surcharge. Flat `audio_url` is rejected — use this array. |
+| `input_type` | string | No | Optional validated enum: `text` / `image` / `first_last_frame` / `reference`. When supplied it must match the seed fields you actually sent or the request returns a `400`. |
+| `duration_seconds` | integer | No | Duration to bill for. Defaults to the model default. Must respect the model's max (Seedance: 2.0 / 2.0-fast = 15s, 1.5-pro = 12s; Sora 2: the discrete `{4,8,12}` set) or you get a `400`. |
 | `resolution` | string | No | `360p` / `480p` / `540p` / `720p` / `1080p` / `1K` / `2K` / `4K`. **Seedance defaults to `720p`**; higher resolutions cost more tokens upstream. Seedance only. |
 | `aspect_ratio` | string | No | `adaptive` / `16:9` / `9:16` / `1:1` / `4:3` / `3:4` / `21:9` / `9:21`. Seedance only — ignored by Grok. |
 | `generate_audio` | boolean | No | Synced audio track. **Seedance default: `true` for text-to-video, `false` for image/face-conditioned.** Pass explicitly to override. Ignored by Grok. |
@@ -117,15 +122,15 @@ Both OpenAI's and Azure's Sora 2 **reject reference images that contain human fa
 
 All prices include the gateway's standard **5% margin** — i.e. these are the amounts quoted in the `402` challenge and actually billed in USDC.
 
-| Model | Billing basis | Effective price |
+| Model | Billing basis | Effective price (720p) |
 |---|---|---|
 | `azure/sora-2` | $0.10 / second (flat) | **4s = $0.42** · **8s = $0.84** · **12s = $1.26** |
-| `xai/grok-imagine-video` | $0.05 / second (flat) | **8s = $0.42** |
-| `bytedance/seedance-1.5-pro` | Token-metered ($4.32 / M tokens) | **5s ≈ $0.46** · **10s ≈ $0.92** (text = image, flat) |
-| `bytedance/seedance-2.0-fast` | Token-metered ($11.20/M text · $6.60/M image) | **t2v 5s ≈ $1.19 / 10s ≈ $2.38** · **i2v 5s ≈ $0.70 / 10s ≈ $1.40** |
-| `bytedance/seedance-2.0` (Pro) | Token-metered ($14/M text · $8.60/M image) | **t2v 5s ≈ $1.49 / 10s ≈ $2.98** · **i2v 5s ≈ $0.91 / 10s ≈ $1.83** |
+| `xai/grok-imagine-video` | $0.05 / second (flat) | **8s = $0.42** · **15s = $0.79** |
+| `bytedance/seedance-1.5-pro` | Token-metered ($4.32 / M tokens) | **5s ≈ $0.49** · **12s ≈ $1.18** |
+| `bytedance/seedance-2.0-fast` | Token-metered ($11.20 / M tokens) | **5s ≈ $1.28** · **15s ≈ $3.82** |
+| `bytedance/seedance-2.0` (Pro) | Token-metered ($14 / M tokens) | **5s ≈ $1.59** · **15s ≈ $4.78** |
 
-**Seedance token math:** at the 720p default a clip uses **~20,256 tokens/second** (a 5s clip ≈ 101,300 tokens). Price = `duration × 20,256 × rate-per-M ÷ 1,000,000 × 1.05`. The image-input rate is cheaper (Token360 uses fewer tokens when conditioning on a frame). Drop to `resolution: "480p"` for roughly half the per-clip cost; `1080p` / `4K` cost proportionally more.
+**Seedance token math:** at the 720p default a clip uses **~21,690 tokens/second** (a 5s clip ≈ 108,450 tokens). Price = `duration × 21,690 × resolution-factor × rate-per-M ÷ 1,000,000 × 1.05`. Image-to-video is billed at the **same per-token rate** as text-to-video (no i2v discount). The resolution token factor relative to 720p (=1) is: `360p ×0.3`, `480p ×0.5`, `540p ×0.7`, `720p ×1`, `1080p`/`1K ×2.25`, `2K ×4`, `4K ×9` — so dropping to `480p` halves the per-clip cost and `1080p`/`4K` cost proportionally more. Reference video/audio inputs (r2v) add a surcharge: `×(1 + 1.0·#refVideos + 0.3·#refAudios)`. Per-second models (Grok, Sora) ignore resolution and reference surcharges.
 
 **One-time enrollment fees (separate from per-call billing):**
 
@@ -222,6 +227,7 @@ On settlement the response also carries `PAYMENT-RESPONSE` and `X-Payment-Receip
 | `data[].backed_up` | boolean | `true` when mirrored to BlockRun's GCS bucket |
 | `payment.status` | string | `settled` \| `already_settled` |
 | `payment.tx_hash` | string | On-chain USDC settlement tx (also in `X-Payment-Receipt` header) |
+| `usage` | object | On a completed Seedance poll: a `usage` block with `total_tokens` (the metered token count the price was computed from). |
 
 ---
 
@@ -332,7 +338,7 @@ Set your HTTP client timeout to at least 180s per poll. The POST handler itself 
 | 400 | POST / GET | Invalid request — bad/missing prompt, unsupported `image_url`/`real_face_asset_id` for the model, `duration_seconds` above max or not in the model's allowed set, model/provider mismatch on the poll. |
 | 402 | POST / GET | Payment required (no header → x402 challenge), or payment verify/settle failed. On a completed-but-unsettleable poll, the clip was generated but the signed authorization could not be settled (often expired) — retry the poll. |
 | 400 | POST | Content policy violation (`Content policy violation`). |
-| 429 | POST / GET | Upstream rate limit. Response includes `Retry-After` (and `X-RateLimit-Source` for Token360). |
+| 429 | POST / GET | Upstream rate limit. Response includes `Retry-After` (and `X-RateLimit-Source`). |
 | 500 | POST / GET | Server / provider configuration error. |
 | 504 | POST | Upstream submit timed out (>~20s). **No payment taken** — retry. |
 | 504 | GET | Upstream poll timed out — retry the poll in a few seconds. |

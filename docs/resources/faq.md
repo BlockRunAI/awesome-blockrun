@@ -13,8 +13,8 @@ Frequently asked questions about BlockRun — payments, products, models, wallet
 
 BlockRun is economic infrastructure for AI agents. It provides:
 - **Trading** — AI that analyzes markets and executes trades (alpha-mcp)
-- **Creation** — AI that creates optimized content and images
-- **Intelligence** — Access to 60+ AI models via x402 micropayments
+- **Creation** — generate images, video, music, and speech, paid per output
+- **Intelligence** — Access to 60+ chat/LLM models via x402 micropayments
 
 ### What makes BlockRun different?
 
@@ -28,8 +28,9 @@ BlockRun is economic infrastructure for AI agents. It provides:
 ### Is BlockRun free?
 
 - **Trading (alpha-mcp):** Free and open source
-- **Creation:** Pay-per-use ($0.05-0.12 per image)
+- **Creation:** Pay-per-use — images $0.015–0.15, video from $0.05/sec, music $0.15/track, text-to-speech $0.05–0.10 per 1k chars
 - **Intelligence:** Provider cost + 5%
+- **Free tier:** 10 chat/reasoning/vision models with no per-token charge
 
 ## Products
 
@@ -102,12 +103,15 @@ No. alpha-mcp is free. You only pay for intelligence (sentiment analysis) and ne
 ### Which AI models are available?
 
 60+ models including:
-- OpenAI (GPT-5.5, GPT-5.4, GPT-5.2, o1)
-- Anthropic (Claude Opus 4, Sonnet 4, Haiku 4.5)
-- Google (Gemini 3 Pro, Gemini 2.5 Flash)
-- DeepSeek (V3, R1)
+- OpenAI (GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2)
+- Anthropic (Claude Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5)
+- Google (Gemini 3.1 Pro, Gemini 3.5 Flash)
+- DeepSeek (V4 Flash Chat, V4 Pro, Reasoner)
+- Z.AI (GLM-5.2 with 1M context, GLM-5.1, GLM-5, GLM-5 Turbo)
+- Moonshot (Kimi K2.7 — 256K context, image + video input)
+- MiniMax (MiniMax M3)
 - xAI (Grok)
-- Meta (Llama)
+- Plus a free tier of 10 reasoning, coding, and vision models
 
 Full list: [Models](../api-reference/models.md)
 

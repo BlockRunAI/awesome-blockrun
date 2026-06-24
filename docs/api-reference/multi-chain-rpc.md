@@ -7,7 +7,7 @@ description: Standard JSON-RPC 2.0 access to 40+ blockchains through one endpoin
 
 Standard JSON-RPC 2.0 access to 40+ blockchains through a single endpoint. No account, no API key, no monthly plan — pay **$0.002 per call** in USDC over x402. Built for AI agents that read on-chain data across many chains from one wallet.
 
-Powered by [Tatum](https://tatum.io). BlockRun proxies Tatum's RPC gateways with x402 settlement, so an agent can query any supported chain without onboarding to a node provider.
+BlockRun proxies upstream RPC gateways with x402 settlement, so an agent can query any supported chain without onboarding to a node provider.
 
 ## The problem it solves
 

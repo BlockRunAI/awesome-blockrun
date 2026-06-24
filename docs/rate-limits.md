@@ -23,16 +23,14 @@ When an upstream provider rate-limits a request, BlockRun returns:
 ```http
 HTTP/1.1 429 Too Many Requests
 Retry-After: 60
-X-RateLimit-Source: anthropic
 Content-Type: application/json
 ```
 
 ```json
 {
   "error": "Rate limited",
-  "message": "Upstream provider rate limit hit — retry after 60s, or fail over to a same-tier model on a different provider.",
+  "message": "Upstream provider rate limit hit — retry after 60s, or fail over to a same-tier model from a different family.",
   "code": "RATE_LIMITED",
-  "source": "anthropic",
   "retry_after_seconds": 60
 }
 ```
@@ -40,7 +38,6 @@ Content-Type: application/json
 | Field / Header | Meaning |
 |----------------|---------|
 | `Retry-After` (header) | Seconds to wait before retrying. Honor this. |
-| `X-RateLimit-Source` (header) | Which upstream provider throttled (`anthropic`, `openai`, …). |
 | `code` | Always `RATE_LIMITED` for this case. |
 | `retry_after_seconds` | Same value as `Retry-After`, in the body for convenience. |
 
@@ -49,7 +46,7 @@ This applies to both the standard (`POST /api/v1/chat/completions`) and Anthropi
 ## Recommended client handling
 
 1. **Honor `Retry-After`** — wait the indicated seconds, then retry (exponential backoff on repeats).
-2. **Or fail over to a same-tier model on a different provider** — e.g. if `anthropic/claude-sonnet-4.6` is throttled, retry on `openai/gpt-5.4` or `google/gemini-3-pro-preview`. Different providers have independent rate-limit pools, so a cross-provider retry usually succeeds immediately.
+2. **Or fail over to a same-tier model from a different family** — e.g. if `anthropic/claude-sonnet-4.6` is throttled, retry on `openai/gpt-5.5` or `google/gemini-3.1-pro`. Different model families draw on independent capacity pools, so a cross-family retry usually succeeds immediately.
 
 ```python
 import time
@@ -57,15 +54,12 @@ resp = client.chat(...)
 if resp.status_code == 429:
     time.sleep(int(resp.headers.get("Retry-After", 60)))
     resp = client.chat(...)            # retry
-    # or: client.chat(model="openai/gpt-5.4", ...)  # cross-provider failover
+    # or: client.chat(model="openai/gpt-5.5", ...)  # cross-family failover
 ```
 
-## Provider notes
+## Behind the gateway
 
-- **Claude (`anthropic/*`)** is served through **AWS Bedrock** (cross-region inference) with a **fallback to the direct Anthropic API**. A `429` here means *both* pools were saturated; back off or fail over to another provider.
-- **GPT (`openai/*`)** mainline chat models are served **Azure-first** with a fallback to direct OpenAI.
-
-In both cases the failover is automatic and internal — you only see a `429` when every backing pool for that model is exhausted.
+BlockRun serves each model through its own gateway and may route a single model id across multiple backing capacity pools, failing over automatically and internally. You only ever see a `429` when **every** backing pool for that model is exhausted — at which point backing off or failing over to another model family is the fastest path through.
 
 ## Other endpoints
 
@@ -80,7 +74,7 @@ The paid LLM endpoint where upstream provider limits apply.
 :::
 
 :::card{title="Models" href="api-reference/models.md" icon="Boxes"}
-The model catalog and which provider backs each one.
+The full model catalog with live pricing and context windows.
 :::
 
 :::card{title="x402 Endpoints" href="x402/endpoints.md" icon="Zap"}

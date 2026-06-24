@@ -175,11 +175,11 @@ Create an instrumental ambient track for a meditation app
 
 ## Pricing Details
 
-| Model | MiniMax Cost | BlockRun Price | Margin |
-|-------|-------------|----------------|--------|
-| music-2.5+ | ¥1.0 (~$0.138) | $0.1575 | ~14% |
+| Model | BlockRun Price |
+|-------|----------------|
+| music-2.5+ | $0.1575/track (provider cost + 5% margin, $0.15 base) |
 
-Prices in USD, paid in USDC on Base network.
+Prices in USD, paid in USDC on Base network. Minimum charge is $0.001/request.
 
 ## Wallet Requirements
 

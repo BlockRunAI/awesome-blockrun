@@ -18,9 +18,9 @@ Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversa
 ClawRouter analyzes your prompt and automatically picks the right model tier:
 
 - **Simple questions** → Cheap models (DeepSeek, Gemini Flash)
-- **Medium complexity** → Balanced models (GPT-4o-mini, Claude Haiku)
-- **Complex reasoning** → Premium models (Claude Opus, GPT-5.5)
-- **Code generation** → Specialized models (Claude Sonnet, DeepSeek Coder)
+- **Medium complexity** → Balanced models (Gemini 3.5 Flash, Claude Haiku)
+- **Complex reasoning** → Premium models (Claude Opus 4.8, GPT-5.5)
+- **Code generation** → Specialized models (Claude Sonnet 4.6, GLM-5.2)
 
 **Result:** 78% average cost savings with no quality loss.
 
@@ -116,13 +116,13 @@ Each tier × profile combination resolves to a primary model plus an ordered fal
 We descend by **quality first**, then trade quality for speed. Example COMPLEX-tier fallback under `auto`:
 
 ```
-gemini-3-pro-preview      IQ 48, 1,352ms  ← primary
-gemini-3-flash-preview    IQ 46, 1,398ms
-grok-4-0709               IQ 41, 1,348ms
-gemini-2.5-pro                   1,294ms
+gemini-3.1-pro            IQ 48, 1,352ms  ← primary
+gemini-3.5-flash          IQ 46, 1,398ms
+grok-4.3                  IQ 41, 1,348ms
+glm-5.2                          1,294ms
 claude-sonnet-4.6         IQ 52, 2,110ms
 deepseek-chat             IQ 32, 1,431ms
-gemini-2.5-flash          IQ 20, 1,238ms
+minimax-m3                IQ 20, 1,238ms
 gpt-5.4                   IQ 57, 6,213ms  ← last resort
 ```
 
@@ -144,26 +144,26 @@ Every request is its own settled x402 transaction. There is no session state to 
 
 ### 4-Tier Model Selection
 
-Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0 routing across the NVIDIA tier):
+Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0 routing across the free tier):
 
 | Tier | Model (auto) | Cost | Free-tier fallback | Use Case |
 |------|-------|------|--------------------|----------|
-| **SIMPLE** | moonshot/kimi-k2.6 | $0.95/M in / $4.00/M out | `nvidia/mistral-nemotron` (FREE) | Q&A, summaries, simple tasks |
-| **MEDIUM** | google/gemini-2.5-flash | $0.30/M in / $2.50/M out | `nvidia/qwen3-next-80b-a3b-instruct` (FREE) | Analysis, writing, coding |
-| **COMPLEX** | google/gemini-3.1-pro | $1.31/M in / $5.25/M out | `nvidia/qwen3.5-122b-a10b` (FREE) | Advanced reasoning, research |
-| **REASONING** | deepseek/deepseek-reasoner | $0.28/M in / $0.42/M out | `nvidia/qwen3-next-80b-a3b-instruct` (FREE) | Math, logic, proofs |
+| **SIMPLE** | moonshot/kimi-k2.7 | $0.95/M in / $4.00/M out | free-tier model (FREE) | Q&A, summaries, simple tasks |
+| **MEDIUM** | google/gemini-3.5-flash | $0.50/M in / $3.00/M out | free-tier model (FREE) | Analysis, writing, coding |
+| **COMPLEX** | google/gemini-3.1-pro | $2.00/M in / $12.00/M out | free-tier model (FREE) | Advanced reasoning, research |
+| **REASONING** | deepseek/deepseek-reasoner | $0.28/M in / $0.42/M out | free-tier model (FREE) | Math, logic, proofs |
 
-*Prices shown are output costs per 1M tokens (after 5% BlockRun markup)*
+*Prices shown per 1M tokens (after 5% BlockRun markup)*
 
 ## Smart Routing Examples
 
 | Prompt | Routed To | Cost | Savings |
 |--------|-----------|------|---------|
-| "What is 2+2?" | DeepSeek | $0.27/M | 99% |
-| "Summarize this article" | GPT-4o-mini | $0.60/M | 99% |
-| "Build a React component" | Claude Sonnet | $15.00/M | 80% |
-| "Prove this theorem" | DeepSeek-R | $0.42/M | 99% |
-| "Run 50 parallel searches" | Kimi K2.5 | $2.40/M | 97% |
+| "What is 2+2?" | DeepSeek | $0.40/M | 99% |
+| "Summarize this article" | Gemini 3.5 Flash | $3.00/M | 90% |
+| "Build a React component" | Claude Sonnet 4.6 | $15.00/M | 80% |
+| "Prove this theorem" | DeepSeek Reasoner | $0.42/M | 99% |
+| "Run 50 parallel searches" | Kimi K2.7 | $4.00/M | 87% |
 
 ## Features
 
@@ -177,13 +177,15 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 
 Access all major providers through one wallet:
 
-- **OpenAI**: GPT-5.5, GPT-5.4, GPT-5.2, o1, o3
-- **Anthropic**: Claude Opus 4.7, Sonnet 4.6, Haiku 4.5
-- **Google**: Gemini 3 Pro, Gemini 2.5 Pro/Flash
-- **DeepSeek**: DeepSeek V3, DeepSeek Reasoner
-- **xAI**: Grok 4.20, Grok 4 Fast (2M context)
-- **Moonshot**: Kimi K2.6 (flagship, vision + reasoning), Kimi K2.5
-- **NVIDIA (all FREE)**: DeepSeek V4 Pro/Flash (1M ctx), Nemotron Nano Omni (vision), Qwen3-Next 80B Thinking, Mistral Small 4 119B, GLM-4.7, Llama 4 Maverick, Qwen3 Coder 480B, DeepSeek V3.2 (9 models)
+- **OpenAI**: GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2
+- **Anthropic**: Claude Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5
+- **Google**: Gemini 3.1 Pro, Gemini 3.5 Flash
+- **DeepSeek**: DeepSeek V4 Flash Chat, DeepSeek V4 Pro, DeepSeek Reasoner
+- **xAI**: Grok 4.3, Grok 4 Fast (2M context)
+- **Z.AI**: GLM-5.2 (flagship, 1M context), GLM-5.1, GLM-5, GLM-5 Turbo
+- **Moonshot**: Kimi K2.7 (flagship, 256K, image + video input)
+- **MiniMax**: MiniMax M3
+- **Free tier (all FREE)**: 10 reasoning, coding, and vision models with no per-token charge
 
 [View all models →](../intelligence/pricing.md)
 
@@ -210,7 +212,7 @@ Once installed and enabled with `/model blockrun/auto`, ClawRouter works automat
 ```
 You: Explain quantum computing in simple terms
 
-ClawRouter: [Routes to nvidia/qwen3-next-80b-a3b-instruct - FREE]
+ClawRouter: [Routes to a free-tier model - FREE]
 Response: Quantum computing uses quantum mechanics...
 ```
 
@@ -227,7 +229,7 @@ You can still override routing for specific requests:
 ClawRouter logs show which model was selected and why:
 
 ```
-[ClawRouter] Prompt complexity: LOW → Tier: SIMPLE → Model: nvidia/qwen3-next-80b-a3b-instruct (free profile)
+[ClawRouter] Prompt complexity: LOW → Tier: SIMPLE → Model: free-tier model (free profile)
 [ClawRouter] Cost: $0.0000 (saved $0.0150 vs. Claude Opus)
 ```
 
@@ -254,11 +256,11 @@ ClawRouter logs show which model was selected and why:
 
 ### Without ClawRouter
 
-Using Claude Opus 4 for everything:
+Using Claude Opus 4.8 for everything:
 
 ```
 100 requests × 1000 tokens = 100K tokens
-100K / 1M × $75 = $7.50
+100K / 1M × $25 = $2.50
 ```
 
 ### With ClawRouter
@@ -266,11 +268,11 @@ Using Claude Opus 4 for everything:
 Smart routing to appropriate models:
 
 ```
-70 simple requests → DeepSeek ($0.42/M) = $0.03
-20 medium requests → Claude Haiku ($5.00/M) = $0.10
-10 complex requests → Claude Opus ($75.00/M) = $0.75
+70 simple requests → DeepSeek ($0.40/M) = $0.03
+20 medium requests → Claude Haiku ($4.00/M) = $0.08
+10 complex requests → Claude Opus 4.8 ($25.00/M) = $0.25
 
-Total: $0.88 (saved $6.62 = 88% savings)
+Total: $0.36 (saved $2.14 = 86% savings)
 ```
 
 ## Supported Models
@@ -279,17 +281,15 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 
 ### Chat Models
 
-- **OpenAI GPT-5.5 Family**: GPT-5.5
-- **OpenAI GPT-5.4 Family**: GPT-5.4, GPT-5.4 Pro
-- **OpenAI GPT-5 Family**: GPT-5.2, GPT-5 Mini, GPT-5 Nano
-- **OpenAI GPT-4 Family**: GPT-4.1, GPT-4o, GPT-4o-mini
-- **OpenAI O-Series**: o1, o1-mini, o3, o3-mini
-- **Anthropic Claude**: Opus 4/4.5, Sonnet 4, Haiku 4.5
-- **Google Gemini**: 3 Pro, 2.5 Pro, 2.5 Flash
-- **DeepSeek**: V3 Chat, V3 Reasoner
-- **xAI Grok**: Grok 3, Grok 4 (2M context), Grok Mini
-- **Moonshot**: Kimi K2.6 flagship (256K, vision + reasoning), Kimi K2.5 legacy
-- **NVIDIA Free**: GPT-OSS 120B, GPT-OSS 20B
+- **OpenAI**: GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2
+- **Anthropic Claude**: Opus 4.8, Opus 4.7, Opus 4.5, Sonnet 4.6, Haiku 4.5
+- **Google Gemini**: 3.1 Pro, 3.5 Flash
+- **DeepSeek**: V4 Flash Chat, V4 Pro, Reasoner
+- **xAI Grok**: Grok 4.3, Grok 4 Fast (2M context)
+- **Z.AI**: GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo
+- **Moonshot**: Kimi K2.7 flagship (256K, image + video input)
+- **MiniMax**: MiniMax M3
+- **Free tier**: 10 models, no per-token charge
 
 ### Image Generation
 
@@ -356,7 +356,7 @@ All SDKs support the same routing profiles:
 
 | Profile | Behavior | Best For |
 |---------|----------|----------|
-| `free` | Always uses free NVIDIA models | Development, testing |
+| `free` | Always uses free-tier models | Development, testing |
 | `eco` | Maximizes cost savings | Bulk processing |
 | `auto` | Balances quality and cost (default) | Production workloads |
 | `premium` | Always uses top-tier models | Critical tasks |
@@ -380,7 +380,7 @@ Edit `~/.openclaw/clawrouter.config.json`:
 {
   "costWeight": 0.7,        // How much to prioritize cost (0-1)
   "qualityWeight": 0.3,     // How much to prioritize quality (0-1)
-  "enableFreeModels": true, // Use NVIDIA free models when appropriate
+  "enableFreeModels": true, // Use free-tier models when appropriate
   "maxCostPerRequest": 0.10 // Maximum cost per request in USD
 }
 ```
@@ -456,7 +456,7 @@ No. AI model access requires internet. But routing decisions are made locally.
 ::::cards
 
 :::card{title="View all models" href="../intelligence/overview.md" icon="Brain"}
-60+ LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, and the free NVIDIA tier.
+60+ LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
 :::
 
 :::card{title="Check pricing" href="../intelligence/pricing.md" icon="Zap"}

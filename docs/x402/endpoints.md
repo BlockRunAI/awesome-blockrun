@@ -20,7 +20,7 @@ The same paths are available on each gateway. The 402 response advertises which 
 | Domain | Network | Asset | Settlement | Notes |
 |---|---|---|---|---|
 | `blockrun.ai` | Base mainnet — `eip155:8453` | USDC `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` | Per-call onchain | Default gateway. EIP-3009 / x402 v2. |
-| `sol.blockrun.ai` | Solana mainnet — `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDC SPL `EPjFWdd5AufqSSqeM2qN1xzybapC8C4wEBmGbV4Vu5JLs` | Per-call onchain | Solana SPL transfers. |
+| `sol.blockrun.ai` | Solana mainnet — `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDC SPL `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` | Per-call onchain | Solana SPL transfers. |
 | `nano.blockrun.ai` | Base mainnet via Circle Gateway | USDC | Batched (Nanopayments) | Gas-free, sub-cent floor, batched onchain settlement. See [the Nanopayments launch post](https://blockrun.ai/signal/nanopayments-mainnet-circle-gateway). |
 | `xrpl.blockrun.ai` | XRP Ledger | RLUSD (Ripple-issued USD) | Per-call onchain | **Deprecated (being sunset)** — use Base or Solana for new integrations. See the [XRPL SDK notice](../sdks/xrpl.md). |
 | `testnet.blockrun.ai` | Base Sepolia — `eip155:84532` | USDC `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | Per-call onchain | Free test USDC. Smaller model catalog. |
@@ -39,24 +39,29 @@ Replace `blockrun.ai` with `sol.blockrun.ai`, `nano.blockrun.ai`, `xrpl.blockrun
 
 ## AI Model Gateway
 
-OpenAI-compatible. 50+ chat models from OpenAI, Anthropic, Google, xAI, DeepSeek, Moonshot, Z.AI, NVIDIA, Mistral, MiniMax, and Cohere.
+OpenAI-compatible. 60+ models across chat, reasoning, coding, and vision — plus image, video, music, and speech generation. Per-model pricing is published live at `/api/v1/models`.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
 | POST | `/api/v1/chat/completions` | OpenAI-compatible chat | Token-based, see `/api/v1/models` |
+| POST | `/api/v1/chat/{model}` | Chat completions with the model in the path | Token-based |
 | POST | `/api/v1/messages` | Anthropic-compatible messages | Token-based |
 | POST | `/api/v1/images/generations` | Image generation (gpt-image-1/2, Nano Banana, CogView-4, Grok Imagine) | Per image, per size |
 | GET  | `/api/v1/images/generations/{id}` | Async image poll for slow models (gpt-image-2, etc.) | Free |
 | POST | `/api/v1/images/image2image` | Image edit / inpainting + multi-image fusion (gpt-image-1/2, Nano Banana, Nano Banana Pro) | Per image |
-| POST | `/api/v1/videos/generations` | Video generation (Seedance, Grok Imagine Video) | Per second, varies |
-| GET  | `/api/v1/videos/generations/{id}` | Async video poll | Free |
+| POST | `/api/v1/videos/generations` | Video generation (Seedance, Grok Imagine Video, Sora 2) | Per second / token-metered, varies |
+| GET  | `/api/v1/videos/generations/{id}` | Async video poll (settlement happens here on completion) | Free |
+| POST | `/api/v1/videos` | Standard multimodal `content[]` body — delegates to `/videos/generations` | Per second / token-metered |
+| POST | `/api/v1/audio/speech` | Text-to-speech (ElevenLabs voices) | $0.05–$0.10 / 1k chars |
+| POST | `/api/v1/audio/generations` | Music generation (MiniMax Music) | $0.15 / track |
+| POST | `/api/v1/audio/sound-effects` | Sound-effect generation | $0.05 / generation |
+| GET  | `/api/v1/audio/voices` | List available TTS voices | Free |
 | POST | `/api/v1/portrait/enroll` | Enroll AI character as a Virtual Portrait (`ta_xxx`) for Seedance | **$0.01 / enrollment** |
 | GET  | `/api/v1/wallet/{address}/portraits` | List a wallet's enrolled Virtual Portraits | Free (rate-limited) |
 | POST | `/api/v1/realface/init` | Create a RealFace enrollment session, returns h5Link for phone liveness check | Free (rate-limited) |
 | POST | `/api/v1/realface/enroll` | Finalize RealFace enrollment after H5 completes (uploads face + biometric match) | **$0.01 / enrollment** |
 | GET  | `/api/v1/realface/status` | Poll the state of a RealFace enrollment group | Free (rate-limited) |
 | GET  | `/api/v1/wallet/{address}/realfaces` | List a wallet's enrolled RealFaces | Free (rate-limited) |
-| POST | `/api/v1/audio/generations` | Music / audio (MiniMax Music) | Per track |
 
 Per-model pricing is published at `/api/v1/models` and embedded in every 402 response.
 
@@ -64,49 +69,70 @@ Per-model pricing is published at `/api/v1/models` and embedded in every 402 res
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| POST | `/api/v1/search` | Web search (Exa-backed) | ~$0.005 / call |
-| GET/POST | `/api/v1/exa/{path}` | Exa raw passthrough (search, contents, find_similar, answer) | Per-tier |
-| POST | `/api/v1/exa/answer` | Exa AI answer — returns a direct answer with citations | Per-tier |
+| POST | `/api/v1/search` | Live search (web / news / X) | `max_results × $0.025` / source (default 10) |
+| POST | `/api/v1/exa/search` | Web search | $0.01 / call |
+| POST | `/api/v1/exa/find-similar` | Find semantically similar pages | $0.01 / call |
+| POST | `/api/v1/exa/answer` | AI answer with citations | $0.01 / call |
+| POST | `/api/v1/exa/contents` | Extract content from URLs | $0.002 / URL |
 
-## Sandbox Compute (Modal)
+## Voice & Phone
+
+| Method | Path | Purpose | Pricing |
+|---|---|---|---|
+| POST | `/api/v1/voice/call` | Place an outbound AI voice call | Per call, returned in 402 |
+| GET  | `/api/v1/voice/call/{callId}` | Poll call status / transcript | Free |
+| GET/POST | `/api/v1/phone/{path}` | Phone-number provisioning, lookups, and management | Per endpoint, returned in 402 |
+
+## Sandbox Compute
 
 Ephemeral, isolated Python sandboxes for agent code execution.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| POST | `/api/v1/modal/sandbox/create` | Create sandbox | $0.01 |
-| POST | `/api/v1/modal/sandbox/exec` | Execute code | $0.001 |
-| POST | `/api/v1/modal/sandbox/files/read` | Read file | $0.001 |
-| POST | `/api/v1/modal/sandbox/files/write` | Write file | $0.001 |
-| POST | `/api/v1/modal/sandbox/destroy` | Destroy sandbox | $0.001 |
+| POST | `/api/v1/modal/sandbox/create` | Create sandbox | $0.01 (flat for short-lived; per-hour for long-lived) |
+| POST | `/api/v1/modal/sandbox/exec` | Execute a command in a sandbox | $0.001 |
+| POST | `/api/v1/modal/sandbox/status` | Check sandbox status | $0.001 |
+| POST | `/api/v1/modal/sandbox/terminate` | Terminate a sandbox | $0.001 |
 
 ## Prediction Markets (Predexon)
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| GET/POST | `/api/v1/pm/{path}` | Predexon API passthrough — markets, events, odds, history | $0.001 (tier 1) / $0.005 (tier 2) |
+| GET/POST | `/api/v1/pm/{path}` | Predexon API passthrough — markets, events, odds, history | GET $0.001 (tier 1) / POST $0.005 (tier 2) |
+
+## Crypto Data (Surf)
+
+| Method | Path | Purpose | Pricing |
+|---|---|---|---|
+| GET/POST | `/api/v1/surf/{path}` | Crypto market / on-chain intelligence — exchanges, on-chain analytics, wallet labels, social mindshare, news, search | Tier 1 $0.001 (reads) · Tier 2 $0.005 (AI rankings/trends) · Tier 3 $0.02 (heavy LLM/SQL reports) |
+
+## 0x Swap (DEX)
+
+| Method | Path | Purpose | Pricing |
+|---|---|---|---|
+| GET/POST | `/api/v1/zerox/{path}` | 0x Swap + Gasless aggregation passthrough (price / quote / gasless) | **Free passthrough — no x402 payment** |
 
 ## Financial Data (Pyth-backed)
 
-Real-time and historical prices. List endpoints are free; price/history endpoints are $0.001/call.
+Real-time and historical prices. All `list` endpoints are free. **Crypto, FX, and commodity** price/history are also free; **stock** price/history (US and non-US) are **$0.001/call**.
 
-| Method | Path | Purpose |
-|---|---|---|
-| GET | `/api/v1/usstock/list` | US tickers (free) |
-| GET | `/api/v1/usstock/price/{symbol}` | US stock spot price |
-| GET | `/api/v1/usstock/history/{symbol}` | US stock OHLC |
-| GET | `/api/v1/stocks/{market}/list` | Non-US markets (HK, JP, ...) (free) |
-| GET | `/api/v1/stocks/{market}/price/{symbol}` | Non-US stock price |
-| GET | `/api/v1/stocks/{market}/history/{symbol}` | Non-US OHLC |
-| GET | `/api/v1/crypto/list` | Crypto tickers (free) |
-| GET | `/api/v1/crypto/price/{symbol}` | Crypto spot |
-| GET | `/api/v1/crypto/history/{symbol}` | Crypto OHLC |
-| GET | `/api/v1/fx/list` | FX pairs (free) |
-| GET | `/api/v1/fx/price/{symbol}` | FX spot |
-| GET | `/api/v1/fx/history/{symbol}` | FX OHLC |
-| GET | `/api/v1/commodity/list` | Commodities (free) |
-| GET | `/api/v1/commodity/price/{symbol}` | Commodity spot |
-| GET | `/api/v1/commodity/history/{symbol}` | Commodity OHLC |
+| Method | Path | Purpose | Pricing |
+|---|---|---|---|
+| GET | `/api/v1/usstock/list` | US tickers | Free |
+| GET | `/api/v1/usstock/price/{symbol}` | US stock spot price | $0.001 |
+| GET | `/api/v1/usstock/history/{symbol}` | US stock OHLC | $0.001 |
+| GET | `/api/v1/stocks/{market}/list` | Non-US markets (HK, JP, ...) | Free |
+| GET | `/api/v1/stocks/{market}/price/{symbol}` | Non-US stock price | $0.001 |
+| GET | `/api/v1/stocks/{market}/history/{symbol}` | Non-US OHLC | $0.001 |
+| GET | `/api/v1/crypto/list` | Crypto tickers | Free |
+| GET | `/api/v1/crypto/price/{symbol}` | Crypto spot | Free |
+| GET | `/api/v1/crypto/history/{symbol}` | Crypto OHLC | Free |
+| GET | `/api/v1/fx/list` | FX pairs | Free |
+| GET | `/api/v1/fx/price/{symbol}` | FX spot | Free |
+| GET | `/api/v1/fx/history/{symbol}` | FX OHLC | Free |
+| GET | `/api/v1/commodity/list` | Commodities | Free |
+| GET | `/api/v1/commodity/price/{symbol}` | Commodity spot | Free |
+| GET | `/api/v1/commodity/history/{symbol}` | Commodity OHLC | Free |
 
 ## Blockchain RPC (Tatum)
 
@@ -121,12 +147,18 @@ Standard JSON-RPC 2.0 to 40+ chains through one endpoint — no API key. EVM (`e
 
 | Method | Path | Purpose |
 |---|---|---|
-| GET | `/api/v1/models` | Live model catalog with pricing |
+| GET | `/api/v1/models` | Live chat model catalog with pricing |
+| GET | `/api/v1/images/models` | Image model list |
+| GET | `/api/v1/video/models` | Video model list |
+| GET | `/api/v1/audio/models` | Audio (music / speech / SFX) model list |
+| GET | `/api/v1/audio/voices` | TTS voice list |
 | GET | `/api/v1/balance` | Wallet USDC balance check |
+| GET | `/api/health` | Basic service health |
 | GET | `/api/v1/health/overview` | Service health |
 | GET | `/api/v1/health/chain` | Chain RPC health |
-| GET | `/api/v1/health/models` | Per-provider availability |
+| GET | `/api/v1/health/models` | Per-model availability |
 | GET | `/api/v1/health/regions` | Region/edge health |
+| GET | `/api/pricing` | Pricing info |
 | GET | `/.well-known/x402` | x402 discovery (v1+v2) |
 | GET | `/openapi.json` | OpenAPI 3.1 spec |
 

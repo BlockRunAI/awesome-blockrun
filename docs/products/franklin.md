@@ -26,7 +26,7 @@ npm install -g @blockrun/franklin
 :::
 
 :::step{title="Run — free out of the box"}
-Franklin starts on free NVIDIA models (Nemotron, Qwen3 Coder), no wallet needed.
+Franklin starts on the free tier (10 reasoning, coding, and vision models), no wallet needed.
 
 ```bash
 franklin
@@ -50,7 +50,7 @@ No install? Run it directly with `npx @blockrun/franklin`.
 
 Franklin is the autonomous agent on top of the BlockRun stack — it uses the same pieces you can use directly:
 
-- **Models & routing** — picks the best model per task via [ClawRouter](routing/clawrouter.md)'s scoring, across 60+ providers.
+- **Models & routing** — picks the best model per task via [ClawRouter](routing/clawrouter.md)'s scoring, across 60+ chat models.
 - **Paid APIs** — search, market data, media, RPC, and more, paid per call over [x402](../x402/how-it-works.md).
 - **One wallet** — the wallet is the identity; fund it on Base or Solana ([Wallet Setup](../getting-started/wallet-setup.md)).
 

@@ -176,7 +176,7 @@ Server                          Facilitator                    Blockchain
   |<--------------------------------|                              |
   |                                 |                              |
   |  3. Execute AI request          |                              |
-  |  (call OpenAI/Anthropic/etc)    |                              |
+  |  (route to the model)           |                              |
   |                                 |                              |
   |  4. Settle payment              |                              |
   |-------------------------------->|                              |

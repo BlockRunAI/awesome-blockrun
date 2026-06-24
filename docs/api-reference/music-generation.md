@@ -52,7 +52,7 @@ POST https://blockrun.ai/api/v1/audio/generations
   "model": "minimax/music-2.5+",
   "data": [
     {
-      "url": "https://cdn.minimax.io/music/...",
+      "url": "https://<cdn-host>/music/...",
       "duration_seconds": 186
     }
   ]
@@ -170,11 +170,11 @@ result = requests.post(
 
 ## Pricing
 
-| Model | MiniMax Cost | BlockRun Price |
-|-------|-------------|----------------|
-| minimax/music-2.5+ | ¥1.0 (~$0.138) | $0.1575 |
+| Model | Price/track |
+|-------|-------------|
+| `minimax/music-2.5+` | $0.1575 |
 
-Prices include 5% BlockRun margin. Paid in USDC on Base network.
+Price = `$0.15 × 1.05` (includes the 5% BlockRun margin), minimum $0.001. Paid in USDC on Base or Solana.
 
 ## Limitations
 

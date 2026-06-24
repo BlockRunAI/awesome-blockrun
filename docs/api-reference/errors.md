@@ -14,7 +14,10 @@ BlockRun uses standard HTTP status codes and returns detailed error information.
 | 200 | Success |
 | 400 | Bad Request - Invalid parameters |
 | 402 | Payment Required - Sign and retry with payment |
+| 403 | Content policy violation |
+| 429 | Rate limited - upstream provider limit; honor `Retry-After` |
 | 500 | Server Error - Something went wrong |
+| 504 | Upstream timed out - no charge taken; retry |
 
 ## Error Response Format
 

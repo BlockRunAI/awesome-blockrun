@@ -7,6 +7,59 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-06-24]
+
+### Changed — Seedance video max duration raised
+- `bytedance/seedance-2.0` and `bytedance/seedance-2.0-fast`: max duration **10s → 15s**.
+- `bytedance/seedance-1.5-pro`: max duration **10s → 12s**.
+- Default duration stays 5s; price scales linearly with duration (Seedance is token-metered, so a 15s clip costs 3× a 5s clip at the same resolution). Marketplace copy updated from "5–10s" to "5–15s".
+
+---
+
+## [2026-06-22]
+
+### Added — Cache and reasoning tokens surfaced in usage fields
+- Non-stream Claude (`/v1/messages` and OpenAI-compat) responses now emit `cached_creation_tokens` (cache-write count) under `prompt_tokens_details`.
+- Streaming responses now surface `reasoning_tokens` under `completion_tokens_details`.
+- Pricing is unchanged — these fields are reporting-only so callers can reconcile their own ledger 1:1 against ours.
+
+---
+
+## [2026-06-18]
+
+### Changed — `context_management` now requires the `anthropic-beta` header
+- **`/v1/messages`**: sending `context_management` without the `anthropic-beta` header now returns a **400 at the gateway edge** (previously the field passed through and silently degraded). Add the `anthropic-beta` header when using `context_management`.
+
+### Changed — Rejected sampling params stripped on native Claude paths
+- Opus 4.7 / Opus 4.8 reject `temperature`, `top_p`, and `top_k`. These params are now stripped on the native `/v1/messages` path so the request stays native (keeps cache fields and the native `msg_` id) instead of falling back to a lossy path. The params are dropped, not honored, for those two models.
+
+### Changed — Model identity injection defaults off
+- The system-prompt model-identity directive is no longer appended by default (it had been adding ~40–130 phantom billed input tokens). Reconciled `input_tokens` now matches exactly what you sent.
+
+---
+
+## [2026-06-17]
+
+### Models — GLM-5.2 added as Z.AI flagship
+- **Added `zai/glm-5.2`** — **1M-token context**, 262,144 max output, pricing **$1.40/M in · $4.40/M out** ($0.26/M cached). Now featured on the homepage models strip.
+- `gpt-5.1` / `gpt-5-pro` routing corrected so those ids serve the genuine models rather than a substitute.
+
+---
+
+## [2026-06-12]
+
+### Models — Kimi K2.7 added as Moonshot flagship
+- **Added `moonshot/kimi-k2.7`** — **256K context**, image + video input, returns `reasoning_content`. Pricing **$0.95/M in · $4.00/M out**. Earlier Kimi versions remain routable but are hidden from the public list.
+
+### Added — Video `input_type` param + `usage` block on Seedance responses
+- `/api/v1/videos/generations` accepts an optional validated `input_type` enum (`text | image | first_last_frame | reference`); when supplied it must match the seed fields actually sent, otherwise the request returns a 400 before any charge.
+- Completed video poll responses now include a `usage` block (`total_tokens`).
+
+### Added — Per-call completion id for 1:1 reconciliation
+- Chat responses now carry the completion id (`chatcmpl-…` / `msg_…`) and image/video responses carry a per-call id, surfaced publicly as `id`, so payers can join their ledger to ours.
+
+---
+
 ## [2026-05-24 — late]
 
 ### Changed — Virtual Portrait enrollment dropped to $0.01 (parity with RealFace)

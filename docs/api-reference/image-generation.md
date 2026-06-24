@@ -131,7 +131,7 @@ Plain OpenAI SDKs don't understand the `202` envelope. Use a model that complete
   "data": [
     {
       "url": "https://blockrun.ai/api/media/media/images/2026/04/17/<id>.jpg",
-      "source_url": "https://imgen.x.ai/xai-imgen/...",
+      "source_url": "https://<upstream-host>/...",
       "backed_up": true,
       "revised_prompt": "..."
     }
@@ -153,7 +153,7 @@ Plain OpenAI SDKs don't understand the `202` envelope. Use a model that complete
 | `data[].revised_prompt` | string | Expanded prompt (when the model rewrites it) |
 
 :::info{title="Why both url and source_url?"}
-Most providers return temporary URLs (OpenAI image URLs expire in 60 min, xAI Grok Imagine URLs are flagged `xai-tmp-*`). BlockRun mirrors each generated image to Google Cloud Storage and returns the permanent proxy URL as `url`.
+Upstream image URLs are usually temporary (they can expire within an hour). BlockRun mirrors each generated image to durable cloud storage and returns the permanent proxy URL as `url`; `source_url` is the original (possibly short-lived) upstream URL.
 :::
 
 ## Examples

@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 60+ LLMs plus image, video, and music models from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+description: List and price 60+ models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
 ---
 
 # Models
@@ -53,10 +53,10 @@ Each model object in the response includes:
 }
 ```
 
-## Available Models (50+ across chat / image / video / voice)
+## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-60+ models across all categories — LLMs plus image, video, music, and voice. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**54 chat / LLM models** are publicly listed on mainnet, plus **7 image**, **5 video**, **1 music**, **4 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
@@ -117,8 +117,7 @@ These flagship models reject all sampling parameters (`temperature`, `top_p`, `t
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `google/gemini-3.1-pro` | Gemini 3.1 Pro | $2.00/M | $12.00/M | 1M |
-| `google/gemini-3-pro-preview` | Gemini 3 Pro Preview | $1.50/M | $10.00/M | 1M |
-| `google/gemini-3-flash-preview` | Gemini 3 Flash Preview | $0.50/M | $3.00/M | 1M |
+| `google/gemini-3.5-flash` | Gemini 3.5 Flash | $0.50/M | $3.00/M | 1M |
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
 | `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.30/M | $2.50/M | 1M |
 | `google/gemini-3.1-flash-lite` | Gemini 3.1 Flash Lite | $0.10/M | $0.40/M | 1M |
@@ -128,8 +127,9 @@ These flagship models reject all sampling parameters (`temperature`, `top_p`, `t
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `deepseek/deepseek-chat` | DeepSeek V3.2 Chat | $0.28/M | $0.42/M | 128K |
-| `deepseek/deepseek-reasoner` | DeepSeek V3.2 Reasoner | $0.28/M | $0.42/M | 128K |
+| `deepseek/deepseek-chat` | DeepSeek V4 Flash Chat | $0.20/M | $0.40/M | 1M |
+| `deepseek/deepseek-v4-pro` | DeepSeek V4 Pro | $0.435/M | $0.87/M | 1M |
+| `deepseek/deepseek-reasoner` | DeepSeek Reasoner | $0.28/M | $0.42/M | 128K |
 
 ### Z.AI
 
@@ -154,17 +154,15 @@ K2.7 is the current flagship — multi-modal (image + **video** + text input), 2
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `minimax/minimax-m2.7` | MiniMax M2.7 | $0.30/M | $1.20/M | 204K |
+| `minimax/minimax-m3` | MiniMax M3 | $0.30/M | $1.20/M | 1M |
 
-### NVIDIA (Free Tier)
+### Free Tier (open-weight)
 
-Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
+Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billingMode: "free"`). There are **10** free models listed on mainnet; the default free model is `nvidia/llama-4-maverick`.
 
-| Model ID | Name | Input Price | Output Price | Context |
-|----------|------|-------------|--------------|---------|
-| `nvidia/gpt-oss-120b` | GPT-OSS 120B | **FREE** | **FREE** | 128K |
-| `nvidia/gpt-oss-20b` | GPT-OSS 20B | **FREE** | **FREE** | 128K |
-| `nvidia/kimi-k2.5` | Kimi K2.5 (NVIDIA) | **FREE** | **FREE** | 1M |
+| Model ID | Name | Input Price | Output Price |
+|----------|------|-------------|--------------|
+| `nvidia/llama-4-maverick` | Llama 4 Maverick | **FREE** | **FREE** |
 
 ### Image Generation
 
@@ -174,17 +172,21 @@ Apache 2.0 licensed open-weight models, hosted free by NVIDIA.
 | `openai/gpt-image-2` | ChatGPT Images 2.0 | $0.06-0.12/image |
 | `google/nano-banana` | Nano Banana | $0.05/image |
 | `google/nano-banana-pro` | Nano Banana Pro | $0.10-0.15/image |
+| `xai/grok-imagine-image` | Grok Imagine | $0.02/image |
+| `xai/grok-imagine-image-pro` | Grok Imagine Pro | $0.07/image |
+| `zai/cogview-4` | CogView-4 | $0.015-0.02/image |
 
 ### Video Generation
 
 Seedance defaults to **720p with synced audio** for text-to-video; pass `resolution` / `generate_audio` to override. See [Video Generation API](video-generation.md).
 
-| Model ID | Name | Price (5s 720p default) |
-|----------|------|--------------------------|
-| `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec (8s = $0.40) |
-| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | ~$0.092/sec ($0.46 / 5s clip; flat) |
-| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.238/sec ($1.19 / 5s clip t2v; $0.70 with image input) |
-| `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.298/sec ($1.49 / 5s clip t2v; $0.91 with image input) |
+| Model ID | Name | Price (5s 720p default) | Max duration |
+|----------|------|--------------------------|--------------|
+| `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec (8s = $0.42) | 15s |
+| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | ~$0.098/sec ($0.49 / 5s clip) | 12s |
+| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.255/sec ($1.27 / 5s clip) | 15s |
+| `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.319/sec ($1.59 / 5s clip) | 15s |
+| `azure/sora-2` | Sora 2 | $0.10/sec (4s = $0.42) | 12s |
 
 For character consistency across multiple Seedance videos, enroll a [Virtual Portrait](virtual-portrait.md) ($0.01 one-time, no KYC) for AI characters, or a [RealFace](realface.md) ($0.01 one-time, no KYC, requires brief on-phone liveness check) for real people. Pass the returned `ta_xxx` as `real_face_asset_id`.
 

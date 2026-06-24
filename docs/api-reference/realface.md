@@ -97,7 +97,7 @@ The H5 session token expires after **120 seconds**. If they don't finish in time
 
 | Step | What happens |
 |---|---|
-| 1 | They open the link (scan the QR with their phone camera — iOS / Android both auto-detect QR codes — and tap the banner that pops up). The H5 page loads in their phone browser. URL is `kyc.byteintl.com` (our identity-verification partner) |
+| 1 | They open the link (scan the QR with their phone camera — iOS / Android both auto-detect QR codes — and tap the banner that pops up). The H5 page loads in their phone browser, hosted by the upstream identity-verification service |
 | 2 | Browser asks **"Allow camera access?"** — they tap **Allow** |
 | 3 | A circle appears with a live camera feed. They position their face inside |
 | 4 | The page prompts **"please nod"** then **"please blink"** — they do each action for ~1-2 seconds. Total recording is **2-4 seconds** |
@@ -116,7 +116,7 @@ If they tap **Deny** on camera permission, the H5 offers a fallback:
 
 ### What data leaves their phone
 
-- Live face video (or alternate uploaded video) → `kyc.byteintl.com` (the upstream identity service)
+- Live face video (or alternate uploaded video) → the upstream identity service
 - **Nothing goes to BlockRun** during the phone session. We don't see the video, the camera feed, or any biometric template
 - The upstream service stores enough to perform a one-time face-match against the photo you supply in step 4. Once the match is decided, your photo is the asset of record — the live video is not referenced again in subsequent Seedance generations
 

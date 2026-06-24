@@ -54,7 +54,7 @@ All Surf endpoints route through:
 https://blockrun.ai/api/v1/surf/<endpoint-path>
 ```
 
-Method follows the upstream — most are `GET` with query string params, the three SQL/structured-query endpoints (`onchain/sql`, `onchain/query`, `onchain/schema`) are `POST` with JSON bodies.
+Method follows the upstream — most are `GET` with query string params; the two SQL/structured-query endpoints (`onchain/sql`, `onchain/query`) are `POST` with JSON bodies, while `onchain/schema` is a `GET`.
 
 ---
 
@@ -175,7 +175,7 @@ Total cost: $0.007 per pre-trade snapshot. Cheap enough to run every minute on a
 ### 2. Smart-money wallet monitor ($0.005/wallet)
 
 ```python
-labels = client.surf('GET', 'wallet/label', {'address': addr})
+profile = client.surf('GET', 'wallet/detail', {'address': addr})
 positions = client.surf('GET', 'prediction-market/polymarket/positions', {'address': addr})
 ```
 

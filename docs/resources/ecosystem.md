@@ -24,13 +24,16 @@ Projects, integrations, and partners building with BlockRun and x402.
 | **Image Generation** | `/v1/images/generations` | $0.015–0.10/image | ✅ Live |
 | **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
 | **Video Generation** | `/v1/videos/generations` | Per M tokens | ✅ Live |
-| **Music Generation** | `/v1/audio/generations` | Per track | ✅ Live |
+| **Music Generation** | `/v1/audio/generations` | $0.15/track | ✅ Live |
+| **Text-to-Speech** | `/v1/audio/speech` | $0.05–0.10/1k chars | ✅ Live |
+| **Sound Effects** | `/v1/audio/sound-effects` | $0.05/generation | ✅ Live |
 | **Voice Calls** | `/v1/voice/call` | $0.54 flat | ✅ Live |
 | **Phone Numbers** | `/v1/phone/numbers/*` | $5/30 days | ✅ Live |
 | **Surf Crypto Data** | `/api/v1/surf/*` (83 endpoints) | $0.001–0.02 | ✅ Live |
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
 | **Exa Web Search** | `/api/v1/exa/*` | $0.002–0.01 | ✅ Live |
 | **0x Swap (DEX)** | `/api/v1/zerox/*` | Free | ✅ Live |
+| **Multi-chain RPC** | `/api/v1/rpc/{network}` (40+ chains) | $0.002/call | ✅ Live |
 | **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | ✅ Live |
 | **Trading Markets** | `/api/v1/markets/*` | $0.001 | ✅ Live |
 | **Modal Sandbox** | `/v1/modal/*` | $0.001–0.01 | ✅ Live |
@@ -105,10 +108,8 @@ BlockRun works with the x402 facilitator network:
 | [Surf (asksurf.ai)](https://asksurf.ai) | Crypto data — 83 endpoints (CEX, on-chain SQL, prediction markets, wallet labels, social, news) |
 | [Bland.ai](https://bland.ai) | Conversational voice AI — outbound calls |
 | [Twilio](https://twilio.com) | Phone-number provisioning (wallet-owned US/CA numbers) |
-| [token360](https://token360.ai) | Video generation (Seedance 1.5/2.0) + Virtual Portrait & RealFace enrollment |
 | [Exa](https://exa.ai) | Neural web search |
 | [0x](https://0x.org) | DEX aggregation (Swap V2 + Gasless V2) |
-| [Suno](https://suno.com) | Music generation |
 
 ## AI Providers
 
@@ -116,15 +117,15 @@ BlockRun routes to these providers via x402:
 
 | Provider | Models | Input/Output per 1M tokens |
 |----------|--------|---------------------------|
-| OpenAI | GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5 Mini, GPT-5 Nano, o1, o3 | $0.05–$30.00 / $0.40–$180.00 |
-| Anthropic | Claude Opus 4.6, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$5.00 / $5.00–$25.00 |
-| Google | Gemini 3.1 Pro, Gemini 3 Pro, Gemini 3 Flash, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
-| DeepSeek | DeepSeek Chat (V3.2), DeepSeek Reasoner | $0.28 / $0.42 |
-| xAI | Grok 4.1 Fast, Grok Code Fast 1, Grok 4, Grok 2 Vision | $0.20–$3.00 / $0.50–$15.00 |
-| Z.AI | GLM-5, GLM-5 Turbo, GLM-5 Code | $1.00–$1.20 / $3.20–$5.00 |
-| Moonshot | Kimi K2.7 (256K, multi-modal flagship), Kimi K2.5 | $0.60–$0.95 / $3.00–$4.00 |
-| MiniMax | MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
-| NVIDIA | GPT-OSS 120B, GPT-OSS 20B | **Free** |
+| OpenAI | GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2 | $1.75–$30.00 / $14.00–$180.00 |
+| Anthropic | Claude Opus 4.8, Claude Opus 4.7, Claude Opus 4.5, Claude Sonnet 4.6, Claude Haiku 4.5 | $0.80–$5.00 / $4.00–$25.00 |
+| Google | Gemini 3.1 Pro, Gemini 3.5 Flash | $0.50–$2.00 / $3.00–$12.00 |
+| DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Pro, DeepSeek Reasoner | $0.20–$0.44 / $0.40–$0.87 |
+| xAI | Grok 4.3, Grok 4 Fast, Grok Code Fast 1 | $0.20–$3.00 / $0.50–$15.00 |
+| Z.AI | GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo | $0.60–$1.40 / $1.92–$4.40 |
+| Moonshot | Kimi K2.7 (256K, image + video input) | $0.95 / $4.00 |
+| MiniMax | MiniMax M3 (1M context) | $0.30 / $1.20 |
+| Free tier | 10 reasoning, coding, and vision models | **Free** |
 
 ### Image Models
 
@@ -134,6 +135,8 @@ BlockRun routes to these providers via x402:
 | OpenAI ChatGPT Images 2.0 | $0.06–0.12 |
 | Nano Banana | $0.05 |
 | Nano Banana Pro | $0.10–0.15 |
+| CogView-4 | $0.015–0.02 |
+| Grok Imagine / Grok Imagine Pro | $0.02 / $0.07 |
 
 ## x402 Protocol
 

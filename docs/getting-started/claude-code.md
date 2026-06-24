@@ -73,7 +73,7 @@ Image, music, speech, video, paid stock prices, smart routing, and native Anthro
 Generate a logo for a crypto trading bot
 ```
 
-Claude uses nano-banana to generate images via Google's Nano Banana, OpenAI GPT Image, CogView-4, or xAI Grok Imagine. ~$0.015-0.12 per image.
+Claude uses nano-banana to generate images via Google's Nano Banana, OpenAI GPT Image, CogView-4, or xAI Grok Imagine. ~$0.015-0.15 per image.
 
 ### Access Other AI Models
 
@@ -127,7 +127,7 @@ BlockRun provides Claude Code skills that extend what Claude can do:
 ## Pricing
 
 - **Intelligence:** Provider cost + 5% (no subscriptions)
-- **Images:** $0.05-0.12 per image
+- **Images:** $0.015-0.15 per image
 - **Trading tools:** Free (open source)
 
 $1 gets you approximately:

@@ -7,7 +7,7 @@ description: BlockRun Intelligence gives your agent 60+ LLMs through one OpenAI-
 
 AI accesses any LLM. 60+ models, pay-per-request.
 
-BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Meta, and more — without managing API keys or subscriptions.
+BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and more — without managing API keys or subscriptions.
 
 ## How It Works
 
@@ -21,51 +21,59 @@ No API keys. No monthly bills. Just usage-based payments in USDC.
 
 ## Available Models
 
+Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing — see [Pricing](pricing.md) for exact list prices).
+
 ### OpenAI
 | Model | Input | Output |
 |-------|-------|--------|
-| GPT-5.5 | $5.00/M | $30.00/M |
+| GPT-5.5 (flagship) | $5.00/M | $30.00/M |
 | GPT-5.4 | $2.50/M | $15.00/M |
 | GPT-5.4 Pro | $30.00/M | $180.00/M |
 | GPT-5.2 | $1.75/M | $14.00/M |
-| GPT-5.2 Codex | $1.75/M | $14.00/M |
-| o1 | $15.00/M | $60.00/M |
-| o1-mini | $3.00/M | $12.00/M |
 
 ### Anthropic
 | Model | Input | Output |
 |-------|-------|--------|
-| Claude Opus 4.6 | $5.00/M | $25.00/M |
+| Claude Opus 4.8 (flagship) | $5.00/M | $25.00/M |
+| Claude Opus 4.7 | $5.00/M | $25.00/M |
 | Claude Opus 4.5 | $5.00/M | $25.00/M |
-| Claude Opus 4 | $15.00/M | $75.00/M |
-| Claude Sonnet 4 | $3.00/M | $15.00/M |
+| Claude Sonnet 4.6 | $3.00/M | $15.00/M |
 | Claude Haiku 4.5 | $0.80/M | $4.00/M |
 
 ### Google
 | Model | Input | Output |
 |-------|-------|--------|
-| Gemini 3 Pro | $1.25/M | $5.00/M |
-| Gemini 2.5 Pro | $1.25/M | $5.00/M |
-| Gemini 2.5 Flash | $0.075/M | $0.30/M |
+| Gemini 3.1 Pro | $2.00/M | $12.00/M |
+| Gemini 3.5 Flash | $0.50/M | $3.00/M |
 
-### xAI
+### Z.AI
 | Model | Input | Output |
 |-------|-------|--------|
-| Grok 4 Fast | $5.00/M | $25.00/M |
+| GLM-5.2 (flagship, 1M context) | $1.40/M | $4.40/M |
+| GLM-5.1 | $1.40/M | $4.40/M |
+| GLM-5 | $0.60/M | $1.92/M |
+| GLM-5 Turbo | $1.20/M | $4.00/M |
+
+### Moonshot
+| Model | Input | Output |
+|-------|-------|--------|
+| Kimi K2.7 (256K context, image + video input) | $0.95/M | $4.00/M |
+
+### MiniMax
+| Model | Input | Output |
+|-------|-------|--------|
+| MiniMax M3 | $0.30/M | $1.20/M |
 
 ### DeepSeek
 | Model | Input | Output |
 |-------|-------|--------|
-| DeepSeek V3 | $0.14/M | $0.28/M |
-| DeepSeek R1 | $0.55/M | $2.19/M |
+| DeepSeek V4 Flash Chat | $0.20/M | $0.40/M |
+| DeepSeek V4 Pro | $0.435/M | $0.87/M |
 
-### Meta
-| Model | Input | Output |
-|-------|-------|--------|
-| Llama 3.3 70B | $0.40/M | $0.40/M |
-| Llama 3.1 405B | $3.00/M | $3.00/M |
+### Free tier
+10 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
 
-*M = million tokens. Prices include 5% BlockRun margin.*
+*M = million tokens. Reference provider rates; the 5% BlockRun margin is applied at billing.*
 
 See [Pricing](pricing.md) for complete list and calculator.
 
@@ -144,7 +152,7 @@ Use DeepSeek for routine tasks:
 Process these 500 files using DeepSeek
 ```
 
-DeepSeek V3 costs ~1/50th of GPT-4o for similar quality on many tasks.
+DeepSeek costs a fraction of the flagship models for similar quality on many routine tasks.
 
 **Want automatic cost optimization?** Try [ClawRouter](../routing/clawrouter.md) — it saves 78% by routing each request to the cheapest model that can handle it.
 
@@ -164,10 +172,10 @@ What's trending on X about AI right now?
 
 ### Specialized Tasks
 
-- **Reasoning:** o1 for complex logic
+- **Reasoning:** DeepSeek Reasoner or GPT-5.4 for complex logic
 - **Speed:** Gemini Flash for quick responses
 - **Cost:** DeepSeek for bulk processing
-- **Quality:** Claude Opus for nuanced writing
+- **Quality:** Claude Opus 4.8 for nuanced writing
 
 ## Features
 

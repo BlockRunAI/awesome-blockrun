@@ -19,7 +19,7 @@ A funded wallet on Base — $5–10 covers roughly 50–100 images. Your private
 |-------|-------|----------|
 | Google Nano Banana | $0.05 | Fast, affordable generation |
 | Google Nano Banana Pro | $0.10 | Higher quality outputs |
-| OpenAI GPT Image 1 | $0.02-0.04 | Native GPT-4o image generation |
+| OpenAI GPT Image 1 | $0.02-0.04 | Native OpenAI image generation |
 | OpenAI ChatGPT Images 2.0 | $0.06-0.12 | Premium quality, text rendering, edits |
 | Zhipu CogView-4 | $0.015 | Cheapest, Chinese prompts |
 | xAI Grok Imagine | $0.02-0.07 | Stylized generation |
@@ -80,10 +80,16 @@ Generate a 16:9 banner image of blockchain nodes
 | Model | Resolution | Price |
 |-------|------------|-------|
 | Nano Banana | 1024x1024 | $0.05 |
-| Nano Banana Pro | 1024x1024 | $0.10 |
+| Nano Banana Pro | up to 2048x2048 | $0.10 |
+| Nano Banana Pro | 4096x4096 (4K) | $0.15 |
 | GPT Image 1 | 1024x1024 | $0.02 |
+| GPT Image 1 | wide/tall | $0.04 |
 | ChatGPT Images 2.0 | 1024x1024 | $0.06 |
-| CogView-4 | up to 1440x1440 | $0.015 |
+| ChatGPT Images 2.0 | wide/tall | $0.12 |
+| CogView-4 | up to 1344px | $0.015 |
+| CogView-4 | 1440x1440 | $0.02 |
+| Grok Imagine | 1024x1024 | $0.02 |
+| Grok Imagine Pro | 1024x1024 | $0.07 |
 
 ## Example Session
 

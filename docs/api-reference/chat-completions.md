@@ -76,9 +76,9 @@ POST https://blockrun.ai/api/v1/chat/completions
 | `total_tokens` | yes | Sum of prompt + completion |
 | `prompt_tokens_details.cached_tokens` | when cache hit | Prompt tokens read from cache (OpenAI convention) |
 | `prompt_tokens_details.cached_creation_tokens` | when cache write | Prompt tokens written to cache this turn (BlockRun extension) |
-| `cache_read_input_tokens` | when cache hit | Same as `prompt_tokens_details.cached_tokens` — Anthropic/Bedrock native label |
-| `cache_creation_input_tokens` | when cache write | Same as `prompt_tokens_details.cached_creation_tokens` — Anthropic/Bedrock native label |
-| `completion_tokens_details.reasoning_tokens` | when reasoning | OpenAI GPT-5.x / o-series only; forwarded verbatim. Not available for Anthropic/Bedrock (thinking tokens already included in `completion_tokens`) |
+| `cache_read_input_tokens` | when cache hit | Same as `prompt_tokens_details.cached_tokens` — Anthropic-native label |
+| `cache_creation_input_tokens` | when cache write | Same as `prompt_tokens_details.cached_creation_tokens` — Anthropic-native label |
+| `completion_tokens_details.reasoning_tokens` | when reasoning | GPT-5.x / o-series only; forwarded verbatim. Not surfaced for Anthropic Claude models (thinking tokens are already included in `completion_tokens`) |
 
 **Protocol naming convention:**
 - **Claude native `/v1/messages`**: `usage.input_tokens`, `usage.output_tokens`, `usage.cache_creation_input_tokens`, `usage.cache_read_input_tokens`
@@ -86,6 +86,18 @@ POST https://blockrun.ai/api/v1/chat/completions
 
 **Enabling prompt caching on Anthropic models:**
 Pass `"prompt_cache": true` in the request body, or embed `cache_control` blocks in your message content directly — both are honored.
+
+:::note{title="No phantom identity tokens in your billed input"}
+BlockRun does **not** prepend a hidden identity/system directive to your prompt by default. The `input_tokens` (`prompt_tokens`) you are billed for reflect exactly the messages you sent — there are no extra phantom input tokens added by the gateway.
+:::
+
+:::info{title="Claude-native context_management requires the anthropic-beta header"}
+If you use the Claude-native `POST /v1/messages` endpoint with the `context_management` field, you **must** also send the matching `anthropic-beta` header. A `context_management` body without that header is rejected at the edge with a `400` (rather than silently ignored).
+:::
+
+:::note{title="Sampling params on Claude Opus 4.7 / 4.8"}
+`temperature`, `top_p`, and `top_k` are **not honored** for `anthropic/claude-opus-4.7` and `anthropic/claude-opus-4.8` — these models reject sampling params upstream, so the gateway strips them so your request still succeeds (it does not fail). Set behavior through your prompt instead.
+:::
 
 ### Payment Required (402)
 
@@ -196,7 +208,7 @@ console.log(result.choices[0].message.content);
 ::::cards
 
 :::card{title="Browse all models" href="models.md" icon="Brain"}
-60+ LLMs with live pricing — pick the right model and ID for your call.
+60+ chat models with live pricing — pick the right model and ID for your call.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}

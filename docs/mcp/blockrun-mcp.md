@@ -204,7 +204,7 @@ The MCP includes built-in smart routing that selects the best model based on you
 | `reasoning` | o3, DeepSeek Reasoner | Logic and math |
 | `free` | NVIDIA-hosted open models only | Development, zero-cost |
 | `coding` | Coding-tuned models | Code generation/review |
-| `glm` | Zhipu GLM-5 / GLM-5-Turbo | Flat-rate ($0.001/call) bulk |
+| `glm` | GLM-5.2 / GLM-5 family | Strong general + coding at low token cost |
 
 `mode` picks a model by intent in one hop. For prompt-aware selection (the scorer reads the prompt and picks the cheapest capable model), use `routing:"smart"` with a `routing_profile` instead — see [ClawRouter / Smart Routing](../products/routing/clawrouter.md).
 
@@ -237,7 +237,7 @@ claude mcp remove blockrun
 ## Pricing
 
 - **Intelligence:** Provider cost + 5%
-- **Images:** $0.05-0.12 per image
+- **Images:** $0.015-0.15 per image
 - **No subscriptions, no minimums**
 
 See [Intelligence Pricing](../products/intelligence/pricing.md) for details.

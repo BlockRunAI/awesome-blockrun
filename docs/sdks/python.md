@@ -249,7 +249,7 @@ res = img.edit("Place this logo on the t-shirt", image=["data:image/png;base64,.
 print(res.data[0].url)
 ```
 
-Models: `google/nano-banana`, `google/nano-banana-pro`, `openai/gpt-image-1`, `openai/gpt-image-2`, `zai/cogview-4`, `xai/grok-imagine-image(-pro)`, `black-forest/flux-1.1-pro`.
+Models: `google/nano-banana`, `google/nano-banana-pro`, `openai/gpt-image-1`, `openai/gpt-image-2`, `zai/cogview-4`, `xai/grok-imagine-image(-pro)`.
 
 #### `VideoClient`
 
