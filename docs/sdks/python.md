@@ -262,7 +262,7 @@ res = vid.generate(
     "a red apple spinning on a marble counter",
     model="bytedance/seedance-2.0",
     duration_seconds=5,
-    resolution="720p",          # 360p | 480p | 720p | 1080p | 4K (Seedance)
+    resolution="720p",          # 360p | 480p | 720p | 1080p (Seedance; 1080p max)
     aspect_ratio="16:9",        # adaptive | 16:9 | 9:16 | 1:1 | 4:3 | 3:4 | 21:9 | 9:21
     generate_audio=True,
 )

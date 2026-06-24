@@ -95,7 +95,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - ~~BlockRun does not offer real-person likeness in video generation.~~ This conclusion was wrong — upstream had a webhook bug that made the group never transition to active; once fixed, the flow works without KYC. RealFace was reinstated on 2026-05-24.
 
 ### Changed — Seedance defaults bumped to 720p + synced audio
-- `/api/v1/videos/generations` now defaults `resolution: "720p"` for all Seedance models (was 480p). Override by passing an explicit `resolution` (`360p` / `480p` / `720p` / `1080p` / `4K`).
+- `/api/v1/videos/generations` now defaults `resolution: "720p"` for all Seedance models (was 480p). Override by passing an explicit `resolution` (`360p` / `480p` / `720p` / `1080p`; `1080p` is the max — `2K`/`4K` are rejected with a `400`).
 - `/api/v1/videos/generations` now defaults `generate_audio: true` for text-to-video Seedance calls (`false` for image-conditioned or `real_face_asset_id` calls, where audio defaults are off per upstream guidance). Pass an explicit boolean to override.
 - Output now matches JiMeng / BytePlus directly — same resolution, same multimodal audio path. Per-clip cost ≈ 2× the old 480p baseline because Seedance meters by tokens and 720p doubles the per-second count.
 - Updated pricing table: **$0.46 / $1.19 / $1.49** per 5s 720p clip for 1.5-pro / 2.0-fast / 2.0 (was $0.22 / $0.57 / $0.71 at 480p, text-to-video).
