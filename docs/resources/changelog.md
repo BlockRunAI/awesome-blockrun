@@ -9,6 +9,10 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ## [2026-06-24]
 
+### Added — Real 4K on Seedance 2.0
+- `bytedance/seedance-2.0` now accepts `resolution: "4K"` and renders **true 3840×2160** (re-verified with ffprobe). Billed at **9× the 720p token rate** (area-proportional, same basis as 1080p=2.25×).
+- 4K is **seedance-2.0 only** — `seedance-1.5-pro` and `seedance-2.0-fast` still cap at `1080p`/`1K` and return `400` for `4K`. `2K` remains unavailable on all Seedance models (not produced upstream).
+
 ### Changed — Seedance video max duration raised
 - `bytedance/seedance-2.0` and `bytedance/seedance-2.0-fast`: max duration **10s → 15s**.
 - `bytedance/seedance-1.5-pro`: max duration **10s → 12s**.
