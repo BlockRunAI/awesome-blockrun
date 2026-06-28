@@ -7,6 +7,14 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-06-28]
+
+### Added — `response_format: json_schema` (OpenAI structured outputs)
+- **`/v1/chat/completions`** now accepts `response_format: {"type":"json_schema","json_schema":{…}}` and forwards it verbatim. Schema-guaranteed output is enforced natively on OpenAI (GPT) models; other providers receive it on a best-effort passthrough. Previously only `json_object`/`text` were accepted (any other `type` returned a `400`).
+- The `thinking` block is also accepted more leniently: `{"type":"disabled"}` and blocks without `budget_tokens` no longer `400`.
+
+---
+
 ## [2026-06-24]
 
 ### Added — Real 4K on Seedance 2.0

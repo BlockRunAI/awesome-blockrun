@@ -31,6 +31,14 @@ POST https://blockrun.ai/api/v1/chat/completions
 | `max_tokens` | integer | No | Maximum tokens to generate (default: 1024) |
 | `temperature` | number | No | Sampling temperature (0-2) |
 | `top_p` | number | No | Nucleus sampling parameter |
+| `stream` | boolean | No | Stream the response as SSE chunks (default: `false`) |
+| `tools` | array | No | Tool/function definitions (OpenAI tool-calling format) |
+| `tool_choice` | string \| object | No | Tool selection strategy (`auto`, `none`, `required`, or a specific tool) |
+| `response_format` | object | No | Output format, e.g. `{"type":"json_object"}` or `{"type":"json_schema","json_schema":{…}}` (see Structured outputs below) |
+| `stop` | string \| array | No | Stop sequence(s) |
+| `reasoning_effort` | string | No | Reasoning depth for GPT-5.x / o-series (`none`, `minimal`, `low`, `medium`, `high`, `xhigh`) |
+| `thinking` | object | No | Anthropic extended thinking, e.g. `{"type":"enabled","budget_tokens":2048}` or `{"type":"disabled"}` |
+| `prompt_cache` | boolean | No | Opt in to Anthropic prompt caching (Anthropic models only) |
 
 ### Message Object
 
@@ -89,6 +97,12 @@ Pass `"prompt_cache": true` in the request body, or embed `cache_control` blocks
 
 :::note{title="No phantom identity tokens in your billed input"}
 BlockRun does **not** prepend a hidden identity/system directive to your prompt by default. The `input_tokens` (`prompt_tokens`) you are billed for reflect exactly the messages you sent — there are no extra phantom input tokens added by the gateway.
+:::
+
+:::info{title="Structured outputs (response_format)"}
+`response_format` is forwarded to the model. Two shapes are accepted:
+- `{"type":"json_object"}` — JSON mode. Honored on all models (emulated for Claude/Gemini, native on OpenAI-compatible models).
+- `{"type":"json_schema","json_schema":{ "name":…, "schema":{…} }}` — OpenAI structured outputs, forwarded verbatim. Schema-guaranteed output is enforced natively on OpenAI (GPT) models; on other providers it is passed through and honored on a best-effort basis where the upstream supports it.
 :::
 
 :::info{title="Claude-native context_management requires the anthropic-beta header"}
