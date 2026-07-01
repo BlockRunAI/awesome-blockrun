@@ -53,6 +53,7 @@ BlockRun works with the x402 facilitator network:
 
 | Project | Category | Description |
 |---------|----------|-------------|
+| [LoneStarOracle](https://lonestaroracle.xyz) | Data Services | 39 live x402 AI data services on Base — TokenScope, RattlerAI, WeatherOracle, ChainScout, Floyd and more. MCP server at mcp.lonestaroracle.xyz |
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading bot with Visual Cortex for chart analysis |
 | [Voyage GEO](https://github.com/onvoyage-ai/voyage-geo-agent) | AI Analytics | Generative Engine Optimization - track AI brand mentions across multiple models |
 
