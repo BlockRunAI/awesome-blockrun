@@ -375,7 +375,7 @@ All models from BlockRun Intelligence are available:
 | Provider | Models |
 |----------|--------|
 | **OpenAI** | gpt-5.5, gpt-5.4, gpt-5.4-pro, gpt-5.3, gpt-5.2, gpt-5.4-mini, gpt-5-mini, gpt-5.4-nano, o1, o1-mini, o3, o3-mini |
-| **Anthropic** | claude-opus-4.6, claude-opus-4.5, claude-sonnet-4.6, claude-haiku-4.5 |
+| **Anthropic** | claude-opus-4.8, claude-opus-4.7, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
 | **Google** | gemini-3.1-pro-preview, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
 | **xAI** | grok-4.1, grok-4, grok-3, grok-3-fast |
 | **DeepSeek** | deepseek-chat, deepseek-reasoner |

@@ -178,7 +178,7 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 Access all major providers through one wallet:
 
 - **OpenAI**: GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2
-- **Anthropic**: Claude Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5
+- **Anthropic**: Claude Opus 4.8, Opus 4.7, Sonnet 5, Sonnet 4.6, Haiku 4.5
 - **Google**: Gemini 3.1 Pro, Gemini 3.5 Flash
 - **DeepSeek**: DeepSeek V4 Flash Chat, DeepSeek V4 Pro, DeepSeek Reasoner
 - **xAI**: Grok 4.3, Grok 4 Fast (2M context)
@@ -282,7 +282,7 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 ### Chat Models
 
 - **OpenAI**: GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2
-- **Anthropic Claude**: Opus 4.8, Opus 4.7, Opus 4.5, Sonnet 4.6, Haiku 4.5
+- **Anthropic Claude**: Opus 4.8, Opus 4.7, Opus 4.5, Sonnet 5, Sonnet 4.6, Haiku 4.5
 - **Google Gemini**: 3.1 Pro, 3.5 Flash
 - **DeepSeek**: V4 Flash Chat, V4 Pro, Reasoner
 - **xAI Grok**: Grok 4.3, Grok 4 Fast (2M context)

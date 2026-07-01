@@ -37,6 +37,7 @@ Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing —
 | Claude Opus 4.8 (flagship) | $5.00/M | $25.00/M |
 | Claude Opus 4.7 | $5.00/M | $25.00/M |
 | Claude Opus 4.5 | $5.00/M | $25.00/M |
+| Claude Sonnet 5 | $3.00/M | $15.00/M |
 | Claude Sonnet 4.6 | $3.00/M | $15.00/M |
 | Claude Haiku 4.5 | $0.80/M | $4.00/M |
 

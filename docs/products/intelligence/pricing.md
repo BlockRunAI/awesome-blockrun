@@ -51,6 +51,7 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 | Claude Opus 4.8 (flagship) | $5.25 | $26.25 |
 | Claude Opus 4.7 | $5.25 | $26.25 |
 | Claude Opus 4.5 | $5.25 | $26.25 |
+| Claude Sonnet 5 | $3.15 | $15.75 |
 | Claude Sonnet 4.6 | $3.15 | $15.75 |
 | Claude Haiku 4.5 | $0.84 | $4.20 |
 
@@ -119,6 +120,7 @@ Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$
 | Provider | Direct Pricing | BlockRun | Difference |
 |----------|---------------|----------|------------|
 | OpenAI GPT-5.4 | $2.50/$15.00 | $2.63/$15.75 | +5% |
+| Anthropic Claude Sonnet 5 | $3.00/$15.00 | $3.15/$15.75 | +5% |
 | Anthropic Claude Sonnet 4.6 | $3.00/$15.00 | $3.15/$15.75 | +5% |
 | DeepSeek V4 Flash Chat | $0.20/$0.40 | $0.21/$0.42 | +5% |
 
