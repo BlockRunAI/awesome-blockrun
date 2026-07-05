@@ -27,7 +27,7 @@ POST https://blockrun.ai/api/v1/search
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `query` | string | Yes | Search query text (1-1000 characters) |
-| `sources` | array | No | Sources to search (default: `["x", "web"]`) |
+| `sources` | array | No | Sources to search (default: `["web"]`) |
 | `max_results` | integer | No | Maximum results per source, 1-50 (default: 10) |
 | `from_date` | string | No | Start date filter (`YYYY-MM-DD`) |
 | `to_date` | string | No | End date filter (`YYYY-MM-DD`) |
@@ -36,7 +36,6 @@ POST https://blockrun.ai/api/v1/search
 
 | Source | Description |
 |--------|-------------|
-| `x` | Real-time X/Twitter posts and threads |
 | `web` | General web search results |
 | `news` | News articles from major outlets |
 
@@ -50,9 +49,9 @@ POST https://blockrun.ai/api/v1/search
   "summary": "Several major AI companies have announced significant funding rounds...",
   "citations": [
     {
-      "url": "https://x.com/user/status/123",
+      "url": "https://techcrunch.com/ai-startup-series-b",
       "title": "AI Startup raises $50M Series B",
-      "source": "x"
+      "source": "web"
     }
   ],
   "sources_used": 10,
@@ -69,7 +68,7 @@ POST https://blockrun.ai/api/v1/search
 | `citations` | array | Array of source citations |
 | `citations[].url` | string | URL of the cited source |
 | `citations[].title` | string | Title or description of the source |
-| `citations[].source` | string | Source type (`x`, `web`, `news`) |
+| `citations[].source` | string | Source type (`web`, `news`) |
 | `sources_used` | integer | Number of sources actually queried |
 | `model` | string | Model used for search (currently `xai/grok-3-mini`) |
 
@@ -124,7 +123,7 @@ curl -X POST https://blockrun.ai/api/v1/search \
   -H "Content-Type: application/json" \
   -d '{
     "query": "latest AI funding rounds",
-    "sources": ["x", "web", "news"],
+    "sources": ["web", "news"],
     "max_results": 10
   }'
 
@@ -134,7 +133,7 @@ curl -X POST https://blockrun.ai/api/v1/search \
   -H "PAYMENT-SIGNATURE: <base64-encoded-payment>" \
   -d '{
     "query": "latest AI funding rounds",
-    "sources": ["x", "web", "news"],
+    "sources": ["web", "news"],
     "max_results": 10
   }'
 ```
@@ -153,7 +152,7 @@ print(results["summary"])
 # Advanced search with date filtering
 results = client.search(
     "OpenAI announcements",
-    sources=["x", "news"],
+    sources=["web", "news"],
     max_results=25,
     from_date="2026-01-01",
     to_date="2026-02-24"
@@ -176,7 +175,7 @@ console.log(results.summary);
 
 // Advanced search with date filtering
 const results = await client.search('OpenAI announcements', {
-  sources: ['x', 'news'],
+  sources: ['web', 'news'],
   maxResults: 25,
   fromDate: '2026-01-01',
   toDate: '2026-02-24'
@@ -200,7 +199,7 @@ You can also access Grok's live search through the Chat Completions API by inclu
   "messages": [{"role": "user", "content": "What's trending in AI today?"}],
   "search_parameters": {
     "mode": "on",
-    "sources": [{"type": "x"}, {"type": "web"}],
+    "sources": [{"type": "web"}, {"type": "news"}],
     "max_search_results": 10,
     "return_citations": true
   }
