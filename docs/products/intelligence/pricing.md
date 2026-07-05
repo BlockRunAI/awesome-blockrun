@@ -195,7 +195,7 @@ response = client.chat("google/gemini-3.5-flash", prompt)
 | Quick responses | Gemini 3.5 Flash | Fast + cheap |
 | Complex reasoning | DeepSeek Reasoner, Claude Opus 4.8 | Best quality |
 | Code generation | GPT-5.4, Claude Sonnet 4.6 | Good balance |
-| Real-time data | Grok | X/Twitter access |
+| Real-time data | Grok | Web & news access |
 
 ### 4. Optimize Prompts
 

@@ -1,11 +1,11 @@
 ---
 title: Intelligence
-description: BlockRun Intelligence gives your agent 60+ LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
+description: BlockRun Intelligence gives your agent 55+ LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
 ---
 
 # Intelligence
 
-AI accesses any LLM. 60+ models, pay-per-request.
+AI accesses any LLM. 55+ models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and more — without managing API keys or subscriptions.
 
@@ -166,9 +166,9 @@ What does GPT-5 think about this approach?
 
 ### Real-Time Data
 
-Access Grok for live X/Twitter data:
+Access Grok for live web and news data:
 ```
-What's trending on X about AI right now?
+What's the latest AI news right now?
 ```
 
 ### Specialized Tasks

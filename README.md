@@ -204,13 +204,13 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 
 | Tool | What it does |
 |------|-------------|
-| `blockrun_chat` | 66+ AI models (GPT-5.5, Claude, Gemini, Grok, DeepSeek, Kimi, and more) |
+| `blockrun_chat` | 55+ AI models (GPT-5.5, Claude, Gemini, Grok, DeepSeek, Kimi, and more) |
 | `blockrun_image` | Image generation — gpt-image-2, Nano Banana Pro, Grok Imagine, CogView-4 |
 | `blockrun_video` | Video generation — Sora 2, Seedance 2.0, Grok Imagine Video |
 | `blockrun_realface` | Enroll a real person (liveness) or AI character (Virtual Portrait) for Seedance video |
 | `blockrun_music` | MiniMax music generation |
 | `blockrun_speech` | ElevenLabs text-to-speech + cinematic sound effects |
-| `blockrun_search` | Live web, news, and X search (Grok-grounded) |
+| `blockrun_search` | Live web and news search (Grok-grounded) |
 | `blockrun_exa` | Neural semantic search + grounded answers |
 | `blockrun_markets` | Polymarket, Kalshi, sports markets |
 | `blockrun_surf` | 84 crypto data endpoints (CEX, on-chain SQL, social, wallet labels) |

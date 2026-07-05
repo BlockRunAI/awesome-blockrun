@@ -353,11 +353,11 @@ Payment is in USDC on Base or Solana via x402. No account needed — your wallet
 ::::cards
 
 :::card{title="Search (Grok live search)" href="search.md" icon="Search"}
-Real-time web, news, and X/Twitter search via Grok Live Search.
+Real-time web and news search via Grok Live Search.
 :::
 
 :::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
-Feed grounded search results into any of 60+ LLMs for synthesis.
+Feed grounded search results into any of 55+ LLMs for synthesis.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}

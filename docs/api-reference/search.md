@@ -1,11 +1,11 @@
 ---
 title: Search API
-description: Real-time search across X/Twitter, web, and news via Grok Live Search — pay per source in USDC over x402, no API key.
+description: Real-time search across web and news via Grok Live Search — pay per source in USDC over x402, no API key.
 ---
 
 # Search API
 
-Real-time search across X/Twitter, web, and news using Grok AI.
+Real-time search across web and news using Grok AI.
 
 ## Endpoint
 
