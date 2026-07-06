@@ -48,6 +48,7 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
+| Claude Fable 5 (most capable) | $10.50 | $52.50 |
 | Claude Opus 4.8 (flagship) | $5.25 | $26.25 |
 | Claude Opus 4.7 | $5.25 | $26.25 |
 | Claude Opus 4.5 | $5.25 | $26.25 |

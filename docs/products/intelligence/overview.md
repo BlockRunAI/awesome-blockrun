@@ -34,6 +34,7 @@ Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing —
 ### Anthropic
 | Model | Input | Output |
 |-------|-------|--------|
+| Claude Fable 5 (most capable) | $10.00/M | $50.00/M |
 | Claude Opus 4.8 (flagship) | $5.00/M | $25.00/M |
 | Claude Opus 4.7 | $5.00/M | $25.00/M |
 | Claude Opus 4.5 | $5.00/M | $25.00/M |
