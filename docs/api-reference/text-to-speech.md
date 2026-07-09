@@ -1,13 +1,13 @@
 ---
 title: Text-to-Speech & Sound Effects API
-description: ElevenLabs voice synthesis and cinematic sound effects behind x402 — billed per character, no subscription, failed generations never charged.
+description: ElevenLabs voice synthesis, ByteDance Seed Audio prompt-directed audio creation, and cinematic sound effects behind x402 — no subscription, failed generations never charged.
 ---
 
 # Text-to-Speech & Sound Effects API
 
-Ultra-realistic voice synthesis and cinematic sound effects powered by ElevenLabs, behind x402. Pay per call in USDC — no ElevenLabs subscription, no API keys.
+Ultra-realistic voice synthesis (ElevenLabs), prompt-directed audio creation (ByteDance Seed Audio), and cinematic sound effects, behind x402. Pay per call in USDC — no subscriptions, no API keys.
 
-Text-to-speech is billed **per input character**, so the price is quoted up front in the 402 challenge and settlement only happens after the audio is generated. A failed generation is never charged.
+ElevenLabs models are billed **per input character**; ByteDance Seed Audio is billed **per second of output audio** (quoted from an estimate of your input). Either way the price is quoted up front in the 402 challenge and settlement only happens after the audio is generated. A failed generation is never charged.
 
 ## Endpoints
 
@@ -48,10 +48,37 @@ GET  https://blockrun.ai/api/v1/audio/voices           # list voices (free)
 | `elevenlabs/turbo-v2.5` | $0.05 / 1k chars | 40,000 | Balanced quality/latency |
 | `elevenlabs/multilingual-v2` | $0.10 / 1k chars | 10,000 | Studio-grade narration |
 | `elevenlabs/v3` | $0.10 / 1k chars | 5,000 | Maximum expressiveness |
+| `bytedance/seed-audio-1.0` | $0.003 / second of audio | 3,000 | Prompt-directed audio creation (voice, emotion, staging) |
 
 :::info
-Price = `(characters / 1000) × model rate`, plus a 5% platform fee, minimum **$0.001** per request. The price is quoted up front in the 402 challenge and settlement only fires after the audio is generated — a failed generation is never charged.
+ElevenLabs models: price = `(characters / 1000) × model rate`, plus a 5% platform fee, minimum **$0.001** per request. The price is quoted up front in the 402 challenge and settlement only fires after the audio is generated — a failed generation is never charged.
 :::
+
+#### Seed Audio 1.0 (ByteDance)
+
+`bytedance/seed-audio-1.0` is not plain TTS — it is **prompt-directed audio
+creation**: describe the voice, emotion, and sound staging in natural language
+inside `input`, and the model performs it. Example:
+
+```json
+{
+  "model": "bytedance/seed-audio-1.0",
+  "input": "A middle-aged sports commentator, hoarse with excitement, shouts over a roaring stadium crowd: GOAL! Absolutely unbelievable!",
+  "response_format": "mp3"
+}
+```
+
+Differences from the ElevenLabs models:
+
+- **Billing is per second of output audio** ($0.003/second). Since the exact
+  duration isn't known before synthesis, the 402 quote prices an **estimated
+  duration** derived from your input length (CJK text estimates slower speech
+  than Latin text). The 402 body reports the estimate in
+  `generation_info.estimated_seconds`, and the response reports the actual
+  `duration_seconds`.
+- Output is capped at **120 seconds** (so the maximum possible quote is $0.36).
+- The `voice` parameter is **ignored** — direct the voice in the prompt itself.
+- Supports up to 3,000 input characters.
 
 ### Response
 

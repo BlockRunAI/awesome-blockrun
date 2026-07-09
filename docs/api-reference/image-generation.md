@@ -45,6 +45,26 @@ POST https://blockrun.ai/api/v1/images/generations
 | `zai/cogview-4` | Zhipu AI | 512x512 – 1440x1440 | $0.015 |
 | `xai/grok-imagine-image` | xAI | 1024x1024 | $0.021 |
 | `xai/grok-imagine-image-pro` | xAI | 1024x1024 | $0.074 |
+| `bytedance/seedream-5-pro` | ByteDance | 1024x1024 – 2848x1600 (8 sizes) | $0.047–$0.095 |
+
+#### Seedream 5.0 Pro Sizes
+
+`bytedance/seedream-5-pro` is ByteDance's flagship image model (up to 4K-class
+resolution). Pricing is by output pixel count — sizes at or below ~2.36M pixels
+are $0.047, larger sizes are $0.095:
+
+| Size | Price | Use Case |
+|------|-------|----------|
+| `1024x1024` | $0.047 | Standard (default) |
+| `1280x720` | $0.047 | HD landscape |
+| `2048x1024` | $0.047 | Wide banner |
+| `2048x2048` | $0.095 | High-resolution square |
+| `2304x1728` / `1728x2304` | $0.095 | 4:3 / 3:4 print-quality |
+| `2848x1600` / `1600x2848` | $0.095 | 16:9 / 9:16 4K-class |
+
+Seedream 5.0 Pro generations take **~2 minutes** — calls always resolve through
+the async `202` + poll flow described below, and you are only charged when the
+image completes.
 
 #### CogView-4 Sizes
 

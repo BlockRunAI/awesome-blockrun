@@ -56,7 +56,7 @@ Each model object in the response includes:
 ## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-**54 chat / LLM models** are publicly listed on mainnet, plus **7 image**, **5 video**, **1 music**, **4 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**54 chat / LLM models** are publicly listed on mainnet, plus **8 image**, **5 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
@@ -175,6 +175,7 @@ Open-weight models served free of charge (no x402 payment), subject to a small p
 | `xai/grok-imagine-image` | Grok Imagine | $0.02/image |
 | `xai/grok-imagine-image-pro` | Grok Imagine Pro | $0.07/image |
 | `zai/cogview-4` | CogView-4 | $0.015-0.02/image |
+| `bytedance/seedream-5-pro` | Seedream 5.0 Pro | $0.047-0.095/image (async, ~2 min) |
 
 ### Video Generation
 
