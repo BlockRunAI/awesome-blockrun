@@ -276,4 +276,4 @@ The gateway-wide error envelope across all paid endpoints.
 
 ::::
 
-Also useful: [Surf marketplace page](https://blockrun.ai/marketplace/surf) · [Surf (upstream)](https://asksurf.ai).
+Also useful: [Surf service page](https://blockrun.ai/services/surf) · [Surf (upstream)](https://asksurf.ai).

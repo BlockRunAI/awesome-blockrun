@@ -388,4 +388,4 @@ The gateway-wide error envelope across all paid endpoints.
 
 ::::
 
-Also useful: [Phone & Voice marketplace page](https://blockrun.ai/marketplace/phone) · [Bland.ai (upstream voice)](https://bland.ai).
+Also useful: [Phone & Voice service page](https://blockrun.ai/services/phone) · [Bland.ai (upstream voice)](https://bland.ai).

@@ -50,7 +50,7 @@ EVM and non-EVM, one path each. A selection:
 | Sui | `sui` | |
 | Polkadot | `polkadot` | `dot` |
 
-…and more. An unsupported `{network}` returns `400` with the full supported list. The live list is in `/openapi.json` and on [/marketplace/rpc](https://blockrun.ai/marketplace/rpc).
+…and more. An unsupported `{network}` returns `400` with the full supported list. The live list is in `/openapi.json` and on [/services/rpc](https://blockrun.ai/services/rpc).
 
 ## Example
 
