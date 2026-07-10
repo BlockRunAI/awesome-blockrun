@@ -61,6 +61,16 @@ Each model object in the response includes:
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
 
+### OpenAI GPT-5.6 Family
+
+Released 2026-07-09 — three fixed tiers (Sol / Terra / Luna) replacing the single-model-plus-effort-knob line. Note: on `/v1/chat/completions`, GPT-5.6 accepts function tools only with `reasoning_effort: "none"` — the BlockRun gateway sets this automatically when tools are present, so no client change is needed.
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `openai/gpt-5.6-sol` | GPT-5.6 Sol | $5.00/M | $30.00/M | 1M |
+| `openai/gpt-5.6-terra` | GPT-5.6 Terra | $2.50/M | $15.00/M | 1M |
+| `openai/gpt-5.6-luna` | GPT-5.6 Luna | $1.00/M | $6.00/M | 1M |
+
 ### OpenAI GPT-5.5 Family
 
 Released 2026-04-23 — first fully retrained base since GPT-4.5.

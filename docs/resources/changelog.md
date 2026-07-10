@@ -7,6 +7,15 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-07-09]
+
+### Added — OpenAI GPT-5.6 family (Sol / Terra / Luna), live on GA day
+- Added all three GPT-5.6 tiers the day OpenAI moved them to general availability: **`openai/gpt-5.6-sol`** ($5.00/$30.00 per 1M — flagship reasoning/coding/agentic), **`openai/gpt-5.6-terra`** ($2.50/$15.00 — balanced), **`openai/gpt-5.6-luna`** ($1.00/$6.00 — high-volume, latency-sensitive). 1M context each. All verified with real completions and tool calls before listing.
+- `gpt-5.6-sol` is now the featured OpenAI flagship (replaces `gpt-5.5` on the homepage table at the same price; gpt-5.5 remains available).
+- Gateway compatibility handled transparently: GPT-5.6 rejects function tools on `/v1/chat/completions` unless `reasoning_effort` is explicitly `"none"` — BlockRun sets this automatically whenever tools are present, so agent frameworks work unchanged.
+
+---
+
 ## [2026-06-28]
 
 ### Added — `response_format: json_schema` (OpenAI structured outputs)
