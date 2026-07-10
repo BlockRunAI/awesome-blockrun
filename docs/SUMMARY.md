@@ -63,6 +63,7 @@
 * [Exa Web Search](api-reference/exa-search.md)
 * [0x Swap (DEX)](api-reference/zerox-swap.md)
 * [Prediction Markets](api-reference/prediction-markets.md)
+* [Polymarket Funding](api-reference/polymarket-funding.md)
 * [Modal Sandbox](api-reference/modal-sandbox.md)
 * [Surf — Crypto Data](api-reference/surf.md)
 * [Multi-chain RPC](api-reference/multi-chain-rpc.md)

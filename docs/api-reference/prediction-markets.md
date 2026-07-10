@@ -10,7 +10,7 @@ Access real-time prediction market data via x402 micropayments. Powered by [Pred
 Unified access to Polymarket, Kalshi, dFlow, Binance, Limitless, Opinion, Predict.Fun, sports markets, plus UMA Oracle resolution data, canonical cross-venue market IDs, and on-chain wallet identity & clustering — all through a single API.
 
 :::note
-Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`). Predexon's separate Trading API (order placement, fund management) is intentionally not exposed.
+Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — read-only market data. To move funds, see the [Polymarket Funding API](polymarket-funding.md) (gasless, non-custodial deposit). Predexon's separate order-placement Trading API is not exposed.
 :::
 
 ## Networks
