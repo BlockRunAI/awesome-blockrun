@@ -69,14 +69,13 @@ Or pass it directly:
 client = LLMClient(private_key="0x...")
 ```
 
-### Option 3: Agent Wallet CLI
+### Option 3: BlockRun MCP session wallet
 
-For more control, use the [agent-wallet CLI](https://github.com/BlockRunAI/blockrun-agent-wallet):
+Installing [BlockRun MCP](/docs/mcp/blockrun-mcp) auto-creates a wallet at `~/.blockrun/.session` on first use — the Python and TypeScript SDKs read the same file automatically, so one funded wallet serves your MCP tools and your scripts:
 
 ```bash
-npx @blockrun/agent-wallet create
-npx @blockrun/agent-wallet address
-npx @blockrun/agent-wallet balance
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
+# ask the agent for its wallet address, then fund it with USDC on Base
 ```
 
 ## Fund Your Wallet
@@ -111,10 +110,7 @@ balance = client.get_balance()
 print(f"Balance: ${balance} USDC")
 ```
 
-**CLI:**
-```bash
-npx @blockrun/agent-wallet balance
-```
+**MCP:** ask your agent — the `blockrun_wallet` tool reports the address and USDC balance.
 
 **On-chain:**
 

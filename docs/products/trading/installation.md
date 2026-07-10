@@ -19,13 +19,12 @@ Pick one of the three install methods.
 
 :::tab{label="Direct install"}
 ```bash
-claude mcp add @blockrun/alpha
+claude mcp add alpha -s user -- npx -y @blockrun/alpha@latest
 ```
 :::
 
 :::tab{label="Via npx"}
 ```bash
-npx @anthropic-ai/claude-code install @blockrun/alpha
 ```
 :::
 

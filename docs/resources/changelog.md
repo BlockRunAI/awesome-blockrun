@@ -33,7 +33,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 ### Changed — Seedance video max duration raised
 - `bytedance/seedance-2.0` and `bytedance/seedance-2.0-fast`: max duration **10s → 15s**.
 - `bytedance/seedance-1.5-pro`: max duration **10s → 12s**.
-- Default duration stays 5s; price scales linearly with duration (Seedance is token-metered, so a 15s clip costs 3× a 5s clip at the same resolution). Marketplace copy updated from "5–10s" to "5–15s".
+- Default duration stays 5s; price scales linearly with duration (Seedance is token-metered, so a 15s clip costs 3× a 5s clip at the same resolution). Services page copy updated from "5–10s" to "5–15s".
 
 ---
 
@@ -150,11 +150,11 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - Renamed the autonomous-agent product across the entire site, docs, and SDKs. Repo (`BlockRunAI/Franklin`) and CSS unchanged; surface copy now consistently says "Franklin Agent" to disambiguate from the personal name.
 
 ### Changed — Seedance pricing migrated to per-M-token
-- Old per-second pricing ($0.03–$0.30 / sec) is deprecated. New per-M-token pricing aligned with token360 upstream:
+- Old per-second pricing ($0.03–$0.30 / sec) is deprecated. New per-M-token pricing aligned with our upstream provider:
   - `seedance-1.5-pro`: $4.32/M tokens (flat, 480p default)
   - `seedance-2.0-fast`: $11.20/M (text-only) or $6.60/M (with image input)
   - `seedance-2.0`: $14/M (text-only) or $8.60/M (with image input)
-- Default resolution is 480p (token360 default). Effective rate at 10,128 tok/sec.
+- Default resolution is 480p (upstream default). Effective rate at 10,128 tok/sec.
 
 ### Added — Rate-limit transparency
 - 429 responses now carry `Retry-After` (RFC-7231 standard) + `X-RateLimit-Source: <provider>` headers, plus body fields `code: "RATE_LIMITED"`, `source`, `retry_after_seconds`. Clients can fail over to a same-tier model on a different provider, or honor the retry interval. See [Rate Limits](../api-reference/rate-limits.md) — there is no platform-side QPS/RPM/TPM quota on paid inference; upstream provider limits apply.
