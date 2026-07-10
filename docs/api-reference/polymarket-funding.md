@@ -90,6 +90,9 @@ curl -X POST https://blockrun.ai/api/v1/polymarket/fund
 ```json
 {
   "success": true,
+  "funded": false,
+  "creditPending": true,
+  "status": "deposit_submitted",
   "deposit": {
     "txHash": "0x…",
     "amountUsd": 25,
@@ -97,11 +100,15 @@ curl -X POST https://blockrun.ai/api/v1/polymarket/fund
     "network": "base"
   },
   "fee": { "amountUsd": 0.01, "txHash": "0x…", "settled": true },
-  "note": "USDC sent to the Polymarket bridge; it will wrap to pUSD and land in your deposit wallet shortly."
+  "note": "Deposit submitted to the Polymarket bridge and confirmed on Base. The bridge credits pUSD to your Polygon vault asynchronously — usually within minutes, occasionally 30+. This endpoint cannot confirm the Polygon-side credit; poll your vault balance until pUSD appears."
 }
 ```
 
 The confirmed deposit transaction hash is also returned in the `X-Deposit-Tx` response header; the fee receipt is in `X-Payment-Receipt`.
+
+:::warning Settlement is asynchronous
+`success: true` means the deposit was **submitted to the bridge and confirmed on Base** — and the `$0.01` fee charged. It does **not** mean your vault is funded yet: `funded` is `false` and `creditPending` is `true`. The Polymarket bridge credits **pUSD on Polygon** off-chain and asynchronously — usually within minutes, occasionally **30+ minutes**. There is no on-chain bridge message to poll; check your Polygon vault's pUSD balance until it lands. Very small deposits and non-standard deposit wallets may take longer or require a real (setup-derived) vault.
+:::
 
 ### Errors
 
