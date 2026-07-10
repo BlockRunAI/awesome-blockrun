@@ -32,11 +32,15 @@ BlockRun then:
 
 ## Networks
 
-| Network | Base URL | Asset |
-|---------|----------|-------|
-| Base (Ethereum L2) | `https://blockrun.ai` | USDC |
+This call is **cross-chain**: you sign and move **USDC on Base**, and it lands as **pUSD in your Polymarket vault on Polygon**.
 
-The principal and the fee both move in **USDC on Base**. (Solana is not supported for funding — Polymarket vaults settle on Base.)
+| Leg | Chain | Asset |
+|-----|-------|-------|
+| API + fee | Base | USDC (via `https://blockrun.ai`) |
+| Deposit authorization (what you sign) | Base | USDC → Polymarket bridge |
+| Vault destination (where it arrives) | Polygon | pUSD |
+
+Both authorizations you sign — the `$0.01` fee and the deposit — are **Base USDC**; you never touch Polygon or hold Base ETH for gas. The Polymarket bridge wraps the deposited USDC to **pUSD** and credits your vault on Polygon.
 
 ## Pricing
 
