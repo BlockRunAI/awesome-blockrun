@@ -26,7 +26,7 @@ BlockRun then:
 2. **Validates** that `recipient` really is the Polymarket bridge deposit address for the caller's `depositWallet` (live lookup against the bridge). A mismatch is rejected before any settlement.
 3. Hands the **deposit** authorization to the CDP facilitator, which broadcasts it and **pays the gas**. The USDC settles **directly to the bridge** — BlockRun is never in the flow of funds.
 4. Only after the deposit is confirmed on-chain does BlockRun charge the `$0.01` fee.
-5. The bridge wraps USDC → pUSD into the agent's Polymarket vault.
+5. The Polymarket bridge wraps the USDC → **pUSD** and credits the agent's vault on **Polygon**.
 
 **A deposit that does not confirm is never billed.** The fee is charged only after the deposit settles on-chain.
 
