@@ -293,13 +293,13 @@ tts = SpeechClient()
 res = tts.generate("Hello from BlockRun!", model="elevenlabs/flash-v2.5", voice="sarah", response_format="mp3", speed=1.0)
 print(res.data[0].url)
 
-# Sound effects (flat $0.05/generation)
+# Sound effects (flat $0.052/generation)
 sfx = tts.sound_effect("rain on a tin roof", duration_seconds=6.0)
 
 voices = tts.list_voices()  # free, 60 req/min/IP
 ```
 
-Voices: `sarah`, `george`, `laura`, `charlie`, `river`, `roger`, `callum`, `harry`, or a raw ElevenLabs `voice_id`. Formats: `mp3` (default), `opus`, `pcm`, `wav`. Speed `0.7`–`1.2`. Billed per character (`chars/1000 × rate`, $0.001 floor) — flash/turbo cap 40k chars, multilingual-v2 10k, v3 5k.
+Voices: `sarah`, `george`, `laura`, `charlie`, `river`, `roger`, `callum`, `harry`, or a raw ElevenLabs `voice_id`. Formats: `mp3` (default), `opus`, `pcm`, `wav`. Speed `0.7`–`1.2`. Billed per character (`chars/1000 × rate`, $0.003 floor) — flash/turbo cap 40k chars, multilingual-v2 10k, v3 5k.
 
 ### Data & infrastructure
 
@@ -342,7 +342,7 @@ ranking = surf.call("market/ranking", params={"limit": 20})   # auto GET/POST fr
 catalog = surf.endpoints()                                     # static: every path + tier + price
 ```
 
-Tiers: T1 `$0.001` (reads/lists), T2 `$0.005` (AI rankings/trends/search), T3 `$0.020` (heavy LLM + on-chain SQL). Use `surf.get(path, params)` / `surf.post(path, body)` for explicit verbs.
+Tiers: T1 `$0.003` (reads/lists), T2 `$0.007` (AI rankings/trends/search), T3 `$0.022` (heavy LLM + on-chain SQL). Use `surf.get(path, params)` / `surf.post(path, body)` for explicit verbs.
 
 #### `RpcClient` — multi-chain JSON-RPC (40+ chains)
 
@@ -350,10 +350,10 @@ Tiers: T1 `$0.001` (reads/lists), T2 `$0.005` (AI rankings/trends/search), T3 `$
 from blockrun_llm import RpcClient
 
 rpc = RpcClient()
-res = rpc.call("ethereum", "eth_blockNumber")          # $0.002/call
+res = rpc.call("ethereum", "eth_blockNumber")          # $0.004/call
 print(int(res.result, 16), "cache_hit:", res.cache_hit)
 
-# JSON-RPC 2.0 batch — billed $0.002 × N
+# JSON-RPC 2.0 batch — billed $0.004 × N
 batch = rpc.batch("polygon", [{"method": "eth_blockNumber"}, {"method": "eth_gasPrice"}])
 ```
 
@@ -367,11 +367,11 @@ Networks accept names or aliases: `ethereum`/`eth`, `base`, `arbitrum`/`arb`, `o
 from blockrun_llm import PhoneClient
 
 phone = PhoneClient()
-info  = phone.lookup("+14155552671")          # $0.01 — carrier + line type
-fraud = phone.lookup_fraud("+14155552671")    # $0.05 — + SIM-swap / call-forwarding signals
+info  = phone.lookup("+14155552671")          # $0.012 — carrier + line type
+fraud = phone.lookup_fraud("+14155552671")    # $0.052 — + SIM-swap / call-forwarding signals
 num   = phone.buy_number(country="US", area_code="415")  # $5 / 30 days (settles after Twilio confirms)
 phone.renew_number(num["phone_number"])       # $5 / +30 days
-phone.list_numbers()                          # $0.001
+phone.list_numbers()                          # $0.003
 phone.release_number(num["phone_number"])     # free
 ```
 
@@ -392,19 +392,19 @@ print(call["call_id"])
 status = voice.get_status(call["call_id"])   # free; transcript + recording_url once completed
 ```
 
-`$0.54`/call. `from_` is auto-picked if your wallet owns exactly one provisioned number (see `PhoneClient.buy_number`).
+`$0.542`/call. `from_` is auto-picked if your wallet owns exactly one provisioned number (see `PhoneClient.buy_number`).
 
 #### `PortraitClient` & `RealFaceClient` — `ta_…` identity assets for video
 
 ```python
 from blockrun_llm import PortraitClient, RealFaceClient
 
-# Virtual Portrait — AI character, no KYC, $0.01 one-time
+# Virtual Portrait — AI character, no KYC, $0.012 one-time
 portrait = PortraitClient()
 p = portrait.enroll("My Spokesperson", "https://example.com/character.jpg")
 print(p.asset_id)   # ta_xxxxxxxx → pass to VideoClient(real_face_asset_id=...)
 
-# RealFace — real person, requires on-phone liveness check, $0.01
+# RealFace — real person, requires on-phone liveness check, $0.012
 rf = RealFaceClient()
 init = rf.init("Jane Doe")            # render init.h5_link as a QR for the subject
 rf.wait_for_active(init.group_id)     # blocks until liveness passes (default 180s)
@@ -441,7 +441,7 @@ Access real-time prediction market data from Polymarket, Kalshi, dFlow, Binance,
 
 ### `pm(path, **params)`
 
-Query prediction market GET endpoints. $0.001 per request.
+Query prediction market GET endpoints. $0.003 per request.
 
 ```python
 from blockrun_llm import LLMClient
@@ -497,7 +497,7 @@ pairs = client.pm("matching-markets/pairs")
 Structured query for prediction market POST endpoints. Used for bulk wallet identity lookup and any future POST endpoints.
 
 ```python
-# Bulk wallet identity lookup (Tier 2, $0.005)
+# Bulk wallet identity lookup (Tier 2, $0.007)
 batch = client.pm_query("polymarket/wallet/identities", {
     "addresses": ["0xabc...", "0xdef...", "0x123..."],  # up to 200
 })
@@ -608,8 +608,8 @@ print(f"Is testnet: {client.is_testnet()}")  # True
 
 | Model | Price |
 |-------|-------|
-| `openai/gpt-oss-20b` | $0.001/request (flat) |
-| `openai/gpt-oss-120b` | $0.002/request (flat) |
+| `openai/gpt-oss-20b` | $0.003/request (flat) |
+| `openai/gpt-oss-120b` | $0.004/request (flat) |
 
 ### Manual Testnet Configuration
 

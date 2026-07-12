@@ -26,7 +26,7 @@ Ask for an LLM completion, an image, a market quote, a swap. Your client signs a
 :::
 
 :::step{title="Pay only for what you use"}
-Each call costs a fraction of a cent — provider cost plus a small margin, with a $0.001 floor. No monthly bill, no seats, no minimums.
+Each call costs a fraction of a cent — provider cost plus a small margin, with a $0.003 floor. No monthly bill, no seats, no minimums.
 :::
 
 ::::

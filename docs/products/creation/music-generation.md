@@ -179,7 +179,7 @@ Create an instrumental ambient track for a meditation app
 |-------|----------------|
 | music-2.5+ | $0.1575/track (provider cost + 5% margin, $0.15 base) |
 
-Prices in USD, paid in USDC on Base network. Minimum charge is $0.001/request.
+Prices in USD, paid in USDC on Base network. Minimum charge is $0.003/request.
 
 ## Wallet Requirements
 

@@ -114,7 +114,7 @@ input and output — call `GET /api/v1/models` for the current live list.
 | Grok Imagine | $0.02 |
 | Grok Imagine Pro | $0.07 |
 
-Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$0.05–$0.10 per 1k characters**, sound effects **$0.05/generation**.
+Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$0.05–$0.10 per 1k characters**, sound effects **$0.052/generation**.
 
 ## Cost Comparison: BlockRun vs Direct
 

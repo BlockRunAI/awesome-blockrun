@@ -1,6 +1,6 @@
 ---
 title: Phone & Voice
-description: Outbound AI voice calls and wallet-owned phone numbers for agents — $5 per number (30 days), $0.54 flat per call, no telecom account.
+description: Outbound AI voice calls and wallet-owned phone numbers for agents — $5 per number (30 days), $0.542 flat per call, no telecom account.
 ---
 
 # Phone & Voice
@@ -10,7 +10,7 @@ Outbound AI voice calls and wallet-owned phone numbers — for AI agents. No tel
 **Default country:** US (no regulatory friction). Other countries can be requested via the `country` parameter — see [Country availability](#country-availability) below.
 
 :::info{title="Costs"}
-A number is **$5 / 30 days** (renew for $5). Each outbound call is **$0.54 flat** (up to 30 min, default 5). Polling status / fetching a transcript is **free**. Failed call legs (`ended_by: ERROR`) and 429/502 upstream errors are **not charged**. All settled in USDC on Base or Solana via x402.
+A number is **$5 / 30 days** (renew for $5). Each outbound call is **$0.542 flat** (up to 30 min, default 5). Polling status / fetching a transcript is **free**. Failed call legs (`ended_by: ERROR`) and 429/502 upstream errors are **not charged**. All settled in USDC on Base or Solana via x402.
 :::
 
 Powered by [Bland.ai](https://bland.ai) (voice AI) + [Twilio](https://twilio.com) (carrier numbers), with x402 settlement at every step.
@@ -21,7 +21,7 @@ An autonomous agent wants to call a restaurant to confirm a reservation, or call
 
 BlockRun collapses all of it to two endpoints and one wallet:
 1. `POST /v1/phone/numbers/buy` — $5, get a US number for 30 days (default; other countries via `country` parameter).
-2. `POST /v1/voice/call` — $0.54, place an outbound call with an AI voice + Bland conversational task.
+2. `POST /v1/voice/call` — $0.542, place an outbound call with an AI voice + Bland conversational task.
 
 Wallet ownership is recorded in Firestore — only the wallet that bought a number can use it to place calls, and only that wallet can renew it.
 
@@ -33,8 +33,8 @@ Wallet ownership is recorded in Firestore — only the wallet that bought a numb
 |----------|--------|-------|-------------|
 | `/api/v1/phone/numbers/buy` | POST | **$5.00** | Provision a new number for the calling wallet (30-day lease). US default; other countries via `country` parameter (may require Twilio compliance setup — see below). |
 | `/api/v1/phone/numbers/renew` | POST | **$5.00** | Extend an active number's lease by 30 days |
-| `/api/v1/phone/numbers/list` | POST | $0.001 | List the calling wallet's active numbers |
-| `/api/v1/voice/call` | POST | **$0.54** | Place an outbound AI call (max 30 min, default 5 min) |
+| `/api/v1/phone/numbers/list` | POST | $0.003 | List the calling wallet's active numbers |
+| `/api/v1/voice/call` | POST | **$0.542** | Place an outbound AI call (max 30 min, default 5 min) |
 | `/api/v1/voice/call/{id}` | GET | **Free** | Poll call status / fetch transcript |
 
 ---
@@ -297,11 +297,11 @@ Use blockrun_wallet to confirm I own a phone number, then use the BlockRun voice
 
 ## Use Cases
 
-### 1. Reservation confirmer ($0.54 per restaurant)
+### 1. Reservation confirmer ($0.542 per restaurant)
 
 Agent calls a restaurant to confirm a booking. Hangs up after confirmation.
 
-### 2. Vendor price-check bot ($0.54 per vendor)
+### 2. Vendor price-check bot ($0.542 per vendor)
 
 Procurement agent calls suppliers, reads off a SKU, asks for current price + lead time, logs the answer.
 
@@ -309,7 +309,7 @@ Procurement agent calls suppliers, reads off a SKU, asks for current price + lea
 
 The wallet-owned numbers can also receive inbound calls — feature is in development. Track `awesome-blockrun/ROADMAP.md`.
 
-### 4. Wellness check bot ($0.54)
+### 4. Wellness check bot ($0.542)
 
 Agent calls a family member on a schedule, has a short conversation, summarizes the call into a Slack message.
 
@@ -321,14 +321,14 @@ Agent calls a family member on a schedule, has a short conversation, summarizes 
 |--------|-------|-------|
 | Buy a number | $5.00 | 30-day lease, US or CA |
 | Renew | $5.00 | +30 days |
-| Place a call | $0.54 | Up to 30 min, default 5 min |
+| Place a call | $0.542 | Up to 30 min, default 5 min |
 | Poll status / fetch transcript | Free | `GET /v1/voice/call/{id}` |
 
 All settled in USDC on Base (or Solana) via x402.
 
 ### Why flat-rate for calls?
 
-Competitors (StablePhone et al) charge $0.54 *per minute* — a 30-min call becomes $16+. BlockRun charges $0.54 *per call* regardless of length (up to the 30-min cap). The math:
+Competitors (StablePhone et al) charge $0.54 *per minute* — a 30-min call becomes $16+. BlockRun charges $0.542 *per call* regardless of length (up to the 30-min cap). The math:
 - Short calls (<1 min, e.g. "is it open?"): we lose pennies, you win big.
 - Long calls (15+ min): we eat the upstream Bland cost, but the call cost is bounded for you.
 

@@ -26,17 +26,17 @@ Projects, integrations, and partners building with BlockRun and x402.
 | **Video Generation** | `/v1/videos/generations` | Per M tokens | ✅ Live |
 | **Music Generation** | `/v1/audio/generations` | $0.15/track | ✅ Live |
 | **Text-to-Speech** | `/v1/audio/speech` | $0.05–0.10/1k chars | ✅ Live |
-| **Sound Effects** | `/v1/audio/sound-effects` | $0.05/generation | ✅ Live |
-| **Voice Calls** | `/v1/voice/call` | $0.54 flat | ✅ Live |
+| **Sound Effects** | `/v1/audio/sound-effects` | $0.052/generation | ✅ Live |
+| **Voice Calls** | `/v1/voice/call` | $0.542 flat | ✅ Live |
 | **Phone Numbers** | `/v1/phone/numbers/*` | $5/30 days | ✅ Live |
-| **Surf Crypto Data** | `/api/v1/surf/*` (83 endpoints) | $0.001–0.02 | ✅ Live |
+| **Surf Crypto Data** | `/api/v1/surf/*` (83 endpoints) | $0.003–0.022 | ✅ Live |
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
-| **Exa Web Search** | `/api/v1/exa/*` | $0.002–0.01 | ✅ Live |
+| **Exa Web Search** | `/api/v1/exa/*` | $0.002–0.012 | ✅ Live |
 | **0x Swap (DEX)** | `/api/v1/zerox/*` | Free | ✅ Live |
-| **Multi-chain RPC** | `/api/v1/rpc/{network}` (40+ chains) | $0.002/call | ✅ Live |
-| **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | ✅ Live |
-| **Trading Markets** | `/api/v1/markets/*` | $0.001 | ✅ Live |
-| **Modal Sandbox** | `/v1/modal/*` | $0.001–0.01 | ✅ Live |
+| **Multi-chain RPC** | `/api/v1/rpc/{network}` (40+ chains) | $0.004/call | ✅ Live |
+| **Prediction Markets** | `/v1/pm/*` | $0.003–0.007 | ✅ Live |
+| **Trading Markets** | `/api/v1/markets/*` | $0.003 | ✅ Live |
+| **Modal Sandbox** | `/v1/modal/*` | $0.003–0.012 | ✅ Live |
 | **Models** | `/v1/models` | Free | ✅ Live |
 | **Pricing** | `/v1/pricing` | Free | ✅ Live |
 | **Balance** | `/v1/balance` | Free | ✅ Live |

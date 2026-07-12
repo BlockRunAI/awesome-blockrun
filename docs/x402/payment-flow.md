@@ -111,7 +111,7 @@ Key points:
 - Private key never leaves the client
 - Authorization expires in 5 minutes (`validBefore`)
 - Clock skew tolerance of 10 minutes (`validAfter`)
-- `value` is micro-USDC: `$0.001` → `"1000"`
+- `value` is micro-USDC: `$0.003` → `"3000"`
 - The header value is the **base64 of the JSON payment payload** shown in the next step (`btoa(JSON.stringify(payload))`)
 
 :::note{title="Paying on Solana"}

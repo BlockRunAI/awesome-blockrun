@@ -54,12 +54,12 @@ OpenAI-compatible. 61 models across chat, reasoning, coding, and vision — plus
 | POST | `/api/v1/videos` | Standard multimodal `content[]` body — delegates to `/videos/generations` | Per second / token-metered |
 | POST | `/api/v1/audio/speech` | Text-to-speech (ElevenLabs voices) | $0.05–$0.10 / 1k chars |
 | POST | `/api/v1/audio/generations` | Music generation (MiniMax Music) | $0.15 / track |
-| POST | `/api/v1/audio/sound-effects` | Sound-effect generation | $0.05 / generation |
+| POST | `/api/v1/audio/sound-effects` | Sound-effect generation | $0.052 / generation |
 | GET  | `/api/v1/audio/voices` | List available TTS voices | Free |
-| POST | `/api/v1/portrait/enroll` | Enroll AI character as a Virtual Portrait (`ta_xxx`) for Seedance | **$0.01 / enrollment** |
+| POST | `/api/v1/portrait/enroll` | Enroll AI character as a Virtual Portrait (`ta_xxx`) for Seedance | **$0.012 / enrollment** |
 | GET  | `/api/v1/wallet/{address}/portraits` | List a wallet's enrolled Virtual Portraits | Free (rate-limited) |
 | POST | `/api/v1/realface/init` | Create a RealFace enrollment session, returns h5Link for phone liveness check | Free (rate-limited) |
-| POST | `/api/v1/realface/enroll` | Finalize RealFace enrollment after H5 completes (uploads face + biometric match) | **$0.01 / enrollment** |
+| POST | `/api/v1/realface/enroll` | Finalize RealFace enrollment after H5 completes (uploads face + biometric match) | **$0.012 / enrollment** |
 | GET  | `/api/v1/realface/status` | Poll the state of a RealFace enrollment group | Free (rate-limited) |
 | GET  | `/api/v1/wallet/{address}/realfaces` | List a wallet's enrolled RealFaces | Free (rate-limited) |
 
@@ -70,9 +70,9 @@ Per-model pricing is published at `/api/v1/models` and embedded in every 402 res
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
 | POST | `/api/v1/search` | Live search (web / news / X) | `max_results × $0.025` / source (default 10) |
-| POST | `/api/v1/exa/search` | Web search | $0.01 / call |
-| POST | `/api/v1/exa/find-similar` | Find semantically similar pages | $0.01 / call |
-| POST | `/api/v1/exa/answer` | AI answer with citations | $0.01 / call |
+| POST | `/api/v1/exa/search` | Web search | $0.012 / call |
+| POST | `/api/v1/exa/find-similar` | Find semantically similar pages | $0.012 / call |
+| POST | `/api/v1/exa/answer` | AI answer with citations | $0.012 / call |
 | POST | `/api/v1/exa/contents` | Extract content from URLs | $0.002 / URL |
 
 ## Voice & Phone
@@ -89,22 +89,22 @@ Ephemeral, isolated Python sandboxes for agent code execution.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| POST | `/api/v1/modal/sandbox/create` | Create sandbox | $0.01 (flat for short-lived; per-hour for long-lived) |
-| POST | `/api/v1/modal/sandbox/exec` | Execute a command in a sandbox | $0.001 |
-| POST | `/api/v1/modal/sandbox/status` | Check sandbox status | $0.001 |
-| POST | `/api/v1/modal/sandbox/terminate` | Terminate a sandbox | $0.001 |
+| POST | `/api/v1/modal/sandbox/create` | Create sandbox | $0.012 (flat for short-lived; per-hour for long-lived) |
+| POST | `/api/v1/modal/sandbox/exec` | Execute a command in a sandbox | $0.003 |
+| POST | `/api/v1/modal/sandbox/status` | Check sandbox status | $0.003 |
+| POST | `/api/v1/modal/sandbox/terminate` | Terminate a sandbox | $0.003 |
 
 ## Prediction Markets (Predexon)
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| GET/POST | `/api/v1/pm/{path}` | Predexon API passthrough — markets, events, odds, history | GET $0.001 (tier 1) / POST $0.005 (tier 2) |
+| GET/POST | `/api/v1/pm/{path}` | Predexon API passthrough — markets, events, odds, history | GET $0.003 (tier 1) / POST $0.007 (tier 2) |
 
 ## Crypto Data (Surf)
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| GET/POST | `/api/v1/surf/{path}` | Crypto market / on-chain intelligence — exchanges, on-chain analytics, wallet labels, social mindshare, news, search | Tier 1 $0.001 (reads) · Tier 2 $0.005 (AI rankings/trends) · Tier 3 $0.02 (heavy LLM/SQL reports) |
+| GET/POST | `/api/v1/surf/{path}` | Crypto market / on-chain intelligence — exchanges, on-chain analytics, wallet labels, social mindshare, news, search | Tier 1 $0.003 (reads) · Tier 2 $0.007 (AI rankings/trends) · Tier 3 $0.022 (heavy LLM/SQL reports) |
 
 ## 0x Swap (DEX)
 
@@ -114,16 +114,16 @@ Ephemeral, isolated Python sandboxes for agent code execution.
 
 ## Financial Data (Pyth-backed)
 
-Real-time and historical prices. All `list` endpoints are free. **Crypto, FX, and commodity** price/history are also free; **stock** price/history (US and non-US) are **$0.001/call**.
+Real-time and historical prices. All `list` endpoints are free. **Crypto, FX, and commodity** price/history are also free; **stock** price/history (US and non-US) are **$0.003/call**.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
 | GET | `/api/v1/usstock/list` | US tickers | Free |
-| GET | `/api/v1/usstock/price/{symbol}` | US stock spot price | $0.001 |
-| GET | `/api/v1/usstock/history/{symbol}` | US stock OHLC | $0.001 |
+| GET | `/api/v1/usstock/price/{symbol}` | US stock spot price | $0.003 |
+| GET | `/api/v1/usstock/history/{symbol}` | US stock OHLC | $0.003 |
 | GET | `/api/v1/stocks/{market}/list` | Non-US markets (HK, JP, ...) | Free |
-| GET | `/api/v1/stocks/{market}/price/{symbol}` | Non-US stock price | $0.001 |
-| GET | `/api/v1/stocks/{market}/history/{symbol}` | Non-US OHLC | $0.001 |
+| GET | `/api/v1/stocks/{market}/price/{symbol}` | Non-US stock price | $0.003 |
+| GET | `/api/v1/stocks/{market}/history/{symbol}` | Non-US OHLC | $0.003 |
 | GET | `/api/v1/crypto/list` | Crypto tickers | Free |
 | GET | `/api/v1/crypto/price/{symbol}` | Crypto spot | Free |
 | GET | `/api/v1/crypto/history/{symbol}` | Crypto OHLC | Free |
@@ -140,7 +140,7 @@ Standard JSON-RPC 2.0 to 40+ chains through one endpoint — no API key. EVM (`e
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| POST | `/api/v1/rpc/{network}` | Multi-chain JSON-RPC — `ethereum`, `base`, `solana`, `polygon`, `bsc`, `arbitrum`, `bitcoin`, `xrp`, `sui`… (40+, aliases supported) | **$0.002 / call** (batch priced per element) |
+| POST | `/api/v1/rpc/{network}` | Multi-chain JSON-RPC — `ethereum`, `base`, `solana`, `polygon`, `bsc`, `arbitrum`, `bitcoin`, `xrp`, `sui`… (40+, aliases supported) | **$0.004 / call** (batch priced per element) |
 | POST | `/api/v1/solana/rpc` | Solana JSON-RPC (also reachable via `/api/v1/rpc/solana`) | Per-method, returned in 402 |
 
 ## Free Endpoints

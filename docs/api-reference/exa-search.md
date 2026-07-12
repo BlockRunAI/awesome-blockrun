@@ -13,19 +13,19 @@ LLMs have a knowledge cutoff. When an agent needs to answer "what happened last 
 
 Exa gives agents a live internet connection with structured, grounded results — not HTML soup, but clean text ready to feed into your next LLM call.
 
-**A complete research workflow costs $0.03:**
-- 1 search ($0.01) → find relevant URLs
-- 5 page reads ($0.01) → get full content
-- 1 synthesized answer ($0.01) → grounded conclusion
+**A complete research workflow costs $0.036:**
+- 1 search ($0.012) → find relevant URLs
+- 5 page reads ($0.012) → get full content
+- 1 synthesized answer ($0.012) → grounded conclusion
 
 ## Endpoints
 
 | Endpoint | Method | Price | Description |
 |----------|--------|-------|-------------|
-| `/api/v1/exa/search` | POST | $0.01 | Neural web search — find relevant URLs for a query |
-| `/api/v1/exa/answer` | POST | $0.01 | Get a cited, synthesized answer to any question |
+| `/api/v1/exa/search` | POST | $0.012 | Neural web search — find relevant URLs for a query |
+| `/api/v1/exa/answer` | POST | $0.012 | Get a cited, synthesized answer to any question |
 | `/api/v1/exa/contents` | POST | $0.002/URL | Fetch full Markdown text from a list of URLs |
-| `/api/v1/exa/find-similar` | POST | $0.01 | Find pages similar to a given URL |
+| `/api/v1/exa/find-similar` | POST | $0.012 | Find pages similar to a given URL |
 
 ---
 
@@ -121,7 +121,7 @@ Best for: "What is X?", "How does Y work?", "What's the current state of Z?"
 
 Fetch the full text content from a list of URLs. Returns clean Markdown — no HTML, no boilerplate — ready to drop into an LLM context window.
 
-**This is the cheapest way to read web pages:** $0.002 per URL. Fetching 10 pages costs $0.02.
+**This is the cheapest way to read web pages:** $0.002 per URL. Fetching 10 pages costs $0.022.
 
 ### Request Body
 
@@ -172,7 +172,7 @@ Same format as `/exa/search`.
 
 ### 1. Research Agent — Full Grounded Analysis
 
-An agent asked to analyze a topic. Cost: ~$0.03.
+An agent asked to analyze a topic. Cost: ~$0.036.
 
 ```typescript
 // Step 1: Find relevant sources
@@ -194,7 +194,7 @@ const analysis = await client.chat("anthropic/claude-opus-4.8", [
 
 ### 2. Fact-Checking Agent — No Hallucinations
 
-Agent needs a reliable answer to a factual question. Cost: $0.01.
+Agent needs a reliable answer to a factual question. Cost: $0.012.
 
 ```typescript
 const result = await client.exaAnswer(
@@ -207,7 +207,7 @@ console.log("Sources:", result.citations.map(c => c.url));
 
 ### 3. Competitive Intelligence — Find Similar Projects
 
-Discover what's being built in your space. Cost: $0.01.
+Discover what's being built in your space. Cost: $0.012.
 
 ```typescript
 const similar = await client.exaFindSimilar("https://blockrun.ai", {
@@ -219,7 +219,7 @@ const similar = await client.exaFindSimilar("https://blockrun.ai", {
 
 ### 4. Developer Agent — Find Code Examples
 
-AI coding agent looking for real implementation examples. Cost: $0.012.
+AI coding agent looking for real implementation examples. Cost: $0.016.
 
 ```typescript
 // Find GitHub repos implementing a specific pattern
@@ -235,7 +235,7 @@ const readmes = await client.exaContents([repos.results[0].url]);
 
 ### 5. Monitoring Agent — Track News About a Topic
 
-Weekly check on what's happening. Cost: $0.01/run.
+Weekly check on what's happening. Cost: $0.012/run.
 
 ```typescript
 const lastWeek = new Date();
@@ -317,9 +317,9 @@ const similar = await client.exaFindSimilar("https://blockrun.ai", { numResults:
 
 | Endpoint | Price per call |
 |----------|---------------|
-| `/exa/search` | $0.01 |
-| `/exa/answer` | $0.01 |
-| `/exa/find-similar` | $0.01 |
+| `/exa/search` | $0.012 |
+| `/exa/answer` | $0.012 |
+| `/exa/find-similar` | $0.012 |
 | `/exa/contents` | $0.002 per URL |
 
 Payment is in USDC on Base or Solana via x402. No account needed — your wallet is your identity.

@@ -199,7 +199,7 @@ Seedance defaults to **720p with synced audio** for text-to-video; pass `resolut
 | `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.319/sec ($1.59 / 5s clip) | 15s |
 | `azure/sora-2` | Sora 2 | $0.10/sec (4s = $0.42) | 12s |
 
-For character consistency across multiple Seedance videos, enroll a [Virtual Portrait](virtual-portrait.md) ($0.01 one-time, no KYC) for AI characters, or a [RealFace](realface.md) ($0.01 one-time, no KYC, requires brief on-phone liveness check) for real people. Pass the returned `ta_xxx` as `real_face_asset_id`.
+For character consistency across multiple Seedance videos, enroll a [Virtual Portrait](virtual-portrait.md) ($0.012 one-time, no KYC) for AI characters, or a [RealFace](realface.md) ($0.012 one-time, no KYC, requires brief on-phone liveness check) for real people. Pass the returned `ta_xxx` as `real_face_asset_id`.
 
 ## Model Categories
 

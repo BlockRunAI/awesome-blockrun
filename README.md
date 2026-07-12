@@ -54,7 +54,7 @@ img = ImageClient(private_key="0x...")
 result = img.generate("A cyberpunk city at sunset", model="openai/gpt-image-1")
 
 # Neural web search via Exa
-results = client.search("latest AI agent frameworks")  # $0.01/search on Base or Solana
+results = client.search("latest AI agent frameworks")  # $0.012/search on Base or Solana
 ```
 
 ```typescript
@@ -85,14 +85,14 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 | **Image Editing** | `/v1/images/image2image` | Per request | AI-powered inpainting and image-to-image |
 | **Video Generation** | `/v1/videos/generations` | Per M tokens | Seedance 1.5 Pro, 2.0 Fast, 2.0 Pro (with BytePlus RealFace support); Grok Imagine Video |
 | **Music Generation** | `/v1/audio/generations` | Per track | Suno-powered text-to-music |
-| **Voice Calls** | `/v1/voice/call` | $0.54/call (flat, ≤30min) | Outbound AI conversation calls — Bland.ai upstream |
+| **Voice Calls** | `/v1/voice/call` | $0.542/call (flat, ≤30min) | Outbound AI conversation calls — Bland.ai upstream |
 | **Phone Numbers** | `/v1/phone/numbers/*` | $5/30 days | Wallet-owned US/CA numbers — Twilio upstream |
-| **Surf Crypto Data** | `/api/v1/surf/*` | $0.001–0.02 | 83 endpoints: CEX, on-chain SQL, prediction markets, wallet labels, social mindshare, news, search (asksurf.ai) |
-| **Web Search** | `/api/v1/exa/*` | $0.01/search | Neural web search, find-similar, page contents, AI answers (Exa) |
+| **Surf Crypto Data** | `/api/v1/surf/*` | $0.003–0.022 | 83 endpoints: CEX, on-chain SQL, prediction markets, wallet labels, social mindshare, news, search (asksurf.ai) |
+| **Web Search** | `/api/v1/exa/*` | $0.012/search | Neural web search, find-similar, page contents, AI answers (Exa) |
 | **DEX Aggregation** | `/api/v1/zerox/*` | Free | 0x Swap V2 + Gasless V2 across 100+ venues |
 | **Sandbox Runtime** | `/api/v1/modal/*` | Per run | Secure isolated Python execution (Modal) |
-| **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | Polymarket, Kalshi, dFlow, Binance Futures (Predexon) |
-| **Trading Markets** | `/api/v1/markets/*` | $0.001 | Equity tickers across US, KR, JP, CN, etc. |
+| **Prediction Markets** | `/v1/pm/*` | $0.003–0.007 | Polymarket, Kalshi, dFlow, Binance Futures (Predexon) |
+| **Trading Markets** | `/api/v1/markets/*` | $0.003 | Equity tickers across US, KR, JP, CN, etc. |
 | **Models** | `/v1/models` | Free | List all available models with pricing |
 | **Pricing** | `/v1/pricing` | Free | Detailed pricing for all models |
 | **Balance** | `/v1/balance` | Free | Check USDC wallet balance |
@@ -103,10 +103,10 @@ Real-time prediction market data powered by Predexon:
 
 | Market | Endpoints | Price |
 |--------|-----------|-------|
-| **Polymarket** | Markets, events, trades, orderbooks, leaderboards, positions | $0.001–0.005 |
-| **Kalshi** | Markets, trades, orderbooks | $0.001 |
-| **dFlow** | Trades, positions, P&L | $0.001–0.005 |
-| **Binance Futures** | Candles, ticks | $0.005 |
+| **Polymarket** | Markets, events, trades, orderbooks, leaderboards, positions | $0.003–0.007 |
+| **Kalshi** | Markets, trades, orderbooks | $0.003 |
+| **dFlow** | Trades, positions, P&L | $0.003–0.007 |
+| **Binance Futures** | Candles, ticks | $0.007 |
 
 ---
 
@@ -408,7 +408,7 @@ BlockRun is agent-native — it uses wallet signatures for authentication instea
 The x402 protocol is an HTTP-native payment standard based on HTTP status code 402 ("Payment Required"). It allows any HTTP request to include a cryptographic USDC payment, enabling machine-to-machine payments without accounts, credit cards, or KYC verification. BlockRun is a leading implementation of x402.
 
 ### How much does BlockRun cost?
-BlockRun uses pay-per-request pricing with no minimums or subscriptions. Prices start at $0.0002 per request for budget models. Provider cost plus 30% margin. $5 in USDC is enough for thousands of requests.
+BlockRun uses pay-per-request pricing with no minimums or subscriptions. Prices start at $0.003 per request for the cheapest models. Provider cost plus a 5% margin. $5 in USDC is enough for thousands of requests.
 
 ---
 

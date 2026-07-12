@@ -191,8 +191,8 @@ https://testnet.blockrun.ai/api
 
 ### Available Testnet Models
 
-- `openai/gpt-oss-20b` - $0.001/request
-- `openai/gpt-oss-120b` - $0.002/request
+- `openai/gpt-oss-20b` - $0.003/request
+- `openai/gpt-oss-120b` - $0.004/request
 
 ## Troubleshooting
 

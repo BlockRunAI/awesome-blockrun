@@ -9,7 +9,7 @@ Generate short AI videos with **OpenAI Sora 2**, **xAI Grok Imagine**, or **Byte
 
 - **Endpoint:** `POST https://blockrun.ai/v1/videos/generations`
 - **Poll:** `GET https://blockrun.ai/v1/videos/generations/{id}?model=…&duration=…`
-- **Payment:** x402, **USDC on Base** mainnet (`network: "base"`, `x402Version: 2`). Minimum charge $0.001.
+- **Payment:** x402, **USDC on Base** mainnet (`network: "base"`, `x402Version: 2`). Minimum charge $0.003.
 
 :::note
 The `/v1/...` and `/api/v1/...` paths are equivalent (the gateway rewrites `/v1` → `/api/v1`). Examples below use `/v1`.
@@ -86,8 +86,8 @@ Notes:
 Whether you can seed generation from an image — and how — depends on the subject:
 
 - **Non-human subject** (product, scene, animal, object): pass `image_url` (a public URL to the first frame) on **`azure/sora-2`**, **Grok**, or any **Seedance** model. For `azure/sora-2` the gateway resizes the seed image server-side to Sora's exact required dimensions (1280×720 / 720×1280). Seedance image-to-video is billed at the same per-token rate as text-to-video.
-- **A specific real person**: you cannot upload a face to Sora (see the note below). Use **Seedance 2.0 / 2.0-fast + a RealFace `ta_xxxx` asset** — enroll the person once *with their consent* ([RealFace](realface.md), ~1-min on-phone liveness, $0.01), then pass `real_face_asset_id`. Details in [Character consistency](#character-consistency-seedance-20-fast--pro) below.
-- **An AI character / mascot**: same flow with a [Virtual Portrait](virtual-portrait.md) asset (no KYC, $0.01).
+- **A specific real person**: you cannot upload a face to Sora (see the note below). Use **Seedance 2.0 / 2.0-fast + a RealFace `ta_xxxx` asset** — enroll the person once *with their consent* ([RealFace](realface.md), ~1-min on-phone liveness, $0.012), then pass `real_face_asset_id`. Details in [Character consistency](#character-consistency-seedance-20-fast--pro) below.
+- **An AI character / mascot**: same flow with a [Virtual Portrait](virtual-portrait.md) asset (no KYC, $0.012).
 
 :::warning{title="Sora reference images cannot contain human faces"}
 `azure/sora-2` **rejects reference images that contain human faces** — a moderation pipeline blocks any recognizable person to prevent deepfakes, and there is no general human-likeness image-upload path. So on BlockRun: **`azure/sora-2` does image-to-video for non-human subjects** (`image_url`, resized server-side to Sora's exact dimensions); and **real-person video goes through Seedance 2.0 + RealFace** (the consent-based route above).
@@ -136,8 +136,8 @@ All prices include the gateway's standard **5% margin** — i.e. these are the a
 
 | Action | Endpoint | Price |
 |---|---|---|
-| Virtual Portrait enrollment | [`POST /v1/portrait/enroll`](virtual-portrait.md) | $0.01 USDC per asset (no KYC) |
-| RealFace enrollment | [`POST /v1/realface/enroll`](realface.md) | $0.01 USDC per asset (no KYC, requires ~1-min on-phone liveness) |
+| Virtual Portrait enrollment | [`POST /v1/portrait/enroll`](virtual-portrait.md) | $0.012 USDC per asset (no KYC) |
+| RealFace enrollment | [`POST /v1/realface/enroll`](realface.md) | $0.012 USDC per asset (no KYC, requires ~1-min on-phone liveness) |
 
 ---
 
@@ -314,8 +314,8 @@ Pass a `ta_xxxx` asset from a Virtual Portrait or RealFace enrollment to keep th
 
 | Asset type | Use when | KYC? | Liveness? | Cost | Enroll via |
 |---|---|---|---|---|---|
-| [**Virtual Portrait**](virtual-portrait.md) | AI character, mascot, avatar | No | No | $0.01 USDC | [`POST /v1/portrait/enroll`](virtual-portrait.md) · [studio/portrait](https://blockrun.ai/studio/portrait) |
-| [**RealFace**](realface.md) | Real person you have rights to | No | Yes (~1 min on phone) | $0.01 USDC (promo) | [`POST /v1/realface/init`](realface.md) + `/enroll` · [studio/realface](https://blockrun.ai/studio/realface) |
+| [**Virtual Portrait**](virtual-portrait.md) | AI character, mascot, avatar | No | No | $0.012 USDC | [`POST /v1/portrait/enroll`](virtual-portrait.md) · [studio/portrait](https://blockrun.ai/studio/portrait) |
+| [**RealFace**](realface.md) | Real person you have rights to | No | Yes (~1 min on phone) | $0.012 USDC (promo) | [`POST /v1/realface/init`](realface.md) + `/enroll` · [studio/realface](https://blockrun.ai/studio/realface) |
 
 ---
 

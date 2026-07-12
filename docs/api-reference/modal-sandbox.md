@@ -11,10 +11,10 @@ Secure code runtime for AI agents. Create a sandbox session, execute commands, i
 
 AI agents that need to run code face a dilemma: executing on the host is unsafe, and provisioning cloud VMs is slow and expensive. Modal Sandbox gives agents a safe execution layer they can call on demand, keep alive across multiple steps, and tear down when the job is finished.
 
-**A typical sandbox workflow costs $0.012:**
-- 1 sandbox create ($0.01) — boot a Python container
-- 1 exec ($0.001) — run the code
-- 1 terminate ($0.001) — clean up
+**A typical sandbox workflow costs $0.018:**
+- 1 sandbox create ($0.012) — boot a Python container
+- 1 exec ($0.003) — run the code
+- 1 terminate ($0.003) — clean up
 
 :::warning{title="Public beta limits"}
 - Base only
@@ -27,10 +27,10 @@ AI agents that need to run code face a dilemma: executing on the host is unsafe,
 
 | Endpoint | Method | Price | Description |
 |----------|--------|-------|-------------|
-| `/api/v1/modal/sandbox/create` | POST | $0.01 | Create a managed sandbox session |
-| `/api/v1/modal/sandbox/exec` | POST | $0.001 | Execute a command inside a running sandbox |
-| `/api/v1/modal/sandbox/status` | POST | $0.001 | Check if a sandbox is running or terminated |
-| `/api/v1/modal/sandbox/terminate` | POST | $0.001 | Terminate a sandbox and release resources |
+| `/api/v1/modal/sandbox/create` | POST | $0.012 | Create a managed sandbox session |
+| `/api/v1/modal/sandbox/exec` | POST | $0.003 | Execute a command inside a running sandbox |
+| `/api/v1/modal/sandbox/status` | POST | $0.003 | Check if a sandbox is running or terminated |
+| `/api/v1/modal/sandbox/terminate` | POST | $0.003 | Terminate a sandbox and release resources |
 
 ---
 
@@ -149,7 +149,7 @@ curl -X POST https://blockrun.ai/api/v1/modal/sandbox/create \
 
 ::::steps
 
-:::step{title="Create the sandbox ($0.01)"}
+:::step{title="Create the sandbox ($0.012)"}
 ```bash
 curl -X POST https://blockrun.ai/api/v1/modal/sandbox/create \
   -H "Content-Type: application/json" \
@@ -158,7 +158,7 @@ curl -X POST https://blockrun.ai/api/v1/modal/sandbox/create \
 ```
 :::
 
-:::step{title="Execute code ($0.001)"}
+:::step{title="Execute code ($0.003)"}
 ```bash
 curl -X POST https://blockrun.ai/api/v1/modal/sandbox/exec \
   -H "Content-Type: application/json" \
@@ -167,7 +167,7 @@ curl -X POST https://blockrun.ai/api/v1/modal/sandbox/exec \
 ```
 :::
 
-:::step{title="Terminate ($0.001)"}
+:::step{title="Terminate ($0.003)"}
 ```bash
 curl -X POST https://blockrun.ai/api/v1/modal/sandbox/terminate \
   -H "Content-Type: application/json" \

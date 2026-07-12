@@ -24,14 +24,14 @@ Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — r
 
 | Tier | Price | Use Case |
 |------|-------|----------|
-| Tier 1 | $0.001 | Market data, events, trades, orderbooks, positions, leaderboards, sports markets, canonical cross-venue markets |
-| Tier 2 | $0.005 | Wallet analytics (incl. identity + clustering), smart money, cross-platform matching, Binance data |
+| Tier 1 | $0.003 | Market data, events, trades, orderbooks, positions, leaderboards, sports markets, canonical cross-venue markets |
+| Tier 2 | $0.007 | Wallet analytics (incl. identity + clustering), smart money, cross-platform matching, Binance data |
 
 ---
 
 ## Endpoints
 
-### Polymarket — Market Data (Tier 1: $0.001)
+### Polymarket — Market Data (Tier 1: $0.003)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -51,7 +51,7 @@ Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — r
 | `/api/v1/pm/polymarket/markets/{condition_id}/open_interest` | GET | Get historical open interest |
 | `/api/v1/pm/polymarket/positions` | GET | Fetch all user positions |
 
-### Polymarket — Analytics (Tier 1: $0.001)
+### Polymarket — Analytics (Tier 1: $0.003)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -60,7 +60,7 @@ Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — r
 | `/api/v1/pm/polymarket/cohorts/stats` | GET | Compare performance across trading style cohorts |
 | `/api/v1/pm/polymarket/market/{condition_id}/top-holders` | GET | Top holders ranked by position size |
 
-### Polymarket — Wallet Analytics (Tier 2: $0.005)
+### Polymarket — Wallet Analytics (Tier 2: $0.007)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -73,21 +73,21 @@ Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — r
 | `/api/v1/pm/polymarket/wallets/profiles` | GET | Batch wallet profiles (max 20) |
 | `/api/v1/pm/polymarket/wallets/filter` | GET | Filter wallets by market trades |
 
-### Polymarket — Smart Money (Tier 2: $0.005)
+### Polymarket — Smart Money (Tier 2: $0.007)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/v1/pm/polymarket/market/{condition_id}/smart-money` | GET | Smart money positioning on a market |
 | `/api/v1/pm/polymarket/markets/smart-activity` | GET | Markets where top wallets are active |
 
-### UMA Oracle — Polymarket Resolution (Tier 1: $0.001)
+### UMA Oracle — Polymarket Resolution (Tier 1: $0.003)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/v1/pm/polymarket/uma/markets` | GET | List UMA oracle questions filtered by state (proposed, disputed, resolved, …) |
 | `/api/v1/pm/polymarket/uma/market/{condition_id}` | GET | Current UMA oracle status and event timeline for a single market |
 
-### Wallet Identity & Clustering (Tier 2: $0.005)
+### Wallet Identity & Clustering (Tier 2: $0.007)
 
 Cross-context wallet labels and on-chain relationship graph data.
 
@@ -97,7 +97,7 @@ Cross-context wallet labels and on-chain relationship graph data.
 | `/api/v1/pm/polymarket/wallet/identities` | POST | Bulk identity lookup — body `{"addresses":[...]}` (up to 200 addresses) |
 | `/api/v1/pm/polymarket/wallet/{address}/cluster` | GET | Wallets connected to a seed address via on-chain transfers and identity proofs |
 
-### Kalshi (Tier 1: $0.001)
+### Kalshi (Tier 1: $0.003)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -109,18 +109,18 @@ Cross-context wallet labels and on-chain relationship graph data.
 
 | Endpoint | Method | Price | Description |
 |----------|--------|-------|-------------|
-| `/api/v1/pm/dflow/trades` | GET | $0.001 | Fetch trade history for a wallet |
-| `/api/v1/pm/dflow/wallet/positions/{wallet}` | GET | $0.005 | Current positions for a wallet |
-| `/api/v1/pm/dflow/wallet/pnl/{wallet}` | GET | $0.005 | Realized P&L history for a wallet |
+| `/api/v1/pm/dflow/trades` | GET | $0.003 | Fetch trade history for a wallet |
+| `/api/v1/pm/dflow/wallet/positions/{wallet}` | GET | $0.007 | Current positions for a wallet |
+| `/api/v1/pm/dflow/wallet/pnl/{wallet}` | GET | $0.007 | Realized P&L history for a wallet |
 
-### Binance (Tier 2: $0.005)
+### Binance (Tier 2: $0.007)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/v1/pm/binance/candles/{symbol}` | GET | OHLCV candlestick data (BTCUSDT, ETHUSDT, SOLUSDT, XRPUSDT) |
 | `/api/v1/pm/binance/ticks/{symbol}` | GET | Raw book ticker data at microsecond granularity |
 
-### Cross-Venue Canonical Markets (Tier 1: $0.001)
+### Cross-Venue Canonical Markets (Tier 1: $0.003)
 
 Predexon v2 unified data layer — canonical Predexon IDs across all venues.
 
@@ -130,7 +130,7 @@ Predexon v2 unified data layer — canonical Predexon IDs across all venues.
 | `/api/v1/pm/markets/listings` | GET | List venue-native executable listings flattened across canonical markets |
 | `/api/v1/pm/outcomes/{predexon_id}` | GET | Resolve a canonical Predexon outcome ID to its market context and venue listings |
 
-### Cross-Platform Matching & Search (Tier 2: $0.005)
+### Cross-Platform Matching & Search (Tier 2: $0.007)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -138,7 +138,7 @@ Predexon v2 unified data layer — canonical Predexon IDs across all venues.
 | `/api/v1/pm/matching-markets/pairs` | GET | Get all active exact-matched market pairs |
 | `/api/v1/pm/markets/search` | GET | Search markets across Polymarket, Kalshi, Limitless, Opinion, and Predict.Fun in a single call |
 
-### Sports Markets (Tier 1: $0.001)
+### Sports Markets (Tier 1: $0.003)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -147,7 +147,7 @@ Predexon v2 unified data layer — canonical Predexon IDs across all venues.
 | `/api/v1/pm/sports/markets/{game_id}` | GET | Get a single sports game with all venue outcomes |
 | `/api/v1/pm/sports/outcomes/{predexon_id}` | GET | Find all equivalent sports outcomes across venues for a Predexon ID |
 
-### Other Platforms (Tier 1: $0.001)
+### Other Platforms (Tier 1: $0.003)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -304,35 +304,35 @@ from blockrun_llm import LLMClient
 
 client = LLMClient()
 
-# Market data ($0.001)
+# Market data ($0.003)
 markets = client.pm("polymarket/markets", search="bitcoin", limit=10)
 events = client.pm("polymarket/events")
 trades = client.pm("kalshi/trades")
 
-# Wallet analytics ($0.005)
+# Wallet analytics ($0.007)
 profile = client.pm("polymarket/wallet/0x1234...abcd")
 pnl = client.pm("polymarket/wallet/pnl/0x1234...abcd")
 
-# Canonical cross-venue markets ($0.001)
+# Canonical cross-venue markets ($0.003)
 canonical = client.pm("markets", venue="polymarket", limit=20)
 listings = client.pm("markets/listings", league="mlb")
 
-# Sports ($0.001)
+# Sports ($0.003)
 games = client.pm("sports/markets", league="mlb", status="open")
 
-# Cross-platform matching ($0.005)
+# Cross-platform matching ($0.007)
 pairs = client.pm("matching-markets/pairs")
 
-# Wallet identity (single, $0.005)
+# Wallet identity (single, $0.007)
 identity = client.pm("polymarket/wallet/identity/0x1234...abcd")
 
-# Wallet identity (bulk, POST, $0.005)
+# Wallet identity (bulk, POST, $0.007)
 identities = client.pm_query(
     "polymarket/wallet/identities",
     {"addresses": ["0x1234...abcd", "0x5678...ef01"]},
 )
 
-# Binance ($0.005)
+# Binance ($0.007)
 candles = client.pm("binance/candles/BTCUSDT", interval="1h", limit=24)
 ```
 :::
@@ -343,24 +343,24 @@ import { LLMClient } from "blockrun-llm";
 
 const client = new LLMClient();
 
-// Market data ($0.001)
+// Market data ($0.003)
 const markets = await client.pm("polymarket/markets", { search: "bitcoin", limit: "10" });
 const events = await client.pm("polymarket/events");
 
-// Wallet analytics ($0.005)
+// Wallet analytics ($0.007)
 const profile = await client.pm("polymarket/wallet/0x1234...abcd");
 const identity = await client.pm("polymarket/wallet/identity/0x1234...abcd");
 
-// Bulk wallet identity (POST, $0.005)
+// Bulk wallet identity (POST, $0.007)
 const identities = await client.pmQuery("polymarket/wallet/identities", {
   addresses: ["0x1234...abcd", "0x5678...ef01"],
 });
 
-// Canonical cross-venue markets + sports ($0.001)
+// Canonical cross-venue markets + sports ($0.003)
 const canonical = await client.pm("markets", { venue: "polymarket", limit: "20" });
 const games = await client.pm("sports/markets", { league: "mlb", status: "open" });
 
-// Binance ($0.005)
+// Binance ($0.007)
 const candles = await client.pm("binance/candles/BTCUSDT", { interval: "1h", limit: "24" });
 ```
 :::

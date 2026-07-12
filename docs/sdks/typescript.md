@@ -299,7 +299,7 @@ const news   = await search.search('agent payments', { sources: ['web', 'news'],
 const px     = new PriceClient();
 const btc    = await px.price('crypto', 'BTC-USD');
 const rpc    = new RpcClient();
-const block  = await rpc.call('ethereum', 'eth_blockNumber');   // $0.002/call
+const block  = await rpc.call('ethereum', 'eth_blockNumber');   // $0.004/call
 ```
 
 The full method surface mirrors the Python SDK (see the [Python](python.md) page for per-method params, pricing tiers, and `ta_…` identity assets); the only differences are camelCase options and `Promise` returns.
@@ -310,7 +310,7 @@ Access real-time prediction market data from Polymarket, Kalshi, dFlow, Binance,
 
 ### `pm(path, params?)`
 
-Query prediction market GET endpoints. $0.001 per request.
+Query prediction market GET endpoints. $0.003 per request.
 
 ```typescript
 import { LLMClient } from '@blockrun/llm';
@@ -366,7 +366,7 @@ const pairs = await client.pm("matching-markets/pairs");
 Structured query for prediction market POST endpoints. Used for bulk wallet identity lookup and any future POST endpoints.
 
 ```typescript
-// Bulk wallet identity lookup (Tier 2, $0.005)
+// Bulk wallet identity lookup (Tier 2, $0.007)
 const batch = await client.pmQuery("polymarket/wallet/identities", {
   addresses: ["0xabc...", "0xdef...", "0x123..."],  // up to 200
 });
@@ -460,8 +460,8 @@ console.log(client.isTestnet()); // true
 
 | Model | Price |
 |-------|-------|
-| `openai/gpt-oss-20b` | $0.001/request (flat) |
-| `openai/gpt-oss-120b` | $0.002/request (flat) |
+| `openai/gpt-oss-20b` | $0.003/request (flat) |
+| `openai/gpt-oss-120b` | $0.004/request (flat) |
 
 ### Manual Testnet Configuration
 

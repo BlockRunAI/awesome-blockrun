@@ -51,7 +51,7 @@ GET  https://blockrun.ai/api/v1/audio/voices           # list voices (free)
 | `bytedance/seed-audio-1.0` | $0.003 / second of audio | 3,000 | Prompt-directed audio creation (voice, emotion, staging) |
 
 :::info
-ElevenLabs models: price = `(characters / 1000) × model rate`, plus a 5% platform fee, minimum **$0.001** per request. The price is quoted up front in the 402 challenge and settlement only fires after the audio is generated — a failed generation is never charged.
+ElevenLabs models: price = `(characters / 1000) × model rate`, plus a 5% platform fee, minimum **$0.003** per request. The price is quoted up front in the 402 challenge and settlement only fires after the audio is generated — a failed generation is never charged.
 :::
 
 #### Seed Audio 1.0 (ByteDance)
@@ -113,7 +113,7 @@ POST /api/v1/audio/sound-effects
 | `prompt_influence` | number | No | 0–1, how strictly to follow the prompt |
 | `response_format` | string | No | `mp3` (default), `opus`, `pcm`, `wav` |
 
-Flat price: **$0.05 / generation** (+5% fee).
+Flat price: **$0.052 / generation** (+5% fee).
 
 ## Voices (free)
 

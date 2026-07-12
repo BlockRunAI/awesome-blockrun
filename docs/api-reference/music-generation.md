@@ -174,7 +174,7 @@ result = requests.post(
 |-------|-------------|
 | `minimax/music-2.5+` | $0.1575 |
 
-Price = `$0.15 × 1.05` (includes the 5% BlockRun margin), minimum $0.001. Paid in USDC on Base or Solana.
+Price = `$0.15 × 1.05` (includes the 5% BlockRun margin), minimum $0.003. Paid in USDC on Base or Solana.
 
 ## Limitations
 

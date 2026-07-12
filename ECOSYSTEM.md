@@ -10,7 +10,7 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 | **Image Generation** | `/v1/images/generations` | $0.02–0.15/image | ✅ Live |
 | **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
-| **Prediction Markets** | `/v1/pm/*` | $0.001–0.005 | ✅ Live |
+| **Prediction Markets** | `/v1/pm/*` | $0.003–0.007 | ✅ Live |
 | **Models** | `/v1/models` | Free | ✅ Live |
 | **Pricing** | `/v1/pricing` | Free | ✅ Live |
 | **Balance** | `/v1/balance` | Free | ✅ Live |
