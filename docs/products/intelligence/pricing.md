@@ -63,6 +63,16 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 | Gemini 3.1 Pro | $2.10 | $12.60 |
 | Gemini 3.5 Flash | $0.53 | $3.15 |
 
+### xAI Grok
+
+| Model | Input (per 1M) | Output (per 1M) | Context |
+|-------|---------------|-----------------|---------|
+| Grok 4.5 (flagship) | $2.63 | $9.45 | 500K |
+| Grok 4.3 | $1.58 | $4.20 | 1M |
+| Grok Build 0.1 | $1.58 | $3.15 | 256K |
+
+Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.5 is $5.25 in · $18.90 out above the threshold), mirroring xAI's official long-context tier. Live Search adds $0.025 per source used.
+
 ### Z.AI
 
 | Model | Input (per 1M) | Output (per 1M) | Context |

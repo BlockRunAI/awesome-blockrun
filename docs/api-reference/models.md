@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 61 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+description: List and price 60 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
 ---
 
 # Models
@@ -56,7 +56,7 @@ Each model object in the response includes:
 ## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-**54 chat / LLM models** are publicly listed on mainnet, plus **8 image**, **5 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**58 chat / LLM models** are publicly listed on mainnet, plus **8 image**, **5 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
@@ -132,6 +132,16 @@ These flagship models reject all sampling parameters (`temperature`, `top_p`, `t
 | `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.30/M | $2.50/M | 1M |
 | `google/gemini-3.1-flash-lite` | Gemini 3.1 Flash Lite | $0.10/M | $0.40/M | 1M |
 | `google/gemini-2.5-flash-lite` | Gemini 2.5 Flash Lite | $0.10/M | $0.40/M | 1M |
+
+### xAI Grok
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `xai/grok-4.5` | Grok 4.5 | $2.50/M | $9.00/M | 500K |
+| `xai/grok-4.3` | Grok 4.3 | $1.50/M | $4.00/M | 1M |
+| `xai/grok-build-0.1` | Grok Build 0.1 | $1.50/M | $3.00/M | 256K |
+
+Grok bills a **long-context tier** at 2x the rates above once a request's prompt reaches 200K tokens (mirrors xAI's official pricing — e.g. Grok 4.5 is $5.00/M in · $18.00/M out above the threshold). Live Search adds $0.025 per source used. Grok Imagine image/video SKUs are listed under Image / Video Generation below.
 
 ### DeepSeek
 

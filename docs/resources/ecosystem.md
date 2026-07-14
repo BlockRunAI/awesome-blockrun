@@ -12,7 +12,7 @@ Projects, integrations, and partners building with BlockRun and x402.
 | Product | Description | Link |
 |---------|-------------|------|
 | [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp) | AI crypto trading for Claude | [GitHub](https://github.com/BlockRunAI/alpha-mcp) |
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server for 81 AI models, images, video, music, voice, prediction markets, crypto data, sandbox runtime, smart routing | [GitHub](https://github.com/BlockRunAI/blockrun-mcp) |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server for 80 AI models, images, video, music, voice, prediction markets, crypto data, sandbox runtime, smart routing | [GitHub](https://github.com/BlockRunAI/blockrun-mcp) |
 | [nano-banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Image generation skill | [GitHub](https://github.com/BlockRunAI/nano-banana-blockrun) |
 
 ## API Products
@@ -121,7 +121,7 @@ BlockRun routes to these providers via x402:
 | Anthropic | Claude Opus 4.8, Claude Opus 4.7, Claude Opus 4.5, Claude Sonnet 4.6, Claude Haiku 4.5 | $0.80–$5.00 / $4.00–$25.00 |
 | Google | Gemini 3.1 Pro, Gemini 3.5 Flash | $0.50–$2.00 / $3.00–$12.00 |
 | DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Pro, DeepSeek Reasoner | $0.20–$0.44 / $0.40–$0.87 |
-| xAI | Grok 4.3, Grok 4 Fast, Grok Code Fast 1 | $0.20–$3.00 / $0.50–$15.00 |
+| xAI | Grok 4.5, Grok 4.3, Grok 4 Fast, Grok Code Fast 1 | $0.20–$3.00 / $0.50–$18.00 |
 | Z.AI | GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo | $0.60–$1.40 / $1.92–$4.40 |
 | Moonshot | Kimi K2.7 (256K, image + video input) | $0.95 / $4.00 |
 | MiniMax | MiniMax M3 (1M context) | $0.30 / $1.20 |

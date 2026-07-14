@@ -5,7 +5,7 @@ description: BlockRun Intelligence gives your agent 61 LLMs through one OpenAI-c
 
 # Intelligence
 
-AI accesses any LLM. 61 models, pay-per-request.
+AI accesses any LLM. 60 models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and more — without managing API keys or subscriptions.
 

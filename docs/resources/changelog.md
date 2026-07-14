@@ -7,6 +7,17 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-07-13]
+
+### Added — xAI Grok 4.5
+- Added **`xai/grok-4.5`** ($2.50/$9.00 per 1M, 500K context, vision + reasoning), xAI's flagship. Live Search supported (+$0.025/source). Verified with real completions on both the direct-xAI and OpenRouter routes before listing.
+
+### Changed — Grok long-context pricing now mirrors xAI's official 2x tier
+- xAI (and OpenRouter) bill the Grok family at **2x above 200K prompt tokens**. BlockRun now applies the same tier: once a request's prompt reaches 200K tokens, the whole request reprices at the long-context rate — `grok-4.5` $5.00/$18.00, `grok-4.3` $3.00/$8.00, `grok-build-0.1` $3.00/$6.00, `grok-4.20` $4.00/$12.00 per 1M. Below 200K, base rates are unchanged.
+- `grok-4.5` fallback set to `grok-4.20-reasoning` (Live-Search-capable) so a failover never silently drops search.
+
+---
+
 ## [2026-07-09]
 
 ### Added — OpenAI GPT-5.6 family (Sol / Terra / Luna), live on GA day

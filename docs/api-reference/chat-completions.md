@@ -222,7 +222,7 @@ console.log(result.choices[0].message.content);
 ::::cards
 
 :::card{title="Browse all models" href="models.md" icon="Brain"}
-61 chat models with live pricing — pick the right model and ID for your call.
+60 chat models with live pricing — pick the right model and ID for your call.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}
