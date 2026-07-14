@@ -133,6 +133,8 @@ These flagship models reject all sampling parameters (`temperature`, `top_p`, `t
 | `google/gemini-3.1-flash-lite` | Gemini 3.1 Flash Lite | $0.10/M | $0.40/M | 1M |
 | `google/gemini-2.5-flash-lite` | Gemini 2.5 Flash Lite | $0.10/M | $0.40/M | 1M |
 
+Gemini **Pro** models (`gemini-2.5-pro`, `gemini-3.1-pro`) bill a **long-context tier** — 2x input, 1.5x output above 200K prompt tokens (mirrors Google's official pricing: `gemini-2.5-pro` is $2.50/M in · $15.00/M out, `gemini-3.1-pro` is $4.00/M in · $18.00/M out above the threshold). Flash / Flash-Lite are flat-priced.
+
 ### xAI Grok
 
 | Model ID | Name | Input Price | Output Price | Context |

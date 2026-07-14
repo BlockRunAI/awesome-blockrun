@@ -63,6 +63,8 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 | Gemini 3.1 Pro | $2.10 | $12.60 |
 | Gemini 3.5 Flash | $0.53 | $3.15 |
 
+Gemini Pro models double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.63 in · $15.75 out above the threshold. Flash tiers are flat.
+
 ### xAI Grok
 
 | Model | Input (per 1M) | Output (per 1M) | Context |
