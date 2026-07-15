@@ -98,13 +98,13 @@ Ephemeral, isolated Python sandboxes for agent code execution.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| GET/POST | `/api/v1/pm/{path}` | Predexon API passthrough — markets, events, odds, history | GET $0.003 (tier 1) / POST $0.007 (tier 2) |
+| GET/POST | `/api/v1/pm/{path}` | Predexon API passthrough — markets, events, odds, history | GET $0.0095 (tier 1) / POST $0.0095 (tier 2) |
 
 ## Crypto Data (Surf)
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| GET/POST | `/api/v1/surf/{path}` | Crypto market / on-chain intelligence — exchanges, on-chain analytics, wallet labels, social mindshare, news, search | Tier 1 $0.003 (reads) · Tier 2 $0.007 (AI rankings/trends) · Tier 3 $0.022 (heavy LLM/SQL reports) |
+| GET/POST | `/api/v1/surf/{path}` | Crypto market / on-chain intelligence — exchanges, on-chain analytics, wallet labels, social mindshare, news, search | Tier 1 $0.0095 (reads) · Tier 2 $0.0095 (AI rankings/trends) · Tier 3 $0.0095 (heavy LLM/SQL reports) |
 
 ## 0x Swap (DEX)
 

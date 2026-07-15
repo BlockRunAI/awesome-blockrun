@@ -342,7 +342,7 @@ ranking = surf.call("market/ranking", params={"limit": 20})   # auto GET/POST fr
 catalog = surf.endpoints()                                     # static: every path + tier + price
 ```
 
-Tiers: T1 `$0.003` (reads/lists), T2 `$0.007` (AI rankings/trends/search), T3 `$0.022` (heavy LLM + on-chain SQL). Use `surf.get(path, params)` / `surf.post(path, body)` for explicit verbs.
+Tiers: T1 `$0.0095` (reads/lists), T2 `$0.0095` (AI rankings/trends/search), T3 `$0.0095` (heavy LLM + on-chain SQL). Use `surf.get(path, params)` / `surf.post(path, body)` for explicit verbs.
 
 #### `RpcClient` — multi-chain JSON-RPC (40+ chains)
 
@@ -441,7 +441,7 @@ Access real-time prediction market data from Polymarket, Kalshi, dFlow, Binance,
 
 ### `pm(path, **params)`
 
-Query prediction market GET endpoints. $0.003 per request.
+Query prediction market GET endpoints. $0.0095 per request.
 
 ```python
 from blockrun_llm import LLMClient
@@ -497,7 +497,7 @@ pairs = client.pm("matching-markets/pairs")
 Structured query for prediction market POST endpoints. Used for bulk wallet identity lookup and any future POST endpoints.
 
 ```python
-# Bulk wallet identity lookup (Tier 2, $0.007)
+# Bulk wallet identity lookup ($0.0095)
 batch = client.pm_query("polymarket/wallet/identities", {
     "addresses": ["0xabc...", "0xdef...", "0x123..."],  # up to 200
 })

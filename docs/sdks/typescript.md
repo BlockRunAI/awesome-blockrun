@@ -310,7 +310,7 @@ Access real-time prediction market data from Polymarket, Kalshi, dFlow, Binance,
 
 ### `pm(path, params?)`
 
-Query prediction market GET endpoints. $0.003 per request.
+Query prediction market GET endpoints. $0.0095 per request.
 
 ```typescript
 import { LLMClient } from '@blockrun/llm';
@@ -366,7 +366,7 @@ const pairs = await client.pm("matching-markets/pairs");
 Structured query for prediction market POST endpoints. Used for bulk wallet identity lookup and any future POST endpoints.
 
 ```typescript
-// Bulk wallet identity lookup (Tier 2, $0.007)
+// Bulk wallet identity lookup ($0.0095)
 const batch = await client.pmQuery("polymarket/wallet/identities", {
   addresses: ["0xabc...", "0xdef...", "0x123..."],  // up to 200
 });

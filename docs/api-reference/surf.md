@@ -21,9 +21,9 @@ Surf unifies all of it behind one schema, billed per-call in stablecoins. An age
 
 | Tier | Price | Use case |
 |------|-------|----------|
-| Tier 1 | **$0.003 / call** | Simple lookups (prices, rankings, indices) |
-| Tier 2 | **$0.007 / call** | Time-series, technical indicators, orderbook depth |
-| Tier 3 | **$0.022 / call** | On-chain SQL — raw queries against 80+ ClickHouse tables |
+| Tier 1 | **$0.0095 / call** | Simple lookups (prices, rankings, indices) |
+| Tier 2 | **$0.0095 / call** | Time-series, technical indicators, orderbook depth |
+| Tier 3 | **$0.0095 / call** | On-chain SQL — raw queries against 80+ ClickHouse tables |
 
 ### Categories
 
@@ -60,7 +60,7 @@ Method follows the upstream — most are `GET` with query string params; the two
 
 ## Examples
 
-### Spot price lookup (Tier 1 — $0.003)
+### Spot price lookup (Tier 1 — $0.0095)
 
 ```bash
 curl "https://blockrun.ai/api/v1/surf/market/price?symbol=BTC"
@@ -79,14 +79,14 @@ curl -H "X-Payment: <signed>" \
   "https://blockrun.ai/api/v1/surf/market/fear-greed"
 ```
 
-### Perpetual funding history (Tier 2 — $0.007)
+### Perpetual funding history (Tier 2 — $0.0095)
 
 ```bash
 curl -H "X-Payment: <signed>" \
   "https://blockrun.ai/api/v1/surf/exchange/funding-history?pair=BTC-USDT-PERP"
 ```
 
-### Raw on-chain SQL (Tier 3 — $0.022)
+### Raw on-chain SQL (Tier 3 — $0.0095)
 
 ```bash
 curl -X POST \
@@ -164,9 +164,9 @@ The `blockrun_surf` MCP tool ships with [BlockRun MCP](../mcp/blockrun-mcp.md). 
 
 ```typescript
 const [price, fng, funding] = await Promise.all([
-  client.surf('GET', 'market/price', { symbol: 'BTC' }),       // $0.003
-  client.surf('GET', 'market/fear-greed'),                      // $0.003
-  client.surf('GET', 'exchange/funding-history', { pair: 'BTC-USDT-PERP' }), // $0.007
+  client.surf('GET', 'market/price', { symbol: 'BTC' }),       // $0.0095
+  client.surf('GET', 'market/fear-greed'),                      // $0.0095
+  client.surf('GET', 'exchange/funding-history', { pair: 'BTC-USDT-PERP' }), // $0.0095
 ]);
 ```
 
@@ -181,7 +181,7 @@ positions = client.surf('GET', 'prediction-market/polymarket/positions', {'addre
 
 Pipe into an LLM to summarize: *"Wallet X (smart-money DeFi whale) opened a $200K Polymarket position on the Fed Dec rate cut."*
 
-### 3. On-chain SQL for research reports ($0.022/query)
+### 3. On-chain SQL for research reports ($0.0095/query)
 
 ```sql
 -- "Which Base contracts grew most in unique users last week?"
@@ -195,7 +195,7 @@ LIMIT 20
 
 A weekly research bot that runs this twice and feeds the result into Claude Opus to write a 1-page narrative costs ~$0.044 + LLM tokens.
 
-### 4. Multi-source prediction-market aggregator (Tier 1, ~$0.003/event)
+### 4. Multi-source prediction-market aggregator (Tier 1, ~$0.0095/event)
 
 ```python
 poly = client.surf('GET', 'prediction-market/polymarket/markets', {'market_slug': slug})
@@ -223,9 +223,9 @@ Common required params:
 
 | Tier | Price | Endpoints in tier |
 |------|-------|-------------------|
-| Tier 1 | $0.003 | 44 (basic lookups, rankings, snapshots) |
-| Tier 2 | $0.007 | 36 (time-series, indicators, depth, history) |
-| Tier 3 | $0.022 | 3 (`onchain/sql`, `onchain/query`, `onchain/schema`) |
+| Tier 1 | $0.0095 | 44 (basic lookups, rankings, snapshots) |
+| Tier 2 | $0.0095 | 36 (time-series, indicators, depth, history) |
+| Tier 3 | $0.0095 | 3 (`onchain/sql`, `onchain/query`, `onchain/schema`) |
 
 Payment is in USDC on Base or Solana via x402. **Settles 1:1 directly to Surf's treasury wallet** (`0x058a5961FbE8cD8E4B47C69d3d82E159cb5d8F17` on Base) — BlockRun takes no margin. We pass through pricing as-is in exchange for being the discovery/auth/settlement layer.
 
@@ -239,7 +239,7 @@ Payment is in USDC on Base or Solana via x402. **Settles 1:1 directly to Surf's 
 | Account required | No | Yes | Yes | Yes |
 | Works for autonomous agents | ✅ | ❌ (API key, KYC) | ❌ | ❌ |
 | Coverage | 83 endpoints across 12 categories | Same upstream | Prices only | SQL only |
-| On-chain SQL | ✅ ($0.022/query) | ✅ | ❌ | ✅ ($$$) |
+| On-chain SQL | ✅ ($0.0095/query) | ✅ | ❌ | ✅ ($$$) |
 | Same wallet as LLM calls | ✅ | N/A | N/A | N/A |
 
 ---

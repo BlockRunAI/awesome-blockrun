@@ -29,12 +29,12 @@ Projects, integrations, and partners building with BlockRun and x402.
 | **Sound Effects** | `/v1/audio/sound-effects` | $0.052/generation | ✅ Live |
 | **Voice Calls** | `/v1/voice/call` | $0.542 flat | ✅ Live |
 | **Phone Numbers** | `/v1/phone/numbers/*` | $5/30 days | ✅ Live |
-| **Surf Crypto Data** | `/api/v1/surf/*` (83 endpoints) | $0.003–0.022 | ✅ Live |
+| **Surf Crypto Data** | `/api/v1/surf/*` (83 endpoints) | $0.0095 | ✅ Live |
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
 | **Exa Web Search** | `/api/v1/exa/*` | $0.002–0.012 | ✅ Live |
 | **0x Swap (DEX)** | `/api/v1/zerox/*` | Free | ✅ Live |
 | **Multi-chain RPC** | `/api/v1/rpc/{network}` (40+ chains) | $0.004/call | ✅ Live |
-| **Prediction Markets** | `/v1/pm/*` | $0.003–0.007 | ✅ Live |
+| **Prediction Markets** | `/v1/pm/*` | $0.0095 | ✅ Live |
 | **Trading Markets** | `/api/v1/markets/*` | $0.003 | ✅ Live |
 | **Modal Sandbox** | `/v1/modal/*` | $0.003–0.012 | ✅ Live |
 | **Models** | `/v1/models` | Free | ✅ Live |

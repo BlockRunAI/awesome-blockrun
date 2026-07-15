@@ -87,11 +87,11 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 | **Music Generation** | `/v1/audio/generations` | Per track | Suno-powered text-to-music |
 | **Voice Calls** | `/v1/voice/call` | $0.542/call (flat, ≤30min) | Outbound AI conversation calls — Bland.ai upstream |
 | **Phone Numbers** | `/v1/phone/numbers/*` | $5/30 days | Wallet-owned US/CA numbers — Twilio upstream |
-| **Surf Crypto Data** | `/api/v1/surf/*` | $0.003–0.022 | 83 endpoints: CEX, on-chain SQL, prediction markets, wallet labels, social mindshare, news, search (asksurf.ai) |
+| **Surf Crypto Data** | `/api/v1/surf/*` | $0.0095 | 83 endpoints: CEX, on-chain SQL, prediction markets, wallet labels, social mindshare, news, search (asksurf.ai) |
 | **Web Search** | `/api/v1/exa/*` | $0.012/search | Neural web search, find-similar, page contents, AI answers (Exa) |
 | **DEX Aggregation** | `/api/v1/zerox/*` | Free | 0x Swap V2 + Gasless V2 across 100+ venues |
 | **Sandbox Runtime** | `/api/v1/modal/*` | Per run | Secure isolated Python execution (Modal) |
-| **Prediction Markets** | `/v1/pm/*` | $0.003–0.007 | Polymarket, Kalshi, dFlow, Binance Futures (Predexon) |
+| **Prediction Markets** | `/v1/pm/*` | $0.0095 | Polymarket, Kalshi, dFlow, Binance Futures (Predexon) |
 | **Trading Markets** | `/api/v1/markets/*` | $0.003 | Equity tickers across US, KR, JP, CN, etc. |
 | **Models** | `/v1/models` | Free | List all available models with pricing |
 | **Pricing** | `/v1/pricing` | Free | Detailed pricing for all models |
@@ -103,10 +103,10 @@ Real-time prediction market data powered by Predexon:
 
 | Market | Endpoints | Price |
 |--------|-----------|-------|
-| **Polymarket** | Markets, events, trades, orderbooks, leaderboards, positions | $0.003–0.007 |
-| **Kalshi** | Markets, trades, orderbooks | $0.003 |
-| **dFlow** | Trades, positions, P&L | $0.003–0.007 |
-| **Binance Futures** | Candles, ticks | $0.007 |
+| **Polymarket** | Markets, events, trades, orderbooks, leaderboards, positions | $0.0095 |
+| **Kalshi** | Markets, trades, orderbooks | $0.0095 |
+| **dFlow** | Trades, positions, P&L | $0.0095 |
+| **Binance Futures** | Candles, ticks | $0.0095 |
 
 ---
 
