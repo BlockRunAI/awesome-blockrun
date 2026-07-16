@@ -21,7 +21,7 @@ The same paths are available on each gateway. The 402 response advertises which 
 |---|---|---|---|---|
 | `blockrun.ai` | Base mainnet — `eip155:8453` | USDC `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` | Per-call onchain | Default gateway. EIP-3009 / x402 v2. |
 | `sol.blockrun.ai` | Solana mainnet — `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDC SPL `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` | Per-call onchain | Solana SPL transfers. |
-| `nano.blockrun.ai` | Base mainnet via Circle Gateway | USDC | Batched (Nanopayments) | Gas-free, sub-cent floor, batched onchain settlement. See [the Nanopayments launch post](https://blockrun.ai/signal/nanopayments-mainnet-circle-gateway). |
+| `nano.blockrun.ai` | Polygon / Arbitrum / Optimism / Unichain via Circle Gateway | USDC | Batched (Nanopayments) | Gas-free, sub-cent floor, batched onchain settlement. Base buyers use `blockrun.ai` (native x402). See [the Nanopayments launch post](https://blockrun.ai/signal/nanopayments-mainnet-circle-gateway). |
 | `xrpl.blockrun.ai` | XRP Ledger | RLUSD (Ripple-issued USD) | Per-call onchain | **Deprecated (being sunset)** — use Base or Solana for new integrations. See the [XRPL SDK notice](../sdks/xrpl.md). |
 | `testnet.blockrun.ai` | Base Sepolia — `eip155:84532` | USDC `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | Per-call onchain | Free test USDC. Smaller model catalog. |
 
