@@ -88,6 +88,7 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 
 | Model | Input (per 1M) | Output (per 1M) | Context |
 |-------|---------------|-----------------|---------|
+| Kimi K3 | $3.15 | $15.75 | 1M |
 | Kimi K2.7 | $1.00 | $4.20 | 256K |
 
 ### MiniMax

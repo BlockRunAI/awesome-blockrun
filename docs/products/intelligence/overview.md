@@ -59,6 +59,7 @@ Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing —
 ### Moonshot
 | Model | Input | Output |
 |-------|-------|--------|
+| Kimi K3 (1M context, image + text input) | $3.00/M | $15.00/M |
 | Kimi K2.7 (256K context, image + video input) | $0.95/M | $4.00/M |
 
 ### MiniMax
