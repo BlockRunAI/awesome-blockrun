@@ -7,6 +7,14 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-07-17]
+
+### Added — Moonshot Kimi K3
+- Added **`moonshot/kimi-k3`** ($3.00/$15.00 per 1M, **1M context**, image + text input, returns `reasoning_content`), Moonshot's new flagship — a 2.8-trillion-parameter open MoE. Verified live on release day with real completions, tool calls, and vision before listing.
+- `kimi-k3` replaces `kimi-k2.7` as the featured Kimi. K2.7 is now hidden from the public list but remains routable, and new traffic auto-prefers K3 via `fallbackModel` chaining.
+
+---
+
 ## [2026-07-13]
 
 ### Added — xAI Grok 4.5

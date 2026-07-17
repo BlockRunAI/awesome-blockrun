@@ -74,7 +74,7 @@ Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing —
 | DeepSeek V4 Pro | $0.435/M | $0.87/M |
 
 ### Free tier
-10 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
+8 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
 
 *M = million tokens. Reference provider rates; the 5% BlockRun margin is applied at billing.*
 

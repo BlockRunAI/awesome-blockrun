@@ -123,7 +123,7 @@ Real-time prediction market data powered by Predexon:
 | **Google** | Gemini 3.1 Pro, Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 3.1 Flash Lite, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
 | **DeepSeek** | DeepSeek Chat (V3.2), DeepSeek Reasoner (V3.2 thinking) | $0.28 / $0.42 |
 | **Z.AI** | GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo | $0.60–$1.40 / $1.92–$4.40 |
-| **Moonshot** | Kimi K2.5 (262K context, MoE) | $0.60 / $3.00 |
+| **Moonshot** | Kimi K3 (1M context, 2.8T open MoE, flagship), Kimi K2.7, Kimi K2.5 | $0.60–$3.00 / $3.00–$15.00 |
 | **MiniMax** | MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
 | **NVIDIA** | GPT-OSS 120B, GPT-OSS 20B, Kimi K2.5 | **Free** |
 

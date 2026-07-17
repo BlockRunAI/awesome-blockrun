@@ -183,7 +183,7 @@ Access all major providers through one wallet:
 - **DeepSeek**: DeepSeek V4 Flash Chat, DeepSeek V4 Pro, DeepSeek Reasoner
 - **xAI**: Grok 4.3, Grok 4 Fast (2M context)
 - **Z.AI**: GLM-5.2 (flagship, 1M context), GLM-5.1, GLM-5, GLM-5 Turbo
-- **Moonshot**: Kimi K2.7 (flagship, 256K, image + video input)
+- **Moonshot**: Kimi K3 (flagship, 1M context, image + text), Kimi K2.7 (256K, image + video)
 - **MiniMax**: MiniMax M3
 - **Free tier (all FREE)**: 10 reasoning, coding, and vision models with no per-token charge
 
@@ -287,7 +287,7 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 - **DeepSeek**: V4 Flash Chat, V4 Pro, Reasoner
 - **xAI Grok**: Grok 4.3, Grok 4 Fast (2M context)
 - **Z.AI**: GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo
-- **Moonshot**: Kimi K2.7 flagship (256K, image + video input)
+- **Moonshot**: Kimi K3 flagship (1M context, image + text), Kimi K2.7 (256K, image + video)
 - **MiniMax**: MiniMax M3
 - **Free tier**: 10 models, no per-token charge
 

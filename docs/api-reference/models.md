@@ -166,11 +166,12 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `moonshot/kimi-k2.7` | Kimi K2.7 (flagship) | $0.95/M | $4.00/M | 256K |
+| `moonshot/kimi-k3` | Kimi K3 (flagship) | $3.00/M | $15.00/M | 1M |
+| `moonshot/kimi-k2.7` | Kimi K2.7 | $0.95/M | $4.00/M | 256K |
 | `moonshot/kimi-k2.6` | Kimi K2.6 | $0.95/M | $4.00/M | 256K |
 | `moonshot/kimi-k2.5` | Kimi K2.5 (legacy) | $0.60/M | $3.00/M | 262K |
 
-K2.7 is the current flagship — multi-modal (image + **video** + text input), 256K context, returns `reasoning_content` on completions. K2.6 is the previous-gen multi-modal model; K2.5 is still routable but superseded.
+K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-token context window**, image + text input, returning `reasoning_content` on completions. K2.7 (256K, adds **video** input) remains routable but superseded; K2.6 and K2.5 are earlier multi-modal generations, still routable.
 
 ### MiniMax
 
@@ -180,11 +181,18 @@ K2.7 is the current flagship — multi-modal (image + **video** + text input), 2
 
 ### Free Tier (open-weight)
 
-Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billingMode: "free"`). There are **10** free models listed on mainnet; the default free model is `nvidia/llama-4-maverick`.
+Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billingMode: "free"`). There are **8** free models listed on mainnet; the free tier's fallback workhorse is `nvidia/gpt-oss-120b` (`nvidia/llama-4-maverick` is temporarily offline upstream and auto-redirects to it).
 
 | Model ID | Name | Input Price | Output Price |
 |----------|------|-------------|--------------|
-| `nvidia/llama-4-maverick` | Llama 4 Maverick | **FREE** | **FREE** |
+| `nvidia/mistral-nemotron` | Mistral Nemotron | **FREE** | **FREE** |
+| `nvidia/mistral-large-3-675b` | Mistral Large 3 675B (slow upstream) | **FREE** | **FREE** |
+| `nvidia/step-3.7-flash` | Step 3.7 Flash | **FREE** | **FREE** |
+| `nvidia/deepseek-v4-flash` | DeepSeek V4 Flash | **FREE** | **FREE** |
+| `nvidia/seed-oss-36b` | Seed OSS 36B | **FREE** | **FREE** |
+| `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | Nemotron 3 Nano Omni | **FREE** | **FREE** |
+| `nvidia/nemotron-nano-9b-v2` | Nemotron Nano 9B v2 | **FREE** | **FREE** |
+| `nvidia/nemotron-nano-12b-v2-vl` | Nemotron Nano 12B v2 VL | **FREE** | **FREE** |
 
 ### Image Generation
 
