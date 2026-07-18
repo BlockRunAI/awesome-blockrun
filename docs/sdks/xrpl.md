@@ -154,7 +154,7 @@ client = LLMClient()
 result = client.smart_chat("What is 2+2?")
 
 print(result.response)           # "4"
-print(result.model)              # "nvidia/kimi-k2.5" (cheap model)
+print(result.model)              # "nvidia/deepseek-v4-flash" (free tier model)
 print(result.routing.tier)       # "SIMPLE"
 print(result.routing.savings)    # 0.94 (94% savings vs baseline)
 ```
@@ -196,7 +196,7 @@ ClawRouter classifies prompts into four tiers:
 
 | Tier | Models | Use Case |
 |------|--------|----------|
-| **SIMPLE** | Kimi K2.5, DeepSeek | Q&A, summaries, simple tasks |
+| **SIMPLE** | Kimi K2.7, DeepSeek | Q&A, summaries, simple tasks |
 | **MEDIUM** | Grok Code, GPT-4o | Analysis, writing, coding |
 | **COMPLEX** | Gemini 3 Pro, Claude Opus | Advanced reasoning, research |
 | **REASONING** | Grok 4.1, DeepSeek-R1 | Math, logic, proofs |
@@ -379,7 +379,7 @@ All models from BlockRun Intelligence are available:
 | **Google** | gemini-3.1-pro-preview, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
 | **xAI** | grok-4.1, grok-4, grok-3, grok-3-fast |
 | **DeepSeek** | deepseek-chat, deepseek-reasoner |
-| **NVIDIA** | gpt-oss-120b (FREE), kimi-k2.5 |
+| **NVIDIA** | gpt-oss-120b (FREE), deepseek-v4-flash (FREE) |
 
 See [Intelligence Pricing](../products/intelligence/pricing.md) for full pricing details.
 

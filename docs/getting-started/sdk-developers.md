@@ -170,7 +170,7 @@ client.chat("deepseek/deepseek-chat", prompt)
 client.chat("deepseek/deepseek-reasoner", prompt)
 
 # Moonshot
-client.chat("moonshot/kimi-k2.5", prompt)
+client.chat("moonshot/kimi-k3", prompt)
 ```
 
 ### Model Selection Tips
