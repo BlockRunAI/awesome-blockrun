@@ -7,6 +7,14 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-07-20]
+
+### Added — Qwen3.7 Max (Alibaba flagship)
+- Added **`qwen/qwen3.7-max`** ($1.48/$4.43 per 1M, **1M context**), Alibaba's Qwen flagship — the Max tier, strong reasoning + coding + agentic tool use. Verified live before listing. Fills the gap where the only Qwen models were the free NVIDIA-hosted tier.
+- Visible chat models are now **61** (was 60); total catalog **81** across chat, image, video, music, speech, and sound effects.
+
+---
+
 ## [2026-07-17]
 
 ### Added — Moonshot Kimi K3

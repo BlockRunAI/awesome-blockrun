@@ -102,7 +102,7 @@ No. alpha-mcp is free. You only pay for intelligence (sentiment analysis) and ne
 
 ### Which AI models are available?
 
-60 models including:
+61 models including:
 - OpenAI (GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2)
 - Anthropic (Claude Opus 4.8, Opus 4.7, Sonnet 4.6, Haiku 4.5)
 - Google (Gemini 3.1 Pro, Gemini 3.5 Flash)
@@ -110,6 +110,7 @@ No. alpha-mcp is free. You only pay for intelligence (sentiment analysis) and ne
 - Z.AI (GLM-5.2 with 1M context, GLM-5.1, GLM-5, GLM-5 Turbo)
 - Moonshot (Kimi K3 — 1M context, image + text input)
 - MiniMax (MiniMax M3)
+- Qwen (Qwen3.7 Max — 1M context, Alibaba flagship)
 - xAI (Grok 4.5, Grok 4.3, Grok Build 0.1)
 - Plus a free tier of 10 reasoning, coding, and vision models
 

@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 60 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+description: List and price 61 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
 ---
 
 # Models
@@ -56,7 +56,7 @@ Each model object in the response includes:
 ## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-**58 chat / LLM models** are publicly listed on mainnet, plus **8 image**, **5 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**59 chat / LLM models** are publicly listed on mainnet, plus **8 image**, **5 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
@@ -178,6 +178,12 @@ K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-tok
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `minimax/minimax-m3` | MiniMax M3 | $0.30/M | $1.20/M | 1M |
+
+### Qwen (Alibaba)
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `qwen/qwen3.7-max` | Qwen3.7 Max | $1.48/M | $4.43/M | 1M |
 
 ### Free Tier (open-weight)
 

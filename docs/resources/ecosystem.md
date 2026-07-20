@@ -12,7 +12,7 @@ Projects, integrations, and partners building with BlockRun and x402.
 | Product | Description | Link |
 |---------|-------------|------|
 | [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp) | AI crypto trading for Claude | [GitHub](https://github.com/BlockRunAI/alpha-mcp) |
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server for 80 AI models, images, video, music, voice, prediction markets, crypto data, sandbox runtime, smart routing | [GitHub](https://github.com/BlockRunAI/blockrun-mcp) |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server for 81 AI models, images, video, music, voice, prediction markets, crypto data, sandbox runtime, smart routing | [GitHub](https://github.com/BlockRunAI/blockrun-mcp) |
 | [nano-banana](https://github.com/BlockRunAI/nano-banana-blockrun) | Image generation skill | [GitHub](https://github.com/BlockRunAI/nano-banana-blockrun) |
 
 ## API Products
@@ -125,6 +125,7 @@ BlockRun routes to these providers via x402:
 | Z.AI | GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo | $0.60–$1.40 / $1.92–$4.40 |
 | Moonshot | Kimi K3 (1M context, image + text input), Kimi K2.7 (256K, image + video) | $0.95–$3.00 / $4.00–$15.00 |
 | MiniMax | MiniMax M3 (1M context) | $0.30 / $1.20 |
+| Qwen | Qwen3.7 Max (1M context, flagship) | $1.48 / $4.43 |
 | Free tier | 10 reasoning, coding, and vision models | **Free** |
 
 ### Image Models

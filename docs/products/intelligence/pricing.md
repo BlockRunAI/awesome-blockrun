@@ -97,6 +97,12 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 |-------|---------------|-----------------|
 | MiniMax M3 | $0.32 | $1.26 |
 
+### Qwen
+
+| Model | Input (per 1M) | Output (per 1M) |
+|-------|---------------|-----------------|
+| Qwen3.7 Max | $1.55 | $4.65 |
+
 ### DeepSeek
 
 | Model | Input (per 1M) | Output (per 1M) |

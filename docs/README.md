@@ -38,7 +38,7 @@ Pick the path that matches how you work.
 ::::cards
 
 :::card{title="I want an autonomous agent" href="products/franklin.md" icon="Rocket"}
-Franklin — the AI agent with a wallet. Writes code and spends USDC across 60 models and paid APIs. Free to start.
+Franklin — the AI agent with a wallet. Writes code and spends USDC across 61 models and paid APIs. Free to start.
 :::
 
 :::card{title="I use Claude Code / Cursor" href="getting-started/quickstart.md" icon="Terminal"}

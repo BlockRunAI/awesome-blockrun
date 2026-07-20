@@ -107,6 +107,7 @@ BlockRun routes to these AI providers via x402:
 | Z.AI | GLM-5, GLM-5 Turbo | $1.00–$1.20 / $3.20–$5.00 |
 | Moonshot | Kimi K3 (1M context, 2.8T open MoE, flagship), Kimi K2.7, Kimi K2.5 | $0.60–$3.00 / $3.00–$15.00 |
 | MiniMax | MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
+| Qwen | Qwen3.7 Max (1M context, Alibaba flagship) | $1.48 / $4.43 |
 | NVIDIA | GPT-OSS 120B, GPT-OSS 20B, DeepSeek V4 Flash, Nemotron Nano | **Free** |
 
 ### Image Models
