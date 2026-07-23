@@ -54,7 +54,7 @@ BlockRun works with the x402 facilitator network:
 |---------|----------|-------------|
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading bot with Visual Cortex for chart analysis |
 | [Voyage GEO](https://github.com/onvoyage-ai/voyage-geo-agent) | AI Analytics | Generative Engine Optimization - track AI brand mentions across multiple models |
-
+| [Counterra](https://github.com/billiondollarapps/counterra) | Accounting | Open-source accounting for x402 spend — decodes settlements into journal entries with per-agent attribution, exports to QuickBooks/Xero |
 ### Claude Code Tools
 
 | Tool | Description | Install |
