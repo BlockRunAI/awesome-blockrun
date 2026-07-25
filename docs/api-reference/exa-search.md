@@ -186,7 +186,7 @@ const urls = search.results.map(r => r.url);
 const pages = await client.exaContents(urls);
 
 // Step 3: Feed into LLM for analysis
-const analysis = await client.chat("anthropic/claude-opus-4.8", [
+const analysis = await client.chat("anthropic/claude-opus-5", [
   { role: "system", content: "Analyze based only on the provided sources." },
   { role: "user", content: `Sources:\n${pages.results.map(p => p.text).join("\n---\n")}\n\nQuestion: What is driving x402 adoption?` }
 ]);
@@ -357,7 +357,7 @@ Real-time web and news search via Grok Live Search.
 :::
 
 :::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
-Feed grounded search results into any of 61 LLMs for synthesis.
+Feed grounded search results into any of 64 LLMs for synthesis.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}

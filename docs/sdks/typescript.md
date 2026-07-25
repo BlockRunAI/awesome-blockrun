@@ -1,6 +1,6 @@
 ---
 title: TypeScript SDK
-description: The official BlockRun TypeScript/JavaScript SDK — call 61 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+description: The official BlockRun TypeScript/JavaScript SDK — call 64 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
 ---
 
 # TypeScript SDK
@@ -255,7 +255,7 @@ import { Anthropic } from '@blockrun/llm';
 
 const client = new Anthropic({ walletKey: process.env.BLOCKRUN_WALLET_KEY });
 const msg = await client.messages.create({
-  model: 'anthropic/claude-opus-4.8',
+  model: 'anthropic/claude-opus-5',
   max_tokens: 512,
   messages: [{ role: 'user', content: 'Hello!' }],
 });
@@ -731,7 +731,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 61 models with live pricing to pick the right one for each call.
+Browse all 64 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}

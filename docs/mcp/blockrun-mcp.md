@@ -1,11 +1,11 @@
 ---
 title: BlockRun MCP
-description: A Model Context Protocol server that gives Claude Code 61 models, crypto data, voice calls, media generation, and prediction markets with zero API keys.
+description: A Model Context Protocol server that gives Claude Code 64 models, crypto data, voice calls, media generation, and prediction markets with zero API keys.
 ---
 
 # BlockRun MCP
 
-Give Claude Code access to 81 AI models, 80+ crypto data endpoints, voice calls, image/video/music generation, prediction markets, and a sandbox runtime — all with zero API keys.
+Give Claude Code access to 84 AI models, 80+ crypto data endpoints, voice calls, image/video/music generation, prediction markets, and a sandbox runtime — all with zero API keys.
 
 BlockRun MCP is a Model Context Protocol server that connects Claude Code to BlockRun's intelligence, trading, and creation capabilities.
 
@@ -199,7 +199,7 @@ The MCP includes built-in smart routing that selects the best model based on you
 |------|--------|----------|
 | `fast` | Gemini Flash, GPT-5 Mini | Quick responses |
 | `balanced` | GPT-5.4, Claude Sonnet 4.6 | General use |
-| `powerful` | GPT-5.4, Claude Opus 4.8 | Complex tasks |
+| `powerful` | GPT-5.4, Claude Opus 5 | Complex tasks |
 | `cheap` | NVIDIA free models, DeepSeek, Gemini Flash | Cost savings |
 | `reasoning` | o3, DeepSeek Reasoner | Logic and math |
 | `free` | NVIDIA-hosted open models only | Development, zero-cost |

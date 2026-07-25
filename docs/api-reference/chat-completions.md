@@ -1,6 +1,6 @@
 ---
 title: Chat Completions
-description: OpenAI-compatible Chat Completions endpoint for 61 LLMs, paid per request in USDC over x402 — no API keys, no subscriptions.
+description: OpenAI-compatible Chat Completions endpoint for 64 LLMs, paid per request in USDC over x402 — no API keys, no subscriptions.
 ---
 
 # Chat Completions
@@ -109,8 +109,8 @@ BlockRun does **not** prepend a hidden identity/system directive to your prompt 
 If you use the Claude-native `POST /v1/messages` endpoint with the `context_management` field, you **must** also send the matching `anthropic-beta` header. A `context_management` body without that header is rejected at the edge with a `400` (rather than silently ignored).
 :::
 
-:::note{title="Sampling params on Claude Opus 4.7 / 4.8"}
-`temperature`, `top_p`, and `top_k` are **not honored** for `anthropic/claude-opus-4.7` and `anthropic/claude-opus-4.8` — these models reject sampling params upstream, so the gateway strips them so your request still succeeds (it does not fail). Set behavior through your prompt instead.
+:::note{title="Sampling params on Claude Opus 5 / 4.8 / 4.7"}
+`temperature`, `top_p`, and `top_k` are **not honored** for `anthropic/claude-opus-5`, `anthropic/claude-opus-4.8`, and `anthropic/claude-opus-4.7` — these models reject sampling params upstream, so the gateway strips them so your request still succeeds (it does not fail). Set behavior through your prompt instead.
 :::
 
 ### Payment Required (402)
@@ -222,7 +222,7 @@ console.log(result.choices[0].message.content);
 ::::cards
 
 :::card{title="Browse all models" href="models.md" icon="Brain"}
-61 chat models with live pricing — pick the right model and ID for your call.
+64 chat models with live pricing — pick the right model and ID for your call.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}

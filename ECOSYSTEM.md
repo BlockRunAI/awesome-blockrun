@@ -59,7 +59,7 @@ BlockRun works with the x402 facilitator network:
 
 | Tool | Description | Install |
 |------|-------------|---------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server — 18 tools across 55+ AI models, image/video/music/speech gen, voice calls, crypto data (Surf), prediction markets, DEX prices, raw JSON-RPC (40+ chains), DeFi TVL/yields, sandboxed code exec, search | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server — 18 tools across 64+ AI models, image/video/music/speech gen, voice calls, crypto data (Surf), prediction markets, DEX prices, raw JSON-RPC (40+ chains), DeFi TVL/yields, sandboxed code exec, search | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
 | [nano-banana-blockrun](https://github.com/BlockRunAI/nano-banana-blockrun) | Image generation skill via x402 micropayments | Claude Code skill |
 
 ### Framework Integrations
@@ -101,7 +101,7 @@ BlockRun routes to these AI providers via x402:
 | Provider | Models | Input/Output per 1M tokens |
 |----------|--------|---------------------------|
 | OpenAI | GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5.4 Mini, GPT-5 Mini, GPT-5.4 Nano, o1, o1-mini, o3, o3-mini | $0.05–$30.00 / $0.40–$180.00 |
-| Anthropic | Claude Opus 4.6, Claude Opus 4.5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$5.00 / $5.00–$25.00 |
+| Anthropic | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Opus 4.6, Claude Opus 4.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | Google | Gemini 3.1 Pro, Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 3.1 Flash Lite, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
 | DeepSeek | DeepSeek Chat (V3.2), DeepSeek Reasoner | $0.28 / $0.42 |
 | Z.AI | GLM-5, GLM-5 Turbo | $1.00–$1.20 / $3.20–$5.00 |

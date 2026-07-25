@@ -1,17 +1,17 @@
 ---
 title: ElizaOS Integration
-description: Add the BlockRun plugin to ElizaOS so your agents reach 81 AI models via x402 micropayments — no per-provider API keys.
+description: Add the BlockRun plugin to ElizaOS so your agents reach 84 AI models via x402 micropayments — no per-provider API keys.
 ---
 
 # ElizaOS Integration
 
-Use BlockRun as an LLM provider in ElizaOS agents — one plugin unlocks 61 models paid per request over x402.
+Use BlockRun as an LLM provider in ElizaOS agents — one plugin unlocks 64 models paid per request over x402.
 
 :::note{title="Community integration"}
 BlockRun's primary paths are [Franklin](../products/franklin.md), the [BlockRun MCP](../mcp/blockrun-mcp.md), and the [SDKs](../sdks/python.md). Framework integrations like this one are community-maintained.
 :::
 
-[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 81 AI models via x402 micropayments.
+[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 84 AI models via x402 micropayments.
 
 ## Setup
 
@@ -49,7 +49,7 @@ Once registered, the agent uses BlockRun models through ElizaOS's normal model c
 
 ## Usage
 
-With `blockrunPlugin` registered, your agent reaches BlockRun models through ElizaOS's normal model interface — chat, plus image/video/music when you call those actions. Model selection follows your ElizaOS character/runtime settings; BlockRun model ids look like `openai/gpt-5.5`, `anthropic/claude-opus-4.8`, `deepseek/deepseek-chat`. The plugin's exact actions and providers live in the [plugin repo](https://github.com/BlockRunAI/elizaos-plugin-blockrun) — treat it as the source of truth for action names and options.
+With `blockrunPlugin` registered, your agent reaches BlockRun models through ElizaOS's normal model interface — chat, plus image/video/music when you call those actions. Model selection follows your ElizaOS character/runtime settings; BlockRun model ids look like `openai/gpt-5.5`, `anthropic/claude-opus-5`, `deepseek/deepseek-chat`. The plugin's exact actions and providers live in the [plugin repo](https://github.com/BlockRunAI/elizaos-plugin-blockrun) — treat it as the source of truth for action names and options.
 
 For full media/data control (image, video, search, RPC, etc.) outside the ElizaOS model flow, call the [TypeScript SDK](../sdks/typescript.md) clients directly from your actions — same wallet, same x402 settlement.
 
@@ -60,7 +60,7 @@ All BlockRun models are available:
 | Provider | Models |
 |----------|--------|
 | OpenAI | gpt-5.4, gpt-5.2, o1, o1-mini |
-| Anthropic | claude-opus-4.6, claude-opus-4.5, claude-sonnet-4.6, claude-haiku-4.5 |
+| Anthropic | claude-fable-5, claude-opus-5, claude-opus-4.8, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
 | Google | gemini-3.1-pro-preview, gemini-3-flash-preview, gemini-2.5-flash-lite |
 | DeepSeek | deepseek-chat, deepseek-reasoner |
 | xAI | grok-4-fast |

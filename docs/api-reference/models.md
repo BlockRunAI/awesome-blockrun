@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 61 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+description: List and price 64 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
 ---
 
 # Models
@@ -111,6 +111,8 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `anthropic/claude-fable-5` | Claude Fable 5 | $10.00/M | $50.00/M | 1M |
+| `anthropic/claude-opus-5` | Claude Opus 5 | $5.00/M | $25.00/M | 1M |
 | `anthropic/claude-opus-4.8` | Claude Opus 4.8 | $5.00/M | $25.00/M | 1M |
 | `anthropic/claude-opus-4.7` | Claude Opus 4.7 | $5.00/M | $25.00/M | 1M |
 | `anthropic/claude-opus-4.6` | Claude Opus 4.6 | $5.00/M | $25.00/M | 1M |

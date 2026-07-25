@@ -7,7 +7,7 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 
 **Save 78% on LLM costs. Automatically.**
 
-ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 61 models, zero API keys.
+ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 64 models, zero API keys.
 
 :::tip{title="In a hurry?"}
 Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it.
@@ -19,7 +19,7 @@ ClawRouter analyzes your prompt and automatically picks the right model tier:
 
 - **Simple questions** → Cheap models (DeepSeek, Gemini Flash)
 - **Medium complexity** → Balanced models (Gemini 3.5 Flash, Claude Haiku)
-- **Complex reasoning** → Premium models (Claude Opus 4.8, GPT-5.5)
+- **Complex reasoning** → Premium models (Claude Opus 5, GPT-5.5)
 - **Code generation** → Specialized models (Claude Sonnet 4.6, GLM-5.2)
 
 **Result:** 78% average cost savings with no quality loss.
@@ -173,12 +173,12 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 - No external API calls for routing decisions
 - Full privacy - your prompts never leave your machine for routing
 
-### 61 Models
+### 64 Models
 
 Access all major providers through one wallet:
 
 - **OpenAI**: GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2
-- **Anthropic**: Claude Opus 4.8, Opus 4.7, Sonnet 5, Sonnet 4.6, Haiku 4.5
+- **Anthropic**: Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Opus 4.7, Sonnet 5, Sonnet 4.6, Haiku 4.5
 - **Google**: Gemini 3.1 Pro, Gemini 3.5 Flash
 - **DeepSeek**: DeepSeek V4 Flash Chat, DeepSeek V4 Pro, DeepSeek Reasoner
 - **xAI**: Grok 4.3, Grok 4 Fast (2M context)
@@ -256,7 +256,7 @@ ClawRouter logs show which model was selected and why:
 
 ### Without ClawRouter
 
-Using Claude Opus 4.8 for everything:
+Using Claude Opus 5 for everything:
 
 ```
 100 requests × 1000 tokens = 100K tokens
@@ -270,7 +270,7 @@ Smart routing to appropriate models:
 ```
 70 simple requests → DeepSeek ($0.40/M) = $0.03
 20 medium requests → Claude Haiku ($4.00/M) = $0.08
-10 complex requests → Claude Opus 4.8 ($25.00/M) = $0.25
+10 complex requests → Claude Opus 5 ($25.00/M) = $0.25
 
 Total: $0.36 (saved $2.14 = 86% savings)
 ```
@@ -282,7 +282,7 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 ### Chat Models
 
 - **OpenAI**: GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2
-- **Anthropic Claude**: Opus 4.8, Opus 4.7, Opus 4.5, Sonnet 5, Sonnet 4.6, Haiku 4.5
+- **Anthropic Claude**: Fable 5, Opus 5, Opus 4.8, Opus 4.7, Opus 4.5, Sonnet 5, Sonnet 4.6, Haiku 4.5
 - **Google Gemini**: 3.1 Pro, 3.5 Flash
 - **DeepSeek**: V4 Flash Chat, V4 Pro, Reasoner
 - **xAI Grok**: Grok 4.3, Grok 4 Fast (2M context)
@@ -456,7 +456,7 @@ No. AI model access requires internet. But routing decisions are made locally.
 ::::cards
 
 :::card{title="View all models" href="../intelligence/overview.md" icon="Brain"}
-61 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
+64 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
 :::
 
 :::card{title="Check pricing" href="../intelligence/pricing.md" icon="Zap"}

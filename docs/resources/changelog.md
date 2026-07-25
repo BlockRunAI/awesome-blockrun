@@ -7,6 +7,15 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-07-24]
+
+### Added — Anthropic Claude Opus 5, live on launch day
+- Added **`anthropic/claude-opus-5`** ($5.00/$25.00 per 1M, **1M context**, 128K max output, adaptive thinking, vision), Anthropic's newest flagship — a step-change over Opus 4.8 for deep reasoning and agentic coding at the same price. Verified live before listing.
+- `claude-opus-4.8` stays listed and routable at the same rates.
+- Visible chat models are now **64** (was 61); total catalog **84** across chat, image, video, music, speech, and sound effects.
+
+---
+
 ## [2026-07-20]
 
 ### Added — Qwen3.7 Max (Alibaba flagship)

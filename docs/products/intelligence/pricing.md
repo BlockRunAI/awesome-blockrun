@@ -49,7 +49,8 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
 | Claude Fable 5 (most capable) | $10.50 | $52.50 |
-| Claude Opus 4.8 (flagship) | $5.25 | $26.25 |
+| Claude Opus 5 (flagship) | $5.25 | $26.25 |
+| Claude Opus 4.8 (previous flagship) | $5.25 | $26.25 |
 | Claude Opus 4.7 | $5.25 | $26.25 |
 | Claude Opus 4.5 | $5.25 | $26.25 |
 | Claude Sonnet 5 | $3.15 | $15.75 |
@@ -213,7 +214,7 @@ response = client.chat("google/gemini-3.5-flash", prompt)
 |------|------------------|-----|
 | Bulk processing | DeepSeek | Cheapest |
 | Quick responses | Gemini 3.5 Flash | Fast + cheap |
-| Complex reasoning | DeepSeek Reasoner, Claude Opus 4.8 | Best quality |
+| Complex reasoning | DeepSeek Reasoner, Claude Opus 5 | Best quality |
 | Code generation | GPT-5.4, Claude Sonnet 4.6 | Good balance |
 | Real-time data | Grok | Web & news access |
 
