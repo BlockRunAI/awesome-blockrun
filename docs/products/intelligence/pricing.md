@@ -222,15 +222,16 @@ response = client.chat("google/gemini-3.5-flash", prompt)
 
 Shorter prompts = fewer input tokens = lower cost.
 
-## No Hidden Fees
+## What you don't pay
 
 - **No subscriptions**
-- **No minimums**
 - **No prepaid credits**
+- **No minimum top-up**
 - **No overage charges**
 - **No rate limit fees**
 
-Just: `provider_cost × 1.05`
+The rates on this page are the providers' own published prices; our margin is
+added on top of them at settlement.
 
 ## Payment Details
 
