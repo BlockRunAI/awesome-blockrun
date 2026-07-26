@@ -15,7 +15,7 @@
     "withFallbackAllEntries": 75
   },
   "clawrouter": {
-    "dimensions": 14,
+    "dimensions": 15,
     "tiers": 4,
     "profiles": 4,
     "aliases": 202
