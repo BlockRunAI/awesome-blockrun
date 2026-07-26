@@ -14,7 +14,7 @@ Frequently asked questions about BlockRun — payments, products, models, wallet
 BlockRun is economic infrastructure for AI agents. It provides:
 - **Trading** — AI that analyzes markets and executes trades (alpha-mcp)
 - **Creation** — generate images, video, music, and speech, paid per output
-- **Intelligence** — Access to 64 chat/LLM models via x402 micropayments
+- **Intelligence** — Access to <!-- br:models.chatVisible -->66<!-- /br:models.chatVisible --> chat/LLM models via x402 micropayments
 
 ### What makes BlockRun different?
 
