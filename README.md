@@ -201,7 +201,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 
 **Who it's for:** Developers who don't want to manage 7 different provider accounts and API keys. Pay per request with USDC, one wallet covers everything.
 
-**18 tools included:**
+**<!-- br:mcp.tools -->19<!-- /br:mcp.tools --> tools included:**
 
 | Tool | What it does |
 |------|-------------|
@@ -214,10 +214,11 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 | `blockrun_search` | Live web and news search (Grok-grounded) |
 | `blockrun_exa` | Neural semantic search + grounded answers |
 | `blockrun_markets` | Polymarket, Kalshi, sports markets |
+| `blockrun_polymarket` | Place real USDC-settled Polymarket orders (CLOB V2 on Polygon) — discover markets with `blockrun_markets` first |
 | `blockrun_surf` | 84 crypto data endpoints (CEX, on-chain SQL, social, wallet labels) |
 | `blockrun_price` | Pyth quotes: crypto, FX, commodities, stocks |
 | `blockrun_dex` | Live DEX prices and liquidity via DexScreener (free) |
-| `blockrun_rpc` | Raw JSON-RPC on 40+ chains — Ethereum, Base, Solana, Bitcoin, Sui, NEAR (Tatum gateway) |
+| `blockrun_rpc` | Raw JSON-RPC on <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains — Ethereum, Base, Solana, Bitcoin, Sui, NEAR (Tatum gateway) |
 | `blockrun_defi` | DefiLlama — protocol TVL, chain TVL, yield pools (APY), token prices |
 | `blockrun_modal` | Sandboxed code execution — disposable container, optional GPU |
 | `blockrun_phone` | AI voice calls + wallet-owned US/CA numbers |

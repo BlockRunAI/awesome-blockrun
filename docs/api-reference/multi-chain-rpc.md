@@ -1,17 +1,17 @@
 ---
 title: Multi-chain RPC
-description: Standard JSON-RPC 2.0 access to 40+ blockchains through one endpoint, paid $0.004 per call in USDC over x402 — no account, no API key, no monthly plan.
+description: Standard JSON-RPC 2.0 access to every supported blockchain through one endpoint, paid $0.004 per call in USDC over x402 — no account, no API key, no monthly plan.
 ---
 
-# Multi-chain RPC — one endpoint, 40+ chains
+# Multi-chain RPC — one endpoint, every chain
 
-Standard JSON-RPC 2.0 access to 40+ blockchains through a single endpoint. No account, no API key, no monthly plan — pay **$0.004 per call** in USDC over x402. Built for AI agents that read on-chain data across many chains from one wallet.
+Standard JSON-RPC 2.0 access to <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> blockchains through a single endpoint. No account, no API key, no monthly plan — pay **$0.004 per call** in USDC over x402. Built for AI agents that read on-chain data across many chains from one wallet.
 
 BlockRun proxies upstream RPC gateways with x402 settlement, so an agent can query any supported chain without onboarding to a node provider.
 
 ## The problem it solves
 
-Traditional RPC providers (Alchemy, Infura, QuickNode) make you sign up, manage an API key, and pick a monthly plan with rate-limit tiers — **per chain**. An agent that needs Ethereum *and* Base *and* Solana *and* Polygon ends up with four accounts and four keys. BlockRun gives you one endpoint for 40+ chains, paid per call, with on-chain settlement receipts.
+Traditional RPC providers (Alchemy, Infura, QuickNode) make you sign up, manage an API key, and pick a monthly plan with rate-limit tiers — **per chain**. An agent that needs Ethereum *and* Base *and* Solana *and* Polygon ends up with four accounts and four keys. BlockRun gives you one endpoint for <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains, paid per call, with on-chain settlement receipts.
 
 ## Endpoint
 
