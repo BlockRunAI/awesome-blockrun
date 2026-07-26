@@ -344,7 +344,7 @@ catalog = surf.endpoints()                                     # static: every p
 
 Tiers: T1 `$0.0095` (reads/lists), T2 `$0.0095` (AI rankings/trends/search), T3 `$0.0095` (heavy LLM + on-chain SQL). Use `surf.get(path, params)` / `surf.post(path, body)` for explicit verbs.
 
-#### `RpcClient` — multi-chain JSON-RPC (40+ chains)
+#### `RpcClient` — multi-chain JSON-RPC
 
 ```python
 from blockrun_llm import RpcClient

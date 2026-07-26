@@ -1,11 +1,11 @@
 ---
 title: ClawRouter
-description: ClawRouter is a smart LLM router for OpenClaw that picks the optimal model per prompt — up to 78% lower cost with no API keys.
+description: ClawRouter is a smart LLM router for OpenClaw that picks the optimal model per prompt — materially lower cost with no API keys.
 ---
 
 # ClawRouter
 
-**Save 78% on LLM costs. Automatically.**
+**<!-- br:savings.autoVsBaselinePct -->87<!-- /br:savings.autoVsBaselinePct -->% cheaper than pinning one flagship for every request — <!-- br:savings.ecoVsBaselinePct -->98<!-- /br:savings.ecoVsBaselinePct -->% on `eco`. Automatically.**
 
 ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 64 models, zero API keys.
 

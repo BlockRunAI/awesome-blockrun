@@ -101,7 +101,7 @@ The 5% covers:
 **No subscriptions. No minimums. No prepaid credits.**
 
 :::tip{title="Cut costs automatically"}
-Don't want to pick models by hand? [ClawRouter](../routing/clawrouter.md) routes each request to the cheapest model that can handle it — up to 78% lower cost.
+Don't want to pick models by hand? [ClawRouter](../routing/clawrouter.md) routes each request to the cheapest model that can handle it — <!-- br:savings.autoVsBaselinePct -->87<!-- /br:savings.autoVsBaselinePct -->% lower cost than pinning one flagship for every request.
 :::
 
 ## Quick Start
