@@ -1,6 +1,6 @@
 ---
 title: Chat Completions
-description: OpenAI-compatible Chat Completions endpoint for 64 LLMs, paid per request in USDC over x402 — no API keys, no subscriptions.
+description: OpenAI-compatible Chat Completions endpoint for 66 LLMs, paid per request in USDC over x402 — no API keys, no subscriptions.
 ---
 
 # Chat Completions

@@ -1,6 +1,6 @@
 ---
 title: Intelligence Pricing
-description: BlockRun Intelligence pricing — provider cost plus 5%, a full per-token price list, image rates, and a free tier of 10 models.
+description: BlockRun Intelligence pricing — provider cost plus 5%, a full per-token price list, image rates, and a free tier of 8 models.
 ---
 
 # Intelligence Pricing
@@ -27,7 +27,7 @@ The 5% margin covers:
 | DeepSeek V4 Flash Chat | ~5M input tokens |
 | Gemini 3.5 Flash | ~2M input tokens |
 | Image generation | ~10–65 images |
-| **Free tier** (10 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
+| **Free tier** (8 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
 
 :::tip{title="Start with the free tier"}
 The free tier costs $0 — 10 reasoning, coding, and vision models with no per-token charge. You still need a funded wallet for the x402 handshake, but these calls don't draw it down.
@@ -111,7 +111,7 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 | DeepSeek V4 Flash Chat | $0.21 | $0.42 |
 | DeepSeek V4 Pro | $0.46 | $0.91 |
 
-### Free Tier (10 models)
+### Free Tier (8 models)
 
 The free tier is 10 reasoning, coding, and vision models with no per-token
 charge. The lineup is kept current by a self-healing health gate that routes
@@ -183,7 +183,7 @@ print(f"Requests: {usage['request_count']}")
 
 ### 0. Use ClawRouter for Automatic Savings
 
-**Save 78% on average** with [ClawRouter](../routing/clawrouter.md) — it automatically routes each request to the cheapest model that can handle it.
+**Save 87% on average** with [ClawRouter](../routing/clawrouter.md) — it automatically routes each request to the cheapest model that can handle it.
 
 ```
 /model blockrun/auto
@@ -248,7 +248,7 @@ How the OpenAI-compatible API works and which model fits each task.
 :::
 
 :::card{title="Smart routing" href="../routing/clawrouter.md" icon="Route"}
-Save 78% on average by routing each request to the cheapest capable model.
+Save 87% on average by routing each request to the cheapest capable model.
 :::
 
 :::card{title="Wallet setup" href="../../getting-started/wallet-setup.md" icon="Wallet"}
