@@ -33,3 +33,20 @@ node scripts/sync-brand-numbers.mjs           # rewrite markers from the snapsho
 node scripts/sync-brand-numbers.mjs --check   # exit 1 on drift, never fetches (CI)
 node scripts/sync-brand-numbers.mjs --refresh # pull a newer artifact, then rewrite
 ```
+
+### `docs/` must NOT carry markers
+
+An HTML comment is invisible only where something renders it as HTML. GitHub
+does. **blockrun.ai does not** — `docs/` is symlinked into the blockrun repo and
+served through its docs renderer, which escapes the comment and prints it:
+
+```
+JSON-RPC 2.0 access to <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> blockchains
+```
+
+The same file therefore reads fine on GitHub and broken on the site. `docs/`
+keeps plain numbers; blockrun asserts them in `brand-numbers.docs.test.ts` and
+fails if a marker ever reappears there.
+
+Markers are fine in `README.md` and `ECOSYSTEM.md` — those are only ever
+rendered by GitHub.

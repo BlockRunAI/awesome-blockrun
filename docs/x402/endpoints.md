@@ -136,7 +136,7 @@ Real-time and historical prices. All `list` endpoints are free. **Crypto, FX, an
 
 ## Blockchain RPC (Tatum)
 
-Standard JSON-RPC 2.0 to <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains through one endpoint — no API key. EVM (`eth_*`) and non-EVM methods. See [Multi-chain RPC](../api-reference/multi-chain-rpc.md).
+Standard JSON-RPC 2.0 to 40 chains through one endpoint — no API key. EVM (`eth_*`) and non-EVM methods. See [Multi-chain RPC](../api-reference/multi-chain-rpc.md).
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|

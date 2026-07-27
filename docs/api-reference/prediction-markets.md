@@ -395,7 +395,7 @@ Feed market and wallet data into an LLM to analyze odds and positioning.
 :::
 
 :::card{title="Multi-chain RPC" href="multi-chain-rpc.md" icon="Route"}
-Read on-chain data across <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains to complement wallet identity lookups.
+Read on-chain data across 40 chains to complement wallet identity lookups.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}

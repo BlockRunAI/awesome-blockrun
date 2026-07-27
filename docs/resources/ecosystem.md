@@ -33,7 +33,7 @@ Projects, integrations, and partners building with BlockRun and x402.
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
 | **Exa Web Search** | `/api/v1/exa/*` | $0.002–0.012 | ✅ Live |
 | **0x Swap (DEX)** | `/api/v1/zerox/*` | Free | ✅ Live |
-| **Multi-chain RPC** | `/api/v1/rpc/{network}` (<!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains) | $0.004/call | ✅ Live |
+| **Multi-chain RPC** | `/api/v1/rpc/{network}` (40 chains) | $0.004/call | ✅ Live |
 | **Prediction Markets** | `/v1/pm/*` | $0.0095 | ✅ Live |
 | **Trading Markets** | `/api/v1/markets/*` | $0.003 | ✅ Live |
 | **Modal Sandbox** | `/v1/modal/*` | $0.003–0.012 | ✅ Live |
