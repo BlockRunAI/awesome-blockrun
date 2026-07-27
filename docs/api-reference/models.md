@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 64 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+description: List and price 66 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
 ---
 
 # Models
@@ -255,7 +255,7 @@ Prices are per 1 million tokens. Your actual cost depends on:
 
 The SDK calculates the exact price before each request.
 
-**Want to save 78% automatically?** [ClawRouter](../products/routing/clawrouter.md) routes each request to the cheapest model that can handle it.
+**Want to save 87% automatically?** [ClawRouter](../products/routing/clawrouter.md) routes each request to the cheapest model that can handle it.
 
 ## Example
 
@@ -302,7 +302,7 @@ Call any model ID from this catalog through the OpenAI-compatible endpoint.
 Generate images with the GPT Image, Nano Banana, and CogView model family.
 :::
 
-:::card{title="Save 78% with ClawRouter" href="../products/routing/clawrouter.md" icon="Route"}
+:::card{title="Save 87% with ClawRouter" href="../products/routing/clawrouter.md" icon="Route"}
 Route each prompt to the cheapest model that can handle it, automatically.
 :::
 

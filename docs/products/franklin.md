@@ -1,6 +1,6 @@
 ---
 title: Franklin Agent
-description: Franklin is the AI agent with a wallet — it writes code and spends USDC autonomously across 64 models and paid APIs, settling per outcome over x402. No subscriptions, no API keys.
+description: Franklin is the AI agent with a wallet — it writes code and spends USDC autonomously across 66 models and paid APIs, settling per outcome over x402. No subscriptions, no API keys.
 ---
 
 # Franklin Agent

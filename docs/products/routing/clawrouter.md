@@ -7,7 +7,7 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 
 **87% cheaper than pinning one flagship for every request — 98% on `eco`. Automatically.**
 
-ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 64 models, zero API keys.
+ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 66 models, zero API keys.
 
 :::tip{title="In a hurry?"}
 Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it.
@@ -173,7 +173,7 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 - No external API calls for routing decisions
 - Full privacy - your prompts never leave your machine for routing
 
-### 64 Models
+### 66 Models
 
 Access all major providers through one wallet:
 
@@ -289,7 +289,7 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 - **Z.AI**: GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo
 - **Moonshot**: Kimi K3 flagship (1M context, image + text), Kimi K2.7 (256K, image + video)
 - **MiniMax**: MiniMax M3
-- **Free tier**: 10 models, no per-token charge
+- **Free tier**: 8 models, no per-token charge
 
 ### Image Generation
 
@@ -456,7 +456,7 @@ No. AI model access requires internet. But routing decisions are made locally.
 ::::cards
 
 :::card{title="View all models" href="../intelligence/overview.md" icon="Brain"}
-64 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
+66 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
 :::
 
 :::card{title="Check pricing" href="../intelligence/pricing.md" icon="Zap"}

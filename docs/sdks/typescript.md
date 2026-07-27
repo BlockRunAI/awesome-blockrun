@@ -1,6 +1,6 @@
 ---
 title: TypeScript SDK
-description: The official BlockRun TypeScript/JavaScript SDK — call 64 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+description: The official BlockRun TypeScript/JavaScript SDK — call 66 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
 ---
 
 # TypeScript SDK
@@ -128,7 +128,7 @@ console.log(`Paying from: ${address}`);
 
 ## Smart Routing (ClawRouter)
 
-**Save up to 94% on LLM costs automatically.**
+**Save 87% on LLM costs automatically.**
 
 The `smartChat()` method uses ClawRouter's 14-dimension scoring algorithm to route each request to the optimal model. Routing decisions run locally in <1ms — your prompts never leave your machine for routing.
 
@@ -731,7 +731,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 64 models with live pricing to pick the right one for each call.
+Browse all 66 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
