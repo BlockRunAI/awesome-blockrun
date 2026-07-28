@@ -201,7 +201,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 
 **Who it's for:** Developers who don't want to manage 7 different provider accounts and API keys. Pay per request with USDC, one wallet covers everything.
 
-**<!-- br:mcp.tools -->19<!-- /br:mcp.tools --> tools included:**
+**<!-- br:mcp.tools -->20<!-- /br:mcp.tools --> tools included:**
 
 | Tool | What it does |
 |------|-------------|

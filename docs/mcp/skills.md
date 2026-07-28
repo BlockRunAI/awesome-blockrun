@@ -179,7 +179,7 @@ Generate images via micropayments with the bundled skill.
 :::
 
 :::card{title="BlockRun MCP" href="blockrun-mcp.md" icon="Boxes"}
-The MCP server and the 19 tools skills build on.
+The MCP server and the 20 tools skills build on.
 :::
 
 :::card{title="Troubleshooting" href="troubleshooting.md" icon="Search"}
