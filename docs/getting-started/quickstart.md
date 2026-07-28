@@ -16,7 +16,7 @@ A terminal, and ~$5 of USDC on **Base** (or Solana). Don't have USDC yet? Any Co
 ::::tabs
 
 :::tab{label="Claude Code (MCP)"}
-Best for Claude Code, Cursor, and other MCP clients — natural-language access to all 19 tools.
+Best for Claude Code, Cursor, and other MCP clients — natural-language access to all 20 tools.
 
 ```bash
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest

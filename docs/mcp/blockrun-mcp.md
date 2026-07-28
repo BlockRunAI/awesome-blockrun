@@ -96,7 +96,7 @@ Then send USDC (SPL) on the **Solana** network — from Coinbase (pick "Solana")
 
 ## Available Tools
 
-The MCP exposes 19 tools to Claude:
+The MCP exposes 20 tools to Claude:
 
 ### `blockrun_chat`
 
