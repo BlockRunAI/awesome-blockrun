@@ -71,6 +71,50 @@ const TOPICS_BY_SHAPE = {
   archive: [],
 };
 
+/** Fetch a file from a repo's default branch, or null. */
+function fileFrom(repo, path) {
+  try {
+    return gh([
+      "api", `repos/${ORG}/${repo}/contents/${path}`,
+      "-H", "Accept: application/vnd.github.raw",
+    ]);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * A homepage derived from a registry the repo actually publishes to.
+ *
+ * NOT a guess: the package name comes from the repo's own manifest, and the
+ * registry is asked whether that package exists before the URL is proposed.
+ * A repo that publishes nothing gets nothing — 33 repos have no homepage and
+ * inventing one for them is not a gap a script should close.
+ */
+function derivedHomepage(repo, shape) {
+  if (shape === "ts-npm") {
+    const pkg = fileFrom(repo.name, "package.json");
+    if (!pkg) return null;
+    let name;
+    try { ({ name } = JSON.parse(pkg)); } catch { return null; }
+    if (!name || JSON.parse(pkg).private) return null;
+    try {
+      gh(["api", "--silent", `https://registry.npmjs.org/${encodeURIComponent(name)}`]);
+      return `https://www.npmjs.com/package/${name}`;
+    } catch { return null; }
+  }
+  if (shape === "py-pypi") {
+    const toml = fileFrom(repo.name, "pyproject.toml");
+    const name = toml?.match(/^\s*name\s*=\s*["']([^"']+)["']/m)?.[1];
+    if (!name) return null;
+    try {
+      gh(["api", "--silent", `https://pypi.org/pypi/${name}/json`]);
+      return `https://pypi.org/project/${name}/`;
+    } catch { return null; }
+  }
+  return null;
+}
+
 const repos = JSON.parse(readFileSync(join(HERE, "..", "..", "brand", "repos.json"), "utf8")).repos;
 const byName = new Map(repos.map((r) => [r.name.toLowerCase(), r]));
 
@@ -117,11 +161,15 @@ for (const repo of live.sort((a, b) => a.name.localeCompare(b.name))) {
       topicAdds++;
     }
 
-    // ── 3. Homepage — only where repos.json states one. Never guessed. ─────
-    if (spec?.homepageUrl && !repo.homepageUrl) {
-      changes.push({ kind: "homepage", text: `homepage: -> ${spec.homepageUrl}` });
-      args.push("--homepage", spec.homepageUrl);
-      homepageAdds++;
+    // ── 3. Homepage — stated in repos.json, else derived from a registry the
+    //      repo demonstrably publishes to. Never invented.
+    if (!repo.homepageUrl) {
+      const url = spec?.homepageUrl ?? derivedHomepage(repo, spec?.shape);
+      if (url) {
+        changes.push({ kind: "homepage", text: `homepage: -> ${url}` });
+        args.push("--homepage", url);
+        homepageAdds++;
+      }
     }
   }
 
