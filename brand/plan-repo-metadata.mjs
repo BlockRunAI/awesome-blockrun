@@ -103,6 +103,16 @@ function derivedHomepage(repo, shape) {
       return `https://www.npmjs.com/package/${name}`;
     } catch { return null; }
   }
+  if (shape === "go") {
+    // A Go module's import path IS its published page. Verified against
+    // pkg.go.dev before proposing, same as npm and PyPI.
+    const mod = fileFrom(repo.name, "go.mod")?.match(/^module\s+(\S+)/m)?.[1];
+    if (!mod) return null;
+    try {
+      gh(["api", "--silent", `https://pkg.go.dev/${mod}`]);
+      return `https://pkg.go.dev/${mod}`;
+    } catch { return null; }
+  }
   if (shape === "py-pypi") {
     const toml = fileFrom(repo.name, "pyproject.toml");
     const name = toml?.match(/^\s*name\s*=\s*["']([^"']+)["']/m)?.[1];
