@@ -129,10 +129,10 @@ These flagship models reject all sampling parameters (`temperature`, `top_p`, `t
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `google/gemini-3.1-pro` | Gemini 3.1 Pro | $2.00/M | $12.00/M | 1M |
-| `google/gemini-3.5-flash` | Gemini 3.5 Flash | $0.50/M | $3.00/M | 1M |
+| `google/gemini-3.5-flash` | Gemini 3.5 Flash | $1.50/M | $9.00/M | 1M |
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
 | `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.30/M | $2.50/M | 1M |
-| `google/gemini-3.1-flash-lite` | Gemini 3.1 Flash Lite | $0.10/M | $0.40/M | 1M |
+| `google/gemini-3.1-flash-lite` | Gemini 3.1 Flash Lite | $0.25/M | $1.50/M | 1M |
 | `google/gemini-2.5-flash-lite` | Gemini 2.5 Flash Lite | $0.10/M | $0.40/M | 1M |
 
 Gemini **Pro** models (`gemini-2.5-pro`, `gemini-3.1-pro`) bill a **long-context tier** — 2x input, 1.5x output above 200K prompt tokens (mirrors Google's official pricing: `gemini-2.5-pro` is $2.50/M in · $15.00/M out, `gemini-3.1-pro` is $4.00/M in · $18.00/M out above the threshold). Flash / Flash-Lite are flat-priced.

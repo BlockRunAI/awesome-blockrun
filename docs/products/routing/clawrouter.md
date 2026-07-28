@@ -149,7 +149,7 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 | Tier | Model (auto) | Cost | Free-tier fallback | Use Case |
 |------|-------|------|--------------------|----------|
 | **SIMPLE** | moonshot/kimi-k2.7 | $0.95/M in / $4.00/M out | free-tier model (FREE) | Q&A, summaries, simple tasks |
-| **MEDIUM** | google/gemini-3.5-flash | $0.50/M in / $3.00/M out | free-tier model (FREE) | Analysis, writing, coding |
+| **MEDIUM** | google/gemini-3.5-flash | $1.50/M in / $9.00/M out | free-tier model (FREE) | Analysis, writing, coding |
 | **COMPLEX** | google/gemini-3.1-pro | $2.00/M in / $12.00/M out | free-tier model (FREE) | Advanced reasoning, research |
 | **REASONING** | deepseek/deepseek-reasoner | $0.28/M in / $0.42/M out | free-tier model (FREE) | Math, logic, proofs |
 
@@ -160,7 +160,7 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 | Prompt | Routed To | Cost | Savings |
 |--------|-----------|------|---------|
 | "What is 2+2?" | DeepSeek | $0.40/M | 99% |
-| "Summarize this article" | Gemini 3.5 Flash | $3.00/M | 90% |
+| "Summarize this article" | Gemini 3.5 Flash | $9.00/M | 70% |
 | "Build a React component" | Claude Sonnet 4.6 | $15.00/M | 80% |
 | "Prove this theorem" | DeepSeek Reasoner | $0.42/M | 99% |
 | "Run 50 parallel searches" | Kimi K2.7 | $4.00/M | 87% |

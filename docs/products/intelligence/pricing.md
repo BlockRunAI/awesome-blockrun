@@ -25,7 +25,7 @@ The 5% margin covers:
 |-------|------------------|
 | GPT-5.5 | ~200K input tokens |
 | DeepSeek V4 Flash Chat | ~5M input tokens |
-| Gemini 3.5 Flash | ~2M input tokens |
+| Gemini 3.5 Flash | ~635K input tokens |
 | Image generation | ~10–65 images |
 | **Free tier** (8 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
 
@@ -62,7 +62,7 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
 | Gemini 3.1 Pro | $2.10 | $12.60 |
-| Gemini 3.5 Flash | $0.53 | $3.15 |
+| Gemini 3.5 Flash | $1.58 | $9.45 |
 
 Gemini Pro models double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.63 in · $15.75 out above the threshold. Flash tiers are flat.
 

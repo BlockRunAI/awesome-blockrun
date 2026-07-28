@@ -47,7 +47,7 @@ Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing —
 | Model | Input | Output |
 |-------|-------|--------|
 | Gemini 3.1 Pro | $2.00/M | $12.00/M |
-| Gemini 3.5 Flash | $0.50/M | $3.00/M |
+| Gemini 3.5 Flash | $1.50/M | $9.00/M |
 
 ### Z.AI
 | Model | Input | Output |
