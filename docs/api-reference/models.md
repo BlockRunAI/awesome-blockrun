@@ -68,8 +68,8 @@ Released 2026-07-09 — three fixed tiers (Sol / Terra / Luna) replacing the sin
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `openai/gpt-5.6-sol` | GPT-5.6 Sol | $5.00/M | $30.00/M | 1M |
-| `openai/gpt-5.6-terra` | GPT-5.6 Terra | $2.50/M | $15.00/M | 1M |
-| `openai/gpt-5.6-luna` | GPT-5.6 Luna | $1.00/M | $6.00/M | 1M |
+| `openai/gpt-5.6-terra` | GPT-5.6 Terra | $2.00/M | $12.00/M | 1M |
+| `openai/gpt-5.6-luna` | GPT-5.6 Luna | $0.20/M | $1.20/M | 1M |
 
 ### OpenAI GPT-5.5 Family
 

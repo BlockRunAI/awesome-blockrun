@@ -7,6 +7,16 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-08-03]
+
+### Changed — GPT-5.6 Luna is 80% cheaper, Terra 20%, passed through in full
+- OpenAI cut GPT-5.6 pricing on **2026-07-30**. Both cuts are now live on the gateway: **`openai/gpt-5.6-luna`** goes to **$0.20/$1.20 per 1M** (from $1.00/$6.00, **-80%**) and **`openai/gpt-5.6-terra`** to **$2.00/$12.00** (from $2.50/$15.00, **-20%**). Long-context tiers follow at $0.40/$1.80 and $4.00/$18.00.
+- **`openai/gpt-5.6-sol` is unchanged** at $5.00/$30.00 — OpenAI left the flagship alone. Luna now costs less than `gpt-5.4-mini`.
+- We passed the cut through rather than keeping the spread. Every other OpenAI model in the catalog was re-checked against the published rates in the same pass and already matched.
+- Fallbacks moved with the prices: Terra now falls back to `gpt-5.4-mini` and Luna to `gpt-4o-mini`. The previous targets were not repriced by OpenAI, so they now cost more than the primaries bill and would settle below cost on every failover.
+
+---
+
 ## [2026-07-24]
 
 ### Added — Anthropic Claude Opus 5, live on launch day
