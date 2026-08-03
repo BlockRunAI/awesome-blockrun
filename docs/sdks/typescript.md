@@ -348,8 +348,8 @@ const kalshiTrades = await client.pm("kalshi/trades");
 const btcCandles = await client.pm("binance/candles/BTCUSDT");
 const ethCandles = await client.pm("binance/candles/ETHUSDT");
 
-// Cross-platform matching
-const pairs = await client.pm("matching-markets/pairs");
+// Cross-venue search (matching-markets was sunset by Predexon 2026-07-20)
+const results = await client.pm("markets/search", { q: "Fed rate" });
 ```
 
 **Parameters:**
