@@ -62,7 +62,9 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
 | Gemini 3.1 Pro | $2.10 | $12.60 |
+| Gemini 3.6 Flash | $1.58 | $7.88 |
 | Gemini 3.5 Flash | $1.58 | $9.45 |
+| Gemini 3.5 Flash Lite | $0.32 | $2.63 |
 
 Gemini Pro models double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.63 in · $15.75 out above the threshold. Flash tiers are flat.
 
@@ -103,6 +105,8 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
 | Qwen3.7 Max | $1.55 | $4.65 |
+| Qwen3.7 Plus | $0.34 | $1.34 |
+| Qwen3.7 Flash | $0.03 | $0.14 |
 
 ### DeepSeek
 
