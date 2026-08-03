@@ -39,7 +39,14 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
-| GPT-5.5 (flagship) | $5.25 | $31.50 |
+| GPT-5.6 Sol (flagship) | $5.25 | $31.50 |
+| GPT-5.6 Sol Pro | $5.25 | $31.50 |
+| GPT-5.6 Terra | $2.10 | $12.60 |
+| GPT-5.6 Terra Pro | $1.05 | $6.30 |
+| GPT-5.6 Luna | $0.21 | $1.26 |
+| GPT-5.6 Luna Pro | $0.11 | $0.63 |
+| GPT-5.5 | $5.25 | $31.50 |
+| GPT-5.5 Pro | $31.50 | $189.00 |
 | GPT-5.4 | $2.63 | $15.75 |
 | GPT-5.4 Pro | $31.50 | $189.00 |
 | GPT-5.2 | $1.84 | $14.70 |
