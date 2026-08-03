@@ -479,8 +479,8 @@ kalshi_trades = client.pm("kalshi/trades")
 btc_candles = client.pm("binance/candles/BTCUSDT")
 eth_candles = client.pm("binance/candles/ETHUSDT")
 
-# Cross-platform matching
-pairs = client.pm("matching-markets/pairs")
+# Cross-venue search (matching-markets was sunset by Predexon 2026-07-20)
+results = client.pm("markets/search", q="Fed rate")
 ```
 
 **Parameters:**

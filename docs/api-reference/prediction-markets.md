@@ -130,13 +130,13 @@ Predexon v2 unified data layer — canonical Predexon IDs across all venues.
 | `/api/v1/pm/markets/listings` | GET | List venue-native executable listings flattened across canonical markets |
 | `/api/v1/pm/outcomes/{predexon_id}` | GET | Resolve a canonical Predexon outcome ID to its market context and venue listings |
 
-### Cross-Platform Matching & Search (Tier 2: $0.0095)
+### Cross-Platform Search (Tier 2: $0.0095)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/api/v1/pm/matching-markets` | GET | Find equivalent markets across Polymarket and Kalshi |
-| `/api/v1/pm/matching-markets/pairs` | GET | Get all active exact-matched market pairs |
 | `/api/v1/pm/markets/search` | GET | Search markets across Polymarket, Kalshi, Limitless, Opinion, and Predict.Fun in a single call |
+
+> `matching-markets` and `matching-markets/pairs` were retired on 2026-07-20 (upstream discontinued market matching). Use the canonical `markets` / `markets/listings` endpoints for cross-venue equivalence.
 
 ### Sports Markets (Tier 1: $0.0095)
 
@@ -319,9 +319,6 @@ listings = client.pm("markets/listings", league="mlb")
 
 # Sports ($0.0095)
 games = client.pm("sports/markets", league="mlb", status="open")
-
-# Cross-platform matching ($0.0095)
-pairs = client.pm("matching-markets/pairs")
 
 # Wallet identity (single, $0.0095)
 identity = client.pm("polymarket/wallet/identity/0x1234...abcd")
