@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 72 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+description: List and price 71 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
 ---
 
 # Models
@@ -189,15 +189,13 @@ K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-tok
 
 ### Free Tier (open-weight)
 
-Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billingMode: "free"`). There are **8** free models listed on mainnet; the free tier's fallback workhorse is `nvidia/gpt-oss-120b` (`nvidia/llama-4-maverick` is temporarily offline upstream and auto-redirects to it).
+Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billingMode: "free"`). There are **6** free models listed on mainnet; the free tier's fallback workhorse is `nvidia/gpt-oss-120b`.
 
 | Model ID | Name | Input Price | Output Price |
 |----------|------|-------------|--------------|
 | `nvidia/mistral-nemotron` | Mistral Nemotron | **FREE** | **FREE** |
-| `nvidia/mistral-large-3-675b` | Mistral Large 3 675B (slow upstream) | **FREE** | **FREE** |
 | `nvidia/step-3.7-flash` | Step 3.7 Flash | **FREE** | **FREE** |
 | `nvidia/deepseek-v4-flash` | DeepSeek V4 Flash | **FREE** | **FREE** |
-| `nvidia/seed-oss-36b` | Seed OSS 36B | **FREE** | **FREE** |
 | `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | Nemotron 3 Nano Omni | **FREE** | **FREE** |
 | `nvidia/nemotron-nano-9b-v2` | Nemotron Nano 9B v2 | **FREE** | **FREE** |
 | `nvidia/nemotron-nano-12b-v2-vl` | Nemotron Nano 12B v2 VL | **FREE** | **FREE** |
