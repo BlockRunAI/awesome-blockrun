@@ -18,14 +18,14 @@ Pairs with `blockrun_polymarket action:"fund"` in [BlockRun MCP](../mcp/blockrun
 The agent signs **two** EIP-3009 (`transferWithAuthorization`) USDC authorizations and sends both in one request:
 
 1. **Deposit** — the agent's USDC → the Polymarket bridge address for its vault.
-2. **Fee** — `$0.012` USDC → the BlockRun treasury (the standard x402 payment).
+2. **Fee** — `$0.011` USDC → the BlockRun treasury (the standard x402 payment).
 
 BlockRun then:
 
-1. Verifies the `$0.012` fee authorization and guards it against replay.
+1. Verifies the `$0.011` fee authorization and guards it against replay.
 2. **Validates** that `recipient` really is the Polymarket bridge deposit address for the caller's `depositWallet` (live lookup against the bridge). A mismatch is rejected before any settlement.
 3. Hands the **deposit** authorization to the CDP facilitator, which broadcasts it and **pays the gas**. The USDC settles **directly to the bridge** — BlockRun is never in the flow of funds.
-4. Only after the deposit is confirmed on-chain does BlockRun charge the `$0.012` fee.
+4. Only after the deposit is confirmed on-chain does BlockRun charge the `$0.011` fee.
 5. The Polymarket bridge wraps the USDC → **pUSD** and credits the agent's vault on **Polygon**.
 
 **A deposit that does not confirm is never billed.** The fee is charged only after the deposit settles on-chain.
@@ -40,13 +40,13 @@ This call is **cross-chain**: you sign and move **USDC on Base**, and it lands a
 | Deposit authorization (what you sign) | Base | USDC → Polymarket bridge |
 | Vault destination (where it arrives) | Polygon | pUSD |
 
-Both authorizations you sign — the `$0.012` fee and the deposit — are **Base USDC**; you never touch Polygon or hold Base ETH for gas. The Polymarket bridge wraps the deposited USDC to **pUSD** and credits your vault on Polygon.
+Both authorizations you sign — the `$0.011` fee and the deposit — are **Base USDC**; you never touch Polygon or hold Base ETH for gas. The Polymarket bridge wraps the deposited USDC to **pUSD** and credits your vault on Polygon.
 
 ## Pricing
 
 | Item | Amount | Paid to |
 |------|--------|---------|
-| Service fee | `$0.012` (`POLYMARKET_FUND_FEE_USD`) | BlockRun treasury (x402) |
+| Service fee | `$0.011` (`POLYMARKET_FUND_FEE_USD`) | BlockRun treasury (x402) |
 | Gas | Sponsored by BlockRun | — |
 | Deposit principal | Your chosen amount | Polymarket bridge (non-custodial) |
 
@@ -65,7 +65,7 @@ Maximum deposit per call: `$10,000` (`POLYMARKET_FUND_MAX_USD`).
 | `amountMicro` | string | ✅ | Deposit amount in **micro-USDC** (6 decimals) as a canonical integer string, e.g. `"25000000"` for `$25`. **Must exactly equal the `value` in your signed deposit authorization.** |
 | `depositAuthorization` | string | ✅ | Base64 x402 payload: your EIP-3009 signed USDC transfer of `amountMicro` to `recipient`. |
 
-The `$0.012` fee authorization travels in the standard `X-Payment` header, exactly like every other paid BlockRun endpoint.
+The `$0.011` fee authorization travels in the standard `X-Payment` header, exactly like every other paid BlockRun endpoint.
 
 ### Discovery (402)
 
@@ -107,7 +107,7 @@ curl -X POST https://blockrun.ai/api/v1/polymarket/fund
 The confirmed deposit transaction hash is also returned in the `X-Deposit-Tx` response header; the fee receipt is in `X-Payment-Receipt`.
 
 :::warning Settlement is asynchronous
-`success: true` means the deposit was **submitted to the bridge and confirmed on Base** — and the `$0.012` fee charged. It does **not** mean your vault is funded yet: `funded` is `false` and `creditPending` is `true`. The Polymarket bridge credits **pUSD on Polygon** off-chain and asynchronously — usually within minutes, occasionally **30+ minutes**. There is no on-chain bridge message to poll; check your Polygon vault's pUSD balance until it lands. Very small deposits and non-standard deposit wallets may take longer or require a real (setup-derived) vault.
+`success: true` means the deposit was **submitted to the bridge and confirmed on Base** — and the `$0.011` fee charged. It does **not** mean your vault is funded yet: `funded` is `false` and `creditPending` is `true`. The Polymarket bridge credits **pUSD on Polygon** off-chain and asynchronously — usually within minutes, occasionally **30+ minutes**. There is no on-chain bridge message to poll; check your Polygon vault's pUSD balance until it lands. Very small deposits and non-standard deposit wallets may take longer or require a real (setup-derived) vault.
 :::
 
 ### Errors
@@ -126,7 +126,7 @@ Every non-2xx response that could otherwise be ambiguous states explicitly wheth
 
 ```bash
 curl -X POST https://blockrun.ai/api/v1/polymarket/fund \
-  -H "X-Payment: <base64 signed $0.012 fee authorization>" \
+  -H "X-Payment: <base64 signed $0.011 fee authorization>" \
   -H "Content-Type: application/json" \
   -d '{
     "depositWallet": "0xYourVaultOwner…",
