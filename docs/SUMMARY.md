@@ -43,9 +43,9 @@
 
 ## SDKs
 
-* [Python](sdks/python.md)
-* [TypeScript](sdks/typescript.md)
-* [Go](sdks/go.md)
+* [Python SDK](sdks/python.md)
+* [TypeScript SDK](sdks/typescript.md)
+* [Go SDK](sdks/go.md)
 
 ## API Reference
 
