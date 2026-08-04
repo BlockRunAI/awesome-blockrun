@@ -113,7 +113,7 @@ POST /api/v1/audio/sound-effects
 | `prompt_influence` | number | No | 0–1, how strictly to follow the prompt |
 | `response_format` | string | No | `mp3` (default), `opus`, `pcm`, `wav` |
 
-Flat price: **$0.052 / generation** (+5% fee).
+Flat price: **$0.0535 / generation** ($0.05 base + 5% margin + the $0.001 transaction fee).
 
 ## Voices (free)
 

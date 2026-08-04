@@ -293,7 +293,7 @@ tts = SpeechClient()
 res = tts.generate("Hello from BlockRun!", model="elevenlabs/flash-v2.5", voice="sarah", response_format="mp3", speed=1.0)
 print(res.data[0].url)
 
-# Sound effects (flat $0.052/generation)
+# Sound effects (flat $0.0535/generation)
 sfx = tts.sound_effect("rain on a tin roof", duration_seconds=6.0)
 
 voices = tts.list_voices()  # free, 60 req/min/IP
@@ -342,7 +342,7 @@ ranking = surf.call("market/ranking", params={"limit": 20})   # auto GET/POST fr
 catalog = surf.endpoints()                                     # static: every path + tier + price
 ```
 
-Tiers: T1 `$0.0095` (reads/lists), T2 `$0.0095` (AI rankings/trends/search), T3 `$0.0095` (heavy LLM + on-chain SQL). Use `surf.get(path, params)` / `surf.post(path, body)` for explicit verbs.
+Tiers: T1 `$0.0085` (reads/lists), T2 `$0.0085` (AI rankings/trends/search), T3 `$0.0085` (heavy LLM + on-chain SQL). Use `surf.get(path, params)` / `surf.post(path, body)` for explicit verbs.
 
 #### `RpcClient` — multi-chain JSON-RPC
 
@@ -350,10 +350,10 @@ Tiers: T1 `$0.0095` (reads/lists), T2 `$0.0095` (AI rankings/trends/search), T3 
 from blockrun_llm import RpcClient
 
 rpc = RpcClient()
-res = rpc.call("ethereum", "eth_blockNumber")          # $0.004/call
+res = rpc.call("ethereum", "eth_blockNumber")          # $0.003/call
 print(int(res.result, 16), "cache_hit:", res.cache_hit)
 
-# JSON-RPC 2.0 batch — billed $0.004 × N
+# JSON-RPC 2.0 batch — billed $0.003 x N
 batch = rpc.batch("polygon", [{"method": "eth_blockNumber"}, {"method": "eth_gasPrice"}])
 ```
 
@@ -367,8 +367,8 @@ Networks accept names or aliases: `ethereum`/`eth`, `base`, `arbitrum`/`arb`, `o
 from blockrun_llm import PhoneClient
 
 phone = PhoneClient()
-info  = phone.lookup("+14155552671")          # $0.012 — carrier + line type
-fraud = phone.lookup_fraud("+14155552671")    # $0.052 — + SIM-swap / call-forwarding signals
+info  = phone.lookup("+14155552671")          # $0.011 - carrier + line type
+fraud = phone.lookup_fraud("+14155552671")    # $0.051 - + SIM-swap / call-forwarding signals
 num   = phone.buy_number(country="US", area_code="415")  # $5 / 30 days (settles after Twilio confirms)
 phone.renew_number(num["phone_number"])       # $5 / +30 days
 phone.list_numbers()                          # $0.003
@@ -392,19 +392,19 @@ print(call["call_id"])
 status = voice.get_status(call["call_id"])   # free; transcript + recording_url once completed
 ```
 
-`$0.542`/call. `from_` is auto-picked if your wallet owns exactly one provisioned number (see `PhoneClient.buy_number`).
+`$0.541`/call. `from_` is auto-picked if your wallet owns exactly one provisioned number (see `PhoneClient.buy_number`).
 
 #### `PortraitClient` & `RealFaceClient` — `ta_…` identity assets for video
 
 ```python
 from blockrun_llm import PortraitClient, RealFaceClient
 
-# Virtual Portrait — AI character, no KYC, $0.012 one-time
+# Virtual Portrait — AI character, no KYC, $0.011 one-time
 portrait = PortraitClient()
 p = portrait.enroll("My Spokesperson", "https://example.com/character.jpg")
 print(p.asset_id)   # ta_xxxxxxxx → pass to VideoClient(real_face_asset_id=...)
 
-# RealFace — real person, requires on-phone liveness check, $0.012
+# RealFace — real person, requires on-phone liveness check, $0.011
 rf = RealFaceClient()
 init = rf.init("Jane Doe")            # render init.h5_link as a QR for the subject
 rf.wait_for_active(init.group_id)     # blocks until liveness passes (default 180s)
@@ -437,11 +437,18 @@ print(client.onramp())         # Coinbase on-ramp link
 
 ## Prediction Markets (Powered by Predexon)
 
-Access real-time prediction market data from Polymarket, Kalshi, dFlow, Binance, and more via [Predexon](https://predexon.com). No API keys needed — pay-per-request via x402.
+Access real-time prediction market data from Polymarket, Kalshi, Limitless, Opinion, Predict.Fun and Binance via [Predexon](https://predexon.com). No API keys needed — pay-per-request via x402.
+
+> **Retired upstream.** `pm_markets` / `pm_listings` / `pm_outcome` (and
+> `matching-markets`) hit endpoints Predexon sunset on 2026-07-20 — they return
+> `410`. The dFlow endpoints return `404`; that category is gone. Use
+> `markets/search` for cross-venue lookups. `sports/*` is returning an upstream
+> `500` as of 2026-08-04 and is withheld from discovery until it recovers.
+
 
 ### `pm(path, **params)`
 
-Query prediction market GET endpoints. $0.0095 per request.
+Query prediction market GET endpoints. $0.0085 per request.
 
 ```python
 from blockrun_llm import LLMClient
@@ -497,7 +504,7 @@ results = client.pm("markets/search", q="Fed rate")
 Structured query for prediction market POST endpoints. Used for bulk wallet identity lookup and any future POST endpoints.
 
 ```python
-# Bulk wallet identity lookup ($0.0095)
+# Bulk wallet identity lookup ($0.0085)
 batch = client.pm_query("polymarket/wallet/identities", {
     "addresses": ["0xabc...", "0xdef...", "0x123..."],  # up to 200
 })
@@ -517,18 +524,12 @@ batch = client.pm_query("polymarket/wallet/identities", {
 Thin wrappers over `pm()` / `pm_query()` for the most common v2 endpoints. Each forwards keyword arguments as query parameters.
 
 ```python
-# Canonical cross-venue markets (Tier 1)
-markets   = client.pm_markets(venue="polymarket", status="active")
-listings  = client.pm_listings(category="elections")
-outcome   = client.pm_outcome("PXM-12345")
+# Cross-venue search (Tier 2)
+found     = client.pm("markets/search", q="bitcoin 2026")
 
 # Polymarket keyset pagination (Tier 1)
 page      = client.pm_polymarket_markets_keyset(limit="100")
 next_page = client.pm_polymarket_events_keyset(pagination_key=page["pagination"]["next_key"])
-
-# Sports markets (Tier 1)
-categories = client.pm_sports_categories()
-games      = client.pm_sports_markets(league="NBA", status="open")
 
 # Wallet identity & on-chain clustering (Tier 2)
 ident   = client.pm_wallet_identity("0xabc...")
@@ -543,7 +544,6 @@ cluster = client.pm_wallet_cluster("0xabc...")
 | Polymarket | Markets, Events, Trades, Candlesticks (market + token), Orderbooks, Prices, Volume, Open Interest, Activity, Positions, Leaderboards, Cohort Stats, Top Holders, Wallet Analytics, Smart Money, Wallet Identity & Clustering |
 | UMA Oracle | Resolution questions, status, event timeline (Polymarket markets) |
 | Kalshi | Markets, Trades, Orderbooks |
-| dFlow | Trades, Wallet Positions, Wallet P&L |
 | Binance Futures | Candles, Ticks |
 | Limitless | Markets, Orderbooks |
 | Opinion | Markets, Orderbooks |

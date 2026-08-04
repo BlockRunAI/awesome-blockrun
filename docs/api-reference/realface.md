@@ -8,18 +8,18 @@ description: Enroll a real person's face (no KYC, ~1-min on-phone liveness) as a
 Enroll a real person's face as a `ta_xxxxxxxx` asset you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0-fast call. Use this when you want **a real person to appear consistently across multiple videos** (talking head, spokesperson, character continuity).
 
 :::note{title="No KYC required"}
-No government ID, no account login, no name verification. Just a brief on-phone liveness check (nod + blink, ~1 minute) that proves the person enrolling is the same as the person in the photo. The biometric data is processed by the upstream identity service — BlockRun never sees it. For purely AI-generated characters (no real person involved), use [Virtual Portrait](virtual-portrait.md) instead ($0.012, no liveness step).
+No government ID, no account login, no name verification. Just a brief on-phone liveness check (nod + blink, ~1 minute) that proves the person enrolling is the same as the person in the photo. The biometric data is processed by the upstream identity service — BlockRun never sees it. For purely AI-generated characters (no real person involved), use [Virtual Portrait](virtual-portrait.md) instead ($0.011, no liveness step).
 :::
 
 | | |
 |---|---|
-| **Endpoints** | `POST /v1/realface/init` (free, returns h5Link) · `POST /v1/realface/enroll` ($0.012 USDC, finalizes) · `GET /v1/realface/status?groupId=…` (free polling) |
-| **Price** | **$0.012 USDC** per enrollment, one-time, settled to BlockRun's Base wallet via x402 |
+| **Endpoints** | `POST /v1/realface/init` (free, returns h5Link) · `POST /v1/realface/enroll` ($0.011 USDC, finalizes) · `GET /v1/realface/status?groupId=…` (free polling) |
+| **Price** | **$0.011 USDC** per enrollment, one-time, settled to BlockRun's Base wallet via x402 |
 | **Auth** | x402 micropayment header on finalize — no API key needed |
 | **Network** | Base (USDC, EIP-3009 `exact`) |
 | **Returns** | `ta_xxxxxxxx…` asset id, usable as `real_face_asset_id` on Seedance 2.0 / 2.0-fast |
 
-You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/studio/realface) — connect wallet, paste image URL, get QR for the rights-holder to scan, pay $0.012, copy the `ta_xxx`. The endpoints below are for SDK / programmatic use.
+You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/studio/realface) — connect wallet, paste image URL, get QR for the rights-holder to scan, pay $0.011, copy the `ta_xxx`. The endpoints below are for SDK / programmatic use.
 
 ## Flow
 
@@ -40,7 +40,7 @@ You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/stud
     →    ... (after H5 completes)
     →    { status: "active", ready_to_finalize: true }
 
-[4] POST /v1/realface/enroll                     — PAID ($0.012 USDC)
+[4] POST /v1/realface/enroll                     — PAID ($0.011 USDC)
     body: { "name": "...", "image_url": "https://...", "group_id": "..." }
     headers: { "x-payment": "<x402 base64>" }
     →    { asset_id: "ta_…", group_id: "...", ... }
@@ -156,7 +156,7 @@ When `status` transitions to `"active"` (and `ready_to_finalize: true`), the rig
 Poll every 3-5 seconds. Free but rate-limited (same bucket as wallet reconciliation, 20/hour/IP).
 :::
 
-:::step{title="Finalize (PAID, $0.012 USDC)"}
+:::step{title="Finalize (PAID, $0.011 USDC)"}
 
 ```
 POST https://blockrun.ai/api/v1/realface/enroll
@@ -183,7 +183,7 @@ POST https://blockrun.ai/api/v1/realface/enroll
 Same two-step pattern as other paid BlockRun endpoints:
 
 1. First call without `X-Payment` → server returns `402 Payment Required` with x402 challenge headers
-2. Sign the EIP-3009 transfer authorization for **$0.012 USDC on Base**
+2. Sign the EIP-3009 transfer authorization for **$0.011 USDC on Base**
 3. Retry the same request with `X-Payment: <base64>`
 
 Settlement happens **after** the upstream face-match succeeds. Failure modes that do NOT settle:
@@ -289,7 +289,7 @@ The video playground reads this same list and shows it in the `real_face_asset_i
 | | Virtual Portrait | RealFace |
 |---|---|---|
 | Asset target | AI-generated character | Real person |
-| Price | $0.012 USDC | $0.012 USDC |
+| Price | $0.011 USDC | $0.011 USDC |
 | Liveness check | Not required | Required (~1 minute on phone) |
 | Upstream verification | None | Biometric match against H5 live face |
 | KYC / government ID | Not required | Not required |
@@ -304,7 +304,7 @@ Pass the `ta_xxx` you just enrolled as `real_face_asset_id` on a Seedance 2.0 / 
 :::
 
 :::card{title="Virtual Portrait" href="virtual-portrait.md" icon="Boxes"}
-The zero-liveness option for AI-generated characters — same `ta_xxx` mechanic, $0.012.
+The zero-liveness option for AI-generated characters — same `ta_xxx` mechanic, $0.011.
 :::
 
 :::card{title="x402 Payment Flow" href="../x402/payment-flow.md" icon="Zap"}

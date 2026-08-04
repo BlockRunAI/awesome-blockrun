@@ -1,13 +1,13 @@
 ---
 title: Prediction Markets API
-description: Real-time prediction market data across Polymarket, Kalshi, and more — plus wallet identity, clustering, and sports markets, paid per call in USDC over x402.
+description: Real-time prediction market data across Polymarket, Kalshi, and more — plus wallet identity and clustering, paid per call in USDC over x402.
 ---
 
 # Prediction Markets API
 
 Access real-time prediction market data via x402 micropayments. Powered by [Predexon](https://predexon.com).
 
-Unified access to Polymarket, Kalshi, dFlow, Binance, Limitless, Opinion, Predict.Fun, sports markets, plus UMA Oracle resolution data, canonical cross-venue market IDs, and on-chain wallet identity & clustering — all through a single API.
+Unified access to Polymarket, Kalshi, Binance, Limitless, Opinion and Predict.Fun, plus UMA Oracle resolution data and on-chain wallet identity & clustering — all through a single API.
 
 :::note
 Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — read-only market data. To move funds, see the [Polymarket Funding API](polymarket-funding.md) (gasless, non-custodial deposit). Predexon's separate order-placement Trading API is not exposed.
@@ -24,14 +24,14 @@ Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — r
 
 | Tier | Price | Use Case |
 |------|-------|----------|
-| Tier 1 | $0.0095 | Market data, events, trades, orderbooks, positions, leaderboards, sports markets, canonical cross-venue markets |
-| Tier 2 | $0.0095 | Wallet analytics (incl. identity + clustering), smart money, cross-platform matching, Binance data |
+| Tier 1 | $0.0085 | Market data, events, trades, orderbooks, positions, leaderboards |
+| Tier 2 | $0.0085 | Wallet analytics (incl. identity + clustering), smart money, cross-venue search, Binance data |
 
 ---
 
 ## Endpoints
 
-### Polymarket — Market Data (Tier 1: $0.0095)
+### Polymarket — Market Data (Tier 1: $0.0085)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -51,7 +51,7 @@ Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — r
 | `/api/v1/pm/polymarket/markets/{condition_id}/open_interest` | GET | Get historical open interest |
 | `/api/v1/pm/polymarket/positions` | GET | Fetch all user positions |
 
-### Polymarket — Analytics (Tier 1: $0.0095)
+### Polymarket — Analytics (Tier 1: $0.0085)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -60,7 +60,7 @@ Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — r
 | `/api/v1/pm/polymarket/cohorts/stats` | GET | Compare performance across trading style cohorts |
 | `/api/v1/pm/polymarket/market/{condition_id}/top-holders` | GET | Top holders ranked by position size |
 
-### Polymarket — Wallet Analytics (Tier 2: $0.0095)
+### Polymarket — Wallet Analytics (Tier 2: $0.0085)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -73,21 +73,21 @@ Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — r
 | `/api/v1/pm/polymarket/wallets/profiles` | GET | Batch wallet profiles (max 20) |
 | `/api/v1/pm/polymarket/wallets/filter` | GET | Filter wallets by market trades |
 
-### Polymarket — Smart Money (Tier 2: $0.0095)
+### Polymarket — Smart Money (Tier 2: $0.0085)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/v1/pm/polymarket/market/{condition_id}/smart-money` | GET | Smart money positioning on a market |
 | `/api/v1/pm/polymarket/markets/smart-activity` | GET | Markets where top wallets are active |
 
-### UMA Oracle — Polymarket Resolution (Tier 1: $0.0095)
+### UMA Oracle — Polymarket Resolution (Tier 1: $0.0085)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/v1/pm/polymarket/uma/markets` | GET | List UMA oracle questions filtered by state (proposed, disputed, resolved, …) |
 | `/api/v1/pm/polymarket/uma/market/{condition_id}` | GET | Current UMA oracle status and event timeline for a single market |
 
-### Wallet Identity & Clustering (Tier 2: $0.0095)
+### Wallet Identity & Clustering (Tier 2: $0.0085)
 
 Cross-context wallet labels and on-chain relationship graph data.
 
@@ -97,7 +97,7 @@ Cross-context wallet labels and on-chain relationship graph data.
 | `/api/v1/pm/polymarket/wallet/identities` | POST | Bulk identity lookup — body `{"addresses":[...]}` (up to 200 addresses) |
 | `/api/v1/pm/polymarket/wallet/{address}/cluster` | GET | Wallets connected to a seed address via on-chain transfers and identity proofs |
 
-### Kalshi (Tier 1: $0.0095)
+### Kalshi (Tier 1: $0.0085)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -105,49 +105,32 @@ Cross-context wallet labels and on-chain relationship graph data.
 | `/api/v1/pm/kalshi/trades` | GET | Fetch historical trade data |
 | `/api/v1/pm/kalshi/orderbooks` | GET | Fetch historical orderbook snapshots |
 
-### dFlow
-
-| Endpoint | Method | Price | Description |
-|----------|--------|-------|-------------|
-| `/api/v1/pm/dflow/trades` | GET | $0.0095 | Fetch trade history for a wallet |
-| `/api/v1/pm/dflow/wallet/positions/{wallet}` | GET | $0.0095 | Current positions for a wallet |
-| `/api/v1/pm/dflow/wallet/pnl/{wallet}` | GET | $0.0095 | Realized P&L history for a wallet |
-
-### Binance (Tier 2: $0.0095)
+### Binance (Tier 2: $0.0085)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/v1/pm/binance/candles/{symbol}` | GET | OHLCV candlestick data (BTCUSDT, ETHUSDT, SOLUSDT, XRPUSDT) |
 | `/api/v1/pm/binance/ticks/{symbol}` | GET | Raw book ticker data at microsecond granularity |
 
-### Cross-Venue Canonical Markets (Tier 1: $0.0095)
-
-Predexon v2 unified data layer — canonical Predexon IDs across all venues.
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/v1/pm/markets` | GET | List canonical market/question containers with cross-venue Predexon IDs |
-| `/api/v1/pm/markets/listings` | GET | List venue-native executable listings flattened across canonical markets |
-| `/api/v1/pm/outcomes/{predexon_id}` | GET | Resolve a canonical Predexon outcome ID to its market context and venue listings |
-
-### Cross-Platform Search (Tier 2: $0.0095)
+### Cross-Platform Search (Tier 2: $0.0085)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/api/v1/pm/markets/search` | GET | Search markets across Polymarket, Kalshi, Limitless, Opinion, and Predict.Fun in a single call |
 
-> `matching-markets` and `matching-markets/pairs` were retired on 2026-07-20 (upstream discontinued market matching). Use the canonical `markets` / `markets/listings` endpoints for cross-venue equivalence.
+> **Retired 2026-07-20.** Predexon discontinued market matching, and the whole
+> canonical layer went with it: `matching-markets`, `matching-markets/pairs`,
+> `markets`, `markets/listings` and `outcomes/{predexon_id}` all return `410`.
+> `markets/search` above is the surviving cross-venue endpoint.
 
-### Sports Markets (Tier 1: $0.0095)
+### Sports Markets — temporarily unavailable
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/v1/pm/sports/categories` | GET | List available sports categories, sports, and leagues |
-| `/api/v1/pm/sports/markets` | GET | List sports markets grouped by game (filter by `sport`, `league`, `game_date`, etc.) |
-| `/api/v1/pm/sports/markets/{game_id}` | GET | Get a single sports game with all venue outcomes |
-| `/api/v1/pm/sports/outcomes/{predexon_id}` | GET | Find all equivalent sports outcomes across venues for a Predexon ID |
+`/api/v1/pm/sports/*` is returning an upstream `500` as of 2026-08-04 and is
+withheld from discovery until Predexon restores it. The routes still resolve, so
+existing integrations keep working the moment upstream recovers; new ones should
+not build on it yet.
 
-### Other Platforms (Tier 1: $0.0095)
+### Other Platforms (Tier 1: $0.0085)
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -279,18 +262,19 @@ curl -X POST "https://blockrun.ai/api/v1/pm/polymarket/wallet/identities" \
 
 ---
 
-## Example: Sports Markets
+## Example: Cross-Venue Search
 
 ```
-GET https://blockrun.ai/api/v1/pm/sports/markets
+GET https://blockrun.ai/api/v1/pm/markets/search
 ```
 
 ```bash
-curl "https://blockrun.ai/api/v1/pm/sports/markets?league=mlb&status=open&limit=10"
-curl "https://blockrun.ai/api/v1/pm/sports/markets/mlb-laa-nym-2026-05-02"
+curl "https://blockrun.ai/api/v1/pm/markets/search?q=bitcoin%202026"
+curl "https://blockrun.ai/api/v1/pm/markets/search?q=election&platform=kalshi"
 ```
 
-Returns sports games grouped with all venue outcomes (Kalshi, Polymarket, etc.) attached.
+Searches Polymarket, Kalshi, Limitless, Opinion and Predict.Fun in one call.
+`q` is required — omitting it returns `422`.
 
 ---
 
@@ -304,32 +288,28 @@ from blockrun_llm import LLMClient
 
 client = LLMClient()
 
-# Market data ($0.0095)
+# Market data ($0.0085)
 markets = client.pm("polymarket/markets", search="bitcoin", limit=10)
 events = client.pm("polymarket/events")
 trades = client.pm("kalshi/trades")
 
-# Wallet analytics ($0.0095)
+# Wallet analytics ($0.0085)
 profile = client.pm("polymarket/wallet/0x1234...abcd")
 pnl = client.pm("polymarket/wallet/pnl/0x1234...abcd")
 
-# Canonical cross-venue markets ($0.0095)
-canonical = client.pm("markets", venue="polymarket", limit=20)
-listings = client.pm("markets/listings", league="mlb")
+# Cross-venue search ($0.0085)
+found = client.pm("markets/search", q="bitcoin 2026")
 
-# Sports ($0.0095)
-games = client.pm("sports/markets", league="mlb", status="open")
-
-# Wallet identity (single, $0.0095)
+# Wallet identity (single, $0.0085)
 identity = client.pm("polymarket/wallet/identity/0x1234...abcd")
 
-# Wallet identity (bulk, POST, $0.0095)
+# Wallet identity (bulk, POST, $0.0085)
 identities = client.pm_query(
     "polymarket/wallet/identities",
     {"addresses": ["0x1234...abcd", "0x5678...ef01"]},
 )
 
-# Binance ($0.0095)
+# Binance ($0.0085)
 candles = client.pm("binance/candles/BTCUSDT", interval="1h", limit=24)
 ```
 :::
@@ -340,24 +320,23 @@ import { LLMClient } from "blockrun-llm";
 
 const client = new LLMClient();
 
-// Market data ($0.0095)
+// Market data ($0.0085)
 const markets = await client.pm("polymarket/markets", { search: "bitcoin", limit: "10" });
 const events = await client.pm("polymarket/events");
 
-// Wallet analytics ($0.0095)
+// Wallet analytics ($0.0085)
 const profile = await client.pm("polymarket/wallet/0x1234...abcd");
 const identity = await client.pm("polymarket/wallet/identity/0x1234...abcd");
 
-// Bulk wallet identity (POST, $0.0095)
+// Bulk wallet identity (POST, $0.0085)
 const identities = await client.pmQuery("polymarket/wallet/identities", {
   addresses: ["0x1234...abcd", "0x5678...ef01"],
 });
 
-// Canonical cross-venue markets + sports ($0.0095)
-const canonical = await client.pm("markets", { venue: "polymarket", limit: "20" });
-const games = await client.pm("sports/markets", { league: "mlb", status: "open" });
+// Cross-venue search ($0.0085)
+const found = await client.pm("markets/search", { q: "bitcoin 2026" });
 
-// Binance ($0.0095)
+// Binance ($0.0085)
 const candles = await client.pm("binance/candles/BTCUSDT", { interval: "1h", limit: "24" });
 ```
 :::

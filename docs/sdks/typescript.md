@@ -299,18 +299,25 @@ const news   = await search.search('agent payments', { sources: ['web', 'news'],
 const px     = new PriceClient();
 const btc    = await px.price('crypto', 'BTC-USD');
 const rpc    = new RpcClient();
-const block  = await rpc.call('ethereum', 'eth_blockNumber');   // $0.004/call
+const block  = await rpc.call('ethereum', 'eth_blockNumber');   // $0.003/call
 ```
 
 The full method surface mirrors the Python SDK (see the [Python](python.md) page for per-method params, pricing tiers, and `ta_…` identity assets); the only differences are camelCase options and `Promise` returns.
 
 ## Prediction Markets (Powered by Predexon)
 
-Access real-time prediction market data from Polymarket, Kalshi, dFlow, Binance, and more via [Predexon](https://predexon.com). No API keys needed — pay-per-request via x402.
+Access real-time prediction market data from Polymarket, Kalshi, Limitless, Opinion, Predict.Fun and Binance via [Predexon](https://predexon.com). No API keys needed — pay-per-request via x402.
+
+> **Retired upstream.** `pmMarkets` / `pmListings` / `pmOutcome` (and
+> `matching-markets`) hit endpoints Predexon sunset on 2026-07-20 — they return
+> `410`. The dFlow endpoints return `404`; that category is gone. Use
+> `markets/search` for cross-venue lookups. `sports/*` is returning an upstream
+> `500` as of 2026-08-04 and is withheld from discovery until it recovers.
+
 
 ### `pm(path, params?)`
 
-Query prediction market GET endpoints. $0.0095 per request.
+Query prediction market GET endpoints. $0.0085 per request.
 
 ```typescript
 import { LLMClient } from '@blockrun/llm';
@@ -366,7 +373,7 @@ const results = await client.pm("markets/search", { q: "Fed rate" });
 Structured query for prediction market POST endpoints. Used for bulk wallet identity lookup and any future POST endpoints.
 
 ```typescript
-// Bulk wallet identity lookup ($0.0095)
+// Bulk wallet identity lookup ($0.0085)
 const batch = await client.pmQuery("polymarket/wallet/identities", {
   addresses: ["0xabc...", "0xdef...", "0x123..."],  // up to 200
 });
@@ -397,10 +404,6 @@ const nextPage  = await client.pmPolymarketEventsKeyset({
   pagination_key: (page.pagination as Record<string, string>).next_key,
 });
 
-// Sports markets (Tier 1)
-const categories = await client.pmSportsCategories();
-const games      = await client.pmSportsMarkets({ league: "NBA", status: "open" });
-
 // Wallet identity & on-chain clustering (Tier 2)
 const ident   = await client.pmWalletIdentity("0xabc...");
 const batch   = await client.pmWalletIdentities(["0xabc...", "0xdef..."]);  // up to 200
@@ -414,7 +417,6 @@ const cluster = await client.pmWalletCluster("0xabc...");
 | Polymarket | Markets, Events, Trades, Candlesticks (market + token), Orderbooks, Prices, Volume, Open Interest, Activity, Positions, Leaderboards, Cohort Stats, Top Holders, Wallet Analytics, Smart Money, Wallet Identity & Clustering |
 | UMA Oracle | Resolution questions, status, event timeline (Polymarket markets) |
 | Kalshi | Markets, Trades, Orderbooks |
-| dFlow | Trades, Wallet Positions, Wallet P&L |
 | Binance Futures | Candles, Ticks |
 | Limitless | Markets, Orderbooks |
 | Opinion | Markets, Orderbooks |

@@ -24,19 +24,24 @@ Projects, integrations, and partners building with BlockRun and x402.
 | **Image Generation** | `/v1/images/generations` | $0.015–0.10/image | ✅ Live |
 | **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
 | **Video Generation** | `/v1/videos/generations` | Per M tokens | ✅ Live |
-| **Music Generation** | `/v1/audio/generations` | $0.15/track | ✅ Live |
+| **Music Generation** | `/v1/audio/generations` | $0.151/track | ✅ Live |
 | **Text-to-Speech** | `/v1/audio/speech` | $0.05–0.10/1k chars | ✅ Live |
-| **Sound Effects** | `/v1/audio/sound-effects` | $0.052/generation | ✅ Live |
-| **Voice Calls** | `/v1/voice/call` | $0.542 flat | ✅ Live |
-| **Phone Numbers** | `/v1/phone/numbers/*` | $5/30 days | ✅ Live |
-| **Surf Crypto Data** | `/api/v1/surf/*` (83 endpoints) | $0.0095 | ✅ Live |
-| **Search** | `/v1/search` | $0.025/source | ✅ Live |
-| **Exa Web Search** | `/api/v1/exa/*` | $0.002–0.012 | ✅ Live |
+| **Sound Effects** | `/v1/audio/sound-effects` | $0.0535/generation | ✅ Live |
+| **Voice Calls** | `/v1/voice/call` | $0.541 flat | ✅ Live |
+| **Phone Numbers** | `/v1/phone/numbers/*` | $5.001/30 days | ✅ Live |
+| **Surf Crypto Data** | `/api/v1/surf/*` (83 endpoints) | $0.0085 | ✅ Live |
+| **Search** | `/v1/search` | $0.026/source | ✅ Live |
+| **Exa Web Search** | `/api/v1/exa/*` | $0.003–0.011 | ✅ Live |
 | **0x Swap (DEX)** | `/api/v1/zerox/*` | Free | ✅ Live |
-| **Multi-chain RPC** | `/api/v1/rpc/{network}` (40 chains) | $0.004/call | ✅ Live |
-| **Prediction Markets** | `/v1/pm/*` | $0.0095 | ✅ Live |
-| **Trading Markets** | `/api/v1/markets/*` | $0.003 | ✅ Live |
-| **Modal Sandbox** | `/v1/modal/*` | $0.003–0.012 | ✅ Live |
+| **Multi-chain RPC** | `/api/v1/rpc/{network}` (40 chains) | $0.003/call | ✅ Live |
+| **Prediction Markets** | `/v1/pm/*` | $0.0085 | ✅ Live |
+| **DefiLlama** | `/api/v1/defillama/*` | $0.002–0.006 | ✅ Live |
+| **Market Data (Pyth)** | `/v1/{crypto,fx,commodity}/*` | Free | ✅ Live |
+| **Equity Prices (Pyth)** | `/v1/{usstock,stocks}/*` | $0.0010 | ✅ Live |
+| **RealFace Enrollment** | `/v1/realface/enroll` | $0.011 | ✅ Live |
+| **Virtual Portrait** | `/v1/portrait/enroll` | $0.011 | ✅ Live |
+| **Polymarket Funding** | `/v1/polymarket/fund` | $0.011 fee | ✅ Live |
+| **Modal Sandbox** | `/v1/modal/*` | $0.002–0.011 | ✅ Live |
 | **Models** | `/v1/models` | Free | ✅ Live |
 | **Pricing** | `/v1/pricing` | Free | ✅ Live |
 | **Balance** | `/v1/balance` | Free | ✅ Live |
