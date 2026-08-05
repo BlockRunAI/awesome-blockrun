@@ -5,7 +5,7 @@ description: Best-execution DEX aggregation for AI agents — a free public pass
 
 # 0x Swap (DEX)
 
-Best-execution DEX aggregation for AI agents. BlockRun proxies the [0x V2 Swap API](https://docs.0x.org/0x-swap-api/introduction) — Permit2 swaps and Gasless V2 — as a **free public passthrough**. No API key required from the caller. No x402 payment.
+Best-execution DEX aggregation for AI agents. BlockRun proxies the [0x V2 Swap API](https://docs.0x.org/evm/0x-swap-api/introduction) — Permit2 swaps and Gasless V2 — as a **free public passthrough**. No API key required from the caller. No x402 payment.
 
 BlockRun monetizes via the upstream **0x affiliate program**: a fixed **20 bps** (0.20%) fee, taken in the `sellToken` at swap settlement and routed to the BlockRun treasury on-chain. The fee is paid out by 0x at trade time, not by your end user beyond the spread.
 
@@ -45,7 +45,7 @@ BlockRun force-sets `swapFeeRecipient`, `swapFeeBps=20`, and `swapFeeToken=<sell
 | Settlement | On-chain at swap time (no batching, no minimum) |
 | Cap (per 0x) | 1000 bps default ceiling — we charge 20 bps, well below |
 
-Per the [0x monetization guide](https://docs.0x.org/docs/0x-swap-api/guides/monetize-your-app-using-swap), integrators should disclose the affiliate fee to end users. Suggested copy:
+Per the [0x monetization guide](https://docs.0x.org/evm/0x-swap-api/guides/monetize-your-app-using-swap), integrators should disclose the affiliate fee to end users. Suggested copy:
 
 > "Routed via BlockRun (DEX aggregator: 0x). 0.20% affiliate fee included in the quote, paid in your sell token."
 
@@ -98,7 +98,7 @@ The fee math is `(20 / 10000) * sellAmount` in the sell-token's smallest unit. F
 :::step{title="Sign and submit"}
 Sign `permit2.eip712` with the taker wallet, append the signature to `transaction.data` per the 0x Permit2 contract ABI, and broadcast `transaction`. Your caller pays gas. The 20 bps is settled to BlockRun in the same transaction.
 
-For end-to-end signing examples in TypeScript/viem and Python/web3.py, see the [0x Permit2 quickstart](https://docs.0x.org/0x-swap-api/guides/swap-tokens-with-0x-swap-api).
+For end-to-end signing examples in TypeScript/viem and Python/web3.py, see the [0x Permit2 quickstart](https://docs.0x.org/evm/0x-swap-api/guides/swap-tokens-with-0x-swap-api).
 :::
 
 ::::
@@ -289,4 +289,4 @@ The gateway-wide error envelope; 0x bodies are passed through verbatim.
 
 ::::
 
-Also useful: [0x Swap API docs](https://docs.0x.org/0x-swap-api/introduction) · [0x monetization guide](https://docs.0x.org/docs/0x-swap-api/guides/monetize-your-app-using-swap) · [Permit2 quickstart](https://docs.0x.org/0x-swap-api/guides/swap-tokens-with-0x-swap-api) · [Gasless V2 docs](https://0x.org/docs/gasless/introduction).
+Also useful: [0x Swap API docs](https://docs.0x.org/evm/0x-swap-api/introduction) · [0x monetization guide](https://docs.0x.org/evm/0x-swap-api/guides/monetize-your-app-using-swap) · [Permit2 quickstart](https://docs.0x.org/evm/0x-swap-api/guides/swap-tokens-with-0x-swap-api) · [Gasless V2 docs](https://0x.org/docs/gasless/introduction).
