@@ -10,7 +10,7 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 | **Image Generation** | `/v1/images/generations` | $0.02–0.15/image | ✅ Live |
 | **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
-| **Prediction Markets** | `/v1/pm/*` | $0.0095 | ✅ Live |
+| **Prediction Markets** | `/v1/pm/*` | $0.0085 | ✅ Live |
 | **Models** | `/v1/models` | Free | ✅ Live |
 | **Pricing** | `/v1/pricing` | Free | ✅ Live |
 | **Balance** | `/v1/balance` | Free | ✅ Live |
@@ -45,7 +45,7 @@ BlockRun works with the x402 facilitator network:
 | [Coinbase CDP](https://coinbase.com/cloud) | x402 facilitator infrastructure |
 | [x402 Foundation](https://x402.org) | Protocol development |
 | [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
-| [Predexon](https://predexon.com) | Prediction market data (Polymarket, Kalshi, dFlow, Binance) |
+| [Predexon](https://predexon.com) | Prediction market data (Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance) |
 | [Modal](https://modal.com) | Sandbox compute (managed Python sandboxes for isolated code execution) |
 
 ## Community Integrations
@@ -115,7 +115,6 @@ BlockRun routes to these AI providers via x402:
 | Model | Price per image |
 |-------|----------------|
 | OpenAI GPT Image 1 | $0.02–0.04 |
-| OpenAI DALL-E 3 | $0.04–0.08 |
 | Nano Banana | $0.05 |
 | Nano Banana Pro | $0.10–0.15 |
 
