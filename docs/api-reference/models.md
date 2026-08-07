@@ -220,9 +220,10 @@ Seedance defaults to **720p with synced audio** for text-to-video; pass `resolut
 | Model ID | Name | Price (5s 720p default) | Max duration |
 |----------|------|--------------------------|--------------|
 | `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec (8s = $0.42) | 15s |
-| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | ~$0.098/sec ($0.49 / 5s clip) | 12s |
-| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.255/sec ($1.27 / 5s clip) | 15s |
-| `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.319/sec ($1.59 / 5s clip) | 15s |
+| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | ~$0.070/sec ($0.35 / 5s clip) | 12s |
+| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.165/sec ($0.83 / 5s clip) | 15s |
+| `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.227/sec ($1.14 / 5s clip) | 15s |
+| `bytedance/seedance-2.5` | Seedance 2.5 | ~$0.315/sec ($1.58 / 5s clip) | 30s |
 | `azure/sora-2` | Sora 2 | $0.10/sec (4s = $0.42) | 12s |
 
 For character consistency across multiple Seedance videos, enroll a [Virtual Portrait](virtual-portrait.md) ($0.011 one-time, no KYC) for AI characters, or a [RealFace](realface.md) ($0.011 one-time, no KYC, requires brief on-phone liveness check) for real people. Pass the returned `ta_xxx` as `real_face_asset_id`.

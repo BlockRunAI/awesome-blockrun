@@ -72,12 +72,13 @@ The TypeScript `VideoClient` and the local ClawRouter proxy run the submit+poll 
 | `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | default 5, max 12 | 720p (default) | ✅ | ✅ (t2v) | ❌ |
 | `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | default 5, max 15 | 720p (default) | ✅ | ✅ (t2v) | ✅ |
 | `bytedance/seedance-2.0` (Pro) | Seedance 2.0 Pro | default 5, max 15 | 720p (default), up to **4K** | ✅ | ✅ (t2v) | ✅ |
+| `bytedance/seedance-2.5` | Seedance 2.5 | default 5, **max 30** | 720p (ceiling) | ✅ | ✅ (t2v) | ❌ |
 
 Notes:
 
 - **Sora 2** accepts only `duration_seconds` of **4, 8, or 12** — any other value returns `400` listing the allowed set. Text-to-video only (no `image_url`). Output is 720p with synchronized audio, portrait or landscape.
 - **Grok Imagine** accepts `duration_seconds` from **1 to 15** (default 8); it accepts an optional `image_url` and ignores the Seedance-only tuning params (`resolution`, `aspect_ratio`, `generate_audio`, etc.).
-- **Seedance** supports a default of 5s and a per-tier maximum — **`seedance-2.0` / `seedance-2.0-fast` allow up to 15s, `seedance-1.5-pro` up to 12s** (the gateway returns `400` for a `duration_seconds` above the tier max). The gateway bumps the default to **720p** and sets `generate_audio` per the t2v/i2v split below. Only Seedance **2.0** / **2.0-fast** accept a `real_face_asset_id` (`ta_xxxx`) for character/identity consistency, multiple reference images, and reference video/audio (r2v). `seedance-2.0-fast` finishes in ~60–80s; `seedance-2.0` (Pro) is higher quality and slower.
+- **Seedance** supports a default of 5s and a per-tier maximum — **`seedance-2.5` allows up to 30s, `seedance-2.0` / `seedance-2.0-fast` up to 15s, `seedance-1.5-pro` up to 12s** (the gateway returns `400` for a `duration_seconds` above the tier max). The gateway bumps the default to **720p** and sets `generate_audio` per the t2v/i2v split below. Only Seedance **2.0** / **2.0-fast** accept a `real_face_asset_id` (`ta_xxxx`) for character/identity consistency, multiple reference images, and reference video/audio (r2v). `seedance-2.5` is text-to-video and image-to-video only: no RealFace, no first/last-frame, no reference media. `seedance-2.0-fast` finishes in ~60–80s; `seedance-2.0` (Pro) is higher quality and slower.
 
 ---
 
@@ -109,7 +110,7 @@ Whether you can seed generation from an image — and how — depends on the sub
 | `reference_audios` | array of `{url}` | No | Reference audios for r2v. Up to 3, each ≤15.2s. **`seedance-2.0` / `seedance-2.0-fast` only.** Adds a token surcharge. Flat `audio_url` is rejected — use this array. |
 | `input_type` | string | No | Optional validated enum: `text` / `image` / `first_last_frame` / `reference`. When supplied it must match the seed fields you actually sent or the request returns a `400`. |
 | `duration_seconds` | integer | No | Duration to bill for. Defaults to the model default. Must respect the model's max (Seedance: 2.0 / 2.0-fast = 15s, 1.5-pro = 12s; Sora 2: the discrete `{4,8,12}` set) or you get a `400`. |
-| `resolution` | string | No | `360p` / `480p` / `540p` / `720p` / `1080p` / `1K`, plus **`4K` on `bytedance/seedance-2.0` only** (real 3840×2160). **Seedance defaults to `720p`**; higher resolutions cost more tokens upstream. On `seedance-1.5-pro` / `seedance-2.0-fast` the max is **`1080p`/`1K`**, and `4K` returns a `400`. `2K` is never offered (not produced upstream). Seedance only. |
+| `resolution` | string | No | `360p` / `480p` / `540p` / `720p` / `1080p` / `1K`, plus **`4K` on `bytedance/seedance-2.0` only** (real 3840×2160). **Seedance defaults to `720p`**; higher resolutions cost more tokens upstream. On `seedance-1.5-pro` / `seedance-2.0-fast` the max is **`1080p`/`1K`**, on `seedance-2.5` the max is **`720p`**, and anything above returns a `400`. `2K` is never offered (not produced upstream). Seedance only. |
 | `aspect_ratio` | string | No | `adaptive` / `16:9` / `9:16` / `1:1` / `4:3` / `3:4` / `21:9` / `9:21`. Seedance only — ignored by Grok. |
 | `generate_audio` | boolean | No | Synced audio track. **Seedance default: `true` for text-to-video, `false` for image/face-conditioned.** Pass explicitly to override. Ignored by Grok. |
 | `seed` | integer | No | Reproducibility seed (Seedance). Same seed + prompt + params ≈ same clip. |
@@ -126,9 +127,10 @@ All prices include the gateway's standard **5% margin** — i.e. these are the a
 |---|---|---|
 | `azure/sora-2` | $0.10 / second (flat) | **4s = $0.42** · **8s = $0.84** · **12s = $1.26** |
 | `xai/grok-imagine-video` | $0.05 / second (flat) | **8s = $0.42** · **15s = $0.79** |
-| `bytedance/seedance-1.5-pro` | Token-metered ($4.32 / M tokens) | **5s ≈ $0.49** · **12s ≈ $1.18** |
-| `bytedance/seedance-2.0-fast` | Token-metered ($11.20 / M tokens) | **5s ≈ $1.28** · **15s ≈ $3.82** |
-| `bytedance/seedance-2.0` (Pro) | Token-metered ($14 / M tokens) | **5s ≈ $1.59** · **15s ≈ $4.78** |
+| `bytedance/seedance-1.5-pro` | Token-metered ($3.108 / M tokens) | **5s ≈ $0.35** · **12s ≈ $0.85** |
+| `bytedance/seedance-2.0-fast` | Token-metered ($7.252 / M tokens) | **5s ≈ $0.83** · **15s ≈ $2.48** |
+| `bytedance/seedance-2.0` (Pro) | Token-metered ($9.9715 / M tokens) | **5s ≈ $1.14** · **15s ≈ $3.41** |
+| `bytedance/seedance-2.5` | Token-metered ($13.8565 / M tokens) | **5s ≈ $1.58** · **30s ≈ $9.47** |
 
 **Seedance token math:** at the 720p default a clip uses **~21,690 tokens/second** (a 5s clip ≈ 108,450 tokens). Price = `duration × 21,690 × resolution-factor × rate-per-M ÷ 1,000,000 × 1.05`. Image-to-video is billed at the **same per-token rate** as text-to-video (no i2v discount). The resolution token factor relative to 720p (=1) is: `360p ×0.3`, `480p ×0.5`, `540p ×0.7`, `720p ×1`, `1080p`/`1K ×2.25`, and `4K ×9` (area-proportional) — so dropping to `480p` halves the per-clip cost and `1080p`/`4K` cost proportionally more. `4K` (real 3840×2160) is available **only on `bytedance/seedance-2.0`**; on `seedance-1.5-pro`/`seedance-2.0-fast` the ceiling is `1080p`/`1K` and `4K` returns a `400`. `2K` is never offered (not produced upstream). Reference video/audio inputs (r2v) add a surcharge: `×(1 + 1.0·#refVideos + 0.3·#refAudios)`. Per-second models (Grok, Sora) ignore resolution and reference surcharges.
 
