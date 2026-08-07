@@ -7,7 +7,7 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 | Product | Endpoint | Pricing | Status |
 |---------|----------|---------|--------|
 | **LLM Chat** | `/v1/chat/completions` | Per token | ✅ Live |
-| **Image Generation** | `/v1/images/generations` | $0.02–0.15/image | ✅ Live |
+| **Image Generation** | `/v1/images/generations` | $0.015–0.15/image | ✅ Live |
 | **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
 | **Prediction Markets** | `/v1/pm/*` | $0.0085 | ✅ Live |
@@ -92,7 +92,7 @@ Want to add an integration? [Open an issue](https://github.com/blockrunai/awesom
 | `free` | Free models only | NVIDIA GPT-OSS 120B/20B |
 | `eco` | Cheapest capable | DeepSeek, Gemini Flash Lite |
 | `auto` | Balanced cost/quality | GPT-5 Mini, Gemini Flash |
-| `premium` | Best quality | Claude Opus 4.6, GPT-5.5 |
+| `premium` | Best quality | Claude Opus 5, GPT-5.6 Sol |
 
 ## AI Providers
 
@@ -100,7 +100,7 @@ BlockRun routes to these AI providers via x402:
 
 | Provider | Models | Input/Output per 1M tokens |
 |----------|--------|---------------------------|
-| OpenAI | GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5.4 Mini, GPT-5 Mini, GPT-5.4 Nano, o1, o1-mini, o3, o3-mini | $0.05–$30.00 / $0.40–$180.00 |
+| OpenAI | GPT-5.6 Sol, GPT-5.6 Terra, GPT-5.6 Luna, GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5.4 Mini, GPT-5 Mini, GPT-5.4 Nano, o1, o3, o3-mini, o4-mini | $0.10–$30.00 / $0.40–$180.00 |
 | Anthropic | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Opus 4.6, Claude Opus 4.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | Google | Gemini 3.1 Pro, Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 3.1 Flash Lite, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
 | DeepSeek | DeepSeek Chat (V3.2), DeepSeek Reasoner | $0.28 / $0.42 |
@@ -115,8 +115,14 @@ BlockRun routes to these AI providers via x402:
 | Model | Price per image |
 |-------|----------------|
 | OpenAI GPT Image 1 | $0.02–0.04 |
+| OpenAI ChatGPT Images 2.0 | $0.06–0.12 |
 | Nano Banana | $0.05 |
+| Nano Banana 2 | $0.09 |
 | Nano Banana Pro | $0.10–0.15 |
+| Grok Imagine | $0.02 |
+| Grok Imagine Pro | $0.07 |
+| Seedream 5.0 Pro | $0.045–0.09 |
+| CogView-4 | $0.015–0.02 |
 
 ---
 
