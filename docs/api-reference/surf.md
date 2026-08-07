@@ -29,7 +29,7 @@ Surf unifies all of it behind one schema, billed per-call in stablecoins. An age
 
 | Category | Endpoints | What it covers |
 |----------|-----------|----------------|
-| **prediction** | 17 | Polymarket + Kalshi + dFlow markets, trades, positions, odds |
+| **prediction** | 17 | Polymarket + Kalshi markets, trades, positions, odds |
 | **social** | 11 | Mindshare, sentiment, KOL coverage, trending tokens on social |
 | **search** | 11 | Project / token / wallet / news search |
 | **market** | 11 | Token rankings, Fear & Greed, ETF flows, options, liquidations, on-chain indicators (NUPL/SOPR/MVRV), technical indicators (RSI/MACD/Bollinger/EMA) |

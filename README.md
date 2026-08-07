@@ -54,7 +54,7 @@ img = ImageClient(private_key="0x...")
 result = img.generate("A cyberpunk city at sunset", model="openai/gpt-image-1")
 
 # Neural web search via Exa
-results = client.search("latest AI agent frameworks")  # $0.012/search on Base or Solana
+results = client.search("latest AI agent frameworks")  # $0.011/search on Base or Solana
 ```
 
 ```typescript
@@ -81,18 +81,18 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 |---------|----------|---------|-------------|
 | **LLM Chat** | `/v1/chat/completions` | Per token | OpenAI-compatible, <!-- br:models.chatVisible -->71<!-- /br:models.chatVisible --> models, streaming, tool calling |
 | **Anthropic-Compat** | `/v1/messages` | Per token | Drop-in for Claude's Messages API |
-| **Image Generation** | `/v1/images/generations` | $0.015–0.10/image | DALL-E 3, GPT Image 1/2, Nano Banana / Pro, Grok Imagine / Pro, CogView-4 |
+| **Image Generation** | `/v1/images/generations` | $0.015–0.15/image | GPT Image 1/2, Nano Banana / 2 / Pro, Grok Imagine / Pro, Seedream 5.0 Pro, CogView-4 |
 | **Image Editing** | `/v1/images/image2image` | Per request | AI-powered inpainting and image-to-image |
-| **Video Generation** | `/v1/videos/generations` | Per M tokens | Seedance 1.5 Pro, 2.0 Fast, 2.0 Pro (with BytePlus RealFace support); Grok Imagine Video |
+| **Video Generation** | `/v1/videos/generations` | Per M tokens | Seedance 1.5 Pro, 2.0 Fast, 2.0 Pro, 2.5 (with BytePlus RealFace support); Grok Imagine Video |
 | **Music Generation** | `/v1/audio/generations` | Per track | Suno-powered text-to-music |
-| **Voice Calls** | `/v1/voice/call` | $0.542/call (flat, ≤30min) | Outbound AI conversation calls — Bland.ai upstream |
-| **Phone Numbers** | `/v1/phone/numbers/*` | $5/30 days | Wallet-owned US/CA numbers — Twilio upstream |
-| **Surf Crypto Data** | `/api/v1/surf/*` | $0.0095 | 83 endpoints: CEX, on-chain SQL, prediction markets, wallet labels, social mindshare, news, search (asksurf.ai) |
-| **Web Search** | `/api/v1/exa/*` | $0.012/search | Neural web search, find-similar, page contents, AI answers (Exa) |
+| **Voice Calls** | `/v1/voice/call` | $0.541/call (flat, ≤30min) | Outbound AI conversation calls — Bland.ai upstream |
+| **Phone Numbers** | `/v1/phone/numbers/*` | $5.001/30 days | Wallet-owned US/CA numbers — Twilio upstream |
+| **Surf Crypto Data** | `/api/v1/surf/*` | $0.0085 | 83 endpoints: CEX, on-chain SQL, prediction markets, wallet labels, social mindshare, news, search (asksurf.ai) |
+| **Web Search** | `/api/v1/exa/*` | $0.011/search | Neural web search, find-similar, page contents, AI answers (Exa) |
 | **DEX Aggregation** | `/api/v1/zerox/*` | Free | 0x Swap V2 + Gasless V2 across 100+ venues |
 | **Sandbox Runtime** | `/api/v1/modal/*` | Per run | Secure isolated Python execution (Modal) |
-| **Prediction Markets** | `/v1/pm/*` | $0.0095 | Polymarket, Kalshi, dFlow, Binance Futures (Predexon) |
-| **Trading Markets** | `/api/v1/markets/*` | $0.003 | Equity tickers across US, KR, JP, CN, etc. |
+| **Prediction Markets** | `/v1/pm/*` | $0.0085 | Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance Futures (Predexon) |
+| **Trading Markets** | `/v1/stocks/{market}/*` | $0.002 | Equity tickers across US, KR, JP, CN, etc. (Pyth) |
 | **Models** | `/v1/models` | Free | List all available models with pricing |
 | **Pricing** | `/v1/pricing` | Free | Detailed pricing for all models |
 | **Balance** | `/v1/balance` | Free | Check USDC wallet balance |
@@ -103,10 +103,20 @@ Real-time prediction market data powered by Predexon:
 
 | Market | Endpoints | Price |
 |--------|-----------|-------|
-| **Polymarket** | Markets, events, trades, orderbooks, leaderboards, positions | $0.0095 |
-| **Kalshi** | Markets, trades, orderbooks | $0.0095 |
-| **dFlow** | Trades, positions, P&L | $0.0095 |
-| **Binance Futures** | Candles, ticks | $0.0095 |
+| **Polymarket** | Markets, events, trades, orderbooks, leaderboards, positions, crypto | $0.0085 |
+| **Kalshi** | Markets, trades, orderbooks | $0.0085 |
+| **Limitless** | Markets, orderbooks | $0.0085 |
+| **Opinion** | Markets, orderbooks | $0.0085 |
+| **Predict.Fun** | Markets, orderbooks | $0.0085 |
+| **Binance Futures** | Candles, ticks | $0.0085 |
+| **UMA oracle** | Proposed and settled markets | $0.0085 |
+| **Wallet intelligence** | Identity resolution, on-chain cluster | $0.0085 |
+| **Cross-venue** | `markets/search` — Polymarket, Kalshi, Limitless, Opinion, Predict.Fun in one call | $0.0085 |
+
+> **dFlow was removed 2026-08-04.** All three `dflow/*` paths return upstream
+> route-not-found; the category no longer exists in Predexon v2. `sports/*` is
+> temporarily withheld — it returns an upstream `500` and is excluded from
+> discovery until the partner restores it.
 
 ---
 
@@ -118,7 +128,7 @@ Real-time prediction market data powered by Predexon:
 
 | Provider | Models | Input/Output per 1M tokens |
 |----------|--------|---------------------------|
-| **OpenAI** | GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5.4 Mini, GPT-5 Mini, GPT-5.4 Nano, o1, o1-mini, o3, o3-mini | $0.05–$30.00 / $0.40–$180.00 |
+| **OpenAI** | GPT-5.6 Sol, GPT-5.6 Terra, GPT-5.6 Luna, GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5.4 Mini, GPT-5 Mini, GPT-5.4 Nano, o1, o3, o3-mini, o4-mini | $0.10–$30.00 / $0.40–$180.00 |
 | **Anthropic** | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Opus 4.6, Claude Opus 4.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | **Google** | Gemini 3.1 Pro, Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 3.1 Flash Lite, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
 | **DeepSeek** | DeepSeek Chat (V3.2), DeepSeek Reasoner (V3.2 thinking) | $0.28 / $0.42 |
@@ -134,7 +144,7 @@ Real-time prediction market data powered by Predexon:
 |-------|---------------------------|
 | OpenAI o1 | $15.00 / $60.00 |
 | OpenAI o3 | $2.00 / $8.00 |
-| OpenAI o1-mini, o3-mini | $1.10 / $4.40 |
+| OpenAI o3-mini, o4-mini | $1.10 / $4.40 |
 | DeepSeek Reasoner | $0.28 / $0.42 |
 
 ### Image Generation
@@ -142,9 +152,14 @@ Real-time prediction market data powered by Predexon:
 | Model | Price per image |
 |-------|----------------|
 | OpenAI GPT Image 1 | $0.02–0.04 |
-| OpenAI DALL-E 3 | $0.04–0.08 |
+| OpenAI ChatGPT Images 2.0 | $0.06–0.12 |
 | Nano Banana | $0.05 |
+| Nano Banana 2 | $0.09 |
 | Nano Banana Pro | $0.10–0.15 |
+| Grok Imagine | $0.02 |
+| Grok Imagine Pro | $0.07 |
+| Seedream 5.0 Pro | $0.045–0.09 |
+| CogView-4 | $0.015–0.02 |
 
 > Full pricing: `GET /v1/pricing` or see [Pricing docs](./docs/products/intelligence/pricing.md)
 
@@ -215,7 +230,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 | `blockrun_exa` | Neural semantic search + grounded answers |
 | `blockrun_markets` | Polymarket, Kalshi, sports markets |
 | `blockrun_polymarket` | Place real USDC-settled Polymarket orders (CLOB V2 on Polygon) — discover markets with `blockrun_markets` first |
-| `blockrun_surf` | 84 crypto data endpoints (CEX, on-chain SQL, social, wallet labels) |
+| `blockrun_surf` | 83 crypto data endpoints (CEX, on-chain SQL, social, wallet labels) |
 | `blockrun_price` | Pyth quotes: crypto, FX, commodities, stocks |
 | `blockrun_dex` | Live DEX prices and liquidity via DexScreener (free) |
 | `blockrun_rpc` | Raw JSON-RPC on <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains — Ethereum, Base, Solana, Bitcoin, Sui, NEAR (Tatum gateway) |
@@ -247,7 +262,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 | `free` | Free models only | NVIDIA GPT-OSS 120B/20B |
 | `eco` | Cheapest capable | DeepSeek, Gemini Flash Lite |
 | `auto` | Balanced cost/quality | GPT-5 Mini, Gemini Flash |
-| `premium` | Best quality | Claude Opus 4.6, GPT-5.4 |
+| `premium` | Best quality | Claude Opus 5, GPT-5.6 Sol |
 
 Built into both Python and TypeScript SDKs. Also available as standalone: [ClawRouter](https://github.com/BlockRunAI/ClawRouter)
 
@@ -295,7 +310,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 | Partner | Product | Description |
 |---------|---------|-------------|
 | [Exa](https://exa.ai) | Web Search | Neural web search, find-similar, page contents, AI-grounded answers |
-| [Predexon](https://predexon.com) | Prediction Markets | Polymarket, Kalshi, dFlow, Binance Futures data |
+| [Predexon](https://predexon.com) | Prediction Markets | Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance Futures data |
 | [Modal](https://modal.com) | Sandbox Compute | Managed Python sandboxes for isolated code execution |
 
 ### x402 Facilitators
@@ -410,7 +425,7 @@ BlockRun is agent-native — it uses wallet signatures for authentication instea
 The x402 protocol is an HTTP-native payment standard based on HTTP status code 402 ("Payment Required"). It allows any HTTP request to include a cryptographic USDC payment, enabling machine-to-machine payments without accounts, credit cards, or KYC verification. BlockRun is a leading implementation of x402.
 
 ### How much does BlockRun cost?
-BlockRun uses pay-per-request pricing with no minimums or subscriptions. Prices start at $0.003 per request for the cheapest models. Provider cost plus a 5% margin. $5 in USDC is enough for thousands of requests.
+BlockRun uses pay-per-request pricing with no minimums or subscriptions. Prices start at $0.002 per request for the cheapest endpoints. Provider cost plus a 5% margin. $5 in USDC is enough for thousands of requests.
 
 ---
 
