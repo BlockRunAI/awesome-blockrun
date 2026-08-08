@@ -416,7 +416,7 @@ BlockRun is the routing & payment layer for AI — one endpoint where AI agents 
 AI agents pay using the x402 protocol — an HTTP-native payment standard. When an agent makes a request, BlockRun returns HTTP 402 with the price. The agent signs a USDC payment locally (private key never leaves the machine), retries with the payment header, and receives the response. Settlement is non-custodial and instant on Base or Solana.
 
 ### What is ClawRouter?
-ClawRouter is an open-source (MIT licensed) smart LLM router built for autonomous agents. It analyzes each request across 15 dimensions and routes to the cheapest capable model in under 1ms, entirely locally. ClawRouter reduces LLM API costs by <!-- br:savings.autoVsBaselinePct -->87<!-- /br:savings.autoVsBaselinePct -->% versus pinning one flagship for every request.
+ClawRouter is an open-source (MIT licensed) smart LLM router built for autonomous agents. It analyzes each request across 15 dimensions and routes to the cheapest capable model in under 1ms, entirely locally. ClawRouter reduces LLM API costs by <!-- br:savings.autoVsBaselinePct -->88<!-- /br:savings.autoVsBaselinePct -->% versus pinning one flagship for every request.
 
 ### How does BlockRun compare to OpenRouter?
 BlockRun is agent-native — it uses wallet signatures for authentication instead of API keys, and USDC micropayments instead of credit cards. This means AI agents can operate autonomously without human intervention. BlockRun also includes ClawRouter for smart routing, third-party data & runtime services, and multi-chain support (Base + Solana).
