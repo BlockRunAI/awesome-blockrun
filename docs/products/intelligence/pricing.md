@@ -1,19 +1,20 @@
 ---
 title: Intelligence Pricing
-description: BlockRun Intelligence pricing — provider cost plus 5%, a full per-token price list, image rates, and a free tier of 8 models.
+description: BlockRun Intelligence pricing — per-token chat at provider cost with no platform margin, a full price list, image rates, and a free tier of 8 models.
 ---
 
 # Intelligence Pricing
 
-Pay only for what you use. Provider cost + 5%.
+Pay only for what you use. Per-token chat is billed at **provider cost** — no platform margin.
 
 ## Pricing Formula
 
 ```
-Your cost = Provider cost + 5%
+Your cost = Provider cost          (per-token chat — no margin, matches OpenRouter)
+              + $0.001 / request     (flat x402 transaction fee)
 ```
 
-The 5% margin covers:
+Media generation and Live Search still carry a 5% platform margin, which covers:
 - x402 settlement infrastructure
 - Smart routing and reliability
 - No API key management
@@ -39,39 +40,39 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
-| GPT-5.6 Sol (flagship) | $5.25 | $31.50 |
-| GPT-5.6 Sol Pro | $5.25 | $31.50 |
-| GPT-5.6 Terra | $2.10 | $12.60 |
-| GPT-5.6 Terra Pro | $1.05 | $6.30 |
-| GPT-5.6 Luna | $0.21 | $1.26 |
-| GPT-5.6 Luna Pro | $0.11 | $0.63 |
-| GPT-5.5 | $5.25 | $31.50 |
-| GPT-5.5 Pro | $31.50 | $189.00 |
-| GPT-5.4 | $2.63 | $15.75 |
-| GPT-5.4 Pro | $31.50 | $189.00 |
-| GPT-5.2 | $1.84 | $14.70 |
+| GPT-5.6 Sol (flagship) | $5.00 | $30.00 |
+| GPT-5.6 Sol Pro | $5.00 | $30.00 |
+| GPT-5.6 Terra | $2.00 | $12.00 |
+| GPT-5.6 Terra Pro | $1.00 | $6.00 |
+| GPT-5.6 Luna | $0.20 | $1.20 |
+| GPT-5.6 Luna Pro | $0.10 | $0.60 |
+| GPT-5.5 | $5.00 | $30.00 |
+| GPT-5.5 Pro | $30.00 | $180.00 |
+| GPT-5.4 | $2.50 | $15.00 |
+| GPT-5.4 Pro | $30.00 | $180.00 |
+| GPT-5.2 | $1.75 | $14.00 |
 
 ### Anthropic
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
-| Claude Fable 5 (most capable) | $10.50 | $52.50 |
-| Claude Opus 5 (flagship) | $5.25 | $26.25 |
-| Claude Opus 4.8 (previous flagship) | $5.25 | $26.25 |
-| Claude Opus 4.7 | $5.25 | $26.25 |
-| Claude Opus 4.5 | $5.25 | $26.25 |
-| Claude Sonnet 5 | $3.15 | $15.75 |
-| Claude Sonnet 4.6 | $3.15 | $15.75 |
-| Claude Haiku 4.5 | $0.84 | $4.20 |
+| Claude Fable 5 (most capable) | $10.00 | $50.00 |
+| Claude Opus 5 (flagship) | $5.00 | $25.00 |
+| Claude Opus 4.8 (previous flagship) | $5.00 | $25.00 |
+| Claude Opus 4.7 | $5.00 | $25.00 |
+| Claude Opus 4.5 | $5.00 | $25.00 |
+| Claude Sonnet 5 | $3.00 | $15.00 |
+| Claude Sonnet 4.6 | $3.00 | $15.00 |
+| Claude Haiku 4.5 | $1.00 | $5.00 |
 
 ### Google
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
-| Gemini 3.1 Pro | $2.10 | $12.60 |
-| Gemini 3.6 Flash | $1.58 | $7.88 |
-| Gemini 3.5 Flash | $1.58 | $9.45 |
-| Gemini 3.5 Flash Lite | $0.32 | $2.63 |
+| Gemini 3.1 Pro | $2.00 | $12.00 |
+| Gemini 3.6 Flash | $1.50 | $7.50 |
+| Gemini 3.5 Flash | $1.50 | $9.00 |
+| Gemini 3.5 Flash Lite | $0.30 | $2.50 |
 
 Gemini Pro models double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.63 in · $15.75 out above the threshold. Flash tiers are flat.
 
@@ -79,9 +80,9 @@ Gemini Pro models double the input rate and add 50% to the output rate above 200
 
 | Model | Input (per 1M) | Output (per 1M) | Context |
 |-------|---------------|-----------------|---------|
-| Grok 4.5 (flagship) | $2.63 | $9.45 | 500K |
-| Grok 4.3 | $1.58 | $4.20 | 1M |
-| Grok Build 0.1 | $1.58 | $3.15 | 256K |
+| Grok 4.5 (flagship) | $2.50 | $9.00 | 500K |
+| Grok 4.3 | $1.50 | $4.00 | 1M |
+| Grok Build 0.1 | $1.50 | $3.00 | 256K |
 
 Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.5 is $5.25 in · $18.90 out above the threshold), mirroring xAI's official long-context tier. Live Search adds $0.025 per source used.
 
@@ -89,38 +90,38 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 
 | Model | Input (per 1M) | Output (per 1M) | Context |
 |-------|---------------|-----------------|---------|
-| GLM-5.2 (flagship) | $1.47 | $4.62 | 1M |
-| GLM-5.1 | $1.47 | $4.62 | 200K |
-| GLM-5 | $0.63 | $2.02 | 200K |
-| GLM-5 Turbo | $1.26 | $4.20 | 200K |
+| GLM-5.2 (flagship) | $1.40 | $4.40 | 1M |
+| GLM-5.1 | $1.40 | $4.40 | 200K |
+| GLM-5 | $1.00 | $3.20 | 200K |
+| GLM-5 Turbo | $1.20 | $4.00 | 200K |
 
 ### Moonshot
 
 | Model | Input (per 1M) | Output (per 1M) | Context |
 |-------|---------------|-----------------|---------|
-| Kimi K3 | $3.15 | $15.75 | 1M |
-| Kimi K2.7 | $1.00 | $4.20 | 256K |
+| Kimi K3 | $3.00 | $15.00 | 1M |
+| Kimi K2.7 | $0.95 | $4.00 | 256K |
 
 ### MiniMax
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
-| MiniMax M3 | $0.32 | $1.26 |
+| MiniMax M3 | $0.30 | $1.20 |
 
 ### Qwen
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
-| Qwen3.7 Max | $1.55 | $4.65 |
-| Qwen3.7 Plus | $0.34 | $1.34 |
-| Qwen3.7 Flash | $0.03 | $0.14 |
+| Qwen3.7 Max | $1.48 | $4.42 |
+| Qwen3.7 Plus | $0.32 | $1.28 |
+| Qwen3.7 Flash | $0.03 | $0.13 |
 
 ### DeepSeek
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
-| DeepSeek V4 Flash Chat | $0.21 | $0.42 |
-| DeepSeek V4 Pro | $0.46 | $0.91 |
+| DeepSeek V4 Flash Chat | $0.14 | $0.28 |
+| DeepSeek V4 Pro | $0.43 | $0.87 |
 
 ### Free Tier (8 models)
 
@@ -154,7 +155,7 @@ Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$
 | OpenAI GPT-5.4 | $2.50/$15.00 | $2.63/$15.75 | +5% |
 | Anthropic Claude Sonnet 5 | $3.00/$15.00 | $3.15/$15.75 | +5% |
 | Anthropic Claude Sonnet 4.6 | $3.00/$15.00 | $3.15/$15.75 | +5% |
-| DeepSeek V4 Flash Chat | $0.20/$0.40 | $0.21/$0.42 | +5% |
+| DeepSeek V4 Flash Chat | $0.14/$0.28 | $0.14/$0.28 | +0% |
 
 You pay 5% more, but you get:
 - No API key management
@@ -194,7 +195,7 @@ print(f"Requests: {usage['request_count']}")
 
 ### 0. Use ClawRouter for Automatic Savings
 
-**Save 87% on average** with [ClawRouter](../routing/clawrouter.md) — it automatically routes each request to the cheapest model that can handle it.
+**Save 88% on average** with [ClawRouter](../routing/clawrouter.md) — it automatically routes each request to the cheapest model that can handle it.
 
 ```
 /model blockrun/auto
@@ -259,7 +260,7 @@ How the OpenAI-compatible API works and which model fits each task.
 :::
 
 :::card{title="Smart routing" href="../routing/clawrouter.md" icon="Route"}
-Save 87% on average by routing each request to the cheapest capable model.
+Save 88% on average by routing each request to the cheapest capable model.
 :::
 
 :::card{title="Wallet setup" href="../../getting-started/wallet-setup.md" icon="Wallet"}

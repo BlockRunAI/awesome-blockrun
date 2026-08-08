@@ -59,7 +59,7 @@ Each model object in the response includes:
 **59 chat / LLM models** are publicly listed on mainnet, plus **8 image**, **5 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
-All prices shown are provider rates. BlockRun adds a **5% platform fee** to cover infrastructure costs.
+All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens (we match OpenRouter), only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform fee.
 
 ### OpenAI GPT-5.6 Family
 
@@ -151,9 +151,9 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `deepseek/deepseek-chat` | DeepSeek V4 Flash Chat | $0.20/M | $0.40/M | 1M |
+| `deepseek/deepseek-chat` | DeepSeek V4 Flash Chat | $0.14/M | $0.28/M | 1M |
 | `deepseek/deepseek-v4-pro` | DeepSeek V4 Pro | $0.435/M | $0.87/M | 1M |
-| `deepseek/deepseek-reasoner` | DeepSeek Reasoner | $0.28/M | $0.42/M | 128K |
+| `deepseek/deepseek-reasoner` | DeepSeek Reasoner | $0.14/M | $0.28/M | 128K |
 
 ### Z.AI
 
@@ -161,7 +161,7 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 |----------|------|-------------|--------------|---------|
 | `zai/glm-5.2` | GLM-5.2 (flagship) | $1.40/M | $4.40/M | 1M |
 | `zai/glm-5.1` | GLM-5.1 | $1.40/M | $4.40/M | 200K |
-| `zai/glm-5` | GLM-5 | $0.60/M | $1.92/M | 200K |
+| `zai/glm-5` | GLM-5 | $1.00/M | $3.20/M | 200K |
 | `zai/glm-5-turbo` | GLM-5 Turbo | $1.20/M | $4.00/M | 200K |
 
 ### Moonshot
@@ -254,7 +254,7 @@ Prices are per 1 million tokens. Your actual cost depends on:
 
 The SDK calculates the exact price before each request.
 
-**Want to save 87% automatically?** [ClawRouter](../products/routing/clawrouter.md) routes each request to the cheapest model that can handle it.
+**Want to save 88% automatically?** [ClawRouter](../products/routing/clawrouter.md) routes each request to the cheapest model that can handle it.
 
 ## Example
 
@@ -301,7 +301,7 @@ Call any model ID from this catalog through the OpenAI-compatible endpoint.
 Generate images with the GPT Image, Nano Banana, and CogView model family.
 :::
 
-:::card{title="Save 87% with ClawRouter" href="../products/routing/clawrouter.md" icon="Route"}
+:::card{title="Save 88% with ClawRouter" href="../products/routing/clawrouter.md" icon="Route"}
 Route each prompt to the cheapest model that can handle it, automatically.
 :::
 

@@ -131,8 +131,8 @@ Real-time prediction market data powered by Predexon:
 | **OpenAI** | GPT-5.6 Sol, GPT-5.6 Terra, GPT-5.6 Luna, GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5.4 Mini, GPT-5 Mini, GPT-5.4 Nano, o1, o3, o3-mini, o4-mini | $0.10–$30.00 / $0.40–$180.00 |
 | **Anthropic** | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Opus 4.6, Claude Opus 4.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | **Google** | Gemini 3.1 Pro, Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 3.1 Flash Lite, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
-| **DeepSeek** | DeepSeek Chat (V3.2), DeepSeek Reasoner (V3.2 thinking) | $0.28 / $0.42 |
-| **Z.AI** | GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo | $0.60–$1.40 / $1.92–$4.40 |
+| **DeepSeek** | DeepSeek V4 Flash Chat, DeepSeek V4 Flash Reasoner, DeepSeek V4 Pro | $0.14–$0.435 / $0.28–$0.87 |
+| **Z.AI** | GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo | $1.00–$1.40 / $3.20–$4.40 |
 | **Moonshot** | Kimi K3 (1M context, 2.8T open MoE, flagship), Kimi K2.7, Kimi K2.5 | $0.60–$3.00 / $3.00–$15.00 |
 | **MiniMax** | MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
 | **Qwen** | Qwen3.7 Max (1M context, Alibaba flagship) | $1.48 / $4.43 |
@@ -145,7 +145,7 @@ Real-time prediction market data powered by Predexon:
 | OpenAI o1 | $15.00 / $60.00 |
 | OpenAI o3 | $2.00 / $8.00 |
 | OpenAI o3-mini, o4-mini | $1.10 / $4.40 |
-| DeepSeek Reasoner | $0.28 / $0.42 |
+| DeepSeek V4 Flash Reasoner | $0.14 / $0.28 |
 
 ### Image Generation
 

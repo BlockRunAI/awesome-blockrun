@@ -5,7 +5,7 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 
 # ClawRouter
 
-**87% cheaper than pinning one flagship for every request — 98% on `eco`. Automatically.**
+**88% cheaper than pinning one flagship for every request — 98% on `eco`. Automatically.**
 
 ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 71 models, zero API keys.
 
@@ -151,7 +151,7 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 | **SIMPLE** | moonshot/kimi-k2.7 | $0.95/M in / $4.00/M out | free-tier model (FREE) | Q&A, summaries, simple tasks |
 | **MEDIUM** | google/gemini-3.5-flash | $1.50/M in / $9.00/M out | free-tier model (FREE) | Analysis, writing, coding |
 | **COMPLEX** | google/gemini-3.1-pro | $2.00/M in / $12.00/M out | free-tier model (FREE) | Advanced reasoning, research |
-| **REASONING** | deepseek/deepseek-reasoner | $0.28/M in / $0.42/M out | free-tier model (FREE) | Math, logic, proofs |
+| **REASONING** | deepseek/deepseek-reasoner | $0.14/M in / $0.28/M out | free-tier model (FREE) | Math, logic, proofs |
 
 *Prices shown per 1M tokens (after 5% BlockRun markup)*
 
@@ -159,10 +159,10 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 
 | Prompt | Routed To | Cost | Savings |
 |--------|-----------|------|---------|
-| "What is 2+2?" | DeepSeek | $0.40/M | 99% |
+| "What is 2+2?" | DeepSeek | $0.28/M | 99% |
 | "Summarize this article" | Gemini 3.5 Flash | $9.00/M | 70% |
 | "Build a React component" | Claude Sonnet 4.6 | $15.00/M | 80% |
-| "Prove this theorem" | DeepSeek Reasoner | $0.42/M | 99% |
+| "Prove this theorem" | DeepSeek Reasoner | $0.28/M | 99% |
 | "Run 50 parallel searches" | Kimi K2.7 | $4.00/M | 87% |
 
 ## Features
@@ -268,7 +268,7 @@ Using Claude Opus 5 for everything:
 Smart routing to appropriate models:
 
 ```
-70 simple requests → DeepSeek ($0.40/M) = $0.03
+70 simple requests → DeepSeek ($0.28/M) = $0.02
 20 medium requests → Claude Haiku ($4.00/M) = $0.08
 10 complex requests → Claude Opus 5 ($25.00/M) = $0.25
 

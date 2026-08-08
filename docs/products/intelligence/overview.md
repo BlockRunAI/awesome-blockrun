@@ -21,7 +21,7 @@ No API keys. No monthly bills. Just usage-based payments in USDC.
 
 ## Available Models
 
-Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing — see [Pricing](pricing.md) for exact list prices).
+Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates — per-token chat carries no platform margin (we match OpenRouter); only the flat $0.001/request transaction fee is added. See [Pricing](pricing.md).
 
 ### OpenAI
 | Model | Input | Output |
@@ -41,7 +41,7 @@ Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing —
 | Claude Opus 4.5 | $5.00/M | $25.00/M |
 | Claude Sonnet 5 | $3.00/M | $15.00/M |
 | Claude Sonnet 4.6 | $3.00/M | $15.00/M |
-| Claude Haiku 4.5 | $0.80/M | $4.00/M |
+| Claude Haiku 4.5 | $1.00/M | $5.00/M |
 
 ### Google
 | Model | Input | Output |
@@ -54,7 +54,7 @@ Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing —
 |-------|-------|--------|
 | GLM-5.2 (flagship, 1M context) | $1.40/M | $4.40/M |
 | GLM-5.1 | $1.40/M | $4.40/M |
-| GLM-5 | $0.60/M | $1.92/M |
+| GLM-5 | $1.00/M | $3.20/M |
 | GLM-5 Turbo | $1.20/M | $4.00/M |
 
 ### Moonshot
@@ -76,7 +76,7 @@ Reference provider rates per 1M tokens (BlockRun adds a 5% margin at billing —
 ### DeepSeek
 | Model | Input | Output |
 |-------|-------|--------|
-| DeepSeek V4 Flash Chat | $0.20/M | $0.40/M |
+| DeepSeek V4 Flash Chat | $0.14/M | $0.28/M |
 | DeepSeek V4 Pro | $0.435/M | $0.87/M |
 
 ### Free tier
@@ -101,7 +101,7 @@ The 5% covers:
 **No subscriptions. No minimums. No prepaid credits.**
 
 :::tip{title="Cut costs automatically"}
-Don't want to pick models by hand? [ClawRouter](../routing/clawrouter.md) routes each request to the cheapest model that can handle it — 87% lower cost than pinning one flagship for every request.
+Don't want to pick models by hand? [ClawRouter](../routing/clawrouter.md) routes each request to the cheapest model that can handle it — 88% lower cost than pinning one flagship for every request.
 :::
 
 ## Quick Start
@@ -163,7 +163,7 @@ Process these 500 files using DeepSeek
 
 DeepSeek costs a fraction of the flagship models for similar quality on many routine tasks.
 
-**Want automatic cost optimization?** Try [ClawRouter](../routing/clawrouter.md) — it saves 87% by routing each request to the cheapest model that can handle it.
+**Want automatic cost optimization?** Try [ClawRouter](../routing/clawrouter.md) — it saves 88% by routing each request to the cheapest model that can handle it.
 
 ### Second Opinion
 

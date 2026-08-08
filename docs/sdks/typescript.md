@@ -128,7 +128,7 @@ console.log(`Paying from: ${address}`);
 
 ## Smart Routing (ClawRouter)
 
-**Save 87% on LLM costs automatically.**
+**Save 88% on LLM costs automatically.**
 
 The `smartChat()` method uses ClawRouter's 14-dimension scoring algorithm to route each request to the optimal model. Routing decisions run locally in <1ms — your prompts never leave your machine for routing.
 

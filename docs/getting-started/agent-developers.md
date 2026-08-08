@@ -133,7 +133,7 @@ def smart_route(task: str, importance: str) -> str:
     elif importance == "medium":
         model = "anthropic/claude-haiku-4.5"  # $1.00/M
     else:
-        model = "deepseek/deepseek-chat"  # $0.28/M
+        model = "deepseek/deepseek-chat"  # $0.14/M
 
     return client.chat(model, task)
 ```
@@ -178,7 +178,7 @@ results = asyncio.run(process_batch(my_items))
 
 ### Cost-Optimized
 - `google/gemini-2.5-flash-lite` — Best value ($0.10/$0.40 per 1M)
-- `deepseek/deepseek-chat` — Great value ($0.28/$0.42 per 1M)
+- `deepseek/deepseek-chat` — Great value ($0.14/$0.28 per 1M)
 - `nvidia/gpt-oss-120b` — Free (NVIDIA-hosted)
 
 ### Quality-Optimized

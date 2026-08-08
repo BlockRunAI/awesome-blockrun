@@ -123,11 +123,11 @@ BlockRun routes to these providers via x402:
 | Provider | Models | Input/Output per 1M tokens |
 |----------|--------|---------------------------|
 | OpenAI | GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2 | $1.75–$30.00 / $14.00–$180.00 |
-| Anthropic | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Sonnet 5, Claude Sonnet 4.6, Claude Haiku 4.5 | $0.80–$10.00 / $4.00–$50.00 |
+| Anthropic | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Sonnet 5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | Google | Gemini 3.1 Pro, Gemini 3.5 Flash | $1.50–$2.00 / $9.00–$12.00 |
-| DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Pro, DeepSeek Reasoner | $0.20–$0.44 / $0.40–$0.87 |
+| DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Pro, DeepSeek Reasoner | $0.14–$0.435 / $0.28–$0.87 |
 | xAI | Grok 4.5, Grok 4.3, Grok 4 Fast, Grok Code Fast 1 | $0.20–$3.00 / $0.50–$18.00 |
-| Z.AI | GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo | $0.60–$1.40 / $1.92–$4.40 |
+| Z.AI | GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo | $1.00–$1.40 / $3.20–$4.40 |
 | Moonshot | Kimi K3 (1M context, image + text input), Kimi K2.7 (256K, image + video) | $0.95–$3.00 / $4.00–$15.00 |
 | MiniMax | MiniMax M3 (1M context) | $0.30 / $1.20 |
 | Qwen | Qwen3.7 Max (1M context, flagship) | $1.48 / $4.43 |
