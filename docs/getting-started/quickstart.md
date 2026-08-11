@@ -94,7 +94,7 @@ If a call returns `402 Payment Required` after retrying, your wallet is empty or
 ::::cards
 
 :::card{title="Browse all tools" href="../mcp/blockrun-mcp.md" icon="Boxes"}
-The full list of 18 `blockrun_*` tools — chat, image, video, search, markets, RPC, and more.
+The full list of 20 `blockrun_*` tools — chat, image, video, search, markets, RPC, and more.
 :::
 
 :::card{title="Explore the models" href="../products/intelligence/overview.md" icon="Brain"}

@@ -42,7 +42,7 @@ Franklin — the AI agent with a wallet. Writes code and spends USDC across 71 m
 :::
 
 :::card{title="I use Claude Code / Cursor" href="getting-started/quickstart.md" icon="Terminal"}
-One MCP install adds 18 `blockrun_*` tools to your assistant. Best for Claude Code, Cursor, and other MCP clients.
+One MCP install adds 20 `blockrun_*` tools to your assistant. Best for Claude Code, Cursor, and other MCP clients.
 :::
 
 :::card{title="I'm building an agent / backend" href="getting-started/sdk-developers.md" icon="Code"}
