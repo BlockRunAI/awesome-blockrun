@@ -73,7 +73,7 @@ Per-model pricing is published at `/api/v1/models` and embedded in every 402 res
 | POST | `/api/v1/exa/search` | Web search | $0.011 / call |
 | POST | `/api/v1/exa/find-similar` | Find semantically similar pages | $0.011 / call |
 | POST | `/api/v1/exa/answer` | AI answer with citations | $0.011 / call |
-| POST | `/api/v1/exa/contents` | Extract content from URLs | $0.002 / URL |
+| POST | `/api/v1/exa/contents` | Extract content from URLs | $0.002 / URL + $0.001 / request |
 
 ## Voice & Phone
 
