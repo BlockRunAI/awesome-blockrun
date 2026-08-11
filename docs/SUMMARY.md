@@ -23,6 +23,7 @@
 ## Routing
 
 * [ClawRouter](products/routing/clawrouter.md)
+* [Routing Benchmarks](products/routing/benchmarks.md)
 
 ## Creation
 
