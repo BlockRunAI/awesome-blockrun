@@ -15,7 +15,7 @@ Exa gives agents a live internet connection with structured, grounded results �
 
 **A complete research workflow costs $0.033:**
 - 1 search ($0.011) → find relevant URLs
-- 5 page reads in one call ($0.003/URL → $0.011) → get full content
+- 5 page reads in one call ($0.002/URL + $0.001 per-request fee → $0.011) → get full content
 - 1 synthesized answer ($0.011) → grounded conclusion
 
 ## Endpoints
@@ -24,7 +24,7 @@ Exa gives agents a live internet connection with structured, grounded results �
 |----------|--------|-------|-------------|
 | `/api/v1/exa/search` | POST | $0.011 | Neural web search — find relevant URLs for a query |
 | `/api/v1/exa/answer` | POST | $0.011 | Get a cited, synthesized answer to any question |
-| `/api/v1/exa/contents` | POST | $0.003/URL | Fetch full Markdown text from a list of URLs |
+| `/api/v1/exa/contents` | POST | $0.002/URL + $0.001/request | Fetch full Markdown text from a list of URLs |
 | `/api/v1/exa/find-similar` | POST | $0.011 | Find pages similar to a given URL |
 
 ---
@@ -121,7 +121,9 @@ Best for: "What is X?", "How does Y work?", "What's the current state of Z?"
 
 Fetch the full text content from a list of URLs. Returns clean Markdown — no HTML, no boilerplate — ready to drop into an LLM context window.
 
-**This is the cheapest way to read web pages:** $0.002 per URL. Fetching 10 pages costs $0.022.
+**This is the cheapest way to read web pages:** $0.002 per URL, plus the $0.001
+per-request fee charged once no matter how many URLs you pass. Fetching 10 pages
+costs $0.021; a single page costs $0.003.
 
 ### Request Body
 
@@ -320,7 +322,7 @@ const similar = await client.exaFindSimilar("https://blockrun.ai", { numResults:
 | `/exa/search` | $0.011 |
 | `/exa/answer` | $0.011 |
 | `/exa/find-similar` | $0.011 |
-| `/exa/contents` | $0.002 per URL |
+| `/exa/contents` | $0.002 per URL + $0.001 per request |
 
 Payment is in USDC on Base or Solana via x402. No account needed — your wallet is your identity.
 
