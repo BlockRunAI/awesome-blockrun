@@ -70,6 +70,7 @@ The TypeScript `VideoClient` and the local ClawRouter proxy run the submit+poll 
 | `azure/sora-2` | Sora 2 | **4 / 8 / 12** (default 4 — only these three) | 720p, portrait or landscape | ✅ (non-human only) | ✅ | ❌ |
 | `xai/grok-imagine-video` | Grok Imagine Video | 1–15 (default 8) | upstream default | ✅ | — | ❌ |
 | `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | default 5, max 12 | 720p (default) | ✅ | ✅ (t2v) | ❌ |
+| `bytedance/seedance-2.0-mini` | Seedance 2.0 Mini | default 5, max 15 | 480p, 720p (default) | ✅ | ✅ (t2v) | ✅ |
 | `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | default 5, max 15 | 720p (default) | ✅ | ✅ (t2v) | ✅ |
 | `bytedance/seedance-2.0` (Pro) | Seedance 2.0 Pro | default 5, max 15 | 720p (default), up to **4K** | ✅ | ✅ (t2v) | ✅ |
 | `bytedance/seedance-2.5` | Seedance 2.5 | default 5, **max 30** | 720p (ceiling) | ✅ | ✅ (t2v) | ❌ |
@@ -78,7 +79,7 @@ Notes:
 
 - **Sora 2** accepts only `duration_seconds` of **4, 8, or 12** — any other value returns `400` listing the allowed set. Text-to-video only (no `image_url`). Output is 720p with synchronized audio, portrait or landscape.
 - **Grok Imagine** accepts `duration_seconds` from **1 to 15** (default 8); it accepts an optional `image_url` and ignores the Seedance-only tuning params (`resolution`, `aspect_ratio`, `generate_audio`, etc.).
-- **Seedance** supports a default of 5s and a per-tier maximum — **`seedance-2.5` allows up to 30s, `seedance-2.0` / `seedance-2.0-fast` up to 15s, `seedance-1.5-pro` up to 12s** (the gateway returns `400` for a `duration_seconds` above the tier max). The gateway bumps the default to **720p** and sets `generate_audio` per the t2v/i2v split below. Only Seedance **2.0** / **2.0-fast** accept a `real_face_asset_id` (`ta_xxxx`) for character/identity consistency, multiple reference images, and reference video/audio (r2v). `seedance-2.5` is text-to-video and image-to-video only: no RealFace, no first/last-frame, no reference media. `seedance-2.0-fast` finishes in ~60–80s; `seedance-2.0` (Pro) is higher quality and slower.
+- **Seedance** supports a default of 5s and a per-tier maximum — **`seedance-2.5` allows up to 30s, `seedance-2.0` / `seedance-2.0-fast` / `seedance-2.0-mini` up to 15s, `seedance-1.5-pro` up to 12s** (the gateway returns `400` for a `duration_seconds` above the tier max). The gateway bumps the default to **720p** and sets `generate_audio` per the t2v/i2v split below. Only Seedance **2.0** / **2.0-fast** accept a `real_face_asset_id` (`ta_xxxx`) for character/identity consistency, multiple reference images, and reference video/audio (r2v). `seedance-2.5` is text-to-video and image-to-video only: no RealFace, no first/last-frame, no reference media. `seedance-2.0-fast` finishes in ~60–80s; `seedance-2.0` (Pro) is higher quality and slower.
 
 ---
 
@@ -128,6 +129,7 @@ All prices include the gateway's standard **5% margin** — i.e. these are the a
 | `azure/sora-2` | $0.10 / second (flat) | **4s = $0.42** · **8s = $0.84** · **12s = $1.26** |
 | `xai/grok-imagine-video` | $0.05 / second (flat) | **8s = $0.42** · **15s = $0.79** |
 | `bytedance/seedance-1.5-pro` | Token-metered ($3.108 / M tokens) | **5s ≈ $0.35** · **12s ≈ $0.85** |
+| `bytedance/seedance-2.0-mini` | Token-metered ($3.5 / M tokens) | **5s ≈ $0.40** · **15s ≈ $1.19** |
 | `bytedance/seedance-2.0-fast` | Token-metered ($7.252 / M tokens) | **5s ≈ $0.83** · **15s ≈ $2.48** |
 | `bytedance/seedance-2.0` (Pro) | Token-metered ($9.9715 / M tokens) | **5s ≈ $1.14** · **15s ≈ $3.41** |
 | `bytedance/seedance-2.5` | Token-metered ($13.8565 / M tokens) | **5s ≈ $1.58** · **30s ≈ $9.47** |
