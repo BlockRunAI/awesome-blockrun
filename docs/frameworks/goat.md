@@ -1,6 +1,6 @@
 ---
 title: GOAT SDK Integration
-description: Combine GOAT SDK's cross-chain execution with BlockRun's 93 AI models, paid per request over x402 — until the official plugin ships.
+description: Combine GOAT SDK's cross-chain execution with BlockRun's 94 AI models, paid per request over x402 — until the official plugin ships.
 ---
 
 # GOAT SDK Integration
