@@ -51,7 +51,7 @@ number.
 
 | Tier | `eco` | `auto` |
 |---|---|---|
-| SIMPLE | `nvidia/deepseek-v4-flash` | `google/gemini-2.5-flash` |
+| SIMPLE | `nvidia/step-3.7-flash` | `google/gemini-2.5-flash` |
 | MEDIUM | `google/gemini-3.1-flash-lite` | `deepseek/deepseek-v4-pro` |
 | COMPLEX | `google/gemini-3.1-flash-lite` | `google/gemini-3.1-pro` |
 | REASONING | `deepseek/deepseek-reasoner` | `deepseek/deepseek-reasoner` |
