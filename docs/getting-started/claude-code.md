@@ -85,7 +85,7 @@ Use GPT-5 to get a second opinion on this code
 Ask Grok what's trending on X right now
 ```
 
-Claude automatically routes to 92 AI models and pays via x402.
+Claude automatically routes to 93 AI models and pays via x402.
 
 ### Trading (alpha-mcp)
 
