@@ -154,7 +154,7 @@ client = LLMClient()
 result = client.smart_chat("What is 2+2?")
 
 print(result.response)           # "4"
-print(result.model)              # "nvidia/deepseek-v4-flash" (free tier model)
+print(result.model)              # "nvidia/step-3.7-flash" (free tier model)
 print(result.routing.tier)       # "SIMPLE"
 print(result.routing.savings)    # 0.94 (94% savings vs baseline)
 ```
@@ -379,7 +379,7 @@ All models from BlockRun Intelligence are available:
 | **Google** | gemini-3.1-pro-preview, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
 | **xAI** | grok-4.1, grok-4, grok-3, grok-3-fast |
 | **DeepSeek** | deepseek-chat, deepseek-reasoner |
-| **NVIDIA** | gpt-oss-120b (FREE), deepseek-v4-flash (FREE) |
+| **NVIDIA** | gpt-oss-120b (FREE), step-3.7-flash (FREE) |
 
 See [Intelligence Pricing](../products/intelligence/pricing.md) for full pricing details.
 

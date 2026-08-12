@@ -22,7 +22,7 @@ Run any GPT-Image-2 or Seedance prompt as a one-liner — `/headshot`, `/dance`,
 :::
 
 :::card{title="lobster.cash skill" href="https://github.com/BlockRunAI/lobstercash-blockrun-skill" icon="Zap"}
-BlockRun skill for the lobster.cash OpenClaw plugin — 71 models paid with Solana USDC.
+BlockRun skill for the lobster.cash OpenClaw plugin — 70 models paid with Solana USDC.
 :::
 
 ::::
