@@ -54,7 +54,7 @@ All Surf endpoints route through:
 https://blockrun.ai/api/v1/surf/<endpoint-path>
 ```
 
-Method follows the upstream — most are `GET` with query string params; the two SQL/structured-query endpoints (`onchain/sql`, `onchain/query`) are `POST` with JSON bodies, while `onchain/schema` is a `GET`.
+Method follows the upstream — most are `GET` with **query string** params (never a request body); the two SQL/structured-query endpoints (`onchain/sql`, `onchain/query`) are `POST` with JSON bodies, while `onchain/schema` is a `GET`. The x402 discovery record (`extensions.bazaar` on the 402 response) declares GET params as `queryParams` — agents building calls from the CDP Bazaar catalog get the correct placement. Per-endpoint parameter docs live at [agents.asksurf.ai/docs](https://agents.asksurf.ai/docs).
 
 ---
 
@@ -70,6 +70,17 @@ curl "https://blockrun.ai/api/v1/surf/market/price?symbol=BTC"
 curl "https://blockrun.ai/api/v1/surf/market/price?symbol=BTC" \
   -H "X-Payment: <signed-x402>"
 # → token price history JSON
+```
+
+### Fetch a web page as clean markdown (Tier 2)
+
+The `url` parameter goes in the query string — this is a `GET`, so there is no
+request body:
+
+```bash
+curl -H "X-Payment: <signed>" \
+  "https://blockrun.ai/api/v1/surf/web/fetch?url=https%3A%2F%2Fexample.com"
+# → { "data": { "markdown": "..." } }
 ```
 
 ### Fear & Greed snapshot (Tier 1)
