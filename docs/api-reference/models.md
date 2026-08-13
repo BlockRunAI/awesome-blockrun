@@ -56,7 +56,7 @@ Each model object in the response includes:
 ## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-**59 chat / LLM models** are publicly listed on mainnet, plus **8 image**, **5 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**70 chat / LLM models** are publicly listed on mainnet, plus **9 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens (we match OpenRouter), only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform fee.
@@ -218,8 +218,8 @@ Seedance defaults to **720p with synced audio** for text-to-video; pass `resolut
 
 | Model ID | Name | Price (5s 720p default) | Max duration |
 |----------|------|--------------------------|--------------|
-| `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec @480p default (8s = $0.40) · $0.07/sec @720p | 15s |
-| `xai/grok-imagine-video-1.5` | Grok Imagine Video 1.5 | $0.08/sec @480p default (8s = $0.64) · $0.14/sec @720p · $0.25/sec @1080p | 15s |
+| `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec @480p default · $0.07/sec @720p, + $0.001/generation (8s 480p = $0.401) | 15s |
+| `xai/grok-imagine-video-1.5` | Grok Imagine Video 1.5 | $0.08/sec @480p default · $0.14/sec @720p · $0.25/sec @1080p, + $0.001/generation (8s 480p = $0.641) | 15s |
 | `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | ~$0.070/sec ($0.35 / 5s clip) | 12s |
 | `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.165/sec ($0.83 / 5s clip) | 15s |
 | `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.227/sec ($1.14 / 5s clip) | 15s |
