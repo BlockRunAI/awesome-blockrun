@@ -122,19 +122,19 @@ Whether you can seed generation from an image — and how — depends on the sub
 
 ## Pricing
 
-All prices include the gateway's standard **5% margin** — i.e. these are the amounts quoted in the `402` challenge and actually billed in USDC.
+All prices below are the amounts quoted in the `402` challenge and actually billed in USDC. Sora and Seedance include the gateway's standard **5% margin**; Grok Imagine is billed at xAI's **official per-second rates exactly** (no margin), tiered by resolution.
 
 | Model | Billing basis | Effective price (720p) |
 |---|---|---|
 | `azure/sora-2` | $0.10 / second (flat) | **4s = $0.42** · **8s = $0.84** · **12s = $1.26** |
-| `xai/grok-imagine-video` | $0.05 / second (flat) | **8s = $0.42** · **15s = $0.79** |
+| `xai/grok-imagine-video` | $0.05 / sec @ 480p (default) · $0.07 / sec @ 720p — official rates, no margin | **8s = $0.56** · **15s = $1.05** (480p: **8s = $0.40**) |
 | `bytedance/seedance-1.5-pro` | Token-metered ($3.108 / M tokens) | **5s ≈ $0.35** · **12s ≈ $0.85** |
 | `bytedance/seedance-2.0-mini` | Token-metered ($3.5 / M tokens) | **5s ≈ $0.40** · **15s ≈ $1.19** |
 | `bytedance/seedance-2.0-fast` | Token-metered ($7.252 / M tokens) | **5s ≈ $0.83** · **15s ≈ $2.48** |
 | `bytedance/seedance-2.0` (Pro) | Token-metered ($9.9715 / M tokens) | **5s ≈ $1.14** · **15s ≈ $3.41** |
 | `bytedance/seedance-2.5` | Token-metered ($13.8565 / M tokens) | **5s ≈ $1.58** · **30s ≈ $9.47** |
 
-**Seedance token math:** at the 720p default a clip uses **~21,690 tokens/second** (a 5s clip ≈ 108,450 tokens). Price = `duration × 21,690 × resolution-factor × rate-per-M ÷ 1,000,000 × 1.05`. Image-to-video is billed at the **same per-token rate** as text-to-video (no i2v discount). The resolution token factor relative to 720p (=1) is: `480p ×0.5`, `1080p ×2.25`, and `4K ×9` (area-proportional) — so dropping to `480p` halves the per-clip cost and `1080p`/`4K` cost proportionally more. `4K` (real 3840×2160) is available **only on `bytedance/seedance-2.0`**; the ceiling is `1080p` on `seedance-1.5-pro` and `720p` on `seedance-2.0-fast`/`seedance-2.5`; anything above a model's ceiling returns a `400` before payment. Reference video/audio inputs (r2v) add a surcharge: `×(1 + 1.0·#refVideos + 0.3·#refAudios)`. Per-second models (Grok, Sora) ignore resolution and reference surcharges.
+**Seedance token math:** at the 720p default a clip uses **~21,690 tokens/second** (a 5s clip ≈ 108,450 tokens). Price = `duration × 21,690 × resolution-factor × rate-per-M ÷ 1,000,000 × 1.05`. Image-to-video is billed at the **same per-token rate** as text-to-video (no i2v discount). The resolution token factor relative to 720p (=1) is: `480p ×0.5`, `1080p ×2.25`, and `4K ×9` (area-proportional) — so dropping to `480p` halves the per-clip cost and `1080p`/`4K` cost proportionally more. `4K` (real 3840×2160) is available **only on `bytedance/seedance-2.0`**; the ceiling is `1080p` on `seedance-1.5-pro` and `720p` on `seedance-2.0-fast`/`seedance-2.5`; anything above a model's ceiling returns a `400` before payment. Reference video/audio inputs (r2v) add a surcharge: `×(1 + 1.0·#refVideos + 0.3·#refAudios)`. Sora ignores resolution and reference surcharges. Grok Imagine bills per second **by resolution tier**: `480p` $0.05/sec (the default when `resolution` is omitted), `720p` $0.07/sec; `1080p`/`4K` are rejected before payment.
 
 **One-time enrollment fees (separate from per-call billing):**
 

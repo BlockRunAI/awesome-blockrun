@@ -218,7 +218,7 @@ Seedance defaults to **720p with synced audio** for text-to-video; pass `resolut
 
 | Model ID | Name | Price (5s 720p default) | Max duration |
 |----------|------|--------------------------|--------------|
-| `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec (8s = $0.42) | 15s |
+| `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec @480p default (8s = $0.40) · $0.07/sec @720p | 15s |
 | `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | ~$0.070/sec ($0.35 / 5s clip) | 12s |
 | `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.165/sec ($0.83 / 5s clip) | 15s |
 | `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.227/sec ($1.14 / 5s clip) | 15s |
