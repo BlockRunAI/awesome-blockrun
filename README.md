@@ -277,6 +277,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 | [Spraay](https://github.com/plagtech/spraay-x402-gateway) | x402 Gateway | Multi-chain x402 payment gateway with dual-provider AI inference (BlockRun + OpenRouter) |
 | [NoFx](https://github.com/NoFxAiOS/nofx) | Crypto Trading | Personal AI trading assistant - any market, any model, pay with USDC |
 | [Voyage GEO](https://github.com/onvoyage-ai/voyage-geo-agent) | AI Analytics | Generative Engine Optimization - track how AI models reference your brand across ChatGPT, Claude, Gemini & more |
+| [Metaculus Forecast Bot](https://github.com/eltociear/metaculus-forecast-bot) | Prediction Markets | Autonomous forecasting bot for the funded Metaculus AI Benchmark tournaments - BlockRun is its LLM backend, authenticated by wallet signature with no API key |
 
 > Built something with BlockRun? [Add it here!](https://github.com/blockrunai/awesome-blockrun/issues)
 
