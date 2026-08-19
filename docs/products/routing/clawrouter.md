@@ -71,9 +71,9 @@ No external API calls. No LLM inference in the classification step. Pure keyword
 
 Steps 4 and 7 are the V3 portfolio layer: the tier says how much capability the request needs, the task type says what *kind* of work it is, and the portfolio ranks the eligible models against calibrated per-task evidence. The tier primary is a starting point, not the answer — a code-agent turn and a multiple-choice question in the same tier get different models.
 
-### <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions -->-Dimension Scoring
+### 15-Dimension Scoring
 
-The classifier reads the prompt and scores it across <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions --> weighted dimensions:
+The classifier reads the prompt and scores it across 15 weighted dimensions:
 
 | Dimension | Weight | Detects |
 |---|---|---|
@@ -163,7 +163,7 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 | **COMPLEX** | google/gemini-3.1-pro | Advanced reasoning, research, long documents |
 | **REASONING** | xai/grok-4-1-fast-reasoning | Math, logic, proofs |
 
-The primary is where the tier starts, not where the request necessarily lands: the portfolio ranks every capability-eligible candidate for the detected task, so a tool-calling turn and a proof in the same tier resolve to different models. Switch to the `free` profile for $0 routing across the <!-- br:models.free -->5<!-- /br:models.free --> free models.
+The primary is where the tier starts, not where the request necessarily lands: the portfolio ranks every capability-eligible candidate for the detected task, so a tool-calling turn and a proof in the same tier resolve to different models. Switch to the `free` profile for $0 routing across the 5 free models.
 
 ## Smart Routing Examples
 
@@ -179,7 +179,7 @@ The primary is where the tier starts, not where the request necessarily lands: t
 
 ### 100% Local Routing
 
-- <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions -->-dimension weighted scoring runs on your machine in <1ms
+- 15-dimension weighted scoring runs on your machine in <1ms
 - No external API calls for routing decisions
 - Full privacy - your prompts never leave your machine for routing
 
@@ -195,7 +195,7 @@ Access all major providers through one wallet:
 - **Z.AI**: GLM-5.2 (flagship, 1M context), GLM-5.1, GLM-5, GLM-5 Turbo
 - **Moonshot**: Kimi K3 (flagship, 1M context, image + text), Kimi K2.7 (256K, image + video)
 - **MiniMax**: MiniMax M3
-- **Free tier (all FREE)**: <!-- br:models.free -->5<!-- /br:models.free --> NVIDIA-hosted chat, reasoning and vision models with no per-token charge
+- **Free tier (all FREE)**: 5 NVIDIA-hosted chat, reasoning and vision models with no per-token charge
 
 [View all models →](../intelligence/pricing.md)
 
