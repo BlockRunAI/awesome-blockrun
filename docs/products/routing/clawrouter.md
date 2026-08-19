@@ -57,18 +57,23 @@ For the full technical deep-dive, see [Inside ClawRouter's Decision Layer](https
 ### The Decision Pipeline (<1ms, fully local)
 
 ```
-1. Lexical scoring        → 14 weighted dimensions, score ∈ [-1, 1] each
+1. Lexical scoring        → 15 weighted dimensions, score ∈ [-1, 1] each
 2. Tier mapping           → SIMPLE / MEDIUM / COMPLEX / REASONING
 3. Confidence calibration → sigmoid; below 0.7 → AMBIGUOUS → defaults to MEDIUM
-4. Profile resolution     → auto / eco / premium → primary + ordered fallback
-5. Capability filtering   → context window, tool calling, vision
+4. Task classification    → chat / code_edit / code_agent / tool_agent /
+                            reasoning_math / long_context / vision / …
+5. Profile resolution     → auto / eco / premium → primary + ordered fallback
+6. Capability filtering   → context window, output length, tool calling, vision
+7. Portfolio ranking      → task affinity × cost × speed × reliability
 ```
 
 No external API calls. No LLM inference in the classification step. Pure keyword matching and arithmetic.
 
-### 14-Dimension Scoring
+Steps 4 and 7 are the V3 portfolio layer: the tier says how much capability the request needs, the task type says what *kind* of work it is, and the portfolio ranks the eligible models against calibrated per-task evidence. The tier primary is a starting point, not the answer — a code-agent turn and a multiple-choice question in the same tier get different models.
 
-The classifier reads the prompt and scores it across 14 weighted dimensions. Weights sum to 1.0:
+### <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions -->-Dimension Scoring
+
+The classifier reads the prompt and scores it across <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions --> weighted dimensions:
 
 | Dimension | Weight | Detects |
 |---|---|---|
@@ -86,6 +91,7 @@ The classifier reads the prompt and scores it across 14 weighted dimensions. Wei
 | simpleIndicators | 0.02 | "what is", "hello", "define" |
 | referenceComplexity | 0.02 | "the code above", "the API docs" |
 | domainSpecificity | 0.02 | "quantum", "FPGA", "genomics" |
+| negationComplexity | 0.01 | "don't", "avoid", "except", "without" |
 
 **Multilingual:** Every keyword list ships in 9 languages (EN, ZH, JA, RU, DE, ES, PT, KO, AR). "证明这个定理" triggers the same reasoning classification as "prove this theorem."
 
@@ -116,25 +122,29 @@ Each tier × profile combination resolves to a primary model plus an ordered fal
 We descend by **quality first**, then trade quality for speed. Example COMPLEX-tier fallback under `auto`:
 
 ```
-gemini-3.1-pro            IQ 48, 1,352ms  ← primary
-gemini-3.5-flash          IQ 46, 1,398ms
-grok-4.3                  IQ 41, 1,348ms
-glm-5.2                          1,294ms
-claude-sonnet-4.6         IQ 52, 2,110ms
-deepseek-chat             IQ 32, 1,431ms
-minimax-m3                IQ 20, 1,238ms
-gpt-5.4                   IQ 57, 6,213ms  ← last resort
+google/gemini-3.1-pro           ← primary
+google/gemini-3-flash-preview
+xai/grok-4-0709
+google/gemini-2.5-pro
+anthropic/claude-sonnet-5
+anthropic/claude-sonnet-4.6
+deepseek/deepseek-chat
+google/gemini-2.5-flash
+openai/gpt-5.6-terra
+openai/gpt-5.5
+openai/gpt-5.4                  ← last resort
 ```
 
 GPT-5.4 sits last despite the highest IQ — its 6.2s latency creates a worse compounded experience across multi-step workflows than a slightly-lower-IQ model that completes in 1.4s.
 
 ### Runtime Capability Filtering
 
-Before any model is dispatched, the candidate set is filtered against three hard constraints:
+Before any model is dispatched, the candidate set is filtered against four hard constraints:
 
-1. **Context window fit** — must hold (input + estimated output) × 1.10 safety buffer
-2. **Tool calling** — if request includes tools, only function-calling models stay
-3. **Vision** — if request includes images, only vision-capable models stay
+1. **Context window fit** — must hold (input + estimated output) × 1.10 safety buffer, measured against the *whole* conversation, not the last message
+2. **Output length** — must be able to emit the requested `max_tokens`
+3. **Tool calling** — if request includes tools, only function-calling models stay
+4. **Vision** — if request includes images, only vision-capable models stay
 
 A "cheaper" model lacking a required capability is removed from the candidate set, **never silently substituted.** This prevents the classic multi-step failure mode where a tool-call step gets routed to a model that can't actually call tools.
 
@@ -146,14 +156,14 @@ Every request is its own settled x402 transaction. There is no session state to 
 
 Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0 routing across the free tier):
 
-| Tier | Model (auto) | Cost | Free-tier fallback | Use Case |
-|------|-------|------|--------------------|----------|
-| **SIMPLE** | moonshot/kimi-k2.7 | $0.95/M in / $4.00/M out | free-tier model (FREE) | Q&A, summaries, simple tasks |
-| **MEDIUM** | google/gemini-3.5-flash | $1.50/M in / $9.00/M out | free-tier model (FREE) | Analysis, writing, coding |
-| **COMPLEX** | google/gemini-3.1-pro | $2.00/M in / $12.00/M out | free-tier model (FREE) | Advanced reasoning, research |
-| **REASONING** | deepseek/deepseek-reasoner | $0.14/M in / $0.28/M out | free-tier model (FREE) | Math, logic, proofs |
+| Tier | Primary (auto) | Use Case |
+|------|-------|----------|
+| **SIMPLE** | google/gemini-2.5-flash | Q&A, summaries, simple tasks |
+| **MEDIUM** | moonshot/kimi-k2.7 | Analysis, writing, coding |
+| **COMPLEX** | google/gemini-3.1-pro | Advanced reasoning, research, long documents |
+| **REASONING** | xai/grok-4-1-fast-reasoning | Math, logic, proofs |
 
-*Prices shown per 1M tokens (after 5% BlockRun markup)*
+The primary is where the tier starts, not where the request necessarily lands: the portfolio ranks every capability-eligible candidate for the detected task, so a tool-calling turn and a proof in the same tier resolve to different models. Switch to the `free` profile for $0 routing across the <!-- br:models.free -->5<!-- /br:models.free --> free models.
 
 ## Smart Routing Examples
 
@@ -169,7 +179,7 @@ Default `auto` profile primaries (cost-balanced; switch to `free` profile for $0
 
 ### 100% Local Routing
 
-- 14-dimension weighted scoring runs on your machine in <1ms
+- <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions -->-dimension weighted scoring runs on your machine in <1ms
 - No external API calls for routing decisions
 - Full privacy - your prompts never leave your machine for routing
 
@@ -185,7 +195,7 @@ Access all major providers through one wallet:
 - **Z.AI**: GLM-5.2 (flagship, 1M context), GLM-5.1, GLM-5, GLM-5 Turbo
 - **Moonshot**: Kimi K3 (flagship, 1M context, image + text), Kimi K2.7 (256K, image + video)
 - **MiniMax**: MiniMax M3
-- **Free tier (all FREE)**: 10 reasoning, coding, and vision models with no per-token charge
+- **Free tier (all FREE)**: <!-- br:models.free -->5<!-- /br:models.free --> NVIDIA-hosted chat, reasoning and vision models with no per-token charge
 
 [View all models →](../intelligence/pricing.md)
 
