@@ -130,7 +130,7 @@ console.log(`Paying from: ${address}`);
 
 **Save 88% on LLM costs automatically.**
 
-The `smartChat()` method routes each request on [Router Core](https://github.com/BlockRunAI/router-core) — <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions --> weighted dimensions classify the request, capability constraints are applied as hard filters, and the surviving candidates are ranked on task affinity, cost, speed and reliability. Decisions run locally in <1ms — your prompts never leave your machine for routing, and no extra model call is made to decide.
+The `smartChat()` method routes each request on [Router Core](https://github.com/BlockRunAI/router-core) — 15 weighted dimensions classify the request, capability constraints are applied as hard filters, and the surviving candidates are ranked on task affinity, cost, speed and reliability. Decisions run locally in <1ms — your prompts never leave your machine for routing, and no extra model call is made to decide.
 
 ### Basic Usage
 

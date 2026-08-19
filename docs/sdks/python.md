@@ -117,13 +117,13 @@ print(f"Paying from: {address}")
 
 ## Smart Routing (Router Core)
 
-**Save <!-- br:savings.autoVsBaselinePct -->88<!-- /br:savings.autoVsBaselinePct -->% on LLM costs automatically.**
+**Save 88% on LLM costs automatically.**
 
 Routing runs on [Router Core](https://github.com/BlockRunAI/router-core) — the same engine the TypeScript SDK and the BlockRun gateway use, so an identical request routes identically everywhere. Decisions are local (<1ms, no extra model call): your prompts never leave your machine to be routed.
 
 Three stages:
 
-1. **Classify** — <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions --> weighted dimensions map the request onto a capability tier, and a task classifier labels the shape of the work (`chat`, `code_edit`, `code_agent`, `tool_agent`, `reasoning_math`, `long_context`, `extraction`, `vision`, …).
+1. **Classify** — 15 weighted dimensions map the request onto a capability tier, and a task classifier labels the shape of the work (`chat`, `code_edit`, `code_agent`, `tool_agent`, `reasoning_math`, `long_context`, `extraction`, `vision`, …).
 2. **Filter** — capability constraints are hard filters. A model that cannot hold the conversation, emit the requested `max_tokens`, call tools, or read images is dropped *before* scoring, so the router never picks a model the request would fail on.
 3. **Rank** — survivors are scored on task affinity, cost, speed and reliability. The winner serves the request; the rest become the fallback chain, walked automatically on a timeout, a saturated upstream (429) or a 5xx.
 
@@ -186,7 +186,7 @@ response = client.chat_completion("blockrun/auto", messages)
 
 | Profile | Behavior | Best For |
 |---------|----------|----------|
-| `"free"` | Only the <!-- br:models.free -->5<!-- /br:models.free --> $0 NVIDIA models — no wallet needed | Development, testing |
+| `"free"` | Only the 5 $0 NVIDIA models — no wallet needed | Development, testing |
 | `"eco"` | Cheapest capable model per tier | Bulk processing |
 | `"auto"` | Balances quality and cost (default) | Production workloads |
 | `"premium"` | Top-tier models | Critical tasks |
@@ -207,7 +207,7 @@ result = client.smart_chat("Review this contract for legal issues...", routing_p
 
 ### Capability tiers
 
-The classifier places every request in one of <!-- br:clawrouter.tiers -->4<!-- /br:clawrouter.tiers --> tiers. Under `auto`, the tier primary is the starting point — the portfolio then ranks the eligible candidates and may promote a better-suited model for the task.
+The classifier places every request in one of 4 tiers. Under `auto`, the tier primary is the starting point — the portfolio then ranks the eligible candidates and may promote a better-suited model for the task.
 
 | Tier | Auto primary | Use Case |
 |------|--------------|----------|

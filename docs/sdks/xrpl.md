@@ -141,7 +141,7 @@ print(f"Paying from: {address}")
 
 **Save up to 94% on LLM costs automatically.**
 
-The `smart_chat()` method routes each request on [Router Core](https://github.com/BlockRunAI/router-core) — <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions --> weighted dimensions classify the request, capability constraints are applied as hard filters, and the surviving candidates are ranked on task affinity, cost, speed and reliability. Decisions run locally in <1ms — your prompts never leave your machine for routing, and no extra model call is made to decide.
+The `smart_chat()` method routes each request on [Router Core](https://github.com/BlockRunAI/router-core) — 15 weighted dimensions classify the request, capability constraints are applied as hard filters, and the surviving candidates are ranked on task affinity, cost, speed and reliability. Decisions run locally in <1ms — your prompts never leave your machine for routing, and no extra model call is made to decide.
 
 ### Basic Usage
 
