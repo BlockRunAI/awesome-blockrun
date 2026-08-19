@@ -115,11 +115,17 @@ address = client.get_wallet_address()
 print(f"Paying from: {address}")
 ```
 
-## Smart Routing (ClawRouter)
+## Smart Routing (Router Core)
 
-**Save 88% on LLM costs automatically.**
+**Save <!-- br:savings.autoVsBaselinePct -->88<!-- /br:savings.autoVsBaselinePct -->% on LLM costs automatically.**
 
-The `smart_chat()` method uses ClawRouter's 14-dimension scoring algorithm to route each request to the optimal model. Routing decisions run locally in <1ms — your prompts never leave your machine for routing.
+Routing runs on [Router Core](https://github.com/BlockRunAI/router-core) — the same engine the TypeScript SDK and the BlockRun gateway use, so an identical request routes identically everywhere. Decisions are local (<1ms, no extra model call): your prompts never leave your machine to be routed.
+
+Three stages:
+
+1. **Classify** — <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions --> weighted dimensions map the request onto a capability tier, and a task classifier labels the shape of the work (`chat`, `code_edit`, `code_agent`, `tool_agent`, `reasoning_math`, `long_context`, `extraction`, `vision`, …).
+2. **Filter** — capability constraints are hard filters. A model that cannot hold the conversation, emit the requested `max_tokens`, call tools, or read images is dropped *before* scoring, so the router never picks a model the request would fail on.
+3. **Rank** — survivors are scored on task affinity, cost, speed and reliability. The winner serves the request; the rest become the fallback chain, walked automatically on a timeout, a saturated upstream (429) or a 5xx.
 
 ### Basic Usage
 
@@ -128,99 +134,142 @@ from blockrun_llm import LLMClient
 
 client = LLMClient()
 
-# Let ClawRouter pick the best model automatically
-result = client.smart_chat("What is 2+2?")
+result = client.smart_chat("Summarize this changelog entry in one line")
 
-print(result.response)           # "4"
-print(result.model)              # "deepseek/deepseek-chat" (cheap model for simple query)
+print(result.response)
+print(result.model)              # "google/gemini-2.5-flash"
 print(result.routing.tier)       # "SIMPLE"
-print(result.routing.savings)    # 0.94 (94% savings vs baseline)
+print(result.routing.task_type)  # "chat"
+print(result.routing.savings)    # 0.90 (90% savings vs the baseline flagship)
+```
+
+### Inspect a decision without paying
+
+`route()` runs the same routing and returns the decision only — no model call, no payment.
+
+```python
+decision = client.route("Prove that the square root of 2 is irrational")
+
+print(decision.model)       # "deepseek/deepseek-v4-pro"
+print(decision.tier)        # "REASONING"
+print(decision.task_type)   # "reasoning"
+print(decision.method)      # "portfolio"
+print(decision.candidates)  # ordered chain; smart_chat walks it on a transient failure
+print(decision.reasoning)   # human-readable explanation of the pick
+```
+
+### Routing a full message list
+
+`smart_chat_completion()` is the routing counterpart of `chat_completion()`. Tools, `tool_choice` and `response_format` are inputs to the *decision*, not just the request, and capacity is checked against the whole transcript rather than the last message.
+
+```python
+result = client.smart_chat_completion(
+    [{"role": "user", "content": "Cancel order B-42 using the tool."}],
+    tools=[{"type": "function", "function": {"name": "cancel_order", "parameters": {}}}],
+    tool_choice="required",
+)
+
+print(result.model)                              # "openai/gpt-5-mini" — tool-capable
+print(result.routing.task_type)                  # "tool_agent"
+print(result.response.choices[0].message.content)
+```
+
+### Virtual model ids
+
+Passing `blockrun/auto`, `blockrun/eco` or `blockrun/premium` to the ordinary chat methods routes the turn instead of calling a model by that name — one string change to opt existing OpenAI-compatible code into routing.
+
+```python
+response = client.chat_completion("blockrun/auto", messages)
 ```
 
 ### Routing Profiles
 
 | Profile | Behavior | Best For |
 |---------|----------|----------|
-| `"free"` | Always uses free NVIDIA models | Development, testing |
-| `"eco"` | Maximizes cost savings | Bulk processing |
+| `"free"` | Only the <!-- br:models.free -->5<!-- /br:models.free --> $0 NVIDIA models — no wallet needed | Development, testing |
+| `"eco"` | Cheapest capable model per tier | Bulk processing |
 | `"auto"` | Balances quality and cost (default) | Production workloads |
-| `"premium"` | Always uses top-tier models | Critical tasks |
+| `"premium"` | Top-tier models | Critical tasks |
 
 ```python
-# Force free models (great for development)
-result = client.smart_chat(
-    "Explain recursion",
-    routing_profile="free"
-)
-print(result.model)  # "nvidia/qwen3-next-80b-a3b-instruct" (cheapest capable for SIMPLE tier)
+# Free models only — a paid model can never leak into this profile
+result = client.smart_chat("Explain recursion", routing_profile="free")
+print(result.model)                 # "nvidia/step-3.7-flash"
+print(result.routing.cost_estimate) # 0.0
 
-# Maximum savings mode
-result = client.smart_chat(
-    "Summarize this article: ...",
-    routing_profile="eco"
-)
+# Maximum savings
+result = client.smart_chat("Summarize this article: ...", routing_profile="eco")
+print(result.model)  # "google/gemini-3.1-flash-lite"
 
-# Premium mode for critical tasks
-result = client.smart_chat(
-    "Review this contract for legal issues...",
-    routing_profile="premium"
-)
-print(result.model)  # "anthropic/claude-opus-4.6"
+# Premium for critical tasks
+result = client.smart_chat("Review this contract for legal issues...", routing_profile="premium")
 ```
 
-### 4-Tier Model Selection
+### Capability tiers
 
-ClawRouter classifies prompts into four tiers:
+The classifier places every request in one of <!-- br:clawrouter.tiers -->4<!-- /br:clawrouter.tiers --> tiers. Under `auto`, the tier primary is the starting point — the portfolio then ranks the eligible candidates and may promote a better-suited model for the task.
 
-| Tier | Models | Use Case |
-|------|--------|----------|
-| **SIMPLE** | DeepSeek, Gemini Flash | Q&A, summaries, simple tasks |
-| **MEDIUM** | GPT-5.5, Claude Sonnet 4.6 | Analysis, writing, coding |
-| **COMPLEX** | Claude Opus 4.6, GPT-5.4 Pro | Advanced reasoning, research |
-| **REASONING** | DeepSeek Reasoner, o1, o3 | Math, logic, proofs |
+| Tier | Auto primary | Use Case |
+|------|--------------|----------|
+| **SIMPLE** | `google/gemini-2.5-flash` | Q&A, summaries, simple tasks |
+| **MEDIUM** | `moonshot/kimi-k2.7` | Analysis, writing, coding |
+| **COMPLEX** | `google/gemini-3.1-pro` | Advanced reasoning, research, long documents |
+| **REASONING** | `xai/grok-4-1-fast-reasoning` | Math, logic, proofs |
+
+Under uncertainty the router fails **upward**: a score too close to a tier boundary is treated as ambiguous and defaults to MEDIUM, never SIMPLE.
 
 ### Routing Decision Details
 
 ```python
-result = client.smart_chat("Prove that √2 is irrational")
-
-# Access full routing decision
+result = client.smart_chat("Prove that the square root of 2 is irrational")
 routing = result.routing
-print(f"Model: {routing.model}")           # "deepseek/deepseek-reasoner"
-print(f"Tier: {routing.tier}")             # "REASONING"
-print(f"Confidence: {routing.confidence}") # 0.97
-print(f"Reasoning: {routing.reasoning}")   # "Detected: math proof request..."
-print(f"Estimated cost: ${routing.cost_estimate:.4f}")
-print(f"Baseline cost: ${routing.baseline_cost:.4f}")
-print(f"Savings: {routing.savings:.0%}")   # "97%"
+
+print(routing.model)             # the model that served the request
+print(routing.tier)              # "REASONING"
+print(routing.task_type)         # "reasoning"
+print(routing.method)            # "portfolio" ("rules" for the free profile)
+print(routing.router_version)    # "v3-portfolio"
+print(routing.confidence)        # 0.85
+print(routing.reasoning)         # why this model won
+print(routing.candidates)        # ordered candidate chain
+print(routing.candidate_scores)  # per-model quality / cost / speed / reliability
+print(routing.fallbacks)         # candidates[1:], the runtime retry chain
+print(f"${routing.cost_estimate:.4f} vs ${routing.baseline_cost:.4f}")
+print(f"Savings: {routing.savings:.0%}")
 ```
 
 ### Smart Routing Types
 
 ```python
 from blockrun_llm import (
-    RoutingProfile,    # Literal["free", "eco", "auto", "premium"]
-    RoutingTier,       # Literal["SIMPLE", "MEDIUM", "COMPLEX", "REASONING"]
-    RoutingDecision,   # Full routing details
-    SmartChatResponse, # Response + model + routing
+    RoutingProfile,              # Literal["free", "eco", "auto", "premium"]
+    RoutingTier,                 # Literal["SIMPLE", "MEDIUM", "COMPLEX", "REASONING"]
+    RoutingDecision,             # Full routing details
+    CandidateScore,              # One row of routing.candidate_scores
+    SmartChatResponse,           # response + model + routing
+    SmartChatCompletionResponse, # ChatResponse + model + routing
 )
 ```
 
-### Async Smart Routing
+### Every client routes
+
+`LLMClient`, `AsyncLLMClient`, `SolanaLLMClient` and `AsyncSolanaLLMClient` all expose `route()`, `smart_chat()` and `smart_chat_completion()`. Both chains run the same engine over the same catalog, so the same request picks the same model; only the x402 minimum in the cost estimate differs ($0.002 on Base, $0.001 on Solana).
 
 ```python
 import asyncio
-from blockrun_llm import AsyncLLMClient
+from blockrun_llm import AsyncLLMClient, SolanaLLMClient
 
+# Async, Base
 async def main():
     async with AsyncLLMClient() as client:
-        result = await client.smart_chat(
-            "What's the weather like?",
-            routing_profile="eco"
-        )
+        result = await client.smart_chat("What's the weather like?", routing_profile="eco")
         print(result.response)
 
 asyncio.run(main())
+
+# Solana — same routing, USDC on Solana
+solana = SolanaLLMClient()
+print(solana.route("Prove this theorem").model)
 ```
 
 ## Specialized clients

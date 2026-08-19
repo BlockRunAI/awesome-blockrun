@@ -59,7 +59,7 @@ Franklin is the autonomous agent on top of the BlockRun stack — it uses the sa
 ::::cards
 
 :::card{title="ClawRouter" href="routing/clawrouter.md" icon="Route"}
-The router Franklin uses — 14-dimension scoring picks the cheapest capable model.
+The router Franklin uses — <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions -->-dimension scoring plus portfolio ranking picks the cheapest capable model.
 :::
 
 :::card{title="BlockRun MCP" href="../mcp/blockrun-mcp.md" icon="Terminal"}

@@ -130,7 +130,7 @@ console.log(`Paying from: ${address}`);
 
 **Save 88% on LLM costs automatically.**
 
-The `smartChat()` method uses ClawRouter's 14-dimension scoring algorithm to route each request to the optimal model. Routing decisions run locally in <1ms — your prompts never leave your machine for routing.
+The `smartChat()` method routes each request on [Router Core](https://github.com/BlockRunAI/router-core) — <!-- br:clawrouter.dimensions -->15<!-- /br:clawrouter.dimensions --> weighted dimensions classify the request, capability constraints are applied as hard filters, and the surviving candidates are ranked on task affinity, cost, speed and reliability. Decisions run locally in <1ms — your prompts never leave your machine for routing, and no extra model call is made to decide.
 
 ### Basic Usage
 
@@ -164,7 +164,7 @@ console.log(result.routing.savings);    // 0.94 (94% savings)
 const result = await client.smartChat('Explain recursion', {
   routingProfile: 'free'
 });
-console.log(result.model);  // "nvidia/qwen3-next-80b-a3b-instruct" (cheapest capable for SIMPLE tier)
+console.log(result.model);  // "nvidia/step-3.7-flash" (a live $0 model; the free lineup rotates as NVIDIA retires SKUs)
 
 // Maximum savings mode
 const result2 = await client.smartChat('Summarize this article: ...', {
