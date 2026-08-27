@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 71 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+description: List and price 72 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
 ---
 
 # Models
@@ -159,7 +159,9 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `zai/glm-5.2` | GLM-5.2 (flagship) | $1.40/M | $4.40/M | 1M |
+| `zai/glm-5.3` | GLM-5.3 (flagship) | $1.40/M | $4.40/M | 1M |
+| `zai/glm-5.3-flash` | GLM-5.3 Flash (multimodal) | $0.15/M | $0.50/M | 1M |
+| `zai/glm-5.2` | GLM-5.2 | $1.40/M | $4.40/M | 1M |
 | `zai/glm-5.1` | GLM-5.1 | $1.40/M | $4.40/M | 200K |
 | `zai/glm-5` | GLM-5 | $1.00/M | $3.20/M | 200K |
 | `zai/glm-5-turbo` | GLM-5 Turbo | $1.20/M | $4.00/M | 200K |
