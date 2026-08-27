@@ -7,6 +7,17 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-08-27]
+
+### Added — Z.AI GLM-5.3 Flash, the first natively multimodal GLM-5
+- Added **`zai/glm-5.3-flash`** ($0.15/M in · $0.50/M out, **1M context**, 131,072 max output, image input, always-on reasoning) — a 320B/18B hybrid-attention MoE that takes screenshots and rendered UI directly into the coding loop. Verified live on Z.AI before listing: real completions, tool calls, streaming, and vision.
+- Priced at Z.AI's **list** rate. Z.AI is running a 50% launch promotion through **2026-09-09**; we list the post-promotion price rather than one that would lapse under our cost two weeks later.
+- Thinking cannot be disabled on the 5.3 generation, and does not need to be — unlike GLM-5/5.1/5.2, it returns content alongside its reasoning.
+- **`zai/glm-5.3`** ($1.40/$4.40, 1M context), launched 2026-08-19, is now listed in the model reference table as well.
+- Visible chat models are now **72** (was 71); total catalog **96** across chat, image, video, music, speech, and sound effects.
+
+---
+
 ## [2026-08-03]
 
 ### Changed — GPT-5.6 Luna is 80% cheaper, Terra 20%, passed through in full
