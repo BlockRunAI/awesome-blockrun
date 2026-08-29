@@ -1,6 +1,6 @@
 ---
 title: Introduction
-description: BlockRun is economic infrastructure for the agent era — AI agents discover services, pay in USDC over x402, and execute autonomously with no API keys and no subscriptions.
+description: BlockRun is the routing and payment layer for AI agents — one endpoint for every model and tool, paid per call in USDC with no API keys or subscriptions.
 ---
 
 # What is BlockRun?
