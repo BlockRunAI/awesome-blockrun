@@ -175,7 +175,7 @@ const result2 = await client.smartChat('Summarize this article: ...', {
 const result3 = await client.smartChat('Review this contract for legal issues...', {
   routingProfile: 'premium'
 });
-console.log(result3.model);  // "anthropic/claude-opus-4.6"
+console.log(result3.model);  // "anthropic/claude-opus-5"
 ```
 
 ### 4-Tier Model Selection
