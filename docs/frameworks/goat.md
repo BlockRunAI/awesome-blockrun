@@ -23,29 +23,29 @@ npm install @goat-sdk/core @blockrun/llm
 
 :::step{title="Set your wallet key"}
 ```bash
-export BLOCKRUN_WALLET_KEY=0x...  # Your Base wallet private key
+export BASE_CHAIN_WALLET_KEY=0x...  # Your Base wallet private key
 ```
 :::
 
 :::step{title="Use BlockRun for AI + GOAT for on-chain execution"}
 ```typescript
 import { getOnChainTools } from '@goat-sdk/adapter-vercel-ai';
-import { BlockRunLLM } from '@blockrun/llm';
+import { LLMClient } from '@blockrun/llm';
 
-const blockrun = new BlockRunLLM({
-  privateKey: process.env.BLOCKRUN_WALLET_KEY,
+const blockrun = new LLMClient({
+  privateKey: process.env.BASE_CHAIN_WALLET_KEY as `0x${string}`,
 });
 
-const response = await blockrun.chat({
-  model: 'anthropic/claude-sonnet-4.6',
-  messages: [
-    { role: 'user', content: 'Analyze ETH/USDC liquidity on Uniswap V3 on Base' }
-  ],
-  max_tokens: 1024,
-});
+const response = await blockrun.chatCompletion(
+  'anthropic/claude-sonnet-4.6',
+  [{ role: 'user', content: 'Analyze ETH/USDC liquidity on Uniswap V3 on Base' }],
+  { maxTokens: 1024 },
+);
 
 console.log(response.choices[0].message.content);
 ```
+
+`chatCompletion(model, messages, options?)` takes camelCase options (`maxTokens`, `temperature`, `tools`, `toolChoice`, …) and returns an OpenAI-shaped response. Prefer the exact OpenAI shape? `import { OpenAI } from '@blockrun/llm'` gives you `chat.completions.create({ model, messages, max_tokens })`.
 :::
 
 ::::
@@ -74,18 +74,15 @@ console.log(response.choices[0].message.content);
 
 ```typescript
 // Analyze yield opportunities across chains
-const yieldAnalysis = await agent.blockrun.chat({
-  model: 'openai/gpt-5.4',
-  messages: [{
-    role: 'user',
-    content: `
-      Compare yield opportunities:
-      - Aave on Ethereum: ${await agent.aave.getAPY('USDC')}
-      - Uniswap LP on Base: ${await agent.uniswap.getLPYield('USDC/ETH')}
-      Which offers better risk-adjusted returns?
-    `
-  }]
-});
+const yieldAnalysis = await agent.blockrun.chat(
+  'openai/gpt-5.4',
+  `
+    Compare yield opportunities:
+    - Aave on Ethereum: ${await agent.aave.getAPY('USDC')}
+    - Uniswap LP on Base: ${await agent.uniswap.getLPYield('USDC/ETH')}
+    Which offers better risk-adjusted returns?
+  `,
+);
 ```
 
 ### Cross-Chain Arbitrage
@@ -94,18 +91,37 @@ const yieldAnalysis = await agent.blockrun.chat({
 // Spot and execute arbitrage with AI verification
 const arbitrageOpp = await agent.findArbitrage('ETH');
 
-// AI validates the opportunity
-const validation = await agent.blockrun.chat({
-  model: 'anthropic/claude-sonnet-4.6',
-  messages: [{
-    role: 'user',
-    content: `Validate this arbitrage: ${JSON.stringify(arbitrageOpp)}`
-  }]
-});
+// AI validates the opportunity — chat() returns the reply text directly
+const validation = await agent.blockrun.chat(
+  'anthropic/claude-sonnet-4.6',
+  `Validate this arbitrage: ${JSON.stringify(arbitrageOpp)}`,
+);
 
 if (validation.includes('valid')) {
   await agent.executeArbitrage(arbitrageOpp);
 }
+```
+
+### Let the model drive GOAT's tools
+
+GOAT's Vercel AI adapter returns AI SDK tools; BlockRun's gateway is OpenAI-compatible, so any AI SDK provider can call it once payments are signed. The [BlockRun LiteLLM sidecar](https://github.com/BlockRunAI/blockrun-litellm) does that signing on `http://127.0.0.1:4001/v1` and forwards `tools` / `tool_choice` verbatim, which closes the loop:
+
+```typescript
+import { generateText, stepCountIs } from 'ai';
+import { createOpenAI } from '@ai-sdk/openai';
+import { getOnChainTools } from '@goat-sdk/adapter-vercel-ai';
+import { viem } from '@goat-sdk/wallet-viem';
+
+const blockrun = createOpenAI({ baseURL: 'http://127.0.0.1:4001/v1', apiKey: 'dummy' });
+
+const tools = await getOnChainTools({ wallet: viem(walletClient) });
+
+const { text } = await generateText({
+  model: blockrun('openai/gpt-5.4'),
+  tools,
+  stopWhen: stepCountIs(5),   // AI SDK v5+; `maxSteps: 5` on v4
+  prompt: 'Check my USDC balance on Base and tell me if I can afford a $50 swap.',
+});
 ```
 
 ## Why BlockRun + GOAT?
@@ -122,23 +138,27 @@ if (validation.includes('valid')) {
 Use BlockRun's TypeScript SDK alongside GOAT until the official plugin is released:
 
 ```typescript
-import { BlockRunLLM } from '@blockrun/llm';
+import { LLMClient } from '@blockrun/llm';
 
-const blockrun = new BlockRunLLM({
-  privateKey: process.env.BLOCKRUN_WALLET_KEY,
+const blockrun = new LLMClient({
+  privateKey: process.env.BASE_CHAIN_WALLET_KEY as `0x${string}`,
 });
 
 async function analyzeAndAct() {
-  const analysis = await blockrun.chat({
-    model: 'openai/gpt-5.4',
-    messages: [{
+  const analysis = await blockrun.chatCompletion(
+    'openai/gpt-5.4',
+    [{
       role: 'user',
       content: 'Compare Aave USDC yield on Ethereum vs Base. Which is better risk-adjusted?'
     }],
-    max_tokens: 2048,
-  });
+    { maxTokens: 2048 },
+  );
 
   console.log('AI Analysis:', analysis.choices[0].message.content);
+
+  // Or let the bundled router pick the cheapest capable model
+  const routed = await blockrun.smartChat('Summarize the last 24h of Base DEX volume');
+  console.log(routed.model, routed.response);
 }
 
 analyzeAndAct();
@@ -156,7 +176,7 @@ analyzeAndAct();
 ::::cards
 
 :::card{title="BlockRun TypeScript SDK" href="../sdks/typescript.md" icon="Code"}
-Full reference for `BlockRunLLM` and the payment flow it wraps.
+Full reference for `LLMClient` and the payment flow it wraps.
 :::
 
 :::card{title="Agent Developer Guide" href="../getting-started/agent-developers.md" icon="Brain"}

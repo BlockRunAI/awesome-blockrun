@@ -27,6 +27,8 @@ Mirrors the Predexon **v2 Data API** (`docs.predexon.com/openapi-v2.json`) — r
 | Tier 1 | $0.0085 | Market data, events, trades, orderbooks, positions, leaderboards |
 | Tier 2 | $0.0085 | Wallet analytics (incl. identity + clustering), smart money, cross-venue search, Binance data |
 
+Both tiers are a flat $0.0075 base plus the $0.001 per-transaction fee, so every call costs $0.0085 regardless of tier. The `402` body reports the charged price (`price.amount: "0.0085"`) together with `endpoint`, `method`, `description`, `category` and `tier`; the signable x402 v2 requirements are in the `X-Payment-Required` / `PAYMENT-REQUIRED` headers (base64 JSON, also mirrored in `WWW-Authenticate`).
+
 ---
 
 ## Endpoints
@@ -118,17 +120,24 @@ Cross-context wallet labels and on-chain relationship graph data.
 |----------|--------|-------------|
 | `/api/v1/pm/markets/search` | GET | Search markets across Polymarket, Kalshi, Limitless, Opinion, and Predict.Fun in a single call |
 
-> **Retired 2026-07-20.** Predexon discontinued market matching, and the whole
+> **Retired.** Predexon discontinued market matching on 2026-07-20, and the whole
 > canonical layer went with it: `matching-markets`, `matching-markets/pairs`,
-> `markets`, `markets/listings` and `outcomes/{predexon_id}` all return `410`.
-> `markets/search` above is the surviving cross-venue endpoint.
+> `markets`, `markets/listings` and `outcomes/{predexon_id}` were removed from
+> the gateway (upstream answers `410`; the gateway now returns `404 Not Found`
+> for them). The `dflow/*` endpoints (`dflow/trades`, `dflow/wallet/positions/{wallet}`,
+> `dflow/wallet/pnl/{wallet}`) were removed on 2026-08-04 for the same reason —
+> they no longer exist upstream. `markets/search` above is the surviving
+> cross-venue endpoint.
 
 ### Sports Markets — temporarily unavailable
 
-`/api/v1/pm/sports/*` is returning an upstream `500` as of 2026-08-04 and is
-withheld from discovery until Predexon restores it. The routes still resolve, so
+`/api/v1/pm/sports/*` (`sports/categories`, `sports/markets`,
+`sports/markets/{game_id}`, `sports/outcomes/{predexon_id}`, all Tier 1) is
+returning an upstream `500` as of 2026-08-04 and is withheld from discovery until
+Predexon restores it. The routes still resolve (they answer `402` unpaid), so
 existing integrations keep working the moment upstream recovers; new ones should
-not build on it yet.
+not build on it yet. While upstream is down a paid call returns `502` and is not
+charged.
 
 ### Other Platforms (Tier 1: $0.0085)
 
@@ -353,6 +362,38 @@ markets = client.pm("polymarket/markets", search="bitcoin")
 ::::
 
 Works on all clients: `LLMClient` (Base), `AsyncLLMClient`, and `SolanaLLMClient`.
+
+---
+
+## Errors
+
+Payment is verified before the request is forwarded and settled only after Predexon answers, so a rejected or failed request is never charged. Upstream calls time out after 30 seconds.
+
+| Code | Description |
+|------|-------------|
+| 402 | Payment required (no payment header), payment verification failed (see codes below), authorization reused (`code: "PAYMENT_REPLAY"`), or settlement failed after the call (`error: "Payment settlement failed"`) |
+| 400–499 | Predexon rejected the request — its status is passed through unchanged with `error: "Bad Request"`, a `message` of the form `Predexon <status>: <upstream reason> (payment NOT charged)`, `status`, `endpoint`, `method`, Predexon's body in `details`, and for known endpoints a `hint` with the correct call shape. `422` is what a missing required param (e.g. `q` on `markets/search`) produces |
+| 404 | Unknown or retired endpoint (`error: "Not Found"`) |
+| 502 | Predexon returned a 5xx (`error: "Upstream provider error"`). Payment was NOT charged, and the payment nonce is released so the SDKs can retry with the same signed header |
+| 503 | Predexon integration not configured, or temporarily paused |
+| 500 | Gateway error (`error: "Internal server error"`), including an upstream timeout |
+
+Successful responses carry `X-Payment-Response` (x402 v2 settlement receipt) and `X-Payment-Receipt` (the settlement transaction hash).
+
+:::info
+Predexon returns `200` with **unfiltered** data when it receives an unknown query-parameter name — it never rejects one. Use the exact names above: free-text search is `search` on every list endpoint but `q` on `markets/search`; the slug filter is `slug` on `polymarket/events` but `event_slug` / `market_slug` on `polymarket/markets`.
+:::
+
+### Payment verification codes
+
+A verification `402` spreads a machine-readable `code`:
+
+| `code` | Meaning |
+|--------|---------|
+| `PAYMENT_INVALID` | Signature, amount, network or recipient did not match the requirements (default; `message` omitted) |
+| `PAYMENT_UNFUNDED` | The authorization could not execute on-chain — usually insufficient USDC on Base, or an expired `validAfter`/`validBefore` window |
+| `PAYMENT_BLOCKHASH_STALE` | Solana gateway only: signed against an expired blockhash — re-sign and retry |
+| `PAYMENT_REPLAY` | That authorization was already used. Sign a fresh one for each request |
 
 ---
 

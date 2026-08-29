@@ -5,28 +5,69 @@ description: Wrap BlockRun in a custom LangChain LLM class that handles x402 pay
 
 # LangChain Integration
 
-Use BlockRun as an LLM provider in LangChain — a custom LLM class handles x402 payments automatically across chains, agents, and RAG.
+Use BlockRun as an LLM provider in LangChain — either through the OpenAI-compatible [LiteLLM adapter](https://github.com/BlockRunAI/blockrun-litellm) (full chat model: tools, streaming, async) or a custom LLM class over the Python SDK. Both handle x402 payments automatically across chains, agents, and RAG.
 
-[LangChain](https://github.com/langchain-ai/langchain) is the most popular framework for building LLM applications. BlockRun provides a custom LLM class that handles x402 payments automatically.
+[LangChain](https://github.com/langchain-ai/langchain) is the most popular framework for building LLM applications. BlockRun's `/v1/chat/completions` is already OpenAI-compatible at the protocol level; the only thing that differs is authentication — a per-request wallet signature instead of a Bearer key — and the two paths below bridge exactly that gap.
 
-:::note{title="Community integration — planned"}
-No official LangChain package yet; use the custom provider below or the BlockRun [SDK](../sdks/python.md) directly. BlockRun's primary paths are [Franklin](../products/franklin.md), the [MCP](../mcp/blockrun-mcp.md), and the SDKs.
+:::note{title="Community integration"}
+No official `langchain-blockrun` package yet; use the two paths below or the BlockRun [SDK](../sdks/python.md) directly. BlockRun's primary paths are [Franklin](../products/franklin.md), the [MCP](../mcp/blockrun-mcp.md), and the SDKs.
 :::
 
-## Setup
+## Path 1 — `ChatOpenAI` via the BlockRun LiteLLM sidecar (recommended)
+
+[`blockrun-litellm`](https://pypi.org/project/blockrun-litellm/) (v0.9.1) ships a local OpenAI-compatible proxy that signs x402 payments with your wallet. Any LangChain chat model that speaks the OpenAI protocol — `ChatOpenAI` — then works unchanged, including tool calling, streaming and async, which the string-in/string-out custom class in Path 2 cannot offer.
+
+::::steps
+
+:::step{title="Install"}
+```bash
+pip install 'blockrun-litellm[proxy]' langchain langchain-openai
+```
+:::
+
+:::step{title="Start the sidecar"}
+```bash
+export BLOCKRUN_WALLET_KEY=0x...        # Base wallet; never leaves your machine
+blockrun-litellm-proxy --port 4001      # → http://127.0.0.1:4001/v1
+```
+
+Add `--api-url https://sol.blockrun.ai/api` with a `SOLANA_WALLET_KEY` to pay on Solana. Keep the bind on loopback unless you also set `BLOCKRUN_PROXY_TOKEN`.
+:::
+
+:::step{title="Point ChatOpenAI at it"}
+```python
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(
+    model="openai/gpt-5.4",                 # any BlockRun chat model id
+    base_url="http://127.0.0.1:4001/v1",
+    api_key="dummy",                        # ignored unless BLOCKRUN_PROXY_TOKEN is set
+)
+
+print(llm.invoke("Explain x402 in one sentence").content)
+```
+:::
+
+::::
+
+Prefer to stay in-process? `pip install blockrun-litellm langchain-litellm`, call `from blockrun_litellm import register; register()` once, and use `ChatLiteLLM(model="blockrun/openai/gpt-5.4")`.
+
+## Path 2 — Custom LLM class over the Python SDK
+
+No sidecar, no LiteLLM: a minimal `LLM` subclass over `blockrun_llm.LLMClient`. Text in, text out — fine for chains and RAG, not for tool-calling agents.
 
 ::::steps
 
 :::step{title="Install LangChain and the BlockRun SDK"}
 ```bash
-pip install langchain blockrun-llm
+pip install langchain langchain-core blockrun-llm
 ```
 :::
 
 :::step{title="Define a custom LLM provider"}
 ```python
 from typing import Any, List, Optional
-from langchain.llms.base import LLM
+from langchain_core.language_models.llms import LLM
 from blockrun_llm import LLMClient
 
 class BlockRunLLM(LLM):
@@ -38,7 +79,7 @@ class BlockRunLLM(LLM):
     def __init__(self, model: str = "openai/gpt-5.4", **kwargs):
         super().__init__(**kwargs)
         self.model = model
-        self.client = LLMClient()
+        self.client = LLMClient()   # BLOCKRUN_WALLET_KEY or ~/.blockrun/.session
 
     @property
     def _llm_type(self) -> str:
@@ -50,12 +91,13 @@ class BlockRunLLM(LLM):
         stop: Optional[List[str]] = None,
         **kwargs
     ) -> str:
-        response = self.client.chat(self.model, prompt)
-        return response
+        return self.client.chat(self.model, prompt, stop=stop)
 
 # Usage
 llm = BlockRunLLM(model="openai/gpt-5.4")
 ```
+
+`langchain_core.language_models.llms.LLM` is the import that works on both LangChain 0.3 and 1.x; the old `langchain.llms.base` path was removed in 1.0.
 :::
 
 ::::
@@ -63,6 +105,8 @@ llm = BlockRunLLM(model="openai/gpt-5.4")
 ## Usage Examples
 
 ### Basic Chain (LCEL)
+
+Works with either path — swap `llm` for the `ChatOpenAI` instance above if you are using the sidecar.
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate
@@ -79,35 +123,33 @@ print(result)
 
 ### Agent with Tools
 
+Tool calling needs a chat model, so this uses Path 1. `create_agent` is LangChain 1.x; the sidecar forwards `tools` / `tool_choice` verbatim to the gateway.
+
 ```python
-from langchain.agents import create_tool_calling_agent, AgentExecutor
-from langchain_core.prompts import ChatPromptTemplate
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
 from langchain_community.tools import DuckDuckGoSearchRun
 
-llm = BlockRunLLM(model="openai/gpt-5.4")
+llm = ChatOpenAI(model="openai/gpt-5.4", base_url="http://127.0.0.1:4001/v1", api_key="dummy")
 
-tools = [DuckDuckGoSearchRun()]
+agent = create_agent(
+    model=llm,
+    tools=[DuckDuckGoSearchRun()],
+    system_prompt="You are a helpful assistant.",
+)
 
-prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful assistant."),
-    ("human", "{input}"),
-])
-
-agent = create_tool_calling_agent(llm, tools, prompt)
-executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-
-result = executor.invoke({"input": "What's the current price of ETH?"})
-print(result["output"])
+result = agent.invoke({"messages": [("human", "What's the current price of ETH?")]})
+print(result["messages"][-1].content)
 ```
 
 ### RAG Pipeline
 
 ```python
-from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_chroma import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
 
 llm = BlockRunLLM(model="anthropic/claude-sonnet-4.6")
 embeddings = HuggingFaceEmbeddings()
@@ -118,11 +160,18 @@ retriever = vectorstore.as_retriever()
 prompt = ChatPromptTemplate.from_template(
     "Answer based on context:\n{context}\n\nQuestion: {input}"
 )
-combine_chain = create_stuff_documents_chain(llm, prompt)
-rag_chain = create_retrieval_chain(retriever, combine_chain)
 
-result = rag_chain.invoke({"input": "How does x402 payment work?"})
-print(result["answer"])
+def format_docs(docs):
+    return "\n\n".join(d.page_content for d in docs)
+
+rag_chain = (
+    {"context": retriever | format_docs, "input": RunnablePassthrough()}
+    | prompt
+    | llm
+    | StrOutputParser()
+)
+
+print(rag_chain.invoke("How does x402 payment work?"))
 ```
 
 ## Multi-Model Chains
@@ -152,36 +201,47 @@ analysis = analysis_chain.invoke({"text": summary})
 # Use model routing based on task complexity
 def get_model_for_task(task_type: str) -> str:
     if task_type == "simple":
-        return "deepseek/deepseek-chat"  # $0.14/M tokens
+        return "deepseek/deepseek-chat"  # $0.14/M input tokens
     elif task_type == "complex":
-        return "openai/gpt-5.4"  # $2.50/M tokens
+        return "openai/gpt-5.4"  # $2.50/M input tokens
     elif task_type == "reasoning":
-        return "openai/o1"  # $15/M tokens
+        return "openai/o1"  # $15/M input tokens
     return "openai/gpt-5.4"
 
 # Dynamic model selection
 llm = BlockRunLLM(model=get_model_for_task("simple"))
 ```
 
+Or let the SDK decide: the Python SDK's `smart_chat()` (bundled Router Core V3) picks the cheapest capable model per request — see [Smart Routing](../sdks/python.md#smart-routing) — and the sidecar accepts `blockrun/auto`, `blockrun/eco` and `blockrun/premium` as model ids.
+
 ## Async Support
+
+The Python SDK ships an `AsyncLLMClient` with the same `chat()` signature:
 
 ```python
 import asyncio
+from blockrun_llm import AsyncLLMClient
 
 class AsyncBlockRunLLM(BlockRunLLM):
-    async def _acall(self, prompt: str, **kwargs) -> str:
-        # BlockRun SDK supports async
-        response = await self.client.achat(self.model, prompt)
-        return response
+    aclient: Any = None
+
+    def __init__(self, model: str = "openai/gpt-5.4", **kwargs):
+        super().__init__(model=model, **kwargs)
+        self.aclient = AsyncLLMClient()
+
+    async def _acall(self, prompt: str, stop: Optional[List[str]] = None, **kwargs) -> str:
+        return await self.aclient.chat(self.model, prompt, stop=stop)
 
 # Usage
 async def main():
     llm = AsyncBlockRunLLM()
-    result = await llm.agenerate(["Hello!"])
+    result = await llm.ainvoke("Hello!")
     print(result)
 
 asyncio.run(main())
 ```
+
+With Path 1, `ChatOpenAI` already supports `ainvoke` / `astream`.
 
 ## Wallet Setup
 
@@ -197,26 +257,27 @@ Or create programmatically:
 from blockrun_llm import LLMClient
 
 client = LLMClient()  # Auto-creates wallet
-print(f"Fund this address: {client.get_address()}")
+print(f"Fund this address: {client.get_wallet_address()}")
 ```
 
 See [Wallet Setup](../getting-started/wallet-setup.md).
 
 ## Pricing
 
-Same as BlockRun API: provider cost + 5%.
+Same as the BlockRun API — no markup on top of the gateway price. Live prices come from `https://blockrun.ai/api/v1/models`; a few examples (per 1M tokens, input/output):
 
 | Model | Cost |
 |-------|------|
-| GPT-4o | $2.63/$10.50 per 1M tokens |
-| DeepSeek V3 | $0.15/$0.29 per 1M tokens |
-| Claude Sonnet | $3.15/$15.75 per 1M tokens |
+| `openai/gpt-4o` | $2.50 / $10.00 |
+| `deepseek/deepseek-chat` | $0.14 / $0.28 |
+| `anthropic/claude-sonnet-4.6` | $3.00 / $15.00 |
 
 See [Intelligence Pricing](../products/intelligence/pricing.md).
 
 ## Links
 
 - [LangChain Documentation](https://python.langchain.com)
+- [blockrun-litellm](https://github.com/BlockRunAI/blockrun-litellm) — the LiteLLM adapter and sidecar
 - [BlockRun Python SDK](../sdks/python.md)
 - [Agent Developer Guide](../getting-started/agent-developers.md)
 

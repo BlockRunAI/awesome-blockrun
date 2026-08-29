@@ -34,18 +34,20 @@ Switch to Solana with `blockrun_wallet action:"chain" chain:"solana"` then `bloc
 
 BlockRun SDKs can generate a wallet automatically:
 
-**Claude Code:**
+**Claude Code (MCP):**
 ```
-blockrun setup
+blockrun_wallet action:"setup"
 ```
 
 **Python SDK:**
 ```python
-from blockrun_llm import LLMClient
+from blockrun_llm import setup_agent_wallet
 
-client = LLMClient()  # Creates wallet at ~/.blockrun/wallet.json if none exists
-print(client.get_address())
+client = setup_agent_wallet()  # Creates ~/.blockrun/.session if none exists and prints a funding QR
+print(client.get_wallet_address())
 ```
+
+`LLMClient()` on its own does not create a wallet — it raises `ValueError` if no key is found in the environment or at `~/.blockrun/.session`.
 
 **TypeScript SDK:**
 ```typescript
@@ -67,6 +69,32 @@ Or pass it directly:
 
 ```python
 client = LLMClient(private_key="0x...")
+```
+
+**Solana (Python SDK):** install the extra and use the Solana client. The key can be a bs58 keypair or seed, the Solana CLI's `~/.config/solana/id.json` byte array, or 64-byte hex:
+
+```bash
+pip install "blockrun-llm[solana]"
+export SOLANA_WALLET_KEY=...
+```
+
+```python
+from blockrun_llm import SolanaLLMClient, setup_agent_solana_wallet
+
+client = SolanaLLMClient()              # SOLANA_WALLET_KEY, else ~/.blockrun/.solana-session
+client = setup_agent_solana_wallet()    # creates ~/.blockrun/.solana-session if none exists
+```
+
+Base and Solana keys are not interchangeable (a Base key is `0x` + 64 hex); pass each to its own client. The payer must already hold a USDC token account on Solana.
+
+**Adopt a wallet another application created:** the SDK never switches wallets on its own. List what it found and import one deliberately — your current key is backed up to `~/.blockrun/.session.backup-<timestamp>` first:
+
+```python
+from blockrun_llm import list_discovered_wallets, import_wallet
+
+for w in list_discovered_wallets():
+    print(w["address"], "from", w["source"])
+import_wallet("0x...")
 ```
 
 ### Option 3: BlockRun MCP session wallet
@@ -99,15 +127,18 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 
 ### Check Balance
 
-**Claude Code:**
+**Claude Code (MCP):**
 ```
-blockrun balance
+blockrun_wallet action:"status"
 ```
 
 **Python:**
 ```python
 balance = client.get_balance()
 print(f"Balance: ${balance} USDC")
+
+# or, one-liner that also creates the wallet if needed:
+python3 -c "from blockrun_llm import status; status()"
 ```
 
 **MCP:** ask your agent — the `blockrun_wallet` tool reports the address and USDC balance.
@@ -120,9 +151,23 @@ View your wallet on [Basescan](https://basescan.org) by searching your address.
 
 | Platform | Location |
 |----------|----------|
-| Claude Code / MCP | `~/.blockrun/wallet.json` |
-| Python SDK | `~/.blockrun/wallet.json` or env var |
-| TypeScript SDK | `~/.blockrun/wallet.json` or env var |
+| Claude Code / MCP | `~/.blockrun/.session` |
+| Python SDK | `BLOCKRUN_WALLET_KEY` env var, else `~/.blockrun/.session` (legacy `~/.blockrun/wallet.key` still read) |
+| Python SDK (Solana) | `SOLANA_WALLET_KEY` env var, else `~/.blockrun/.solana-session` |
+| TypeScript SDK | `~/.blockrun/.session` or env var |
+
+Every file is written with mode `0600`. The MCP and both SDKs share the Base file, so one funded wallet serves all of them.
+
+## Spend Limits
+
+The Python SDK can refuse any quote above a ceiling **before** signing, so an agent can never spend more than you allowed — nothing settles on a refusal:
+
+```python
+client = LLMClient(max_cost_per_call=0.25, max_session_cost=10.00)
+# or per deployment: BLOCKRUN_MAX_COST_PER_CALL / BLOCKRUN_MAX_SESSION_COST
+```
+
+A refused quote raises `SpendLimitError` (a `PaymentError` subclass). Both limits are unset by default.
 
 ## Security Best Practices
 
@@ -191,8 +236,10 @@ https://testnet.blockrun.ai/api
 
 ### Available Testnet Models
 
-- `openai/gpt-oss-20b` - $0.003/request
-- `openai/gpt-oss-120b` - $0.004/request
+- `openai/gpt-oss-20b` - $0.001/request
+- `openai/gpt-oss-120b` - $0.002/request
+
+Testnet also lists the image models and `minimax/music-2.5+`; see `https://testnet.blockrun.ai/api/v1/models`.
 
 ## Troubleshooting
 
@@ -206,15 +253,17 @@ Check your USDC balance on Base network. ETH for gas is handled by the x402 faci
 2. Check if the network is congested on [Basescan](https://basescan.org)
 3. Try again in a few seconds
 
-### "Wallet not found"
+### "No wallet configured"
 
 ```bash
-# Check if wallet file exists
-ls ~/.blockrun/
+# Check if the wallet file exists
+ls -la ~/.blockrun/.session
 
-# Create new wallet
-blockrun setup
+# Create a new wallet (Python)
+python3 -c "from blockrun_llm import setup_agent_wallet; setup_agent_wallet()"
 ```
+
+Or in Claude Code: `blockrun_wallet action:"setup"`. If you hold a Solana key, remember it belongs to `SolanaLLMClient`, not `LLMClient`.
 
 ## What's next?
 

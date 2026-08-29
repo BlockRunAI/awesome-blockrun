@@ -45,13 +45,13 @@ Then set up a wallet and make your first call:
 
 :::step{title="Set up the wallet"}
 ```python
-from blockrun_llm import LLMClient
+from blockrun_llm import setup_agent_wallet
 
-client = LLMClient()  # Creates wallet if none exists
-print(f"Wallet address: {client.get_address()}")
+client = setup_agent_wallet()  # Creates ~/.blockrun/.session if none exists, prints a funding QR
+print(f"Wallet address: {client.get_wallet_address()}")
 ```
 
-Fund this address with USDC on Base network.
+Fund this address with USDC on Base network. (Solana: `pip install "blockrun-llm[solana]"` and `setup_agent_solana_wallet()`.)
 :::
 
 :::step{title="Use any model"}
@@ -138,16 +138,28 @@ def smart_route(task: str, importance: str) -> str:
     return client.chat(model, task)
 ```
 
-### Session Budgets
-
-Limit spending per agent session:
+Or let the SDK's built-in router classify each request locally and pick the cheapest capable model, with a fallback chain walked on 429/5xx:
 
 ```python
-client = LLMClient(session_budget=10.00)  # Max $10
+result = client.smart_chat(task)                      # routing_profile: "auto" | "eco" | "premium" | "free"
+print(result.model, result.routing.tier, result.routing.savings)
+
+# Same thing from any chat call — one string change
+client.chat("blockrun/auto", task)
+```
+
+### Spend Limits
+
+Cap what an agent session can sign for. A quote above the ceiling is refused *before* payment, so nothing settles:
+
+```python
+from blockrun_llm import LLMClient, SpendLimitError
+
+client = LLMClient(max_cost_per_call=0.50, max_session_cost=10.00)  # or BLOCKRUN_MAX_* env vars
 
 try:
     response = client.chat("openai/o1", expensive_prompt)
-except InsufficientBudgetError:
+except SpendLimitError:
     # Fallback to cheaper model
     response = client.chat("deepseek/deepseek-chat", expensive_prompt)
 ```
@@ -158,13 +170,15 @@ For high-throughput agents:
 
 ```python
 import asyncio
+from blockrun_llm import AsyncLLMClient
 
 async def process_batch(items: list) -> list:
-    tasks = [
-        client.achat("deepseek/deepseek-chat", f"Process: {item}")
-        for item in items
-    ]
-    return await asyncio.gather(*tasks)
+    async with AsyncLLMClient() as client:
+        tasks = [
+            client.chat("deepseek/deepseek-chat", f"Process: {item}")
+            for item in items
+        ]
+        return await asyncio.gather(*tasks)
 
 results = asyncio.run(process_batch(my_items))
 ```
@@ -194,19 +208,15 @@ Full list: [Models Reference](../api-reference/models.md)
 
 ## Pricing
 
-Pay only for what you use:
-
-```
-Your cost = Provider cost + 5%
-```
+Pay only for what you use, at the per-token price in the live catalog (`client.list_models()` or `GET https://blockrun.ai/api/v1/models`).
 
 Example costs per 1M tokens:
 
 | Model | Input | Output |
 |-------|-------|--------|
-| DeepSeek Chat | $0.29 | $0.44 |
-| GPT-5.4 | $2.63 | $15.75 |
-| Claude Opus 4.6 | $5.25 | $26.25 |
+| `deepseek/deepseek-chat` | $0.14 | $0.28 |
+| `openai/gpt-5.4` | $2.50 | $15.00 |
+| `anthropic/claude-opus-5` | $5.00 | $25.00 |
 
 Full pricing: [Intelligence Pricing](../products/intelligence/pricing.md)
 
@@ -221,25 +231,28 @@ export BLOCKRUN_WALLET_KEY=0x...
 ### Programmatic
 
 ```python
-# Create new
-client = LLMClient()  # Auto-generates if none exists
+from blockrun_llm import LLMClient, setup_agent_wallet
 
-# Use existing
-client = LLMClient(private_key="0x...")
+# Create new (or load the existing ~/.blockrun/.session)
+client = setup_agent_wallet()
+
+# Use existing key
+client = LLMClient(private_key="0x...")   # LLMClient() alone raises ValueError if no wallet is configured
 
 # Check balance
 balance = client.get_balance()
 print(f"${balance} USDC")
 
 # Get address to fund
-print(client.get_address())
+print(client.get_wallet_address())
 ```
 
 ### Security
 
-- Private key stored locally (`~/.blockrun/wallet.json`)
+- Private key stored locally (`~/.blockrun/.session`, mode 0600; Solana: `~/.blockrun/.solana-session`)
 - Only signatures sent to API
 - All payments verifiable on [Basescan](https://basescan.org)
+- A failed paid request is never retried with a second payment — the SDK refuses to advance its fallback chain once a signature has gone out
 
 :::warning
 Never commit `BLOCKRUN_WALLET_KEY` to git or share your private key. Use a dedicated agent wallet funded with only what the session needs.
@@ -250,19 +263,22 @@ Never commit `BLOCKRUN_WALLET_KEY` to git or share your private key. Use a dedic
 ```python
 from blockrun_llm import (
     LLMClient,
-    InsufficientBalanceError,
-    ModelNotFoundError,
-    RateLimitError
+    PaymentError,
+    SpendLimitError,
+    APIError,
 )
 
 try:
     response = client.chat(model, prompt)
-except InsufficientBalanceError:
+except SpendLimitError:
+    print("Over the agent's spend limit — nothing was charged")
+except PaymentError:
     print("Need to fund wallet")
-except ModelNotFoundError:
-    print("Invalid model ID")
-except RateLimitError:
-    print("Too many requests, backing off")
+except APIError as e:
+    if e.status_code == 429:
+        print("Too many requests, backing off")
+    else:
+        print(f"API error {e.status_code}: {e}")   # e.g. unknown model id
 ```
 
 ## Best Practices

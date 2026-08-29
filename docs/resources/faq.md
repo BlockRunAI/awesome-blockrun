@@ -14,7 +14,8 @@ Frequently asked questions about BlockRun — payments, products, models, wallet
 BlockRun is economic infrastructure for AI agents. It provides:
 - **Trading** — AI that analyzes markets and executes trades (alpha-mcp)
 - **Creation** — generate images, video, music, and speech, paid per output
-- **Intelligence** — Access to 66 chat/LLM models via x402 micropayments
+- **Intelligence** — Access to 72 chat/LLM models via x402 micropayments
+- **Routing** — ClawRouter picks the cheapest capable model locally, in under 1ms
 
 ### What makes BlockRun different?
 
@@ -29,7 +30,7 @@ BlockRun is economic infrastructure for AI agents. It provides:
 
 - **Trading (alpha-mcp):** Free and open source
 - **Creation:** Pay-per-use — images $0.015–0.15, video from $0.05/sec, music $0.15/track, text-to-speech $0.05–0.10 per 1k chars
-- **Intelligence:** Provider cost + 5%
+- **Intelligence:** Provider cost with **no platform margin** on per-token chat (since 2026-08-07) — only a flat $0.001 transaction fee per request. Media generation and Live Search carry 5%.
 - **Free tier:** 10 chat/reasoning/vision models with no per-token charge
 
 ## Products
@@ -45,7 +46,19 @@ It's free and open source. See [Trading Overview](../products/trading/overview.m
 
 ### What is nano-banana?
 
-nano-banana is a Claude Code skill for image generation. Generate images using Nano Banana, GPT Image, CogView-4, or Grok Imagine via micropayments. See [nano-banana](../products/creation/nano-banana.md).
+nano-banana is the image-generation capability — Nano Banana, GPT Image, CogView-4, or Grok Imagine via micropayments. See [nano-banana](../products/creation/nano-banana.md). The original `nano-banana-blockrun` Claude Code skill repo is archived; use the `blockrun_image` tool in [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) or the [GPT-Image-2 / SeeDance skill](https://github.com/BlockRunAI/Claude-Code-GPT-IMAGE2-SeeDance-BlockRun) instead.
+
+### What is ClawRouter?
+
+ClawRouter is the open-source LLM router for autonomous agents — it classifies each request locally and routes it to the cheapest capable model in under 1ms, paying per request in USDC on Base or Solana. It ships as an OpenClaw plugin and as ports for Hermes, DeepSeek Harness, Codex and the OKX OnchainOS wallet. See [ClawRouter](../products/routing/clawrouter.md) and the [Ecosystem](ecosystem.md).
+
+### What is Franklin?
+
+Franklin is the AI agent with a wallet — it holds USDC and spends it autonomously across every model and paid API to get work done, with budgets and guardrails. See [Franklin](../products/franklin.md).
+
+### Can I use an API key instead of a wallet?
+
+Enterprise access at **user.blockrun.ai** is coming soon: API keys (`brk_live_…`), wire/prepaid billing, and post-hoc billing at exact usage with no per-call minimum. Sign-in is not yet open — reach out on [Telegram](https://t.me/+mroQv4-4hGgzOGUx) for early access. Everyone else pays per call from a wallet; no API key is ever required.
 
 ## Payments
 
@@ -59,7 +72,7 @@ BlockRun uses the x402 protocol:
 
 ### What currency is accepted?
 
-USDC on Base network.
+USDC — on **Base** (`blockrun.ai`) or **Solana** (`sol.blockrun.ai`), both live. `nano.blockrun.ai` also accepts gas-free, batched USDC via Circle Gateway on Polygon, Arbitrum, Optimism and Unichain.
 
 ### What's the minimum to get started?
 
@@ -67,10 +80,11 @@ $1 is enough for testing. Recommended: $5-20 for regular usage.
 
 ### How do I fund my wallet?
 
-Send USDC to your wallet address on Base:
-- [Coinbase](https://coinbase.com) — Direct withdrawal to Base
+Send USDC to your wallet address on Base (or Solana):
+- [Coinbase](https://coinbase.com) — Direct withdrawal to Base or Solana
 - [Base Bridge](https://bridge.base.org) — Bridge from Ethereum
 - [Uniswap](https://app.uniswap.org) — Swap on Base
+- `POST /v1/onramp/token` — a free Coinbase Onramp link for a Base wallet (`blockrun fund` in the CLI)
 
 ### What if a request fails?
 
@@ -97,6 +111,10 @@ Tokens on Base via 0x Protocol. Common pairs: ETH/USDC, popular tokens with liqu
 ### Does BlockRun charge trading fees?
 
 No. alpha-mcp is free. You only pay for intelligence (sentiment analysis) and network gas.
+
+### Is there a per-request fee?
+
+Yes — a flat $0.001 transaction fee on every paid call, which covers on-chain settlement. That is the only thing added on top of provider cost for chat; there is no percentage margin on tokens.
 
 ## Technical
 
@@ -130,11 +148,23 @@ Then run `blockrun setup` in Claude Code.
 
 ### What frameworks are supported?
 
-- Claude Code (via MCP)
+- Claude Code, Cursor and any MCP client (blockrun-mcp; blockrun-claude-plugin for media spend gating)
+- OpenClaw (ClawRouter, XClawRouter, lobster.cash skill)
+- OpenAI Codex (clawrouter-codex bridge, blockrun-codex-plugin)
+- NousResearch Hermes (ClawRouter-Hermes)
+- DeepSeek Harness (dsh-clawrouter)
+- OpenCode (@blockrun/opencode)
+- LiteLLM (blockrun-litellm)
+- Continue (native provider)
 - ElizaOS (plugin)
-- AgentKit (SDK integration)
-- LangChain (custom LLM class)
+- AgentKit (SDK integration) and LangChain (custom LLM class) — planned
 - GOAT SDK (in review)
+
+Install commands for each are in the [Ecosystem](ecosystem.md).
+
+### Can I get the provider's response verbatim?
+
+Yes. `blockrun-llm-vip` (Python) and `blockrun-llm-go-vip` (Go) subclass the official Anthropic and OpenAI SDKs and only swap the transport, so thinking-block signatures, native `content[]`, cache-token usage and streaming events come back exactly as the provider sent them — no model substitution.
 
 ## Security
 
@@ -144,7 +174,7 @@ Your private key never leaves your machine. Only cryptographic signatures are se
 
 ### Where is my wallet stored?
 
-`~/.blockrun/wallet.json` by default.
+`~/.blockrun/.session` (Base key) and `~/.blockrun/.solana-session` (Solana key) by default — shared by the MCP, the CLI, ClawRouter and the SDKs, so one wallet covers every tool.
 
 ### Can BlockRun steal my funds?
 
@@ -180,7 +210,7 @@ print(client.get_address())
 
 ### Can I withdraw my funds?
 
-Yes. Your wallet is a standard Ethereum wallet. Import the private key into any Web3 wallet to withdraw.
+Yes. Your wallet is a standard Ethereum (Base) or Solana wallet. Import the private key into any Web3 wallet to withdraw.
 
 ## Troubleshooting
 
@@ -222,10 +252,14 @@ Check internet connection and retry. If persistent, check [BlockRun status](http
 ### How do I report bugs?
 
 Open an issue on the relevant GitHub repository:
-- General: [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)
+- General / MCP: [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)
+- Routing: [ClawRouter](https://github.com/BlockRunAI/ClawRouter)
+- Franklin agent: [Franklin](https://github.com/BlockRunAI/Franklin)
+- CLI: [blockrun-cli](https://github.com/BlockRunAI/blockrun-cli)
 - Trading: [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp)
 - Python SDK: [blockrun-llm](https://github.com/blockrunai/blockrun-llm)
 - TypeScript SDK: [blockrun-llm-ts](https://github.com/blockrunai/blockrun-llm-ts)
+- Go SDK: [blockrun-llm-go](https://github.com/blockrunai/blockrun-llm-go)
 
 ### Where can I follow updates?
 

@@ -84,7 +84,7 @@ POST https://blockrun.ai/api/v1/realface/init
 
 ### Rate limiting
 
-Free but **rate-limited to 10 init calls per hour per IP** because each call generates an upstream session (real cost). For honest single-user usage this is plenty; if you hit `429`, wait or use the refresh path on an existing group.
+Free but **rate-limited to 10 init calls per hour per IP** because each call generates an upstream session (real cost). For honest single-user usage this is plenty; if you hit `429` (`{ "error": "Rate limit exceeded", "retryAfterSeconds": n }` with a `Retry-After` header), wait or use the refresh path on an existing group. The refresh response carries `"refreshed": true` and no `next_steps`. An upstream failure on either path is `502`.
 :::
 
 :::step{title="H5 (the rights-holder's phone)"}
@@ -153,7 +153,7 @@ GET https://blockrun.ai/api/v1/realface/status?groupId=legacy_rf_…
 
 When `status` transitions to `"active"` (and `ready_to_finalize: true`), the rights-holder has completed the H5 and you can move to step 4.
 
-Poll every 3-5 seconds. Free but rate-limited (same bucket as wallet reconciliation, 20/hour/IP).
+Poll every 3-5 seconds. Free but rate-limited (same bucket as wallet reconciliation, 120/hour/IP). A `groupId` that is missing or not of the form `legacy_rf_<digits>` is `400`; a well-formed id that does not exist is `404` (`{ "error": "Asset group not found: …" }`) — only a genuine upstream failure is `502`.
 :::
 
 :::step{title="Finalize (PAID, $0.011 USDC)"}
@@ -182,15 +182,16 @@ POST https://blockrun.ai/api/v1/realface/enroll
 
 Same two-step pattern as other paid BlockRun endpoints:
 
-1. First call without `X-Payment` → server returns `402 Payment Required` with x402 challenge headers
-2. Sign the EIP-3009 transfer authorization for **$0.011 USDC on Base**
-3. Retry the same request with `X-Payment: <base64>`
+1. First call without `X-Payment` → server returns `402 Payment Required` with x402 challenge headers (`X-Payment-Required` / `PAYMENT-REQUIRED` base64, plus `WWW-Authenticate: X402 requirements="…"`) and a body of `{ "error": "Payment Required", "message": "Enrolling a RealFace asset costs $0.0110 USDC. …", "price": { "amount": "0.0110", "currency": "USD" }, "paymentInfo": { "network": "base", "asset": "USDC", "x402Version": 2 } }`
+2. Sign the EIP-3009 transfer authorization for **$0.011 USDC on Base** (`$0.01` enrolment + `$0.001` transaction fee — the requirements say `11000` micro-USDC)
+3. Retry the same request with `X-Payment: <base64>` (`Payment-Signature` is accepted too)
 
 Settlement happens **after** the upstream face-match succeeds. Failure modes that do NOT settle:
 
-- `425 Too Early` — group is not yet `active` (rights-holder hasn't done H5)
-- `422 Unprocessable` — face-match failed (uploaded photo doesn't match the live face)
-- `502 Bad Gateway` — upload to the inference partner failed
+- `402` — payment verification failed: `{ "error": "Payment verification failed", "code": "PAYMENT_INVALID" | "PAYMENT_UNFUNDED" | "PAYMENT_BLOCKHASH_STALE", "message"?, "debug", "payer" }`, or `code: "PAYMENT_REPLAY"` when the authorization was already used — sign a fresh one
+- `425 Too Early` — group is not yet `active` (rights-holder hasn't done H5); body carries `group_status` and a `hint`
+- `422 Unprocessable` — the face service rejected the image (bad/oversized photo, no clear single face; may carry a `code`) or the face-match failed (uploaded photo doesn't match the live face)
+- `502 Bad Gateway` — the upstream group-status check or the upload itself failed
 
 If settlement itself fails after a successful enrollment, BlockRun absorbs the cost.
 
@@ -209,7 +210,7 @@ If settlement itself fails after a successful enrollment, BlockRun absorbs the c
     "compatible_models": ["bytedance/seedance-2.0", "bytedance/seedance-2.0-fast"],
     "how_to_use": "Pass \"real_face_asset_id\": \"ta_f85b20b9394e47be9502d819bee7929c\" on a Seedance video generation request."
   },
-  "price": { "amount": "0.010000", "currency": "USD" },
+  "price": { "amount": "0.0110", "currency": "USD" },
   "settlement": {
     "success": true,
     "tx_hash": "0x…",
@@ -217,6 +218,8 @@ If settlement itself fails after a successful enrollment, BlockRun absorbs the c
   }
 }
 ```
+
+The settlement receipt is also returned in the `X-Payment-Response` / `PAYMENT-RESPONSE` headers.
 :::
 
 ::::
@@ -243,7 +246,7 @@ The same `ta_xxx` can be reused across as many videos as you want — pay only t
 GET https://blockrun.ai/api/v1/wallet/<address>/realfaces
 ```
 
-Returns the wallet's enrolled RealFaces. Free, rate-limited (same bucket as `/portraits`).
+Returns the wallet's enrolled RealFaces. Free, rate-limited (same 120/hour/IP bucket as `/portraits`); accepts EVM `0x…` or Solana base58 addresses (`400` otherwise). Responses are cacheable for 30 s.
 
 ```json
 {
@@ -269,12 +272,13 @@ The video playground reads this same list and shows it in the `real_face_asset_i
 
 | Code | When | Did payment settle? |
 |------|------|---------------------|
-| 400 | Invalid request body, malformed `group_id`, bad image URL | – (pre-payment) |
-| 402 | Payment Required (first probe) or payment verification failed | – |
+| 400 | Invalid request body, malformed `group_id`, bad image URL; on `/status`, missing/malformed `groupId` | – (pre-payment) |
+| 402 | Payment Required (first probe), or payment verification failed with `code` `PAYMENT_INVALID` / `PAYMENT_UNFUNDED` / `PAYMENT_BLOCKHASH_STALE` / `PAYMENT_REPLAY` | – |
+| 404 | `/status`: `groupId` does not exist upstream | – |
 | 425 | `group_id` is in `pending_validation` — the rights-holder hasn't completed the H5 yet | **No** |
-| 422 | Face-match failed — uploaded photo doesn't match the live H5 face | **No** |
-| 429 | Rate limit on `/init` or `/status` | – |
-| 502 | Upload to inference partner failed | **No** |
+| 422 | Image rejected by the face service, or face-match failed — uploaded photo doesn't match the live H5 face | **No** |
+| 429 | Rate limit on `/init` (10/hour/IP), `/status` or the listing (120/hour/IP) | – |
+| 502 | Upstream failure on `/init`, `/status`, the group-status check or the upload | **No** |
 | 200 | Asset enrolled and active | **Yes** |
 
 ## Storage and privacy

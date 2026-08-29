@@ -66,8 +66,9 @@ Signatures use [EIP-712](https://eips.ethereum.org/EIPS/eip-712) typed structure
 | Overpayment | Exact amount specified in signature |
 | Replay attacks | Unique nonce per transaction |
 | Cross-chain replay | Chain ID in signature domain |
-| Stale authorizations | Time-bounded validity window |
+| Stale authorizations | Time-bounded validity window (`maxTimeoutSeconds`, 300s on most endpoints) |
 | Man-in-the-middle | Cryptographic signature verification |
+| Spoofed resource URLs | The `resource.url` in a 402 is built from BlockRun's canonical origin, never from the caller's `Host` header |
 
 ### What You Must Protect
 
@@ -76,6 +77,7 @@ Signatures use [EIP-712](https://eips.ethereum.org/EIPS/eip-712) typed structure
 | Private key security | Use secure storage (env vars, secret managers) |
 | Wallet balance | Only fund wallets with needed amounts |
 | Network security | Use HTTPS endpoints |
+| Signing what you were quoted | Sign exactly the `accepts[]` entry from the 402 — amount, asset, network, `payTo` — and never a value a third party hands you |
 
 ## Best Practices
 
@@ -137,11 +139,11 @@ No. BlockRun can only claim the exact amount you authorized for a specific reque
 
 ### What if I sign but the request fails?
 
-If the AI request fails, the payment is not settled. You only pay for successful requests.
+Verification happens first and settlement only after the upstream response, so a request that fails upstream (`4xx`, `5xx`, `504` timeout) is never settled — you only pay for successful requests. Async media jobs are settled when the job completes, not when it is submitted. The one thing you cannot get back is tokens the model actually generated: the settled amount for chat is the quoted amount (estimated input + 10% of `max_tokens`), whether the model used all of it or not.
 
 ### Can someone replay my payment?
 
-No. Each payment has a unique nonce that can only be used once.
+No. Each payment has a unique nonce that can only be used once — the gateway claims it before running inference, and a second use is refused with `402` / `PAYMENT_REPLAY`. Cross-gateway replay is impossible too: the signed EIP-712 domain includes the chain id and USDC contract, and the payload names the exact `payTo` treasury.
 
 ### What if BlockRun's servers are compromised?
 

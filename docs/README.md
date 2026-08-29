@@ -26,7 +26,7 @@ Ask for an LLM completion, an image, a market quote, a swap. Your client signs a
 :::
 
 :::step{title="Pay only for what you use"}
-Each call costs a fraction of a cent — provider cost plus a small margin, with a $0.003 floor. No monthly bill, no seats, no minimums.
+Each call costs a fraction of a cent — per-token chat is billed at provider cost with no platform margin, plus a flat $0.001 transaction fee; media generation and Live Search carry 5%. No monthly bill, no seats, no minimums.
 :::
 
 ::::
@@ -46,7 +46,7 @@ One MCP install adds 20 `blockrun_*` tools to your assistant. Best for Claude Co
 :::
 
 :::card{title="I'm building an agent / backend" href="getting-started/sdk-developers.md" icon="Code"}
-Drop-in SDKs for Python, TypeScript, and Go — pay-per-call, OpenAI-compatible.
+Drop-in SDKs for Python, TypeScript, and Go — pay-per-call, OpenAI-compatible — plus native Anthropic/OpenAI passthrough clients, a LiteLLM adapter, and the `blockrun` CLI.
 :::
 
 :::card{title="Set up my wallet" href="getting-started/wallet-setup.md" icon="Wallet"}
@@ -92,3 +92,5 @@ No API keys to rotate, no subscriptions to cancel, no per-provider signups. Just
 - **Website:** [blockrun.ai](https://blockrun.ai)
 - **GitHub:** [github.com/BlockRunAI](https://github.com/BlockRunAI)
 - **x402 Services:** [live service directory](https://blockrun.ai/ecosystem/services)
+- **Every public repo:** [Ecosystem](resources/ecosystem.md) — routers, plugins, SDKs, Franklin apps, skills
+- **Enterprise (API keys + wire billing):** user.blockrun.ai — sign-in coming soon

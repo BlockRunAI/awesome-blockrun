@@ -46,13 +46,18 @@ npm install @blockrun/llm
 ::::steps
 
 :::step{title="Create a wallet"}
-A non-custodial wallet is created automatically on first run. In Claude Code, just ask for your wallet, or run the SDK once.
+A non-custodial wallet is created on first run. In Claude Code, just ask for your wallet; with the Python SDK, call `setup_agent_wallet()` once.
 
 ```
 blockrun_wallet action:"setup"
 ```
 
-This prints your address and opens a funding QR code. The private key is stored locally at `~/.blockrun/.session` and never leaves your machine.
+```python
+from blockrun_llm import setup_agent_wallet
+client = setup_agent_wallet()   # creates the wallet if missing, prints the address + QR
+```
+
+This prints your address and opens a funding QR code. The private key is stored locally at `~/.blockrun/.session` (mode 0600) and never leaves your machine — the MCP and both SDKs read the same file, so one funded wallet serves all of them.
 :::
 
 :::step{title="Fund it with USDC"}
@@ -81,12 +86,17 @@ Confirm the charge — each call costs a fraction of a cent.
 ```
 blockrun_wallet action:"status"
 ```
+
+```python
+print(client.get_balance())     # USDC on Base
+print(client.get_spending())    # {"total_usd": ..., "calls": ...} for this session
+```
 :::
 
 ::::
 
 :::warning
-If a call returns `402 Payment Required` after retrying, your wallet is empty or on the wrong chain. Run `blockrun_wallet action:"setup"` and confirm you funded the **active** chain.
+If a call returns `402 Payment Required` after retrying, your wallet is empty or on the wrong chain. Run `blockrun_wallet action:"setup"` and confirm you funded the **active** chain. In Python, `LLMClient()` raising `ValueError: No wallet configured` means no key was found — run `setup_agent_wallet()` or set `BLOCKRUN_WALLET_KEY`. Solana users install `pip install "blockrun-llm[solana]"` and use `SolanaLLMClient`.
 :::
 
 ## What's next?

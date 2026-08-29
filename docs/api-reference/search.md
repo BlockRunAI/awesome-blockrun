@@ -20,7 +20,7 @@ POST https://blockrun.ai/api/v1/search
 | Header | Required | Description |
 |--------|----------|-------------|
 | `Content-Type` | Yes | Must be `application/json` |
-| `PAYMENT-SIGNATURE` | Conditional | Base64-encoded x402 payment payload (required after 402, x402 v2) |
+| `PAYMENT-SIGNATURE` | Conditional | Base64-encoded x402 payment payload (required after 402, x402 v2). `X-PAYMENT` is accepted as an alias. |
 
 ### Body Parameters
 
@@ -69,8 +69,10 @@ POST https://blockrun.ai/api/v1/search
 | `citations[].url` | string | URL of the cited source |
 | `citations[].title` | string | Title or description of the source |
 | `citations[].source` | string | Source type (`web`, `news`) |
-| `sources_used` | integer | Number of sources actually queried |
+| `sources_used` | integer | Number of sources actually queried (falls back to `max_results` when upstream does not report it) |
 | `model` | string | Model used for search (currently `xai/grok-3-mini`) |
+
+Successful responses also carry two headers: `PAYMENT-RESPONSE` (the x402 v2 settlement receipt — base64 JSON with `success`, `transaction`, `network`, `payer`) and `X-Payment-Receipt` (the on-chain settlement transaction hash).
 
 ### Payment Required (402)
 
@@ -94,23 +96,50 @@ When you first make a request without payment, you'll receive:
 }
 ```
 
-The `X-Payment-Required` header contains the full payment requirements.
+The full x402 v2 payment requirements are in the `X-Payment-Required` and `PAYMENT-REQUIRED` headers (base64 JSON, identical content) and in `WWW-Authenticate: X402 requirements="..."`. Sign against the header, not the body: `price.amount` in the body is the per-source cost plus margin **before** the flat $0.001 transaction fee, while `accepts[0].amount` in the header is the exact USDC (6-decimal) amount you will be charged — for the default 10 sources that is `263500`, i.e. $0.2635. Payment authorizations are valid for `maxTimeoutSeconds: 300`.
+
+A `GET` to the same URL returns a 402 quoting the default price (10 sources) — useful for discovery.
+
+### Payment verification failed (402)
+
+If a payment header is present but does not verify, the body carries a machine-readable `code` so a client can branch on it instead of parsing `details`:
+
+```json
+{
+  "error": "Payment verification failed",
+  "code": "PAYMENT_UNFUNDED",
+  "message": "The payment authorization could not be executed on-chain. ...",
+  "details": "<raw verifier error>"
+}
+```
+
+| `code` | Meaning |
+|--------|---------|
+| `PAYMENT_INVALID` | Signature, amount, network or recipient did not match the requirements (default when nothing more specific applies; `message` is omitted) |
+| `PAYMENT_UNFUNDED` | The authorization could not execute on-chain — usually insufficient USDC on Base, or an expired `validAfter`/`validBefore` window |
+| `PAYMENT_BLOCKHASH_STALE` | Solana-gateway only: signed against an expired blockhash — re-sign against a current one |
+| `PAYMENT_REPLAY` | The same authorization was already used (`error: "Payment authorization already used"`). Sign a fresh authorization for every request |
+
+A `402` with `error: "Payment settlement failed"` means the search ran but settlement did not complete; nothing was charged.
 
 ## Pricing
 
-Search pricing is per-source with a 5% BlockRun margin:
+Search pricing is per-source with a 5% BlockRun margin, plus the flat $0.001 per-transaction fee charged on every paid call:
 
 - **Base cost:** $0.025 per source
 - **Margin:** 5%
-- **Formula:** `max_results × $0.025 × 1.05`
+- **Transaction fee:** $0.001 per request (flat)
+- **Formula:** `max_results × $0.025 × 1.05 + $0.001`
 
-| max_results | Base Cost | With Margin |
-|-------------|-----------|-------------|
-| 1 | $0.025 | $0.02825 |
-| 5 | $0.125 | $0.13325 |
-| 10 (default) | $0.250 | $0.26450 |
-| 25 | $0.625 | $0.65825 |
-| 50 | $1.250 | $1.31450 |
+| max_results | Base Cost | With Margin | Charged (incl. fee) |
+|-------------|-----------|-------------|---------------------|
+| 1 | $0.025 | $0.02625 | $0.02725 |
+| 5 | $0.125 | $0.13125 | $0.13225 |
+| 10 (default) | $0.250 | $0.26250 | $0.26350 |
+| 25 | $0.625 | $0.65625 | $0.65725 |
+| 50 | $1.250 | $1.31250 | $1.31350 |
+
+The price depends only on `max_results`, not on how many sources you list in `sources` or how many the search actually used.
 
 ## Examples
 
@@ -212,10 +241,11 @@ This gives you the raw chat completion response with search-augmented context. T
 
 | Code | Description |
 |------|-------------|
-| 400 | Invalid request (bad query or parameters) |
-| 402 | Payment required or payment verification failed |
-| 429 | Rate limit exceeded |
-| 500 | Server error |
+| 400 | Invalid request — body is not JSON (`code: "INVALID_JSON"`) or fails validation (`error: "Invalid request body"` with Zod `details`) |
+| 402 | Payment required, payment verification failed (see `code` above), replayed authorization (`PAYMENT_REPLAY`), or settlement failed |
+| 500 | Server error (`error: "Internal server error"`, with `details`) — includes upstream search failures |
+
+Upstream calls are made only after payment verifies; settlement happens after the search returns, so a failed search is never charged.
 
 ### Error Response
 

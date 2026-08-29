@@ -7,7 +7,7 @@ description: 83 crypto-data endpoints (CEX, on-chain SQL, prediction markets, wa
 
 Real-time crypto data for AI agents. 83 endpoints across exchanges, on-chain analytics, prediction markets, wallet labels, social mindshare, news, and search — all priced per call in USDC. No Surf account, no API key, just a wallet.
 
-Powered by [Surf](https://asksurf.ai) (asksurf.ai). BlockRun proxies the same endpoints with x402 settlement directly to Surf's treasury — your USDC routes 1:1 to them, BlockRun takes no spread.
+Powered by [Surf](https://asksurf.ai) (asksurf.ai). BlockRun proxies the same endpoints with x402 settlement, and every call is priced the same flat rate — the price you see in the 402 is the price you pay.
 
 ## The Problem Surf Solves
 
@@ -25,6 +25,8 @@ Surf unifies all of it behind one schema, billed per-call in stablecoins. An age
 | Tier 2 | **$0.0085 / call** | Time-series, technical indicators, orderbook depth |
 | Tier 3 | **$0.0085 / call** | On-chain SQL — raw queries against 80+ ClickHouse tables |
 
+Every tier is the same network-uniform data price ($0.0075 base + the flat $0.001 transaction fee = $0.0085). The tiers describe endpoint weight, not price. The unpaid 402 body reports the charged price (`price.amount`, e.g. `"0.0085"`) along with `method`, `description` and `required_params`, so an agent knows what to send before paying.
+
 ### Categories
 
 | Category | Endpoints | What it covers |
@@ -40,7 +42,7 @@ Surf unifies all of it behind one schema, billed per-call in stablecoins. An age
 | **project** | 3 | Project profiles, tokenomics, ecosystem maps |
 | **fund** | 3 | VC fund detail, portfolio, ranking |
 | **news** | 2 | AI-curated crypto news feed, article detail |
-| **web** | 1 | General crypto web search |
+| **web** | 1 | Fetch any web page as clean markdown (`web/fetch?url=`) |
 
 Full endpoint list (with `requiredParams`) is in `/openapi.json` and `/llms.txt` — search for `/api/v1/surf/`.
 
@@ -54,7 +56,7 @@ All Surf endpoints route through:
 https://blockrun.ai/api/v1/surf/<endpoint-path>
 ```
 
-Method follows the upstream — most are `GET` with **query string** params (never a request body); the two SQL/structured-query endpoints (`onchain/sql`, `onchain/query`) are `POST` with JSON bodies, while `onchain/schema` is a `GET`. The x402 discovery record (`extensions.bazaar` on the 402 response) declares GET params as `queryParams` — agents building calls from the CDP Bazaar catalog get the correct placement. Per-endpoint parameter docs live at [agents.asksurf.ai/docs](https://agents.asksurf.ai/docs).
+Method follows the upstream — most are `GET` with **query string** params (never a request body); the two SQL/structured-query endpoints (`onchain/sql`, `onchain/query`) are `POST` with JSON bodies, while `onchain/schema` is a `GET`. Calling an endpoint with the wrong method returns `405 Method Not Allowed` (the body names the expected method); an unknown path returns `404` with the full `available` list. The x402 discovery record (`extensions.bazaar` on the 402 response) declares GET params as `queryParams` — agents building calls from the CDP Bazaar catalog get the correct placement. Per-endpoint parameter docs live at [agents.asksurf.ai/docs](https://agents.asksurf.ai/docs).
 
 ---
 
@@ -171,7 +173,7 @@ The `blockrun_surf` MCP tool ships with [BlockRun MCP](../mcp/blockrun-mcp.md). 
 
 ## Use Cases
 
-### 1. Macro snapshot before every trade (~$0.013)
+### 1. Macro snapshot before every trade (~$0.026)
 
 ```typescript
 const [price, fng, funding] = await Promise.all([
@@ -181,9 +183,9 @@ const [price, fng, funding] = await Promise.all([
 ]);
 ```
 
-Total cost: $0.013 per pre-trade snapshot. Cheap enough to run every minute on a long-running bot.
+Total cost: $0.0255 per pre-trade snapshot (three calls at $0.0085). Cheap enough to run every minute on a long-running bot.
 
-### 2. Smart-money wallet monitor ($0.006/wallet)
+### 2. Smart-money wallet monitor ($0.017/wallet)
 
 ```python
 profile = client.surf('GET', 'wallet/detail', {'address': addr})
@@ -204,7 +206,7 @@ ORDER BY unique_callers DESC
 LIMIT 20
 ```
 
-A weekly research bot that runs this twice and feeds the result into Claude Opus to write a 1-page narrative costs ~$0.044 + LLM tokens.
+A weekly research bot that runs this twice and feeds the result into Claude Opus to write a 1-page narrative costs $0.017 + LLM tokens.
 
 ### 4. Multi-source prediction-market aggregator (Tier 1, ~$0.0085/event)
 
@@ -219,7 +221,7 @@ Compare odds across two venues, surface arb opportunities.
 
 ## Required Parameters
 
-Each endpoint declares its required query/body params in the upstream OpenAPI spec. If a required param is missing, BlockRun returns `400 Bad Request` **before** settling payment — you never get charged for a malformed call.
+Each endpoint declares its required query/body params (`required_params` in the unpaid 402 body, `requiredParams` in `/openapi.json`). If a required param is missing, BlockRun returns `400 Bad Request` **after** the payment header is present but **before** settling payment — you never get charged for a malformed call. The 400 body lists `missing_params` and `all_required`. (Validation runs after the payment check on purpose: an unpaid probe without params still gets the 402 discovery record instead of a 400.)
 
 Common required params:
 - `pair` → `BTC-USDT`, `ETH-USDT-PERP`, etc. (exchange endpoints)
@@ -238,7 +240,7 @@ Common required params:
 | Tier 2 | $0.0085 | 36 (time-series, indicators, depth, history) |
 | Tier 3 | $0.0085 | 3 (`onchain/sql`, `onchain/query`, `onchain/schema`) |
 
-Payment is in USDC on Base or Solana via x402. **Settles 1:1 directly to Surf's treasury wallet** (`0x058a5961FbE8cD8E4B47C69d3d82E159cb5d8F17` on Base) — BlockRun takes no margin. We pass through pricing as-is in exchange for being the discovery/auth/settlement layer.
+Every price above is the full customer price: $0.0075 base + the flat $0.001 transaction fee. Payment is in USDC on Base or Solana via x402. On Base, settlement lands directly in Surf's treasury wallet (`0x058a5961FbE8cD8E4B47C69d3d82E159cb5d8F17`); the per-request settlement transaction hash comes back in the `X-Payment-Receipt` header, with the full receipt in `X-Payment-Response`.
 
 ---
 
@@ -259,13 +261,16 @@ Payment is in USDC on Base or Solana via x402. **Settles 1:1 directly to Surf's 
 
 | Code | Description |
 |------|-------------|
-| 200 | Success — query result in body |
-| 400 | Missing required param (pre-payment validation, **not charged**) |
-| 402 | Payment required — sign and retry |
-| 404 | Unknown endpoint path (typo in `surf/<path>`) |
-| 429 | Surf upstream rate limited — `Retry-After` header set, **not charged**. See [Rate Limits](rate-limits.md) |
-| 502 | Surf upstream returned an error — **not charged**, error body forwarded |
-| 503 | Surf integration not configured on this BlockRun deployment |
+| 200 | Success — query result in body; `X-Payment-Receipt` carries the settlement tx hash |
+| 400 | Missing required param (pre-settlement validation, **not charged**) — body has `missing_params` / `all_required`. Any other 4xx from Surf is forwarded with its original status, wrapped as `{ "error": "Bad Request", "status": <upstream>, "details": ... }`, **not charged** |
+| 402 | Payment required — sign and retry. If verification fails the body is `{ "error": "Payment verification failed", "code": "PAYMENT_INVALID" \| "PAYMENT_UNFUNDED" \| "PAYMENT_BLOCKHASH_STALE", "message"?, "details" }`; re-using an authorization returns `code: "PAYMENT_REPLAY"` — sign a fresh one per request. `Payment settlement failed` (no tx) is also a 402 |
+| 404 | Unknown endpoint path (typo in `surf/<path>`) — body lists every `available` path |
+| 405 | Wrong method for a known path (e.g. `POST` to a `GET` endpoint) |
+| 429 | Surf upstream rate limited — forwarded as-is, **not charged**. See [Rate Limits](rate-limits.md) |
+| 502 | Surf upstream returned a 5xx — **not charged**, upstream body in `details` |
+| 503 | Surf integration not configured, or the partner is temporarily paused |
+
+Upstream calls time out after 30 seconds. Because settlement happens **after** the upstream call succeeds, any failed call — 4xx, 5xx, or timeout — is never charged.
 
 ---
 

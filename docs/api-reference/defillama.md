@@ -23,8 +23,12 @@ agent can budget a call the same way it budgets any other endpoint.
 | `/api/v1/defillama/yields` | GET | $0.006 | Every tracked yield pool (lending, LPs, staking, vaults) with current APY/TVL |
 | `/api/v1/defillama/prices/{coins}` | GET | $0.002 | Token price lookup, comma-separated coin identifiers |
 
-Prices are quoted in every 402 response. Read them at request time rather than
-copying from this page.
+Prices above include the flat $0.001 transaction fee added to every paid call
+(base $0.005 / $0.001). They are quoted in every 402 response — read them at
+request time rather than copying from this page.
+
+Query-string parameters are forwarded to DefiLlama unchanged, so any filter the
+upstream endpoint accepts works here too.
 
 ---
 
@@ -55,8 +59,9 @@ curl https://blockrun.ai/api/v1/defillama/protocol/aave \
 |-----------|----|----------|-------------|
 | `slug` | path | Yes | DefiLlama protocol slug — `aave`, `uniswap`, `lido`, … |
 
-Slugs come from the `slug` field of `/protocols`. An unknown slug returns `404`
-and is **not** charged.
+Slugs come from the `slug` field of `/protocols`. An unknown slug is rejected
+upstream and comes back as `400` (`error: "Bad Request"`, with the upstream
+message in `details`) — it is **not** charged.
 
 The heaviest protocols (`uniswap`, for one) return multi-MB payloads; the
 upstream timeout is 25s.
@@ -107,18 +112,48 @@ Identifier forms:
 - `coingecko:<id>` — e.g. `coingecko:bitcoin`
 - `<chain>:<address>` — e.g. `ethereum:0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2`, `solana:So11111111111111111111111111111111111111112`
 
-The response is an object keyed by the identifier you passed, each with
-`price`, `symbol`, `decimals` and `timestamp`.
+The response is `{ "coins": { ... } }` keyed by the identifier you passed, each
+with `price`, `symbol`, `confidence` and `timestamp` (contract-address
+identifiers also carry `decimals`). An identifier
+DefiLlama does not know is simply absent from `coins` — the call still returns
+`200` and is charged, so validate identifiers before batching them.
 
 ---
+
+## Payment flow
+
+A request without a payment header returns `402`. The signed requirements are
+in the `X-Payment-Required` / `PAYMENT-REQUIRED` headers (and
+`WWW-Authenticate: X402 requirements="…"`), and the JSON body restates the
+price for humans:
+
+```json
+{
+  "error": "Payment Required",
+  "message": "This endpoint requires x402 payment",
+  "endpoint": "/api/v1/defillama/prices/coingecko:bitcoin",
+  "method": "GET",
+  "description": "Token price lookup. …",
+  "price": { "amount": "0.0020", "currency": "USD" },
+  "paymentInfo": { "network": "base", "asset": "USDC", "x402Version": 2 }
+}
+```
+
+Successful responses carry `X-Payment-Receipt` (the settlement transaction
+hash) and `X-Payment-Response` (base64 x402 settlement receipt).
 
 ## Errors
 
 | Status | Meaning | Charged? |
 |--------|---------|----------|
-| `402` | Payment required — the response carries the exact amount and `payTo` | No |
-| `404` | Unknown protocol slug or coin identifier | No |
-| `502` | DefiLlama upstream error or timeout | No |
+| `400` | DefiLlama rejected the request (unknown slug, bad parameter). Upstream `4xx` codes are passed through as-is with `error: "Bad Request"` and the upstream body in `details` | No |
+| `402` | No payment header — body carries `price` and the headers carry the signed requirements | No |
+| `402` | `error: "Payment verification failed"` with a machine-readable `code`: `PAYMENT_INVALID`, `PAYMENT_UNFUNDED` (insufficient USDC or expired `validBefore`) or `PAYMENT_BLOCKHASH_STALE`; `message` explains the fix when one is known | No |
+| `402` | `code: "PAYMENT_REPLAY"` — the payment authorization was already used. Sign a fresh one per request | No |
+| `402` | `error: "Payment settlement failed"` — data was fetched but settlement did not land; `details` has the reason | No |
+| `404` | Unknown BlockRun endpoint — body lists `available` paths | No |
+| `502` | DefiLlama upstream error or 25s timeout (`"Payment was NOT charged."`) | No |
+| `503` | Service paused | No |
 
 Payment settles only after a successful upstream response, so a failed call
 never costs you anything.

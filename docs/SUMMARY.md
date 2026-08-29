@@ -28,6 +28,7 @@
 ## Creation
 
 * [nano-banana](products/creation/nano-banana.md)
+* [Music Generation](products/creation/music-generation.md)
 
 ## Trading
 
@@ -47,6 +48,7 @@
 * [Python SDK](sdks/python.md)
 * [TypeScript SDK](sdks/typescript.md)
 * [Go SDK](sdks/go.md)
+* [XRPL SDK (deprecated)](sdks/xrpl.md)
 
 ## API Reference
 

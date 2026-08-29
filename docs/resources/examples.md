@@ -13,16 +13,40 @@ Drop-in skills that turn a BlockRun capability into a one-line Claude Code comma
 
 ::::cards
 
-:::card{title="nano-banana-blockrun" href="https://github.com/BlockRunAI/nano-banana-blockrun" icon="Image"}
-Image generation as a Claude Code skill, paid via x402 micropayments.
-:::
-
 :::card{title="GPT-Image-2 / SeeDance" href="https://github.com/BlockRunAI/Claude-Code-GPT-IMAGE2-SeeDance-BlockRun" icon="Image"}
-Run any GPT-Image-2 or Seedance prompt as a one-liner — `/headshot`, `/dance`, `/poster` + a 1010-case library.
+Run any GPT-Image-2 or Seedance prompt as a one-liner — `/headshot`, `/dance`, `/poster`, `/launch-film` + an 848-case library.
 :::
 
 :::card{title="lobster.cash skill" href="https://github.com/BlockRunAI/lobstercash-blockrun-skill" icon="Zap"}
 BlockRun skill for the lobster.cash OpenClaw plugin — 72 models paid with Solana USDC.
+:::
+
+:::card{title="blockrun-claude-plugin" href="https://github.com/BlockRunAI/blockrun-claude-plugin" icon="Wallet"}
+Claude Code media plugin — spend confirmation before each paid image/video/audio call, a running cost meter, and a status-line balance.
+:::
+
+::::
+
+## Bridges to other agent runtimes
+
+Reference implementations for putting the whole catalog behind a runtime that speaks a different API.
+
+::::cards
+
+:::card{title="clawrouter-codex" href="https://github.com/BlockRunAI/clawrouter-codex" icon="Code"}
+Responses API ↔ Chat Completions bridge so OpenAI Codex (CLI, IDE, Desktop) can use any BlockRun model, wallet-signed.
+:::
+
+:::card{title="ClawRouter-Hermes" href="https://github.com/BlockRunAI/ClawRouter-Hermes" icon="Code"}
+Python plugin wrapping the ClawRouter proxy as a Hermes provider.
+:::
+
+:::card{title="dsh-clawrouter" href="https://github.com/BlockRunAI/dsh-clawrouter" icon="Code"}
+DeepSeek Harness plugin — a stronger model reviews dangerous tool calls before they run.
+:::
+
+:::card{title="blockrun-litellm" href="https://github.com/BlockRunAI/blockrun-litellm" icon="Code"}
+LiteLLM custom provider and local OpenAI-compatible proxy, Base and Solana.
 :::
 
 ::::
@@ -37,6 +61,14 @@ Node-based AI media studio — generate image/video/music on an infinite canvas,
 
 :::card{title="polymarket-agent" href="https://github.com/BlockRunAI/polymarket-agent" icon="TrendingUp"}
 Autonomous prediction-market trading agent using x402 micropayments.
+:::
+
+:::card{title="franklin-bet" href="https://github.com/BlockRunAI/franklin-bet" icon="TrendingUp"}
+A council of frontier models researches the form, reads live odds, and bets on every 2026 World Cup match — open-source, reproducible pipeline.
+:::
+
+:::card{title="Franklin-Trading" href="https://github.com/BlockRunAI/Franklin-Trading" icon="TrendingUp"}
+Wallet-native trading agent — persona debate, Backtest → Paper → Live, an x402 USDC receipt per fill.
 :::
 
 :::card{title="circle-nanopayment-sample" href="https://github.com/BlockRunAI/circle-nanopayment-sample" icon="Wallet"}

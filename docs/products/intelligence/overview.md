@@ -89,7 +89,7 @@ See [Pricing](pricing.md) for complete list and calculator.
 ## Pricing Model
 
 ```
-Your cost = Provider cost + 5%
+Your cost = Provider cost (no platform margin on chat tokens) + $0.001 per request
 ```
 
 The 5% covers:
