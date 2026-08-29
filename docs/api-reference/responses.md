@@ -60,7 +60,7 @@ All paid OpenAI models: GPT-5.x (including `-pro` tiers), o-series, and the code
 
 ## Payment flow
 
-Identical to Chat Completions: send the request without payment, receive a `402` with a USDC quote (estimated input tokens + 10% of `max_output_tokens`, minimum $0.003), sign the x402 authorization, and resend with the `PAYMENT-SIGNATURE` header. The [SDKs](../sdks/README.md) handle this automatically.
+Identical to Chat Completions: send the request without payment, receive a `402` with a USDC quote (estimated input tokens + 10% of `max_output_tokens`, minimum $0.003), sign the x402 authorization, and resend with the `PAYMENT-SIGNATURE` header. The [SDKs](../getting-started/sdk-developers.md) handle this automatically.
 
 ## Examples
 
