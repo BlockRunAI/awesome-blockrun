@@ -51,9 +51,9 @@ Images that fail the upstream content filter (NSFW, recognizable real-celebrity 
 
 Standard BlockRun two-step:
 
-1. **First request without `X-Payment`** → server returns `402 Payment Required` with x402 challenge headers
-2. Sign the EIP-3009 transfer authorization for **$0.011 USDC on Base**
-3. **Retry the same request with `X-Payment: <base64>`** → server verifies, registers the portrait, settles the payment after registration succeeds, returns the `ta_xxx`
+1. **First request without `X-Payment`** → server returns `402 Payment Required` with x402 challenge headers (`X-Payment-Required` / `PAYMENT-REQUIRED` base64, plus `WWW-Authenticate: X402 requirements="…"`) and a body of `{ "error": "Payment Required", "message": "Enrolling a Virtual Portrait costs $0.0110 USDC. …", "price": { "amount": "0.0110", "currency": "USD" }, "paymentInfo": { "network": "base", "asset": "USDC", "x402Version": 2 } }`
+2. Sign the EIP-3009 transfer authorization for **$0.011 USDC on Base** (`$0.01` enrolment + `$0.001` transaction fee — the requirements say `11000` micro-USDC)
+3. **Retry the same request with `X-Payment: <base64>`** (`Payment-Signature` is accepted too) → server verifies, rejects a reused authorization (`402`, `code: "PAYMENT_REPLAY"`), registers the portrait, settles the payment after registration succeeds, returns the `ta_xxx`
 
 Settlement happens **after** the portrait is successfully enrolled. If enrollment fails (content filter, network error), no payment is taken — the route returns 502 and the caller can retry with a fresh signature. If settlement itself fails after a successful enrollment, BlockRun absorbs the cost rather than leave the user with a paid-but-unrecoverable state.
 
@@ -67,13 +67,15 @@ If you're using `clawrouter` locally, this flow is fully automatic — just call
   "asset_id": "ta_abcdef1234567890",
   "group_id": "tg_xyz9876543210",
   "name": "My Spokesperson",
-  "image_url": "https://example.com/character.jpg",
+  "image_url": "https://blockrun.ai/api/media/…",
+  "source_image_url": "https://example.com/character.jpg",
+  "mirrored": true,
   "created_at": "2026-05-22T14:32:11.000Z",
   "usage": {
     "compatible_models": ["bytedance/seedance-2.0", "bytedance/seedance-2.0-fast"],
     "how_to_use": "Pass \"real_face_asset_id\": \"ta_abcdef1234567890\" on a Seedance video generation request."
   },
-  "price": { "amount": "0.010000", "currency": "USD" },
+  "price": { "amount": "0.0110", "currency": "USD" },
   "settlement": {
     "success": true,
     "tx_hash": "0x9f3a…",
@@ -82,10 +84,14 @@ If you're using `clawrouter` locally, this flow is fully automatic — just call
 }
 ```
 
+The settlement receipt is also returned in the `X-Payment-Response` / `PAYMENT-RESPONSE` headers.
+
 | Field | Description |
 |-------|-------------|
 | `asset_id` | The `ta_…` id to pass as `real_face_asset_id` on Seedance |
 | `group_id` | Internal asset-group id — exposed for debugging / future delete operations |
+| `image_url` | The BlockRun-hosted mirror of your image (so the listing thumbnail survives a dead source URL); falls back to the original URL if mirroring failed |
+| `source_image_url` / `mirrored` | The URL you supplied, and whether the mirror succeeded |
 | `usage.compatible_models` | Which BlockRun video models accept this asset id |
 | `settlement.tx_hash` | The Base settlement transaction (verify on BaseScan) |
 
@@ -143,7 +149,7 @@ The same `ta_xxx` can be reused across as many video generations as you want —
 GET https://blockrun.ai/api/v1/wallet/<address>/portraits
 ```
 
-Returns the list of portraits the given wallet has enrolled. Free (rate-limited to 20 requests / hour / IP, shared with the wallet-reconciliation bucket). Works for both EVM (`0x…`) and Solana (base58) addresses, though Virtual Portrait enrollment itself is currently Base-only.
+Returns the list of portraits the given wallet has enrolled. Free (rate-limited to 120 requests / hour / IP, shared with the wallet-reconciliation bucket; responses cacheable for 30 s). Works for both EVM (`0x…`) and Solana (base58) addresses, though Virtual Portrait enrollment itself is currently Base-only.
 
 ```json
 {
@@ -171,9 +177,10 @@ The video playground at `/models/bytedance-seedance-2.0-fast` reads this same li
 | 400 | `Invalid request body` | Missing `name`, invalid `image_url`, name > 64 chars |
 | 400 | `image_url must be an http(s) URL` | URL missing `https://` scheme |
 | 402 | `Payment Required` | First request — sign + retry with `X-Payment` header |
-| 402 | `Payment verification failed` | Signature didn't match what was quoted (amount, recipient, nonce) — re-sign |
+| 402 | `Payment verification failed` | `code` is `PAYMENT_INVALID` (signature/amount/recipient mismatch — re-sign), `PAYMENT_UNFUNDED` (insufficient USDC or expired window) or `PAYMENT_BLOCKHASH_STALE`; a `message` explains when known, `debug` carries the raw reason |
+| 402 | `Payment authorization already used` | `code: "PAYMENT_REPLAY"` — each authorization is single-use; sign a fresh one |
 | 502 | varies | Enrollment failed (content filter, image too big, network) — **no payment taken**, safe to retry with a different image |
-| 429 | `Rate limit exceeded` | Listing endpoint only — back off per `Retry-After` header |
+| 429 | `Rate limit exceeded` | Listing endpoint only (120/hour/IP) — back off per `Retry-After` header |
 
 ## Storage and privacy
 

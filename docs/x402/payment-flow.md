@@ -36,15 +36,21 @@ Server returns payment requirements:
 
 ```http
 HTTP/1.1 402 Payment Required
-X-Payment-Required: <base64-encoded-requirements>
+Content-Type: application/json
+Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+PAYMENT-REQUIRED: <base64-encoded-requirements>
+X-Payment-Required: <same value>
+WWW-Authenticate: X402 requirements="<same value>"
 
 {
   "error": "Payment Required",
-  "price": {"amount": "0.001000", "currency": "USD"}
+  "message": "This endpoint requires x402 payment",
+  "price": {"amount": "0.025685", "currency": "USD"},
+  "paymentInfo": {"network": "base", "asset": "USDC", "x402Version": 2}
 }
 ```
 
-The `X-Payment-Required` header contains:
+The three headers carry the same base64 value. Decoded:
 
 ```json
 {
@@ -52,16 +58,22 @@ The `X-Payment-Required` header contains:
   "accepts": [{
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "1000",
+    "amount": "25685",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-    "payTo": "0x..."
+    "payTo": "0x...",
+    "maxTimeoutSeconds": 300,
+    "extra": {"name": "USD Coin", "version": "2"}
   }],
   "resource": {
     "url": "https://blockrun.ai/api/v1/chat/completions",
+    "description": "GPT-5.4 API call (~17 input, 8192 max output tokens)",
     "mimeType": "application/json"
-  }
+  },
+  "extensions": {"bazaar": {…}}
 }
 ```
+
+`amount` is micro-USDC (6 decimals) and already includes the flat $0.001 transaction fee; `extra` is the EIP-712 domain to sign against. `resource.description` states the token estimate the quote was built from.
 :::
 
 :::step{title="Sign Authorization"}
@@ -111,7 +123,7 @@ Key points:
 - Private key never leaves the client
 - Authorization expires in 5 minutes (`validBefore`)
 - Clock skew tolerance of 10 minutes (`validAfter`)
-- `value` is micro-USDC: `$0.003` → `"3000"`
+- `value` is micro-USDC and must equal the `amount` you were quoted: `$0.025685` → `"25685"`
 - The header value is the **base64 of the JSON payment payload** shown in the next step (`btoa(JSON.stringify(payload))`)
 
 :::note{title="Paying on Solana"}
@@ -140,16 +152,18 @@ The payment payload contains:
   "accepted": {
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "1000",
+    "amount": "25685",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-    "payTo": "0x..."
+    "payTo": "0x...",
+    "maxTimeoutSeconds": 300,
+    "extra": {"name": "USD Coin", "version": "2"}
   },
   "payload": {
     "signature": "0x...",
     "authorization": {
       "from": "0x...",
       "to": "0x...",
-      "value": "1000",
+      "value": "25685",
       "validAfter": "1234567890",
       "validBefore": "1234568190",
       "nonce": "0x..."
@@ -162,9 +176,12 @@ The payment payload contains:
 :::step{title="Verify, Execute, Settle"}
 The server:
 
-1. **Verifies** the payment signature with the Facilitator
-2. **Executes** the API request (calls the AI model)
-3. **Settles** the payment on-chain
+1. **Verifies** the payment signature with the Facilitator (up to three attempts on transient facilitator errors; a definitive rejection is returned at once as a `402` with a `code`)
+2. **Claims the nonce** so the same authorization cannot be replayed into a second inference (`402` / `PAYMENT_REPLAY` otherwise)
+3. **Executes** the API request (calls the AI model)
+4. **Settles** the payment on-chain — after the response for non-streaming calls, after the final chunk for streaming calls. Async media jobs settle when the job completes.
+
+The successful response carries `PAYMENT-RESPONSE` (base64 JSON `{"success","transaction","network","payer"}`) and `X-Payment-Receipt: <tx hash>`. If the facilitator could not land the settlement in time, the response is still served and carries `X-Payment-Settled: false` — verification is the gate, settlement is bookkeeping.
 
 ```
 Server                          Facilitator                    Blockchain
@@ -216,38 +233,65 @@ const response = await client.chat('openai/gpt-5.4', 'Hello!');
 
 ## Error Scenarios
 
+Every verification failure is a `402` with `error: "Payment verification failed"` and a machine-readable `code`; nothing has been charged when you see one.
+
 ### Insufficient Balance
 
-If your wallet doesn't have enough USDC:
+If your wallet doesn't have enough USDC, the on-chain simulation reverts:
 
 ```json
 {
   "error": "Payment verification failed",
-  "details": "Insufficient balance"
+  "code": "PAYMENT_UNFUNDED",
+  "message": "The payment authorization could not be executed on-chain. The usual cause is an insufficient USDC balance on Base for the quoted amount — …",
+  "debug": "<facilitator reason>",
+  "payer": "0x…"
 }
 ```
 
-### Expired Authorization
+An authorization whose `validAfter`/`validBefore` window has already closed (or not yet opened) reverts the same way, so check your clock before topping up.
 
-If too much time passed between signing and settling:
+### Replayed Authorization
+
+Each nonce is single-use. Sending the same signed payload twice:
+
+```json
+{
+  "error": "Payment authorization already used",
+  "message": "Sign a fresh payment authorization for each request.",
+  "code": "PAYMENT_REPLAY",
+  "payer": "0x…"
+}
+```
+
+(On image endpoints, replaying the header of a response you lost returns the job you already paid for instead of a second charge.)
+
+### Stale Solana Blockhash
+
+A Solana-signed transaction is pinned to a recent blockhash and stays valid for roughly a minute:
 
 ```json
 {
   "error": "Payment verification failed",
-  "details": "Authorization expired"
+  "code": "PAYMENT_BLOCKHASH_STALE",
+  "message": "The payment transaction was signed against a Solana blockhash that has since expired. Nothing was charged. Sign a fresh payment authorization against a current blockhash and send the request again."
 }
 ```
 
 ### Invalid Signature
 
-If the signature doesn't match:
+Anything else — a signature that doesn't match, the wrong network or asset, a malformed payload:
 
 ```json
 {
   "error": "Payment verification failed",
-  "details": "Invalid signature"
+  "code": "PAYMENT_INVALID",
+  "message": "Message @bc1max on Telegram for help.",
+  "debug": "<facilitator reason>"
 }
 ```
+
+The Anthropic-compatible `/v1/messages` and `/v1/responses` endpoints report the same failures inside their vendor error envelopes (`"Payment verification failed: …"`) without the `code` field.
 
 ## Timing
 
@@ -257,12 +301,12 @@ Typical payment flow timing:
 |------|------|
 | Initial 402 response | ~50ms |
 | Client signing | ~10ms |
-| Signature verification | ~100ms |
+| Signature verification | ~100ms (facilitator round-trip; retried up to 3× on transient errors) |
 | AI model execution | 1-30s (varies) |
-| On-chain settlement | ~2s |
+| On-chain settlement | ~2s, after the response is ready |
 | **Total overhead** | **~200ms** |
 
-The payment overhead is minimal compared to AI model execution time.
+The payment overhead is minimal compared to AI model execution time. The authorization is valid for 300s (`maxTimeoutSeconds`), so the whole exchange — including a long stream — has to settle inside that window; the gateway caps a single streamed response at 500s and each upstream call at 120s.
 
 ## What's next?
 

@@ -7,7 +7,7 @@ description: The official BlockRun Python SDK — call 72 LLMs, smart routing, a
 
 The official Python SDK for BlockRun — pay per call in USDC, no API keys or subscriptions.
 
-**Source:** [github.com/BlockRunAI/blockrun-llm](https://github.com/BlockRunAI/blockrun-llm) · [PyPI: blockrun-llm](https://pypi.org/project/blockrun-llm/) · MIT
+**Source:** [github.com/BlockRunAI/blockrun-llm](https://github.com/BlockRunAI/blockrun-llm) · [PyPI: blockrun-llm](https://pypi.org/project/blockrun-llm/) · MIT · current release **1.13.0** · Python 3.9+
 
 :::tip{title="In a hurry?"}
 New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md) first to fund a wallet, then come back for the full SDK reference.
@@ -17,7 +17,9 @@ New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md)
 
 :::step{title="Install"}
 ```bash
-pip install blockrun-llm
+pip install blockrun-llm              # Base (USDC on Base) — all core clients
+pip install "blockrun-llm[solana]"    # + SolanaLLMClient (USDC on Solana)
+pip install "blockrun-llm[anthropic]" # + AnthropicClient (official anthropic SDK over x402)
 ```
 :::
 
@@ -39,8 +41,16 @@ print(response)
 
 | Variable | Description |
 |----------|-------------|
-| `BLOCKRUN_WALLET_KEY` | Your Base chain wallet private key |
+| `BLOCKRUN_WALLET_KEY` | Your Base chain wallet private key (`0x` + 64 hex). `BASE_CHAIN_WALLET_KEY` is accepted as an alias |
 | `BLOCKRUN_API_URL` | API endpoint (default: https://blockrun.ai/api) |
+| `BLOCKRUN_CHAT_TIMEOUT` | Default chat request timeout in seconds (default: 600) |
+| `BLOCKRUN_MAX_COST_PER_CALL` | Refuse any single quote above this USD amount (see [Spend limits](#spend-limits)) |
+| `BLOCKRUN_MAX_SESSION_COST` | Refuse quotes once the session total would exceed this USD amount |
+| `BLOCKRUN_TX_LOG` | `1` or a directory path — write a per-call transaction log (see [Transaction log](#transaction-log-and-cost-tracking)) |
+| `SOLANA_WALLET_KEY` | Solana secret key for `SolanaLLMClient` (bs58 keypair/seed, Solana CLI JSON array, or 64-byte hex) |
+| `SOLANA_RPC_URL` | Optional Solana RPC used to fetch a blockhash when signing (defaults to BlockRun's proxy) |
+
+If no key is passed or set, every client falls back to the wallet file at `~/.blockrun/.session` (legacy `~/.blockrun/wallet.key` is still honoured); Solana clients use `~/.blockrun/.solana-session`. `LLMClient()` raises `ValueError` when none of these exist — call `setup_agent_wallet()` to create one (see [Wallet helpers](#wallet-helpers)).
 
 ### Client Options
 
@@ -48,11 +58,17 @@ print(response)
 from blockrun_llm import LLMClient
 
 client = LLMClient(
-    private_key="0x...",           # Wallet key (or use env var)
+    private_key="0x...",                # Wallet key (or use env var / ~/.blockrun/.session)
     api_url="https://blockrun.ai/api",  # Optional
-    timeout=60.0                   # Request timeout in seconds
+    timeout=600.0,                      # Chat request timeout in seconds (default 600)
+    search_timeout=300.0,               # Timeout when Live Search is enabled (default 300)
+    transaction_log=None,               # True → ./log/, or a directory path (default: BLOCKRUN_TX_LOG)
+    max_cost_per_call=None,             # USD ceiling per quote (default: unset)
+    max_session_cost=None,              # USD ceiling per client session (default: unset)
 )
 ```
+
+`AsyncLLMClient` takes the same arguments. `SolanaLLMClient` / `AsyncSolanaLLMClient` add `rpc_url`, `rpc_headers` and `image_timeout` (default 200s) and default `api_url` to `https://sol.blockrun.ai/api`.
 
 ## Methods
 
@@ -66,11 +82,17 @@ response = client.chat(
     "Explain quantum computing",
     system="You are a physics teacher.",  # Optional system prompt
     max_tokens=500,                        # Optional max output
-    temperature=0.7                        # Optional temperature
+    temperature=0.7,                       # Optional temperature
+    response_format={"type": "json_object"},  # Optional JSON mode (honoured on every model)
+    stop=["###"],                          # Optional stop sequence(s), str or list of ≤4
+    fallback_models=["openai/gpt-5.4"],    # Optional chain walked on timeout / 429 / 5xx
+    search=True,                           # Optional Live Search grounding (uses search_timeout)
 )
 ```
 
 **Returns:** `str` - The assistant's response text
+
+`max_tokens` above a model's ceiling is not rejected: the gateway clamps it to the model's ceiling and quotes payment for the clamped value, and the SDK warns you before signing. Values over 1,000,000 raise `ValueError` as an obvious typo guard.
 
 ### `chat_completion(model, messages, **options)`
 
@@ -87,14 +109,29 @@ result = client.chat_completion(
     messages,
     max_tokens=100,
     temperature=0.7,
-    top_p=0.9
+    top_p=0.9,
+    tools=None,          # OpenAI-format tool definitions
+    tool_choice=None,    # "auto" | "required" | {"type": "function", ...}
 )
 
 print(result.choices[0].message.content)
 print(f"Tokens used: {result.usage.total_tokens}")
 ```
 
-**Returns:** `ChatResponse` object
+**Returns:** `ChatResponse` object. Also accepts `response_format`, `stop`, `search` / `search_parameters` and `fallback_models`, as `chat()` does.
+
+### `chat_completion_stream(model, messages, **options)`
+
+Server-sent-events streaming. Same arguments as `chat_completion()`; yields one `ChatCompletionChunk` per SSE line until `[DONE]`. The x402 payment is signed once, before the stream opens.
+
+```python
+for chunk in client.chat_completion_stream("openai/gpt-5.5", messages):
+    delta = chunk.choices[0].delta
+    if delta.content:
+        print(delta.content, end="", flush=True)
+```
+
+`AsyncLLMClient.chat_completion_stream()` is the `async for` counterpart.
 
 ### `list_models()`
 
@@ -103,17 +140,40 @@ Get available models with pricing.
 ```python
 models = client.list_models()
 for model in models:
-    print(f"{model['id']}: ${model['inputPrice']}/M")
+    print(f"{model['id']}: ${model['pricing']['input']}/M in, ${model['pricing']['output']}/M out")
 ```
 
-### `get_wallet_address()`
+Each row is the raw `/v1/models` entry: `id`, `name`, `context_window`, `max_output`, `categories`, `billing_mode` (`paid` / `free` / `per_image` / ...) and `pricing`. `list_image_models()` returns the image catalog the same way.
 
-Get the wallet address being used.
+### `get_wallet_address()`, `get_balance()`, `get_spending()`
 
 ```python
 address = client.get_wallet_address()
 print(f"Paying from: {address}")
+
+print(f"USDC balance: ${client.get_balance():.2f}")   # on-chain balance of the active chain
+
+spent = client.get_spending()                          # this client session only
+print(f"Spent ${spent['total_usd']:.4f} across {spent['calls']} calls")
 ```
+
+### Spend limits
+
+Both limits are opt-in and unset by default. A quote above either ceiling is refused **before** the paid request is sent, so nothing settles.
+
+```python
+from blockrun_llm import LLMClient, SpendLimitError
+
+client = LLMClient(max_cost_per_call=0.25, max_session_cost=10.00)
+# or per-deployment: BLOCKRUN_MAX_COST_PER_CALL / BLOCKRUN_MAX_SESSION_COST
+
+try:
+    client.chat("openai/gpt-5.5", "...")
+except SpendLimitError as e:
+    print(e.scope, e.quoted_usd, e.limit_usd)   # "call" | "session"
+```
+
+`SpendLimitError` subclasses `PaymentError`, so existing handlers keep working, and the model fallback chain will not shop for a cheaper model after a refusal.
 
 ## Smart Routing (Router Core)
 
@@ -209,14 +269,14 @@ result = client.smart_chat("Review this contract for legal issues...", routing_p
 
 The classifier places every request in one of 4 tiers. Under `auto`, the tier primary is the starting point — the portfolio then ranks the eligible candidates and may promote a better-suited model for the task.
 
-| Tier | Auto primary | Use Case |
-|------|--------------|----------|
-| **SIMPLE** | `google/gemini-2.5-flash` | Q&A, summaries, simple tasks |
-| **MEDIUM** | `moonshot/kimi-k2.7` | Analysis, writing, coding |
-| **COMPLEX** | `google/gemini-3.1-pro` | Advanced reasoning, research, long documents |
-| **REASONING** | `xai/grok-4-1-fast-reasoning` | Math, logic, proofs |
+| Tier | Use Case |
+|------|----------|
+| **SIMPLE** | Q&A, summaries, simple tasks |
+| **MEDIUM** | Analysis, writing, coding |
+| **COMPLEX** | Advanced reasoning, research, long documents |
+| **REASONING** | Math, logic, proofs |
 
-Under uncertainty the router fails **upward**: a score too close to a tier boundary is treated as ambiguous and defaults to MEDIUM, never SIMPLE.
+The per-tier candidate chains live in Router Core's shared config and are resolved against the live `/v1/models` catalog at call time — a rung the catalog does not list (or marks unavailable) is skipped, so `route()` is the reliable way to see what a request would pick today. Under uncertainty the router fails **upward**: a score too close to a tier boundary is treated as ambiguous and defaults to MEDIUM, never SIMPLE.
 
 ### Routing Decision Details
 
@@ -272,12 +332,41 @@ solana = SolanaLLMClient()
 print(solana.route("Prove this theorem").model)
 ```
 
+Hosts that drive the engine directly (`blockrun_llm.router_core`) can pass `options["unavailable_models"]` — or call the exported `apply_unavailable_models` on a tier map — to hard-remove a model that has started answering 400/404/410 from every chain on the next request, without waiting for an SDK release (1.13.0). The `LLMClient` methods above do not take this option.
+
+## Solana
+
+Pay in USDC on Solana instead of Base. The Solana clients talk to `https://sol.blockrun.ai/api`, sign an SVM transfer instead of an EIP-712 authorization, and expose the same chat, routing, prediction-market, DeFi/DEX, Exa, Modal, RPC and media surface — media lives directly on the client (`image`, `image_edit`, `video`, `video_from_content`, `music`, `speech`, `sound_effect`, `search`, `price`, `rpc`, `portrait_enroll`, `realface_*`) rather than in separate classes.
+
+```bash
+pip install "blockrun-llm[solana]"
+export SOLANA_WALLET_KEY="..."   # bs58 keypair or seed, ~/.config/solana/id.json array, or 64-byte hex
+```
+
+```python
+from blockrun_llm import SolanaLLMClient, AsyncSolanaLLMClient, setup_agent_solana_wallet
+
+client = SolanaLLMClient()                    # SOLANA_WALLET_KEY → ~/.blockrun/.solana-session
+client = SolanaLLMClient(private_key="...")   # or pass the key
+client = setup_agent_solana_wallet()          # creates ~/.blockrun/.solana-session if missing
+
+print(client.chat("openai/gpt-5.5", "gm Solana"))
+img = client.image("a fox in snow", model="openai/gpt-image-2", quality="low")  # quality is Solana-only
+print(img.data[0].url)
+```
+
+:::warning{title="Base and Solana keys are not interchangeable"}
+A Base key is `0x` + 64 hex characters; a Solana key is base58 (or the CLI JSON array). Pass a Solana key to `SolanaLLMClient`, never to `LLMClient`. Since 1.10.0 the SDK names the key's source and what it looks like when the format is wrong, instead of failing on a character-set error.
+:::
+
+The payer must already hold a USDC token account on Solana — the SDK fails fast (1.6.1) rather than signing a transfer that cannot settle. A settlement failure after the signed transaction went out is terminal on every Solana path: the SDK never re-signs a second payment for one request (1.13.0). Pre-broadcast rejections (`PAYMENT_UNDERPAID`, `PAYMENT_REPLAY`, expired signatures, facilitator timeouts) are retried with a fresh signature automatically.
+
 ## Specialized clients
 
 `LLMClient` covers chat and routing. Everything else — image, video, music, speech, voice, search, prices, RPC, and more — lives in a dedicated client class. Each is imported from `blockrun_llm` and constructed independently.
 
 :::note{title="Every client shares one constructor"}
-`Client(private_key=None, api_url=None, timeout=...)`. The key is resolved in order: the `private_key` argument → `BLOCKRUN_WALLET_KEY` → `BASE_CHAIN_WALLET_KEY` → `~/.blockrun/.session`. So if you've run `blockrun_wallet setup`, no argument is needed. Every client also exposes `get_wallet_address()` and `close()`.
+`Client(private_key=None, api_url=None, timeout=...)`. The key is resolved in order: the `private_key` argument → `BLOCKRUN_WALLET_KEY` → `BASE_CHAIN_WALLET_KEY` → `~/.blockrun/.session`. So if you've run `setup_agent_wallet()` or the MCP's `blockrun_wallet action:"setup"`, no argument is needed. Every client also exposes `get_wallet_address()` and `close()`.
 :::
 
 ### Media generation
@@ -320,6 +409,8 @@ print(res.data[0].url)
 
 :::note{title="Image-to-video inputs are mutually exclusive"}
 Pass exactly one of `image_url` (first-frame), `real_face_asset_id` (a `ta_…` Virtual Portrait / RealFace asset), or `reference_image_urls` (≤9). `last_frame_url` seeds the final frame. `generate_from_content(content=[...])` accepts the Seedance `content[]` array.
+
+Declare the seed mode you intend with `input_type="text" | "image" | "first_last_frame" | "reference"` (1.7.0). The gateway infers the mode from the seed fields and returns 400 **before charging** if your declared value disagrees — so a dynamically built `image_url` that comes back empty fails loudly instead of quietly producing a text-to-video clip you still pay for.
 :::
 
 #### `MusicClient`
@@ -489,10 +580,12 @@ print(client.onramp())         # Coinbase on-ramp link
 Access real-time prediction market data from Polymarket, Kalshi, Limitless, Opinion, Predict.Fun and Binance via [Predexon](https://predexon.com). No API keys needed — pay-per-request via x402.
 
 > **Retired upstream.** `pm_markets` / `pm_listings` / `pm_outcome` (and
-> `matching-markets`) hit endpoints Predexon sunset on 2026-07-20 — they return
-> `410`. The dFlow endpoints return `404`; that category is gone. Use
-> `markets/search` for cross-venue lookups. `sports/*` is returning an upstream
-> `500` as of 2026-08-04 and is withheld from discovery until it recovers.
+> `matching-markets`) hit endpoints Predexon sunset on 2026-07-20 — the
+> endpoints return `410`, and since 1.10.1 the helpers raise
+> `RetiredEndpointError` locally instead of making a paid round trip. The dFlow
+> endpoints return `404`; that category is gone. Use `markets/search` for
+> cross-venue lookups. `sports/*` is returning an upstream `500` as of
+> 2026-08-04 and is withheld from discovery until it recovers.
 
 
 ### `pm(path, **params)`
@@ -617,13 +710,13 @@ asyncio.run(main())
 ### Solana Usage
 
 ```python
-from blockrun_llm.solana_client import SolanaLLMClient
+from blockrun_llm import SolanaLLMClient
 
 client = SolanaLLMClient()
 markets = client.pm("polymarket/markets")
 ```
 
-Works on all clients: `LLMClient` (Base), `AsyncLLMClient`, and `SolanaLLMClient`.
+Works on all clients: `LLMClient` (Base), `AsyncLLMClient`, `SolanaLLMClient` and `AsyncSolanaLLMClient`.
 
 ## Testnet Usage
 
@@ -657,8 +750,10 @@ print(f"Is testnet: {client.is_testnet()}")  # True
 
 | Model | Price |
 |-------|-------|
-| `openai/gpt-oss-20b` | $0.003/request (flat) |
-| `openai/gpt-oss-120b` | $0.004/request (flat) |
+| `openai/gpt-oss-20b` | $0.001/request (flat) |
+| `openai/gpt-oss-120b` | $0.002/request (flat) |
+
+Testnet also serves the image models and `minimax/music-2.5+` at mainnet prices — see `https://testnet.blockrun.ai/api/v1/models`. `async_testnet_client()` is the `AsyncLLMClient` equivalent.
 
 ### Manual Testnet Configuration
 
@@ -696,19 +791,25 @@ asyncio.run(main())
 ## Error Handling
 
 ```python
-from blockrun_llm import LLMClient, APIError, PaymentError
+from blockrun_llm import LLMClient, APIError, PaymentError, SpendLimitError, RetiredEndpointError
 
 client = LLMClient()
 
 try:
     response = client.chat("openai/gpt-5.5", "Hello!")
+except SpendLimitError as e:
+    print(f"Refused before paying: {e.scope} limit ${e.limit_usd}, quote ${e.quoted_usd}")
 except PaymentError as e:
-    print(f"Payment failed: {e}")
-    # Check your USDC balance
+    print(f"Payment failed: {e}")            # e.status_code / e.response carry the gateway's
+    # Check your USDC balance                # code + reason when a 402 was rejected
 except APIError as e:
     print(f"API error ({e.status_code}): {e}")
     print(f"Details: {e.response}")
+except RetiredEndpointError as e:
+    print(f"Helper retired upstream: {e}")   # e.g. pm_markets()
 ```
+
+All exceptions derive from `blockrun_llm.BlockrunError`. When a paid request fails after the payment signature was sent, the error names the settlement tx hash if the gateway reported one; the SDK never advances the fallback chain (and never signs a second payment) after that point.
 
 ## Response Types
 
@@ -726,17 +827,23 @@ class ChatResponse:
 class ChatChoice:
     index: int
     message: ChatMessage
-    finish_reason: str
+    finish_reason: Optional[str]
 
 class ChatMessage:
-    role: str
-    content: str
+    role: str                              # "system" | "user" | "assistant" | "tool"
+    content: Optional[str]
+    tool_calls: Optional[List[ToolCall]]   # assistant tool calls
+    tool_call_id: Optional[str]            # tool results
 
 class ChatUsage:
     prompt_tokens: int
     completion_tokens: int
     total_tokens: int
+    cache_read_input_tokens: Optional[int]      # prompt-cache hits, when reported
+    cache_creation_input_tokens: Optional[int]
 ```
+
+Unknown fields the gateway returns are preserved (`extra = "allow"`), never stripped. Streaming yields `ChatCompletionChunk` (`choices[0].delta.content`, `finish_reason` on the last chunk).
 
 ## Examples
 
@@ -779,6 +886,59 @@ code = client.chat(
 
 print(code)
 ```
+
+## Wallet helpers
+
+```python
+from blockrun_llm import setup_agent_wallet, status, list_discovered_wallets, import_wallet
+
+client = setup_agent_wallet()      # creates ~/.blockrun/.session (0600) if missing, prints address + funding QR
+status()                           # "Wallet: 0x…  Balance: $5.30 USDC"
+
+link = client.onramp(client.get_wallet_address())   # one-time Coinbase Onramp link (expires ~5 min)
+
+# Adopt a wallet another application created (never done automatically)
+for w in list_discovered_wallets():
+    print(w["address"], "from", w["source"])
+import_wallet("0x…")               # backs up the current key to ~/.blockrun/.session.backup-<ts> first
+```
+
+Solana equivalents: `setup_agent_solana_wallet()`, `list_discovered_solana_wallets()`, `import_solana_wallet()`. Automatic wallet resolution never adopts another application's `wallet.json` (1.7.2) — importing is always explicit.
+
+## Anthropic SDK compatibility
+
+Use the official `anthropic` Python SDK against BlockRun with x402 payments handled by a custom transport:
+
+```bash
+pip install "blockrun-llm[anthropic]"
+```
+
+```python
+from blockrun_llm import AnthropicClient
+
+client = AnthropicClient()   # same wallet resolution as LLMClient
+response = client.messages.create(
+    model="claude-sonnet-4-6",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Hello!"}],
+)
+print(response.content[0].text)
+```
+
+For verbatim native passthrough — the upstream response untouched, real thinking-block signatures, official `openai` SDK too, and `chain="solana"` on every client — see the separate [`blockrun-llm-vip`](https://pypi.org/project/blockrun-llm-vip/) package (`from blockrun_llm_vip import Anthropic, OpenAI`), which subclasses the official SDKs and only swaps the transport. Access is enabled per wallet address.
+
+## Transaction log and cost tracking
+
+Every paid call appends a line to `~/.blockrun/cost_log.jsonl`. Summarise or export it:
+
+```python
+from blockrun_llm import get_cost_log_summary, export_cost_log_csv, export_cost_log_json
+
+print(get_cost_log_summary())              # grouped by endpoint by default
+csv_text = export_cost_log_csv()           # pass output_path=... to also write a file
+```
+
+For a project-local, on-chain-matchable log, opt in with `LLMClient(transaction_log=True)` (writes `./log/transactions.jsonl`), a directory path, or `BLOCKRUN_TX_LOG=1`. Each row carries model, tokens, `cost_usd`, `tx_hash`, on-chain amount, payer, payee and network.
 
 ## Testing
 
@@ -884,7 +1044,7 @@ except APIError as e:
 
 ### Monitoring Spending
 
-Check your transaction history on Base:
+`client.get_spending()` reports this session; the cost log and transaction log above persist across runs. Check your transaction history on Base:
 
 ```python
 client = LLMClient()

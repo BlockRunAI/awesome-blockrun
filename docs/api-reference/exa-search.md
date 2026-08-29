@@ -27,6 +27,8 @@ Exa gives agents a live internet connection with structured, grounded results �
 | `/api/v1/exa/contents` | POST | $0.002/URL + $0.001/request | Fetch full Markdown text from a list of URLs |
 | `/api/v1/exa/find-similar` | POST | $0.011 | Find pages similar to a given URL |
 
+All four are `POST` only. Any other path under `/api/v1/exa/` returns `404` with an `available` list. Requests are forwarded to Exa with a 30-second timeout.
+
 ---
 
 ## POST /api/v1/exa/search
@@ -324,7 +326,27 @@ const similar = await client.exaFindSimilar("https://blockrun.ai", { numResults:
 | `/exa/find-similar` | $0.011 |
 | `/exa/contents` | $0.002 per URL + $0.001 per request |
 
-Payment is in USDC on Base or Solana via x402. No account needed — your wallet is your identity.
+Every price above already includes the flat $0.001 per-transaction fee (base $0.01 per call, or $0.002 per URL for `/contents`). Payment is in USDC on Base or Solana via x402. No account needed — your wallet is your identity.
+
+### The 402 response
+
+An unpaid request returns `402` with the exact charge in the body and the signable x402 v2 requirements in the `X-Payment-Required` / `PAYMENT-REQUIRED` headers (base64 JSON; also mirrored in `WWW-Authenticate`). For `/contents` the body is read first, so `price.amount` reflects `urls.length`:
+
+```json
+{
+  "error": "Payment Required",
+  "message": "This endpoint requires x402 payment",
+  "endpoint": "/api/v1/exa/contents",
+  "method": "POST",
+  "description": "Extract full text content from specific URLs. ...",
+  "price": { "amount": "0.0050", "currency": "USD" },
+  "paymentInfo": { "network": "base", "asset": "USDC", "x402Version": 2 }
+}
+```
+
+Send the signed payload back in `X-PAYMENT` (or `PAYMENT-SIGNATURE`). A `GET` on any of the four paths returns a discovery 402 whose `paymentInfo.price` is the **per-unit** base rate; for `/contents` it also carries `pricingUnit: "per-url"` and a `pricingNote`.
+
+Successful responses carry `X-Payment-Response` (x402 v2 settlement receipt) and `X-Payment-Receipt` (the settlement transaction hash).
 
 ---
 
@@ -344,11 +366,25 @@ Payment is in USDC on Base or Solana via x402. No account needed — your wallet
 
 | Code | Description |
 |------|-------------|
-| 402 | Payment required — sign and retry |
-| 400 | Invalid request parameters |
-| 404 | Unknown endpoint path |
-| 503 | Exa integration not configured |
-| 502 | Exa upstream error |
+| 402 | Payment required — sign and retry. Also returned when a payment header is present but fails verification (`error: "Payment verification failed"`, see codes below), when an authorization is reused (`code: "PAYMENT_REPLAY"`), or when settlement fails after the call (`error: "Payment settlement failed"`) |
+| 400–499 | Exa rejected the request — the upstream status is passed through unchanged with `error: "Bad Request"`, `status`, and Exa's own error in `details`. **Payment was NOT charged.** |
+| 404 | Unknown endpoint path (`available` lists the four valid paths) |
+| 502 | Exa returned a 5xx (`error: "Upstream provider error"`). Payment was NOT charged |
+| 503 | Exa integration not configured, or temporarily paused |
+| 500 | Gateway error (`error: "Internal server error"`), including a 30-second upstream timeout |
+
+Payment is verified before the upstream call and settled only after Exa answers, so a failed or rejected request never costs anything.
+
+### Payment verification codes
+
+A verification `402` spreads a machine-readable `code` so clients can branch without parsing the human-readable `details`:
+
+| `code` | Meaning |
+|--------|---------|
+| `PAYMENT_INVALID` | Signature, amount, network or recipient did not match the requirements (default; `message` omitted) |
+| `PAYMENT_UNFUNDED` | The authorization could not execute on-chain — usually insufficient USDC on Base, or an expired `validAfter`/`validBefore` window |
+| `PAYMENT_BLOCKHASH_STALE` | Solana gateway only: signed against an expired blockhash — re-sign and retry |
+| `PAYMENT_REPLAY` | That authorization was already used. Sign a fresh one for each request |
 
 ## What's next?
 

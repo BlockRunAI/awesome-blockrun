@@ -10,7 +10,7 @@ Direct API integration with Python, TypeScript, or Go.
 This guide is for developers who want to integrate BlockRun directly into their applications using our SDKs.
 
 :::note{title="What you need"}
-A wallet private key in `BLOCKRUN_WALLET_KEY` (or let the SDK auto-generate one), funded with a few dollars of USDC on Base. See [Wallet Setup](wallet-setup.md).
+A wallet private key in `BLOCKRUN_WALLET_KEY`, a wallet file at `~/.blockrun/.session`, or one created for you by `setup_agent_wallet()` — funded with a few dollars of USDC on Base (or Solana). See [Wallet Setup](wallet-setup.md).
 :::
 
 ## Quick Start
@@ -19,13 +19,13 @@ A wallet private key in `BLOCKRUN_WALLET_KEY` (or let the SDK auto-generate one)
 
 :::tab{label="Python"}
 ```bash
-pip install blockrun-llm
+pip install blockrun-llm              # add [solana] for USDC on Solana
 ```
 
 ```python
 from blockrun_llm import LLMClient
 
-client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY env var
+client = LLMClient()  # BLOCKRUN_WALLET_KEY env var or ~/.blockrun/.session
 response = client.chat("openai/gpt-5.4", "Hello!")
 print(response)
 ```
@@ -73,23 +73,32 @@ func main() {
 ### Environment Variables
 
 ```bash
-# Required: Your wallet private key
+# Your Base wallet private key (falls back to ~/.blockrun/.session if unset)
 export BLOCKRUN_WALLET_KEY=0x...
 
-# Optional: Custom wallet path
-export BLOCKRUN_WALLET_PATH=~/.blockrun/wallet.json
+# Solana instead: bs58 key for SolanaLLMClient (falls back to ~/.blockrun/.solana-session)
+export SOLANA_WALLET_KEY=...
 
 # Optional: API endpoint (default: https://blockrun.ai/api)
 export BLOCKRUN_API_URL=https://blockrun.ai/api
+
+# Optional: client-side spend limits in USD (refused before any payment is signed)
+export BLOCKRUN_MAX_COST_PER_CALL=0.25
+export BLOCKRUN_MAX_SESSION_COST=10
+
+# Optional: chat timeout in seconds (default 600) and a per-call transaction log
+export BLOCKRUN_CHAT_TIMEOUT=600
+export BLOCKRUN_TX_LOG=1
 ```
 
 ### Programmatic Configuration
 
 ```python
 client = LLMClient(
-    private_key="0x...",           # Or use env var
+    private_key="0x...",                # Or use env var / wallet file
     api_url="https://blockrun.ai/api",
-    session_budget=10.00           # Optional spending limit
+    max_cost_per_call=0.25,             # Optional USD ceiling per request
+    max_session_cost=10.00,             # Optional USD ceiling per client session
 )
 ```
 
@@ -118,32 +127,50 @@ messages = [
     {"role": "user", "content": "What is x402?"}
 ]
 
-response = client.chat_messages("openai/gpt-5.4", messages)
+result = client.chat_completion("openai/gpt-5.4", messages)
+print(result.choices[0].message.content)
+```
+
+`chat_completion()` also takes `tools` / `tool_choice`, `response_format`, `stop` and `fallback_models`.
+
+### Smart Routing
+
+Let Router Core pick the cheapest capable model and keep the rest as a fallback chain — or opt in from any chat call with the `blockrun/auto` virtual model id:
+
+```python
+result = client.smart_chat("Summarize this changelog in one line")
+print(result.model, result.routing.savings)
+
+result = client.chat_completion("blockrun/auto", messages)   # also blockrun/eco, blockrun/premium
 ```
 
 ### Image Generation
 
+Media lives in dedicated clients that share the same wallet resolution:
+
 ```python
-image_url = client.generate_image(
-    prompt="A futuristic city at sunset",
-    model="google/nano-banana",
-    size="1024x1024"
-)
+from blockrun_llm import ImageClient
+
+img = ImageClient()
+res = img.generate("A futuristic city at sunset", model="google/nano-banana", size="1024x1024")
+print(res.data[0].url)
 ```
+
+`VideoClient`, `MusicClient`, `SpeechClient`, `SearchClient`, `PriceClient`, `RpcClient` and more follow the same pattern — see the [Python SDK reference](../sdks/python.md#specialized-clients).
 
 ### Wallet Operations
 
 ```python
 # Get address
-address = client.get_address()
+address = client.get_wallet_address()
 
 # Check balance
 balance = client.get_balance()
 print(f"${balance} USDC")
 
-# Get usage stats
-usage = client.get_usage()
-print(f"Spent: ${usage['total_spent']}")
+# Session spend
+spent = client.get_spending()
+print(f"Spent: ${spent['total_usd']:.4f} across {spent['calls']} calls")
 ```
 
 ## Available Models
@@ -189,25 +216,26 @@ client.chat("moonshot/kimi-k3", prompt)
 ```python
 from blockrun_llm import (
     LLMClient,
-    InsufficientBalanceError,
-    ModelNotFoundError,
-    RateLimitError,
-    APIError
+    PaymentError,
+    SpendLimitError,
+    APIError,
 )
 
 try:
     response = client.chat("openai/gpt-5.4", prompt)
-except InsufficientBalanceError:
-    print("Need to fund wallet")
-    print(f"Address: {client.get_address()}")
-except ModelNotFoundError as e:
-    print(f"Invalid model: {e.model}")
-except RateLimitError:
-    print("Too many requests, waiting...")
-    time.sleep(60)
+except SpendLimitError as e:
+    print(f"Quote ${e.quoted_usd} over your {e.scope} limit ${e.limit_usd} — nothing was charged")
+except PaymentError as e:
+    print(f"Payment failed: {e}")            # e.g. insufficient USDC
+    print(f"Fund: {client.get_wallet_address()}")
 except APIError as e:
-    print(f"API error: {e.message}")
+    if e.status_code == 429:
+        print("Too many requests, backing off")
+    else:
+        print(f"API error {e.status_code}: {e}")
 ```
+
+`SpendLimitError` subclasses `PaymentError`; every SDK exception derives from `BlockrunError`. A 429 or 5xx walks `fallback_models` automatically when you pass one.
 
 ## Async Support
 
@@ -216,10 +244,12 @@ except APIError as e:
 :::tab{label="Python"}
 ```python
 import asyncio
+from blockrun_llm import AsyncLLMClient
 
 async def main():
-    response = await client.achat("openai/gpt-5.4", "Hello!")
-    print(response)
+    async with AsyncLLMClient() as client:
+        response = await client.chat("openai/gpt-5.4", "Hello!")
+        print(response)
 
 asyncio.run(main())
 ```
@@ -233,79 +263,90 @@ const response = await client.chat('openai/gpt-5.4', 'Hello!');
 
 ::::
 
-## Streaming (Coming Soon)
+## Streaming
 
 ```python
-# Planned API
-for chunk in client.chat_stream("openai/gpt-5.4", prompt):
-    print(chunk, end="", flush=True)
+for chunk in client.chat_completion_stream("openai/gpt-5.4", [{"role": "user", "content": prompt}]):
+    delta = chunk.choices[0].delta
+    if delta.content:
+        print(delta.content, end="", flush=True)
 ```
 
-## Session Budgets
+Payment is signed once before the stream opens; `AsyncLLMClient` exposes the same method for `async for`.
 
-Limit spending per session:
+## Spend Limits
+
+Cap spending per request or per client session — a quote above the ceiling is refused before anything is signed, so nothing settles:
 
 ```python
-client = LLMClient(session_budget=10.00)  # Max $10
+from blockrun_llm import LLMClient, SpendLimitError
 
-# Will raise InsufficientBudgetError if exceeded
-response = client.chat("openai/gpt-5.4", prompt)
+client = LLMClient(max_cost_per_call=0.25, max_session_cost=10.00)
+
+try:
+    response = client.chat("openai/gpt-5.4", prompt)
+except SpendLimitError as e:
+    print(e.scope, e.quoted_usd, e.limit_usd)
 ```
 
 ## Batch Processing
 
 ```python
 import asyncio
+from blockrun_llm import AsyncLLMClient
 
 async def process_batch(items: list) -> list:
-    tasks = [
-        client.achat("deepseek/deepseek-chat", f"Process: {item}")
-        for item in items
-    ]
-    return await asyncio.gather(*tasks)
+    async with AsyncLLMClient() as client:
+        tasks = [
+            client.chat("deepseek/deepseek-chat", f"Process: {item}")
+            for item in items
+        ]
+        return await asyncio.gather(*tasks)
 
 results = asyncio.run(process_batch(my_items))
 ```
 
 ## OpenAI-Compatible API
 
-BlockRun's API is OpenAI-compatible. You can use the OpenAI SDK:
+BlockRun's request and response shapes are OpenAI-compatible, but authentication is an x402 payment, not a bearer token — a paid model answers `402 Payment Required` until a signed USDC authorization is attached, and your private key must never be sent as an API key. Two ways to keep the official SDK surface:
+
+- **Free models** need no payment, so the plain `openai` SDK works against `https://blockrun.ai/api/v1` with any placeholder `api_key` for `nvidia/*` free models (per-IP rate limits apply).
+- **Paid models**: use `blockrun-llm` (`AnthropicClient` wraps the official `anthropic` SDK; `pip install "blockrun-llm[anthropic]"`), or [`blockrun-llm-vip`](https://pypi.org/project/blockrun-llm-vip/), which subclasses the official `anthropic` and `openai` SDKs and only swaps the transport to add x402 signing.
 
 ```python
-from openai import OpenAI
+from blockrun_llm_vip import OpenAI   # pip install blockrun-llm-vip
 
-client = OpenAI(
-    base_url="https://blockrun.ai/api/v1",
-    api_key=os.environ["BLOCKRUN_WALLET_KEY"]
-)
-
+client = OpenAI()                     # wallet from BLOCKRUN_WALLET_KEY / ~/.blockrun/.session
 response = client.chat.completions.create(
-    model="openai/gpt-5.4",
+    model="gpt-5.4",
     messages=[{"role": "user", "content": "Hello!"}]
 )
 ```
 
 ## Direct HTTP
 
+A free model can be called with plain HTTP and no credentials:
+
 ```bash
 curl https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $BLOCKRUN_WALLET_KEY" \
   -d '{
-    "model": "openai/gpt-5.4",
+    "model": "nvidia/step-3.7-flash",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```
 
+A paid model returns `402` with the price and a `payment-required` header describing what to sign; see [How payment works](../x402/how-it-works.md) if you want to implement the x402 handshake yourself rather than use an SDK.
+
 ## Pricing
 
-Pay per request: provider cost + 5%.
+Pay per request at the per-token price listed in the live catalog (`GET https://blockrun.ai/api/v1/models`, or `client.list_models()`).
 
 | Model | Input/1M | Output/1M |
 |-------|----------|-----------|
-| GPT-5.4 | $2.63 | $15.75 |
-| DeepSeek Chat | $0.29 | $0.44 |
-| Gemini Flash | $0.32 | $2.63 |
+| `openai/gpt-5.4` | $2.50 | $15.00 |
+| `deepseek/deepseek-chat` | $0.14 | $0.28 |
+| `google/gemini-2.5-flash` | $0.30 | $2.50 |
 
 Full pricing: [Intelligence Pricing](../products/intelligence/pricing.md)
 
@@ -335,7 +376,7 @@ Every model ID, context window, and live price.
 :::
 
 :::card{title="Pricing" href="../products/intelligence/pricing.md" icon="TrendingUp"}
-Provider cost + 5%, no subscriptions or minimums.
+Per-token prices from the live catalog, no subscriptions or minimums.
 :::
 
 ::::

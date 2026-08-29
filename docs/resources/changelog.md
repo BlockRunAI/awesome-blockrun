@@ -16,6 +16,68 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - **`zai/glm-5.3`** ($1.40/$4.40, 1M context), launched 2026-08-19, is now listed in the model reference table as well.
 - Visible chat models are now **72** (was 71); total catalog **96** across chat, image, video, music, speech, and sound effects.
 
+### Changed — Reasoning rides in `reasoning_content`, never as tool-call `content`
+- **`/v1/chat/completions`** non-streaming responses now carry a model's chain of thought on **`choices[].message.reasoning_content`**, the same field streaming has always used for `delta.reasoning_content`. It is optional and absent when the model produced no reasoning. Claude thinking, DeepSeek, GLM, MiniMax, Kimi and open-weight reasoning models all populate it. ([#423](https://github.com/BlockRunAI/blockrun/pull/423))
+- An assistant turn that carries **`tool_calls` now has `content: ""`**, as the OpenAI spec intends. Previously the gateway rescued the empty content with the model's raw reasoning, so Anthropic-format clients rendered the chain of thought as a visible text block ahead of the `tool_use`, and clients echoing history fed reasoning back as content. Turns with no tool calls and no answer still receive the reasoning text as `content` so a paid call never returns a blank string. ([#422](https://github.com/BlockRunAI/blockrun/pull/422))
+- `/v1/messages` builds a leading `thinking` block from the same field, so streaming and non-streaming Anthropic-format responses finally have the same shape.
+
+---
+
+## [2026-08-26]
+
+### Changed — Payment-verification 402s carry a machine-readable `code`
+- Every BlockRun-native paid endpoint now answers a failed `PAYMENT-SIGNATURE` with `402` and a **`code`** a client can branch on instead of parsing prose: **`PAYMENT_UNFUNDED`** (the on-chain simulation reverted — usually an empty wallet, or an authorization outside its validity window), **`PAYMENT_BLOCKHASH_STALE`** (a Solana-signed transaction pinned to a blockhash that expired — re-sign against a fresh one and resend; nothing was charged), **`PAYMENT_REPLAY`** (nonce already used), and **`PAYMENT_INVALID`** for everything else. Previously only `/v1/chat/completions` classified failures; the other paid routes returned a bare `{error, details}`.
+- The facilitator's own explanation is now folded into `debug` rather than only logged, so a rejection says *which* failure it was. Verification always runs before settlement, so any of these codes means nothing was charged.
+- The vendor-compatible `/v1/messages`, `/v1/responses` and Gemini-native endpoints keep their vendor error schemas and do not carry the field. ([commit ac50282](https://github.com/BlockRunAI/blockrun/commit/ac50282))
+
+---
+
+## [2026-08-19]
+
+### Added — Z.AI GLM-5.3
+- Added **`zai/glm-5.3`** ($1.40/$4.40 per 1M, **1M context**, 131,072 max output). Thinking is always on for this generation and cannot be disabled — unlike GLM-5/5.1/5.2 it returns content alongside its reasoning, so no gateway workaround is applied. ([#397](https://github.com/BlockRunAI/blockrun/pull/397))
+
+---
+
+## [2026-08-13]
+
+### Added — xAI Grok Imagine Video 1.5, and official resolution tiers on both Grok video SKUs
+- Added **`xai/grok-imagine-video-1.5`** (image/text-to-video, 480p/720p/**1080p**, up to 15s, native audio) at xAI's official per-second rates: **$0.08/s @480p** (default), **$0.14/s @720p**, **$0.25/s @1080p**. ([#380](https://github.com/BlockRunAI/blockrun/pull/380))
+- **`xai/grok-imagine-video`** moved to the same tiered model: **$0.05/s @480p** (default) and **$0.07/s @720p**; 1080p/4K are rejected with a `400` before payment. `resolution` is now a billing tier and is pinned in the quote, so the price you sign is the tier you get. ([#378](https://github.com/BlockRunAI/blockrun/pull/378))
+- Both Grok SKUs charge the official rate **exactly** (no 5% media margin) plus a flat **$0.001 per generation**, disclosed as `perGenerationFee` in the 402 price block alongside `pricePerSecond` for the billed tier; the flat $0.001 transaction fee applies on top. `aspect_ratio` (incl. `3:2` / `2:3`) is now validated and forwarded — it was previously accepted and silently dropped. ([#379](https://github.com/BlockRunAI/blockrun/pull/379), [#381](https://github.com/BlockRunAI/blockrun/pull/381))
+
+---
+
+## [2026-08-12]
+
+### Added — Seedance 2.0 Mini
+- Added **`bytedance/seedance-2.0-mini`** at **$0.0797/sec** (480p/720p with audio, 4–15s) — roughly half the rate of `seedance-2.0-fast` for the same 720p output, the sensible default for volume. Supports the same image, first/last-frame and RealFace inputs as the rest of the 2.0 family. ([#366](https://github.com/BlockRunAI/blockrun/pull/366), [#369](https://github.com/BlockRunAI/blockrun/pull/369))
+
+---
+
+## [2026-08-08]
+
+### Changed — Per-token chat now bills at list price, with no platform margin
+- Every per-token chat model on `/v1/chat/completions`, `/v1/messages` and `/v1/responses` is now priced at the maker's list rate with **0% platform margin** (was 5%). The flat **$0.001 per-request transaction fee** is unchanged and is the only thing BlockRun adds to a chat call. Image, video, music, speech and Live Search keep their 5% margin. ([#354](https://github.com/BlockRunAI/blockrun/pull/354))
+- Three prices were corrected in the same pass: **`deepseek/deepseek-chat`** and **`deepseek/deepseek-reasoner`** to **$0.14/$0.28** (from $0.20/$0.40, per DeepSeek's current list), and **`zai/glm-5`** to **$1.00/$3.20** (from $0.60/$1.92 — Z.AI had raised its standard rate).
+- **Images**: a client that loses the response to an inline image generation can now retry with the **same** signed authorization and get the job it already paid for back (`402` / `PAYMENT_REPLAY` now carries `job_id` and `poll_url`) instead of being told to sign — and pay — again. ([#346](https://github.com/BlockRunAI/blockrun/pull/346))
+
+---
+
+## [2026-08-07]
+
+### Added — Seedance 2.5, and the Seedance family repriced
+- Added **`bytedance/seedance-2.5`** — **4–30s** clips (double the 2.0 ceiling) at a **720p** ceiling, $0.315/sec. It is not a straight upgrade over 2.0, which keeps the 4K ceiling at 4–15s; both stay listed. Duration always defaults to 5s (the model's own "-1, pick for me" default is never forwarded, since the price is signed before generation). ([#351](https://github.com/BlockRunAI/blockrun/pull/351))
+- The rest of the family moved to current per-second rates: `seedance-1.5-pro` $0.070/sec, `seedance-2.0-fast` $0.165/sec, `seedance-2.0` $0.227/sec (720p, 5s default; 1080p and 4K scale by area). Per-model resolution and duration limits are now derived from the model's own parameter schema and enforced before the 402. ([#353](https://github.com/BlockRunAI/blockrun/pull/353))
+
+---
+
+## [2026-08-05]
+
+### Changed — Discovery now lists every live endpoint, with derived prices
+- `/.well-known/x402` and `openapi.json` now publish the full live surface — Surf, 0x, DefiLlama, the templated Predexon paths, every RPC chain, and the first-party phone, voice, music, RealFace, Portrait, Polymarket-funding, onramp and catalog endpoints — instead of a hand-maintained subset. Every published price is derived from the same constant the 402 signs, which corrected five stale literals (Predexon, phone buy/lookup/list, DefiLlama). ([#336](https://github.com/BlockRunAI/blockrun/pull/336))
+- Six dead prediction-market endpoints were de-registered (`matching-markets`, `matching-markets/pairs`, `markets`, `listings`, `outcomes/{id}`, `dflow/*`). ([#332](https://github.com/BlockRunAI/blockrun/pull/332), [#336](https://github.com/BlockRunAI/blockrun/pull/336))
+
 ---
 
 ## [2026-08-03]
@@ -25,6 +87,31 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - **`openai/gpt-5.6-sol` is unchanged** at $5.00/$30.00 — OpenAI left the flagship alone. Luna now costs less than `gpt-5.4-mini`.
 - We passed the cut through rather than keeping the spread. Every other OpenAI model in the catalog was re-checked against the published rates in the same pass and already matched.
 - Fallbacks moved with the prices: Terra now falls back to `gpt-5.4-mini` and Luna to `gpt-4o-mini`. The previous targets were not repriced by OpenAI, so they now cost more than the primaries bill and would settle below cost on every failover.
+
+### Added — Eight models: Gemini 3.6 Flash, GPT-5.6 Pro tiers, Qwen3.7 Plus/Flash, Nano Banana 2
+- **`google/gemini-3.6-flash`** ($1.50/$7.50 per 1M) and **`google/gemini-3.5-flash-lite`** ($0.30/$2.50). Thinking is always on for both — they reject a zero thinking budget upstream, which the gateway no longer sends.
+- **`openai/gpt-5.6-sol-pro`** ($5.00/$30.00), **`openai/gpt-5.6-terra-pro`** ($1.00/$6.00), **`openai/gpt-5.6-luna-pro`** ($0.10/$0.60) — the pro reasoning modes behind ChatGPT Pro. Served on `/v1/chat/completions`; `/v1/responses` now gates on the OpenAI model family rather than on the id prefix.
+- **`qwen/qwen3.7-plus`** ($0.32/$1.28, 131K max output) and **`qwen/qwen3.7-flash`** ($0.03/$0.13) complete the Qwen3.7 line; both are reasoning models.
+- **`google/nano-banana-2`** ($0.09/image, 1024×1024) on both `/v1/images/generations` and `/v1/images/image2image`. ([#329](https://github.com/BlockRunAI/blockrun/pull/329))
+
+### Changed — RPC upstream faults are ours, not yours
+- `/v1/rpc/{network}`: an upstream timeout, credential failure or 5xx now returns **`502` with `Retry-After: 30`** and releases your payment nonce, so an SDK retry with the same signed header succeeds instead of dying as a false `PAYMENT_REPLAY`. A known chain's upstream `404` is reported as our stale slug, not a caller error. ([#324](https://github.com/BlockRunAI/blockrun/pull/324), [#327](https://github.com/BlockRunAI/blockrun/pull/327), [#328](https://github.com/BlockRunAI/blockrun/pull/328))
+
+---
+
+## [2026-08-02]
+
+### Changed — The 402 tells you what to fix
+- **`/v1/chat/completions`**: an unfunded wallet now gets `402` / **`PAYMENT_UNFUNDED`** with a plain-language explanation instead of "message a human on Telegram". One empty wallet had retried 292 times against the old message. ([#322](https://github.com/BlockRunAI/blockrun/pull/322))
+- The chat `402` body's `price.amount` now equals the amount the header signs, **transaction fee included**. It had been quoting the pre-fee price, under-stating a floored call by the whole $0.001 fee. ([#321](https://github.com/BlockRunAI/blockrun/pull/321))
+- When the gateway serves a smaller `max_tokens` than you asked for (model ceiling or context headroom), the response now says so: **`X-Max-Tokens-Capped: true`**, `X-Max-Tokens-Requested`, `X-Max-Tokens-Effective`. Headers only, only when the clamp bit; bodies are unchanged. ([#271](https://github.com/BlockRunAI/blockrun/pull/271))
+
+---
+
+## [2026-07-29]
+
+### Changed — Transaction fee back to $0.001
+- The flat per-request transaction fee added to every paid call returns to **$0.001** (it had been $0.002 since 2026-07-11). The smallest possible paid chat call is therefore $0.002 all-in. Every published minimum was swept to match. ([#319](https://github.com/BlockRunAI/blockrun/pull/319), [#320](https://github.com/BlockRunAI/blockrun/pull/320))
 
 ---
 

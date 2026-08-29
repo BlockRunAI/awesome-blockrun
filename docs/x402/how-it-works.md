@@ -61,10 +61,15 @@ Client                                   Server
 
 When you make a request without payment, the server returns HTTP 402 with:
 
-- **Price** - How much the request costs
-- **Payment Address** - Where to send funds
+- **Price** - How much the request costs (`amount` in micro-USDC, transaction fee included)
+- **Payment Address** - Where to send funds (`payTo`)
 - **Asset** - Which token (USDC)
-- **Network** - Which blockchain
+- **Network** - Which blockchain (`eip155:8453` on Base, `solana:…` on the Solana gateway)
+- **Validity** - `maxTimeoutSeconds` (300 on most endpoints; longer on async media jobs)
+
+The requirements are base64-encoded in three equivalent headers — `PAYMENT-REQUIRED` (x402 v2), `X-Payment-Required`, and `WWW-Authenticate: X402 requirements="…"` — and the JSON body repeats the price as `price.amount` in USD.
+
+On BlockRun the price for chat is the model's list rate — estimated input tokens plus 10% of `max_tokens` output — with no platform margin, plus a flat **$0.001 transaction fee** per paid call. Media generation (image, video, music, speech) and Live Search carry a 5% margin on top of their list rate, plus the same fee.
 
 ### Payment Authorization
 
@@ -79,8 +84,10 @@ Benefits:
 
 The CDP (Coinbase Developer Platform) Facilitator verifies and settles payments:
 
-1. **Verify** - Check the signature is valid
-2. **Settle** - Execute the on-chain transfer
+1. **Verify** - Check the signature is valid (before any upstream work; a rejection is a `402` with a machine-readable `code` — `PAYMENT_UNFUNDED`, `PAYMENT_BLOCKHASH_STALE`, `PAYMENT_REPLAY`, `PAYMENT_INVALID`)
+2. **Settle** - Execute the on-chain transfer, after the request has been served
+
+Because verification precedes settlement, a rejected payment never costs anything, and a request that fails upstream is never settled.
 
 ## x402 v2 Payload
 
@@ -91,22 +98,24 @@ The payment payload includes:
   "x402Version": 2,
   "resource": {
     "url": "https://blockrun.ai/api/v1/chat/completions",
-    "description": "GPT-4o API call",
+    "description": "GPT-5.5 API call (~17 input, 8192 max output tokens)",
     "mimeType": "application/json"
   },
   "accepted": {
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "1000",
+    "amount": "25685",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-    "payTo": "0x..."
+    "payTo": "0x...",
+    "maxTimeoutSeconds": 300,
+    "extra": {"name": "USD Coin", "version": "2"}
   },
   "payload": {
     "signature": "0x...",
     "authorization": {
       "from": "0x...",
       "to": "0x...",
-      "value": "1000",
+      "value": "25685",
       "validAfter": "1234567890",
       "validBefore": "1234568190",
       "nonce": "0x..."
@@ -114,6 +123,8 @@ The payment payload includes:
   }
 }
 ```
+
+Send it base64-encoded in the `PAYMENT-SIGNATURE` header (`X-Payment` is accepted as an alias). The `accepted` block must match one `accepts[]` entry from the 402 byte-for-byte — amount, asset, network, and `payTo` — and `authorization.value` must equal `amount`.
 
 ## Why x402?
 

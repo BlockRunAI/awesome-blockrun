@@ -46,7 +46,7 @@ Both authorizations you sign — the `$0.011` fee and the deposit — are **Base
 
 | Item | Amount | Paid to |
 |------|--------|---------|
-| Service fee | `$0.011` (`POLYMARKET_FUND_FEE_USD`) | BlockRun treasury (x402) |
+| Service fee | `$0.011` — `$0.01` base (`POLYMARKET_FUND_FEE_USD`) + the `$0.001` transaction fee | BlockRun treasury (x402) |
 | Gas | Sponsored by BlockRun | — |
 | Deposit principal | Your chosen amount | Polymarket bridge (non-custodial) |
 
@@ -78,12 +78,22 @@ curl -X POST https://blockrun.ai/api/v1/polymarket/fund
 ```json
 {
   "error": "Payment Required",
+  "message": "This endpoint requires an x402 fee payment ($0.0110). Include the signed deposit authorization in the body.",
   "endpoint": "/api/v1/polymarket/fund",
   "method": "POST",
-  "price": { "amount": "0.0100", "currency": "USD" },
+  "description": "Gaslessly fund your Polymarket deposit wallet: …",
+  "price": { "amount": "0.0110", "currency": "USD" },
+  "body_fields": {
+    "depositWallet": { "type": "string", "required": true, "description": "Your Polymarket deposit wallet address" },
+    "recipient": { "type": "string", "required": true, "description": "The Polymarket bridge address for your vault (from bridge /deposit)" },
+    "amountMicro": { "type": "string", "required": true, "description": "Deposit amount in micro-USDC (6 decimals) — must equal your signed authorization value" },
+    "depositAuthorization": { "type": "string", "required": true, "description": "base64 x402 payload: your EIP-3009 signed USDC transfer to `recipient`" }
+  },
   "paymentInfo": { "network": "base", "asset": "USDC", "x402Version": 2 }
 }
 ```
+
+The x402 requirements (amount `11000` micro-USDC, `exact` scheme on Base) are also in the `X-Payment-Required` / `PAYMENT-REQUIRED` headers and `WWW-Authenticate: X402 requirements="…"`.
 
 ### Success (200)
 
@@ -112,13 +122,17 @@ The confirmed deposit transaction hash is also returned in the `X-Deposit-Tx` re
 
 ### Errors
 
-| Status | Meaning | Billed? |
-|--------|---------|---------|
-| `400` | Missing/invalid field, or `amountMicro` does not match the signed authorization value | No |
-| `402` | Fee authorization missing or failed verification | No |
-| `403` | `recipient` is not the Polymarket bridge address for `depositWallet` | No |
-| `502` | Deposit failed to settle / reverted on-chain — **no USDC moved** | No |
-| `503` | Polymarket bridge temporarily unreachable — try again shortly | No |
+| Status | Body | Meaning | Billed? |
+|--------|------|---------|---------|
+| `400` | `Bad Request` | Missing/invalid field, amount over the cap, or `amountMicro` does not match the signed authorization value | No |
+| `400` | `Deposit authorization invalid` | The deposit authorization itself failed verification (wrong `payTo`/amount/signature) | No |
+| `402` | `Payment Required` | No fee authorization in `X-Payment` (discovery) | No |
+| `402` | `Payment verification failed` | Fee authorization rejected. `code` is `PAYMENT_INVALID`, `PAYMENT_UNFUNDED` (insufficient USDC or expired window) or `PAYMENT_BLOCKHASH_STALE`, with a `message` when known | No |
+| `402` | `Payment authorization already used` | `code: "PAYMENT_REPLAY"` — the **fee** authorization was already used; sign a fresh one | No |
+| `403` | `Forbidden` | `recipient` is not the Polymarket bridge address for `depositWallet` | No |
+| `409` | `Deposit authorization already used` | `code: "PAYMENT_REPLAY"` — the **deposit** authorization was already submitted; sign a fresh one | No |
+| `502` | `Deposit settlement failed` | Deposit failed to settle / reverted on-chain — **no USDC moved** | No |
+| `503` | `Bridge unavailable` | Polymarket bridge unreachable for recipient validation — try again shortly | No |
 
 Every non-2xx response that could otherwise be ambiguous states explicitly whether your USDC moved and whether the fee was charged. **The fee is charged only on a confirmed deposit.**
 
@@ -148,12 +162,12 @@ Fund my Polymarket wallet with $25 from my Base USDC.
 - **Polymarket-only** — `recipient` must be your own vault's bridge address, verified live before any settlement. This is not a general transfer relay.
 - **Non-custodial** — the deposit settles directly to the bridge via the CDP facilitator; BlockRun never receives or holds the principal, and runs no server-side broadcaster or hot wallet. Gas is sponsored the same way as every other x402 call.
 - **Amount integrity** — `amountMicro` is validated against the signed authorization value, so the amount you see is the amount that moves.
-- **Idempotent** — retrying a request whose deposit already settled returns the original result instead of double-depositing.
+- **Replay-guarded, not idempotent** — both authorizations are single-use. Re-submitting a spent deposit authorization is refused with `409 PAYMENT_REPLAY` (never double-deposited), and a spent fee authorization with `402 PAYMENT_REPLAY`; the original result is not replayed, so keep the `X-Deposit-Tx` from the first response.
 
 ## Configuration
 
 | Env var | Default | Purpose |
 |---------|---------|---------|
-| `POLYMARKET_FUND_FEE_USD` | `0.01` | Service fee per funding call |
+| `POLYMARKET_FUND_FEE_USD` | `0.01` | Base service fee per funding call (the `$0.001` transaction fee is added on top) |
 | `POLYMARKET_FUND_MAX_USD` | `10000` | Maximum deposit per call |
 | `POLYMARKET_BRIDGE_HOST` | `https://bridge.polymarket.com` | Polymarket bridge host used for recipient validation |

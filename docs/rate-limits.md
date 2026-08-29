@@ -13,7 +13,7 @@ request, BlockRun surfaces it to you transparently as an HTTP `429` so you can
 back off or fail over.
 
 :::info{title="No platform throttle on paid calls"}
-For paid model calls there is no BlockRun-side per-request limit — your only ceiling is the upstream provider's TPM/RPM. Some non-LLM endpoints (image generation, async job submission, wallet reconciliation, RealFace init) carry small per-IP limits to bound abuse and real upstream cost.
+For paid model calls there is no BlockRun-side per-request limit — your only ceiling is the upstream provider's TPM/RPM. Free chat models are limited to **30 requests/minute and 300 requests/hour per IP**, and a few non-LLM endpoints (metadata catalogs, wallet reconciliation, RealFace init, onramp link minting) carry small per-IP limits to bound abuse and real upstream cost.
 :::
 
 ## The `429` response
@@ -28,16 +28,22 @@ Content-Type: application/json
 
 ```json
 {
-  "error": "Rate limited",
-  "message": "Upstream provider rate limit hit — retry after 60s, or fail over to a same-tier model from a different family.",
+  "error": {
+    "message": "Rate limited — … Upstream provider rate limit hit — retry after 60s, or fail over to a same-tier model on a different provider.",
+    "type": "rate_limit_error",
+    "code": "RATE_LIMITED",
+    "param": null
+  },
   "code": "RATE_LIMITED",
+  "source": "anthropic",
   "retry_after_seconds": 60
 }
 ```
 
 | Field / Header | Meaning |
 |----------------|---------|
-| `Retry-After` (header) | Seconds to wait before retrying. Honor this. |
+| `Retry-After` (header) | Seconds to wait before retrying. Honor this. Taken from the upstream when it says; otherwise 60. |
+| `X-RateLimit-Source` (header) / `source` | The model family whose capacity is exhausted — a failover hint. |
 | `code` | Always `RATE_LIMITED` for this case. |
 | `retry_after_seconds` | Same value as `Retry-After`, in the body for convenience. |
 
@@ -61,9 +67,13 @@ if resp.status_code == 429:
 
 BlockRun serves each model through its own gateway and may route a single model id across multiple backing capacity pools, failing over automatically and internally. You only ever see a `429` when **every** backing pool for that model is exhausted — at which point backing off or failing over to another model family is the fastest path through.
 
+## Free models
+
+Free chat models (`"billing_mode": "free"` in `GET /v1/models`) take no payment, so they are throttled per source IP: **30 requests/minute** and **300 requests/hour**. Over the limit you get `429` with `code: "FREE_TIER_RATE_LIMITED"`, `Retry-After`, and `X-RateLimit-Limit` / `X-RateLimit-Remaining` / `X-RateLimit-Reset` (unix ms). Paid requests from the same IP are never counted. When the free pool itself is out of capacity the code is `STREAM_FAILED` / `FREE_MODEL_FAILED` with `Retry-After: 30`.
+
 ## Other endpoints
 
-Some non-LLM endpoints (image generation, async job submission, wallet reconciliation, RealFace init) carry small per-IP limits to bound abuse and real upstream cost. When exceeded they also return `429`; the same `Retry-After` guidance applies.
+The metadata catalogs (`GET /v1/models` and the image/video/audio model lists, `/api/pricing`: 100/hour per IP; `/api/health`: 60/minute), per-wallet lookups (reconciliation, portraits, RealFace status: 120/hour), `POST /v1/realface/init` (10/hour) and `POST /v1/onramp/token` (30/hour per IP, 10/hour per wallet) carry small per-IP limits to bound abuse and real upstream cost. When exceeded they return `429` with `{"error":"Rate limit exceeded"}` and an `X-RateLimit-Reset` header (unix ms). The full table is in the [API reference](api-reference/rate-limits.md).
 
 ## What's next?
 

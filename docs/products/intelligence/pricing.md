@@ -28,7 +28,7 @@ Media generation and Live Search still carry a 5% platform margin, which covers:
 | DeepSeek V4 Flash Chat | ~5M input tokens |
 | Gemini 3.5 Flash | ~635K input tokens |
 | Image generation | ~10–65 images |
-| **Free tier** (8 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
+| **Free tier** (5 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
 
 :::tip{title="Start with the free tier"}
 The free tier costs $0 — 10 reasoning, coding, and vision models with no per-token charge. You still need a funded wallet for the x402 handshake, but these calls don't draw it down.

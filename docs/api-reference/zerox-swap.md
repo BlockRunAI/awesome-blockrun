@@ -24,13 +24,13 @@ AI agents that swap tokens. Ask an agent to rebalance a wallet, take profit, dol
 | `/api/v1/zerox/gasless/price` | GET | 20 bps | Indicative gasless price |
 | `/api/v1/zerox/gasless/quote` | GET | 20 bps | Firm gasless quote — returns `trade.eip712` (+ optional `approval.eip712`) |
 | `/api/v1/zerox/gasless/submit` | POST | — | Submit signed gasless trade. 0x relayer pays gas; returns `tradeHash` |
-| `/api/v1/zerox/gasless/status/{tradeHash}` | GET | — | Poll status of a submitted gasless trade |
+| `/api/v1/zerox/gasless/status/{trade_hash}` | GET | — | Poll status of a submitted gasless trade. `{trade_hash}` must be a single path segment (no `/`) |
 | `/api/v1/zerox/gasless/approval-tokens` | GET | — | List tokens supporting Permit-based gasless approval |
 | `/api/v1/zerox/gasless/chains` | GET | — | List chains where Gasless V2 is supported |
 | `/api/v1/zerox/swap/chains` | GET | — | List chains where Swap V2 is supported |
 
 :::note{title="Affiliate injection"}
-BlockRun force-sets `swapFeeRecipient`, `swapFeeBps=20`, and `swapFeeToken=<sellToken>` on every `price` and `quote` call (Swap and Gasless). Caller-supplied values for these three params are stripped before the request reaches 0x — this slot is BlockRun's.
+BlockRun force-sets `swapFeeRecipient`, `swapFeeBps=20`, and `swapFeeToken=<sellToken>` on every `price` and `quote` call (Swap and Gasless). Caller-supplied values for these three params are stripped before the request reaches 0x — this slot is BlockRun's. Every successful passthrough response carries an `X-Affiliate: blockrun-base-treasury` header so you can see the injection happened. All other query parameters are forwarded unchanged; POST bodies are forwarded verbatim.
 :::
 
 ---
@@ -144,6 +144,8 @@ curl "https://blockrun.ai/api/v1/zerox/gasless/status/<tradeHash>"
 ```
 
 Status progresses `pending → submitted → confirmed`. The 0x relayer pays gas; the affiliate fee still applies and settles on-chain at fill time.
+
+Calling `gasless/status/` with the all-zeros placeholder hash that discovery surfaces advertise (`0x000…000`) is answered by the gateway with a descriptive stub instead of being forwarded — substitute a real `tradeHash`.
 :::
 
 ::::
@@ -242,15 +244,29 @@ const supported = chains.find(c => c.chainId === 8453);
 
 ## Errors
 
-The gateway is a thin passthrough — 0x error bodies are returned verbatim with their original status code. Common cases:
+The gateway is a thin passthrough — a 0x 4xx keeps its original status code, with the 0x body wrapped as `details`:
+
+```json
+{
+  "error": "Bad Request",
+  "message": "0x rejected the request. Check parameters.",
+  "status": 400,
+  "details": { ...0x error body... }
+}
+```
+
+Common cases:
 
 | Code | Cause |
 |------|-------|
-| 400 | Invalid params (bad token address, missing `taker`, etc.) — check 0x's error message |
-| 404 | Unknown path — only the endpoints listed above are routed |
-| 422 | Quote could not be served (no liquidity, sell amount too small, etc.) |
-| 502 | 0x upstream error or timeout (we have a 30s timeout on every call) |
-| 503 | `ZERO_EX_API_KEY` not configured on the gateway — should never happen in prod |
+| 400 | Invalid params (bad token address, missing `taker`, etc.) — check `details` for 0x's error message |
+| 404 | Unknown path — only the endpoints listed above are routed; the body lists every `available` route |
+| 405 | Right path, wrong method (e.g. `POST /price`) — body names the `expected` method |
+| 422 | Quote could not be served (no liquidity, sell amount too small, etc.) — forwarded from 0x |
+| 502 | 0x upstream 5xx (`"Upstream provider error"`, upstream status in `status`) or no response within the 30 s timeout (`"0x did not respond in time."`) |
+| 503 | 0x integration not configured on the gateway — should never happen in prod |
+
+These endpoints are free, so there is no 402 and no `X-Payment` header — a payment header sent by mistake is ignored.
 
 See [Error Handling](errors.md) for the gateway-wide error envelope.
 
@@ -258,7 +274,7 @@ See [Error Handling](errors.md) for the gateway-wide error envelope.
 
 ## Internal-only endpoints
 
-The two paths below are present on the gateway for **BlockRun reconciliation only**. They proxy 0x's Trade Analytics API under BlockRun's API key, and surface every trade routed through us — including other integrators' fields. Do not call these from end-user agents.
+The two paths below are present on the gateway for **BlockRun reconciliation only**. They proxy 0x's Trade Analytics API under BlockRun's API key and surface every trade routed through us. They are deliberately left out of `/openapi.json` and the `/.well-known/x402` discovery manifest. Do not call these from end-user agents.
 
 | Endpoint | Purpose |
 |----------|---------|

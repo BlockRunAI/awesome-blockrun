@@ -22,10 +22,12 @@ The same paths are available on each gateway. The 402 response advertises which 
 | `blockrun.ai` | Base mainnet — `eip155:8453` | USDC `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` | Per-call onchain | Default gateway. EIP-3009 / x402 v2. |
 | `sol.blockrun.ai` | Solana mainnet — `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDC SPL `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` | Per-call onchain | Solana SPL transfers. |
 | `nano.blockrun.ai` | Polygon / Arbitrum / Optimism / Unichain via Circle Gateway | USDC | Batched (Nanopayments) | Gas-free, sub-cent floor, batched onchain settlement. Base buyers use `blockrun.ai` (native x402). See [the Nanopayments launch post](https://blockrun.ai/signal/nanopayments-mainnet-circle-gateway). |
-| `xrpl.blockrun.ai` | XRP Ledger | RLUSD (Ripple-issued USD) | Per-call onchain | **Deprecated (being sunset)** — use Base or Solana for new integrations. See the [XRPL SDK notice](../sdks/xrpl.md). |
+| `xrpl.blockrun.ai` | XRP Ledger | RLUSD (Ripple-issued USD) | — | **Sunset — the gateway no longer serves requests** (returns 404 as of 2026-08-29). Use Base or Solana. See the [XRPL SDK notice](../sdks/xrpl.md). |
 | `testnet.blockrun.ai` | Base Sepolia — `eip155:84532` | USDC `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | Per-call onchain | Free test USDC. Smaller model catalog. |
 
-All gateways implement [x402 v2](https://x402.org). Facilitators: Coinbase CDP for Base, native Solana verification, t54.ai for XRPL.
+All live gateways implement [x402 v2](https://x402.org). Facilitators: Coinbase CDP for Base, native Solana verification, Circle Gateway for `nano.blockrun.ai`.
+
+Per-token chat (`/chat/completions`, `/messages`, `/responses`) is billed at provider cost with **no platform margin** — only the flat **$0.001 / request** transaction fee is added. Media generation and Live Search carry a 5% margin. Every price quoted below already includes the transaction fee.
 
 ## Discovery
 
@@ -35,7 +37,7 @@ GET https://blockrun.ai/openapi.json         # Full OpenAPI 3.1 spec (read by x4
 GET https://blockrun.ai/api/v1/models        # Live model catalog with pricing
 ```
 
-Replace `blockrun.ai` with `sol.blockrun.ai`, `nano.blockrun.ai`, `xrpl.blockrun.ai`, or `testnet.blockrun.ai` to discover the same endpoints scoped to a different network.
+Replace `blockrun.ai` with `sol.blockrun.ai`, `nano.blockrun.ai`, or `testnet.blockrun.ai` to discover the same endpoints scoped to a different network.
 
 ## AI Model Gateway
 
@@ -45,13 +47,18 @@ OpenAI-compatible. 72 models across chat, reasoning, coding, and vision — plus
 |---|---|---|---|
 | POST | `/api/v1/chat/completions` | OpenAI-compatible chat | Token-based, see `/api/v1/models` |
 | POST | `/api/v1/chat/{model}` | Chat completions with the model in the path | Token-based |
-| POST | `/api/v1/messages` | Anthropic-compatible messages | Token-based |
+| POST | `/api/v1/messages` | Anthropic-compatible messages (native passthrough — responses returned verbatim) | Token-based |
+| POST | `/api/v1/responses` | OpenAI Responses API (stateless; `background:true` supported) | Token-based |
+| GET  | `/api/v1/responses/{id}` | Poll or attach (`?stream=true`) to a background response | Free (settled at create) |
+| POST | `/api/v1/responses/{id}/cancel` | Cancel a background response | Free |
+| POST | `/api/v1beta/models/{model}:generateContent` | Native Gemini `generateContent` passthrough | Token-based — allowlisted enterprise payers only |
 | POST | `/api/v1/images/generations` | Image generation (gpt-image-1/2, Nano Banana, CogView-4, Grok Imagine) | Per image, per size |
 | GET  | `/api/v1/images/generations/{id}` | Async image poll for slow models (gpt-image-2, etc.) | Free |
 | POST | `/api/v1/images/image2image` | Image edit / inpainting + multi-image fusion (gpt-image-1/2, Nano Banana, Nano Banana Pro) | Per image |
 | POST | `/api/v1/videos/generations` | Video generation (Seedance, Grok Imagine Video, Sora 2) | Per second / token-metered, varies |
 | GET  | `/api/v1/videos/generations/{id}` | Async video poll (settlement happens here on completion) | Free |
 | POST | `/api/v1/videos` | Standard multimodal `content[]` body — delegates to `/videos/generations` | Per second / token-metered |
+| GET  | `/api/v1/videos/{id}` | Poll a job created via `/api/v1/videos` | Free |
 | POST | `/api/v1/audio/speech` | Text-to-speech (ElevenLabs voices) | $0.05–$0.10 / 1k chars |
 | POST | `/api/v1/audio/generations` | Music generation (MiniMax Music) | $0.151 / track |
 | POST | `/api/v1/audio/sound-effects` | Sound-effect generation | $0.0535 / generation |
@@ -62,6 +69,7 @@ OpenAI-compatible. 72 models across chat, reasoning, coding, and vision — plus
 | POST | `/api/v1/realface/enroll` | Finalize RealFace enrollment after H5 completes (uploads face + biometric match) | **$0.011 / enrollment** |
 | GET  | `/api/v1/realface/status` | Poll the state of a RealFace enrollment group | Free (rate-limited) |
 | GET  | `/api/v1/wallet/{address}/realfaces` | List a wallet's enrolled RealFaces | Free (rate-limited) |
+| GET  | `/api/v1/wallet/{address}/reconciliation` | Per-model token usage and spend for a wallet (30-day window) | Free (rate-limited) |
 
 Per-model pricing is published at `/api/v1/models` and embedded in every 402 response.
 
@@ -87,6 +95,13 @@ Per-model pricing is published at `/api/v1/models` and embedded in every 402 res
 | POST | `/api/v1/phone/numbers/renew` | Renew a rented number | $5.001 |
 | POST | `/api/v1/phone/numbers/list` | List your rented numbers | $0.002 |
 | POST | `/api/v1/phone/numbers/release` | Release a rented number | Free |
+
+## Wallet Funding
+
+| Method | Path | Purpose | Pricing |
+|---|---|---|---|
+| POST | `/api/v1/polymarket/fund` | Bridge USDC from Base into a Polymarket (Polygon) account — see [Polymarket Funding](../api-reference/polymarket-funding.md) | $0.011 fee + the deposit amount |
+| POST | `/api/v1/onramp/token` | Mint a one-time Coinbase Onramp link for a Base wallet (the x402 signature is used as authentication only) | Free — Base USDC only |
 
 ## Sandbox Compute
 
@@ -115,7 +130,7 @@ Ephemeral, isolated Python sandboxes for agent code execution.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| GET/POST | `/api/v1/zerox/{path}` | 0x Swap + Gasless aggregation passthrough (price / quote / gasless) | **Free passthrough — no x402 payment** |
+| GET/POST | `/api/v1/zerox/{path}` | 0x Swap + Gasless aggregation passthrough — `price`, `quote`, `swap/chains`, `gasless/price`, `gasless/quote`, `gasless/submit`, `gasless/status/{trade_hash}`, `gasless/approval-tokens`, `gasless/chains` | **Free passthrough — no x402 payment** |
 
 ## DeFi Data (DefiLlama)
 
@@ -131,16 +146,16 @@ See [DefiLlama](../api-reference/defillama.md).
 
 ## Financial Data (Pyth-backed)
 
-Real-time and historical prices. All `list` endpoints are free. **Crypto, FX, and commodity** price/history are also free; **stock** price/history (US and non-US) are **$0.0010/call**.
+Real-time and historical prices. All `list` endpoints are free. **Crypto, FX, and commodity** price/history are also free; **stock** price/history (US and non-US) are **$0.002/call**.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
 | GET | `/api/v1/usstock/list` | US tickers | Free |
-| GET | `/api/v1/usstock/price/{symbol}` | US stock spot price | $0.0010 |
-| GET | `/api/v1/usstock/history/{symbol}` | US stock OHLC | $0.0010 |
+| GET | `/api/v1/usstock/price/{symbol}` | US stock spot price | $0.002 |
+| GET | `/api/v1/usstock/history/{symbol}` | US stock OHLC | $0.002 |
 | GET | `/api/v1/stocks/{market}/list` | Non-US markets (HK, JP, ...) | Free |
-| GET | `/api/v1/stocks/{market}/price/{symbol}` | Non-US stock price | $0.0010 |
-| GET | `/api/v1/stocks/{market}/history/{symbol}` | Non-US OHLC | $0.0010 |
+| GET | `/api/v1/stocks/{market}/price/{symbol}` | Non-US stock price | $0.002 |
+| GET | `/api/v1/stocks/{market}/history/{symbol}` | Non-US OHLC | $0.002 |
 | GET | `/api/v1/crypto/list` | Crypto tickers | Free |
 | GET | `/api/v1/crypto/price/{symbol}` | Crypto spot | Free |
 | GET | `/api/v1/crypto/history/{symbol}` | Crypto OHLC | Free |
@@ -176,6 +191,7 @@ Standard JSON-RPC 2.0 to 40 chains through one endpoint — no API key. EVM (`et
 | GET | `/api/v1/health/models` | Per-model availability |
 | GET | `/api/v1/health/regions` | Region/edge health |
 | GET | `/api/pricing` | Pricing info |
+| GET | `/brand/numbers.json` | Published catalog counts (models, tools, chains, savings) |
 | GET | `/.well-known/x402` | x402 discovery (v1+v2) |
 | GET | `/openapi.json` | OpenAPI 3.1 spec |
 
@@ -184,7 +200,7 @@ Standard JSON-RPC 2.0 to 40 chains through one endpoint — no API key. EVM (`et
 Every paid endpoint follows the same flow:
 
 1. Client sends request without payment → server returns `HTTP 402` with `accepts[]` describing network, asset, amount, `payTo`, and resource URL
-2. Client signs a payment authorization (EIP-3009 on EVM, SPL transfer on Solana, XRPL payment channel on `xrpl.blockrun.ai`)
+2. Client signs a payment authorization (EIP-3009 on EVM, SPL transfer on Solana, a batched Circle Gateway authorization on `nano.blockrun.ai`)
 3. Client retries with the `PAYMENT-SIGNATURE` header (x402 v2)
 4. Server verifies via the network's facilitator, executes the API call, settles onchain
 5. Server returns the response with `X-Payment-Receipt` (tx hash)

@@ -1,238 +1,212 @@
 ---
 title: Trading Tools Reference
-description: The 7 alpha-mcp tools for autonomous crypto trading — signals, DEX data, sentiment, swaps, portfolio, risk checks, and trade memory.
+description: Franklin's trading tools — signals, market data, paper trading, trade plans, prediction markets, DEX quotes, DeFi data, on-chain RPC, and the wallet.
 ---
 
 # Trading Tools Reference
 
-alpha-mcp provides 7 tools for autonomous crypto trading.
+Franklin's trading surface is a set of built-in tools the agent calls on its own. Tool names below are the exact names you will see in the session's tool activity.
 
-## alpha_signal
+## TradingSignal
 
-Technical indicators from Binance.
+Price, technical indicators, and a verdict for a cryptocurrency, computed locally from live market data.
 
 **What it returns:**
-- RSI (Relative Strength Index)
-- MACD (Moving Average Convergence Divergence)
-- EMA (Exponential Moving Averages)
-- Volume analysis
-- Price action data
+- Current price, market cap, 24h volume
+- RSI, MACD (signal / histogram), Bollinger Bands, annualized volatility
+- A Verdict section: bullish / bearish / neutral with confidence and bull/bear signal lists
+- A dual-listing note for tickers that also trade as equities (COIN, MSTR, CRCL, …), so the agent can fetch the spot equity in parallel
+
+**Parameters:** `ticker` (required), `days` (lookback; default 90 — below 35 leaves MACD undefined)
 
 **Example usage:**
 
 ```
-Get technical signals for BTC/USDT
+Get technical signals for BTC
 ```
 
 ```
 What's the RSI and MACD for ETH?
 ```
 
-**Pricing:** Free (Binance public API)
+**Pricing:** Free
 
 ---
 
-## alpha_dex
+## TradingMarket
 
-DEX market data via DexScreener.
+Market data across asset classes.
 
-**What it returns:**
-- Token prices across DEXes
-- Liquidity depth
-- 24h volume
-- Price changes
-- Pool information
+**Actions:**
+- `price` — crypto spot (free)
+- `trending` — top trending coins (free)
+- `overview` — top 20 by market cap (free)
+- `fxPrice` — FX pairs like `EUR-USD` via the BlockRun gateway (free)
+- `commodityPrice` — `XAU-USD` (gold), `XAG-USD` (silver), … (free)
+- `stockPrice` — equities across `us`, `hk`, `jp`, `kr`, `gb`, `de`, `fr`, `nl`, `ie`, `lu`, `cn`, `ca` (paid per call from the agent wallet; `market` is required)
 
 **Example usage:**
 
 ```
-Check the liquidity for PEPE on Uniswap
+What's gold doing today?
 ```
 
 ```
-What DEXes have the best price for swapping 1000 USDC to ETH?
+Price of 7203 on the Tokyo exchange
 ```
-
-**Pricing:** Free (DexScreener public API)
 
 ---
 
-## alpha_sentiment
+## TradingPortfolio · TradingOpenPosition · TradingClosePosition · TradingHistory
 
-Social sentiment analysis powered by BlockRun.
+Paper trading against live prices. Fills are simulated (10 bps fee); no real assets move and no USDC is spent on exchange fees.
 
-**What it returns:**
-- Social media sentiment score
-- Trending topics
-- Influencer activity
-- News sentiment
-- Community metrics
+**TradingPortfolio** — cash, open positions with unrealized P&L, realized P&L, and a readout of exposure against the caps. Includes a journal-discipline footer scored on rationale completeness.
+
+**TradingOpenPosition** — buy into a position. Pre-trade risk checks enforce the $400 per-position cap, the $900 total exposure cap, and cash sufficiency; a blocked order returns the reason so the agent can retry smaller. Optional `rationale` (direction, price target, stop, time horizon, conviction, evidence, tags, thesis) is journaled.
+
+**TradingClosePosition** — sell part or all of a position. Exits always bypass the exposure caps so the agent is never trapped in a losing position.
+
+**TradingHistory** — recent trades and realized P&L over a time window, read from the persistent trade log so it spans every prior session on the machine.
+
+**State on disk:** `~/.blockrun/portfolio.json` (portfolio, $1,000 starting paper bankroll), `~/.blockrun/trades.jsonl` (trade log), `~/.blockrun/memory/trading-*/` (wallet-keyed journal).
 
 **Example usage:**
 
 ```
-What's the social sentiment around SOL right now?
+Open a $200 paper position in SOL — thesis: funding flipped negative
 ```
 
 ```
-Is there any negative news about BTC today?
+Am I up this week? What was my worst trade?
 ```
 
-**Pricing:** ~$0.01 per query (paid via x402)
+**Pricing:** Free
 
 ---
 
-## alpha_swap
+## TradePlan
 
-Execute token swaps on Base via 0x Protocol.
+The agent's only path to real-money authorization. **Required before any swap or Polymarket order.**
 
-**What it does:**
-- Finds best swap route
-- Executes trade on-chain
-- Returns transaction hash
+**Actions:**
+- `propose` — validates the intended trades, persists a pending plan, and blocks until you decide
+- `status` — show the active plan and its remaining budget
+- `cancel` — cancel a plan by id
 
-**Parameters:**
-- `tokenIn`: Token to sell
-- `tokenOut`: Token to buy
-- `amount`: Amount to swap
-- `slippage`: Max slippage (default 0.5%)
+**Each trade:** `venue` (`jupiter` | `zerox` | `polymarket`), `action` (`buy` | `sell` | `swap` | `bet`), `asset`, `amountUsd`, optional `direction`, `maxSlippageBps`, `stopCondition`, plus a one-paragraph `rationale` for the plan.
+
+Approved plans expire after 15 minutes and their budget draws down as trades execute. Without an approval surface (a scripted `-p` run) the proposal fails closed unless `--approve-trades` was granted and the total fits the remaining `--max-spend`. Every decision is appended to `~/.blockrun/approvals.jsonl`.
+
+---
+
+## PredictionMarket
+
+Prediction-market research via the BlockRun gateway, paid per call.
+
+**Actions:** `searchAll` (Polymarket, Kalshi, Limitless, Opinion, Predict.Fun in one call), `searchPolymarket`, `searchKalshi`, `leaderboard`, `walletProfile`, `walletPnl`, `walletPositions`, `smartActivity`, `smartMoney`.
 
 **Example usage:**
 
 ```
-Swap 100 USDC for ETH on Base
+Is there a market anywhere on the Fed cutting in September?
 ```
 
 ```
-Buy $50 worth of PEPE with USDC
+What are the top Polymarket wallets by P&L positioning in right now?
 ```
 
-**Pricing:** Network gas only (no BlockRun fee)
+---
 
-:::warning{title="Subject to risk limits"}
-Every swap is validated by `alpha_risk` first. Trades that breach a hardcoded limit are rejected — see [Risk Management](risk-management.md).
+## PolymarketBet
+
+Real-money bets on Polymarket (CLOB V2, Polygon), signed locally by your BlockRun key. Orders spend pUSD in a Polymarket deposit wallet funded from your own Base USDC.
+
+**Actions:** `setup` (create / inspect the deposit wallet and approvals; reports region status), `fund`, `buy` / `sell` (limit or market), `orders`, `cancel`, `positions`, `redeem`, `withdraw`.
+
+Every placement is a dry-run preview unless `confirm:true`; a confirmed placement is shown to you for approval before signing (bypass only with `auto_approve` / `FRANKLIN_POLYMARKET_AUTO_APPROVE=1` for headless runs). Per-order cap `POLYMARKET_MAX_BET_USD` (default $25) and optional `POLYMARKET_MAX_SESSION_USD`. Order placement is geoblocked in some regions.
+
+:::warning{title="Behind the trade-plan gate"}
+`PolymarketBet` orders also require an approved `TradePlan`. Bets are your own funds on Polygon and do not draw from the `--max-spend` AI budget; the small funding fee is metered as x402 spend.
 :::
 
 ---
 
-## alpha_portfolio
+## JupiterQuote · Base0xQuote (and the paused swap tools)
 
-Track and manage trading positions.
+Read-only DEX routes and prices: Jupiter on Solana, 0x on Base.
 
-**What it returns:**
-- Current holdings
-- Position sizes (% of portfolio)
-- Unrealized P&L
-- Entry prices
-- Portfolio value
+`JupiterSwap`, `Base0xSwap`, and `Base0xGaslessSwap` exist but are **temporarily disabled in 3.42.0** while Franklin adds complete local transaction, Permit2, and EIP-712 validation — Franklin will not sign opaque transaction bytes handed back by an upstream. When re-enabled they remain behind `TradePlan`.
 
 **Example usage:**
 
 ```
-What's my current portfolio?
+What's the best route to swap 100 USDC to SOL right now?
 ```
-
-```
-How much ETH do I hold?
-```
-
-**Pricing:** Free
 
 ---
 
-## alpha_risk
+## DeFiLlamaProtocols · DeFiLlamaProtocol · DeFiLlamaChains · DeFiLlamaYields · DeFiLlamaPrice
 
-Enforce risk management constraints.
-
-**What it does:**
-- Validates trades against risk limits
-- Returns approval/rejection with reason
-- Cannot be overridden
-
-**Risk limits enforced:**
-
-| Limit | Value |
-|-------|-------|
-| Max position size | 15% |
-| Total exposure cap | 50% |
-| Daily loss threshold | 5% |
-| Min cash reserve | 50% |
-| Stop-loss trigger | 15% |
-
-**Example usage:**
+Protocol TVL and rankings, per-protocol detail, chain TVL, yield pools, and token prices.
 
 ```
-Can I buy $500 worth of PEPE?
+Which Base protocols grew TVL the most this month?
 ```
-
-Claude will automatically check risk limits before executing.
-
-**Pricing:** Free
 
 ---
 
-## alpha_memory
+## MultiChainRPC
 
-Semantic search across trade history.
-
-**What it does:**
-- Stores all trade decisions and outcomes
-- Enables learning from past trades
-- Retrieves relevant historical context
-
-**Example usage:**
+Read-only JSON-RPC across 40+ chains through one gateway endpoint (no per-chain key), paid per call. EVM chains speak `eth_*`, Solana speaks `getSlot` / `getBalance` / `getTransaction`, Bitcoin-family speaks `getblockcount`. Signing and send-transaction methods are rejected.
 
 ```
-What happened last time I traded PEPE?
+Did my last Base transaction land? Check the receipt.
 ```
 
-```
-Show me my most profitable trades this week
-```
+---
+
+## Wallet
+
+Franklin's own wallet status — chain, address, USDC balance. Never costs USDC.
 
 ```
-Why did I sell ETH on Monday?
+What's my balance?
 ```
-
-**Pricing:** Free (local storage)
 
 ---
 
 ## Tool Interaction Flow
 
-Typical trading session:
+Typical session:
 
-1. **alpha_signal** — Get technical indicators
-2. **alpha_dex** — Check liquidity and prices
-3. **alpha_sentiment** — (optional) Check social signals
-4. **alpha_risk** — Validate trade against limits
-5. **alpha_swap** — Execute if approved
-6. **alpha_portfolio** — Verify position
-7. **alpha_memory** — Log for future reference
+1. **TradingSignal** / **TradingMarket** — indicators and prices
+2. **PredictionMarket** / **DeFiLlama\*** — (optional) odds, TVL, yields
+3. **TradingOpenPosition** — paper trade, checked against the exposure caps
+4. **TradePlan** — for real money: propose, wait for your approval
+5. **PolymarketBet** — execute within the approved budget
+6. **TradingPortfolio** / **TradingHistory** — verify position and P&L
+7. Journal entry written automatically; recall later with **MemoryRecall**
 
 ## Example Session
 
 ```
-User: Analyze ETH and execute a trade if signals are good
+User: Analyze ETH and open a paper position if signals are good
 
-Claude:
-1. Calls alpha_signal for ETH/USDT
-   → RSI: 45 (neutral), MACD: bullish crossover
+Franklin:
+1. TradingSignal ETH
+   → RSI 45 (neutral), MACD bullish crossover · Verdict: bullish (medium confidence)
 
-2. Calls alpha_dex for ETH liquidity
-   → Sufficient liquidity on Uniswap, best price
+2. TradingPortfolio
+   → Cash $1,000 · exposure $0 / $900 cap
 
-3. Calls alpha_risk to validate $100 buy
-   → Approved: within position limits
+3. TradingOpenPosition ETH $150, rationale: bullish MACD crossover, stop −4%
+   → Filled at live price (10 bps simulated fee)
 
-4. Calls alpha_swap to buy $100 ETH
-   → Executed, tx: 0x...
+4. TradingPortfolio
+   → ETH $150 (unrealized 0.0%) · exposure $150 / $900
 
-5. Calls alpha_portfolio
-   → Updated holdings: 0.042 ETH
-
-6. Calls alpha_memory
-   → Logged: "Bought ETH on bullish MACD crossover"
+Journal: thesis recorded under your wallet's trading journal
 ```
 
 ## What's next?
@@ -240,15 +214,15 @@ Claude:
 ::::cards
 
 :::card{title="Risk management" href="risk-management.md" icon="TrendingUp"}
-Understand the safety limits enforced before every swap.
+The caps, the trade-plan gate, and the hooks that gate every spend.
 :::
 
-:::card{title="Installation" href="installation.md" icon="Terminal"}
-Get alpha-mcp running in Claude Code.
+:::card{title="Setup" href="installation.md" icon="Terminal"}
+Get Franklin running with a funded wallet.
 :::
 
 :::card{title="Overview" href="overview.md" icon="Book"}
-What alpha-mcp does and how it pays for its own intelligence.
+What Franklin's trading surface does and how it pays for its own intelligence.
 :::
 
 ::::

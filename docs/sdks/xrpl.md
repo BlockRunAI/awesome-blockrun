@@ -1,23 +1,25 @@
 ---
 title: XRPL SDK (Python) — deprecated
-description: The BlockRun XRPL SDK (pay-on-XRPL with RLUSD) is deprecated. Use Base or Solana for new integrations.
+description: The BlockRun XRPL SDK (pay-on-XRPL with RLUSD) is deprecated and its gateway is offline. Use Base or Solana for new integrations.
 ---
 
 # XRPL SDK (Python)
 
-:::danger{title="Deprecated — being sunset"}
-The XRPL pay-on-XRPL SDK (`blockrun-llm-xrpl`, RLUSD settlement on the XRP Ledger) is being **sunset** and is no longer recommended for new integrations. Use the [Python SDK](python.md) or [TypeScript SDK](typescript.md) on **Base** or **Solana** instead — same models, same API, actively maintained.
+:::danger{title="Deprecated — gateway offline"}
+The XRPL pay-on-XRPL SDK (`blockrun-llm-xrpl`, RLUSD settlement on the XRP Ledger) has been **sunset**. As of 2026-08-29 the gateway it talks to, `https://xrpl.blockrun.ai/api`, no longer serves requests (`/v1/models` and `/v1/chat/completions` return HTTP 404), and the gateway repository [`BlockRunAI/blockrun-xrpl`](https://github.com/BlockRunAI/blockrun-xrpl) is archived on GitHub. The last SDK release is **0.2.0** (2026-06-25); there is no testnet mode — the gateway only ever ran against XRPL mainnet (`xrpl:0`). Calls made with this SDK will fail.
 
-This page remains for reference for existing XRPL integrations. Read-only XRP/XRPL access via [Multi-chain RPC](../api-reference/multi-chain-rpc.md) is unaffected and stays supported.
+Use the [Python SDK](python.md) or [TypeScript SDK](typescript.md) on **Base** or **Solana** instead — same models, same API, actively maintained. Read-only XRP/XRPL access via [Multi-chain RPC](../api-reference/multi-chain-rpc.md) (`xrp` network) is unaffected and stays supported.
+
+This page remains for reference for existing XRPL integrations. Everything below describes SDK 0.2.0 as shipped.
 :::
 
-The Python SDK for BlockRun on the XRP Ledger, using RLUSD for micropayments — pay per call, no API keys.
+The Python SDK for BlockRun on the XRP Ledger, using RLUSD for micropayments — pay per call, no API keys. It only covered chat (`/v1/chat/completions`); image, video and music generation were always Base-chain-only.
 
 ::::steps
 
 :::step{title="Install"}
 ```bash
-pip install blockrun-llm-xrpl
+pip install blockrun-llm-xrpl   # 0.2.0, Python 3.9+
 ```
 :::
 
@@ -30,7 +32,7 @@ response = client.chat("openai/gpt-5.5", "Hello!")
 print(response)
 ```
 
-That's it. The SDK handles x402 payment with RLUSD automatically.
+The SDK handles x402 payment with RLUSD automatically.
 :::
 
 ::::
@@ -41,7 +43,8 @@ That's it. The SDK handles x402 payment with RLUSD automatically.
 
 | Variable | Description |
 |----------|-------------|
-| `BLOCKRUN_XRPL_SEED` | Your XRPL wallet seed |
+| `BLOCKRUN_XRPL_SEED` | Your XRPL wallet seed (required unless passed to the constructor) |
+| `BLOCKRUN_CHAT_TIMEOUT` | Default request timeout in seconds (default `600`; reasoning models can need 200–300s+) |
 
 ### Client Options
 
@@ -50,8 +53,9 @@ from blockrun_llm_xrpl import LLMClient
 
 client = LLMClient(
     seed="sEd...",                           # Wallet seed (or use env var)
-    api_url="https://xrpl.blockrun.ai/api",  # Optional
-    timeout=60.0                             # Request timeout in seconds
+    api_url="https://xrpl.blockrun.ai/api",  # Optional (offline — see banner)
+    rpc_url="https://xrplcluster.com",       # XRPL RPC used for balance reads
+    timeout=600.0                            # Request timeout in seconds
 )
 ```
 
@@ -70,7 +74,7 @@ Your seed never leaves your machine — it's only used for local signing. Never 
 
 ## Methods
 
-### `chat(model, prompt, **options)`
+### `chat(model, message, system=None, max_tokens=1024, temperature=None)`
 
 Simple one-line chat interface.
 
@@ -79,14 +83,14 @@ response = client.chat(
     "openai/gpt-5.5",
     "Explain quantum computing",
     system="You are a physics teacher.",  # Optional system prompt
-    max_tokens=500,                        # Optional max output
+    max_tokens=500,                        # Optional max output (default 1024)
     temperature=0.7                        # Optional temperature
 )
 ```
 
 **Returns:** `str` - The assistant's response text
 
-### `chat_completion(model, messages, **options)`
+### `chat_completion(model, messages, max_tokens=1024, temperature=None, top_p=None)`
 
 Full OpenAI-compatible chat completion.
 
@@ -112,7 +116,7 @@ print(f"Tokens used: {result.usage.total_tokens}")
 
 ### `get_balance()`
 
-Get your RLUSD balance.
+Get your RLUSD balance (read from `rpc_url`, so it works even while the gateway is offline).
 
 ```python
 balance = client.get_balance()
@@ -128,20 +132,23 @@ spending = client.get_spending()
 print(f"Spent ${spending['total_usd']:.4f} across {spending['calls']} calls")
 ```
 
-### `get_wallet_address()`
+### `address`
 
-Get the wallet address being used.
+The wallet address being used (a property, not a method).
 
 ```python
-address = client.get_wallet_address()
-print(f"Paying from: {address}")
+print(f"Paying from: {client.address}")
 ```
 
 ## Smart Routing (ClawRouter)
 
 **Save up to 94% on LLM costs automatically.**
 
-The `smart_chat()` method routes each request on [Router Core](https://github.com/BlockRunAI/router-core) — 15 weighted dimensions classify the request, capability constraints are applied as hard filters, and the surviving candidates are ranked on task affinity, cost, speed and reliability. Decisions run locally in <1ms — your prompts never leave your machine for routing, and no extra model call is made to decide.
+The `smart_chat()` method routes each request with a port of ClawRouter's 14-dimension rule-based classifier — token count, code presence, reasoning markers, technical and creative vocabulary, agentic patterns and more. Decisions run locally in <1ms — your prompts never leave your machine for routing, and no extra model call is made to decide.
+
+:::note{title="Routing tables are frozen at 0.2.0"}
+The model ids below are pinned inside SDK 0.2.0's `router.py` and were last synced in April 2026. Several (for example `moonshot/kimi-k2.5`, `xai/grok-4-1-fast-reasoning`, `google/gemini-3-pro-preview`, `nvidia/gpt-oss-120b`) are no longer in the live BlockRun catalog. They are documented here as shipped, not as recommendations.
+:::
 
 ### Basic Usage
 
@@ -150,11 +157,11 @@ from blockrun_llm_xrpl import LLMClient
 
 client = LLMClient()
 
-# Let ClawRouter pick the best model automatically
+# Let ClawRouter pick the model automatically
 result = client.smart_chat("What is 2+2?")
 
 print(result.response)           # "4"
-print(result.model)              # "nvidia/step-3.7-flash" (free tier model)
+print(result.model)              # "moonshot/kimi-k2.5" (AUTO profile, SIMPLE tier)
 print(result.routing.tier)       # "SIMPLE"
 print(result.routing.savings)    # 0.94 (94% savings vs baseline)
 ```
@@ -163,7 +170,7 @@ print(result.routing.savings)    # 0.94 (94% savings vs baseline)
 
 | Profile | Behavior | Best For |
 |---------|----------|----------|
-| `"free"` | Always uses free NVIDIA models | Development, testing |
+| `"free"` | Always uses free NVIDIA-hosted models | Development, testing |
 | `"eco"` | Maximizes cost savings | Bulk processing |
 | `"auto"` | Balances quality and cost (default) | Production workloads |
 | `"premium"` | Always uses top-tier models | Critical tasks |
@@ -174,7 +181,7 @@ result = client.smart_chat(
     "Explain recursion",
     routing_profile="free"
 )
-print(result.model)  # "openai/gpt-oss-120b"
+print(result.model)  # "nvidia/gpt-oss-120b"
 
 # Maximum savings mode
 result = client.smart_chat(
@@ -192,14 +199,14 @@ print(result.model)  # "anthropic/claude-opus-4.5"
 
 ### 4-Tier Model Selection
 
-ClawRouter classifies prompts into four tiers:
+ClawRouter classifies prompts into four tiers. Primary model per profile as pinned in 0.2.0:
 
-| Tier | Models | Use Case |
-|------|--------|----------|
-| **SIMPLE** | Kimi K2.7, DeepSeek | Q&A, summaries, simple tasks |
-| **MEDIUM** | Grok Code, GPT-4o | Analysis, writing, coding |
-| **COMPLEX** | Gemini 3 Pro, Claude Opus | Advanced reasoning, research |
-| **REASONING** | Grok 4.1, DeepSeek-R1 | Math, logic, proofs |
+| Tier | `auto` | `eco` | `premium` | `free` | Use Case |
+|------|--------|-------|-----------|--------|----------|
+| **SIMPLE** | moonshot/kimi-k2.5 | moonshot/kimi-k2.5 | google/gemini-2.5-flash | nvidia/gpt-oss-120b | Q&A, summaries, simple tasks |
+| **MEDIUM** | xai/grok-code-fast-1 | deepseek/deepseek-chat | openai/gpt-4o | nvidia/deepseek-v3.2 | Analysis, writing, coding |
+| **COMPLEX** | google/gemini-3-pro-preview | xai/grok-4-0709 | anthropic/claude-opus-4.5 | nvidia/qwen3-next-80b-a3b-thinking | Advanced reasoning, research |
+| **REASONING** | xai/grok-4-1-fast-reasoning | deepseek/deepseek-reasoner | openai/o3 | nvidia/qwen3-next-80b-a3b-thinking | Math, logic, proofs |
 
 ### Routing Decision Details
 
@@ -211,6 +218,7 @@ routing = result.routing
 print(f"Model: {routing.model}")           # "xai/grok-4-1-fast-reasoning"
 print(f"Tier: {routing.tier}")             # "REASONING"
 print(f"Confidence: {routing.confidence}") # 0.97
+print(f"Method: {routing.method}")         # "rules"
 print(f"Reasoning: {routing.reasoning}")   # "Detected: math proof..."
 print(f"Estimated cost: ${routing.cost_estimate:.4f}")
 print(f"Baseline cost: ${routing.baseline_cost:.4f}")
@@ -255,7 +263,7 @@ Get XRP for transaction fees (~1 XRP is plenty).
 :::
 
 :::step{title="Set up a trust line"}
-Set up a trust line to the RLUSD issuer.
+Set up a trust line to the RLUSD issuer (`rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De`, exported as `blockrun_llm_xrpl.RLUSD_ISSUER`).
 :::
 
 :::step{title="Acquire RLUSD"}
@@ -287,6 +295,18 @@ if not os.getenv("BLOCKRUN_XRPL_SEED"):
     raise ValueError("BLOCKRUN_XRPL_SEED not set")
 
 client = LLMClient()  # Reads from environment
+```
+
+### Balance Helpers
+
+Standalone helpers that read the ledger directly (no gateway involved):
+
+```python
+from blockrun_llm_xrpl import get_xrp_balance, get_rlusd_balance, get_balances
+
+print(get_xrp_balance(client.address))
+print(get_rlusd_balance(client.address))
+print(get_balances(client.address))   # {"xrp": ..., "rlusd": ...}
 ```
 
 ## Async Client
@@ -340,15 +360,15 @@ class ChatResponse:
     created: int
     model: str
     choices: List[ChatChoice]
-    usage: ChatUsage
+    usage: Optional[ChatUsage]
 
 class ChatChoice:
     index: int
     message: ChatMessage
-    finish_reason: str
+    finish_reason: Optional[str]
 
 class ChatMessage:
-    role: str
+    role: Literal["system", "user", "assistant"]
     content: str
 
 class ChatUsage:
@@ -361,25 +381,25 @@ class ChatUsage:
 
 ```python
 from blockrun_llm_xrpl import (
-    RoutingProfile,    # Literal["free", "eco", "auto", "premium"]
-    RoutingTier,       # Literal["SIMPLE", "MEDIUM", "COMPLEX", "REASONING"]
-    RoutingDecision,   # Full routing details
-    SmartChatResponse, # Response + model + routing
+    RoutingDecision,   # model, tier, confidence, method, reasoning, cost_estimate, baseline_cost, savings
+    SmartChatResponse, # response, model, routing
 )
 ```
 
+`routing_profile` is a plain string: `"free" | "eco" | "auto" | "premium"`; `tier` is `"SIMPLE" | "MEDIUM" | "COMPLEX" | "REASONING"`.
+
 ## Available Models
 
-All models from BlockRun Intelligence are available:
+The XRPL gateway mirrored the main BlockRun catalog (last catalog sync in the gateway repo: 2026-06-06). Model ids were identical to the Base gateway's — see [Models Reference](../api-reference/models.md) for the live list and pricing. Ids current in the live catalog today include:
 
 | Provider | Models |
 |----------|--------|
-| **OpenAI** | gpt-5.6-sol, gpt-5.6-terra, gpt-5.6-luna, gpt-5.5, gpt-5.4, gpt-5.4-pro, gpt-5.3, gpt-5.2, gpt-5.4-mini, gpt-5-mini, gpt-5.4-nano, o1, o1-mini, o3, o3-mini |
+| **OpenAI** | gpt-5.6-sol, gpt-5.6-terra, gpt-5.6-luna, gpt-5.5, gpt-5.4, gpt-5.4-pro, gpt-5.3, gpt-5.2, gpt-5.4-mini, gpt-5-mini, gpt-5.4-nano, o1, o3, o3-mini |
 | **Anthropic** | claude-fable-5, claude-opus-5, claude-opus-4.8, claude-opus-4.7, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
 | **Google** | gemini-3.1-pro, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
-| **xAI** | grok-4.1, grok-4, grok-3, grok-3-fast |
-| **DeepSeek** | deepseek-chat, deepseek-reasoner |
-| **NVIDIA** | gpt-oss-120b (FREE), step-3.7-flash (FREE) |
+| **xAI** | grok-4.3, grok-4.5, grok-build-0.1 |
+| **DeepSeek** | deepseek-chat, deepseek-reasoner, deepseek-v4-pro |
+| **NVIDIA (FREE)** | step-3.7-flash, nemotron-3-nano-omni-30b-a3b-reasoning, nemotron-nano-9b-v2, nemotron-nano-12b-v2-vl, mistral-nemotron |
 
 See [Intelligence Pricing](../products/intelligence/pricing.md) for full pricing details.
 
@@ -401,6 +421,7 @@ See [Intelligence Pricing](../products/intelligence/pricing.md) for full pricing
 
 - **PyPI**: [blockrun-llm-xrpl](https://pypi.org/project/blockrun-llm-xrpl/)
 - **GitHub**: [github.com/BlockRunAI/blockrun-llm-xrpl](https://github.com/BlockRunAI/blockrun-llm-xrpl)
+- **Gateway (archived)**: [github.com/BlockRunAI/blockrun-xrpl](https://github.com/BlockRunAI/blockrun-xrpl)
 - **XRPL Explorer**: [xrpscan.com](https://xrpscan.com)
 
 ## What's next?
