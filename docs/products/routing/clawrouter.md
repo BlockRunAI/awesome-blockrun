@@ -10,7 +10,7 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 71 models, zero API keys.
 
 :::tip{title="In a hurry?"}
-Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it. Current release: **v0.12.250** (August 29, 2026).
+Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it. Current release: **v0.12.253** (August 29, 2026).
 :::
 
 ## Overview
@@ -23,7 +23,7 @@ ClawRouter analyzes your prompt and automatically picks the right model tier:
 - **Math, logic, proofs** → Reasoning models (Grok 4.1 Fast Reasoning)
 - **Turns that need their tools** → Agent-tuned models (Kimi K2.7, Claude Sonnet 4.6) — selected automatically in any profile
 
-**Result:** 78% average cost savings with no quality loss.
+**Result:** 88% average cost savings on the auto profile (98% on eco) versus pinning Claude Opus 5, with no quality loss.
 
 ## Quick Start
 
@@ -232,15 +232,15 @@ Note the second row: the REASONING primary is Grok 4.1 Fast Reasoning, but the p
 
 Access all major providers through one wallet:
 
-- **OpenAI**: GPT-5.6 (Terra, Luna, Sol, and their Pro modes), GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-4.1, GPT-4o, o3, o4-mini
+- **OpenAI**: GPT-5.6 (Terra, Luna, Sol, and their Pro modes), GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-4.1, GPT-4o, o3, o4-mini
 - **Anthropic**: Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Sonnet 5, Sonnet 4.6, Haiku 4.5
 - **Google**: Gemini 3.1 Pro, Gemini 3.6 Flash, Gemini 3.5 Flash, Gemini 3.5 Flash Lite, Gemini 2.5 Pro, Gemini 2.5 Flash
 - **DeepSeek**: DeepSeek V4 Pro, DeepSeek V4 Flash Chat, DeepSeek Reasoner
-- **xAI**: Grok 4.5, Grok 4.3, Grok Build 0.1, Grok 4 Fast (reasoning and non-reasoning)
+- **xAI**: Grok 4.5, Grok 4.3, Grok Build 0.1
 - **Z.AI**: GLM-5.2 (flagship, 1M context), GLM-5.1, GLM-5, GLM-5 Turbo
-- **Moonshot**: Kimi K3 (flagship, 1M context), Kimi K2.7, Kimi K2.5
+- **Moonshot**: Kimi K3 (flagship, 1M context)
 - **Qwen**: Qwen3.7 Max, Qwen3.7 Plus, Qwen3.7 Flash
-- **MiniMax**: MiniMax M3, MiniMax M2.7, MiniMax M2.5
+- **MiniMax**: MiniMax M3, MiniMax M2.7
 - **Tencent / Xiaomi**: Hy3, MiMo-V2.5 Pro
 - **Free tier (all FREE)**: 5 NVIDIA-hosted chat, reasoning and vision models with no per-token charge
 
@@ -322,7 +322,7 @@ The same wallet pays for the rest of the gateway through the proxy. Prices as pu
 - **Image editing** — `/img2img --image ~/photo.png change the background to a starry sky`, with optional `--mask`.
 - **Video generation** — `/videogen a red apple slowly spinning` (`--model`, `--duration`), or `POST /v1/videos/generations`. Seedance 1.5 Pro / 2.0 Fast / 2.0 / 2.5, Sora 2, and Grok Imagine; the MP4 is downloaded to local disk so it survives the upstream's temporary bucket.
 - **Phone and voice** — `/cr-call +14155552671 "Confirm tomorrow's 3pm meeting"` places a real outbound AI voice call ($0.54 flat, up to 30 minutes); `clawrouter phone lookup|fraud|numbers ...` handles carrier lookup ($0.01), fraud signals ($0.05) and 30-day number leases ($5).
-- **Crypto data (Surf)** — `/v1/surf/*` is whitelisted through the proxy: 84 endpoints across 13 domains at $0.001 / $0.005 / $0.020 per call, including ad-hoc on-chain SQL.
+- **Crypto data (Surf)** — `/v1/surf/*` is whitelisted through the proxy: 83 endpoints at a flat $0.0085 per call including the transaction fee, including ad-hoc on-chain SQL.
 
 ## Why ClawRouter?
 
@@ -360,10 +360,10 @@ Smart routing to appropriate models:
 
 ```
 70 simple requests → DeepSeek ($0.28/M) = $0.02
-20 medium requests → Kimi K2.7 ($4.00/M) = $0.08
+20 medium requests → DeepSeek V4 Pro ($0.87/M) = $0.02
 10 complex requests → Claude Opus 5 ($25.00/M) = $0.25
 
-Total: $0.36 (saved $2.14 = 86% savings)
+Total: $0.29 (saved $2.21 = 88% savings)
 ```
 
 ## Supported Models
@@ -372,15 +372,15 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 
 ### Chat Models
 
-- **OpenAI**: GPT-5.6 Terra / Luna / Sol (+ Pro), GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-4.1, GPT-4o, o1, o3, o4-mini
+- **OpenAI**: GPT-5.6 Terra / Luna / Sol (+ Pro), GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-4.1, GPT-4o, o1, o3, o4-mini
 - **Anthropic Claude**: Fable 5, Opus 5, Opus 4.8, Sonnet 5, Sonnet 4.6, Haiku 4.5
 - **Google Gemini**: 3.1 Pro, 3.6 Flash, 3.5 Flash, 3.5 Flash Lite, 2.5 Pro, 2.5 Flash, 2.5 Flash Lite
 - **DeepSeek**: V4 Pro, V4 Flash Chat, Reasoner
-- **xAI Grok**: Grok 4.5, Grok 4.3, Grok Build 0.1, Grok 4 Fast, Grok 4.1 Fast
+- **xAI Grok**: Grok 4.5, Grok 4.3, Grok Build 0.1
 - **Z.AI**: GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo
-- **Moonshot**: Kimi K3 flagship (1M context), Kimi K2.7, Kimi K2.5
+- **Moonshot**: Kimi K3 flagship (1M context)
 - **Qwen**: Qwen3.7 Max, Plus, Flash
-- **MiniMax**: MiniMax M3, M2.7, M2.5
+- **MiniMax**: MiniMax M3, M2.7
 - **Tencent / Xiaomi**: Hy3, MiMo-V2.5 Pro
 - **Free tier**: 5 models, no per-token charge
 
@@ -417,7 +417,7 @@ print(result.routing.savings) # 0.94 (94% savings)
 result = client.smart_chat("Complex reasoning task...", routing_profile="premium")
 ```
 
-[Python SDK Documentation](../../sdks/python.md#smart-routing-clawrouter)
+[Python SDK Documentation](../../sdks/python.md#smart-routing-router-core)
 :::
 
 :::tab{label="TypeScript"}
@@ -439,7 +439,7 @@ const result2 = await client.smartChat('Complex reasoning task...', {
 });
 ```
 
-[TypeScript SDK Documentation](../../sdks/typescript.md#smart-routing-clawrouter)
+[TypeScript SDK Documentation](../../sdks/typescript.md#smart-routing-router-core-v3)
 :::
 
 ::::
@@ -450,7 +450,6 @@ All SDKs support the same routing profiles:
 
 | Profile | Behavior | Best For |
 |---------|----------|----------|
-| `free` | Always uses free-tier models (an alias that pins the free default and walks the free cascade) | Development, testing |
 | `eco` | Maximizes cost savings — opens on the free tier | Bulk processing |
 | `auto` | Balances quality and cost (default) | Production workloads |
 | `premium` | Always uses top-tier models | Critical tasks |

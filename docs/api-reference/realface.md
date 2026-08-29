@@ -1,11 +1,11 @@
 ---
 title: RealFace Enrollment
-description: Enroll a real person's face (no KYC, ~1-min on-phone liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0-fast videos.
+description: Enroll a real person's face (no KYC, ~1-min on-phone liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0 Fast / 2.0 Mini videos.
 ---
 
 # RealFace Enrollment
 
-Enroll a real person's face as a `ta_xxxxxxxx` asset you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0-fast call. Use this when you want **a real person to appear consistently across multiple videos** (talking head, spokesperson, character continuity).
+Enroll a real person's face as a `ta_xxxxxxxx` asset you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0 Fast / 2.0 Mini call. Use this when you want **a real person to appear consistently across multiple videos** (talking head, spokesperson, character continuity).
 
 :::note{title="No KYC required"}
 No government ID, no account login, no name verification. Just a brief on-phone liveness check (nod + blink, ~1 minute) that proves the person enrolling is the same as the person in the photo. The biometric data is processed by the upstream identity service — BlockRun never sees it. For purely AI-generated characters (no real person involved), use [Virtual Portrait](virtual-portrait.md) instead ($0.011, no liveness step).
@@ -17,7 +17,7 @@ No government ID, no account login, no name verification. Just a brief on-phone 
 | **Price** | **$0.011 USDC** per enrollment, one-time, settled to BlockRun's Base wallet via x402 |
 | **Auth** | x402 micropayment header on finalize — no API key needed |
 | **Network** | Base (USDC, EIP-3009 `exact`) |
-| **Returns** | `ta_xxxxxxxx…` asset id, usable as `real_face_asset_id` on Seedance 2.0 / 2.0-fast |
+| **Returns** | `ta_xxxxxxxx…` asset id, usable as `real_face_asset_id` on Seedance 2.0 / 2.0 Fast / 2.0 Mini |
 
 You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/studio/realface) — connect wallet, paste image URL, get QR for the rights-holder to scan, pay $0.011, copy the `ta_xxx`. The endpoints below are for SDK / programmatic use.
 
@@ -207,7 +207,7 @@ If settlement itself fails after a successful enrollment, BlockRun absorbs the c
   "image_url": "https://example.com/person.jpg",
   "created_at": "2026-05-24T16:19:00.000Z",
   "usage": {
-    "compatible_models": ["bytedance/seedance-2.0", "bytedance/seedance-2.0-fast"],
+    "compatible_models": ["bytedance/seedance-2.0", "bytedance/seedance-2.0-fast", "bytedance/seedance-2.0-mini"],
     "how_to_use": "Pass \"real_face_asset_id\": \"ta_f85b20b9394e47be9502d819bee7929c\" on a Seedance video generation request."
   },
   "price": { "amount": "0.0110", "currency": "USD" },
@@ -226,7 +226,7 @@ The settlement receipt is also returned in the `X-Payment-Response` / `PAYMENT-R
 
 ## Using the enrolled ta_xxx
 
-Pass it as `real_face_asset_id` on any Seedance 2.0 / 2.0-fast call:
+Pass it as `real_face_asset_id` on any Seedance 2.0 / 2.0 Fast / 2.0 Mini call:
 
 ```bash
 curl -X POST http://localhost:8402/v1/videos/generations \
@@ -297,14 +297,14 @@ The video playground reads this same list and shows it in the `real_face_asset_i
 | Liveness check | Not required | Required (~1 minute on phone) |
 | Upstream verification | None | Biometric match against H5 live face |
 | KYC / government ID | Not required | Not required |
-| Compatible models | Seedance 2.0 / 2.0-fast | Seedance 2.0 / 2.0-fast |
+| Compatible models | Seedance 2.0 / 2.0 Fast / 2.0 Mini | Seedance 2.0 / 2.0 Fast / 2.0 Mini |
 
 ## What's next?
 
 ::::cards
 
 :::card{title="Video Generation" href="video-generation.md" icon="Image"}
-Pass the `ta_xxx` you just enrolled as `real_face_asset_id` on a Seedance 2.0 / 2.0-fast call.
+Pass the `ta_xxx` you just enrolled as `real_face_asset_id` on a Seedance 2.0 / 2.0 Fast / 2.0 Mini call.
 :::
 
 :::card{title="Virtual Portrait" href="virtual-portrait.md" icon="Boxes"}

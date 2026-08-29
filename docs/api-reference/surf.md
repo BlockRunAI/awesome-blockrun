@@ -121,20 +121,20 @@ The SQL endpoint runs against Surf's ClickHouse cluster — 80+ tables across Et
 
 :::tab{label="TypeScript"}
 ```typescript
-import { LLMClient } from '@blockrun/llm';
+import { SurfClient } from '@blockrun/llm';
 
-const client = new LLMClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
+const surf = new SurfClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
 
 // Simple price lookup
-const btc = await client.surf('GET', 'market/price', { symbol: 'BTC' });
+const btc = await surf.get('market/price', { symbol: 'BTC' });
 
 // Time-series funding history
-const funding = await client.surf('GET', 'exchange/funding-history', {
+const funding = await surf.get('exchange/funding-history', {
   pair: 'BTC-USDT-PERP',
 });
 
 // Raw SQL
-const flows = await client.surf('POST', 'onchain/sql', {
+const flows = await surf.post('onchain/sql', {
   query: 'SELECT chain, sum(value_usd) FROM bridge_tx WHERE block_time > now() - INTERVAL 7 DAY GROUP BY chain',
 });
 ```
@@ -142,20 +142,20 @@ const flows = await client.surf('POST', 'onchain/sql', {
 
 :::tab{label="Python"}
 ```python
-from blockrun_llm import LLMClient
+from blockrun_llm import SurfClient
 
-client = LLMClient()
+surf = SurfClient()
 
 # Simple price lookup
-btc = client.surf('GET', 'market/price', {'symbol': 'BTC'})
+btc = surf.get('market/price', {'symbol': 'BTC'})
 
 # Polymarket position lookup for a wallet
-pos = client.surf('GET', 'prediction-market/polymarket/positions',
-                  {'address': '0xCC8c44AD3dc2A58D841c3EB26131E49b22665EF8'})
+pos = surf.get('prediction-market/polymarket/positions',
+               {'address': '0xCC8c44AD3dc2A58D841c3EB26131E49b22665EF8'})
 
 # Raw on-chain SQL
-result = client.surf('POST', 'onchain/sql',
-                     {'query': 'SELECT count() FROM tx WHERE chain = \'base\''})
+result = surf.post('onchain/sql',
+                   {'query': 'SELECT count() FROM tx WHERE chain = \'base\''})
 ```
 :::
 
@@ -177,9 +177,9 @@ The `blockrun_surf` MCP tool ships with [BlockRun MCP](../mcp/blockrun-mcp.md). 
 
 ```typescript
 const [price, fng, funding] = await Promise.all([
-  client.surf('GET', 'market/price', { symbol: 'BTC' }),       // $0.0085
-  client.surf('GET', 'market/fear-greed'),                      // $0.0085
-  client.surf('GET', 'exchange/funding-history', { pair: 'BTC-USDT-PERP' }), // $0.0085
+  surf.get('market/price', { symbol: 'BTC' }),       // $0.0085
+  surf.get('market/fear-greed'),                      // $0.0085
+  surf.get('exchange/funding-history', { pair: 'BTC-USDT-PERP' }), // $0.0085
 ]);
 ```
 
@@ -188,8 +188,8 @@ Total cost: $0.0255 per pre-trade snapshot (three calls at $0.0085). Cheap enoug
 ### 2. Smart-money wallet monitor ($0.017/wallet)
 
 ```python
-profile = client.surf('GET', 'wallet/detail', {'address': addr})
-positions = client.surf('GET', 'prediction-market/polymarket/positions', {'address': addr})
+profile = surf.get('wallet/detail', {'address': addr})
+positions = surf.get('prediction-market/polymarket/positions', {'address': addr})
 ```
 
 Pipe into an LLM to summarize: *"Wallet X (smart-money DeFi whale) opened a $200K Polymarket position on the Fed Dec rate cut."*
@@ -211,8 +211,8 @@ A weekly research bot that runs this twice and feeds the result into Claude Opus
 ### 4. Multi-source prediction-market aggregator (Tier 1, ~$0.0085/event)
 
 ```python
-poly = client.surf('GET', 'prediction-market/polymarket/markets', {'market_slug': slug})
-kalshi = client.surf('GET', 'prediction-market/kalshi/markets', {'event_ticker': ticker})
+poly = surf.get('prediction-market/polymarket/markets', {'market_slug': slug})
+kalshi = surf.get('prediction-market/kalshi/markets', {'event_ticker': ticker})
 ```
 
 Compare odds across two venues, surface arb opportunities.

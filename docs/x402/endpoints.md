@@ -59,8 +59,8 @@ OpenAI-compatible. 71 models across chat, reasoning, coding, and vision — plus
 | GET  | `/api/v1/videos/generations/{id}` | Async video poll (settlement happens here on completion) | Free |
 | POST | `/api/v1/videos` | Standard multimodal `content[]` body — delegates to `/videos/generations` | Per second / token-metered |
 | GET  | `/api/v1/videos/{id}` | Poll a job created via `/api/v1/videos` | Free |
-| POST | `/api/v1/audio/speech` | Text-to-speech (ElevenLabs voices) | $0.05–$0.10 / 1k chars |
-| POST | `/api/v1/audio/generations` | Music generation (MiniMax Music) | $0.151 / track |
+| POST | `/api/v1/audio/speech` | Text-to-speech (ElevenLabs voices; `bytedance/seed-audio-1.0` at $0.003 / second) | $0.05–$0.10 / 1k chars |
+| POST | `/api/v1/audio/generations` | Music generation (MiniMax Music) | $0.1585 / track |
 | POST | `/api/v1/audio/sound-effects` | Sound-effect generation | $0.0535 / generation |
 | GET  | `/api/v1/audio/voices` | List available TTS voices | Free |
 | POST | `/api/v1/portrait/enroll` | Enroll AI character as a Virtual Portrait (`ta_xxx`) for Seedance | **$0.011 / enrollment** |
@@ -77,7 +77,7 @@ Per-model pricing is published at `/api/v1/models` and embedded in every 402 res
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| POST | `/api/v1/search` | Live search (web / news / X) | `max_results × $0.026` / source (default 10) |
+| POST | `/api/v1/search` | Live search (web / news / X) | `max_results × $0.02625` + $0.001 (default 10 sources = $0.2635) |
 | POST | `/api/v1/exa/search` | Web search | $0.011 / call |
 | POST | `/api/v1/exa/find-similar` | Find semantically similar pages | $0.011 / call |
 | POST | `/api/v1/exa/answer` | AI answer with citations | $0.011 / call |
@@ -166,13 +166,13 @@ Real-time and historical prices. All `list` endpoints are free. **Crypto, FX, an
 | GET | `/api/v1/commodity/price/{symbol}` | Commodity spot | Free |
 | GET | `/api/v1/commodity/history/{symbol}` | Commodity OHLC | Free |
 
-## Blockchain RPC (Tatum)
+## Blockchain RPC
 
 Standard JSON-RPC 2.0 to 40 chains through one endpoint — no API key. EVM (`eth_*`) and non-EVM methods. See [Multi-chain RPC](../api-reference/multi-chain-rpc.md).
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| POST | `/api/v1/rpc/{network}` | Multi-chain JSON-RPC — `ethereum`, `base`, `solana`, `polygon`, `bsc`, `arbitrum`, `bitcoin`, `xrp`, `sui`… (40+, aliases supported) | **$0.003 / call** (batch priced per element) |
+| POST | `/api/v1/rpc/{network}` | Multi-chain JSON-RPC — `ethereum`, `base`, `solana`, `polygon`, `bsc`, `arbitrum`, `bitcoin`, `xrp`, `sui`… (40, aliases supported) | **$0.003 / call** (batch priced per element) |
 | POST | `/api/v1/solana/rpc` | Solana JSON-RPC (also reachable via `/api/v1/rpc/solana`) | $0.0015 / call, batch priced per element |
 
 ## Free Endpoints

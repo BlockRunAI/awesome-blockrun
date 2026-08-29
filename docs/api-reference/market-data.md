@@ -113,7 +113,7 @@ once a payment header is attached.
 
 ## Discovery
 
-Free endpoints answer `HEAD` and `OPTIONS` with a `402` whose body is x402
+Free endpoints answer `HEAD` with a `402` whose body is x402
 discovery metadata (`"error": "Payment Required (discovery)"`, `free: true`,
 amount `0`) so indexers can register them — that is not a charge. A plain
 `GET` returns `200` and the data.

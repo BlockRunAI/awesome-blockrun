@@ -7,6 +7,14 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-08-29]
+
+### Removed — OpenAI GPT-5.3
+- Delisted **`openai/gpt-5.3`** — OpenAI has deprecated it upstream. Requests that still name it are redirected to **`openai/gpt-5.2`** (same $1.75/M in · $14.00/M out), so existing callers keep working; `openai/gpt-5.3-codex` is unaffected.
+- Visible chat models are now **71** (was 72); total catalog **95** across chat, image, video, music, speech, and sound effects.
+
+---
+
 ## [2026-08-27]
 
 ### Added — Z.AI GLM-5.3 Flash, the first natively multimodal GLM-5

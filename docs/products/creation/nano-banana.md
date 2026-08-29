@@ -18,7 +18,9 @@ A funded wallet on Base — $5–10 covers roughly 50–100 images. Your private
 | Model | Price | Best For |
 |-------|-------|----------|
 | Google Nano Banana | $0.05 | Fast, affordable generation |
+| Google Nano Banana 2 | $0.09 | Mid-tier quality step above Nano Banana |
 | Google Nano Banana Pro | $0.10 | Higher quality outputs |
+| ByteDance Seedream 5.0 Pro | $0.045-0.09 | Up to 4K-class resolution, reference-image editing |
 | OpenAI GPT Image 1 | $0.02-0.04 | Native OpenAI image generation |
 | OpenAI ChatGPT Images 2.0 | $0.06-0.12 | Premium quality, text rendering, edits |
 | Zhipu CogView-4 | $0.015 | Cheapest, Chinese prompts |
@@ -26,9 +28,10 @@ A funded wallet on Base — $5–10 covers roughly 50–100 images. Your private
 
 ## Installation
 
+Image generation ships as the `blockrun_image` tool in [BlockRun MCP](../../mcp/blockrun-mcp.md) — there is no separate skill to install:
+
 ```bash
-# Install the nano-banana skill
-claude skill add nano-banana
+claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
 Or via the BlockRun MCP which includes image generation:
@@ -80,8 +83,11 @@ Generate a 16:9 banner image of blockchain nodes
 | Model | Resolution | Price |
 |-------|------------|-------|
 | Nano Banana | 1024x1024 | $0.05 |
+| Nano Banana 2 | 1024x1024 | $0.09 |
 | Nano Banana Pro | up to 2048x2048 | $0.10 |
 | Nano Banana Pro | 4096x4096 (4K) | $0.15 |
+| Seedream 5.0 Pro | up to 2048x1024 | $0.045 |
+| Seedream 5.0 Pro | 2048x2048 and above | $0.09 |
 | GPT Image 1 | 1024x1024 | $0.02 |
 | GPT Image 1 | wide/tall | $0.04 |
 | ChatGPT Images 2.0 | 1024x1024 | $0.06 |
@@ -187,8 +193,8 @@ Generate full-length tracks with lyrics or instrumental, paid per track.
 Fund a Base wallet to start generating.
 :::
 
-:::card{title="GitHub: nano-banana-blockrun" href="https://github.com/BlockRunAI/nano-banana-blockrun" icon="Code"}
-Source for the nano-banana Claude Code skill.
+:::card{title="GitHub: nano-banana-blockrun (archived)" href="https://github.com/BlockRunAI/nano-banana-blockrun" icon="Code"}
+The original Claude Code skill repo, now archived — use `blockrun_image` in BlockRun MCP instead.
 :::
 
 ::::

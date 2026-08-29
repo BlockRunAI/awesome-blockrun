@@ -313,7 +313,7 @@ from blockrun_llm import (
 
 ### Every client routes
 
-`LLMClient`, `AsyncLLMClient`, `SolanaLLMClient` and `AsyncSolanaLLMClient` all expose `route()`, `smart_chat()` and `smart_chat_completion()`. Both chains run the same engine over the same catalog, so the same request picks the same model; only the x402 minimum in the cost estimate differs ($0.002 on Base, $0.001 on Solana).
+`LLMClient`, `AsyncLLMClient`, `SolanaLLMClient` and `AsyncSolanaLLMClient` all expose `route()`, `smart_chat()` and `smart_chat_completion()`. Both chains run the same engine over the same catalog, so the same request picks the same model, and the x402 minimum in the cost estimate is the same $0.001 on both chains.
 
 ```python
 import asyncio
@@ -387,7 +387,7 @@ res = img.edit("Place this logo on the t-shirt", image=["data:image/png;base64,.
 print(res.data[0].url)
 ```
 
-Models: `google/nano-banana`, `google/nano-banana-pro`, `openai/gpt-image-1`, `openai/gpt-image-2`, `zai/cogview-4`, `xai/grok-imagine-image(-pro)`.
+Models: `google/nano-banana`, `google/nano-banana-2` ($0.09), `google/nano-banana-pro`, `bytedance/seedream-5-pro` ($0.045–0.09 by resolution), `openai/gpt-image-1`, `openai/gpt-image-2`, `zai/cogview-4`, `xai/grok-imagine-image(-pro)`.
 
 #### `VideoClient`
 
@@ -420,7 +420,7 @@ from blockrun_llm import MusicClient
 
 music = MusicClient()
 res = music.generate("upbeat synthwave, driving bassline", model="minimax/music-2.5+", instrumental=True)
-print(res.data[0].url)   # URL expires ~24h; download promptly. ~$0.1575/track
+print(res.data[0].url)   # URL expires ~24h; download promptly. ~$0.1585/track
 # For vocals: instrumental=False with lyrics="..." (passing both instrumental=True and lyrics raises ValueError)
 ```
 
@@ -439,7 +439,7 @@ sfx = tts.sound_effect("rain on a tin roof", duration_seconds=6.0)
 voices = tts.list_voices()  # free, 60 req/min/IP
 ```
 
-Voices: `sarah`, `george`, `laura`, `charlie`, `river`, `roger`, `callum`, `harry`, or a raw ElevenLabs `voice_id`. Formats: `mp3` (default), `opus`, `pcm`, `wav`. Speed `0.7`–`1.2`. Billed per character (`chars/1000 × rate`, $0.003 floor) — flash/turbo cap 40k chars, multilingual-v2 10k, v3 5k.
+Voices: `sarah`, `george`, `laura`, `charlie`, `river`, `roger`, `callum`, `harry`, or a raw ElevenLabs `voice_id`. Formats: `mp3` (default), `opus`, `pcm`, `wav`. Speed `0.7`–`1.2`. Billed per character (`chars/1000 × rate`, $0.001 floor — $0.002 all-in with the transaction fee) — flash/turbo cap 40k chars, multilingual-v2 10k, v3 5k.
 
 ### Data & infrastructure
 
@@ -690,7 +690,7 @@ cluster = client.pm_wallet_cluster("0xabc...")
 | Limitless | Markets, Orderbooks |
 | Opinion | Markets, Orderbooks |
 | Predict.Fun | Markets, Orderbooks |
-| Matching | Cross-platform market matching, exact-match pairs, unified search |
+| Matching | Unified `markets/search` across venues (the market-matching and pairs endpoints were sunset upstream) |
 
 ### Async Usage
 

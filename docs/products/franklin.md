@@ -7,10 +7,10 @@ description: Franklin is the AI agent with a wallet — it writes code and spend
 
 **The AI agent with a wallet.** Other coding agents write code; Franklin writes code *and spends money to get the job done* — picking the best model per task, buying data, generating media, paying for search, proposing trades you approve, all autonomously from one USDC wallet.
 
-**Source:** [github.com/BlockRunAI/Franklin](https://github.com/BlockRunAI/Franklin) · [npm: @blockrun/franklin](https://www.npmjs.com/package/@blockrun/franklin) · Apache-2.0 · current release **3.42.0** (2026-08-29)
+**Source:** [github.com/BlockRunAI/Franklin](https://github.com/BlockRunAI/Franklin) · [npm: @blockrun/franklin](https://www.npmjs.com/package/@blockrun/franklin) · Apache-2.0 · current release **3.42.2** (2026-08-29)
 
 :::tip{title="YOPO — You Only Pay Outcome"}
-Not a subscription (pay for access), not generic pay-per-call (pay for trying). You set an outcome and a budget; Franklin decides what to call, what to pay for, and when to stop. Provider cost + 5%, settled per action in USDC — no monthly fees, no rate limits, and no overdraft: when the wallet is empty, Franklin stops.
+Not a subscription (pay for access), not generic pay-per-call (pay for trying). You set an outcome and a budget; Franklin decides what to call, what to pay for, and when to stop. Provider rates plus a flat $0.001 per request (no margin on chat tokens; media generation and Live Search carry 5%), settled per action in USDC — no monthly fees, no rate limits, and no overdraft: when the wallet is empty, Franklin stops.
 :::
 
 ## Quick start
@@ -27,7 +27,7 @@ franklin --version
 :::
 
 :::step{title="Run — free out of the box"}
-Franklin starts on the free tier (10 reasoning, coding, and vision models), no wallet needed.
+Franklin starts on the free tier (5 reasoning, coding, and vision models), no wallet needed.
 
 ```bash
 franklin
@@ -58,7 +58,7 @@ Franklin is chat-first: you state an outcome, and it decides what to read, searc
 |---|---|
 | Code & files | `Read`, `Write`, `Edit`, `Bash`, `Glob`, `Grep`, `Task` (sub-agents), detached background tasks (`franklin task`) |
 | Research | `WebSearch`, `WebFetch`, Exa neural search / answer / read-URLs, `MemoryRecall` |
-| Trading & markets | `TradingSignal`, `TradingMarket`, paper-trading portfolio (`TradingPortfolio` / `TradingOpenPosition` / `TradingClosePosition` / `TradingHistory`), `TradePlan`, DEX quotes on Solana (Jupiter) and Base (0x), `PolymarketBet`, `PredictionMarket`, DeFi protocol / chain / yield / price lookups, `MultiChainRPC` (read-only, 40+ chains), `Wallet` — see [Trading](trading/overview.md) |
+| Trading & markets | `TradingSignal`, `TradingMarket`, paper-trading portfolio (`TradingPortfolio` / `TradingOpenPosition` / `TradingClosePosition` / `TradingHistory`), `TradePlan`, DEX quotes on Solana (Jupiter) and Base (0x), `PolymarketBet`, `PredictionMarket`, DeFi protocol / chain / yield / price lookups, `MultiChainRPC` (read-only, 40 chains), `Wallet` — see [Trading](trading/overview.md) |
 | Media | `ImageGen`, `VideoGen`, `MusicGen`, `RealFace` avatars, a content library (`franklin content`) |
 | Social & comms | `SearchX`, `PostToX`, `BrowserX`, phone numbers + voice calls, webhooks |
 | Compute | GPU sandbox (`ModalCreate` / `ModalExec` / `ModalStatus` / `ModalTerminate`) |

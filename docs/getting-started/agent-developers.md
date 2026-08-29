@@ -62,7 +62,7 @@ response = client.chat("openai/gpt-5.4", "Analyze this market data...")
 # Anthropic
 response = client.chat("anthropic/claude-sonnet-4.6", "Review this code...")
 
-# DeepSeek (50x cheaper)
+# DeepSeek (~20x cheaper)
 response = client.chat("deepseek/deepseek-chat", "Summarize these documents...")
 ```
 :::
@@ -76,7 +76,7 @@ response = client.chat("deepseek/deepseek-chat", "Summarize these documents...")
 | [ElizaOS](../frameworks/elizaos.md) | Released | Full plugin |
 | [AgentKit](../frameworks/agentkit.md) | Compatible | SDK integration |
 | [GOAT SDK](../frameworks/goat.md) | In Review | Planned plugin |
-| [LangChain](../frameworks/langchain.md) | Planned | Custom LLM class |
+| [LangChain](../frameworks/langchain.md) | Available | LiteLLM adapter or custom LLM class |
 
 ## Architecture
 

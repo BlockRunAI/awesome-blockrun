@@ -66,7 +66,7 @@ Four product families, one payment layer.
 :::
 
 :::card{title="Routing" href="products/routing/clawrouter.md" icon="Route"}
-ClawRouter scores each prompt and picks the cheapest model that can handle it — up to **78% lower** LLM cost.
+ClawRouter scores each prompt and picks the cheapest model that can handle it — **88% lower** LLM cost on the auto profile (98% on eco) versus pinning Claude Opus 5 for every request.
 :::
 
 :::card{title="Creation" href="products/creation/nano-banana.md" icon="Image"}
@@ -91,6 +91,6 @@ No API keys to rotate, no subscriptions to cancel, no per-provider signups. Just
 
 - **Website:** [blockrun.ai](https://blockrun.ai)
 - **GitHub:** [github.com/BlockRunAI](https://github.com/BlockRunAI)
-- **x402 Services:** [live service directory](https://blockrun.ai/ecosystem/services)
+- **x402 Services:** [live service directory](https://blockrun.ai/models)
 - **Every public repo:** [Ecosystem](resources/ecosystem.md) — routers, plugins, SDKs, Franklin apps, skills
 - **Enterprise (API keys + wire billing):** user.blockrun.ai — sign-in coming soon

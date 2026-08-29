@@ -1,11 +1,11 @@
 ---
 title: Virtual Portrait Enrollment
-description: Enroll an AI-generated character (no KYC, no liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0-fast videos — $0.011 USDC.
+description: Enroll an AI-generated character (no KYC, no liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0 Fast / 2.0 Mini videos — $0.011 USDC.
 ---
 
 # Virtual Portrait Enrollment
 
-Enroll an AI-generated character image as a Virtual Portrait and get back a `ta_xxxxxxxx` id you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0-fast call. Use this when you want **the same character across multiple videos** without dealing with KYC.
+Enroll an AI-generated character image as a Virtual Portrait and get back a `ta_xxxxxxxx` id you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0 Fast / 2.0 Mini call. Use this when you want **the same character across multiple videos** without dealing with KYC.
 
 :::note{title="No KYC required"}
 Use this for AI-generated personas, mascots, avatars, virtual spokespeople — no liveness step needed because the asset is understood to be a synthetic character. For **real-person likeness**, use [RealFace](realface.md) (also no KYC, but requires a brief liveness check on the rights-holder's phone to prove consent).
@@ -17,7 +17,7 @@ Use this for AI-generated personas, mascots, avatars, virtual spokespeople — n
 | **Price** | **$0.011 USDC** per enrollment (one-time, settled to BlockRun's Base wallet via x402) |
 | **Auth** | x402 micropayment header — no API key needed |
 | **Network** | Base (USDC, EIP-3009 `exact`) |
-| **Returns** | `ta_xxxxxxxx…` asset id for use with `real_face_asset_id` on Seedance 2.0 / 2.0-fast |
+| **Returns** | `ta_xxxxxxxx…` asset id for use with `real_face_asset_id` on Seedance 2.0 / 2.0 Fast / 2.0 Mini |
 
 You can use the web UI at [blockrun.ai/studio/portrait](https://blockrun.ai/studio/portrait) — wallet connect, paste an image URL, sign once, copy the `ta_xxx`. The endpoint below is for SDK / programmatic use.
 
@@ -72,7 +72,7 @@ If you're using `clawrouter` locally, this flow is fully automatic — just call
   "mirrored": true,
   "created_at": "2026-05-22T14:32:11.000Z",
   "usage": {
-    "compatible_models": ["bytedance/seedance-2.0", "bytedance/seedance-2.0-fast"],
+    "compatible_models": ["bytedance/seedance-2.0", "bytedance/seedance-2.0-fast", "bytedance/seedance-2.0-mini"],
     "how_to_use": "Pass \"real_face_asset_id\": \"ta_abcdef1234567890\" on a Seedance video generation request."
   },
   "price": { "amount": "0.0110", "currency": "USD" },

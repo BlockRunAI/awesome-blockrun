@@ -279,7 +279,7 @@ GET https://blockrun.ai/api/v1/pm/markets/search
 
 ```bash
 curl "https://blockrun.ai/api/v1/pm/markets/search?q=bitcoin%202026"
-curl "https://blockrun.ai/api/v1/pm/markets/search?q=election&platform=kalshi"
+curl "https://blockrun.ai/api/v1/pm/markets/search?q=election&venue=kalshi"
 ```
 
 Searches Polymarket, Kalshi, Limitless, Opinion and Predict.Fun in one call.
@@ -325,7 +325,7 @@ candles = client.pm("binance/candles/BTCUSDT", interval="1h", limit=24)
 
 :::tab{label="TypeScript"}
 ```typescript
-import { LLMClient } from "blockrun-llm";
+import { LLMClient } from "@blockrun/llm";
 
 const client = new LLMClient();
 

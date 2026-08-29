@@ -48,11 +48,8 @@ POST https://blockrun.ai/api/v1/search
   "query": "latest AI funding rounds",
   "summary": "Several major AI companies have announced significant funding rounds...",
   "citations": [
-    {
-      "url": "https://techcrunch.com/ai-startup-series-b",
-      "title": "AI Startup raises $50M Series B",
-      "source": "web"
-    }
+    "https://techcrunch.com/ai-startup-series-b",
+    "https://www.reuters.com/technology/ai-funding-round"
   ],
   "sources_used": 10,
   "model": "xai/grok-3-mini"
@@ -65,10 +62,7 @@ POST https://blockrun.ai/api/v1/search
 |-------|------|-------------|
 | `query` | string | The original search query |
 | `summary` | string | AI-generated summary of search results with citations |
-| `citations` | array | Array of source citations |
-| `citations[].url` | string | URL of the cited source |
-| `citations[].title` | string | Title or description of the source |
-| `citations[].source` | string | Source type (`web`, `news`) |
+| `citations` | string[] | Source URLs cited by the summary, in citation order. Plain URL strings — there are no title/source sub-fields. |
 | `sources_used` | integer | Number of sources actually queried (falls back to `max_results` when upstream does not report it) |
 | `model` | string | Model used for search (currently `xai/grok-3-mini`) |
 
@@ -224,7 +218,7 @@ You can also access Grok's live search through the Chat Completions API by inclu
 
 ```json
 {
-  "model": "xai/grok-3-mini",
+  "model": "xai/grok-4.3",
   "messages": [{"role": "user", "content": "What's trending in AI today?"}],
   "search_parameters": {
     "mode": "on",

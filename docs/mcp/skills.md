@@ -38,8 +38,8 @@ Every skill ships inside the [blockrun-mcp](https://github.com/BlockRunAI/blockr
 
 Install any of them the same way: `/plugin install <skill>@blockrun-mcp`, e.g. `/plugin install polymarket-trading@blockrun-mcp`. The same commands work from the shell as `claude plugin marketplace add BlockRunAI/blockrun-mcp` and `claude plugin install <skill>@blockrun-mcp`.
 
-:::info{title="Trading with alpha-mcp"}
-[alpha-mcp](../products/trading/overview.md) is a separate MCP server, not a skill: `claude mcp add alpha -s user -- npx -y @blockrun/alpha@latest`. See [Trading installation](../products/trading/installation.md).
+:::info{title="Trading"}
+[Trading](../products/trading/overview.md) — signals, paper trading, Polymarket bets, and a trade-plan gate for real money — is built into the Franklin agent rather than shipped as a skill or a separate MCP server. See [Trading installation](../products/trading/installation.md).
 :::
 
 ## What Are Skills?

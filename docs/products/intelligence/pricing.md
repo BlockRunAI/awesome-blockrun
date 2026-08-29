@@ -1,6 +1,6 @@
 ---
 title: Intelligence Pricing
-description: BlockRun Intelligence pricing — per-token chat at provider cost with no platform margin, a full price list, image rates, and a free tier of 8 models.
+description: BlockRun Intelligence pricing — per-token chat at provider cost with no platform margin, a full price list, image rates, and a free tier of 5 models.
 ---
 
 # Intelligence Pricing
@@ -25,13 +25,13 @@ Media generation and Live Search still carry a 5% platform margin, which covers:
 | Model | Approximate Usage |
 |-------|------------------|
 | GPT-5.5 | ~200K input tokens |
-| DeepSeek V4 Flash Chat | ~5M input tokens |
+| DeepSeek V4 Flash Chat | ~7M input tokens |
 | Gemini 3.5 Flash | ~635K input tokens |
 | Image generation | ~10–65 images |
 | **Free tier** (5 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
 
 :::tip{title="Start with the free tier"}
-The free tier costs $0 — 10 reasoning, coding, and vision models with no per-token charge. You still need a funded wallet for the x402 handshake, but these calls don't draw it down.
+The free tier costs $0 — 5 reasoning, coding, and vision models with no per-token charge. You still need a funded wallet for the x402 handshake, but these calls don't draw it down.
 :::
 
 ## Full Price List
@@ -74,7 +74,7 @@ The free tier costs $0 — 10 reasoning, coding, and vision models with no per-t
 | Gemini 3.5 Flash | $1.50 | $9.00 |
 | Gemini 3.5 Flash Lite | $0.30 | $2.50 |
 
-Gemini Pro models double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.63 in · $15.75 out above the threshold. Flash tiers are flat.
+Gemini Pro models double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.50 in · $15.00 out above the threshold. Flash tiers are flat.
 
 ### xAI Grok
 
@@ -84,13 +84,15 @@ Gemini Pro models double the input rate and add 50% to the output rate above 200
 | Grok 4.3 | $1.50 | $4.00 | 1M |
 | Grok Build 0.1 | $1.50 | $3.00 | 256K |
 
-Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.5 is $5.25 in · $18.90 out above the threshold), mirroring xAI's official long-context tier. Live Search adds $0.025 per source used.
+Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.5 is $5.00 in · $18.00 out above the threshold), mirroring xAI's official long-context tier. Live Search adds $0.025 per source used.
 
 ### Z.AI
 
 | Model | Input (per 1M) | Output (per 1M) | Context |
 |-------|---------------|-----------------|---------|
-| GLM-5.2 (flagship) | $1.40 | $4.40 | 1M |
+| GLM-5.3 | $1.40 | $4.40 | 1M |
+| GLM-5.3 Flash | $0.15 | $0.50 | 1M |
+| GLM-5.2 | $1.40 | $4.40 | 1M |
 | GLM-5.1 | $1.40 | $4.40 | 200K |
 | GLM-5 | $1.00 | $3.20 | 200K |
 | GLM-5 Turbo | $1.20 | $4.00 | 200K |
@@ -100,7 +102,6 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 | Model | Input (per 1M) | Output (per 1M) | Context |
 |-------|---------------|-----------------|---------|
 | Kimi K3 | $3.00 | $15.00 | 1M |
-| Kimi K2.7 | $0.95 | $4.00 | 256K |
 
 ### MiniMax
 
@@ -112,7 +113,7 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
-| Qwen3.7 Max | $1.48 | $4.42 |
+| Qwen3.7 Max | $1.48 | $4.43 |
 | Qwen3.7 Plus | $0.32 | $1.28 |
 | Qwen3.7 Flash | $0.03 | $0.13 |
 
@@ -123,9 +124,9 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 | DeepSeek V4 Flash Chat | $0.14 | $0.28 |
 | DeepSeek V4 Pro | $0.43 | $0.87 |
 
-### Free Tier (8 models)
+### Free Tier (5 models)
 
-The free tier is 10 reasoning, coding, and vision models with no per-token
+The free tier is 5 reasoning, coding, and vision models with no per-token
 charge. The lineup is kept current by a self-healing health gate that routes
 around any model whose upstream is temporarily unavailable and auto-recovers
 it, so existing calls keep working. All free-tier models are `FREE` for both
@@ -140,8 +141,11 @@ input and output — call `GET /api/v1/models` for the current live list.
 | ChatGPT Images 2.0 (1024x1024) | $0.06 |
 | ChatGPT Images 2.0 (wide/tall) | $0.12 |
 | Nano Banana | $0.05 |
+| Nano Banana 2 | $0.09 |
 | Nano Banana Pro (up to 2048²) | $0.10 |
 | Nano Banana Pro (4K) | $0.15 |
+| Seedream 5.0 Pro (up to 2048x1024) | $0.045 |
+| Seedream 5.0 Pro (2K and above) | $0.09 |
 | CogView-4 | $0.015 |
 | Grok Imagine | $0.02 |
 | Grok Imagine Pro | $0.07 |
@@ -152,12 +156,12 @@ Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$
 
 | Provider | Direct Pricing | BlockRun | Difference |
 |----------|---------------|----------|------------|
-| OpenAI GPT-5.4 | $2.50/$15.00 | $2.63/$15.75 | +5% |
-| Anthropic Claude Sonnet 5 | $3.00/$15.00 | $3.15/$15.75 | +5% |
-| Anthropic Claude Sonnet 4.6 | $3.00/$15.00 | $3.15/$15.75 | +5% |
-| DeepSeek V4 Flash Chat | $0.14/$0.28 | $0.14/$0.28 | +0% |
+| OpenAI GPT-5.4 | $2.50/$15.00 | $2.50/$15.00 | 0% + $0.001/request |
+| Anthropic Claude Sonnet 5 | $3.00/$15.00 | $3.00/$15.00 | 0% + $0.001/request |
+| Anthropic Claude Sonnet 4.6 | $3.00/$15.00 | $3.00/$15.00 | 0% + $0.001/request |
+| DeepSeek V4 Flash Chat | $0.14/$0.28 | $0.14/$0.28 | 0% + $0.001/request |
 
-You pay 5% more, but you get:
+Chat is billed at the provider's list rate with no margin, plus a flat $0.001 transaction fee per request, and you get:
 - No API key management
 - No monthly invoices
 - No prepaid credits
@@ -172,7 +176,7 @@ You pay 5% more, but you get:
 from blockrun_llm import LLMClient
 
 # Limit spending per session
-client = LLMClient(session_budget=5.00)
+client = LLMClient(max_session_cost=5.00)
 ```
 
 ### Check Balance
@@ -186,9 +190,9 @@ print(f"${balance} USDC remaining")
 
 ```python
 # Get usage stats
-usage = client.get_usage()
-print(f"Spent: ${usage['total_spent']}")
-print(f"Requests: {usage['request_count']}")
+usage = client.get_spending()
+print(f"Spent: ${usage['total_usd']}")
+print(f"Requests: {usage['calls']}")
 ```
 
 ## Cost Optimization Tips
@@ -209,7 +213,7 @@ ClawRouter does all the optimization below automatically.
 # Expensive
 response = client.chat("openai/gpt-5.5", "Summarize this text")
 
-# 50x cheaper, similar quality
+# ~36x cheaper, similar quality
 response = client.chat("deepseek/deepseek-chat", "Summarize this text")
 ```
 
@@ -242,12 +246,13 @@ Shorter prompts = fewer input tokens = lower cost.
 - **No overage charges**
 - **No rate limit fees**
 
-The rates on this page are the providers' own published prices; our margin is
-added on top of them at settlement.
+The rates on this page are the providers' own published prices; chat tokens carry
+no margin — only the flat $0.001 transaction fee per request. Media generation and
+Live Search carry 5%.
 
 ## Payment Details
 
-- **Currency:** USDC on Base
+- **Currency:** USDC on Base or Solana
 - **Settlement:** Instant, on-chain
 - **Verification:** [Basescan](https://basescan.org)
 

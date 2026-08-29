@@ -20,7 +20,7 @@ Earlier versions of these pages documented `alpha-mcp`, a standalone MCP server.
 - **Paper trading** — open and close simulated positions at live prices, with a persistent portfolio and trade log across sessions
 - **Prediction markets** — research odds across Polymarket, Kalshi and others (`PredictionMarket`), and place real bets on Polymarket (`PolymarketBet`)
 - **DEX routes** — read-only quotes on Solana (Jupiter) and Base (0x)
-- **DeFi & on-chain reads** — protocol TVL, chains, yields, token prices, and read-only JSON-RPC across 40+ chains
+- **DeFi & on-chain reads** — protocol TVL, chains, yields, token prices, and read-only JSON-RPC across 40 chains
 - **Risk Management** — code-level exposure caps on paper trades, a mandatory trade plan for real money, per-order bet caps, and your own veto hooks
 - **Trade Memory** — every trade journals its thesis on open and P&L on close into a journal keyed by your wallet address, recallable from any directory
 
@@ -59,7 +59,7 @@ Franklin calls `TradingSignal` and returns a signal report with a verdict. Signa
 | BlockRun gateway | FX pairs, commodities | Free |
 | BlockRun gateway | Equity prices (12 markets) | Pay-per-call |
 | BlockRun gateway | Prediction-market search, wallet profiles, smart money | Pay-per-call |
-| BlockRun gateway | Read-only JSON-RPC across 40+ chains | Pay-per-call |
+| BlockRun gateway | Read-only JSON-RPC across 40 chains | Pay-per-call |
 | Jupiter (Solana) / 0x (Base) | DEX quotes | Free (quote only) |
 | Polymarket (Polygon) | Bet execution | Your funds + fees |
 

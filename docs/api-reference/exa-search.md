@@ -67,23 +67,23 @@ Narrow your search to a specific type of content:
 
 ```json
 {
-  "data": {
-    "requestId": "d581de9ed6d77165",
-    "resolvedSearchType": "neural",
-    "results": [
-      {
-        "id": "https://github.com/example/x402-impl",
-        "title": "x402 Payment Protocol — Reference Implementation",
-        "url": "https://github.com/example/x402-impl",
-        "publishedDate": "2026-03-15T00:00:00.000Z",
-        "score": 0.94
-      }
-    ],
-    "searchTime": 860,
-    "costDollars": { "total": 0.007 }
-  }
+  "requestId": "d581de9ed6d77165",
+  "resolvedSearchType": "neural",
+  "results": [
+    {
+      "id": "https://github.com/example/x402-impl",
+      "title": "x402 Payment Protocol — Reference Implementation",
+      "url": "https://github.com/example/x402-impl",
+      "publishedDate": "2026-03-15T00:00:00.000Z",
+      "score": 0.94
+    }
+  ],
+  "searchTime": 860,
+  "costDollars": { "total": 0.007 }
 }
 ```
+
+The gateway returns Exa's JSON body verbatim — there is no `data` wrapper.
 
 ---
 
@@ -103,17 +103,15 @@ Best for: "What is X?", "How does Y work?", "What's the current state of Z?"
 
 ```json
 {
-  "data": {
-    "requestId": "601e412c9b1d0891",
-    "answer": "x402 is an open payment standard built around the HTTP 402 status code...",
-    "citations": [
-      {
-        "id": "https://x402.org",
-        "title": "x402 - Payment Required | Internet-Native Payments Standard",
-        "url": "https://www.x402.org"
-      }
-    ]
-  }
+  "requestId": "601e412c9b1d0891",
+  "answer": "x402 is an open payment standard built around the HTTP 402 status code...",
+  "citations": [
+    {
+      "id": "https://x402.org",
+      "title": "x402 - Payment Required | Internet-Native Payments Standard",
+      "url": "https://www.x402.org"
+    }
+  ]
 }
 ```
 
@@ -137,18 +135,16 @@ costs $0.021; a single page costs $0.003.
 
 ```json
 {
-  "data": {
-    "results": [
-      {
-        "id": "https://x402.org",
-        "url": "https://x402.org",
-        "title": "x402 - Payment Required",
-        "text": "x402 is an open, neutral standard for internet-native payments...",
-        "author": null
-      }
-    ],
-    "costDollars": { "total": 0.002 }
-  }
+  "results": [
+    {
+      "id": "https://x402.org",
+      "url": "https://x402.org",
+      "title": "x402 - Payment Required",
+      "text": "x402 is an open, neutral standard for internet-native payments...",
+      "author": null
+    }
+  ],
+  "costDollars": { "total": 0.002 }
 }
 ```
 
@@ -223,7 +219,7 @@ const similar = await client.exaFindSimilar("https://blockrun.ai", {
 
 ### 4. Developer Agent — Find Code Examples
 
-AI coding agent looking for real implementation examples. Cost: $0.016.
+AI coding agent looking for real implementation examples. Cost: $0.014 (one search at $0.011 + one URL of contents at $0.003).
 
 ```typescript
 // Find GitHub repos implementing a specific pattern

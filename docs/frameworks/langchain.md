@@ -212,7 +212,7 @@ def get_model_for_task(task_type: str) -> str:
 llm = BlockRunLLM(model=get_model_for_task("simple"))
 ```
 
-Or let the SDK decide: the Python SDK's `smart_chat()` (bundled Router Core V3) picks the cheapest capable model per request — see [Smart Routing](../sdks/python.md#smart-routing) — and the sidecar accepts `blockrun/auto`, `blockrun/eco` and `blockrun/premium` as model ids.
+Or let the SDK decide: the Python SDK's `smart_chat()` (bundled Router Core V3) picks the cheapest capable model per request — see [Smart Routing](../sdks/python.md#smart-routing-router-core) — and the sidecar accepts `blockrun/auto`, `blockrun/eco` and `blockrun/premium` as model ids.
 
 ## Async Support
 
@@ -254,9 +254,9 @@ export BLOCKRUN_WALLET_KEY=0x...
 Or create programmatically:
 
 ```python
-from blockrun_llm import LLMClient
+from blockrun_llm import setup_agent_wallet
 
-client = LLMClient()  # Auto-creates wallet
+client = setup_agent_wallet()  # Creates ~/.blockrun/.session if none exists
 print(f"Fund this address: {client.get_wallet_address()}")
 ```
 

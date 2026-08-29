@@ -59,7 +59,7 @@ Missing `model`, or a body with neither `input` nor `instructions`, is a `400`. 
 
 ## Supported models
 
-All paid OpenAI models: GPT-5.x (including `-pro` tiers), o-series, and the codex family. `GET /v1/models` lists current IDs and prices; the `openai/` prefix is optional. Other providers (Claude, Gemini, DeepSeek, …) are served via [Chat Completions](chat-completions.md) and [Anthropic Messages](chat-completions.md#anthropic-compatible-endpoint).
+All paid OpenAI models: GPT-5.x (including `-pro` tiers), o-series, and the codex family. `GET /v1/models` lists current IDs and prices; the `openai/` prefix is optional. Other providers (Claude, Gemini, DeepSeek, …) are served via [Chat Completions](chat-completions.md) and the Anthropic-compatible `POST /api/v1/messages` endpoint.
 
 ## Payment flow
 
@@ -75,7 +75,7 @@ The quote is estimated input tokens plus **10% of `max_output_tokens`** at the m
 }
 ```
 
-The signed requirements are in the `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate` headers; the header amount is authoritative and includes the transaction fee (the body `price.amount` on this endpoint is the pre-fee quote). A payment that fails verification is a `402` in the same OpenAI envelope — `"Payment verification failed: …"` — and a reused authorization is `402` `"Payment authorization already used — sign a fresh authorization for each request."`; this endpoint keeps OpenAI's error schema rather than the `code` field the native BlockRun endpoints carry. Nothing is charged on either.
+The signed requirements are in the `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate` headers; the header amount is authoritative and includes the transaction fee, and the body `price.amount` quotes the same fee-inclusive number. A payment that fails verification is a `402` in the same OpenAI envelope — `"Payment verification failed: …"` — and a reused authorization is `402` `"Payment authorization already used — sign a fresh authorization for each request."`; this endpoint keeps OpenAI's error schema rather than the `code` field the native BlockRun endpoints carry. Nothing is charged on either.
 
 ## Examples
 

@@ -5,7 +5,7 @@ description: A Model Context Protocol server that gives Claude Code 71 models, c
 
 # BlockRun MCP
 
-Give Claude Code access to 95 AI models, 80+ crypto data endpoints, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
+Give Claude Code access to 95 AI models, 83 crypto data endpoints, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
 
 BlockRun MCP is a Model Context Protocol server that connects Claude Code to BlockRun's intelligence, trading, and creation capabilities.
 
@@ -188,7 +188,7 @@ blockrun_wallet action:"setup"                  # shows the Solana address + fun
 Then send USDC (SPL) on the **Solana** network — from Coinbase (pick "Solana"), Phantom, Solflare, or Backpack. Switch back anytime with `blockrun_wallet action:"chain" chain:"base"`. The server keeps both wallets; switching just changes which one pays.
 
 :::info
-**Base-only** (these fall back to Base regardless of active chain): `blockrun_music`, `blockrun_speech`, `blockrun_video`, `blockrun_modal`, `blockrun_defi`, paid `blockrun_realface`, paid stock `blockrun_price`, and native Anthropic (`claude-*`) passthrough. In Solana mode they return a "switch to Base" message instead of charging. `blockrun_image` pays on either chain.
+**Base-only** (these fall back to Base regardless of active chain): `blockrun_music`, `blockrun_speech`, `blockrun_modal`, `blockrun_defi`, paid `blockrun_realface`, paid stock `blockrun_price`, and native Anthropic (`claude-*`) passthrough. In Solana mode they return a "switch to Base" message instead of charging. `blockrun_image` and `blockrun_video` pay on either chain.
 :::
 
 ## Available Tools
@@ -286,7 +286,7 @@ DeFi fundamentals — protocol TVL, chain TVL, yield pools (APY), token prices. 
 
 #### `blockrun_rpc`
 
-Raw JSON-RPC against 40+ blockchains through one endpoint — contract reads, balances, blocks, transactions, logs, gas estimates. No node, no API key. See [Multi-chain RPC](../api-reference/multi-chain-rpc.md).
+Raw JSON-RPC against 40 blockchains through one endpoint — contract reads, balances, blocks, transactions, logs, gas estimates. No node, no API key. See [Multi-chain RPC](../api-reference/multi-chain-rpc.md).
 
 ### Media
 

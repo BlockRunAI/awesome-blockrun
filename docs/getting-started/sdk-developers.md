@@ -54,13 +54,14 @@ go get github.com/BlockRunAI/blockrun-llm-go
 package main
 
 import (
+    "context"
     "fmt"
     blockrun "github.com/BlockRunAI/blockrun-llm-go"
 )
 
 func main() {
-    client := blockrun.NewClient("")
-    response, _ := client.Chat("openai/gpt-5.4", "Hello!")
+    client, _ := blockrun.NewLLMClient("") // "" reads BLOCKRUN_WALLET_KEY
+    response, _ := client.Chat(context.Background(), "openai/gpt-5.4", "Hello!")
     fmt.Println(response)
 }
 ```
