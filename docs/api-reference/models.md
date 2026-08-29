@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 72 models across chat, image, video, music, and speech from one unified BlockRun API, with a flat 5% platform fee over provider rates.
+description: List and price 72 models across chat, image, video, music, and speech from one unified BlockRun API, at provider rates — no platform margin on chat tokens, only the flat $0.001 transaction fee.
 ---
 
 # Models
@@ -68,8 +68,11 @@ Released 2026-07-09 — three fixed tiers (Sol / Terra / Luna) replacing the sin
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `openai/gpt-5.6-sol` | GPT-5.6 Sol | $5.00/M | $30.00/M | 1M |
+| `openai/gpt-5.6-sol-pro` | GPT-5.6 Sol Pro | $5.00/M | $30.00/M | 1M |
 | `openai/gpt-5.6-terra` | GPT-5.6 Terra | $2.00/M | $12.00/M | 1M |
+| `openai/gpt-5.6-terra-pro` | GPT-5.6 Terra Pro | $1.00/M | $6.00/M | 1M |
 | `openai/gpt-5.6-luna` | GPT-5.6 Luna | $0.20/M | $1.20/M | 1M |
+| `openai/gpt-5.6-luna-pro` | GPT-5.6 Luna Pro | $0.10/M | $0.60/M | 1M |
 
 ### OpenAI GPT-5.5 Family
 
@@ -77,25 +80,27 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `openai/gpt-5.5-pro` | GPT-5.5 Pro | $30.00/M | $180.00/M | 1M |
+| `openai/chat-latest` | ChatGPT Instant (GPT-5.5) | $5.00/M | $30.00/M | 128K |
 | `openai/gpt-5.5` | GPT-5.5 | $5.00/M | $30.00/M | 1M |
 
 ### OpenAI GPT-5.4 Family
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `openai/gpt-5.4` | GPT-5.4 | $2.50/M | $15.00/M | 1M |
 | `openai/gpt-5.4-pro` | GPT-5.4 Pro | $30.00/M | $180.00/M | 1M |
+| `openai/gpt-5.4` | GPT-5.4 | $2.50/M | $15.00/M | 1M |
 | `openai/gpt-5.4-mini` | GPT-5.4 Mini | $0.75/M | $4.50/M | 400K |
-| `openai/gpt-5.4-nano` | GPT-5.4 Nano | $0.05/M | $0.40/M | 128K |
+| `openai/gpt-5.4-nano` | GPT-5.4 Nano | $0.20/M | $1.25/M | 1M |
 
 ### OpenAI GPT-5 Family
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `openai/gpt-5.3` | GPT-5.3 | $2.00/M | $12.00/M | 400K |
-| `openai/gpt-5.3-codex` | GPT-5.3 Codex | $2.00/M | $12.00/M | 400K |
-| `openai/gpt-5.2` | GPT-5.2 | $1.75/M | $14.00/M | 400K |
 | `openai/gpt-5.2-pro` | GPT-5.2 Pro | $21.00/M | $168.00/M | 400K |
+| `openai/gpt-5.2` | GPT-5.2 | $1.75/M | $14.00/M | 400K |
+| `openai/gpt-5.3` | GPT-5.3 | $1.75/M | $14.00/M | 128K |
+| `openai/gpt-5.3-codex` | GPT-5.3 Codex | $1.75/M | $14.00/M | 400K |
 | `openai/gpt-5-mini` | GPT-5 Mini | $0.25/M | $2.00/M | 200K |
 
 ### OpenAI O-Series (Reasoning)
@@ -103,21 +108,32 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `openai/o1` | o1 | $15.00/M | $60.00/M | 200K |
-| `openai/o1-mini` | o1-mini | $1.10/M | $4.40/M | 128K |
 | `openai/o3` | o3 | $2.00/M | $8.00/M | 200K |
 | `openai/o3-mini` | o3-mini | $1.10/M | $4.40/M | 128K |
+| `openai/o4-mini` | o4-mini | $1.10/M | $4.40/M | 128K |
+
+### OpenAI GPT-4.1 / GPT-4o
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `openai/gpt-4o` | GPT-4o | $2.50/M | $10.00/M | 128K |
+| `openai/gpt-4.1` | GPT-4.1 | $2.00/M | $8.00/M | 128K |
+| `openai/gpt-4.1-mini` | GPT-4.1 Mini | $0.40/M | $1.60/M | 128K |
+| `openai/gpt-4o-mini` | GPT-4o Mini | $0.15/M | $0.60/M | 128K |
+| `openai/gpt-4.1-nano` | GPT-4.1 Nano | $0.10/M | $0.40/M | 128K |
 
 ### Anthropic Claude
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `anthropic/claude-fable-5` | Claude Fable 5 | $10.00/M | $50.00/M | 1M |
-| `anthropic/claude-opus-5` | Claude Opus 5 | $5.00/M | $25.00/M | 1M |
-| `anthropic/claude-opus-4.8` | Claude Opus 4.8 | $5.00/M | $25.00/M | 1M |
-| `anthropic/claude-opus-4.7` | Claude Opus 4.7 | $5.00/M | $25.00/M | 1M |
-| `anthropic/claude-opus-4.6` | Claude Opus 4.6 | $5.00/M | $25.00/M | 1M |
 | `anthropic/claude-opus-4.5` | Claude Opus 4.5 | $5.00/M | $25.00/M | 200K |
-| `anthropic/claude-sonnet-4.6` | Claude Sonnet 4.6 | $3.00/M | $15.00/M | 200K |
+| `anthropic/claude-opus-4.7` | Claude Opus 4.7 | $5.00/M | $25.00/M | 1M |
+| `anthropic/claude-opus-4.8` | Claude Opus 4.8 | $5.00/M | $25.00/M | 1M |
+| `anthropic/claude-opus-5` | Claude Opus 5 | $5.00/M | $25.00/M | 1M |
+| `anthropic/claude-sonnet-4.5` | Claude Sonnet 4.5 | $3.00/M | $15.00/M | 200K |
+| `anthropic/claude-sonnet-4.6` | Claude Sonnet 4.6 | $3.00/M | $15.00/M | 1M |
+| `anthropic/claude-sonnet-5` | Claude Sonnet 5 | $3.00/M | $15.00/M | 1M |
 | `anthropic/claude-haiku-4.5` | Claude Haiku 4.5 | $1.00/M | $5.00/M | 200K |
 
 :::warning{title="Opus 4.7 / 4.8 behavior"}
@@ -129,9 +145,12 @@ These flagship models reject all sampling parameters (`temperature`, `top_p`, `t
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `google/gemini-3.1-pro` | Gemini 3.1 Pro | $2.00/M | $12.00/M | 1M |
-| `google/gemini-3.5-flash` | Gemini 3.5 Flash | $1.50/M | $9.00/M | 1M |
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
+| `google/gemini-3.5-flash` | Gemini 3.5 Flash | $1.50/M | $9.00/M | 1M |
+| `google/gemini-3.6-flash` | Gemini 3.6 Flash | $1.50/M | $7.50/M | 1M |
+| `google/gemini-3-flash-preview` | Gemini 3 Flash Preview | $0.50/M | $3.00/M | 1M |
 | `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.30/M | $2.50/M | 1M |
+| `google/gemini-3.5-flash-lite` | Gemini 3.5 Flash Lite | $0.30/M | $2.50/M | 1M |
 | `google/gemini-3.1-flash-lite` | Gemini 3.1 Flash Lite | $0.25/M | $1.50/M | 1M |
 | `google/gemini-2.5-flash-lite` | Gemini 2.5 Flash Lite | $0.10/M | $0.40/M | 1M |
 
@@ -143,7 +162,7 @@ Gemini **Pro** models (`gemini-2.5-pro`, `gemini-3.1-pro`) bill a **long-context
 |----------|------|-------------|--------------|---------|
 | `xai/grok-4.5` | Grok 4.5 | $2.50/M | $9.00/M | 500K |
 | `xai/grok-4.3` | Grok 4.3 | $1.50/M | $4.00/M | 1M |
-| `xai/grok-build-0.1` | Grok Build 0.1 | $1.50/M | $3.00/M | 256K |
+| `xai/grok-build-0.1` | Grok Build 0.1 | $1.50/M | $3.00/M | 250K |
 
 Grok bills a **long-context tier** at 2x the rates above once a request's prompt reaches 200K tokens (mirrors xAI's official pricing — e.g. Grok 4.5 is $5.00/M in · $18.00/M out above the threshold). Live Search adds $0.025 per source used. Grok Imagine image/video SKUs are listed under Image / Video Generation below.
 
@@ -151,29 +170,27 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `deepseek/deepseek-chat` | DeepSeek V4 Flash Chat | $0.14/M | $0.28/M | 1M |
 | `deepseek/deepseek-v4-pro` | DeepSeek V4 Pro | $0.435/M | $0.87/M | 1M |
-| `deepseek/deepseek-reasoner` | DeepSeek Reasoner | $0.14/M | $0.28/M | 128K |
+| `deepseek/deepseek-chat` | DeepSeek V4 Flash Chat | $0.14/M | $0.28/M | 1M |
+| `deepseek/deepseek-reasoner` | DeepSeek V4 Flash Reasoner | $0.14/M | $0.28/M | 1M |
 
 ### Z.AI
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `zai/glm-5.3` | GLM-5.3 (flagship) | $1.40/M | $4.40/M | 1M |
-| `zai/glm-5.3-flash` | GLM-5.3 Flash (multimodal) | $0.15/M | $0.50/M | 1M |
-| `zai/glm-5.2` | GLM-5.2 | $1.40/M | $4.40/M | 1M |
+| `zai/glm-5-code` | GLM-5 Code | $1.20/M | $5.00/M | 200K |
 | `zai/glm-5.1` | GLM-5.1 | $1.40/M | $4.40/M | 200K |
-| `zai/glm-5` | GLM-5 | $1.00/M | $3.20/M | 200K |
+| `zai/glm-5.2` | GLM-5.2 | $1.40/M | $4.40/M | 1M |
+| `zai/glm-5.3` | GLM-5.3 | $1.40/M | $4.40/M | 1M |
 | `zai/glm-5-turbo` | GLM-5 Turbo | $1.20/M | $4.00/M | 200K |
+| `zai/glm-5` | GLM-5 | $1.00/M | $3.20/M | 200K |
+| `zai/glm-5.3-flash` | GLM-5.3 Flash | $0.15/M | $0.50/M | 1M |
 
 ### Moonshot
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `moonshot/kimi-k3` | Kimi K3 (flagship) | $3.00/M | $15.00/M | 1M |
-| `moonshot/kimi-k2.7` | Kimi K2.7 | $0.95/M | $4.00/M | 256K |
-| `moonshot/kimi-k2.6` | Kimi K2.6 | $0.95/M | $4.00/M | 256K |
-| `moonshot/kimi-k2.5` | Kimi K2.5 (legacy) | $0.60/M | $3.00/M | 262K |
+| `moonshot/kimi-k3` | Kimi K3 | $3.00/M | $15.00/M | 1M |
 
 K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-token context window**, image + text input, returning `reasoning_content` on completions. K2.7 (256K, adds **video** input) remains routable but superseded; K2.6 and K2.5 are earlier multi-modal generations, still routable.
 
@@ -181,23 +198,47 @@ K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-tok
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `minimax/minimax-m2.7` | MiniMax M2.7 | $0.30/M | $1.20/M | 200K |
 | `minimax/minimax-m3` | MiniMax M3 | $0.30/M | $1.20/M | 1M |
 
 ### Qwen (Alibaba)
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `qwen/qwen3.7-max` | Qwen3.7 Max | $1.48/M | $4.43/M | 1M |
+| `qwen/qwen3.7-max` | Qwen3.7 Max | $1.475/M | $4.425/M | 1M |
+| `qwen/qwen3.7-plus` | Qwen3.7 Plus | $0.32/M | $1.28/M | 1M |
+| `qwen/qwen3.7-flash` | Qwen3.7 Flash | $0.03/M | $0.13/M | 1M |
+
+### Tencent
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `tencent/hy3` | Tencent Hy3 | $0.132/M | $0.528/M | 256K |
+
+### Xiaomi
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `xiaomi/mimo-v2.5-pro` | Xiaomi MiMo-V2.5 Pro | $0.435/M | $0.87/M | 1M |
+
+### Flat-priced (open-weight)
+
+Open-weight models billed at a flat per-request price instead of per token — the request is the unit, whatever its length.
+
+| Model ID | Name | Price | Context |
+|----------|------|-------|---------|
+| `openai/gpt-oss-120b` | GPT-OSS 120B | $0.002/request | 128K |
+| `openai/gpt-oss-20b` | GPT-OSS 20B | $0.001/request | 128K |
 
 ### Free Tier (open-weight)
 
-Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billingMode: "free"`). There are **5** free models listed on mainnet; the free tier's fallback workhorse is `nvidia/gpt-oss-120b`.
+Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billing_mode: "free"`). There are **5** free models listed on mainnet.
 
 | Model ID | Name | Input Price | Output Price |
 |----------|------|-------------|--------------|
-| `nvidia/mistral-nemotron` | Mistral Nemotron | **FREE** | **FREE** |
-| `nvidia/step-3.7-flash` | Step 3.7 Flash | **FREE** | **FREE** |
 | `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | Nemotron 3 Nano Omni | **FREE** | **FREE** |
+| `nvidia/mistral-nemotron` | Mistral Nemotron | **FREE** | **FREE** |
+| `nvidia/step-3.7-flash` | StepFun Step 3.7 Flash | **FREE** | **FREE** |
 | `nvidia/nemotron-nano-9b-v2` | Nemotron Nano 9B v2 | **FREE** | **FREE** |
 | `nvidia/nemotron-nano-12b-v2-vl` | Nemotron Nano 12B v2 VL | **FREE** | **FREE** |
 
@@ -252,7 +293,7 @@ Prices are per 1 million tokens. Your actual cost depends on:
 
 1. **Input tokens** - Length of your prompt and context
 2. **Output tokens** - Length of the model's response
-3. **Platform fee** - 5% added to provider rates
+3. **Transaction fee** - a flat $0.001 per request; chat tokens carry no platform margin (media and Live Search carry 5%)
 
 The SDK calculates the exact price before each request.
 

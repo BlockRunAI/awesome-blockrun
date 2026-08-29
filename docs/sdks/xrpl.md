@@ -174,7 +174,7 @@ result = client.smart_chat(
     "Explain recursion",
     routing_profile="free"
 )
-print(result.model)  # "nvidia/gpt-oss-120b"
+print(result.model)  # "openai/gpt-oss-120b"
 
 # Maximum savings mode
 result = client.smart_chat(
@@ -376,7 +376,7 @@ All models from BlockRun Intelligence are available:
 |----------|--------|
 | **OpenAI** | gpt-5.6-sol, gpt-5.6-terra, gpt-5.6-luna, gpt-5.5, gpt-5.4, gpt-5.4-pro, gpt-5.3, gpt-5.2, gpt-5.4-mini, gpt-5-mini, gpt-5.4-nano, o1, o1-mini, o3, o3-mini |
 | **Anthropic** | claude-fable-5, claude-opus-5, claude-opus-4.8, claude-opus-4.7, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
-| **Google** | gemini-3.1-pro-preview, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
+| **Google** | gemini-3.1-pro, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
 | **xAI** | grok-4.1, grok-4, grok-3, grok-3-fast |
 | **DeepSeek** | deepseek-chat, deepseek-reasoner |
 | **NVIDIA** | gpt-oss-120b (FREE), step-3.7-flash (FREE) |

@@ -157,7 +157,7 @@ client.chat("openai/gpt-5.2", prompt)
 client.chat("openai/o1", prompt)
 
 # Anthropic
-client.chat("anthropic/claude-opus-4.6", prompt)
+client.chat("anthropic/claude-opus-5", prompt)
 client.chat("anthropic/claude-sonnet-4.6", prompt)
 
 # Google
@@ -178,11 +178,11 @@ client.chat("moonshot/kimi-k3", prompt)
 | Use Case | Recommended Model |
 |----------|-------------------|
 | General purpose | `openai/gpt-5.4` |
-| Cheapest | `google/gemini-2.5-flash-lite` or `nvidia/qwen3-next-80b-a3b-instruct` (free) |
+| Cheapest | `google/gemini-2.5-flash-lite` or `nvidia/step-3.7-flash` (free) |
 | Fastest | `google/gemini-3-flash-preview` |
 | Best reasoning | `openai/o3` |
 | Best for code | `openai/gpt-5.3-codex` or `anthropic/claude-sonnet-4.6` |
-| Best quality | `anthropic/claude-opus-4.6` |
+| Best quality | `anthropic/claude-opus-5` |
 
 ## Error Handling
 

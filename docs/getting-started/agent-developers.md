@@ -179,11 +179,11 @@ results = asyncio.run(process_batch(my_items))
 ### Cost-Optimized
 - `google/gemini-2.5-flash-lite` — Best value ($0.10/$0.40 per 1M)
 - `deepseek/deepseek-chat` — Great value ($0.14/$0.28 per 1M)
-- `nvidia/gpt-oss-120b` — Free (NVIDIA-hosted)
+- `nvidia/step-3.7-flash` — Free (open-weight)
 
 ### Quality-Optimized
 - `openai/gpt-5.4` — Best all-around
-- `anthropic/claude-opus-4.6` — Best for nuanced tasks
+- `anthropic/claude-opus-5` — Best for nuanced tasks
 
 ### Reasoning
 - `openai/o3` — Advanced reasoning

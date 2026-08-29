@@ -147,11 +147,11 @@ client.Chat("openai/gpt-5.5", prompt)
 client.Chat("openai/o1", prompt)
 
 // Anthropic
-client.Chat("anthropic/claude-opus-4.6", prompt)
+client.Chat("anthropic/claude-opus-5", prompt)
 client.Chat("anthropic/claude-sonnet-4.6", prompt)
 
 // Google
-client.Chat("google/gemini-3.1-pro-preview", prompt)
+client.Chat("google/gemini-3.1-pro", prompt)
 client.Chat("google/gemini-3-flash-preview", prompt)
 client.Chat("google/gemini-2.5-flash-lite", prompt)
 
@@ -159,7 +159,7 @@ client.Chat("google/gemini-2.5-flash-lite", prompt)
 client.Chat("deepseek/deepseek-chat", prompt)
 
 // xAI
-client.Chat("xai/grok-4-fast", prompt)
+client.Chat("xai/grok-4.3", prompt)
 ```
 
 ## Concurrent Requests
