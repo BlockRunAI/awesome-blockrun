@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 72 models across chat, image, video, music, and speech from one unified BlockRun API, at provider rates — no platform margin on chat tokens, only the flat $0.001 transaction fee.
+description: List and price 72 chat, image, video, music and speech models from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
 ---
 
 # Models
