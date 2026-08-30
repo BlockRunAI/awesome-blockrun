@@ -16,7 +16,7 @@ BlockRun accepts USDC on **Base** (default) or **Solana** for payments. Your age
 | **Solana Mainnet** | — | Production | USDC (SPL) |
 
 :::info{title="MCP users: pay on Solana"}
-Switch to Solana with `blockrun_wallet action:"chain" chain:"solana"` then `blockrun_wallet action:"setup"` — no env vars or restart. See [Claude Code MCP](../mcp/blockrun-mcp.md#pay-on-solana-optional). Some tools (image, music, speech, video, paid stock prices, smart routing, native Anthropic) settle on Base only.
+Switch to Solana with `blockrun_wallet action:"chain" chain:"solana"` then `blockrun_wallet action:"setup"` — no env vars or restart. See [Claude Code MCP](../mcp/blockrun-mcp.md#pay-on-solana-optional). Some tools (music, speech, paid stock prices, smart routing, native Anthropic) settle on Base only.
 :::
 
 ## How It Works
@@ -51,10 +51,10 @@ print(client.get_wallet_address())
 
 **TypeScript SDK:**
 ```typescript
-import { LLMClient } from '@blockrun/llm';
+import { setupAgentWallet } from '@blockrun/llm';
 
-const client = new LLMClient();  // Creates wallet if none exists
-console.log(await client.getAddress());
+const client = setupAgentWallet();  // Creates ~/.blockrun/.session if none exists
+console.log(client.getWalletAddress());
 ```
 
 ### Option 2: Use Existing Private Key
@@ -154,7 +154,7 @@ View your wallet on [Basescan](https://basescan.org) by searching your address.
 | Claude Code / MCP | `~/.blockrun/.session` |
 | Python SDK | `BLOCKRUN_WALLET_KEY` env var, else `~/.blockrun/.session` (legacy `~/.blockrun/wallet.key` still read) |
 | Python SDK (Solana) | `SOLANA_WALLET_KEY` env var, else `~/.blockrun/.solana-session` |
-| TypeScript SDK | `~/.blockrun/.session` or env var |
+| TypeScript SDK | `BASE_CHAIN_WALLET_KEY` env var for `new LLMClient()`; `~/.blockrun/.session` is read by `setupAgentWallet()` |
 
 Every file is written with mode `0600`. The MCP and both SDKs share the Base file, so one funded wallet serves all of them.
 

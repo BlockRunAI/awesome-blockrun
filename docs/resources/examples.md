@@ -75,10 +75,6 @@ Wallet-native trading agent — persona debate, Backtest → Paper → Live, an 
 Gas-free USDC micropayments for API access via Circle Gateway.
 :::
 
-:::card{title="alpha-mcp" href="https://github.com/BlockRunAI/alpha-mcp" icon="TrendingUp"}
-AI crypto-trading MCP server — technical analysis, sentiment, execution.
-:::
-
 ::::
 
 ## Curated lists

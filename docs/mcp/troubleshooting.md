@@ -285,7 +285,7 @@ blockrun_wallet action:"setup"                  # Solana address + funding QR
 Applies instantly — no env vars, no file editing, no restart. Switch back with `chain:"base"`.
 
 :::info
-`blockrun_music`, `blockrun_speech`, `blockrun_video`, `blockrun_modal`, `blockrun_defi`, paid `blockrun_realface`, paid stock `blockrun_price`, and native Anthropic (`claude-*`) settle on Base only. In Solana mode they return a "switch to Base" message instead of charging. `blockrun_image` pays on either chain.
+`blockrun_music`, `blockrun_speech`, `blockrun_modal`, `blockrun_defi`, paid `blockrun_realface`, paid stock `blockrun_price`, and native Anthropic (`claude-*`) settle on Base only. In Solana mode they return a "switch to Base" message instead of charging. `blockrun_image` and `blockrun_video` pay on either chain.
 :::
 
 ## Getting Help

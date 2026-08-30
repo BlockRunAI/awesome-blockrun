@@ -291,8 +291,8 @@ symbols, err := client.ListSymbols(ctx, blockrun.CategoryCrypto, &blockrun.ListO
 
 ```go
 events, err := client.PM(ctx, "polymarket/events", nil)
-markets, err := client.PM(ctx, "polymarket/search", map[string]string{"q": "bitcoin"})
-result, err := client.PMQuery(ctx, "polymarket/query", map[string]any{"filter": "active", "limit": 10})
+markets, err := client.PM(ctx, "markets/search", map[string]string{"q": "bitcoin"}) // cross-venue search
+result, err := client.PMQuery(ctx, "polymarket/wallet/identities", map[string]any{"addresses": []string{"0x..."}}) // POST endpoints
 ```
 
 ### DeFi and DEX
@@ -313,7 +313,7 @@ gq, err := client.DexGaslessQuote(ctx, params)
 
 ### Multi-chain RPC
 
-`RPCClient` wraps `POST /v1/rpc/{network}` — JSON-RPC 2.0 to every [supported chain](../api-reference/multi-chain-rpc.md) through one endpoint, $0.002 per call (a batch charges per element).
+`RPCClient` wraps `POST /v1/rpc/{network}` — JSON-RPC 2.0 to every [supported chain](../api-reference/multi-chain-rpc.md) through one endpoint, $0.003 per call including the $0.001 transaction fee (a batch charges per element).
 
 ```go
 rpcClient, err := blockrun.NewRPCClient("")

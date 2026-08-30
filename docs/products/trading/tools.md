@@ -158,7 +158,7 @@ Which Base protocols grew TVL the most this month?
 
 ## MultiChainRPC
 
-Read-only JSON-RPC across 40+ chains through one gateway endpoint (no per-chain key), paid per call. EVM chains speak `eth_*`, Solana speaks `getSlot` / `getBalance` / `getTransaction`, Bitcoin-family speaks `getblockcount`. Signing and send-transaction methods are rejected.
+Read-only JSON-RPC across 40 chains through one gateway endpoint (no per-chain key), paid per call. EVM chains speak `eth_*`, Solana speaks `getSlot` / `getBalance` / `getTransaction`, Bitcoin-family speaks `getblockcount`. Signing and send-transaction methods are rejected.
 
 ```
 Did my last Base transaction land? Check the receipt.

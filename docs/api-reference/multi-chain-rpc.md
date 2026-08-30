@@ -27,7 +27,7 @@ Swap `{network}` for the chain. Body is a standard JSON-RPC 2.0 request; the res
 A request with no payment header returns `402 Payment Required` with the exact $0.003 quote (`price.amount: "0.0030"`, scaled ×N for a batch) and Base USDC instructions. The x402 requirements are in the `X-Payment-Required` / `PAYMENT-REQUIRED` headers (base64) and `WWW-Authenticate: X402 requirements="…"`. Re-send with the signed authorization in `X-Payment` (or `Payment-Signature`) to get the result.
 :::
 
-## Supported networks (40+)
+## Supported networks (40)
 
 EVM and non-EVM, one path each. A selection:
 

@@ -12,9 +12,9 @@ Frequently asked questions about BlockRun — payments, products, models, wallet
 ### What is BlockRun?
 
 BlockRun is economic infrastructure for AI agents. It provides:
-- **Trading** — AI that analyzes markets and executes trades (alpha-mcp)
+- **Trading** — Franklin's built-in trading tools: live signals, paper trading, Polymarket bets, and a trade-plan gate for real money
 - **Creation** — generate images, video, music, and speech, paid per output
-- **Intelligence** — Access to 72 chat/LLM models via x402 micropayments
+- **Intelligence** — Access to 71 chat/LLM models via x402 micropayments
 - **Routing** — ClawRouter picks the cheapest capable model locally, in under 1ms
 
 ### What makes BlockRun different?
@@ -28,19 +28,20 @@ BlockRun is economic infrastructure for AI agents. It provides:
 
 ### Is BlockRun free?
 
-- **Trading (alpha-mcp):** Free and open source
+- **Trading (Franklin):** Free and open source — you pay only for the market data and models the tools use
 - **Creation:** Pay-per-use — images $0.015–0.15, video from $0.05/sec, music $0.15/track, text-to-speech $0.05–0.10 per 1k chars
 - **Intelligence:** Provider cost with **no platform margin** on per-token chat (since 2026-08-07) — only a flat $0.001 transaction fee per request. Media generation and Live Search carry 5%.
-- **Free tier:** 10 chat/reasoning/vision models with no per-token charge
+- **Free tier:** 5 chat/reasoning/vision models with no per-token charge
 
 ## Products
 
-### What is alpha-mcp?
+### How does trading work?
 
-alpha-mcp is our trading product. It gives Claude the tools to:
-- Analyze markets (technical indicators, sentiment)
-- Execute trades (DEX swaps on Base)
-- Manage risk (hardcoded safety limits)
+Trading is built into the Franklin agent — there is no separate package to install (the earlier `alpha-mcp` server is retired). Franklin can:
+- Analyze markets (`TradingSignal`: RSI, MACD, Bollinger Bands computed locally from live data; `TradingMarket` for crypto, FX, commodities, and equities)
+- Paper-trade at live prices with a persistent portfolio and journal
+- Research prediction-market odds and place real Polymarket bets
+- Propose real-money `TradePlan`s that nothing executes until you approve
 
 It's free and open source. See [Trading Overview](../products/trading/overview.md).
 
@@ -98,19 +99,19 @@ Payments are on-chain and final, like any blockchain transaction.
 
 ### Is AI trading risky?
 
-Yes. alpha-mcp has built-in risk limits (15% max position, 50% cash reserve, 5% daily loss limit), but all trading carries risk. Only trade what you can afford to lose.
+Yes. Franklin layers hard guardrails — paper trades are capped at $400 per position and $900 total exposure, every real-money trade needs an approved `TradePlan` (approvals expire after 15 minutes), Polymarket orders are capped at $25 by default, and `--max-spend` caps a session — but all trading carries risk. Only trade what you can afford to lose.
 
 ### Can I override the risk limits?
 
-No. Risk limits are hardcoded and cannot be overridden.
+The paper-trading caps and the trade-plan gate live in code, not in a prompt, and cannot be switched off — asking Franklin to skip them does nothing. The Polymarket per-order cap is adjustable with `POLYMARKET_MAX_BET_USD`, and your own `PreSpend` hooks can veto any money-moving tool. See [Risk Management](../products/trading/risk-management.md).
 
-### What can alpha-mcp trade?
+### What can Franklin trade?
 
-Tokens on Base via 0x Protocol. Common pairs: ETH/USDC, popular tokens with liquidity.
+Paper positions at live prices across crypto, FX, commodities, and equities; real bets on Polymarket (Polygon, your own funds); and read-only DEX quotes on Solana (Jupiter) and Base (0x). Live DEX swap execution is currently paused while Franklin adds complete local transaction validation.
 
 ### Does BlockRun charge trading fees?
 
-No. alpha-mcp is free. You only pay for intelligence (sentiment analysis) and network gas.
+No. Franklin's trading tools are free and open source. You pay only for the paid data they buy from the agent wallet (equity prices, prediction-market data, on-chain RPC, web search — signals and crypto/FX/commodity prices are free), for model calls, and for Polymarket network fees.
 
 ### Is there a per-request fee?
 
@@ -130,7 +131,7 @@ Yes — a flat $0.001 transaction fee on every paid call, which covers on-chain 
 - MiniMax (MiniMax M3)
 - Qwen (Qwen3.7 Max — 1M context, Alibaba flagship)
 - xAI (Grok 4.5, Grok 4.3, Grok Build 0.1)
-- Plus a free tier of 10 reasoning, coding, and vision models
+- Plus a free tier of 5 reasoning, coding, and vision models
 
 Full list: [Models](../api-reference/models.md)
 
@@ -144,7 +145,7 @@ Yes. Use the same format as OpenAI's Chat Completions API.
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 ```
 
-Then run `blockrun setup` in Claude Code.
+Then call the `blockrun_wallet` tool with `action:"setup"` in Claude Code.
 
 ### What frameworks are supported?
 
@@ -190,14 +191,14 @@ We recommend a dedicated wallet with small amounts. Don't use your main holdings
 
 **Claude Code:**
 ```
-blockrun setup
+blockrun_wallet action:"setup"
 ```
 
 **Python:**
 ```python
-from blockrun_llm import LLMClient
-client = LLMClient()  # Creates wallet automatically
-print(client.get_address())
+from blockrun_llm import setup_agent_wallet
+client = setup_agent_wallet()  # Creates a wallet if none exists
+print(client.get_wallet_address())
 ```
 
 ### How much USDC do I need?
@@ -226,7 +227,7 @@ claude
 
 Run setup:
 ```
-blockrun setup
+blockrun_wallet action:"setup"
 ```
 
 ### "Insufficient balance"
@@ -256,7 +257,7 @@ Open an issue on the relevant GitHub repository:
 - Routing: [ClawRouter](https://github.com/BlockRunAI/ClawRouter)
 - Franklin agent: [Franklin](https://github.com/BlockRunAI/Franklin)
 - CLI: [blockrun-cli](https://github.com/BlockRunAI/blockrun-cli)
-- Trading: [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp)
+- Trading: built into [Franklin](https://github.com/BlockRunAI/Franklin) — see [Trading](../products/trading/overview.md)
 - Python SDK: [blockrun-llm](https://github.com/blockrunai/blockrun-llm)
 - TypeScript SDK: [blockrun-llm-ts](https://github.com/blockrunai/blockrun-llm-ts)
 - Go SDK: [blockrun-llm-go](https://github.com/blockrunai/blockrun-llm-go)

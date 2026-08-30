@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 72 chat, image, video, music and speech models from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
+description: List and price 71 chat, image, video, music and speech models from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
 ---
 
 # Models
@@ -22,32 +22,36 @@ Each model object in the response includes:
 | Field | Type | Description |
 |-------|------|-------------|
 | `id` | string | Model identifier (e.g., `openai/gpt-5.5`) |
+| `object` | string | Always `"model"` (OpenAI-compatible envelope) |
+| `owned_by` | string | Model maker (e.g., `openai`, `anthropic`, `xai`) |
 | `name` | string | Display name (e.g., "GPT-5.5") |
 | `description` | string | Model description |
-| `provider` | string | Provider name |
-| `inputPrice` | number | Input price per 1M tokens |
-| `outputPrice` | number | Output price per 1M tokens |
 | `context_window` | number | Context window size in tokens |
 | `max_output` | number | Maximum output tokens |
-| `categories` | string[] | Model capabilities: `"chat"`, `"reasoning"`, `"coding"`, `"vision"` |
-| `available` | boolean | Whether the model is currently available |
+| `categories` | string[] | Model capabilities: `"chat"`, `"reasoning"`, `"coding"`, `"vision"` (image / video / audio rows carry `"image"`, `"video"`, `"audio"`, `"speech"`, `"sound-effects"`) |
+| `billing_mode` | string | `"paid"` (per-token), `"flat"` (per-request), `"free"`, or a media mode such as `"per_image"` |
+| `pricing` | object | `{ input, output }` in USD per 1M tokens for per-token models; `{ flat }` for flat-priced models (fee-inclusive); `{ per_image }`, `{ per_second }`, etc. for media |
+
+Only models that are currently available are returned — there is no `available` flag to check.
 
 ### Example Response
 
 ```json
 {
-  "models": [
+  "object": "list",
+  "data": [
     {
       "id": "openai/gpt-5.5",
+      "object": "model",
+      "created": 1700000000,
+      "owned_by": "openai",
       "name": "GPT-5.5",
       "description": "OpenAI's flagship — first fully retrained base since GPT-4.5; 1M context, 128K output, native agent + computer use",
-      "provider": "openai",
-      "inputPrice": 5.00,
-      "outputPrice": 30.00,
       "context_window": 1050000,
       "max_output": 128000,
       "categories": ["chat", "coding", "vision"],
-      "available": true
+      "billing_mode": "paid",
+      "pricing": { "input": 5.00, "output": 30.00 }
     }
   ]
 }
@@ -56,7 +60,7 @@ Each model object in the response includes:
 ## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-**70 chat / LLM models** are publicly listed on mainnet, plus **9 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**71 chat / LLM models** are publicly listed on mainnet, plus **9 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens (we match OpenRouter), only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform fee.
@@ -99,7 +103,6 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 |----------|------|-------------|--------------|---------|
 | `openai/gpt-5.2-pro` | GPT-5.2 Pro | $21.00/M | $168.00/M | 400K |
 | `openai/gpt-5.2` | GPT-5.2 | $1.75/M | $14.00/M | 400K |
-| `openai/gpt-5.3` | GPT-5.3 | $1.75/M | $14.00/M | 128K |
 | `openai/gpt-5.3-codex` | GPT-5.3 Codex | $1.75/M | $14.00/M | 400K |
 | `openai/gpt-5-mini` | GPT-5 Mini | $0.25/M | $2.00/M | 200K |
 
@@ -136,8 +139,8 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 | `anthropic/claude-sonnet-5` | Claude Sonnet 5 | $3.00/M | $15.00/M | 1M |
 | `anthropic/claude-haiku-4.5` | Claude Haiku 4.5 | $1.00/M | $5.00/M | 200K |
 
-:::warning{title="Opus 4.7 / 4.8 behavior"}
-These flagship models reject all sampling parameters (`temperature`, `top_p`, `top_k`); the gateway drops them so calls succeed. They use adaptive thinking (built-in, not API-configurable). The model may decline a request with HTTP 200 and `stop_reason: "refusal"` (`finish_reason: "content_filter"` on the OpenAI-compatible endpoint) — check the stop reason before reading content.
+:::warning{title="Claude Opus 4.7 / 4.8 / 5, Fable 5 and Sonnet 5 behavior"}
+These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); the gateway drops them so calls succeed. They use adaptive thinking (built-in, not API-configurable). The model may decline a request with HTTP 200 and `stop_reason: "refusal"` (`finish_reason: "content_filter"` on the OpenAI-compatible endpoint) — check the stop reason before reading content.
 :::
 
 ### Google Gemini
@@ -162,7 +165,7 @@ Gemini **Pro** models (`gemini-2.5-pro`, `gemini-3.1-pro`) bill a **long-context
 |----------|------|-------------|--------------|---------|
 | `xai/grok-4.5` | Grok 4.5 | $2.50/M | $9.00/M | 500K |
 | `xai/grok-4.3` | Grok 4.3 | $1.50/M | $4.00/M | 1M |
-| `xai/grok-build-0.1` | Grok Build 0.1 | $1.50/M | $3.00/M | 250K |
+| `xai/grok-build-0.1` | Grok Build 0.1 | $1.50/M | $3.00/M | 256K |
 
 Grok bills a **long-context tier** at 2x the rates above once a request's prompt reaches 200K tokens (mirrors xAI's official pricing — e.g. Grok 4.5 is $5.00/M in · $18.00/M out above the threshold). Live Search adds $0.025 per source used. Grok Imagine image/video SKUs are listed under Image / Video Generation below.
 
@@ -178,7 +181,6 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `zai/glm-5-code` | GLM-5 Code | $1.20/M | $5.00/M | 200K |
 | `zai/glm-5.1` | GLM-5.1 | $1.40/M | $4.40/M | 200K |
 | `zai/glm-5.2` | GLM-5.2 | $1.40/M | $4.40/M | 1M |
 | `zai/glm-5.3` | GLM-5.3 | $1.40/M | $4.40/M | 1M |
@@ -244,15 +246,18 @@ Open-weight models served free of charge (no x402 payment), subject to a small p
 
 ### Image Generation
 
+Media prices below include the 5% media margin; the flat $0.001 transaction fee is added per call.
+
 | Model ID | Name | Price |
 |----------|------|-------|
-| `openai/gpt-image-1` | GPT Image 1 | $0.02-0.04/image |
-| `openai/gpt-image-2` | ChatGPT Images 2.0 | $0.06-0.12/image |
-| `google/nano-banana` | Nano Banana | $0.05/image |
-| `google/nano-banana-pro` | Nano Banana Pro | $0.10-0.15/image |
-| `xai/grok-imagine-image` | Grok Imagine | $0.02/image |
-| `xai/grok-imagine-image-pro` | Grok Imagine Pro | $0.07/image |
-| `zai/cogview-4` | CogView-4 | $0.015-0.02/image |
+| `openai/gpt-image-1` | GPT Image 1 | $0.021-0.042/image |
+| `openai/gpt-image-2` | ChatGPT Images 2.0 | $0.063-0.126/image |
+| `google/nano-banana` | Nano Banana | $0.0525/image |
+| `google/nano-banana-2` | Nano Banana 2 | $0.0945/image |
+| `google/nano-banana-pro` | Nano Banana Pro | $0.105-0.1575/image |
+| `xai/grok-imagine-image` | Grok Imagine | $0.021/image |
+| `xai/grok-imagine-image-pro` | Grok Imagine Pro | $0.0735/image |
+| `zai/cogview-4` | CogView-4 | $0.01575-0.021/image |
 | `bytedance/seedream-5-pro` | Seedream 5.0 Pro | $0.047-0.095/image (async, ~2 min) |
 
 ### Video Generation
@@ -264,6 +269,7 @@ Seedance defaults to **720p with synced audio** for text-to-video; pass `resolut
 | `xai/grok-imagine-video` | Grok Imagine Video | $0.05/sec @480p default · $0.07/sec @720p, + $0.001/generation (8s 480p = $0.401) | 15s |
 | `xai/grok-imagine-video-1.5` | Grok Imagine Video 1.5 | $0.08/sec @480p default · $0.14/sec @720p · $0.25/sec @1080p, + $0.001/generation (8s 480p = $0.641) | 15s |
 | `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | ~$0.070/sec ($0.35 / 5s clip) | 12s |
+| `bytedance/seedance-2.0-mini` | Seedance 2.0 Mini | ~$0.080/sec ($0.40 / 5s clip) | 15s |
 | `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.165/sec ($0.83 / 5s clip) | 15s |
 | `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.227/sec ($1.14 / 5s clip) | 15s |
 | `bytedance/seedance-2.5` | Seedance 2.5 | ~$0.315/sec ($1.58 / 5s clip) | 30s |
@@ -311,7 +317,8 @@ client = LLMClient()
 models = client.list_models()
 
 for model in models:
-    print(f"{model['id']}: ${model['inputPrice']}/M input, context: {model['context_window']}")
+    pricing = model.get("pricing", {})
+    print(f"{model['id']}: ${pricing.get('input')}/M input, context: {model['context_window']}")
     print(f"  Categories: {', '.join(model.get('categories', []))}")
 ```
 :::

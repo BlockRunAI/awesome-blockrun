@@ -279,16 +279,17 @@ Without an explicit "end the call after X" instruction, the AI tends to keep vol
 
 :::tab{label="TypeScript"}
 ```typescript
-import { LLMClient } from '@blockrun/llm';
+import { PhoneClient, VoiceClient } from '@blockrun/llm';
 
-const client = new LLMClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
+const phone = new PhoneClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
+const voice = new VoiceClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
 
 // 1) One-time setup: buy a number
-const number = await client.phoneBuy({ country: 'US', areaCode: '415' });
+const number = await phone.buyNumber({ country: 'US', areaCode: '415' });
 console.log('Got number:', number.phone_number);
 
 // 2) Place a call (uses the bought number automatically)
-const call = await client.voiceCall({
+const call = await voice.call({
   to: '+12133610872',
   task: 'Call Andy and ask him politely to take a break. Be friendly. Hang up after he confirms.',
   max_duration: 3,
@@ -298,7 +299,7 @@ const call = await client.voiceCall({
 let status;
 do {
   await new Promise(r => setTimeout(r, 5000));
-  status = await client.voiceCallStatus(call.call_id);
+  status = await voice.getStatus(call.call_id);
 } while (status.ended_by === 'IN_PROGRESS');
 
 console.log('Call ended:', status.summary);
@@ -307,15 +308,16 @@ console.log('Call ended:', status.summary);
 
 :::tab{label="Python"}
 ```python
-from blockrun_llm import LLMClient
+from blockrun_llm import PhoneClient, VoiceClient
 
-client = LLMClient()
+phone = PhoneClient()
+voice = VoiceClient()
 
 # One-time: buy a number
-number = client.phone_buy(country='US', areaCode='415')
+number = phone.buy_number(country='US', area_code='415')
 
 # Place a call
-call = client.voice_call(
+call = voice.call(
     to='+12133610872',
     task='Confirm the 7pm reservation for two under Vicky.',
     max_duration=2,
@@ -324,7 +326,7 @@ call = client.voice_call(
 # Poll
 import time
 while True:
-    status = client.voice_call_status(call['call_id'])
+    status = voice.get_status(call['call_id'])
     if status['ended_by'] != 'IN_PROGRESS':
         break
     time.sleep(5)

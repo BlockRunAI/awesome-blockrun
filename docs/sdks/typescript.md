@@ -800,7 +800,7 @@ export async function POST(request: NextRequest) {
 ```typescript
 import { getCostSummary } from '@blockrun/llm';
 
-// Every paid call is appended to ~/.blockrun/data/costs.jsonl
+// Every paid call is appended to ~/.blockrun/cost_log.jsonl
 const summary = getCostSummary();
 console.log(`Lifetime: $${summary.totalUsd.toFixed(2)} over ${summary.calls} calls`);
 console.log(summary.byModel);

@@ -17,7 +17,7 @@ MiniMax always generates a ~3 minute track per call. Generation takes 1-3 minute
 
 | Model | Price | Notes |
 |-------|-------|-------|
-| minimax/music-2.5+ | $0.1575 | MiniMax flagship — supports lyrics, instrumental, and style prompts |
+| minimax/music-2.5+ | $0.1585 | MiniMax flagship — supports lyrics, instrumental, and style prompts |
 
 ## Endpoint
 
@@ -80,7 +80,7 @@ Same x402 flow as all BlockRun endpoints:
 // 402 response body
 {
   "error": "Payment Required",
-  "price": { "amount": "0.157500", "currency": "USD" },
+  "price": { "amount": "0.158500", "currency": "USD" },
   "generation_info": {
     "output_duration": "~3 minutes of audio per track",
     "generation_time": "~2 minutes to generate"
@@ -177,9 +177,9 @@ Create an instrumental ambient track for a meditation app
 
 | Model | BlockRun Price |
 |-------|----------------|
-| music-2.5+ | $0.1575/track (provider cost + 5% margin, $0.15 base) |
+| music-2.5+ | $0.1585/track (provider cost + 5% margin + $0.001 transaction fee, $0.15 base) |
 
-Prices in USD, paid in USDC on Base network. Minimum charge is $0.003/request.
+Prices in USD, paid in USDC on Base network. Minimum charge is $0.001/request ($0.002 all-in with the transaction fee).
 
 ## Wallet Requirements
 

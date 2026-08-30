@@ -33,7 +33,6 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | [blockrun-litellm](https://github.com/BlockRunAI/blockrun-litellm) | LiteLLM adapter — call x402-paid models through LiteLLM as an in-process custom provider (`blockrun/<model>`) or a local OpenAI-compatible proxy. Base and Solana | `pip install blockrun-litellm` (`[proxy]`, `[solana]` extras) |
 | [lobstercash-blockrun-skill](https://github.com/BlockRunAI/lobstercash-blockrun-skill) | BlockRun skill for the [lobster.cash](https://lobster.cash) OpenClaw plugin — chat, image generation and model browsing, paid with Solana USDC from the lobster.cash smart wallet | `curl -sSL https://raw.githubusercontent.com/BlockRunAI/lobstercash-blockrun-skill/main/install.sh \| bash` |
 | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) | ElizaOS plugin for x402 pay-per-request AI on Base | `npm install @blockrun/elizaos-plugin` |
-| [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp) | AI crypto-trading MCP server — technical analysis, DEX data, sentiment, swap execution on Base, portfolio and risk tools | `claude mcp add alpha npx @blockrun/alpha` |
 
 ### SDKs
 
@@ -90,7 +89,7 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | **Image Generation** | `/v1/images/generations` | $0.015–0.10/image | ✅ Live |
 | **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
 | **Video Generation** | `/v1/videos/generations` | Per second / per M tokens | ✅ Live |
-| **Music Generation** | `/v1/audio/generations` | $0.151/track | ✅ Live |
+| **Music Generation** | `/v1/audio/generations` | $0.1585/track | ✅ Live |
 | **Text-to-Speech** | `/v1/audio/speech` | $0.05–0.10/1k chars | ✅ Live |
 | **Sound Effects** | `/v1/audio/sound-effects` | $0.0535/generation | ✅ Live |
 | **Voice Calls** | `/v1/voice/call` | $0.541 flat | ✅ Live |
@@ -110,7 +109,7 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | **Coinbase Onramp** | `/v1/onramp/token` | Free (Base only) | ✅ Live |
 | **Modal Sandbox** | `/v1/modal/*` | $0.002–0.011 | ✅ Live |
 | **Models** | `/v1/models` | Free | ✅ Live |
-| **Pricing** | `/v1/pricing` | Free | ✅ Live |
+| **Pricing** | `/api/pricing` | Free | ✅ Live |
 | **Balance** | `/v1/balance` | Free | ✅ Live |
 
 Per-token chat carries **no platform margin** — only the flat $0.001 transaction fee. Media generation and Live Search carry 5%. See [Pricing](../products/intelligence/pricing.md) and the full [x402 endpoint catalog](../x402/endpoints.md).
@@ -129,8 +128,8 @@ Per-token chat carries **no platform margin** — only the flat $0.001 transacti
 | Continue | Released | [Native provider](https://github.com/continuedev/continue/pull/11751) — ClawRouter as a built-in LLM provider |
 | ElizaOS | Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | GOAT SDK | In Review | [GitHub Issue](https://github.com/crossmint/goat) |
-| AgentKit | Planned | [Integration Guide](../frameworks/agentkit.md) |
-| LangChain | Planned | [Custom LLM Guide](../frameworks/langchain.md) |
+| AgentKit | Available | [Integration Guide](../frameworks/agentkit.md) |
+| LangChain | Available | [Custom LLM Guide](../frameworks/langchain.md) |
 
 ## Community Projects
 
@@ -197,12 +196,12 @@ BlockRun routes to these providers via x402:
 | Anthropic | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Sonnet 5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | Google | Gemini 3.1 Pro, Gemini 3.5 Flash | $1.50–$2.00 / $9.00–$12.00 |
 | DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Pro, DeepSeek Reasoner | $0.14–$0.435 / $0.28–$0.87 |
-| xAI | Grok 4.5, Grok 4.3, Grok 4 Fast, Grok Code Fast 1 | $0.20–$3.00 / $0.50–$18.00 |
+| xAI | Grok 4.5, Grok 4.3, Grok Build 0.1 | $1.50–$2.50 / $3.00–$9.00 |
 | Z.AI | GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo | $1.00–$1.40 / $3.20–$4.40 |
-| Moonshot | Kimi K3 (1M context, image + text input), Kimi K2.7 (256K, image + video) | $0.95–$3.00 / $4.00–$15.00 |
+| Moonshot | Kimi K3 (1M context, image + text input) | $3.00 / $15.00 |
 | MiniMax | MiniMax M3 (1M context) | $0.30 / $1.20 |
 | Qwen | Qwen3.7 Max (1M context, flagship) | $1.48 / $4.43 |
-| Free tier | 10 reasoning, coding, and vision models | **Free** |
+| Free tier | 5 reasoning, coding, and vision models | **Free** |
 
 ### Image Models
 

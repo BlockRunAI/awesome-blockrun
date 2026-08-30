@@ -65,7 +65,7 @@ blockrun_wallet action:"setup"
 Then send USDC (SPL) on the **Solana** network (Coinbase → pick "Solana", or Phantom/Solflare/Backpack). Switch back with `blockrun_wallet action:"chain" chain:"base"`.
 
 :::info
-Music, speech, video, the Modal sandbox, DeFi data, paid RealFace, paid stock prices, and native Anthropic (`claude-*`) settle on Base only. Image generation pays on either chain.
+Music, speech, the Modal sandbox, DeFi data, paid RealFace, paid stock prices, and native Anthropic (`claude-*`) settle on Base only. Image and video generation pay on either chain.
 :::
 
 ## What You Can Do Now
@@ -134,7 +134,7 @@ Top 10 tokens by DEX volume on Base, last 24h
 Call eth_getBalance on Arbitrum for 0x...
 ```
 
-`blockrun_surf` (exchange, on-chain SQL, wallet labels, social mindshare), `blockrun_price` (Pyth-backed quotes), `blockrun_dex`, `blockrun_defi` (TVL, yields), and `blockrun_rpc` (raw JSON-RPC on 40+ chains). The `crypto-data` skill says which one to use.
+`blockrun_surf` (exchange, on-chain SQL, wallet labels, social mindshare), `blockrun_price` (Pyth-backed quotes), `blockrun_dex`, `blockrun_defi` (TVL, yields), and `blockrun_rpc` (raw JSON-RPC on 40 chains). The `crypto-data` skill says which one to use.
 
 ### Phone Calls and Sandboxed Compute
 
@@ -145,18 +145,19 @@ Run this benchmark on an H100 in a disposable sandbox
 
 `blockrun_phone` makes outbound AI voice calls and leases US/CA numbers to your wallet; `blockrun_modal` runs code in an isolated container with optional GPU.
 
-### Trading (alpha-mcp)
+### Trading (Franklin)
 
-For strategy-driven crypto trading, install the separate trading MCP:
+Trading — live signals, paper trading with hard exposure caps, Polymarket bets, and a trade-plan gate that keeps real money behind your approval — is built into the [Franklin agent](../products/franklin.md). There is no separate trading MCP to install:
 
 ```bash
-claude mcp add alpha -s user -- npx -y @blockrun/alpha@latest
+npm install -g @blockrun/franklin
+franklin setup
 ```
 
-Then:
+Then, in a Franklin session:
 
 ```
-Analyze BTC/USDC for trading signals
+what's BTC looking like today?
 ```
 
 See [Trading Overview](../products/trading/overview.md) for full details.
@@ -206,14 +207,14 @@ BlockRun ships prompt-based skills that teach Claude how to use each tool family
 | `prediction-markets`, `polymarket-trading` | Read odds, then place confirm-gated bets |
 | `phone`, `modal` | Voice calls and sandboxed compute |
 
-Full list in [Skills](../mcp/skills.md). [alpha-mcp](../products/trading/overview.md) is a separate MCP server, installed with `claude mcp add`.
+Full list in [Skills](../mcp/skills.md). [Trading](../products/trading/overview.md) is built into Franklin rather than shipped as a skill or a separate MCP server.
 
 ## Pricing
 
 - **Intelligence:** Provider cost, no platform margin on chat tokens, plus $0.001 per request (no subscriptions)
 - **Images:** $0.015-0.15 per image
 - **Free tier:** `mode:"free"` chat, DEX data, crypto/FX/commodity prices, model list, Polymarket reads — $0
-- **Trading tools:** Free (open source)
+- **Trading tools:** Built into Franklin, free and open source — you pay only for the data they buy
 
 $1 gets you approximately:
 - ~500 GPT-5.4 calls

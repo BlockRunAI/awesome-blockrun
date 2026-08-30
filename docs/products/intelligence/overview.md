@@ -61,7 +61,6 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 | Model | Input | Output |
 |-------|-------|--------|
 | Kimi K3 (1M context, image + text input) | $3.00/M | $15.00/M |
-| Kimi K2.7 (256K context, image + video input) | $0.95/M | $4.00/M |
 
 ### MiniMax
 | Model | Input | Output |
@@ -80,9 +79,9 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 | DeepSeek V4 Pro | $0.435/M | $0.87/M |
 
 ### Free tier
-7 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
+5 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
 
-*M = million tokens. Reference provider rates; the 5% BlockRun margin is applied at billing.*
+*M = million tokens. Provider rates, billed with no BlockRun margin on chat tokens; a flat $0.001 transaction fee is added per request.*
 
 See [Pricing](pricing.md) for complete list and calculator.
 
@@ -92,7 +91,7 @@ See [Pricing](pricing.md) for complete list and calculator.
 Your cost = Provider cost (no platform margin on chat tokens) + $0.001 per request
 ```
 
-The 5% covers:
+The flat $0.001 per request covers:
 - USDC settlement infrastructure
 - Smart routing and load balancing
 - Uptime and reliability
@@ -133,7 +132,7 @@ client = LLMClient()  # Uses BLOCKRUN_WALLET_KEY
 # OpenAI model
 response = client.chat("openai/gpt-5.5", "Explain quantum computing")
 
-# DeepSeek (50x cheaper)
+# DeepSeek (~36x cheaper)
 response = client.chat("deepseek/deepseek-chat", "Explain quantum computing")
 ```
 :::
@@ -142,7 +141,6 @@ response = client.chat("deepseek/deepseek-chat", "Explain quantum computing")
 ```bash
 curl https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $BLOCKRUN_WALLET_KEY" \
   -d '{
     "model": "openai/gpt-5.5",
     "messages": [{"role": "user", "content": "Hello!"}]
@@ -201,7 +199,7 @@ If a model is rate-limited or down, BlockRun can route to alternatives (opt-in).
 Set spending limits per session:
 
 ```python
-client = LLMClient(session_budget=5.00)  # Max $5 per session
+client = LLMClient(max_session_cost=5.00)  # Max $5 per session
 ```
 
 ### All Providers, One Wallet
