@@ -375,6 +375,12 @@ BlockRun aggregates services from the x402 facilitator network:
 |---------|--------------|
 | [x402 Foundation](https://x402.org) | Protocol development |
 
+### Events
+
+| Event | Where | About |
+|-------|-------|-------|
+| [Building the Agentic Economy with Fireblocks, Circle & BlockRun](https://luma.com/lon7mu2d) | New York (5 Penn Plaza) | Co-hosted with Circle, Fireblocks and Dynamic — panel + live demos on how agents access services and transact via Circle's Agent Stack and x402 |
+
 See [ECOSYSTEM.md](./ECOSYSTEM.md) for full partner directory.
 
 ---

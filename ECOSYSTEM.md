@@ -202,6 +202,12 @@ BlockRun routes to these AI providers via x402:
 
 ---
 
+## Events
+
+| Event | Where | About |
+|-------|-------|-------|
+| [Building the Agentic Economy with Fireblocks, Circle & BlockRun](https://luma.com/lon7mu2d) | New York (5 Penn Plaza) | Co-hosted with Circle, Fireblocks and Dynamic — panel + live demos on how agents access services and transact via Circle's Agent Stack and x402 |
+
 ## Become a Partner
 
 Interested in partnering with BlockRun?
