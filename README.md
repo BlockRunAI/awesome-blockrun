@@ -312,6 +312,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 | [LiteLLM](https://github.com/BerriAI/litellm) | ✅ Released | [blockrun-litellm](https://github.com/BlockRunAI/blockrun-litellm) |
 | [OKX OnchainOS](https://web3.okx.com) | ✅ Released | [XClawRouter](https://github.com/BlockRunAI/XClawRouter) — ClawRouter with the OKX Agentic Wallet |
 | [lobster.cash](https://lobster.cash) | ✅ Released | [lobstercash-blockrun-skill](https://github.com/BlockRunAI/lobstercash-blockrun-skill) |
+| [Amazon Bedrock AgentCore](https://aws.amazon.com/bedrock/agentcore/) | ✅ Released | [AgentCore Payments](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) — managed x402 wallet for Strands, LangGraph and OpenClaw agents; BlockRun is a launch partner |
 | [GOAT SDK](https://github.com/crossmint/goat) | 🔄 In Review | Agent framework integration |
 | [AgentKit](https://github.com/coinbase/agentkit) | 📋 Planned | Coinbase agent framework |
 | [LangChain](https://github.com/langchain-ai/langchain) | 📋 Planned | Custom LLM provider |
@@ -341,6 +342,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 | Partner | Description |
 |---------|-------------|
 | [![Circle](https://img.shields.io/badge/Circle-Alliance_Partner-00D4AA)](https://partners.circle.com/partner/blockrunai) | Official Circle Alliance Partner powering USDC payments on Base |
+| [![AWS](https://img.shields.io/badge/AWS-AgentCore_Payments_Launch_Partner-FF9900)](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) | Launch partner for Amazon Bedrock AgentCore Payments (GA Aug 2026) — agents on AWS pay for BlockRun's pay-per-use endpoints via x402 |
 
 ### Data Partners
 
