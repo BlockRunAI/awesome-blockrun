@@ -5,7 +5,7 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 
 # ClawRouter
 
-**88% cheaper than pinning one flagship for every request — 98% on `eco`. Automatically.**
+**84% cheaper than pinning one flagship for every request — 98% on `eco`. Automatically.**
 
 ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 76 models, zero API keys.
 
@@ -23,7 +23,7 @@ ClawRouter analyzes your prompt and automatically picks the right model tier:
 - **Math, logic, proofs** → Reasoning models (Grok 4.1 Fast Reasoning)
 - **Turns that need their tools** → Agent-tuned models (Kimi K2.7, Claude Sonnet 4.6) — selected automatically in any profile
 
-**Result:** 88% average cost savings on the auto profile (98% on eco) versus pinning Claude Opus 5, with no quality loss.
+**Result:** 84% average cost savings on the auto profile (98% on eco) versus pinning Claude Opus 5, with no quality loss.
 
 ## Quick Start
 
@@ -360,10 +360,10 @@ Smart routing to appropriate models:
 
 ```
 70 simple requests → DeepSeek ($0.28/M) = $0.02
-20 medium requests → DeepSeek V4 Pro ($0.87/M) = $0.02
+20 medium requests → DeepSeek V4 Pro ($3.96/M) = $0.08
 10 complex requests → Claude Opus 5 ($25.00/M) = $0.25
 
-Total: $0.29 (saved $2.21 = 88% savings)
+Total: $0.35 (saved $2.15 = 84% savings)
 ```
 
 ## Supported Models

@@ -187,7 +187,7 @@ const { url } = await client.onramp(client.getWalletAddress());
 
 ## Smart Routing (Router Core V3)
 
-**Save 88% on LLM costs automatically.**
+**Save 84% on LLM costs automatically.**
 
 `smartChat()` routes each request on [Router Core V3](https://github.com/BlockRunAI/router-core) — the same deterministic portfolio router that drives [ClawRouter](../products/routing/clawrouter.md), **bundled into the SDK** since v3.12.0. 15 weighted dimensions classify the request, capability constraints (tools, vision, structured output, context) are applied as hard filters, and the surviving candidates are ranked on task affinity, cost, speed and reliability. Decisions run locally in <1ms — your prompts never leave your machine for routing, and no extra model call is made to decide.
 
@@ -206,7 +206,7 @@ const result = await client.smartChat('What is 2+2?');
 console.log(result.response);           // "4"
 console.log(result.model);              // "google/gemini-2.5-flash"
 console.log(result.routing.tier);       // "SIMPLE"
-console.log(result.routing.savings);    // 0.88 (88% savings vs the premium baseline)
+console.log(result.routing.savings);    // 0.88 (84% savings vs the premium baseline)
 ```
 
 ### Three ways to route

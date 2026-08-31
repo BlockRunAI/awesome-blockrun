@@ -66,7 +66,7 @@ Four product families, one payment layer.
 :::
 
 :::card{title="Routing" href="products/routing/clawrouter.md" icon="Route"}
-ClawRouter scores each prompt and picks the cheapest model that can handle it — **88% lower** LLM cost on the auto profile (98% on eco) versus pinning Claude Opus 5 for every request.
+ClawRouter scores each prompt and picks the cheapest model that can handle it — **84% lower** LLM cost on the auto profile (98% on eco) versus pinning Claude Opus 5 for every request.
 :::
 
 :::card{title="Creation" href="products/creation/nano-banana.md" icon="Image"}

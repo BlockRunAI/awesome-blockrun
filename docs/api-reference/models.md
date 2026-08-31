@@ -173,7 +173,7 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `deepseek/deepseek-v4-pro` | DeepSeek V4 Pro | $0.435/M | $0.87/M | 1M |
+| `deepseek/deepseek-v4-pro` | DeepSeek V4 Pro | $1.32/M | $3.96/M | 1M |
 | `deepseek/deepseek-v4-flash-vision-exp` | DeepSeek V4 Flash Vision (image input) | $0.44/M | $1.32/M | 1M |
 | `deepseek/deepseek-chat` | DeepSeek V4 Flash Chat | $0.14/M | $0.28/M | 1M |
 | `deepseek/deepseek-reasoner` | DeepSeek V4 Flash Reasoner | $0.14/M | $0.28/M | 1M |
@@ -308,7 +308,7 @@ Prices are per 1 million tokens. Your actual cost depends on:
 
 The SDK calculates the exact price before each request.
 
-**Want to save 88% automatically?** [ClawRouter](../products/routing/clawrouter.md) routes each request to the cheapest model that can handle it.
+**Want to save 84% automatically?** [ClawRouter](../products/routing/clawrouter.md) routes each request to the cheapest model that can handle it.
 
 ## Example
 
@@ -356,7 +356,7 @@ Call any model ID from this catalog through the OpenAI-compatible endpoint.
 Generate images with the GPT Image, Nano Banana, and CogView model family.
 :::
 
-:::card{title="Save 88% with ClawRouter" href="../products/routing/clawrouter.md" icon="Route"}
+:::card{title="Save 84% with ClawRouter" href="../products/routing/clawrouter.md" icon="Route"}
 Route each prompt to the cheapest model that can handle it, automatically.
 :::
 

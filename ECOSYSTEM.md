@@ -179,13 +179,13 @@ BlockRun routes to these AI providers via x402:
 | OpenAI | GPT-5.6 Sol / Sol Pro / Terra / Terra Pro / Luna / Luna Pro, GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.4 Mini, GPT-5.4 Nano, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5 Mini, ChatGPT Instant, GPT-4.1 / Mini / Nano, GPT-4o / Mini, o1, o3, o3-mini, o4-mini | $0.10–$30.00 / $0.40–$180.00 |
 | Anthropic | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Opus 4.7, Claude Opus 4.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Sonnet 4.5, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | Google | Gemini 3.6 Flash, Gemini 3.5 Flash, Gemini 3.5 Flash Lite, Gemini 3.1 Pro, Gemini 3.1 Flash Lite, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
-| DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Flash Reasoner, DeepSeek V4 Pro | $0.14–$0.435 / $0.28–$0.87 |
+| DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Flash Reasoner, DeepSeek V4 Flash Vision, DeepSeek V4 Pro | $0.14–$1.32 / $0.28–$3.96 |
 | Z.AI | GLM-5.3, GLM-5.3 Flash, GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo, GLM-5 Code | $0.15–$1.40 / $0.50–$5.00 |
 | Moonshot | Kimi K3 (1M context, 2.8T open MoE, flagship) | $3.00 / $15.00 |
 | MiniMax | MiniMax M3, MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
-| Qwen | Qwen3.7 Max (1M context, Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
+| Qwen | Qwen3.8 Flash (1M context, image input), Qwen3.7 Max (Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
 | Tencent | Hy3 | $0.132 / $0.528 |
-| Xiaomi | MiMo-V2.5 Pro | $0.435 / $0.87 |
+| Xiaomi | MiMo-V2.5, MiMo-V2.5 Pro | $0.14–$0.435 / $0.28–$0.87 |
 | Free tier | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3 Nano 30B, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision, Cohere North Mini Code, Poolside Laguna XS 2.1 (7 free models, keyless — no wallet needed) | **Free** |
 
 ### Image Models

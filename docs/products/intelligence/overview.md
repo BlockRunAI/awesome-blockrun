@@ -76,7 +76,7 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates �
 | Model | Input | Output |
 |-------|-------|--------|
 | DeepSeek V4 Flash Chat | $0.14/M | $0.28/M |
-| DeepSeek V4 Pro | $0.435/M | $0.87/M |
+| DeepSeek V4 Pro | $1.32/M | $3.96/M |
 
 ### Free tier
 7 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
@@ -100,7 +100,7 @@ The flat $0.001 per request covers:
 **No subscriptions. No minimums. No prepaid credits.**
 
 :::tip{title="Cut costs automatically"}
-Don't want to pick models by hand? [ClawRouter](../routing/clawrouter.md) routes each request to the cheapest model that can handle it — 88% lower cost than pinning one flagship for every request.
+Don't want to pick models by hand? [ClawRouter](../routing/clawrouter.md) routes each request to the cheapest model that can handle it — 84% lower cost than pinning one flagship for every request.
 :::
 
 ## Quick Start
@@ -161,7 +161,7 @@ Process these 500 files using DeepSeek
 
 DeepSeek costs a fraction of the flagship models for similar quality on many routine tasks.
 
-**Want automatic cost optimization?** Try [ClawRouter](../routing/clawrouter.md) — it saves 88% by routing each request to the cheapest model that can handle it.
+**Want automatic cost optimization?** Try [ClawRouter](../routing/clawrouter.md) — it saves 84% by routing each request to the cheapest model that can handle it.
 
 ### Second Opinion
 

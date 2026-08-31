@@ -177,7 +177,7 @@ except SpendLimitError as e:
 
 ## Smart Routing (Router Core)
 
-**Save 88% on LLM costs automatically.**
+**Save 84% on LLM costs automatically.**
 
 Routing runs on [Router Core](https://github.com/BlockRunAI/router-core) — the same engine the TypeScript SDK and the BlockRun gateway use, so an identical request routes identically everywhere. Decisions are local (<1ms, no extra model call): your prompts never leave your machine to be routed.
 
