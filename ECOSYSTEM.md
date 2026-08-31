@@ -186,7 +186,7 @@ BlockRun routes to these AI providers via x402:
 | Qwen | Qwen3.7 Max (1M context, Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
 | Tencent | Hy3 | $0.132 / $0.528 |
 | Xiaomi | MiMo-V2.5 Pro | $0.435 / $0.87 |
-| NVIDIA | Nemotron 3.5 Lightning, Nemotron 3 Nano 30B, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision (4 free models, keyless — no wallet needed) | **Free** |
+| Free tier | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3 Nano 30B, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision, Cohere North Mini Code, Poolside Laguna XS 2.1 (7 free models, keyless — no wallet needed) | **Free** |
 
 ### Image Models
 

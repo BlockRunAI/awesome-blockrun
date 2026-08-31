@@ -7,7 +7,7 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 
 **88% cheaper than pinning one flagship for every request — 98% on `eco`. Automatically.**
 
-ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 70 models, zero API keys.
+ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 73 models, zero API keys.
 
 :::tip{title="In a hurry?"}
 Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it. Current release: **v0.12.253** (August 29, 2026).
@@ -200,7 +200,7 @@ Curated primaries per tier and profile (prices are input/output $/M tokens, as p
 † Withheld from `/v1/models` — the router still calls it by direct ID, but you will not find it on the public pricing page. The published savings claim is priced on visible models only, which makes it conservative.
 ‡ Not a profile you pick — auto-selected in any profile when the turn actually needs its attached tools; prefers models that keep going instead of stopping to ask. Force or disable with `routing.overrides.agenticMode`.
 
-The primary is where the tier starts, not where the request necessarily lands: the portfolio ranks every capability-eligible candidate for the detected task, so a tool-calling turn and a proof in the same tier resolve to different models. `/model free` is an alias rather than a routed profile: it pins the free default (`free/nemotron-3.5-lightning`, the same model that opens ECO SIMPLE) and walks the other free models as fallbacks, for $0 routing across the 4 free models.
+The primary is where the tier starts, not where the request necessarily lands: the portfolio ranks every capability-eligible candidate for the detected task, so a tool-calling turn and a proof in the same tier resolve to different models. `/model free` is an alias rather than a routed profile: it pins the free default (`free/nemotron-3.5-lightning`, the same model that opens ECO SIMPLE) and walks the other free models as fallbacks, for $0 routing across the 7 free models.
 
 ### Router Core V3.4: measured, with limits
 
@@ -228,7 +228,7 @@ Note the second row: the REASONING primary is Grok 4.1 Fast Reasoning, but the p
 - No external API calls for routing decisions
 - Full privacy - your prompts never leave your machine for routing
 
-### 70 Models
+### 73 Models
 
 Access all major providers through one wallet:
 
@@ -559,7 +559,7 @@ openclaw gateway restart
 
 ### Do I need API keys?
 
-No. ClawRouter uses x402 micropayments with USDC on Solana or Base. Just fund your wallet — or stay on the 4 free models with no wallet at all.
+No. ClawRouter uses x402 micropayments with USDC on Solana or Base. Just fund your wallet — or stay on the 7 free models with no wallet at all.
 
 ### How much should I fund my wallet?
 
@@ -586,7 +586,7 @@ No. AI model access requires internet. But routing decisions are made locally.
 ::::cards
 
 :::card{title="View all models" href="../intelligence/overview.md" icon="Brain"}
-70 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
+73 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
 :::
 
 :::card{title="Check pricing" href="../intelligence/pricing.md" icon="Zap"}

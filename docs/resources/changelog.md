@@ -14,7 +14,12 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - Also 410: the hidden **`nvidia/nemotron-super-49b`**, which was simultaneously the free cascade's tertiary rung and the fallback of its primary — both retargeted in the same change.
 - Added **`nvidia/nemotron-3.5-lightning`** (thinking-mode reasoning, 131K context, ~35 tok/s), **`nvidia/nemotron-3-nano-30b`** (~121 tok/s, the fastest free model in the catalog) and **`nvidia/llama-3.2-11b-vision`** (Meta Llama 3.2, 128K context, image input) — each verified with a real completion through the gateway before listing.
 - **`nvidia/gpt-oss-120b`** and **`nvidia/gpt-oss-20b`** recovered upstream and no longer redirect elsewhere.
-- Visible chat models are now **70** (was 71); total catalog **94**; free models **4** (was 5).
+- **`nvidia/nemotron-3.5-lightning`** and **`nvidia/nemotron-3-nano-omni-30b-a3b-reasoning`** now serve from OpenRouter's $0 pool with the direct-NVIDIA path as their fallback — same models, larger capacity pool, 4.9s median against 16.3s, and Lightning gains a **1M-token context** (was 131K). Image input verified through the new route before moving the vision model.
+- Added three more free models: **`nvidia/nemotron-3-ultra-550b`** (550B/55B MoE, **1M context** — the largest free model in the catalog, and unreachable on our own NVIDIA key), **`cohere/north-mini-code`** (compact coding, sub-second) and **`poolside/laguna-xs-2.1`** (coding, ~161 tok/s).
+- Visible chat models are now **73** (was 71); total catalog **97**; free models **7** (was 5).
+
+### Fixed — an upstream error delivered as HTTP 200 no longer reads as an empty answer
+- OpenAI-compatible relays can answer `200` with an error object and no `choices` when the provider behind them fails (`{"error":{"message":"Upstream error from Nvidia: Service temporarily overloaded","code":502}}`). The gateway treated that as a successful empty completion, so the fallback chain, the free-tier health breaker and the retry classifier all saw a success — and a paid model still billed the minimum charge. Both the blocking and the streaming path now rethrow it as a real upstream error.
 
 ### Fixed — 402 responses now carry the payment challenge in the body, not just the headers
 - Every `402 Payment Required` body now spreads `x402Version` and `accepts` at the top level, mirroring the signed challenge that has always lived in the `PAYMENT-REQUIRED` / `X-Payment-Required` / `WWW-Authenticate` headers. Pre-v2-era x402 clients (early `x402-fetch`/`x402-axios`, and some third-party wrappers) only ever parsed the body; finding no top-level `accepts` there, they silently gave up instead of auto-paying — invisible in our logs, indistinguishable from organic non-conversion.
