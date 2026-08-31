@@ -206,7 +206,7 @@ client.chat("moonshot/kimi-k3", prompt)
 | Use Case | Recommended Model |
 |----------|-------------------|
 | General purpose | `openai/gpt-5.4` |
-| Cheapest | `google/gemini-2.5-flash-lite` or `nvidia/step-3.7-flash` (free) |
+| Cheapest | `google/gemini-2.5-flash-lite` or `nvidia/nemotron-3.5-lightning` (free) |
 | Fastest | `google/gemini-3-flash-preview` |
 | Best reasoning | `openai/o3` |
 | Best for code | `openai/gpt-5.3-codex` or `anthropic/claude-sonnet-4.6` |
@@ -332,7 +332,7 @@ A free model can be called with plain HTTP and no credentials:
 curl https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "nvidia/step-3.7-flash",
+    "model": "nvidia/nemotron-3.5-lightning",
     "messages": [{"role": "user", "content": "Hello!"}]
   }'
 ```

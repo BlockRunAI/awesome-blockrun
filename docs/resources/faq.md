@@ -121,7 +121,7 @@ Yes — a flat $0.001 transaction fee on every paid call, which covers on-chain 
 
 ### Which AI models are available?
 
-71 models including:
+70 models including:
 - OpenAI (GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2)
 - Anthropic (Claude Opus 5, Opus 4.8, Sonnet 5, Sonnet 4.6, Haiku 4.5)
 - Google (Gemini 3.1 Pro, Gemini 3.5 Flash)

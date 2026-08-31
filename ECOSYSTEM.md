@@ -165,7 +165,7 @@ Want to add an integration? [Open an issue](https://github.com/blockrunai/awesom
 
 | Profile | Strategy | Example Models |
 |---------|----------|----------------|
-| `free` | Free models only | Step 3.7 Flash (NVIDIA-hosted free tier, no wallet needed) |
+| `free` | Free models only | Nemotron 3.5 Lightning (NVIDIA-hosted free tier, no wallet needed) |
 | `eco` | Cheapest capable | DeepSeek, Gemini Flash Lite |
 | `auto` | Balanced cost/quality | GPT-5 Mini, Gemini Flash |
 | `premium` | Best quality | Claude Opus 5, GPT-5.6 Sol |
@@ -186,7 +186,7 @@ BlockRun routes to these AI providers via x402:
 | Qwen | Qwen3.7 Max (1M context, Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
 | Tencent | Hy3 | $0.132 / $0.528 |
 | Xiaomi | MiMo-V2.5 Pro | $0.435 / $0.87 |
-| NVIDIA | Step 3.7 Flash, Nemotron 3 Nano Omni, Nemotron Nano 9B v2, Nemotron Nano 12B v2 VL, Mistral Nemotron (5 free models, keyless — no wallet needed) | **Free** |
+| NVIDIA | Nemotron 3.5 Lightning, Nemotron 3 Nano 30B, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision (4 free models, keyless — no wallet needed) | **Free** |
 
 ### Image Models
 

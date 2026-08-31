@@ -1,17 +1,17 @@
 ---
 title: ElizaOS Integration
-description: Add the BlockRun plugin to ElizaOS so your agents reach 95 AI models via x402 micropayments — no per-provider API keys.
+description: Add the BlockRun plugin to ElizaOS so your agents reach 94 AI models via x402 micropayments — no per-provider API keys.
 ---
 
 # ElizaOS Integration
 
-Use BlockRun as an LLM provider in ElizaOS agents — one plugin unlocks 71 models paid per request over x402.
+Use BlockRun as an LLM provider in ElizaOS agents — one plugin unlocks 70 models paid per request over x402.
 
 :::note{title="Community integration"}
 BlockRun's primary paths are [Franklin](../products/franklin.md), the [BlockRun MCP](../mcp/blockrun-mcp.md), and the [SDKs](../sdks/python.md). Framework integrations like this one are community-maintained.
 :::
 
-[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 95 AI models via x402 micropayments.
+[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 94 AI models via x402 micropayments.
 
 ## Setup
 
@@ -85,7 +85,7 @@ All BlockRun chat models are available. A sample of what the live catalog lists 
 | Google | gemini-3.1-pro, gemini-3.5-flash, gemini-3-flash-preview, gemini-2.5-flash-lite |
 | DeepSeek | deepseek-v4-pro, deepseek-chat, deepseek-reasoner |
 | xAI | grok-4.3, grok-4.5, grok-build-0.1 |
-| NVIDIA (free) | step-3.7-flash, mistral-nemotron, nemotron-nano-9b-v2 |
+| NVIDIA (free) | nemotron-3.5-lightning, nemotron-3-nano-30b, llama-3.2-11b-vision |
 
 See [Models Reference](../api-reference/models.md) for the full list, or `curl https://blockrun.ai/api/v1/models`.
 

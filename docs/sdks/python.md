@@ -1,6 +1,6 @@
 ---
 title: Python SDK
-description: The official BlockRun Python SDK — call 71 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+description: The official BlockRun Python SDK — call 70 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
 ---
 
 # Python SDK
@@ -254,7 +254,7 @@ response = client.chat_completion("blockrun/auto", messages)
 ```python
 # Free models only — a paid model can never leak into this profile
 result = client.smart_chat("Explain recursion", routing_profile="free")
-print(result.model)                 # "nvidia/step-3.7-flash"
+print(result.model)                 # "nvidia/nemotron-3.5-lightning"
 print(result.routing.cost_estimate) # 0.0
 
 # Maximum savings
@@ -1069,7 +1069,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 71 models with live pricing to pick the right one for each call.
+Browse all 70 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
