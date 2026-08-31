@@ -215,7 +215,7 @@ Real decisions from Router Core's bundled defaults on `auto` (prices are output 
 | Prompt | Tier / task | Routed To | Output $/M |
 |--------|-------------|-----------|------------|
 | "What is the capital of France?" | SIMPLE / chat | google/gemini-2.5-flash | $2.50 |
-| "Prove that the sum of two odd integers is even, step by step." | REASONING / reasoning | deepseek/deepseek-v4-pro | $0.87 |
+| "Prove that the sum of two odd integers is even, step by step." | REASONING / reasoning | deepseek/deepseek-v4-pro | $3.96 |
 | "Cancel order B-42 and book the 9am flight to SFO." (tools attached) | AGENTIC / tool_agent_parallel | anthropic/claude-opus-4.8 | $25.00 |
 
 Note the second row: the REASONING primary is Grok 4.1 Fast Reasoning, but the portfolio ranked DeepSeek V4 Pro higher for this task shape. The tier primary is a starting point. Add `/model eco` and the SIMPLE row becomes a free NVIDIA-hosted model at $0.

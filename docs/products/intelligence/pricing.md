@@ -43,9 +43,9 @@ The free tier costs $0 — 5 reasoning, coding, and vision models with no per-to
 | GPT-5.6 Sol (flagship) | $5.00 | $30.00 |
 | GPT-5.6 Sol Pro | $5.00 | $30.00 |
 | GPT-5.6 Terra | $2.00 | $12.00 |
-| GPT-5.6 Terra Pro | $1.00 | $6.00 |
+| GPT-5.6 Terra Pro | $2.00 | $12.00 |
 | GPT-5.6 Luna | $0.20 | $1.20 |
-| GPT-5.6 Luna Pro | $0.10 | $0.60 |
+| GPT-5.6 Luna Pro | $0.20 | $1.20 |
 | GPT-5.5 | $5.00 | $30.00 |
 | GPT-5.5 Pro | $30.00 | $180.00 |
 | GPT-5.4 | $2.50 | $15.00 |
@@ -122,7 +122,9 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
 | DeepSeek V4 Flash Chat | $0.14 | $0.28 |
-| DeepSeek V4 Pro | $0.43 | $0.87 |
+| DeepSeek V4 Flash Reasoner | $0.14 | $0.28 |
+| DeepSeek V4 Flash Vision (image input) | $0.44 | $1.32 |
+| DeepSeek V4 Pro | $1.32 | $3.96 |
 
 ### Free Tier (5 models)
 
