@@ -7,6 +7,14 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-08-30]
+
+### Fixed — 402 responses now carry the payment challenge in the body, not just the headers
+- Every `402 Payment Required` body now spreads `x402Version` and `accepts` at the top level, mirroring the signed challenge that has always lived in the `PAYMENT-REQUIRED` / `X-Payment-Required` / `WWW-Authenticate` headers. Pre-v2-era x402 clients (early `x402-fetch`/`x402-axios`, and some third-party wrappers) only ever parsed the body; finding no top-level `accepts` there, they silently gave up instead of auto-paying — invisible in our logs, indistinguishable from organic non-conversion.
+- Applies across every paid endpoint — chat completions, responses, messages, images, video, music, speech, search, market data, RPC, Modal sandboxes, RealFace, Virtual Portrait, and Polymarket funding. A route's own fields still win on any key collision with the mirrored ones. ([BlockRunAI/blockrun#446](https://github.com/BlockRunAI/blockrun/pull/446))
+
+---
+
 ## [2026-08-29]
 
 ### Removed — OpenAI GPT-5.3
