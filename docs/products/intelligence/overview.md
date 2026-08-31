@@ -1,11 +1,11 @@
 ---
 title: Intelligence
-description: BlockRun Intelligence gives your agent 71 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
+description: BlockRun Intelligence gives your agent 73 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
 ---
 
 # Intelligence
 
-AI accesses any LLM. 71 models, pay-per-request.
+AI accesses any LLM. 73 models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and more — without managing API keys or subscriptions.
 
@@ -79,7 +79,7 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates �
 | DeepSeek V4 Pro | $0.435/M | $0.87/M |
 
 ### Free tier
-5 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
+7 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
 
 *M = million tokens. Provider rates, billed with no BlockRun margin on chat tokens; a flat $0.001 transaction fee is added per request.*
 

@@ -175,10 +175,12 @@ All prices below are the amounts quoted in the `402` challenge and actually bill
 
 ## The 402 challenge
 
-An unpaid POST returns `402` with the x402 requirement in three equivalent headers — `X-Payment-Required`, `PAYMENT-REQUIRED` (base64 JSON) and `WWW-Authenticate: X402 requirements="…"` — plus an informational JSON body:
+An unpaid POST returns `402` with the x402 requirement in three equivalent headers — `X-Payment-Required`, `PAYMENT-REQUIRED` (base64 JSON) and `WWW-Authenticate: X402 requirements="…"` — mirrored at the top of the body as `x402Version`/`accepts`; the rest of the JSON body is informational:
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "1122000", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300 }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "price": {
@@ -199,7 +201,7 @@ An unpaid POST returns `402` with the x402 requirement in three equivalent heade
 }
 ```
 
-`price.amount` is the full amount you will be charged (media price + $0.001 fee). On the Grok SKUs `pricePerSecond` states the rate of the **tier actually billed** and `resolution` / `perGenerationFee` are present so the arithmetic reconciles; on Sora and Seedance `pricePerSecond` is the model's flat display rate. The decoded requirement's `accepts[0].amount` is the same figure in USDC base units (6 decimals).
+`price.amount` is the full amount you will be charged (media price + $0.001 fee). On the Grok SKUs `pricePerSecond` states the rate of the **tier actually billed** and `resolution` / `perGenerationFee` are present so the arithmetic reconciles; on Sora and Seedance `pricePerSecond` is the model's flat display rate. The decoded requirement's `accepts[0].amount` is the same figure in USDC base units (6 decimals) — and now identical to the body's own `accepts[0].amount`.
 
 Sign that requirement and re-send the POST with the signature in `X-Payment` (also accepted: `Payment-Signature`). A verification failure returns `402` with a machine-readable `code`:
 

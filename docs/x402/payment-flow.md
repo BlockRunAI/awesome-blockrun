@@ -43,6 +43,16 @@ X-Payment-Required: <same value>
 WWW-Authenticate: X402 requirements="<same value>"
 
 {
+  "x402Version": 2,
+  "accepts": [{
+    "scheme": "exact",
+    "network": "eip155:8453",
+    "amount": "25685",
+    "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "payTo": "0x...",
+    "maxTimeoutSeconds": 300,
+    "extra": {"name": "USD Coin", "version": "2"}
+  }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "price": {"amount": "0.025685", "currency": "USD"},
@@ -50,7 +60,9 @@ WWW-Authenticate: X402 requirements="<same value>"
 }
 ```
 
-The three headers carry the same base64 value. Decoded:
+`x402Version` and `accepts` at the top of the body are the same challenge as the headers, mirrored in JSON since 2026-08-30 — early x402 clients (pre-v2 `x402-fetch`/`x402-axios` and some third-party wrappers) only ever parsed the body, found no `accepts` there, and silently gave up instead of auto-paying. A route's own fields win on any key collision, so this never shadows `price` or `paymentInfo`.
+
+The three headers carry the full requirements as the same base64 value (`resource` and `extensions` included, which the body mirror omits). Decoded:
 
 ```json
 {

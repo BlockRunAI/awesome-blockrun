@@ -1,6 +1,6 @@
 ---
 title: TypeScript SDK
-description: The official BlockRun TypeScript/JavaScript SDK — call 71 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+description: The official BlockRun TypeScript/JavaScript SDK — call 73 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
 ---
 
 # TypeScript SDK
@@ -241,13 +241,13 @@ There is no `"free"` profile — `routingProfile` accepts `'eco' | 'auto' | 'pre
 
 ```typescript
 // Guaranteed $0: call a free model directly
-const free = await client.chat('nvidia/step-3.7-flash', 'Explain recursion');
+const free = await client.chat('nvidia/nemotron-3.5-lightning', 'Explain recursion');
 
 // Smart-routed $0-first
 const result = await client.smartChat('What is 2+2?', {
   routingProfile: 'eco'
 });
-console.log(result.model);  // "nvidia/step-3.7-flash" (a live $0 model; the free lineup rotates as NVIDIA retires SKUs)
+console.log(result.model);  // "nvidia/nemotron-3.5-lightning" (a live $0 model; the free lineup rotates as NVIDIA retires SKUs)
 console.log(result.routing.savings);  // 1 (100%)
 
 // Premium mode for critical tasks
@@ -934,7 +934,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 71 models with live pricing to pick the right one for each call.
+Browse all 73 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}

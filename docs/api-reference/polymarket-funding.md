@@ -77,6 +77,8 @@ curl -X POST https://blockrun.ai/api/v1/polymarket/fund
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "11000", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300 }],
   "error": "Payment Required",
   "message": "This endpoint requires an x402 fee payment ($0.0110). Include the signed deposit authorization in the body.",
   "endpoint": "/api/v1/polymarket/fund",
