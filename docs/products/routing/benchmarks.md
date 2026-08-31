@@ -9,7 +9,7 @@ Against pinning `anthropic/claude-opus-5` for every request:
 
 | Profile | Cost vs the pinned baseline |
 |---|---|
-| `auto` | save 88% |
+| `auto` | save 84% |
 | `eco` | save 98% |
 
 That is the whole claim. It is a statement about **which model runs your

@@ -74,9 +74,9 @@ Released 2026-07-09 — three fixed tiers (Sol / Terra / Luna) replacing the sin
 | `openai/gpt-5.6-sol` | GPT-5.6 Sol | $5.00/M | $30.00/M | 1M |
 | `openai/gpt-5.6-sol-pro` | GPT-5.6 Sol Pro | $5.00/M | $30.00/M | 1M |
 | `openai/gpt-5.6-terra` | GPT-5.6 Terra | $2.00/M | $12.00/M | 1M |
-| `openai/gpt-5.6-terra-pro` | GPT-5.6 Terra Pro | $1.00/M | $6.00/M | 1M |
+| `openai/gpt-5.6-terra-pro` | GPT-5.6 Terra Pro | $2.00/M | $12.00/M | 1M |
 | `openai/gpt-5.6-luna` | GPT-5.6 Luna | $0.20/M | $1.20/M | 1M |
-| `openai/gpt-5.6-luna-pro` | GPT-5.6 Luna Pro | $0.10/M | $0.60/M | 1M |
+| `openai/gpt-5.6-luna-pro` | GPT-5.6 Luna Pro | $0.20/M | $1.20/M | 1M |
 
 ### OpenAI GPT-5.5 Family
 
@@ -173,7 +173,8 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `deepseek/deepseek-v4-pro` | DeepSeek V4 Pro | $0.435/M | $0.87/M | 1M |
+| `deepseek/deepseek-v4-pro` | DeepSeek V4 Pro | $1.32/M | $3.96/M | 1M |
+| `deepseek/deepseek-v4-flash-vision-exp` | DeepSeek V4 Flash Vision (image input) | $0.44/M | $1.32/M | 1M |
 | `deepseek/deepseek-chat` | DeepSeek V4 Flash Chat | $0.14/M | $0.28/M | 1M |
 | `deepseek/deepseek-reasoner` | DeepSeek V4 Flash Reasoner | $0.14/M | $0.28/M | 1M |
 
@@ -210,6 +211,7 @@ K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-tok
 | `qwen/qwen3.7-max` | Qwen3.7 Max | $1.475/M | $4.425/M | 1M |
 | `qwen/qwen3.7-plus` | Qwen3.7 Plus | $0.32/M | $1.28/M | 1M |
 | `qwen/qwen3.7-flash` | Qwen3.7 Flash | $0.03/M | $0.13/M | 1M |
+| `qwen/qwen3.8-flash` | Qwen3.8 Flash (image input) | $0.15/M | $0.47/M | 1M |
 
 ### Tencent
 
@@ -221,6 +223,7 @@ K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-tok
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `xiaomi/mimo-v2.5` | Xiaomi MiMo-V2.5 (multimodal) | $0.14/M | $0.28/M | 1M |
 | `xiaomi/mimo-v2.5-pro` | Xiaomi MiMo-V2.5 Pro | $0.435/M | $0.87/M | 1M |
 
 ### Flat-priced (open-weight)
@@ -305,7 +308,7 @@ Prices are per 1 million tokens. Your actual cost depends on:
 
 The SDK calculates the exact price before each request.
 
-**Want to save 88% automatically?** [ClawRouter](../products/routing/clawrouter.md) routes each request to the cheapest model that can handle it.
+**Want to save 84% automatically?** [ClawRouter](../products/routing/clawrouter.md) routes each request to the cheapest model that can handle it.
 
 ## Example
 
@@ -353,7 +356,7 @@ Call any model ID from this catalog through the OpenAI-compatible endpoint.
 Generate images with the GPT Image, Nano Banana, and CogView model family.
 :::
 
-:::card{title="Save 88% with ClawRouter" href="../products/routing/clawrouter.md" icon="Route"}
+:::card{title="Save 84% with ClawRouter" href="../products/routing/clawrouter.md" icon="Route"}
 Route each prompt to the cheapest model that can handle it, automatically.
 :::
 

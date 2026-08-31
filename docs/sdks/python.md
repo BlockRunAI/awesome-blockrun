@@ -1,6 +1,6 @@
 ---
 title: Python SDK
-description: The official BlockRun Python SDK — call 73 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+description: The official BlockRun Python SDK — call 76 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
 ---
 
 # Python SDK
@@ -177,7 +177,7 @@ except SpendLimitError as e:
 
 ## Smart Routing (Router Core)
 
-**Save 88% on LLM costs automatically.**
+**Save 84% on LLM costs automatically.**
 
 Routing runs on [Router Core](https://github.com/BlockRunAI/router-core) — the same engine the TypeScript SDK and the BlockRun gateway use, so an identical request routes identically everywhere. Decisions are local (<1ms, no extra model call): your prompts never leave your machine to be routed.
 
@@ -1069,7 +1069,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 73 models with live pricing to pick the right one for each call.
+Browse all 76 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}

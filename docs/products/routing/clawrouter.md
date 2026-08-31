@@ -5,9 +5,9 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 
 # ClawRouter
 
-**88% cheaper than pinning one flagship for every request — 98% on `eco`. Automatically.**
+**84% cheaper than pinning one flagship for every request — 98% on `eco`. Automatically.**
 
-ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 73 models, zero API keys.
+ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 76 models, zero API keys.
 
 :::tip{title="In a hurry?"}
 Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it. Current release: **v0.12.253** (August 29, 2026).
@@ -23,7 +23,7 @@ ClawRouter analyzes your prompt and automatically picks the right model tier:
 - **Math, logic, proofs** → Reasoning models (Grok 4.1 Fast Reasoning)
 - **Turns that need their tools** → Agent-tuned models (Kimi K2.7, Claude Sonnet 4.6) — selected automatically in any profile
 
-**Result:** 88% average cost savings on the auto profile (98% on eco) versus pinning Claude Opus 5, with no quality loss.
+**Result:** 84% average cost savings on the auto profile (98% on eco) versus pinning Claude Opus 5, with no quality loss.
 
 ## Quick Start
 
@@ -228,7 +228,7 @@ Note the second row: the REASONING primary is Grok 4.1 Fast Reasoning, but the p
 - No external API calls for routing decisions
 - Full privacy - your prompts never leave your machine for routing
 
-### 73 Models
+### 76 Models
 
 Access all major providers through one wallet:
 
@@ -360,10 +360,10 @@ Smart routing to appropriate models:
 
 ```
 70 simple requests → DeepSeek ($0.28/M) = $0.02
-20 medium requests → DeepSeek V4 Pro ($0.87/M) = $0.02
+20 medium requests → DeepSeek V4 Pro ($3.96/M) = $0.08
 10 complex requests → Claude Opus 5 ($25.00/M) = $0.25
 
-Total: $0.29 (saved $2.21 = 88% savings)
+Total: $0.35 (saved $2.15 = 84% savings)
 ```
 
 ## Supported Models
@@ -586,7 +586,7 @@ No. AI model access requires internet. But routing decisions are made locally.
 ::::cards
 
 :::card{title="View all models" href="../intelligence/overview.md" icon="Brain"}
-73 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
+76 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
 :::
 
 :::card{title="Check pricing" href="../intelligence/pricing.md" icon="Zap"}

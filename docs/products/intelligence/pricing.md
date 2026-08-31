@@ -199,7 +199,7 @@ print(f"Requests: {usage['calls']}")
 
 ### 0. Use ClawRouter for Automatic Savings
 
-**Save 88% on average** with [ClawRouter](../routing/clawrouter.md) — it automatically routes each request to the cheapest model that can handle it.
+**Save 84% on average** with [ClawRouter](../routing/clawrouter.md) — it automatically routes each request to the cheapest model that can handle it.
 
 ```
 /model blockrun/auto
@@ -265,7 +265,7 @@ How the OpenAI-compatible API works and which model fits each task.
 :::
 
 :::card{title="Smart routing" href="../routing/clawrouter.md" icon="Route"}
-Save 88% on average by routing each request to the cheapest capable model.
+Save 84% on average by routing each request to the cheapest capable model.
 :::
 
 :::card{title="Wallet setup" href="../../getting-started/wallet-setup.md" icon="Wallet"}

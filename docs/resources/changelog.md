@@ -9,6 +9,19 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ## [2026-08-30]
 
+### Added — Qwen3.8 Flash, DeepSeek V4 Flash Vision, MiMo-V2.5
+- **`qwen/qwen3.8-flash`** ($0.15/M in · $0.47/M out, 1M context, **image input**) — 125B MoE with GDN+QSA hybrid attention. Alibaba positions it above Qwen3.7 **Plus**, which we sell at $0.32/$1.28, so it is both newer and cheaper than the tier it beats.
+- **`deepseek/deepseek-v4-flash-vision-exp`** ($0.44/M · $1.32/M, 1M context, **image input**) — our first DeepSeek model that takes images. Served direct from DeepSeek; the OpenRouter route is unavailable under our account's data policy. Priced at DeepSeek's **peak** rate, since their new peak/off-peak split (peak 01:00–04:00 and 06:00–10:00 UTC, Mon–Fri) would otherwise put it below cost for seven hours every weekday.
+- **`xiaomi/mimo-v2.5`** ($0.14/M · $0.28/M, 1M context, **image input**) — the natively multimodal MiMo SKU, distinct from (and a third the price of) the text-only `mimo-v2.5-pro` we already listed.
+- All three were probe-verified with real completions — and real image input — before listing.
+
+### Fixed — two GPT-5.6 Pro SKUs were unroutable, not just mispriced
+- OpenAI raised **`openai/gpt-5.6-terra-pro`** to $2.00/$12.00 and **`openai/gpt-5.6-luna-pro`** to $0.20/$1.20. Our catalog still carried the old $1.00/$6.00 and $0.10/$0.60, and the gateway hands upstream a cost ceiling derived from the catalog price — so every call was rejected with "no endpoints satisfy the max price". Luna Pro (no fallback) returned a hard error; Terra Pro silently fell through to its cheaper fallback while billing Terra Pro's rate. Both are repriced to the current upstream rate.
+- Visible chat models are now **76**; total catalog **100**.
+
+---
+
+
 ### Changed — free tier rebuilt after NVIDIA retired four of the five free models
 - Delisted **`nvidia/step-3.7-flash`**, **`nvidia/nemotron-nano-9b-v2`** and **`nvidia/nemotron-nano-12b-v2-vl`** (published 410 Gone on both passes of a live `--real` probe) and **`nvidia/mistral-nemotron`** (still listed upstream, but a completion never returns: >150s, zero bytes, both passes). Calls pinned to any of these ids are redirected to a healthy free model and still return 200.
 - Also 410: the hidden **`nvidia/nemotron-super-49b`**, which was simultaneously the free cascade's tertiary rung and the fallback of its primary — both retargeted in the same change.
