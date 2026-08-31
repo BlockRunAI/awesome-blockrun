@@ -177,10 +177,13 @@ curl -X POST https://blockrun.ai/api/v1/modal/sandbox/create \
 
 The signed requirements are in the `X-Payment-Required` / `PAYMENT-REQUIRED`
 headers (and `WWW-Authenticate: X402 requirements="…"`); the body restates the
-price:
+price and mirrors the challenge itself (`x402Version`, `accepts`) for clients
+that only read the body:
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "11000", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300 }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "endpoint": "/api/v1/modal/sandbox/create",

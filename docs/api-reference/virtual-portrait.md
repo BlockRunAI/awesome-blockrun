@@ -51,7 +51,7 @@ Images that fail the upstream content filter (NSFW, recognizable real-celebrity 
 
 Standard BlockRun two-step:
 
-1. **First request without `X-Payment`** → server returns `402 Payment Required` with x402 challenge headers (`X-Payment-Required` / `PAYMENT-REQUIRED` base64, plus `WWW-Authenticate: X402 requirements="…"`) and a body of `{ "error": "Payment Required", "message": "Enrolling a Virtual Portrait costs $0.0110 USDC. …", "price": { "amount": "0.0110", "currency": "USD" }, "paymentInfo": { "network": "base", "asset": "USDC", "x402Version": 2 } }`
+1. **First request without `X-Payment`** → server returns `402 Payment Required` with x402 challenge headers (`X-Payment-Required` / `PAYMENT-REQUIRED` base64, plus `WWW-Authenticate: X402 requirements="…"`) and a body of `{ "x402Version": 2, "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "11000", "payTo": "0x…", "maxTimeoutSeconds": 300 }], "error": "Payment Required", "message": "Enrolling a Virtual Portrait costs $0.0110 USDC. …", "price": { "amount": "0.0110", "currency": "USD" }, "paymentInfo": { "network": "base", "asset": "USDC", "x402Version": 2 } }` — `x402Version`/`accepts` mirror the header's challenge for clients that only read the body
 2. Sign the EIP-3009 transfer authorization for **$0.011 USDC on Base** (`$0.01` enrolment + `$0.001` transaction fee — the requirements say `11000` micro-USDC)
 3. **Retry the same request with `X-Payment: <base64>`** (`Payment-Signature` is accepted too) → server verifies, rejects a reused authorization (`402`, `code: "PAYMENT_REPLAY"`), registers the portrait, settles the payment after registration succeeds, returns the `ta_xxx`
 

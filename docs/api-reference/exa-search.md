@@ -326,10 +326,12 @@ Every price above already includes the flat $0.001 per-transaction fee (base $0.
 
 ### The 402 response
 
-An unpaid request returns `402` with the exact charge in the body and the signable x402 v2 requirements in the `X-Payment-Required` / `PAYMENT-REQUIRED` headers (base64 JSON; also mirrored in `WWW-Authenticate`). For `/contents` the body is read first, so `price.amount` reflects `urls.length`:
+An unpaid request returns `402` with the exact charge in the body and the signable x402 v2 requirements in the `X-Payment-Required` / `PAYMENT-REQUIRED` headers (base64 JSON; also mirrored in `WWW-Authenticate`), plus the same challenge mirrored into the body as `x402Version`/`accepts`. For `/contents` the body is read first, so `price.amount` reflects `urls.length`:
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "5000", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300 }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "endpoint": "/api/v1/exa/contents",

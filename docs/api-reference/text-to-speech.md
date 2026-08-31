@@ -83,10 +83,12 @@ Differences from the ElevenLabs models:
 
 ### The 402 challenge
 
-An unpaid POST returns `402` with the x402 requirement in the `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate` headers and an informational body:
+An unpaid POST returns `402` with the x402 requirement in the `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate` headers, mirrored at the top of the body as `x402Version`/`accepts`; the rest of the body is informational:
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "53500", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300 }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "price": { "amount": "0.053500", "currency": "USD" },

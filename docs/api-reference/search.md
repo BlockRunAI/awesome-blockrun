@@ -74,6 +74,15 @@ When you first make a request without payment, you'll receive:
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{
+    "scheme": "exact",
+    "network": "eip155:8453",
+    "amount": "263500",
+    "asset": "0x8335…",
+    "payTo": "0x…",
+    "maxTimeoutSeconds": 300
+  }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "price": {
@@ -90,7 +99,7 @@ When you first make a request without payment, you'll receive:
 }
 ```
 
-The full x402 v2 payment requirements are in the `X-Payment-Required` and `PAYMENT-REQUIRED` headers (base64 JSON, identical content) and in `WWW-Authenticate: X402 requirements="..."`. Sign against the header, not the body: `price.amount` in the body is the per-source cost plus margin **before** the flat $0.001 transaction fee, while `accepts[0].amount` in the header is the exact USDC (6-decimal) amount you will be charged — for the default 10 sources that is `263500`, i.e. $0.2635. Payment authorizations are valid for `maxTimeoutSeconds: 300`.
+The full x402 v2 payment requirements are in the `X-Payment-Required` and `PAYMENT-REQUIRED` headers (base64 JSON, identical content) and in `WWW-Authenticate: X402 requirements="..."`, and are now also mirrored at the top of the JSON body as `x402Version`/`accepts` (for clients that only read the body). Sign against `accepts[0].amount` (header or body, they're identical), not `price.amount`: `price.amount` is the per-source cost plus margin **before** the flat $0.001 transaction fee, while `accepts[0].amount` is the exact USDC (6-decimal) amount you will be charged — for the default 10 sources that is `263500`, i.e. $0.2635. Payment authorizations are valid for `maxTimeoutSeconds: 300`.
 
 A `GET` to the same URL returns a 402 quoting the default price (10 sources) — useful for discovery.
 

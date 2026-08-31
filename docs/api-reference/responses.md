@@ -69,13 +69,15 @@ The quote is estimated input tokens plus **10% of `max_output_tokens`** at the m
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{"scheme": "exact", "network": "eip155:8453", "amount": "24685", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300}],
   "error": {"message": "This endpoint requires x402 payment", "type": "payment_required", "param": null, "code": null},
   "price": {"amount": "0.024685", "currency": "USD"},
   "paymentInfo": {"network": "base", "asset": "USDC", "x402Version": 2}
 }
 ```
 
-The signed requirements are in the `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate` headers; the header amount is authoritative and includes the transaction fee, and the body `price.amount` quotes the same fee-inclusive number. A payment that fails verification is a `402` in the same OpenAI envelope — `"Payment verification failed: …"` — and a reused authorization is `402` `"Payment authorization already used — sign a fresh authorization for each request."`; this endpoint keeps OpenAI's error schema rather than the `code` field the native BlockRun endpoints carry. Nothing is charged on either.
+The signed requirements are in the `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate` headers; the header amount is authoritative and includes the transaction fee, and the body `price.amount` quotes the same fee-inclusive number. `x402Version`/`accepts` at the top of the body mirror that header challenge for clients that only read the body — they sit alongside the OpenAI-shaped `error` object, not inside it. A payment that fails verification is a `402` in the same OpenAI envelope — `"Payment verification failed: …"` — and a reused authorization is `402` `"Payment authorization already used — sign a fresh authorization for each request."`; this endpoint keeps OpenAI's error schema rather than the `code` field the native BlockRun endpoints carry. Nothing is charged on either.
 
 ## Examples
 

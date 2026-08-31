@@ -93,6 +93,8 @@ An unknown model is a plain-string error that suggests live IDs:
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{"scheme": "exact", "network": "eip155:8453", "amount": "25685", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300}],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "price": {"amount": "0.025685", "currency": "USD"},
@@ -100,7 +102,7 @@ An unknown model is a plain-string error that suggests live IDs:
 }
 ```
 
-The signed requirements travel in the `X-Payment-Required` / `PAYMENT-REQUIRED` headers (and `WWW-Authenticate: X402 requirements="…"`). `price.amount` equals the signed amount, including the flat $0.001 transaction fee.
+The signed requirements travel in the `X-Payment-Required` / `PAYMENT-REQUIRED` headers (and `WWW-Authenticate: X402 requirements="…"`), and — since 2026-08-30 — are mirrored at the top level of the JSON body too (`x402Version`, `accepts`), byte-identical to the decoded header. This is for v1-era x402 clients (early `x402-fetch`/`x402-axios` and third-party wrappers) that only parse the body and silently fail to auto-pay when there's no top-level `accepts`. `price.amount` equals the signed amount, including the flat $0.001 transaction fee.
 
 :::info{title="402 is not an error"}
 A `402 Payment Required` is part of the normal x402 flow — the gateway is quoting a price. Sign and retry with payment and the SDKs handle this round-trip automatically.

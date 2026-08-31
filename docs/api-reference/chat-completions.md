@@ -172,6 +172,8 @@ WWW-Authenticate: X402 requirements="<same value>"
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{"scheme": "exact", "network": "eip155:8453", "amount": "25685", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300}],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "price": {"amount": "0.025685", "currency": "USD"},
@@ -179,7 +181,7 @@ WWW-Authenticate: X402 requirements="<same value>"
 }
 ```
 
-`price.amount` is the exact amount the header signs, transaction fee included. Decoded, the header is:
+`price.amount` is the exact amount the header signs, transaction fee included. `x402Version`/`accepts` at the top level mirror the header's challenge in the body, for clients that only parse the body. Decoded, the header is:
 
 ```json
 {

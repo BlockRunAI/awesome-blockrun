@@ -337,10 +337,12 @@ billed = catalog rate for the size × n × 1.05   (5% platform margin on media)
 
 ### 402 responses
 
-The unpaid `402` is a normal x402 challenge: the signable requirements live in the `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate` headers (base64 JSON, `x402Version: 2`, `maxTimeoutSeconds: 600`); the body is informational.
+The unpaid `402` is a normal x402 challenge: the signable requirements live in the `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate` headers (base64 JSON, `x402Version: 2`, `maxTimeoutSeconds: 600`), mirrored at the top of the body (`x402Version`, `accepts`) for clients that only read the body; the rest of the body is informational.
 
 ```json
 {
+  "x402Version": 2,
+  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "53500", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 600 }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "price": { "amount": "0.053500", "currency": "USD", "pricePerImage": 0.05, "totalImages": 1 },
