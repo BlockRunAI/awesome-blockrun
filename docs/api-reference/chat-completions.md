@@ -1,6 +1,6 @@
 ---
 title: Chat Completions
-description: OpenAI-compatible Chat Completions endpoint for 76 LLMs, paid per request in USDC over x402 — no API keys, no subscriptions.
+description: OpenAI-compatible Chat Completions endpoint for 74 LLMs, paid per request in USDC over x402 — no API keys, no subscriptions.
 ---
 
 # Chat Completions
@@ -330,7 +330,7 @@ console.log(result.choices[0].message.content);
 ::::cards
 
 :::card{title="Browse all models" href="models.md" icon="Brain"}
-76 chat models with live pricing — pick the right model and ID for your call.
+74 chat models with live pricing — pick the right model and ID for your call.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}

@@ -1,6 +1,6 @@
 ---
 title: LangChain Integration
-description: Wrap BlockRun in a custom LangChain LLM class that handles x402 payments automatically — chains, agents, and RAG over 76 models.
+description: Wrap BlockRun in a custom LangChain LLM class that handles x402 payments automatically — chains, agents, and RAG over 74 models.
 ---
 
 # LangChain Integration
