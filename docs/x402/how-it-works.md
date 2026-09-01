@@ -87,7 +87,7 @@ The CDP (Coinbase Developer Platform) Facilitator verifies and settles payments:
 1. **Verify** - Check the signature is valid (before any upstream work; a rejection is a `402` with a machine-readable `code` — `PAYMENT_UNFUNDED`, `PAYMENT_BLOCKHASH_STALE`, `PAYMENT_REPLAY`, `PAYMENT_INVALID`)
 2. **Settle** - Execute the on-chain transfer, after the request has been served
 
-Because verification precedes settlement, a rejected payment never costs anything, and a request that fails upstream is never settled.
+Because verification precedes settlement, a rejected payment never costs anything, and a request that fails on our side — upstream `4xx`/`5xx`, a timeout, or a JSON-RPC `-32603` — is never settled. A request the provider rejects because of what you sent still settles: we made the round trip. See [Security](/docs/x402/security) for the exact split.
 
 ## x402 v2 Payload
 

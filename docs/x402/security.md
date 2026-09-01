@@ -139,7 +139,9 @@ No. BlockRun can only claim the exact amount you authorized for a specific reque
 
 ### What if I sign but the request fails?
 
-Verification happens first and settlement only after the upstream response, so a request that fails upstream (`4xx`, `5xx`, `504` timeout) is never settled — you only pay for successful requests. Async media jobs are settled when the job completes, not when it is submitted. The one thing you cannot get back is tokens the model actually generated: the settled amount for chat is the quoted amount (estimated input + 10% of `max_tokens`), whether the model used all of it or not.
+Verification happens first and settlement only after the upstream response, so a request that fails on OUR side — the upstream returning `4xx`/`5xx`, a `504` timeout, or a JSON-RPC `-32603` internal error — is never settled, and the payment authorization is released so an honest retry verifies cleanly.
+
+**What you do pay for is the upstream round trip, not a successful answer.** A request that reaches the provider and is rejected because of what you sent — an unknown JSON-RPC method (`-32601`), invalid params (`-32602`), a reverted `eth_call` — settles normally. We made the call and paid for it upstream; the error is the answer to the question you asked. Malformed requests we can reject locally, before contacting anyone, are always free. Async media jobs are settled when the job completes, not when it is submitted. The one thing you cannot get back is tokens the model actually generated: the settled amount for chat is the quoted amount (estimated input + 10% of `max_tokens`), whether the model used all of it or not.
 
 ### Can someone replay my payment?
 

@@ -89,7 +89,7 @@ Send USDC to your wallet address on Base (or Solana):
 
 ### What if a request fails?
 
-You only pay for successful requests. Failed requests don't settle.
+You pay for the upstream round trip. If the call fails on our side — the provider is down, times out, or returns a JSON-RPC `-32603` — it doesn't settle. If the provider rejects what you sent (unknown method, invalid params, a reverted call), it does: we made the call on your behalf. Requests we can reject locally, before contacting anyone, are always free.
 
 ### Can I get a refund?
 
