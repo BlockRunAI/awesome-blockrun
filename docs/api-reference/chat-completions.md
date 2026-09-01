@@ -13,6 +13,12 @@ The Chat Completions API is OpenAI-compatible, making it easy to migrate existin
 POST https://blockrun.ai/api/v1/chat/completions
 ```
 
+`/api/v1/...` is the canonical namespace and the one `/api/openapi` and
+`/.well-known/x402` publish. `/v1/...` is served as an alias for every route —
+`POST https://blockrun.ai/v1/chat/completions` reaches the same handler with the
+same body, headers and payment flow — because a great deal of published material
+named that path first. Prefer the canonical form in new code.
+
 ## Request
 
 ### Headers
