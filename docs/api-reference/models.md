@@ -63,7 +63,7 @@ Only models that are currently available are returned — there is no `available
 **71 chat / LLM models** are publicly listed on mainnet, plus **9 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
-All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens (we match OpenRouter), only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform fee.
+All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens, only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform fee.
 
 ### OpenAI GPT-5.6 Family
 
