@@ -1,14 +1,14 @@
 ---
 title: Virtual Portrait Enrollment
-description: Enroll an AI-generated character (no KYC, no liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0 Fast / 2.0 Mini videos — $0.011 USDC.
+description: Enroll an AI-generated character (no government ID, no liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0 Fast / 2.0 Mini videos — $0.011 USDC.
 ---
 
 # Virtual Portrait Enrollment
 
-Enroll an AI-generated character image as a Virtual Portrait and get back a `ta_xxxxxxxx` id you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0 Fast / 2.0 Mini call. Use this when you want **the same character across multiple videos** without dealing with KYC.
+Enroll an AI-generated character image as a Virtual Portrait and get back a `ta_xxxxxxxx` id you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0 Fast / 2.0 Mini call. Use this when you want **the same character across multiple videos** without a liveness check.
 
-:::note{title="No KYC required"}
-Use this for AI-generated personas, mascots, avatars, virtual spokespeople — no liveness step needed because the asset is understood to be a synthetic character. For **real-person likeness**, use [RealFace](realface.md) (also no KYC, but requires a brief liveness check on the rights-holder's phone to prove consent).
+:::note{title="No liveness check"}
+Use this for AI-generated personas, mascots, avatars, virtual spokespeople — no liveness step needed because the asset is understood to be a synthetic character. For **real-person likeness**, use [RealFace](realface.md) (also no government ID, but requires a brief liveness check on the rights-holder's phone to prove consent).
 :::
 
 | | |
@@ -198,7 +198,7 @@ Pass the `ta_xxx` you just enrolled as `real_face_asset_id` on a Seedance call.
 :::
 
 :::card{title="RealFace Enrollment" href="realface.md" icon="Boxes"}
-Same `ta_xxx` mechanic but for a real person — requires liveness, still no KYC.
+Same `ta_xxx` mechanic but for a real person — requires liveness, still no government ID.
 :::
 
 :::card{title="x402 Payment Flow" href="../x402/payment-flow.md" icon="Zap"}
