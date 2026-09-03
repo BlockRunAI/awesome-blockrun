@@ -10,7 +10,7 @@ Pay only for what you use. Per-token chat is billed at **provider cost** — no 
 ## Pricing Formula
 
 ```
-Your cost = Provider cost          (per-token chat — no margin, matches OpenRouter)
+Your cost = Provider cost          (per-token chat — no platform margin)
               + $0.001 / request     (flat x402 transaction fee)
 ```
 

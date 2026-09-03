@@ -11,7 +11,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ### Added — Qwen3.8 Flash, DeepSeek V4 Flash Vision, MiMo-V2.5
 - **`qwen/qwen3.8-flash`** ($0.15/M in · $0.47/M out, 1M context, **image input**) — 125B MoE with GDN+QSA hybrid attention. Alibaba positions it above Qwen3.7 **Plus**, which we sell at $0.32/$1.28, so it is both newer and cheaper than the tier it beats.
-- **`deepseek/deepseek-v4-flash-vision-exp`** ($0.44/M · $1.32/M, 1M context, **image input**) — our first DeepSeek model that takes images. Served direct from DeepSeek; the OpenRouter route is unavailable under our account's data policy. Priced at DeepSeek's **peak** rate, since their new peak/off-peak split (peak 01:00–04:00 and 06:00–10:00 UTC, Mon–Fri) would otherwise put it below cost for seven hours every weekday.
+- **`deepseek/deepseek-v4-flash-vision-exp`** ($0.44/M · $1.32/M, 1M context, **image input**) — our first DeepSeek model that takes images. Priced at DeepSeek's **peak** rate, since their new peak/off-peak split (peak 01:00–04:00 and 06:00–10:00 UTC, Mon–Fri) would otherwise put it below cost for seven hours every weekday.
 - **`xiaomi/mimo-v2.5`** ($0.14/M · $0.28/M, 1M context, **image input**) — the natively multimodal MiMo SKU, distinct from (and a third the price of) the text-only `mimo-v2.5-pro` we already listed.
 - All three were probe-verified with real completions — and real image input — before listing.
 
@@ -27,7 +27,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - Also 410: the hidden **`nvidia/nemotron-super-49b`**, which was simultaneously the free cascade's tertiary rung and the fallback of its primary — both retargeted in the same change.
 - Added **`nvidia/nemotron-3.5-lightning`** (thinking-mode reasoning, 131K context, ~35 tok/s), **`nvidia/nemotron-3-nano-30b`** (~121 tok/s, the fastest free model in the catalog) and **`nvidia/llama-3.2-11b-vision`** (Meta Llama 3.2, 128K context, image input) — each verified with a real completion through the gateway before listing.
 - **`nvidia/gpt-oss-120b`** and **`nvidia/gpt-oss-20b`** recovered upstream and no longer redirect elsewhere.
-- **`nvidia/nemotron-3.5-lightning`** and **`nvidia/nemotron-3-nano-omni-30b-a3b-reasoning`** now serve from OpenRouter's $0 pool with the direct-NVIDIA path as their fallback — same models, larger capacity pool, 4.9s median against 16.3s, and Lightning gains a **1M-token context** (was 131K). Image input verified through the new route before moving the vision model.
+- **`nvidia/nemotron-3.5-lightning`** and **`nvidia/nemotron-3-nano-omni-30b-a3b-reasoning`** now serve from a larger free-tier capacity pool, with their previous route kept as the fallback — same models, 4.9s median against 16.3s, and Lightning gains a **1M-token context** (was 131K). Image input verified through the new route before moving the vision model.
 - Added three more free models: **`nvidia/nemotron-3-ultra-550b`** (550B/55B MoE, **1M context** — the largest free model in the catalog, and unreachable on our own NVIDIA key), **`cohere/north-mini-code`** (compact coding, sub-second) and **`poolside/laguna-xs-2.1`** (coding, ~161 tok/s).
 - Visible chat models are now **73** (was 71); total catalog **97**; free models **7** (was 5).
 
@@ -184,10 +184,10 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 ## [2026-07-13]
 
 ### Added — xAI Grok 4.5
-- Added **`xai/grok-4.5`** ($2.50/$9.00 per 1M, 500K context, vision + reasoning), xAI's flagship. Live Search supported (+$0.025/source). Verified with real completions on both the direct-xAI and OpenRouter routes before listing.
+- Added **`xai/grok-4.5`** ($2.50/$9.00 per 1M, 500K context, vision + reasoning), xAI's flagship. Live Search supported (+$0.025/source). Verified with real completions on every serving route before listing.
 
 ### Changed — Grok long-context pricing now mirrors xAI's official 2x tier
-- xAI (and OpenRouter) bill the Grok family at **2x above 200K prompt tokens**. BlockRun now applies the same tier: once a request's prompt reaches 200K tokens, the whole request reprices at the long-context rate — `grok-4.5` $5.00/$18.00, `grok-4.3` $3.00/$8.00, `grok-build-0.1` $3.00/$6.00, `grok-4.20` $4.00/$12.00 per 1M. Below 200K, base rates are unchanged.
+- xAI bills the Grok family at **2x above 200K prompt tokens**. BlockRun now applies the same tier: once a request's prompt reaches 200K tokens, the whole request reprices at the long-context rate — `grok-4.5` $5.00/$18.00, `grok-4.3` $3.00/$8.00, `grok-build-0.1` $3.00/$6.00, `grok-4.20` $4.00/$12.00 per 1M. Below 200K, base rates are unchanged.
 - `grok-4.5` fallback set to `grok-4.20-reasoning` (Live-Search-capable) so a failover never silently drops search.
 
 ---

@@ -21,7 +21,7 @@ No API keys. No monthly bills. Just usage-based payments in USDC.
 
 ## Available Models
 
-Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates — per-token chat carries no platform margin (we match OpenRouter); only the flat $0.001/request transaction fee is added. See [Pricing](pricing.md).
+Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates — per-token chat carries no platform margin; only the flat $0.001/request transaction fee is added. See [Pricing](pricing.md).
 
 ### OpenAI
 | Model | Input | Output |
