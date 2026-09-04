@@ -196,7 +196,7 @@ BlockRun routes to these providers via x402:
 | Anthropic | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Sonnet 5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | Google | Gemini 3.1 Pro, Gemini 3.5 Flash | $1.50–$2.00 / $9.00–$12.00 |
 | DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Flash Reasoner, DeepSeek V4 Flash Vision, DeepSeek V4 Pro | $0.14–$1.32 / $0.28–$3.96 |
-| xAI | Grok 4.5, Grok 4.3, Grok Build 0.1 | $1.50–$2.50 / $3.00–$9.00 |
+| xAI | Grok 4.5, Grok 4.3, Grok Build 0.1 | $1.00–$2.00 / $2.00–$6.00 |
 | Z.AI | GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo | $1.00–$1.40 / $3.20–$4.40 |
 | Moonshot | Kimi K3 (1M context, image + text input) | $3.00 / $15.00 |
 | MiniMax | MiniMax M3 (1M context) | $0.30 / $1.20 |

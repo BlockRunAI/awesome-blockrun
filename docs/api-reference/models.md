@@ -164,9 +164,9 @@ Gemini **Pro** models (`gemini-2.5-pro`, `gemini-3.1-pro`) bill a **long-context
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `xai/grok-4.5` | Grok 4.5 | $2.50/M | $9.00/M | 500K |
-| `xai/grok-4.3` | Grok 4.3 | $1.50/M | $4.00/M | 1M |
-| `xai/grok-build-0.1` | Grok Build 0.1 | $1.50/M | $3.00/M | 256K |
+| `xai/grok-4.5` | Grok 4.5 | $2.00/M | $6.00/M | 500K |
+| `xai/grok-4.3` | Grok 4.3 | $1.25/M | $2.50/M | 1M |
+| `xai/grok-build-0.1` | Grok Build 0.1 | $1.00/M | $2.00/M | 256K |
 
 Grok bills a **long-context tier** at 2x the rates above once a request's prompt reaches 200K tokens (mirrors xAI's official pricing — e.g. Grok 4.5 is $5.00/M in · $18.00/M out above the threshold). Live Search adds $0.025 per source used. Grok Imagine image/video SKUs are listed under Image / Video Generation below.
 
