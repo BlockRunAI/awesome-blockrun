@@ -433,7 +433,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 74 models with live pricing to pick the right one for each call.
+Browse all 75 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
