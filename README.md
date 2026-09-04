@@ -8,9 +8,9 @@
 [![Telegram](https://img.shields.io/badge/Telegram-Join-26A5E4)](https://t.me/+mroQv4-4hGgzOGUx)
 [![Research](https://img.shields.io/badge/Research-State%20of%20x402-orange)](./research/State_of_x402_2025.pdf)
 
-> **BlockRun** is the routing & payment layer for AI — one endpoint where AI agents autonomously discover, route, and pay for APIs using USDC via the x402 protocol. BlockRun provides pay-per-request access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> large language models (including GPT-5, Claude, Gemini, Grok, DeepSeek, and Kimi), image generation, neural web search (Exa), DEX data, trading signals, and prediction market data. No API keys, no subscriptions, no vendor lock-in.
+> **BlockRun** is the routing & payment layer for AI — one endpoint where AI agents autonomously discover, route, and pay for APIs using USDC via the x402 protocol. BlockRun provides pay-per-request access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> large language models (including GPT-5, Claude, Gemini, Grok, DeepSeek, and Kimi), image generation, neural web search (Exa), DEX data, trading signals, and prediction market data. Use one account API key or pay directly from a wallet with x402.
 >
-> **For Claude Code users:** Add BlockRun in one command — access <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models, DEX data, trading signals, and more without managing any API keys.
+> **For Claude Code users:** Add BlockRun in one command — access <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models, DEX data, trading signals, and more with account API billing or a Solana wallet.
 > ```bash
 > claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 > ```
@@ -37,45 +37,48 @@
 
 ## Quick Start
 
+The account API is live. [Register](https://user.blockrun.ai), [create an API key](https://user.blockrun.ai/dashboard/keys), and [add credits](https://user.blockrun.ai/dashboard/credits). Keep `BLOCKRUN_API_KEY` in your server environment. Account requests use bearer authentication at `https://api.blockrun.ai/v1` and need no wallet.
+
+Use any OpenAI-compatible client immediately:
+
+```python
+import os
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=os.environ["BLOCKRUN_API_KEY"],
+    base_url="https://api.blockrun.ai/v1",
+)
+response = client.chat.completions.create(
+    model="openai/gpt-4.1-nano",
+    messages=[{"role": "user", "content": "Hello!"}],
+)
+print(response.choices[0].message.content)
+```
+
+The BlockRun SDK updates extend account authentication to chat/streaming, media, search, Signal and other services. Use a release containing [Python SDK #58](https://github.com/BlockRunAI/blockrun-llm/pull/58) or [TypeScript SDK #36](https://github.com/BlockRunAI/blockrun-llm-ts/pull/36), or build the corresponding branch:
+
 ```python
 from blockrun_llm import LLMClient
 
-client = LLMClient(private_key="0x...")
-
-# Chat with any model — payment handled via x402
-response = client.chat("Hello!")
-
-# Smart routing — auto-picks cheapest capable model
-response = client.smart_chat("Summarize this article", profile="eco")
-
-# Image generation
-from blockrun_llm import ImageClient
-img = ImageClient(private_key="0x...")
-result = img.generate("A cyberpunk city at sunset", model="openai/gpt-image-1")
-
-# Neural web search via Exa
-results = client.search("latest AI agent frameworks")  # $0.011/search on Base or Solana
+with LLMClient() as client:  # Reads BLOCKRUN_API_KEY
+    print(client.chat("openai/gpt-4.1-nano", "Hello!"))
 ```
 
 ```typescript
-import { LLMClient, ImageClient } from 'blockrun-llm';
+import { LLMClient } from '@blockrun/llm';
 
-const client = new LLMClient({ privateKey: '0x...' });
-
-// Chat with any model
-const response = await client.chat('Hello!');
-
-// Smart routing
-const smart = await client.smartChat('Summarize this', { profile: 'eco' });
-
-
+const client = new LLMClient(); // Reads BLOCKRUN_API_KEY
+console.log(await client.chat('openai/gpt-4.1-nano', 'Hello!'));
 ```
+
+For wallet billing, start with **Solana** at [sol.blockrun.ai](https://sol.blockrun.ai), followed by **Base** at [blockrun.ai](https://blockrun.ai). Existing wallet users can keep their selected chain. Account credits and wallet USDC balances are separate; an account credit error should not silently switch payment modes.
 
 ---
 
 ## API Products
 
-BlockRun is a unified API gateway — pay per request with USDC, no API keys needed.
+BlockRun is a unified API gateway — use account credits with one API key, or USDC through x402.
 
 | Product | Endpoint | Pricing | Description |
 |---------|----------|---------|-------------|
@@ -169,18 +172,19 @@ Real-time prediction market data powered by Predexon:
 
 ## Networks
 
-BlockRun runs on two networks with separate gateways:
+Account API and wallet gateways have separate authentication and billing:
 
 | Network | Gateway | Asset | Status |
 |---------|---------|-------|--------|
-| **Base** | `blockrun.ai` | USDC | ✅ Live (<!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models) |
+| **Account API** | `api.blockrun.ai/v1` | Account credits | ✅ Live |
 | **Solana** | `sol.blockrun.ai` | USDC | ✅ Live |
+| **Base** | `blockrun.ai` | USDC | ✅ Live (<!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models) |
 | **Polygon / Arbitrum / Optimism / Unichain** | `nano.blockrun.ai` | USDC via Circle Gateway (gas-free, batched) | ✅ Live |
 | **Base Sepolia** | `testnet.blockrun.ai` | USDC (testnet) | ✅ Testnet |
 
 **Payment protocol:** x402 (HTTP 402 "Payment Required") — wallet signs payment, no accounts or API keys needed. Per-token chat carries no platform margin — only a flat $0.001 transaction fee per request; media generation and Live Search carry 5%.
 
-**Enterprise (coming soon):** `user.blockrun.ai` — API keys (`brk_live_…`) + wire billing, billed post-hoc at exact usage with no per-call minimum. Sign-in is not yet open; ask on [Telegram](https://t.me/+mroQv4-4hGgzOGUx).
+**Account registration is open:** [user.blockrun.ai](https://user.blockrun.ai). Manage [API keys](https://user.blockrun.ai/dashboard/keys) and [credits](https://user.blockrun.ai/dashboard/credits) in the dashboard. See the dashboard for account pricing and usage.
 
 ---
 
@@ -189,12 +193,12 @@ BlockRun runs on two networks with separate gateways:
 | Language | Install | Features | Repository |
 |:--------:|---------|----------|:----------:|
 | ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | `pip install blockrun-llm` | Chat, Images, Search, Prediction Markets, Smart Routing, Solana | [GitHub](https://github.com/blockrunai/blockrun-llm) |
-| ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) | `npm i blockrun-llm` | Chat, Images, Search, OpenAI-compatible drop-in, Smart Routing, Solana | [GitHub](https://github.com/blockrunai/blockrun-llm-ts) |
+| ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) | `npm i @blockrun/llm` | Chat, Images, Search, OpenAI-compatible drop-in, Smart Routing, Solana | [GitHub](https://github.com/blockrunai/blockrun-llm-ts) |
 | ![Go](https://img.shields.io/badge/-Go-00ADD8?logo=go&logoColor=white) | `go get github.com/blockrunai/blockrun-llm-go` | Chat, Images, Video, Music, Speech, Voice, Search, Market Data, Prediction Markets, DeFi/DEX, Multi-chain RPC, Solana | [GitHub](https://github.com/blockrunai/blockrun-llm-go) |
 | ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | `pip install blockrun-llm-vip` | Native Anthropic + OpenAI passthrough — subclasses the official SDKs, responses verbatim, zero model substitution | [GitHub](https://github.com/BlockRunAI/blockrun-llm-vip) |
 | ![Go](https://img.shields.io/badge/-Go-00ADD8?logo=go&logoColor=white) | `go get github.com/BlockRunAI/blockrun-llm-go-vip` | Native Anthropic + OpenAI passthrough — official `anthropic-sdk-go` / `openai-go` client types | [GitHub](https://github.com/BlockRunAI/blockrun-llm-go-vip) |
 | ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white) | `npm i @blockrun/nano-client` | Same catalog via `nano.blockrun.ai` — gas-free batched USDC (Circle Gateway) on Polygon, Arbitrum, Optimism, Unichain | [GitHub](https://github.com/BlockRunAI/blockrun-nano-client) |
-| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | `pip install blockrun-litellm` | LiteLLM adapter — custom provider or local OpenAI-compatible proxy, Base + Solana | [GitHub](https://github.com/BlockRunAI/blockrun-litellm) |
+| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | `pip install blockrun-litellm` | LiteLLM adapter — custom provider or local OpenAI-compatible proxy, Solana + Base | [GitHub](https://github.com/BlockRunAI/blockrun-litellm) |
 | ![CLI](https://img.shields.io/badge/-CLI-000000?logo=gnubash&logoColor=white) | `npm i -g @blockrun/cli` | `blockrun` umbrella CLI + `@blockrun/core` kernel — one wallet, generic `api`/`pay` for any x402 endpoint | [GitHub](https://github.com/BlockRunAI/blockrun-cli) |
 
 ### Solana Support
@@ -217,7 +221,7 @@ pip install blockrun-llm[solana]
 
 ### blockrun-mcp — Zero API Key Access for Claude Code Users
 
-**[blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)** is the primary entry point for Claude Code developers. One command gives Claude access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models, real-time market data, image/video/music generation, AI voice calls, crypto data, and more — with no API keys and no accounts.
+**[blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)** is the primary entry point for Claude Code developers. One command gives Claude access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models, real-time market data, image/video/music generation, AI voice calls, crypto data, and more — with account API billing or a wallet.
 
 ```bash
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
@@ -256,7 +260,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 **Who it's for:** Power users already paying for Claude/GPT/Gemini who want 40-92% cost reduction without changing their workflow.
 
 > **blockrun-mcp vs ClawRouter:**
-> - New to multi-model access? → Start with **blockrun-mcp** (no API keys needed)
+> - New to multi-model access? → Start with **blockrun-mcp** (account API or wallet)
 > - Already have API keys, want to save money? → Add **ClawRouter** (smart routing)
 > - Both installed? → Maximum coverage: zero-friction access + cost optimization
 
@@ -265,14 +269,14 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 | Repo | What it is | Install |
 |------|------------|---------|
 | [router-core](https://github.com/BlockRunAI/router-core) | The routing engine behind ClawRouter, Franklin, Hermes and dsh-clawrouter — deterministic, constraint-first, <1ms, no inference call | library |
-| [XClawRouter](https://github.com/BlockRunAI/XClawRouter) | ClawRouter powered by the OKX OnchainOS wallet — OpenClaw plugin, USDC on Base & Solana | `curl -fsSL https://blockrun.ai/XClawRouter-update \| bash` |
+| [XClawRouter](https://github.com/BlockRunAI/XClawRouter) | ClawRouter powered by the OKX OnchainOS wallet — OpenClaw plugin, USDC on Solana & Base | `curl -fsSL https://blockrun.ai/XClawRouter-update \| bash` |
 | [ClawRouter-Hermes](https://github.com/BlockRunAI/ClawRouter-Hermes) | ClawRouter for NousResearch Hermes — Python plugin wrapping the proxy | `pip install hermes-plugin-clawrouter` |
 | [dsh-clawrouter](https://github.com/BlockRunAI/dsh-clawrouter) | DeepSeek Harness safety gate — a stronger model reviews dangerous tool calls before they run, plus vision and the full catalog | `dsh plugin --profile web add dsh-clawrouter` |
 | [clawrouter-codex](https://github.com/BlockRunAI/clawrouter-codex) | OpenAI Codex ↔ BlockRun bridge over the Responses API, wallet-signed, zero API keys | `npx @blockrun/clawrouter-codex up` |
 | [blockrun-claude-plugin](https://github.com/BlockRunAI/blockrun-claude-plugin) | Claude Code media plugin — spend confirmation, cost meter, balance status line | `claude --plugin-dir` |
 | [blockrun-codex-plugin](https://github.com/BlockRunAI/blockrun-codex-plugin) | Codex port of the media plugin — spend gate + real-ledger cost meter | `codex plugin marketplace add BlockRunAI/blockrun-codex-plugin` |
 | [@blockrun/opencode](https://www.npmjs.com/package/@blockrun/opencode) | OpenCode plugin — chat, images, auto-generated wallet | `"plugin": ["@blockrun/opencode"]` in `opencode.json` |
-| [lobstercash-blockrun-skill](https://github.com/BlockRunAI/lobstercash-blockrun-skill) | BlockRun skill for the lobster.cash OpenClaw plugin — paid with Solana USDC | `install.sh` in repo |
+| [lobstercash-blockrun-skill](https://github.com/BlockRunAI/lobstercash-blockrun-skill) | BlockRun skill for the lobster.cash OpenClaw plugin — account API or Solana USDC | `install.sh` in repo |
 | [Franklin](https://github.com/BlockRunAI/Franklin) | The AI agent with a wallet — spends USDC autonomously to get real work done | `npm i -g @blockrun/franklin` |
 | [Franklin-Trading](https://github.com/BlockRunAI/Franklin-Trading) | Wallet-native trading agent — persona debate, Backtest → Paper → Live, x402 receipt per fill | `npm i -g @blockrun/franklin-trading` |
 | [franklin-canvas](https://github.com/BlockRunAI/franklin-canvas) | Node-based AI media studio — image, video, music on an infinite canvas | `git clone` + `npm start` |
@@ -422,7 +426,7 @@ The **x402 protocol** (HTTP 402 "Payment Required") lets any HTTP request includ
 | LLM Gateway | Now | Pay-per-request access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> AI models |
 | Premium Data | Now | Neural web search (Exa), prediction markets (Predexon), Surf crypto data, DEX, image / video / music generation, voice calls |
 | Agent Wallets | Now | Per-agent delegation budgets (blockrun-mcp), Franklin agent wallet, spend confirmation plugins |
-| Multi-Chain | Now | Base + Solana gateways live; Polygon / Arbitrum / Optimism / Unichain via Circle Gateway (`nano.blockrun.ai`) |
+| Multi-Chain | Now | Solana + Base gateways live; Polygon / Arbitrum / Optimism / Unichain via Circle Gateway (`nano.blockrun.ai`) |
 | Trust | In progress | Smart routing shipped (router-core); service ratings and uptime tracking next |
 
 See [VISION.md](./VISION.md) | [ROADMAP.md](./ROADMAP.md) for full details.
@@ -464,13 +468,15 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 BlockRun is the routing & payment layer for AI — one endpoint where AI agents discover, route, and pay for APIs using USDC via the x402 protocol. It provides access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> LLMs, image generation, neural web search (Exa), and prediction market data without requiring API keys or subscriptions.
 
 ### How do AI agents pay for APIs?
-AI agents pay using the x402 protocol — an HTTP-native payment standard. When an agent makes a request, BlockRun returns HTTP 402 with the price. The agent signs a USDC payment locally (private key never leaves the machine), retries with the payment header, and receives the response. Settlement is non-custodial and instant on Base or Solana.
+With an API key, calls charge the BlockRun account. Register and manage credits in the account dashboard; no wallet is required.
+
+AI agents pay using the x402 protocol — an HTTP-native payment standard. When an agent makes a request, BlockRun returns HTTP 402 with the price. The agent signs a USDC payment locally (private key never leaves the machine), retries with the payment header, and receives the response. Settlement is non-custodial and instant on Solana or Base.
 
 ### What is ClawRouter?
 ClawRouter is an open-source (MIT licensed) smart LLM router built for autonomous agents. It analyzes each request across 15 dimensions and routes to the cheapest capable model in under 1ms, entirely locally. ClawRouter reduces LLM API costs by <!-- br:savings.autoVsBaselinePct -->84<!-- /br:savings.autoVsBaselinePct -->% versus pinning one flagship for every request.
 
 ### How does BlockRun compare to OpenRouter?
-BlockRun is agent-native — it uses wallet signatures for authentication instead of API keys, and USDC micropayments instead of credit cards. This means AI agents can operate autonomously without human intervention. BlockRun also includes ClawRouter for smart routing, third-party data & runtime services, and multi-chain support (Base + Solana).
+BlockRun is agent-native — it supports account API keys as well as wallet signatures and USDC micropayments. This means AI agents can operate autonomously without human intervention. BlockRun also includes ClawRouter for smart routing, third-party data & runtime services, and multi-chain support (Solana + Base).
 
 ### What is the x402 protocol?
 The x402 protocol is an HTTP-native payment standard based on HTTP status code 402 ("Payment Required"). It allows any HTTP request to include a cryptographic USDC payment, enabling machine-to-machine payments without accounts, credit cards, or KYC verification. BlockRun is a leading implementation of x402.
