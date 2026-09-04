@@ -70,7 +70,8 @@ The free tier costs $0 — 5 reasoning, coding, and vision models with no per-to
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
 | Gemini 3.1 Pro | $2.00 | $12.00 |
-| Gemini 3.6 Flash | $1.50 | $7.50 |
+| Gemini 3.8 Flash | $0.75 | $3.75 |
+| Gemini 3.6 Flash | $0.75 | $3.75 |
 | Gemini 3.5 Flash | $1.50 | $9.00 |
 | Gemini 3.5 Flash Lite | $0.30 | $2.50 |
 

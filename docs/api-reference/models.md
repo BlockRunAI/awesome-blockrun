@@ -150,7 +150,8 @@ These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); t
 | `google/gemini-3.1-pro` | Gemini 3.1 Pro | $2.00/M | $12.00/M | 1M |
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
 | `google/gemini-3.5-flash` | Gemini 3.5 Flash | $1.50/M | $9.00/M | 1M |
-| `google/gemini-3.6-flash` | Gemini 3.6 Flash | $1.50/M | $7.50/M | 1M |
+| `google/gemini-3.8-flash` | Gemini 3.8 Flash | $0.75/M | $3.75/M | 1M |
+| `google/gemini-3.6-flash` | Gemini 3.6 Flash | $0.75/M | $3.75/M | 1M |
 | `google/gemini-3-flash-preview` | Gemini 3 Flash Preview | $0.50/M | $3.00/M | 1M |
 | `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.30/M | $2.50/M | 1M |
 | `google/gemini-3.5-flash-lite` | Gemini 3.5 Flash Lite | $0.30/M | $2.50/M | 1M |
