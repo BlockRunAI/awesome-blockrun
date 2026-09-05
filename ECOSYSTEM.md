@@ -68,6 +68,7 @@ BlockRun works with the x402 facilitator network:
 | [x402 Foundation](https://x402.org) | Protocol development |
 | [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
 | [Predexon](https://predexon.com) | Prediction market data (Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance) |
+| [Entropy Index](https://www.entropyindex.com) | Regime / risk gate — heat check before size ($0.25 Base USDC x402); complementary to PM data |
 | [Modal](https://modal.com) | Sandbox compute (managed Python sandboxes for isolated code execution) |
 | [Surf (asksurf.ai)](https://asksurf.ai) | Crypto data — 83 endpoints |
 | [Exa](https://exa.ai) | Neural web search |

@@ -356,6 +356,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 |---------|---------|-------------|
 | [Exa](https://exa.ai) | Web Search | Neural web search, find-similar, page contents, AI-grounded answers |
 | [Predexon](https://predexon.com) | Prediction Markets | Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance Futures data |
+| [Entropy Index](https://www.entropyindex.com) | Regime / risk | Pre-action regime gate for agentic capital — heat check before size ($0.25 Base USDC x402). |
 | [Modal](https://modal.com) | Sandbox Compute | Managed Python sandboxes for isolated code execution |
 | [Surf](https://asksurf.ai) | Crypto Data | 83 endpoints — CEX, on-chain SQL, wallet labels, social, news |
 | [Tatum](https://tatum.io) | Multi-chain RPC | JSON-RPC across <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains |
