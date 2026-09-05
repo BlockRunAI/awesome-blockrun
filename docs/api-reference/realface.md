@@ -1,13 +1,13 @@
 ---
 title: RealFace Enrollment
-description: Enroll a real person's face (no KYC, ~1-min on-phone liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0 Fast / 2.0 Mini videos.
+description: Enroll a real person's face (no government ID, ~1-min on-phone liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0 Fast / 2.0 Mini videos.
 ---
 
 # RealFace Enrollment
 
 Enroll a real person's face as a `ta_xxxxxxxx` asset you can pass as `real_face_asset_id` on any Seedance 2.0 / 2.0 Fast / 2.0 Mini call. Use this when you want **a real person to appear consistently across multiple videos** (talking head, spokesperson, character continuity).
 
-:::note{title="No KYC required"}
+:::note{title="Liveness check only"}
 No government ID, no account login, no name verification. Just a brief on-phone liveness check (nod + blink, ~1 minute) that proves the person enrolling is the same as the person in the photo. The biometric data is processed by the upstream identity service — BlockRun never sees it. For purely AI-generated characters (no real person involved), use [Virtual Portrait](virtual-portrait.md) instead ($0.011, no liveness step).
 :::
 
@@ -296,7 +296,7 @@ The video playground reads this same list and shows it in the `real_face_asset_i
 | Price | $0.011 USDC | $0.011 USDC |
 | Liveness check | Not required | Required (~1 minute on phone) |
 | Upstream verification | None | Biometric match against H5 live face |
-| KYC / government ID | Not required | Not required |
+| Government ID | Not required | Not required |
 | Compatible models | Seedance 2.0 / 2.0 Fast / 2.0 Mini | Seedance 2.0 / 2.0 Fast / 2.0 Mini |
 
 ## What's next?

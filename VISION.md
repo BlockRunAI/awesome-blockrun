@@ -9,7 +9,7 @@ The AI agent economy is growing exponentially, but there's a fundamental problem
 Traditional payment rails require:
 - Account creation (agents can't fill forms)
 - Credit cards (agents don't have bank accounts)
-- KYC verification (agents have no identity)
+- Identity verification (agents have no legal identity)
 - API key management (agents lose keys, keys get leaked)
 
 But agents have something better: **wallets**.
@@ -60,7 +60,7 @@ Route any x402 service through BlockRun:
 We believe the future is:
 
 1. **Agents as economic actors** - Agents earn, save, and spend
-2. **Wallet as identity** - No accounts, no passwords, no KYC
+2. **Wallet as identity** - No accounts, no passwords, no API keys
 3. **Micropayments at scale** - Pay per request, not per month
 4. **Trust through transparency** - Open ratings, open data
 

@@ -539,7 +539,7 @@ status = voice.get_status(call["call_id"])   # free; transcript + recording_url 
 ```python
 from blockrun_llm import PortraitClient, RealFaceClient
 
-# Virtual Portrait — AI character, no KYC, $0.011 one-time
+# Virtual Portrait — AI character, no liveness check, $0.011 one-time
 portrait = PortraitClient()
 p = portrait.enroll("My Spokesperson", "https://example.com/character.jpg")
 print(p.asset_id)   # ta_xxxxxxxx → pass to VideoClient(real_face_asset_id=...)

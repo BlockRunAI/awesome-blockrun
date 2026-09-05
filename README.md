@@ -409,7 +409,7 @@ See [research/](./research/) for methodology.
 
 ## Vision
 
-**AI agents can't pay for services.** Traditional payment rails require account creation, credit cards, and KYC verification - none of which agents can do.
+**AI agents can't pay for services.** Traditional payment rails require account creation, credit cards, and identity verification - none of which agents can do.
 
 But agents have something better: **wallets**.
 
@@ -473,7 +473,7 @@ ClawRouter is an open-source (MIT licensed) smart LLM router built for autonomou
 BlockRun is agent-native — it uses wallet signatures for authentication instead of API keys, and USDC micropayments instead of credit cards. This means AI agents can operate autonomously without human intervention. BlockRun also includes ClawRouter for smart routing, third-party data & runtime services, and multi-chain support (Base + Solana).
 
 ### What is the x402 protocol?
-The x402 protocol is an HTTP-native payment standard based on HTTP status code 402 ("Payment Required"). It allows any HTTP request to include a cryptographic USDC payment, enabling machine-to-machine payments without accounts, credit cards, or KYC verification. BlockRun is a leading implementation of x402.
+The x402 protocol is an HTTP-native payment standard based on HTTP status code 402 ("Payment Required"). It allows any HTTP request to include a cryptographic USDC payment, enabling machine-to-machine payments without accounts, credit cards, or identity verification. BlockRun is a leading implementation of x402.
 
 ### How much does BlockRun cost?
 BlockRun uses pay-per-request pricing with no subscriptions. Per-token chat is billed at provider cost with no platform margin — only a flat $0.001 transaction fee is added per request; media generation and Live Search carry a 5% margin. Prices start at $0.002 per request for the cheapest data endpoints. $5 in USDC is enough for thousands of requests.
