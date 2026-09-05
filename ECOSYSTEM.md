@@ -56,6 +56,16 @@ BlockRun works with the x402 facilitator network:
 | [AnySpend](https://anyspend.com) | Base | `mainnet.anyspend.com/x402/discovery/resources` |
 | [AurraCloud](https://aurracloud.com) | Base | `x402-facilitator.aurracloud.com/discovery/resources` |
 | [thirdweb](https://thirdweb.com) | Base, Ethereum | `api.thirdweb.com/v1/payments/x402/discovery/resources` |
+| Facilitator | Network | Discovery Endpoint | Status |
+|-------------|---------|-------------------|--------|
+| [Coinbase CDP](https://coinbase.com/cloud) | Base, Ethereum | `api.cdp.coinbase.com/platform/v2/x402/discovery/resources` | ✅ Live |
+| [PayAI](https://payai.network) | Base, Solana | `facilitator.payai.network/discovery/resources` | ✅ Live |
+| [QuestFlow](https://questflow.ai) | Base | `facilitator.questflow.ai/discovery/resources` | ⚠️ 500 |
+| [AnySpend](https://anyspend.com) | Base | `mainnet.anyspend.com/x402/discovery/resources` | ✅ Live |
+| [AurraCloud](https://aurracloud.com) | Base | `x402-facilitator.aurracloud.com/discovery/resources` | ❌ Unreachable |
+| [thirdweb](https://thirdweb.com) | Base, Ethereum | `api.thirdweb.com/v1/payments/x402/discovery/resources` | ✅ Live |
+
+<sub>Status column verified 2026-08-02 by GET on each discovery endpoint. `facilitator.questflow.ai` returned HTTP 500 (`not authorized on x402-prod to execute command aggregate: "discoverable_resources"`); `x402-facilitator.aurracloud.com` did not resolve (its apex `aurracloud.com` does). The other four returned resource lists.</sub>
 
 ## Partners
 
@@ -85,7 +95,9 @@ BlockRun works with the x402 facilitator network:
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading bot with Visual Cortex for chart analysis |
 | [Voyage GEO](https://github.com/onvoyage-ai/voyage-geo-agent) | AI Analytics | Generative Engine Optimization - track AI brand mentions across multiple models |
 | [PulseNetwork](https://pulsenetwork.theaslangroupllc.com) | API Catalog | 76-origin x402 API catalog (950+ pay-per-call intelligence endpoints: token safety, macro, geopolitical, sports, clinical trials) — purchasable by BlockRun-powered agents via CDP/PayAI facilitator discovery |
+| [TensorFeed](https://tensorfeed.ai) | AI Intelligence | AI-industry intelligence for agents: vendor pricing, model status, deprecations, CVEs, capital, research. Daily-fresh JSON feeds. Premium endpoints priced in USDC via x402, cataloged in CDP Bazaar ([manifest](https://tensorfeed.ai/.well-known/x402.json), [/developers](https://tensorfeed.ai/developers)) |
 
+| [Counterra](https://github.com/billiondollarapps/counterra) | Accounting | Open-source accounting for x402 spend — decodes settlements into journal entries with per-agent attribution, exports to QuickBooks/Xero |
 ### Claude Code Tools
 
 | Tool | Description | Install |
