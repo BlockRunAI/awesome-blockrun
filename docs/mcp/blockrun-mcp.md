@@ -5,7 +5,7 @@ description: A Model Context Protocol server that gives Claude Code 76 models, c
 
 # BlockRun MCP
 
-Give Claude Code access to 100 AI models, 83 crypto data endpoints, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
+Give Claude Code access to 100 AI models, 66 crypto data endpoints, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
 
 BlockRun MCP is a Model Context Protocol server that connects Claude Code to BlockRun's intelligence, trading, and creation capabilities.
 
@@ -266,7 +266,7 @@ blockrun_polymarket action:"buy" token_id:"<id>" amount_usd:5 order_type:"FOK" c
 
 #### `blockrun_surf`
 
-Unified crypto data — CEX data, on-chain SQL, labeled wallets, social mindshare, news, prediction markets, and unified search. See [Surf API reference](../api-reference/surf.md).
+Unified crypto data — CEX data, on-chain SQL, labeled wallets, news, prediction markets, and unified search. See [Surf API reference](../api-reference/surf.md).
 
 ```
 What's the BTC funding rate on Binance perps right now, and how does it compare to the 7-day average?
