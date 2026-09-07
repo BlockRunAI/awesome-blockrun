@@ -470,10 +470,10 @@ import { BlockrunClient } from '@blockrun/llm';
 const br = new BlockrunClient();   // BLOCKRUN_WALLET_KEY or BASE_CHAIN_WALLET_KEY
 
 // get<T>(path, params?) — synchronous GET (price, ranking, list, news)
-const btc = await br.get('/v1/surf/market/price', { symbol: 'BTC' });
+const btc = await br.get('/v1/crypto/price', { symbol: 'BTC' });
 
 // post<T>(path, body?) — synchronous POST (on-chain SQL, search)
-const rows = await br.post('/v1/surf/onchain/sql', { query: 'SELECT 1' });
+const rows = await br.get('/v1/defillama/protocols', {});
 
 // poll<T>(path, body?, { budgetMs, intervalMs }) — submit + poll (image, video, music, voice)
 const video = await br.poll('/v1/videos/generations', { model: 'xai/grok-imagine-video', prompt: 'a red apple spinning' });

@@ -16,7 +16,7 @@ A terminal, and ~$5 of USDC on **Base** (or Solana). Don't have USDC yet? Any Co
 ::::tabs
 
 :::tab{label="Claude Code (MCP)"}
-Best for Claude Code, Cursor, and other MCP clients — natural-language access to all 20 tools.
+Best for Claude Code, Cursor, and other MCP clients — natural-language access to all 19 tools.
 
 ```bash
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
@@ -104,7 +104,7 @@ If a call returns `402 Payment Required` after retrying, your wallet is empty or
 ::::cards
 
 :::card{title="Browse all tools" href="../mcp/blockrun-mcp.md" icon="Boxes"}
-The full list of 20 `blockrun_*` tools — chat, image, video, search, markets, RPC, and more.
+The full list of 19 `blockrun_*` tools — chat, image, video, search, markets, RPC, and more.
 :::
 
 :::card{title="Explore the models" href="../products/intelligence/overview.md" icon="Brain"}

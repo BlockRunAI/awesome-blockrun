@@ -13,7 +13,7 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 
 | Project | What it is | Install |
 |---------|------------|---------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server for Claude Code and any MCP client — 20 tools: chat across the full model catalog, image / video / music / speech, web + neural search, prediction markets (read **and** trade Polymarket), crypto data, Pyth prices, multi-chain RPC, DeFi data, sandboxed code exec, phone calls, wallet | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP server for Claude Code and any MCP client — 19 tools: chat across the full model catalog, image / video / music / speech, web + neural search, prediction markets (read **and** trade Polymarket), crypto data, Pyth prices, multi-chain RPC, DeFi data, sandboxed code exec, phone calls, wallet | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
 | [blockrun-cli](https://github.com/BlockRunAI/blockrun-cli) | Umbrella CLI (`blockrun`) + `@blockrun/core` shared kernel — one wallet, one x402 payment path, one `{ok,data\|error}` output contract. ~40 commands: wallet, inference, multimodal, data, generic `api` / `pay` for any x402 endpoint, spending guardrails, agent skills; prefix discovery routes to ClawRouter, Franklin, MCP and the Codex bridge | `npm install -g @blockrun/cli` |
 | [ClawRouter](https://github.com/BlockRunAI/ClawRouter) | The agent-native LLM router — every frontier model behind one wallet, <1ms local routing, USDC on Base & Solana via x402. OpenClaw plugin; free models need no wallet | `npm install -g @blockrun/clawrouter` |
 | [router-core](https://github.com/BlockRunAI/router-core) | The routing engine underneath ClawRouter, Franklin, ClawRouter-Hermes and dsh-clawrouter. Deterministic, constraint-first model routing — classify, hard-filter, rank — locally in <1ms, with no inference call. Product-neutral: no wallet, gateway, or telemetry | Library (`@blockrun/router-core`, consumed from GitHub) |
@@ -94,7 +94,6 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | **Sound Effects** | `/v1/audio/sound-effects` | $0.0535/generation | ✅ Live |
 | **Voice Calls** | `/v1/voice/call` | $0.541 flat | ✅ Live |
 | **Phone Numbers** | `/v1/phone/numbers/*` | $5.001/30 days | ✅ Live |
-| **Surf Crypto Data** | `/api/v1/surf/*` (66 endpoints) | $0.0085 | ✅ Live |
 | **Search** | `/v1/search` | $0.026/source | ✅ Live |
 | **Exa Web Search** | `/api/v1/exa/*` | $0.003–0.011 | ✅ Live |
 | **0x Swap (DEX)** | `/api/v1/zerox/*` | Free | ✅ Live |
@@ -178,7 +177,6 @@ BlockRun works with the x402 facilitator network:
 | [OKX OnchainOS](https://web3.okx.com) | Agentic wallet behind XClawRouter |
 | [Predexon](https://predexon.com) | Prediction market data |
 | [Modal](https://modal.com) | Sandbox compute (isolated code execution) |
-| [Surf (asksurf.ai)](https://asksurf.ai) | Crypto data — 66 endpoints (CEX, on-chain SQL, prediction markets, wallet labels, news) |
 | [Bland.ai](https://bland.ai) | Conversational voice AI — outbound calls |
 | [Twilio](https://twilio.com) | Phone-number provisioning (wallet-owned US/CA numbers) |
 | [Exa](https://exa.ai) | Neural web search |

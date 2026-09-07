@@ -134,7 +134,7 @@ Top 10 tokens by DEX volume on Base, last 24h
 Call eth_getBalance on Arbitrum for 0x...
 ```
 
-`blockrun_surf` (exchange, on-chain SQL, wallet labels, prediction markets), `blockrun_price` (Pyth-backed quotes), `blockrun_dex`, `blockrun_defi` (TVL, yields), and `blockrun_rpc` (raw JSON-RPC on 40 chains). The `crypto-data` skill says which one to use.
+`blockrun_price` (Pyth-backed quotes), `blockrun_dex`, `blockrun_defi` (TVL, yields), and `blockrun_rpc` (raw JSON-RPC on 40 chains). The `crypto-data` skill says which one to use.
 
 ### Phone Calls and Sandboxed Compute
 
@@ -203,7 +203,7 @@ BlockRun ships prompt-based skills that teach Claude how to use each tool family
 | `blockrun` | Start here — which tool answers what, and how to make a first call free |
 | `image-prompting` | Turns a vague image request into a text-accurate prompt |
 | `search`, `exa-research` | Live search and cited research workflows |
-| `crypto-data`, `surf`, `rpc` | Routes crypto questions to the right (often free) tool |
+| `crypto-data`, `rpc` | Routes crypto questions to the right (often free) tool |
 | `prediction-markets`, `polymarket-trading` | Read odds, then place confirm-gated bets |
 | `phone`, `modal` | Voice calls and sandboxed compute |
 
@@ -265,7 +265,7 @@ For more help, see [MCP Troubleshooting](../mcp/troubleshooting.md).
 ::::cards
 
 :::card{title="Browse the MCP tools" href="../mcp/blockrun-mcp.md" icon="Boxes"}
-The full list of 20 `blockrun_*` tools — chat, image, video, search, markets, Polymarket trading, RPC, and more.
+The full list of 19 `blockrun_*` tools — chat, image, video, search, markets, Polymarket trading, RPC, and more.
 :::
 
 :::card{title="Generate images" href="../products/creation/nano-banana.md" icon="Image"}
