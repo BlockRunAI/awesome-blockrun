@@ -166,7 +166,7 @@ never costs you anything.
 ::::cards
 
 :::card{title="Surf — Crypto Data" href="surf.md" icon="ChartLine"}
-Exchange, on-chain and social data across 83 endpoints.
+Exchange and on-chain data across 66 endpoints.
 :::
 
 :::card{title="0x Swap (DEX)" href="zerox-swap.md" icon="ArrowLeftRight"}

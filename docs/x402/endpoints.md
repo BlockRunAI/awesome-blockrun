@@ -124,7 +124,7 @@ Ephemeral, isolated Python sandboxes for agent code execution.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| GET/POST | `/api/v1/surf/{path}` | Crypto market / on-chain intelligence — exchanges, on-chain analytics, wallet labels, social mindshare, news, search | Tier 1 $0.0085 (reads) · Tier 2 $0.0085 (AI rankings/trends) · Tier 3 $0.0085 (heavy LLM/SQL reports) |
+| GET/POST | `/api/v1/surf/{path}` | Crypto market / on-chain intelligence — exchanges, on-chain analytics, wallet labels, prediction markets, news, search | Tier 1 $0.0085 (reads) · Tier 2 $0.0085 (AI rankings/trends) · Tier 3 $0.0085 (heavy LLM/SQL reports) |
 
 ## 0x Swap (DEX)
 

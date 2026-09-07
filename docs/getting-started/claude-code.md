@@ -134,7 +134,7 @@ Top 10 tokens by DEX volume on Base, last 24h
 Call eth_getBalance on Arbitrum for 0x...
 ```
 
-`blockrun_surf` (exchange, on-chain SQL, wallet labels, social mindshare), `blockrun_price` (Pyth-backed quotes), `blockrun_dex`, `blockrun_defi` (TVL, yields), and `blockrun_rpc` (raw JSON-RPC on 40 chains). The `crypto-data` skill says which one to use.
+`blockrun_surf` (exchange, on-chain SQL, wallet labels, prediction markets), `blockrun_price` (Pyth-backed quotes), `blockrun_dex`, `blockrun_defi` (TVL, yields), and `blockrun_rpc` (raw JSON-RPC on 40 chains). The `crypto-data` skill says which one to use.
 
 ### Phone Calls and Sandboxed Compute
 

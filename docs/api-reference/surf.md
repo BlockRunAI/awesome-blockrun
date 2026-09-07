@@ -5,7 +5,7 @@ description: 83 crypto-data endpoints (CEX, on-chain SQL, prediction markets, wa
 
 # Surf — Crypto Data API
 
-Real-time crypto data for AI agents. 83 endpoints across exchanges, on-chain analytics, prediction markets, wallet labels, social mindshare, news, and search — all priced per call in USDC. No Surf account, no API key, just a wallet.
+Real-time crypto data for AI agents. 66 endpoints across exchanges, on-chain analytics, prediction markets, wallet labels, news, and search — all priced per call in USDC. No Surf account, no API key, just a wallet.
 
 Powered by [Surf](https://asksurf.ai) (asksurf.ai). BlockRun proxies the same endpoints with x402 settlement, and every call is priced the same flat rate — the price you see in the 402 is the price you pay.
 
@@ -17,7 +17,7 @@ Surf unifies all of it behind one schema, billed per-call in stablecoins. An age
 
 ## Endpoints by Category
 
-83 endpoints organized across 12 domains. **Three flat price tiers:**
+66 endpoints organized across 11 domains. **Three flat price tiers:**
 
 | Tier | Price | Use case |
 |------|-------|----------|
@@ -251,7 +251,7 @@ Every price above is the full customer price: $0.0075 base + the flat $0.001 tra
 | Payment | USDC per call | Subscription | Subscription | Subscription |
 | Account required | No | Yes | Yes | Yes |
 | Works for autonomous agents | ✅ | ❌ (API key, KYC) | ❌ | ❌ |
-| Coverage | 83 endpoints across 12 categories | Same upstream | Prices only | SQL only |
+| Coverage | 66 endpoints across 11 categories | Same upstream | Prices only | SQL only |
 | On-chain SQL | ✅ ($0.0085/query) | ✅ | ❌ | ✅ ($$$) |
 | Same wallet as LLM calls | ✅ | N/A | N/A | N/A |
 
