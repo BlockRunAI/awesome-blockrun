@@ -25,8 +25,7 @@ Every skill ships inside the [blockrun-mcp](https://github.com/BlockRunAI/blockr
 | `blockrun` | **Start here.** Which tool answers a question, how the wallet works, how to make a first call for free. | all |
 | `search` | Real-time web or news results with citations — "what just happened" questions. | `blockrun_search` |
 | `exa-research` | Researching products, papers, competitors, reading pages, cited answers. | `blockrun_exa` |
-| `crypto-data` | Any crypto data question — prices, FX, OHLC, DEX pairs, TVL, on-chain SQL, wallet labels. Says which of the five overlapping tools to use and which are free. | `blockrun_price` `blockrun_dex` `blockrun_defi` `blockrun_surf` `blockrun_rpc` |
-| `surf` | Deep crypto data — on-chain SQL, CEX order books, wallet net worth, prediction markets, news. | `blockrun_surf` |
+| `crypto-data` | Any crypto data question — prices, FX, OHLC, DEX pairs, TVL. Says which of the four overlapping tools to use and which are free. | `blockrun_price` `blockrun_dex` `blockrun_defi` `blockrun_rpc` |
 | `rpc` | Raw blockchain JSON-RPC — contract reads, balances, blocks, logs, gas — across 40 chains. | `blockrun_rpc` |
 | `prediction-markets` | Event probabilities, Polymarket / Kalshi odds, finding markets on a topic. | `blockrun_markets` |
 | `polymarket-trading` | Actually placing, managing, or redeeming real bets — setup, funding, confirm-gated orders. | `blockrun_polymarket` `blockrun_polymarket_read` |
@@ -199,7 +198,7 @@ Generate images via micropayments with `blockrun_image` and the image-prompting 
 :::
 
 :::card{title="BlockRun MCP" href="blockrun-mcp.md" icon="Boxes"}
-The MCP server and the 20 tools skills build on.
+The MCP server and the 19 tools skills build on.
 :::
 
 :::card{title="Troubleshooting" href="troubleshooting.md" icon="Search"}

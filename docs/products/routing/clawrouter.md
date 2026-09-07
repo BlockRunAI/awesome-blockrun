@@ -322,7 +322,6 @@ The same wallet pays for the rest of the gateway through the proxy. Prices as pu
 - **Image editing** — `/img2img --image ~/photo.png change the background to a starry sky`, with optional `--mask`.
 - **Video generation** — `/videogen a red apple slowly spinning` (`--model`, `--duration`), or `POST /v1/videos/generations`. Seedance 1.5 Pro / 2.0 Fast / 2.0 / 2.5, Sora 2, and Grok Imagine; the MP4 is downloaded to local disk so it survives the upstream's temporary bucket.
 - **Phone and voice** — `/cr-call +14155552671 "Confirm tomorrow's 3pm meeting"` places a real outbound AI voice call ($0.54 flat, up to 30 minutes); `clawrouter phone lookup|fraud|numbers ...` handles carrier lookup ($0.01), fraud signals ($0.05) and 30-day number leases ($5).
-- **Crypto data (Surf)** — `/v1/surf/*` is whitelisted through the proxy: 66 endpoints at a flat $0.0085 per call including the transaction fee, including ad-hoc on-chain SQL.
 
 ## Why ClawRouter?
 

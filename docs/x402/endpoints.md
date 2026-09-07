@@ -120,12 +120,6 @@ Ephemeral, isolated Python sandboxes for agent code execution.
 |---|---|---|---|
 | GET/POST | `/api/v1/pm/{path}` | Predexon passthrough — Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance, UMA oracle, wallet identity | $0.0085, every tier and method |
 
-## Crypto Data (Surf)
-
-| Method | Path | Purpose | Pricing |
-|---|---|---|---|
-| GET/POST | `/api/v1/surf/{path}` | Crypto market / on-chain intelligence — exchanges, on-chain analytics, wallet labels, prediction markets, news, search | Tier 1 $0.0085 (reads) · Tier 2 $0.0085 (AI rankings/trends) · Tier 3 $0.0085 (heavy LLM/SQL reports) |
-
 ## 0x Swap (DEX)
 
 | Method | Path | Purpose | Pricing |

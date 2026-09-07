@@ -94,8 +94,8 @@ Expose a trimmed tool set so the client loads fewer schemas into context. Pass `
 |---------|-------|
 | `full` *(default)* | everything |
 | `media` | `wallet` `models` `image` `video` `realface` `music` `speech` |
-| `trading` | `wallet` `price` `dex` `markets` `surf` `defi` `rpc` `polymarket_read` `polymarket` |
-| `research` | `wallet` `models` `chat` `search` `exa` `surf` |
+| `trading` | `wallet` `price` `dex` `markets` `defi` `rpc` `polymarket_read` `polymarket` |
+| `research` | `wallet` `models` `chat` `search` `exa` |
 | `chat` | `wallet` `models` `chat` |
 
 ```bash
@@ -193,7 +193,7 @@ Then send USDC (SPL) on the **Solana** network — from Coinbase (pick "Solana")
 
 ## Available Tools
 
-The MCP exposes 20 tools to Claude, grouped below by what they do. Every tool description carries its current price — prices are generated from the live catalog, not typed, so read the tool description (or the `402` response) rather than a remembered figure.
+The MCP exposes 19 tools to Claude, grouped below by what they do. Every tool description carries its current price — prices are generated from the live catalog, not typed, so read the tool description (or the `402` response) rather than a remembered figure.
 
 ### Intelligence
 
@@ -263,14 +263,6 @@ blockrun_polymarket action:"buy" token_id:"<id>" amount_usd:5 order_type:"FOK" c
 ```
 
 ### Crypto & on-chain data
-
-#### `blockrun_surf`
-
-Unified crypto data — CEX data, on-chain SQL, labeled wallets, news, prediction markets, and unified search. See [Surf API reference](../api-reference/surf.md).
-
-```
-What's the BTC funding rate on Binance perps right now, and how does it compare to the 7-day average?
-```
 
 #### `blockrun_price`
 

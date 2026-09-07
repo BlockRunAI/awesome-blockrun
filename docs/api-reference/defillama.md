@@ -165,7 +165,7 @@ never costs you anything.
 
 ::::cards
 
-:::card{title="Surf — Crypto Data" href="surf.md" icon="ChartLine"}
+:::card{title="Market Data" href="market-data.md" icon="ChartLine"}
 Exchange and on-chain data across 66 endpoints.
 :::
 
