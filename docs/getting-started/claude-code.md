@@ -265,7 +265,7 @@ For more help, see [MCP Troubleshooting](../mcp/troubleshooting.md).
 ::::cards
 
 :::card{title="Browse the MCP tools" href="../mcp/blockrun-mcp.md" icon="Boxes"}
-The full list of 20 `blockrun_*` tools — chat, image, video, search, markets, Polymarket trading, RPC, and more.
+The full list of 19 `blockrun_*` tools — chat, image, video, search, markets, Polymarket trading, RPC, and more.
 :::
 
 :::card{title="Generate images" href="../products/creation/nano-banana.md" icon="Image"}
