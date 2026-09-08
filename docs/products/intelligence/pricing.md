@@ -162,7 +162,7 @@ Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$
 | Provider | Direct Pricing | BlockRun | Difference |
 |----------|---------------|----------|------------|
 | OpenAI GPT-5.4 | $2.50/$15.00 | $2.50/$15.00 | 0% + $0.001/request |
-| Anthropic Claude Sonnet 5 | $3.00/$15.00 | $3.00/$15.00 | 0% + $0.001/request |
+| Anthropic Claude Sonnet 5 | $2.00/$10.00 | $2.00/$10.00 | 0% + $0.001/request |
 | Anthropic Claude Sonnet 4.6 | $3.00/$15.00 | $3.00/$15.00 | 0% + $0.001/request |
 | DeepSeek V4 Flash Chat | $0.14/$0.28 | $0.14/$0.28 | 0% + $0.001/request |
 
