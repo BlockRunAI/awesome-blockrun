@@ -62,7 +62,7 @@ The free tier costs $0 — 5 reasoning, coding, and vision models with no per-to
 | Claude Opus 4.8 (previous flagship) | $5.00 | $25.00 |
 | Claude Opus 4.7 | $5.00 | $25.00 |
 | Claude Opus 4.5 | $5.00 | $25.00 |
-| Claude Sonnet 5 | $3.00 | $15.00 |
+| Claude Sonnet 5 | $2.00 | $10.00 |
 | Claude Sonnet 4.6 | $3.00 | $15.00 |
 | Claude Haiku 4.5 | $1.00 | $5.00 |
 
@@ -82,11 +82,12 @@ Gemini Pro models double the input rate and add 50% to the output rate above 200
 
 | Model | Input (per 1M) | Output (per 1M) | Context |
 |-------|---------------|-----------------|---------|
-| Grok 4.5 (flagship) | $2.00 | $6.00 | 500K |
+| Grok 4.6 (flagship) | $2.00 | $6.00 | 500K |
+| Grok 4.5 | $2.00 | $6.00 | 500K |
 | Grok 4.3 | $1.25 | $2.50 | 1M |
 | Grok Build 0.1 | $1.00 | $2.00 | 256K |
 
-Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.5 is $5.00 in · $18.00 out above the threshold), mirroring xAI's official long-context tier. Live Search adds $0.025 per source used.
+Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.6 and 4.5 are $4.00 in · $12.00 out above the threshold), mirroring xAI's official long-context tier. Live Search adds $0.025 per source used.
 
 ### Z.AI
 
