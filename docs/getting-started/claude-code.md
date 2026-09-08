@@ -1,6 +1,6 @@
 ---
 title: Claude Code Users
-description: Install BlockRun MCP in Claude Code, fund a wallet with USDC on Base or Solana, and give your agent 79 models, images, and live data.
+description: Install BlockRun MCP in Claude Code, fund a wallet with USDC on Base or Solana, and give your agent 78 models, images, and live data.
 ---
 
 # Claude Code Users
@@ -273,7 +273,7 @@ Create images via micropayments with `blockrun_image`.
 :::
 
 :::card{title="Explore all models" href="../products/intelligence/overview.md" icon="Brain"}
-79 LLMs with live pricing, plus smart routing to cut costs automatically.
+78 LLMs with live pricing, plus smart routing to cut costs automatically.
 :::
 
 ::::

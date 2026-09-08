@@ -141,7 +141,7 @@ Real-time prediction market data powered by Predexon:
 | **Qwen** | Qwen3.8 Flash (1M context, image input), Qwen3.7 Max (Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
 | **Tencent** | Hy3 | $0.132 / $0.528 |
 | **Xiaomi** | MiMo-V2.5, MiMo-V2.5 Pro | $0.14–$0.435 / $0.28–$0.87 |
-| **Free tier** | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3 Nano 30B, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision, Cohere North Mini Code, Poolside Laguna XS 2.1 (7 free models, keyless — no wallet needed) | **Free** |
+| **Free tier** | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3 Nano 30B, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision, Cohere North Mini Code, Poolside Laguna XS 2.1 (6 free models, keyless — no wallet needed) | **Free** |
 
 ### Reasoning
 
