@@ -261,7 +261,7 @@ Media prices below include the 5% media margin; the flat $0.001 transaction fee 
 | `google/nano-banana-2` | Nano Banana 2 | $0.0945/image |
 | `google/nano-banana-pro` | Nano Banana Pro | $0.105-0.1575/image |
 | `xai/grok-imagine-image` | Grok Imagine | $0.021/image |
-| `xai/grok-imagine-image-pro` | Grok Imagine Pro | $0.0735/image |
+| `xai/grok-imagine-image-pro` | Grok Imagine Pro | $0.0525/image |
 | `zai/cogview-4` | CogView-4 | $0.01575-0.021/image |
 | `bytedance/seedream-5-pro` | Seedream 5.0 Pro | $0.047-0.095/image (async, ~2 min) |
 
