@@ -85,7 +85,7 @@ All BlockRun chat models are available. A sample of what the live catalog lists 
 | Google | gemini-3.1-pro, gemini-3.5-flash, gemini-3-flash-preview, gemini-2.5-flash-lite |
 | DeepSeek | deepseek-v4-pro, deepseek-chat, deepseek-reasoner |
 | xAI | grok-4.3, grok-4.5, grok-build-0.1 |
-| Free tier | nemotron-3-ultra-550b, nemotron-3.5-lightning, nemotron-3-nano-30b, north-mini-code |
+| Free tier | nemotron-3-ultra-550b, nemotron-3.5-lightning, north-mini-code |
 
 See [Models Reference](../api-reference/models.md) for the full list, or `curl https://blockrun.ai/api/v1/models`.
 

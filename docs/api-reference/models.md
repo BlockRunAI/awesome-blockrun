@@ -244,7 +244,6 @@ Open-weight models served free of charge (no x402 payment), subject to a small p
 |----------|------|-------------|--------------|
 | `nvidia/nemotron-3-ultra-550b` | Nemotron 3 Ultra 550B (1M ctx) | **FREE** | **FREE** |
 | `nvidia/nemotron-3.5-lightning` | Nemotron 3.5 Lightning (1M ctx) | **FREE** | **FREE** |
-| `nvidia/nemotron-3-nano-30b` | Nemotron 3 Nano 30B | **FREE** | **FREE** |
 | `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | Nemotron 3 Nano Omni (vision) | **FREE** | **FREE** |
 | `nvidia/llama-3.2-11b-vision` | Llama 3.2 11B Vision | **FREE** | **FREE** |
 | `cohere/north-mini-code` | Cohere North Mini Code (coding) | **FREE** | **FREE** |
