@@ -8,9 +8,9 @@
 [![Telegram](https://img.shields.io/badge/Telegram-Join-26A5E4)](https://t.me/+mroQv4-4hGgzOGUx)
 [![Research](https://img.shields.io/badge/Research-State%20of%20x402-orange)](./research/State_of_x402_2025.pdf)
 
-> **BlockRun** is the routing & payment layer for AI — one endpoint where AI agents autonomously discover, route, and pay for APIs using USDC via the x402 protocol. BlockRun provides pay-per-request access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> large language models (including GPT-5, Claude, Gemini, Grok, DeepSeek, and Kimi), image generation, neural web search (Exa), DEX data, trading signals, and prediction market data. Use one account API key or pay directly from a wallet with x402.
+> **BlockRun** is the routing & payment layer for AI — one endpoint where AI agents autonomously discover, route, and pay for APIs using USDC via the x402 protocol. BlockRun provides pay-per-request access to <!-- br:models.chatVisible -->78<!-- /br:models.chatVisible --> large language models (including GPT-5, Claude, Gemini, Grok, DeepSeek, and Kimi), image generation, neural web search (Exa), DEX data, trading signals, and prediction market data. Use one account API key or pay directly from a wallet with x402.
 >
-> **For Claude Code users:** Add BlockRun in one command — access <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models, DEX data, trading signals, and more with account API billing or a Solana wallet.
+> **For Claude Code users:** Add BlockRun in one command — access <!-- br:models.chatVisible -->78<!-- /br:models.chatVisible --> models, DEX data, trading signals, and more with account API billing or a Solana wallet.
 > ```bash
 > claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 > ```
@@ -82,7 +82,7 @@ BlockRun is a unified API gateway — use account credits with one API key, or U
 
 | Product | Endpoint | Pricing | Description |
 |---------|----------|---------|-------------|
-| **LLM Chat** | `/v1/chat/completions` | Per token | OpenAI-compatible, <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models, streaming, tool calling |
+| **LLM Chat** | `/v1/chat/completions` | Per token | OpenAI-compatible, <!-- br:models.chatVisible -->78<!-- /br:models.chatVisible --> models, streaming, tool calling |
 | **Anthropic-Compat** | `/v1/messages` | Per token | Drop-in for Claude's Messages API |
 | **Image Generation** | `/v1/images/generations` | $0.015–0.15/image | GPT Image 1/2, Nano Banana / 2 / Pro, Grok Imagine / Pro, Seedream 5.0 Pro, CogView-4 |
 | **Image Editing** | `/v1/images/image2image` | Per request | AI-powered inpainting and image-to-image |
@@ -125,7 +125,7 @@ Real-time prediction market data powered by Predexon:
 
 ## Supported Models
 
-**<!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models** across 11 providers — 5 of them free and keyless. All accessible through a single OpenAI-compatible API.
+**<!-- br:models.chatVisible -->78<!-- /br:models.chatVisible --> models** across 11 providers — <!-- br:models.free -->6<!-- /br:models.free --> of them free and keyless. All accessible through a single OpenAI-compatible API.
 
 ### LLMs
 
@@ -141,7 +141,7 @@ Real-time prediction market data powered by Predexon:
 | **Qwen** | Qwen3.8 Flash (1M context, image input), Qwen3.7 Max (Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
 | **Tencent** | Hy3 | $0.132 / $0.528 |
 | **Xiaomi** | MiMo-V2.5, MiMo-V2.5 Pro | $0.14–$0.435 / $0.28–$0.87 |
-| **Free tier** | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3 Nano 30B, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision, Cohere North Mini Code, Poolside Laguna XS 2.1 (6 free models, keyless — no wallet needed) | **Free** |
+| **Free tier** | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision, Cohere North Mini Code, Poolside Laguna XS 2.1 (6 free models, keyless — no wallet needed) | **Free** |
 
 ### Reasoning
 
@@ -178,7 +178,7 @@ Account API and wallet gateways have separate authentication and billing:
 |---------|---------|-------|--------|
 | **Account API** | `api.blockrun.ai/v1` | Account credits | ✅ Live |
 | **Solana** | `sol.blockrun.ai` | USDC | ✅ Live |
-| **Base** | `blockrun.ai` | USDC | ✅ Live (<!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models) |
+| **Base** | `blockrun.ai` | USDC | ✅ Live (<!-- br:models.chatVisible -->78<!-- /br:models.chatVisible --> models) |
 | **Polygon / Arbitrum / Optimism / Unichain** | `nano.blockrun.ai` | USDC via Circle Gateway (gas-free, batched) | ✅ Live |
 | **Base Sepolia** | `testnet.blockrun.ai` | USDC (testnet) | ✅ Testnet |
 
@@ -221,7 +221,7 @@ pip install blockrun-llm[solana]
 
 ### blockrun-mcp — Zero API Key Access for Claude Code Users
 
-**[blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)** is the primary entry point for Claude Code developers. One command gives Claude access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> models, real-time market data, image/video/music generation, AI voice calls, crypto data, and more — with account API billing or a wallet.
+**[blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp)** is the primary entry point for Claude Code developers. One command gives Claude access to <!-- br:models.chatVisible -->78<!-- /br:models.chatVisible --> models, real-time market data, image/video/music generation, AI voice calls, crypto data, and more — with account API billing or a wallet.
 
 ```bash
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
@@ -233,7 +233,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 
 | Tool | What it does |
 |------|-------------|
-| `blockrun_chat` | <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> AI models (GPT-5.5, Claude, Gemini, Grok, DeepSeek, Kimi, and more) |
+| `blockrun_chat` | <!-- br:models.chatVisible -->78<!-- /br:models.chatVisible --> AI models (GPT-5.5, Claude, Gemini, Grok, DeepSeek, Kimi, and more) |
 | `blockrun_image` | Image generation — gpt-image-2, Nano Banana Pro, Grok Imagine, CogView-4 |
 | `blockrun_video` | Video generation — Sora 2, Seedance 2.0, Grok Imagine Video |
 | `blockrun_realface` | Enroll a real person (liveness) or AI character (Virtual Portrait) for Seedance video |
@@ -425,7 +425,7 @@ The **x402 protocol** (HTTP 402 "Payment Required") lets any HTTP request includ
 
 | Phase | Timeline | Focus |
 |-------|----------|-------|
-| LLM Gateway | Now | Pay-per-request access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> AI models |
+| LLM Gateway | Now | Pay-per-request access to <!-- br:models.chatVisible -->78<!-- /br:models.chatVisible --> AI models |
 | Premium Data | Now | Neural web search (Exa), prediction markets (Predexon), Surf crypto data, DEX, image / video / music generation, voice calls |
 | Agent Wallets | Now | Per-agent delegation budgets (blockrun-mcp), Franklin agent wallet, spend confirmation plugins |
 | Multi-Chain | Now | Solana + Base gateways live; Polygon / Arbitrum / Optimism / Unichain via Circle Gateway (`nano.blockrun.ai`) |
@@ -467,7 +467,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 ## Frequently Asked Questions
 
 ### What is BlockRun?
-BlockRun is the routing & payment layer for AI — one endpoint where AI agents discover, route, and pay for APIs using USDC via the x402 protocol. It provides access to <!-- br:models.chatVisible -->76<!-- /br:models.chatVisible --> LLMs, image generation, neural web search (Exa), and prediction market data without requiring API keys or subscriptions.
+BlockRun is the routing & payment layer for AI — one endpoint where AI agents discover, route, and pay for APIs using USDC via the x402 protocol. It provides access to <!-- br:models.chatVisible -->78<!-- /br:models.chatVisible --> LLMs, image generation, neural web search (Exa), and prediction market data without requiring API keys or subscriptions.
 
 ### How do AI agents pay for APIs?
 With an API key, calls charge the BlockRun account. Register and manage credits in the account dashboard; no wallet is required.

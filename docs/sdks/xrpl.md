@@ -399,7 +399,7 @@ The XRPL gateway mirrored the main BlockRun catalog (last catalog sync in the ga
 | **Google** | gemini-3.1-pro, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
 | **xAI** | grok-4.3, grok-4.5, grok-build-0.1 |
 | **DeepSeek** | deepseek-chat, deepseek-reasoner, deepseek-v4-pro |
-| **FREE tier** | nemotron-3-ultra-550b, nemotron-3.5-lightning, nemotron-3-nano-30b, nemotron-3-nano-omni-30b-a3b-reasoning, llama-3.2-11b-vision, north-mini-code, laguna-xs-2.1 |
+| **FREE tier** | nemotron-3-ultra-550b, nemotron-3.5-lightning, nemotron-3-nano-omni-30b-a3b-reasoning, llama-3.2-11b-vision, north-mini-code, laguna-xs-2.1 |
 
 See [Intelligence Pricing](../products/intelligence/pricing.md) for full pricing details.
 
