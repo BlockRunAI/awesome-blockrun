@@ -1,6 +1,6 @@
 ---
 title: ElizaOS Integration
-description: Add the BlockRun plugin to ElizaOS so your agents reach 102 AI models via x402 micropayments — no per-provider API keys.
+description: Add the BlockRun plugin to ElizaOS so your agents reach 103 AI models via x402 micropayments — no per-provider API keys.
 ---
 
 # ElizaOS Integration
@@ -11,7 +11,7 @@ Use BlockRun as an LLM provider in ElizaOS agents — one plugin unlocks 78 mode
 BlockRun's primary paths are [Franklin](../products/franklin.md), the [BlockRun MCP](../mcp/blockrun-mcp.md), and the [SDKs](../sdks/python.md). Framework integrations like this one are community-maintained.
 :::
 
-[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 102 AI models via x402 micropayments.
+[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 103 AI models via x402 micropayments.
 
 ## Setup
 

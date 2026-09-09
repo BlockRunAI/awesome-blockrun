@@ -56,6 +56,7 @@ Prices are what the `402` challenge quotes and what is billed for **one** image 
 | `google/nano-banana-pro` | Google | 1024x1024, 2048x2048, 4096x4096 | $0.106 / $0.106 / $0.1585 |
 | `zai/cogview-4` | Zhipu AI | 512x512 – 1440x1440 | $0.01675 / $0.022 |
 | `xai/grok-imagine-image` | xAI | 1024x1024 | $0.022 |
+| `xai/grok-imagine-image-2.0` | xAI | 1024x1024 | $0.043 |
 | `xai/grok-imagine-image-pro` | xAI | 1024x1024 | $0.0535 |
 | `bytedance/seedream-5-pro` | ByteDance | 1024x1024 – 2848x1600 (8 sizes) | $0.04825 / $0.0955 |
 
