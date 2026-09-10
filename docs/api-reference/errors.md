@@ -21,7 +21,7 @@ BlockRun uses standard HTTP status codes and returns detailed error information.
 
 ## Error Response Format
 
-Gateway errors use the OpenAI envelope, with `message` and `code` mirrored at the top level for older clients. `debug` carries the raw upstream text when there is one.
+Gateway errors use the OpenAI envelope, with `message` and `code` mirrored at the top level for older clients. `debug` carries the upstream text when there is one, **redacted**: credentials, URLs and any routing infrastructure we do not sell under its own name are removed before the response is sent. The status code and the upstream's own description of the fault survive, so `debug` stays useful for a bug report — it is just not a verbatim copy.
 
 ```json
 {
@@ -33,7 +33,7 @@ Gateway errors use the OpenAI envelope, with `message` and `code` mirrored at th
   },
   "message": "Message @bc1max on Telegram for help.",
   "code": "INVALID_PARAMETER",
-  "debug": "<upstream error text>"
+  "debug": "<upstream error text, redacted>"
 }
 ```
 
