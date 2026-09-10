@@ -65,7 +65,7 @@ If you're using `clawrouter` locally, this flow is fully automatic — just call
 {
   "object": "virtual_portrait",
   "asset_id": "ta_abcdef1234567890",
-  "group_id": "tg_xyz9876543210",
+  "group_id": "legacy_rf_…",
   "name": "My Spokesperson",
   "image_url": "https://blockrun.ai/api/media/…",
   "source_image_url": "https://example.com/character.jpg",
@@ -89,7 +89,7 @@ The settlement receipt is also returned in the `X-Payment-Response` / `PAYMENT-R
 | Field | Description |
 |-------|-------------|
 | `asset_id` | The `ta_…` id to pass as `real_face_asset_id` on Seedance |
-| `group_id` | Internal asset-group id — exposed for debugging / future delete operations |
+| `group_id` | Internal asset-group id, returned for your own reference. No endpoint accepts it — enrollment mints its own group, so there is nothing to pass it back to. Not returned by the portraits listing |
 | `image_url` | The BlockRun-hosted mirror of your image (so the listing thumbnail survives a dead source URL); falls back to the original URL if mirroring failed |
 | `source_image_url` / `mirrored` | The URL you supplied, and whether the mirror succeeded |
 | `usage.compatible_models` | Which BlockRun video models accept this asset id |
@@ -157,7 +157,6 @@ Returns the list of portraits the given wallet has enrolled. Free (rate-limited 
   "portraits": [
     {
       "assetId": "ta_abcdef1234567890",
-      "groupId": "tg_xyz9876543210",
       "name": "My Spokesperson",
       "imageUrl": "https://example.com/character.jpg",
       "createdAt": "2026-05-22T14:32:11.000Z",
