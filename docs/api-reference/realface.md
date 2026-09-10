@@ -26,7 +26,7 @@ You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/stud
 ```
 [1] POST /v1/realface/init                       — FREE, rate-limited
     body: { "name": "..." }
-    →    { group_id: "legacy_rf_…",
+    →    { group_id: "rf1_…",
            h5_link: "https://kyc.byteintl.com/?...",
            expires_in_seconds: 120 }
 
@@ -35,7 +35,7 @@ You can use the web UI at [blockrun.ai/studio/realface](https://blockrun.ai/stud
     record a 2-4 second video doing two prompted actions (nod, blink).
     NO login, NO ID upload, NO personal info.
 
-[3] GET /v1/realface/status?groupId=legacy_rf_…  — poll every 3-5s
+[3] GET /v1/realface/status?groupId=rf1_…        — poll every 3-5s
     →    { status: "pending_validation", ready_to_finalize: false }
     →    ... (after H5 completes)
     →    { status: "active", ready_to_finalize: true }
@@ -67,20 +67,24 @@ POST https://blockrun.ai/api/v1/realface/init
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `name` | string | Yes | Display name for your reference (1–64 chars). Stored upstream + in your list |
-| `groupId` | string | No | If set, refresh the h5Link for this existing group instead of creating a new one. Use when the original 120s session expired |
+| `groupId` | string | No | If set, refresh the h5Link for this existing group instead of creating a new one. Pass the `group_id` a previous `/init` returned, verbatim. Use when the original 120s session expired |
 
 ### Response
 
 ```json
 {
   "object": "realface.init",
-  "group_id": "legacy_rf_8137",
+  "group_id": "rf1_…",
   "h5_link": "https://kyc.byteintl.com/?accessKeyId=...&sessionToken=...&configId=...",
   "status": "pending_validation",
   "expires_in_seconds": 120,
   "next_steps": { ... }
 }
 ```
+
+:::note{title="group_id is an opaque handle"}
+`group_id` is a ~215-character opaque handle, not an identifier you can construct, parse or guess. Store it and pass it back **verbatim** to `/status`, `/enroll` and the `/init` refresh path. It is scoped to the group it was issued for, so treat it as the credential for that enrollment — anyone holding it can refresh the H5 link and enroll into the group.
+:::
 
 ### Rate limiting
 
@@ -136,7 +140,7 @@ The H5 link works in any modern browser with a webcam. The rights-holder can ope
 :::step{title="Poll for completion (FREE)"}
 
 ```
-GET https://blockrun.ai/api/v1/realface/status?groupId=legacy_rf_…
+GET https://blockrun.ai/api/v1/realface/status?groupId=rf1_…
 ```
 
 ### Response
@@ -144,7 +148,7 @@ GET https://blockrun.ai/api/v1/realface/status?groupId=legacy_rf_…
 ```json
 {
   "object": "realface.status",
-  "group_id": "legacy_rf_8137",
+  "group_id": "rf1_…",
   "status": "pending_validation",
   "asset_count": 0,
   "ready_to_finalize": false
@@ -153,7 +157,9 @@ GET https://blockrun.ai/api/v1/realface/status?groupId=legacy_rf_…
 
 When `status` transitions to `"active"` (and `ready_to_finalize: true`), the rights-holder has completed the H5 and you can move to step 4.
 
-Poll every 3-5 seconds. Free but rate-limited (same bucket as wallet reconciliation, 120/hour/IP). A `groupId` that is missing or not of the form `legacy_rf_<digits>` is `400`; a well-formed id that does not exist is `404` (`{ "error": "Asset group not found: …" }`) — only a genuine upstream failure is `502`.
+Poll every 3-5 seconds. Free but rate-limited (same bucket as wallet reconciliation, 120/hour/IP).
+
+A **missing** `groupId` is `400`. Anything else that is not a handle this service issued — malformed, tampered with, or for a group that does not exist — is `404` (`{ "error": "Unknown group", "message": "Pass the group_id returned by POST /api/v1/realface/init." }`). The two cases are deliberately not distinguished: a different answer for a real group than for an absent one would confirm which groups exist. Only a genuine upstream failure is `502`.
 :::
 
 :::step{title="Finalize (PAID, $0.011 USDC)"}
@@ -168,7 +174,7 @@ POST https://blockrun.ai/api/v1/realface/enroll
 {
   "name": "Spokesperson — Q3 campaign",
   "image_url": "https://example.com/person.jpg",
-  "group_id": "legacy_rf_8137"
+  "group_id": "rf1_…"
 }
 ```
 
@@ -201,7 +207,7 @@ If settlement itself fails after a successful enrollment, BlockRun absorbs the c
 {
   "object": "realface",
   "asset_id": "ta_f85b20b9394e47be9502d819bee7929c",
-  "group_id": "legacy_rf_8137",
+  "group_id": "rf1_…",
   "byteplus_asset_id": "asset-20260525001905-…",
   "name": "Spokesperson — Q3 campaign",
   "image_url": "https://example.com/person.jpg",
@@ -254,7 +260,6 @@ Returns the wallet's enrolled RealFaces. Free, rate-limited (same 120/hour/IP bu
   "realfaces": [
     {
       "assetId": "ta_f85b20b9394e47be9502d819bee7929c",
-      "groupId": "legacy_rf_8137",
       "name": "Spokesperson — Q3 campaign",
       "imageUrl": "https://example.com/person.jpg",
       "createdAt": "2026-05-24T16:19:00.000Z",
@@ -272,9 +277,9 @@ The video playground reads this same list and shows it in the `real_face_asset_i
 
 | Code | When | Did payment settle? |
 |------|------|---------------------|
-| 400 | Invalid request body, malformed `group_id`, bad image URL; on `/status`, missing/malformed `groupId` | – (pre-payment) |
+| 400 | Invalid request body, bad image URL; on `/status`, a missing `groupId` | – (pre-payment) |
 | 402 | Payment Required (first probe), or payment verification failed with `code` `PAYMENT_INVALID` / `PAYMENT_UNFUNDED` / `PAYMENT_BLOCKHASH_STALE` / `PAYMENT_REPLAY` | – |
-| 404 | `/status`: `groupId` does not exist upstream | – |
+| 404 | `group_id` is not a handle this service issued, or the group no longer exists — one answer for both, so group existence stays unreadable | – |
 | 425 | `group_id` is in `pending_validation` — the rights-holder hasn't completed the H5 yet | **No** |
 | 422 | Image rejected by the face service, or face-match failed — uploaded photo doesn't match the live H5 face | **No** |
 | 429 | Rate limit on `/init` (10/hour/IP), `/status` or the listing (120/hour/IP) | – |
