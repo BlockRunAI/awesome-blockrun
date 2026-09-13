@@ -9,6 +9,7 @@
 * [SDK Developers](getting-started/sdk-developers.md)
 * [Agent Developers](getting-started/agent-developers.md)
 * [Wallet Setup](getting-started/wallet-setup.md)
+* [Enterprise API](getting-started/enterprise-api.md)
 
 ## Franklin
 
