@@ -93,4 +93,4 @@ No API keys to rotate, no subscriptions to cancel, no per-provider signups. Just
 - **GitHub:** [github.com/BlockRunAI](https://github.com/BlockRunAI)
 - **x402 Services:** [live service directory](https://blockrun.ai/models)
 - **Every public repo:** [Ecosystem](resources/ecosystem.md) — routers, plugins, SDKs, Franklin apps, skills
-- **Enterprise (API keys + wire billing):** user.blockrun.ai — sign-in coming soon
+- **Enterprise (API keys + wire billing):** [Enterprise API](getting-started/enterprise-api.md) — sign in at [user.blockrun.ai](https://user.blockrun.ai)
