@@ -1,5 +1,5 @@
 ---
-title: music-generation
+title: Music Generation — Claude Code skill
 description: Generate full-length AI music tracks with lyrics, instrumental, or style prompts via MiniMax — paid per track with USDC on Base, no API keys.
 ---
 
