@@ -158,7 +158,7 @@ before you build a threshold or skip a `try/catch`.
 | Backend | What happens |
 |---|---|
 | OpenAI-compatible (OpenAI, DeepSeek, Z.AI) | Forwarded verbatim. The shape is **enforced by the decoder** — a schema is a guarantee. |
-| Anthropic, Bedrock | These APIs have **no `response_format` at all**. The gateway emulates it: the instruction (and, for `json_schema`, your schema) is appended to the system prompt, and a wrapping ` ```json ` fence is stripped from the reply. Non-streaming only — see below. |
+| Anthropic, Bedrock, Google | These APIs have no OpenAI-shaped `response_format`. The gateway emulates it: the instruction (and, for `json_schema`, your schema) is appended to the system prompt, and a wrapping ` ```json ` fence is stripped from the reply. Non-streaming only — see below. |
 
 **On the emulated path it is a prompt, not a constraint.** The model can still
 return something that does not validate against your schema, and nothing will
@@ -169,10 +169,23 @@ emulated path relies on the instruction alone and a streamed reply may arrive
 wrapped in ` ```json `. If you need a parseable body from Claude or Bedrock,
 ask for it non-streaming.
 
-Before 2026-09-20 `json_schema` was **silently dropped** on the emulated path:
-all four emulation sites tested for `json_object` only and `response_format`
-never reaches the Anthropic SDK, so the stricter of the two requests was the
-one that did nothing, with no error to say so. It is emulated now.
+Two things were broken here before 2026-09-20 and are worth stating, because
+anything written against the old behaviour was written against a lie:
+
+- `json_schema` was **silently dropped** on Anthropic and Bedrock. Every
+  emulation site tested for `json_object` only, and `response_format` never
+  reaches the Anthropic SDK, so the stricter of the two requests was the one
+  that did nothing.
+- **Google had no emulation at all** — `response_format` was dropped outright.
+  Measured on `gemini-3.8-flash` with `{"type":"json_object"}`, the reply was
+  "Here is the object in JSON format:", a fenced body, then a parenthetical
+  note about which population figure it chose. This page previously claimed
+  Gemini was emulated; it was not.
+
+Both are emulated now. Gemini also has native structured output
+(`responseMimeType` / `responseSchema`) which the gateway does not use yet:
+its schema dialect is an OpenAPI subset rather than JSON Schema, so
+forwarding a caller's schema verbatim would reject requests that work today.
 :::
 
 :::info{title="Claude-native context_management requires the anthropic-beta header"}
