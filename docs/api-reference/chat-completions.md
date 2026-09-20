@@ -150,9 +150,29 @@ BlockRun does **not** prepend a hidden identity/system directive to your prompt 
 :::
 
 :::info{title="Structured outputs (response_format)"}
-`response_format` is forwarded to the model. Two shapes are accepted:
-- `{"type":"json_object"}` — JSON mode. Honored on all models (emulated for Claude/Gemini, native on OpenAI-compatible models).
-- `{"type":"json_schema","json_schema":{ "name":…, "schema":{…} }}` — OpenAI structured outputs, forwarded verbatim. Schema-guaranteed output is enforced natively on OpenAI (GPT) models; on other providers it is passed through and honored on a best-effort basis where the upstream supports it.
+`response_format` accepts `{"type":"json_object"}` and
+`{"type":"json_schema","json_schema":{ "name":…, "schema":{…} }}` — but **what
+the parameter does depends on the model behind it**, and the difference matters
+before you build a threshold or skip a `try/catch`.
+
+| Backend | What happens |
+|---|---|
+| OpenAI-compatible (OpenAI, DeepSeek, Z.AI) | Forwarded verbatim. The shape is **enforced by the decoder** — a schema is a guarantee. |
+| Anthropic, Bedrock | These APIs have **no `response_format` at all**. The gateway emulates it: the instruction (and, for `json_schema`, your schema) is appended to the system prompt, and a wrapping ` ```json ` fence is stripped from the reply. Non-streaming only — see below. |
+
+**On the emulated path it is a prompt, not a constraint.** The model can still
+return something that does not validate against your schema, and nothing will
+tell you. Parse defensively there; on the native path you can rely on it.
+
+**Streaming does not strip the fence.** A fence spans chunk boundaries, so the
+emulated path relies on the instruction alone and a streamed reply may arrive
+wrapped in ` ```json `. If you need a parseable body from Claude or Bedrock,
+ask for it non-streaming.
+
+Before 2026-09-20 `json_schema` was **silently dropped** on the emulated path:
+all four emulation sites tested for `json_object` only and `response_format`
+never reaches the Anthropic SDK, so the stricter of the two requests was the
+one that did nothing, with no error to say so. It is emulated now.
 :::
 
 :::info{title="Claude-native context_management requires the anthropic-beta header"}
