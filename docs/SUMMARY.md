@@ -64,6 +64,7 @@
 * [Music Generation](api-reference/music-generation.md)
 * [Text-to-Speech & Sound Effects](api-reference/text-to-speech.md)
 * [Search](api-reference/search.md)
+* [Decide (Typed Judgments)](api-reference/decide.md)
 * [Exa Web Search](api-reference/exa-search.md)
 * [0x Swap (DEX)](api-reference/zerox-swap.md)
 * [Prediction Markets](api-reference/prediction-markets.md)
