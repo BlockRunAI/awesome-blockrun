@@ -144,6 +144,92 @@ something other than what you asked for.
 
 ---
 
+## Python
+
+```python
+import os, requests
+
+resp = requests.post(
+    "https://api.blockrun.ai/v1/decide",
+    headers={"Authorization": f"Bearer {os.environ['BLOCKRUN_API_KEY']}"},
+    json={
+        "state": "The card was charged twice and the customer wants one refunded.",
+        "questions": {
+            "dept": {
+                "type": "choice",
+                "instructions": "Which team should handle this?",
+                "criteria": {
+                    "billing": "a charge, refund or payment problem",
+                    "technical": "the product is broken",
+                },
+            },
+            "refund": {"type": "noul", "instructions": "Does the customer want a refund?"},
+        },
+    },
+    timeout=90,
+)
+resp.raise_for_status()
+answers = resp.json()["answers"]
+
+print(answers["dept"]["choice"], answers["dept"]["confidence"])
+print(answers["refund"]["noul"])
+```
+
+Prints `billing 0.968` and `0.9495`. The `timeout=90` is deliberate: the
+first call after an idle period waits for a cold container, which takes
+around 32 seconds. Warm calls return in about a second.
+
+## TypeScript
+
+```typescript
+const res = await fetch("https://api.blockrun.ai/v1/decide", {
+  method: "POST",
+  headers: {
+    authorization: `Bearer ${process.env.BLOCKRUN_API_KEY}`,
+    "content-type": "application/json",
+  },
+  body: JSON.stringify({
+    state: "The card was charged twice and the customer wants one refunded.",
+    questions: {
+      dept: {
+        type: "choice",
+        instructions: "Which team should handle this?",
+        criteria: {
+          billing: "a charge, refund or payment problem",
+          technical: "the product is broken",
+        },
+      },
+      refund: { type: "noul", instructions: "Does the customer want a refund?" },
+    },
+  }),
+});
+if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+const { answers } = await res.json();
+
+console.log(answers.dept.choice, answers.dept.confidence);
+console.log(answers.refund.noul > 0.9 ? "refund requested" : "unclear");
+```
+
+No SDK and no payment step. The key is the whole of the auth.
+
+## Ask questions the text can answer
+
+The model reads only the `state` you send. A question whose answer is not in
+that text gets scored against the words anyway, and the number will look like
+a verdict. Four `noul` questions over the state above, measured 2026-09-21:
+
+| Question | Score | Why |
+|---|---|---|
+| Has the customer been billed more than once? | 0.9487 | stated outright |
+| Does the customer want a refund? | 0.9495 | stated outright |
+| Is this about money? | 0.6509 | true, but one inference away |
+| Does this need a reply today? | 0.0238 | **not in the text at all** |
+
+The last row is the trap. Nothing about the message says when it must be
+answered — that is your policy, not a property of the sentence — so the score
+is close to zero and reads like a confident "no". Ask "does the customer want a
+refund", branch on it, and apply your own SLA rule to the result.
+
 ## Using it in a workflow
 
 A judgment is rarely the decision on its own. The shape that works is judgment
