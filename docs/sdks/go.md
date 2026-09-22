@@ -1,6 +1,6 @@
 ---
 title: Go SDK
-description: The Go SDK for BlockRun — call 105 AI models, generate images, video, music and speech, search the web, read market data and multi-chain RPC, and manage wallets over x402 micropayments with no API keys.
+description: The Go SDK for BlockRun — call 105 AI models, generate images, video, music and speech, search the web, read market data and RPC, over x402 with no API keys.
 ---
 
 # Go SDK

@@ -1,6 +1,6 @@
 ---
 title: Trading with Franklin
-description: Franklin's built-in trading surface — live signals, paper trading with hard exposure caps, prediction-market bets, and a trade-plan gate that keeps real money behind your approval.
+description: Franklin's built-in trading surface: live signals, paper trading with hard exposure caps, prediction-market bets, and a trade-plan gate on real money.
 ---
 
 # Trading with Franklin

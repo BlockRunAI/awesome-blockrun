@@ -1,6 +1,6 @@
 ---
 title: Decide (Typed Judgments)
-description: Turn text or JSON into a yes/no probability, a labelled choice, or a score. Free with a registered BlockRun API key — served by api.blockrun.ai, not the x402 gateway.
+description: Turn text or JSON into a yes/no probability, a labelled choice, or a score. Free with a registered BlockRun API key, served by api.blockrun.ai.
 ---
 
 # Decide (Typed Judgments)

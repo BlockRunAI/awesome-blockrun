@@ -1,6 +1,6 @@
 ---
 title: Virtual Portrait Enrollment
-description: Enroll an AI-generated character (no government ID, no liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0 Fast / 2.0 Mini videos — $0.011 USDC.
+description: Enroll an AI-generated character (no government ID, no liveness check) as a ta_xxx asset for a consistent likeness across Seedance 2.0 videos. $0.011 USDC.
 ---
 
 # Virtual Portrait Enrollment

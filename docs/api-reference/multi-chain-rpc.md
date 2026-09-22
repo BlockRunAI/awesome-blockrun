@@ -1,6 +1,6 @@
 ---
 title: Multi-chain RPC
-description: Standard JSON-RPC 2.0 access to every supported blockchain through one endpoint, paid $0.003 per call in USDC over x402 — no account, no API key, no monthly plan.
+description: Standard JSON-RPC 2.0 access to every supported blockchain through one endpoint, paid $0.003 per call in USDC over x402 — no account, no API key.
 ---
 
 # Multi-chain RPC — one endpoint, every chain

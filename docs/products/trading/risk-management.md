@@ -1,6 +1,6 @@
 ---
 title: Risk Management
-description: Franklin layers five money guardrails — a hard wallet/session cap, paper-trading exposure caps, a mandatory trade-plan approval for real money, per-order bet caps, and your own veto hooks.
+description: Franklin's five money guardrails: a hard wallet/session cap, paper-trading exposure caps, trade-plan approval for real money, per-order bet caps and veto hooks.
 ---
 
 # Risk Management

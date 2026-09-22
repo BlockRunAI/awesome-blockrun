@@ -1,6 +1,6 @@
 ---
 title: Text-to-Speech & Sound Effects API
-description: ElevenLabs voice synthesis, ByteDance Seed Audio prompt-directed audio creation, and cinematic sound effects behind x402 — no subscription, failed generations never charged.
+description: ElevenLabs voice synthesis, ByteDance Seed Audio prompt-directed audio and cinematic sound effects behind x402 — no subscription, failures never charged.
 ---
 
 # Text-to-Speech & Sound Effects API

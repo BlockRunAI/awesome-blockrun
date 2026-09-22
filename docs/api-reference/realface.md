@@ -1,6 +1,6 @@
 ---
 title: RealFace Enrollment
-description: Enroll a real person's face (no government ID, ~1-min on-phone liveness) as a ta_xxx asset for consistent likeness across Seedance 2.0 / 2.0 Fast / 2.0 Mini videos.
+description: Enroll a real person's face (no government ID, a one-minute phone liveness check) as a ta_xxx asset for a consistent likeness across Seedance 2.0 videos.
 ---
 
 # RealFace Enrollment

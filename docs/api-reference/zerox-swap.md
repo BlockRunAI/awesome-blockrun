@@ -281,8 +281,8 @@ The two paths below are present on the gateway for **BlockRun reconciliation onl
 | `/api/v1/zerox/trade-analytics/swap` | Swap V2 trade history under BlockRun's key |
 | `/api/v1/zerox/trade-analytics/gasless` | Gasless V2 trade history under BlockRun's key |
 
-:::warning{title="Do not call from end-user agents"}
-**TODO:** auth-gate these to admin callers only. Tracked separately; not blocking the public Swap surface.
+:::info{title="Gated"}
+Both paths answer `404 Not Found` unless the request carries BlockRun's internal secret, indistinguishable from a path that does not exist. Nothing an end-user agent sends reaches them.
 :::
 
 ---

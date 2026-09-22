@@ -1,6 +1,6 @@
 ---
 title: Enterprise API
-description: API-key access to every BlockRun model and service on api.blockrun.ai — Bearer auth, prepaid or invoiced credit, and endpoints to read your balance and usage programmatically.
+description: API-key access to every BlockRun model and service on api.blockrun.ai — Bearer auth, prepaid or invoiced credit, and endpoints to read your balance and usage.
 ---
 
 # Enterprise API

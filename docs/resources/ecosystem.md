@@ -1,6 +1,6 @@
 ---
 title: Ecosystem
-description: Every public BlockRun repo — gateway entry points, routers and agent-runtime plugins, SDKs, payment rails, Franklin apps, skills, curated lists — plus API products, networks, x402 facilitators, partners, and community projects.
+description: Every public BlockRun repo — gateways, routers, agent plugins, SDKs, payment rails, Franklin apps, skills — plus the networks, facilitators and partners.
 ---
 
 # Ecosystem

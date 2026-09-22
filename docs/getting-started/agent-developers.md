@@ -1,6 +1,6 @@
 ---
 title: Agent Developers
-description: Build AI agents that pay for their own intelligence — 78 models via x402 micropayments. Use Franklin, the SDKs, or the MCP; integrate with frameworks if you already use one.
+description: Build AI agents that pay for their own intelligence — 78 models via x402 micropayments. Use Franklin, the SDKs or the MCP, or the framework you already use.
 ---
 
 # Agent Developers
