@@ -29,6 +29,13 @@ x402 enables pay-per-request:
 3. **Instant Settlement** - On-chain, no invoices
 4. **Non-Custodial** - Your funds, your control
 
+> **Settlement rail is not fixed.** The same HTTP 402 handshake works with any
+> accepted asset the server advertises in its `accepts[]` entry. Most today settle
+> in USDC on Base or Solana, but a fee-free native coin with no issuer (Nano, XNO)
+> is a live option — Vend (extract.paypercall.dev) serves pay-per-call x402 APIs
+> settled in XNO on `nano:mainnet`, verified at its
+> [live manifest](https://extract.paypercall.dev/.well-known/x402).
+
 ## Protocol Overview
 
 ```
