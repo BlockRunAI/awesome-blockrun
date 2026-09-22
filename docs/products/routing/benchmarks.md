@@ -1,6 +1,6 @@
 ---
 title: Routing Benchmarks
-description: How much automatic routing saves against pinning one frontier model: the claim, the baseline and the inputs, so you can recompute it rather than trust it.
+description: How much automatic routing saves against pinning one frontier model — the claim, the baseline and the inputs, so you can recompute it rather than trust it.
 ---
 
 # Routing Benchmarks
