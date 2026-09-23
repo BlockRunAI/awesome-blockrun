@@ -154,6 +154,7 @@ curl "https://api.blockrun.ai/v1/usage?window=24h&limit=100" -H "Authorization: 
       "usage_units": null,
       "cost_usd": 0.0041,
       "cost_state": "priced",
+      "service_tier": "flex",
       "status": 200
     }
   ],
@@ -166,12 +167,47 @@ Rows are newest first. Page with `cursor` until `next_cursor` is `null`; treat t
 
 | Field | Meaning |
 |-------|---------|
-| `kind` | `chat` — a token-priced call you can re-derive from `input_tokens`/`output_tokens` and the [published rate](../products/intelligence/pricing.md). `service` — a per-call or per-unit price (search, media, RPC) that only the gateway holds. |
+| `kind` | `chat` — a token-priced call you can re-derive from `input_tokens`/`output_tokens` and the [published rate](../products/intelligence/pricing.md) as adjusted by [what a call costs](#what-a-call-costs). `service` — a per-call or per-unit price (search, media, RPC) that only the gateway holds. |
 | `cost_state` | `priced` — final. `free` — nothing to charge (a catalogue read, a free model). `pending` — usage recorded, charge not yet settled; it will change, do not treat it as $0. |
+| `service_tier` | The processing tier the upstream reported for this call. `flex` is billed at **half** the standard rate, so this is what explains a half-price line against the published rate. Absent means standard — as it is on every row before 2026-09-23 and for every provider that reports no tier. See [What a call costs](#what-a-call-costs). |
 | `job_id`, `job_status` | Media only. A `202` create and every later poll of the same job share one `job_id`; the charge lands on the poll that completed. Fold rows by `job_id` to get one line per generation. |
 | `usage_unit`, `usage_units` | For non-token charges: what was billed (`image`, `second`, `character` …) and how many. `null` on token-priced rows. |
 
 Pass the `request_id` from a row (also returned on every response as the `x-blockrun-request-id` header) when you contact support about a charge.
+
+## What a call costs
+
+**The base rate** is what `GET /v1/models` publishes for the model you called: `input` and `output` per million tokens, plus `cache_read` / `cache_write` on the models that have them. The account endpoints above, the catalogue reads and the free models cost nothing.
+
+**There is no per-call fee and no minimum charge on this host.** The x402 transaction fee and the minimum payment exist to make on-chain micropayments viable; a key-metered account settles against credit, not a chain, so both are zero here. You pay metered usage times the rate, and nothing is added to it.
+
+Two things move the rate away from the flat number on the catalogue. Both are visible on the ledger row, so any line you cannot reconcile against the published rate is explained by one of them.
+
+### Long context
+
+Some models reprice above a prompt-token threshold, and **the whole request reprices** — not only the tokens above the line. OpenAI's threshold is 272K, charged at 2× input and 1.5× output for the entire call; other makers set their own, and whether a prompt of exactly the threshold already counts as long differs by maker too.
+
+The thresholds and the long-context rates are per model on the gateway's sheet, `GET https://blockrun.ai/api/pricing`, as the `longContextThreshold`, `longContextThresholdInclusive` and `longContext*Price` fields. Where a catalog row from `GET /v1/models` carries `pricing.long_context`, it is the same ladder in the same order: a list of steps, so read the last one whose threshold your prompt cleared. A model that reprices more than once (some do) has more than one entry, and pricing off the first would put you under water above the second.
+
+### Flex
+
+Send `service_tier: "flex"` and the call is billed at **half** the standard rate when the upstream serves it at that tier — half on input, output, cached read and cached write alike, and half the long-context rate above the threshold. Flex queues behind priority traffic, so it is slower on purpose: OpenAI's own SDKs default to a ten-minute timeout for it, and you should raise your client timeout to match.
+
+Flex is opt-in. A request that does not carry `service_tier: "flex"` is served and billed at the standard rate; nothing is silently moved onto the slower tier, and nothing is silently discounted.
+
+Four things worth knowing before you build on it:
+
+- **We bill from the tier the response reports, not from the tier you asked for.** Asking is not receiving, and the charge follows what actually happened.
+- **An explicit Flex ask is never silently downgraded.** When the upstream has no Flex capacity it answers `429` with `resource_unavailable`; that response carries no usage, so nothing is metered. Retry with backoff, or drop `service_tier` to take standard processing at the standard rate.
+- **Availability is the model provider's decision, and it is a limited beta.** OpenAI publishes the current list on the flex tab of their own pricing page; a model that does not offer Flex either rejects `service_tier` outright or serves the call at standard rates and bills accordingly. A model whose `openai/` id is served through a partner pool — the `-pro` tiers — is billed at standard rates whatever tier ran upstream, because the discount is not one we receive and so not one we can pass on.
+- **`service_tier` on every `GET /v1/usage` row is how you confirm it.** `flex` on the row means that line was billed at half. Absent means standard, which is also the case for every row before 2026-09-23 and for every provider that reports no tier at all.
+
+### If your account has negotiated terms
+
+The two tiers interact with a contract differently, and deliberately so:
+
+- An **absolute agreed price** per million **suppresses** both tiers. The long-context and Flex rates are not part of what was agreed, so layering them on either charges more or discounts more than the contract says.
+- A **percentage discount** **follows** both tiers. A percentage is off whatever you would otherwise pay, and the tier is part of what you would otherwise pay.
 
 ## Refusals
 
