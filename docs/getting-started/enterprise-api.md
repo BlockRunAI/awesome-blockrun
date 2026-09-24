@@ -192,7 +192,7 @@ Two things move the rate away from the flat number on the catalogue. Both are vi
 
 Some models reprice above a prompt-token threshold, and **the whole request reprices** — not only the tokens above the line. OpenAI's threshold is 272K, charged at 2× input and 1.5× output for the entire call; other makers set their own, and whether a prompt of exactly the threshold already counts as long differs by maker too.
 
-The thresholds and the long-context rates are per model on the gateway's sheet, `GET https://blockrun.ai/api/pricing`, as the `longContextThreshold`, `longContextThresholdInclusive` and `longContext*Price` fields — 22 models carry them today. Where a catalog row from `GET /v1/models` carries `pricing.long_context`, it is the same ladder in the same order: a list of steps, so read the last one whose threshold your prompt cleared. A model that reprices more than once (some do) has more than one entry, and pricing off the first would put you under water above the second.
+The thresholds and the long-context rates are per model on the gateway's sheet, `GET https://blockrun.ai/api/pricing`, as the `longContextThreshold`, `longContextThresholdInclusive` and `longContext*Price` fields — 24 models carry them today. Where a catalog row from `GET /v1/models` carries `pricing.long_context`, it is the same ladder in the same order: a list of steps, so read the last one whose threshold your prompt cleared. A model that reprices more than once (some do) has more than one entry, and pricing off the first would put you under water above the second.
 
 ### Flex
 
