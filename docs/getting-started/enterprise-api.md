@@ -1,6 +1,6 @@
 ---
 title: Enterprise API
-description: API-key access to every BlockRun model and service on api.blockrun.ai — Bearer auth, prepaid or invoiced credit, and endpoints to read your balance and usage.
+description: API-key access to every BlockRun model and service on api.blockrun.ai — Bearer auth, prepaid or invoiced credit, and endpoints to read your balance and usage programmatically.
 ---
 
 # Enterprise API
@@ -8,6 +8,8 @@ description: API-key access to every BlockRun model and service on api.blockrun.
 The Enterprise API is the same gateway as the x402 API, reached with an **API key instead of a wallet**. You sign in at [user.blockrun.ai](https://user.blockrun.ai), mint a key, fund the account (prepaid credit or a monthly invoice), and every call is metered against that account.
 
 Everything the x402 docs describe for `/v1/*` — chat completions, images, video, music, speech, search, prediction markets, RPC — works unchanged. The differences are the host, the header, and four extra endpoints for reading your own account.
+
+One place this host is ahead of those docs: **reference video/audio** (`reference_videos` / `reference_audios` on `POST /v1/videos/generations`, Seedance 2.0 family) is on by default here, not "gated off". Each clip adds a per-clip surcharge to the duration quote; the `202` body's `price.amount` is the exact amount held and settled. Reference URLs must be `http(s)`; a `role` other than `"reference"` is refused; a model without the capability answers `400`; and when the operator has disabled the feature the POST answers `503` with `Retry-After` while jobs already submitted stay pollable.
 
 :::tip{title="Base URL"}
 ```
@@ -115,11 +117,12 @@ curl "https://api.blockrun.ai/v1/usage/summary?window=7d" -H "Authorization: Bea
   "per_endpoint": [{ "path": "/v1/chat/completions", "calls": 1200, "usd": 39.10, "unpriced": 0 }],
   "per_key": [{ "key_prefix": "brk_live_Ab3xQ", "calls": 1284, "usd": 41.17, "unpriced": 0 }],
   "last_call_at": "2026-09-13T18:20:41.118Z",
-  "unavailable_days": []
+  "unavailable_days": [],
+  "counted_through": null
 }
 ```
 
-`today`, `7d` and `30d` start at 00:00 UTC (a 7-day window is today plus the six previous days); `24h` is a rolling day. `unpriced_calls` counts rows whose charge is still being computed and will move into `usd` once settled. `unavailable_days` names any day the ledger could not be read — it is listed, never silently counted as zero.
+`today`, `7d` and `30d` start at 00:00 UTC (a 7-day window is today plus the six previous days); `24h` is a rolling day. `unpriced_calls` counts rows whose charge is still being computed and will move into `usd` once settled. `unavailable_days` names any day the ledger could not be read — it is listed, never silently counted as zero. `counted_through` is `null` when the figures run through now; otherwise it is the moment they are exact through — on a very busy account a read folds a bounded slice of today's newest records and stops, and the rest arrives within minutes. Treat a non-null value as "today is partial past this time", not as a day missing.
 
 ### `GET /v1/usage` — the ledger
 
@@ -172,6 +175,8 @@ Rows are newest first. Page with `cursor` until `next_cursor` is `null`; treat t
 | `service_tier` | The processing tier the upstream reported for this call. `flex` is billed at **half** the standard rate, so this is what explains a half-price line against the published rate. Absent means standard — as it is on every row before 2026-09-23 and for every provider that reports no tier. See [What a call costs](#what-a-call-costs). |
 | `job_id`, `job_status` | Media only. A `202` create and every later poll of the same job share one `job_id`; the charge lands on the poll that completed. Fold rows by `job_id` to get one line per generation. |
 | `usage_unit`, `usage_units` | For non-token charges: what was billed (`image`, `second`, `character` …) and how many. `null` on token-priced rows. |
+| `billing_basis`, `image_input_tokens` | `token` on an OpenAI image row (`openai/gpt-image-2`, `gpt-image-2.5-*`): a `service` by path, but one you can rebuild — `input_tokens`/`output_tokens` at OpenAI's published per-million rates, `image_input_tokens` being the slice of input at the image-input rate. Absent on every other row. See [Images from OpenAI are billed by token](#images-from-openai-are-billed-by-token). |
+| `correction_of` | `null` on a normal row. When set, this row corrects the row whose `request_id` it names: its token and cost fields are signed **deltas** against that row, and it is not a call. Sum `cost_usd` including these; count calls excluding them. |
 
 Pass the `request_id` from a row (also returned on every response as the `x-blockrun-request-id` header) when you contact support about a charge.
 
@@ -187,7 +192,7 @@ Two things move the rate away from the flat number on the catalogue. Both are vi
 
 Some models reprice above a prompt-token threshold, and **the whole request reprices** — not only the tokens above the line. OpenAI's threshold is 272K, charged at 2× input and 1.5× output for the entire call; other makers set their own, and whether a prompt of exactly the threshold already counts as long differs by maker too.
 
-The thresholds and the long-context rates are per model on the gateway's sheet, `GET https://blockrun.ai/api/pricing`, as the `longContextThreshold`, `longContextThresholdInclusive` and `longContext*Price` fields. Where a catalog row from `GET /v1/models` carries `pricing.long_context`, it is the same ladder in the same order: a list of steps, so read the last one whose threshold your prompt cleared. A model that reprices more than once (some do) has more than one entry, and pricing off the first would put you under water above the second.
+The thresholds and the long-context rates are per model on the gateway's sheet, `GET https://blockrun.ai/api/pricing`, as the `longContextThreshold`, `longContextThresholdInclusive` and `longContext*Price` fields — 22 models carry them today. Where a catalog row from `GET /v1/models` carries `pricing.long_context`, it is the same ladder in the same order: a list of steps, so read the last one whose threshold your prompt cleared. A model that reprices more than once (some do) has more than one entry, and pricing off the first would put you under water above the second.
 
 ### Flex
 
@@ -208,6 +213,23 @@ The two tiers interact with a contract differently, and deliberately so:
 
 - An **absolute agreed price** per million **suppresses** both tiers. The long-context and Flex rates are not part of what was agreed, so layering them on either charges more or discounts more than the contract says.
 - A **percentage discount** **follows** both tiers. A percentage is off whatever you would otherwise pay, and the tier is part of what you would otherwise pay.
+
+## Images from OpenAI are billed by token
+
+`openai/gpt-image-2`, `openai/gpt-image-2.5-flare` and `openai/gpt-image-2.5-sunburst` are metered the way OpenAI meters them — text input, image input and image output tokens at OpenAI's published per-million rates (times your contract margin, or under your provider discount), never a flat per-image price. The response says so:
+
+```json
+"price": {
+  "amount": "0.006120", "currency": "USD", "basis": "per_token",
+  "tokens": { "text_input": 48, "image_input": 0, "output": 196 },
+  "rates_per_million": { "text_input": 5, "image_input": 8, "output": 30 }
+},
+"usage": { "input_tokens": 48, "output_tokens": 196, "total_tokens": 244 }
+```
+
+`amount` closes on `tokens × rates_per_million`; `usage` is OpenAI's own report, passed through. What a single image can cost is bounded by the per-size figure `GET /v1/images/models` lists as `max_per_image` — that is the amount reserved against your balance before generation, and the charge settles at the token figure once the image is delivered. `quality` is what moves the number: a `low` 1024×1024 is a few hundred output tokens, a `max` one several thousand.
+
+Every other image model (Google, xAI, Z.ai, ByteDance) is billed per image, as its `price.basis: "per_image"` says.
 
 ## Refusals
 
@@ -251,6 +273,14 @@ The envelope is OpenAI's. `code` is the field to switch on.
 | `502` | `upstream_unavailable`, `empty_upstream_response` | Provider fault; nothing charged; retry |
 
 Every response carries `x-blockrun-request-id`. Quote it in support requests.
+
+Three request-id headers can appear on a response, and they name three different hops:
+
+| Header | Names |
+|--------|-------|
+| `x-blockrun-request-id` | This call, at this API. Always present. The `request_id` on your ledger row, and the id to quote to us. |
+| `x-blockrun-gateway-request-id` | The routing hop behind this API. Present on routed calls; we store it beside your row, so you do not need to. |
+| `x-request-id` (OpenAI-style) / `request-id` (Anthropic-style) | The model provider's own id for the call, when the provider returned one. This is the id to quote to the provider if you take a question to them directly. On a response with no provider hop (a `401`, a `404`, a refusal) it falls back to `x-blockrun-request-id`. |
 
 ## Dashboard
 
