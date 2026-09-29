@@ -48,8 +48,8 @@ POST https://blockrun.ai/api/v1/search
   "query": "latest AI funding rounds",
   "summary": "Several major AI companies have announced significant funding rounds...",
   "citations": [
-    "https://techcrunch.com/ai-startup-series-b",
-    "https://www.reuters.com/technology/ai-funding-round"
+    { "url": "https://techcrunch.com/ai-startup-series-b", "title": "techcrunch.com" },
+    { "url": "https://www.reuters.com/technology/ai-funding-round", "title": "reuters.com" }
   ],
   "sources_used": 10,
   "model": "xai/grok-3-mini"
@@ -62,7 +62,7 @@ POST https://blockrun.ai/api/v1/search
 |-------|------|-------------|
 | `query` | string | The original search query |
 | `summary` | string | AI-generated summary of search results with citations |
-| `citations` | string[] | Source URLs cited by the summary, in citation order. Plain URL strings — there are no title/source sub-fields. |
+| `citations` | object[] | Sources cited by the summary, in citation order, deduplicated. Each is `{ "url": string, "title": string }`; `title` is the source's hostname (e.g. `reuters.com`). |
 | `sources_used` | integer | Number of sources actually queried (falls back to `max_results` when upstream does not report it) |
 | `model` | string | Model used for search (currently `xai/grok-3-mini`) |
 
