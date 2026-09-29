@@ -7,6 +7,18 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-09-29]
+
+### Added — Claude Opus 5.5, Claude Sonnet 5.5, Grok 4.7
+- **`anthropic/claude-opus-5.5`** ($4.00/M in · $20.00/M out, **1M context**, 128K max output, vision) — the newest Opus, and cheaper than Opus 5 ($5/$25). Cache reads are $0.20/M, 0.05x input rather than the usual 0.1x. Thinking is always on; set a low `output_config.effort` to keep it short.
+- **`anthropic/claude-sonnet-5.5`** ($2.00/M · $10.00/M, **1M context**, 128K max output, vision) — the newest Sonnet at Sonnet 5's price. Falls back to Sonnet 5 at the same rate if its upstream fails.
+- **`xai/grok-4.7`** ($2.00/M · $6.00/M, **500K context**, vision, reasoning effort `low`–`xhigh`) — xAI's newest flagship. Doubles to $4.00/$12.00 once a prompt reaches 200K tokens, as xAI bills it. Falls back to Grok 4.6 at the same rate.
+- Opus 5.5 and Sonnet 5.5 reject a forced tool choice and a `{"type": "disabled"}` thinking block. The gateway serves a forced choice as `auto`, drops `disabled` on Opus 5.5 (it cannot turn thinking off), and translates it to Sonnet 5.5's own off switch, `between_tools`. Requests written for Opus 5 / Sonnet 5 work unchanged.
+- All three were verified with real completions on the production upstreams before listing, available on both Base (`blockrun.ai`) and Solana (`sol.blockrun.ai`).
+- Visible chat models are now **82**; total catalog **109**.
+
+---
+
 ## [2026-08-30]
 
 ### Added — Qwen3.8 Flash, DeepSeek V4 Flash Vision, MiMo-V2.5

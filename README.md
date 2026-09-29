@@ -132,7 +132,7 @@ Real-time prediction market data powered by Predexon:
 | Provider | Models | Input/Output per 1M tokens |
 |----------|--------|---------------------------|
 | **OpenAI** | GPT-5.6 Sol / Sol Pro / Terra / Terra Pro / Luna / Luna Pro, GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.4 Mini, GPT-5.4 Nano, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5 Mini, ChatGPT Instant, GPT-4.1 / Mini / Nano, GPT-4o / Mini, o1, o3, o3-mini, o4-mini | $0.10–$30.00 / $0.40–$180.00 |
-| **Anthropic** | Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Claude Opus 4.7, Claude Opus 4.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Sonnet 4.5, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
+| **Anthropic** | Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Opus 4.8, Claude Opus 4.7, Claude Opus 4.5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Sonnet 4.5, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | **Google** | Gemini 3.6 Flash, Gemini 3.5 Flash, Gemini 3.5 Flash Lite, Gemini 3.1 Pro, Gemini 3.1 Flash Lite, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
 | **DeepSeek** | DeepSeek V4 Flash Chat, DeepSeek V4 Flash Reasoner, DeepSeek V4 Flash Vision, DeepSeek V4 Pro | $0.14–$1.32 / $0.28–$3.96 |
 | **Z.AI** | GLM-5.3, GLM-5.3 Flash, GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo, GLM-5 Code | $0.15–$1.40 / $0.50–$5.00 |

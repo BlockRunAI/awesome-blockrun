@@ -395,9 +395,9 @@ The XRPL gateway mirrored the main BlockRun catalog (last catalog sync in the ga
 | Provider | Models |
 |----------|--------|
 | **OpenAI** | gpt-5.6-sol, gpt-5.6-terra, gpt-5.6-luna, gpt-5.5, gpt-5.4, gpt-5.4-pro, gpt-5.2, gpt-5.4-mini, gpt-5-mini, gpt-5.4-nano, o1, o3, o3-mini |
-| **Anthropic** | claude-fable-5, claude-opus-5, claude-opus-4.8, claude-opus-4.7, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
+| **Anthropic** | claude-fable-5, claude-opus-5.5, claude-opus-5, claude-opus-4.8, claude-opus-4.7, claude-sonnet-5.5, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
 | **Google** | gemini-3.1-pro, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
-| **xAI** | grok-4.3, grok-4.5, grok-build-0.1 |
+| **xAI** | grok-4.7, grok-4.5, grok-4.3, grok-build-0.1 |
 | **DeepSeek** | deepseek-chat, deepseek-reasoner, deepseek-v4-pro |
 | **FREE tier** | nemotron-3-ultra-550b, nemotron-3.5-lightning, nemotron-3-nano-omni-30b-a3b-reasoning, llama-3.2-11b-vision, north-mini-code, laguna-xs-2.1 |
 
@@ -433,7 +433,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 79 models with live pricing to pick the right one for each call.
+Browse all 82 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}

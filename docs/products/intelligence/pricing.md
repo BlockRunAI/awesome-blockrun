@@ -58,10 +58,12 @@ The free tier costs $0 — 5 reasoning, coding, and vision models with no per-to
 | Model | Input (per 1M) | Output (per 1M) |
 |-------|---------------|-----------------|
 | Claude Fable 5 (most capable) | $10.00 | $50.00 |
-| Claude Opus 5 (flagship) | $5.00 | $25.00 |
-| Claude Opus 4.8 (previous flagship) | $5.00 | $25.00 |
+| Claude Opus 5.5 (flagship) | $4.00 | $20.00 |
+| Claude Opus 5 (previous flagship) | $5.00 | $25.00 |
+| Claude Opus 4.8 | $5.00 | $25.00 |
 | Claude Opus 4.7 | $5.00 | $25.00 |
 | Claude Opus 4.5 | $5.00 | $25.00 |
+| Claude Sonnet 5.5 | $2.00 | $10.00 |
 | Claude Sonnet 5 | $2.00 | $10.00 |
 | Claude Sonnet 4.6 | $3.00 | $15.00 |
 | Claude Haiku 4.5 | $1.00 | $5.00 |
@@ -82,12 +84,13 @@ Gemini Pro models double the input rate and add 50% to the output rate above 200
 
 | Model | Input (per 1M) | Output (per 1M) | Context |
 |-------|---------------|-----------------|---------|
-| Grok 4.6 (flagship) | $2.00 | $6.00 | 500K |
+| Grok 4.7 (flagship) | $2.00 | $6.00 | 500K |
+| Grok 4.6 | $2.00 | $6.00 | 500K |
 | Grok 4.5 | $2.00 | $6.00 | 500K |
 | Grok 4.3 | $1.25 | $2.50 | 1M |
 | Grok Build 0.1 | $1.00 | $2.00 | 256K |
 
-Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.6 and 4.5 are $4.00 in · $12.00 out above the threshold), mirroring xAI's official long-context tier. Live Search adds $0.025 per source used.
+Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.7, 4.6 and 4.5 are $4.00 in · $12.00 out above the threshold), mirroring xAI's official long-context tier. Live Search adds $0.025 per source used.
 
 ### Z.AI
 
@@ -162,6 +165,8 @@ Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$
 | Provider | Direct Pricing | BlockRun | Difference |
 |----------|---------------|----------|------------|
 | OpenAI GPT-5.4 | $2.50/$15.00 | $2.50/$15.00 | 0% + $0.001/request |
+| Anthropic Claude Opus 5.5 | $4.00/$20.00 | $4.00/$20.00 | 0% + $0.001/request |
+| Anthropic Claude Sonnet 5.5 | $2.00/$10.00 | $2.00/$10.00 | 0% + $0.001/request |
 | Anthropic Claude Sonnet 5 | $2.00/$10.00 | $2.00/$10.00 | 0% + $0.001/request |
 | Anthropic Claude Sonnet 4.6 | $3.00/$15.00 | $3.00/$15.00 | 0% + $0.001/request |
 | DeepSeek V4 Flash Chat | $0.14/$0.28 | $0.14/$0.28 | 0% + $0.001/request |
@@ -235,7 +240,7 @@ response = client.chat("google/gemini-3.5-flash", prompt)
 |------|------------------|-----|
 | Bulk processing | DeepSeek | Cheapest |
 | Quick responses | Gemini 3.5 Flash | Fast + cheap |
-| Complex reasoning | DeepSeek Reasoner, Claude Opus 5 | Best quality |
+| Complex reasoning | DeepSeek Reasoner, Claude Opus 5.5 | Best quality |
 | Code generation | GPT-5.4, Claude Sonnet 4.6 | Good balance |
 | Real-time data | Grok | Web & news access |
 
