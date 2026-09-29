@@ -455,7 +455,7 @@ for c in res.citations:
     print(c)
 ```
 
-`max_results` 1–50 (default 10); optional `from_date`/`to_date` (`YYYY-MM-DD`). Priced ~$0.025/source.
+`max_results` 1–50 (default 10); optional `from_date`/`to_date` (`YYYY-MM-DD`). $0.08 per call (+ $0.001 fee), whatever `max_results` is.
 
 #### `PriceClient` — crypto / FX / commodities / stocks
 

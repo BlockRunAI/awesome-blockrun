@@ -77,7 +77,7 @@ Per-model pricing is published at `/api/v1/models` and embedded in every 402 res
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| POST | `/api/v1/search` | Live search (web / news / X) | `max_results × $0.02625` + $0.001 (default 10 sources = $0.2635) |
+| POST | `/api/v1/search` | Live search (web / news / X) | $0.08 per call + $0.001 fee, any `max_results` |
 | POST | `/api/v1/exa/search` | Web search | $0.011 / call |
 | POST | `/api/v1/exa/find-similar` | Find semantically similar pages | $0.011 / call |
 | POST | `/api/v1/exa/answer` | AI answer with citations | $0.011 / call |
