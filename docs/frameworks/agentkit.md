@@ -21,7 +21,7 @@ AgentKit provides:
 - Framework extensions (`coinbase-agentkit-langchain`, …)
 
 BlockRun adds:
-- 82 chat models (95 in the full catalog)
+- 82 chat models (109 in the full catalog)
 - Pay-per-request intelligence
 - No API key management
 
