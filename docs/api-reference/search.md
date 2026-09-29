@@ -1,6 +1,6 @@
 ---
 title: Search API
-description: Real-time search across web and news via Grok Live Search — pay per source in USDC over x402, no API key.
+description: Real-time search across web and news via Grok Live Search — one flat price per call in USDC over x402, no API key.
 ---
 
 # Search API
@@ -99,7 +99,7 @@ When you first make a request without payment, you'll receive:
 }
 ```
 
-The full x402 v2 payment requirements are in the `X-Payment-Required` and `PAYMENT-REQUIRED` headers (base64 JSON, identical content) and in `WWW-Authenticate: X402 requirements="..."`, and are now also mirrored at the top of the JSON body as `x402Version`/`accepts` (for clients that only read the body). Sign against `accepts[0].amount` (header or body, they're identical), not `price.amount`: `price.amount` is the per-source cost plus margin **before** the flat $0.001 transaction fee, while `accepts[0].amount` is the exact USDC (6-decimal) amount you will be charged — for the default 10 sources that is `263500`, i.e. $0.2635. Payment authorizations are valid for `maxTimeoutSeconds: 300`.
+The full x402 v2 payment requirements are in the `X-Payment-Required` and `PAYMENT-REQUIRED` headers (base64 JSON, identical content) and in `WWW-Authenticate: X402 requirements="..."`, and are now also mirrored at the top of the JSON body as `x402Version`/`accepts` (for clients that only read the body). Sign against `accepts[0].amount` (header or body, they're identical): it is the exact USDC (6-decimal) amount you will be charged — `81000`, i.e. $0.081, for every search. `price.amount` in the body is the same figure rounded to 4 decimals for display (`"0.0810"`), and `price.perCallPrice` is the $0.08 before the fee. Payment authorizations are valid for `maxTimeoutSeconds: 300`.
 
 A `GET` to the same URL returns a 402 quoting the default price (10 sources) — useful for discovery.
 
@@ -127,22 +127,11 @@ A `402` with `error: "Payment settlement failed"` means the search ran but settl
 
 ## Pricing
 
-Search pricing is per-source with a 5% BlockRun margin, plus the flat $0.001 per-transaction fee charged on every paid call:
+Search is **$0.08 per call**, plus the flat $0.001 per-transaction fee charged on every paid call — **$0.081 in total**, whatever `max_results` is.
 
-- **Base cost:** $0.025 per source
-- **Margin:** 5%
-- **Transaction fee:** $0.001 per request (flat)
-- **Formula:** `max_results × $0.025 × 1.05 + $0.001`
+It is one price because the work behind a search does not scale with `max_results`: each call runs as many searches as the query needs and reads the pages it finds, and that is what it costs. A per-result price would overcharge the default request and undercharge a small one.
 
-| max_results | Base Cost | With Margin | Charged (incl. fee) |
-|-------------|-----------|-------------|---------------------|
-| 1 | $0.025 | $0.02625 | $0.02725 |
-| 5 | $0.125 | $0.13125 | $0.13225 |
-| 10 (default) | $0.250 | $0.26250 | $0.26350 |
-| 25 | $0.625 | $0.65625 | $0.65725 |
-| 50 | $1.250 | $1.31250 | $1.31350 |
-
-The price depends only on `max_results`, not on how many sources you list in `sources` or how many the search actually used.
+(Before 2026-09-29 this endpoint charged `max_results × $0.025 × 1.05 + $0.001` — $0.2635 at the default 10.)
 
 ## Examples
 
