@@ -1,13 +1,13 @@
 ---
 title: Agent Developers
-description: Build AI agents that pay for their own intelligence — 79 models via x402 micropayments. Use Franklin, the SDKs or the MCP, or the framework you already use.
+description: Build AI agents that pay for their own intelligence — 82 models via x402 micropayments. Use Franklin, the SDKs or the MCP, or the framework you already use.
 ---
 
 # Agent Developers
 
 Build AI agents that pay for their own intelligence.
 
-This guide is for agent developers. The primary paths are **[Franklin](../products/franklin.md)** (our autonomous agent), the **[SDKs](../sdks/python.md)**, and the **[BlockRun MCP](../mcp/blockrun-mcp.md)** — all on one wallet, 79 models via x402 micropayments. Already using a framework (ElizaOS, AgentKit, GOAT, LangChain)? See [Community integrations](../frameworks/elizaos.md).
+This guide is for agent developers. The primary paths are **[Franklin](../products/franklin.md)** (our autonomous agent), the **[SDKs](../sdks/python.md)**, and the **[BlockRun MCP](../mcp/blockrun-mcp.md)** — all on one wallet, 82 models via x402 micropayments. Already using a framework (ElizaOS, AgentKit, GOAT, LangChain)? See [Community integrations](../frameworks/elizaos.md).
 
 :::tip{title="Fastest path: Franklin"}
 Want an agent that already spends autonomously? [Franklin](../products/franklin.md) is one install (`npm install -g @blockrun/franklin`) and runs free out of the box — fund a wallet to unlock everything.
@@ -197,7 +197,7 @@ results = asyncio.run(process_batch(my_items))
 
 ### Quality-Optimized
 - `openai/gpt-5.4` — Best all-around
-- `anthropic/claude-opus-5` — Best for nuanced tasks
+- `anthropic/claude-opus-5.5` — Best for nuanced tasks
 
 ### Reasoning
 - `openai/o3` — Advanced reasoning
@@ -216,7 +216,7 @@ Example costs per 1M tokens:
 |-------|-------|--------|
 | `deepseek/deepseek-chat` | $0.14 | $0.28 |
 | `openai/gpt-5.4` | $2.50 | $15.00 |
-| `anthropic/claude-opus-5` | $5.00 | $25.00 |
+| `anthropic/claude-opus-5.5` | $4.00 | $20.00 |
 
 Full pricing: [Intelligence Pricing](../products/intelligence/pricing.md)
 

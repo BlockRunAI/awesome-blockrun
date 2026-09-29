@@ -134,13 +134,21 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 | `anthropic/claude-opus-4.7` | Claude Opus 4.7 | $5.00/M | $25.00/M | 1M |
 | `anthropic/claude-opus-4.8` | Claude Opus 4.8 | $5.00/M | $25.00/M | 1M |
 | `anthropic/claude-opus-5` | Claude Opus 5 | $5.00/M | $25.00/M | 1M |
+| `anthropic/claude-opus-5.5` | Claude Opus 5.5 | $4.00/M | $20.00/M | 1M |
 | `anthropic/claude-sonnet-4.5` | Claude Sonnet 4.5 | $3.00/M | $15.00/M | 200K |
 | `anthropic/claude-sonnet-4.6` | Claude Sonnet 4.6 | $3.00/M | $15.00/M | 1M |
-| `anthropic/claude-sonnet-5` | Claude Sonnet 5 | $3.00/M | $15.00/M | 1M |
+| `anthropic/claude-sonnet-5` | Claude Sonnet 5 | $2.00/M | $10.00/M | 1M |
+| `anthropic/claude-sonnet-5.5` | Claude Sonnet 5.5 | $2.00/M | $10.00/M | 1M |
 | `anthropic/claude-haiku-4.5` | Claude Haiku 4.5 | $1.00/M | $5.00/M | 200K |
 
-:::warning{title="Claude Opus 4.7 / 4.8 / 5, Fable 5 and Sonnet 5 behavior"}
+:::warning{title="Claude Opus 4.7 / 4.8 / 5 / 5.5, Fable 5 and Sonnet 5 / 5.5 behavior"}
 These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); the gateway drops them so calls succeed. They use adaptive thinking (built-in, not API-configurable). The model may decline a request with HTTP 200 and `stop_reason: "refusal"` (`finish_reason: "content_filter"` on the OpenAI-compatible endpoint) — check the stop reason before reading content.
+
+**Opus 5.5 and Sonnet 5.5** add three differences, all absorbed by the gateway so a request that works on Opus 5 still works here:
+
+- **Forced tool choice.** Both reject `tool_choice: "required"` / a named tool (Anthropic `any` / `tool`). The gateway serves it as `auto`; name the tool in your prompt if the call must happen.
+- **Turning thinking off.** Opus 5.5 cannot turn thinking off at all — a `{"type": "disabled"}` block is dropped and the model thinks adaptively; use a low `output_config.effort` to keep it short. Sonnet 5.5 calls "off" `between_tools`; the gateway translates `disabled` for you and caps effort at `high`, the most that mode allows.
+- **Cache reads on Opus 5.5** are $0.20/M — 0.05x input, where other Claude models read at 0.1x.
 :::
 
 ### Google Gemini
@@ -164,11 +172,12 @@ Gemini **Pro** models (`gemini-2.5-pro`, `gemini-3.1-pro`) bill a **long-context
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `xai/grok-4.7` | Grok 4.7 | $2.00/M | $6.00/M | 500K |
 | `xai/grok-4.5` | Grok 4.5 | $2.00/M | $6.00/M | 500K |
 | `xai/grok-4.3` | Grok 4.3 | $1.25/M | $2.50/M | 1M |
 | `xai/grok-build-0.1` | Grok Build 0.1 | $1.00/M | $2.00/M | 256K |
 
-Grok bills a **long-context tier** at 2x the rates above once a request's prompt reaches 200K tokens (mirrors xAI's official pricing — e.g. Grok 4.5 is $5.00/M in · $18.00/M out above the threshold). Live Search adds $0.025 per source used. Grok Imagine image/video SKUs are listed under Image / Video Generation below.
+Grok bills a **long-context tier** at 2x the rates above once a request's prompt reaches 200K tokens (mirrors xAI's official pricing — e.g. Grok 4.7 is $4.00/M in · $12.00/M out above the threshold). Live Search adds $0.025 per source used. Grok Imagine image/video SKUs are listed under Image / Video Generation below.
 
 ### DeepSeek
 

@@ -1,11 +1,11 @@
 ---
 title: Intelligence
-description: BlockRun Intelligence gives your agent 79 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
+description: BlockRun Intelligence gives your agent 82 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
 ---
 
 # Intelligence
 
-AI accesses any LLM. 79 models, pay-per-request.
+AI accesses any LLM. 82 models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and more — without managing API keys or subscriptions.
 
@@ -35,11 +35,13 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates �
 | Model | Input | Output |
 |-------|-------|--------|
 | Claude Fable 5 (most capable) | $10.00/M | $50.00/M |
-| Claude Opus 5 (flagship) | $5.00/M | $25.00/M |
-| Claude Opus 4.8 (previous flagship) | $5.00/M | $25.00/M |
+| Claude Opus 5.5 (flagship) | $4.00/M | $20.00/M |
+| Claude Opus 5 (previous flagship) | $5.00/M | $25.00/M |
+| Claude Opus 4.8 | $5.00/M | $25.00/M |
 | Claude Opus 4.7 | $5.00/M | $25.00/M |
 | Claude Opus 4.5 | $5.00/M | $25.00/M |
-| Claude Sonnet 5 | $3.00/M | $15.00/M |
+| Claude Sonnet 5.5 | $2.00/M | $10.00/M |
+| Claude Sonnet 5 | $2.00/M | $10.00/M |
 | Claude Sonnet 4.6 | $3.00/M | $15.00/M |
 | Claude Haiku 4.5 | $1.00/M | $5.00/M |
 
@@ -182,7 +184,7 @@ What's the latest AI news right now?
 - **Reasoning:** DeepSeek Reasoner or GPT-5.4 for complex logic
 - **Speed:** Gemini Flash for quick responses
 - **Cost:** DeepSeek for bulk processing
-- **Quality:** Claude Opus 5 for nuanced writing
+- **Quality:** Claude Opus 5.5 for nuanced writing
 
 ## Features
 

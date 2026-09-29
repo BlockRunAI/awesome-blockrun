@@ -1,6 +1,6 @@
 ---
 title: Chat Completions
-description: OpenAI-compatible Chat Completions endpoint for 79 LLMs, paid per request in USDC over x402 — no API keys, no subscriptions.
+description: OpenAI-compatible Chat Completions endpoint for 82 LLMs, paid per request in USDC over x402 — no API keys, no subscriptions.
 ---
 
 # Chat Completions
@@ -192,8 +192,8 @@ forwarding a caller's schema verbatim would reject requests that work today.
 If you use the Claude-native `POST /v1/messages` endpoint with the `context_management` field, you **must** also send the matching `anthropic-beta` header. A `context_management` body without that header is rejected at the edge with a `400` (rather than silently ignored).
 :::
 
-:::note{title="Sampling params on Claude Opus 5 / 4.8 / 4.7, Fable 5 and Sonnet 5"}
-`temperature`, `top_p`, and `top_k` are **not honored** for `anthropic/claude-opus-5`, `anthropic/claude-fable-5`, `anthropic/claude-sonnet-5`, `anthropic/claude-opus-4.8`, and `anthropic/claude-opus-4.7` — these models reject sampling params upstream, so the gateway strips them so your request still succeeds (it does not fail). Set behavior through your prompt instead.
+:::note{title="Sampling params on Claude Opus 5.5 / 5 / 4.8 / 4.7, Fable 5 and Sonnet 5.5 / 5"}
+`temperature`, `top_p`, and `top_k` are **not honored** for `anthropic/claude-opus-5.5`, `anthropic/claude-opus-5`, `anthropic/claude-fable-5`, `anthropic/claude-sonnet-5.5`, `anthropic/claude-sonnet-5`, `anthropic/claude-opus-4.8`, and `anthropic/claude-opus-4.7` — these models reject sampling params upstream, so the gateway strips them so your request still succeeds (it does not fail). Set behavior through your prompt instead.
 :::
 
 ### Payment Required (402)
@@ -369,7 +369,7 @@ console.log(result.choices[0].message.content);
 ::::cards
 
 :::card{title="Browse all models" href="models.md" icon="Brain"}
-79 chat models with live pricing — pick the right model and ID for your call.
+82 chat models with live pricing — pick the right model and ID for your call.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}

@@ -1,17 +1,17 @@
 ---
 title: ElizaOS Integration
-description: Add the BlockRun plugin to ElizaOS so your agents reach 106 AI models via x402 micropayments — no per-provider API keys.
+description: Add the BlockRun plugin to ElizaOS so your agents reach 109 AI models via x402 micropayments — no per-provider API keys.
 ---
 
 # ElizaOS Integration
 
-Use BlockRun as an LLM provider in ElizaOS agents — one plugin unlocks 79 models paid per request over x402.
+Use BlockRun as an LLM provider in ElizaOS agents — one plugin unlocks 82 models paid per request over x402.
 
 :::note{title="Community integration"}
 BlockRun's primary paths are [Franklin](../products/franklin.md), the [BlockRun MCP](../mcp/blockrun-mcp.md), and the [SDKs](../sdks/python.md). Framework integrations like this one are community-maintained.
 :::
 
-[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 106 AI models via x402 micropayments.
+[ElizaOS](https://github.com/elizaOS/eliza) is an open-source agent framework. The BlockRun plugin gives your ElizaOS agents access to 109 AI models via x402 micropayments.
 
 ## Setup
 
@@ -81,10 +81,10 @@ All BlockRun chat models are available. A sample of what the live catalog lists 
 | Provider | Models |
 |----------|--------|
 | OpenAI | gpt-5.5, gpt-5.4, gpt-5.4-mini, gpt-5.2, o3, o1 |
-| Anthropic | claude-fable-5, claude-opus-5, claude-opus-4.8, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
+| Anthropic | claude-fable-5, claude-opus-5.5, claude-opus-5, claude-opus-4.8, claude-sonnet-5.5, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
 | Google | gemini-3.1-pro, gemini-3.5-flash, gemini-3-flash-preview, gemini-2.5-flash-lite |
 | DeepSeek | deepseek-v4-pro, deepseek-chat, deepseek-reasoner |
-| xAI | grok-4.3, grok-4.5, grok-build-0.1 |
+| xAI | grok-4.7, grok-4.5, grok-4.3, grok-build-0.1 |
 | Free tier | nemotron-3-ultra-550b, nemotron-3.5-lightning, north-mini-code |
 
 See [Models Reference](../api-reference/models.md) for the full list, or `curl https://blockrun.ai/api/v1/models`.
