@@ -307,7 +307,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 
 | Framework | Status | Integration |
 |-----------|:------:|-------------|
-| [Continue](https://github.com/continuedev/continue) | ✅ Released | [Native provider](https://github.com/continuedev/continue/pull/11751) — ClawRouter as built-in LLM provider (32K+ ⭐) |
+| [Continue](https://github.com/continuedev/continue) | ✅ Released | [Native provider](https://github.com/continuedev/continue/commit/becda53a17be7c8c8a254bc914ff92bb01ba8d9c) — ClawRouter as built-in LLM provider (32K+ ⭐) |
 | [OpenClaw](https://github.com/openclaw/openclaw) | ✅ Released | [ClawRouter](https://github.com/BlockRunAI/ClawRouter) - Smart LLM router, 78% cost savings |
 | [ElizaOS](https://github.com/elizaOS/eliza) | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [Claude Code](https://claude.ai/code) | ✅ Released | [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) · [blockrun-claude-plugin](https://github.com/BlockRunAI/blockrun-claude-plugin) |

@@ -124,7 +124,7 @@ Per-token chat carries **no platform margin** — only the flat $0.001 transacti
 | DeepSeek Harness | Released | [dsh-clawrouter](https://github.com/BlockRunAI/dsh-clawrouter) |
 | OpenCode | Released | [@blockrun/opencode](https://www.npmjs.com/package/@blockrun/opencode) |
 | LiteLLM | Released | [blockrun-litellm](https://github.com/BlockRunAI/blockrun-litellm) |
-| Continue | Released | [Native provider](https://github.com/continuedev/continue/pull/11751) — ClawRouter as a built-in LLM provider |
+| Continue | Released | [Native provider](https://github.com/continuedev/continue/commit/becda53a17be7c8c8a254bc914ff92bb01ba8d9c) — ClawRouter as a built-in LLM provider |
 | ElizaOS | Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | GOAT SDK | In Review | [GitHub Issue](https://github.com/crossmint/goat) |
 | AgentKit | Available | [Integration Guide](../frameworks/agentkit.md) |
