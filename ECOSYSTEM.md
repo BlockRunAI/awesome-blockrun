@@ -143,7 +143,7 @@ Every public, non-archived repo in the [BlockRunAI org](https://github.com/Block
 
 | Project | Category | Stars | Status | Help Wanted |
 |---------|----------|-------|--------|-------------|
-| [Continue](https://github.com/continuedev/continue) | IDE Extension | 32K+ | ✅ Released | [Native provider](https://github.com/continuedev/continue/pull/11751) |
+| [Continue](https://github.com/continuedev/continue) | IDE Extension | 32K+ | ✅ Released | [Native provider](https://github.com/continuedev/continue/commit/becda53a17be7c8c8a254bc914ff92bb01ba8d9c) |
 | [Amazon Bedrock AgentCore](https://aws.amazon.com/bedrock/agentcore/) | Agent Platform | Official | ✅ Released | [AgentCore Payments](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) — launch partner |
 | [GOAT SDK](https://github.com/crossmint/goat) | Agent Framework | 150K+ downloads | In Review | - |
 | [ElizaOS](https://github.com/elizaOS/eliza) | Agent Framework | 60K+ | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |

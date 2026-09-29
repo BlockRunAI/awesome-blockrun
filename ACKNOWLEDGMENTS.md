@@ -12,7 +12,7 @@
 
 | Project | Status | Link |
 |---------|--------|------|
-| Continue | ✅ Merged | [continuedev/continue#11751](https://github.com/continuedev/continue/pull/11751) |
+| Continue | ✅ Merged | [continuedev/continue@becda53](https://github.com/continuedev/continue/commit/becda53a17be7c8c8a254bc914ff92bb01ba8d9c) |
 | GOAT SDK | In Review | [crossmint/goat](https://github.com/crossmint/goat) |
 
 ## Contributors
