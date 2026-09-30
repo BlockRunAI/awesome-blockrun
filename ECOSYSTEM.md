@@ -96,8 +96,15 @@ BlockRun works with the x402 facilitator network:
 | [Voyage GEO](https://github.com/onvoyage-ai/voyage-geo-agent) | AI Analytics | Generative Engine Optimization - track AI brand mentions across multiple models |
 | [PulseNetwork](https://pulsenetwork.theaslangroupllc.com) | API Catalog | 76-origin x402 API catalog (950+ pay-per-call intelligence endpoints: token safety, macro, geopolitical, sports, clinical trials) — purchasable by BlockRun-powered agents via CDP/PayAI facilitator discovery |
 | [TensorFeed](https://tensorfeed.ai) | AI Intelligence | AI-industry intelligence for agents: vendor pricing, model status, deprecations, CVEs, capital, research. Daily-fresh JSON feeds. Premium endpoints priced in USDC via x402, cataloged in CDP Bazaar ([manifest](https://tensorfeed.ai/.well-known/x402.json), [/developers](https://tensorfeed.ai/developers)) |
-
 | [Counterra](https://github.com/billiondollarapps/counterra) | Accounting | Open-source accounting for x402 spend — decodes settlements into journal entries with per-agent attribution, exports to QuickBooks/Xero |
+| [AgentWork](https://api.agentwork.run/skill.md) | Web / PDF Evidence | Web page and PDF text returned with timestamps and SHA-256 hashes, plus a change check against a caller-held baseline. x402 v2, USDC on Base or Algorand ([OpenAPI](https://api.agentwork.run/openapi.json)) |
+| [OnlyBots](https://github.com/meinharrd/onlybots) | Web Reader | Article-to-markdown reader (static and headless-browser), page screenshots and PDF-to-text. x402 v2, USDC on Base ([manifest](https://x402.onlybots.shop/.well-known/x402.json)) |
+| [Oblique Markets](https://oblique.markets) | x402 Market Data | x402 Bazaar seller/listing deltas, x402 endpoint and settlement verification, web extraction. x402 v2, USDC on Base or Solana ([manifest](https://oblique.markets/.well-known/x402.json)) |
+| [402.com.tr](https://402.com.tr) | API Catalog | Pay-per-call catalog on Base: token risk and wallet forensics, B20 token-standard reads, and business utilities (IBAN/BIC, EU VAT, FX, business days) ([manifest](https://402.com.tr/.well-known/x402.json)) |
+| [MERCATOR Verify](https://mercator-entity-evidence.fly.dev/llms.txt) | Company Evidence | Company facts where every field carries its source URL, supporting sentence and cross-source agreement; conflicts and unknowns are returned, not guessed. x402 v2, USDC on Base ([manifest](https://mercator-entity-evidence.fly.dev/.well-known/x402)) |
+| [Grant Search](https://grant-search.krimskrams.xyz/.well-known/x402) | Grants Data | Search over US federal grant and funding opportunities with change tracking. x402, USDC on Base |
+| [tokenguard](https://github.com/eltociear/tokenguard-mcp) | DeFi / Real-World Data | DeFi risk signals (stablecoin depeg score, risk-adjusted yields, TVL shifts) and real-world data (air quality, geocoding, earthquakes, holidays, macro indicators). x402 v2, USDC on Base ([OpenAPI](https://eltociear-tokenguard.hf.space/openapi.json)) |
+
 ### Claude Code Tools
 
 | Tool | Description | Install |
