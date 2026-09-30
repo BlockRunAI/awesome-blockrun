@@ -36,101 +36,108 @@ The free tier costs $0 — 5 reasoning, coding, and vision models with no per-to
 
 ## Full Price List
 
+**Cached input** is the rate for prompt tokens the provider serves from its prompt cache — a repeated system prompt, a long conversation prefix. The provider decides what is a cache hit and reports it in the response usage (`prompt_tokens_details.cached_tokens`). A dash means the provider publishes no separate cached rate, so cached tokens bill at the input rate.
+
+How the cached rate reaches an x402 payment depends on the scheme the client signs:
+
+- **`upto`** — the client signs a ceiling and is charged actual usage after the call, with cached tokens at the cached rate. Offered today on DeepSeek and Anthropic models; the BlockRun SDKs pick it automatically when offered, and it needs no ETH (the USDC approval is a gasless signature).
+- **`exact`** — the client signs the price quoted before the call. Nobody knows about a cache hit yet, so the quote uses the full input rate.
+
 ### OpenAI
 
-| Model | Input (per 1M) | Output (per 1M) |
-|-------|---------------|-----------------|
-| GPT-6 Astra (flagship) | $10.00 | $50.00 |
-| GPT-5.6 Sol | $4.00 | $20.00 |
-| GPT-5.6 Sol Pro | $4.00 | $20.00 |
-| GPT-5.6 Terra | $2.00 | $12.00 |
-| GPT-5.6 Terra Pro | $2.00 | $12.00 |
-| GPT-5.6 Luna | $0.20 | $1.20 |
-| GPT-5.6 Luna Pro | $0.20 | $1.20 |
-| GPT-5.5 | $5.00 | $30.00 |
-| GPT-5.5 Pro | $30.00 | $180.00 |
-| GPT-5.4 | $2.50 | $15.00 |
-| GPT-5.4 Pro | $30.00 | $180.00 |
-| GPT-5.2 | $1.75 | $14.00 |
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| GPT-6 Astra (flagship) | $10.00 | $50.00 | $1.00 |
+| GPT-5.6 Sol | $4.00 | $20.00 | $0.40 |
+| GPT-5.6 Sol Pro | $4.00 | $20.00 | $0.40 |
+| GPT-5.6 Terra | $2.00 | $12.00 | $0.20 |
+| GPT-5.6 Terra Pro | $2.00 | $12.00 | $0.20 |
+| GPT-5.6 Luna | $0.20 | $1.20 | $0.02 |
+| GPT-5.6 Luna Pro | $0.20 | $1.20 | $0.02 |
+| GPT-5.5 | $5.00 | $30.00 | $0.50 |
+| GPT-5.5 Pro | $30.00 | $180.00 | — |
+| GPT-5.4 | $2.50 | $15.00 | $0.25 |
+| GPT-5.4 Pro | $30.00 | $180.00 | — |
+| GPT-5.2 | $1.75 | $14.00 | $0.175 |
 
 ### Anthropic
 
-| Model | Input (per 1M) | Output (per 1M) |
-|-------|---------------|-----------------|
-| Claude Fable 5 (most capable) | $10.00 | $50.00 |
-| Claude Opus 5.5 (flagship) | $4.00 | $20.00 |
-| Claude Opus 5 (previous flagship) | $5.00 | $25.00 |
-| Claude Opus 4.8 | $5.00 | $25.00 |
-| Claude Opus 4.7 | $5.00 | $25.00 |
-| Claude Opus 4.5 | $5.00 | $25.00 |
-| Claude Sonnet 5.5 | $2.00 | $10.00 |
-| Claude Sonnet 5 | $2.00 | $10.00 |
-| Claude Sonnet 4.6 | $3.00 | $15.00 |
-| Claude Haiku 4.5 | $1.00 | $5.00 |
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| Claude Fable 5 (most capable) | $10.00 | $50.00 | $1.00 |
+| Claude Opus 5.5 (flagship) | $4.00 | $20.00 | $0.20 |
+| Claude Opus 5 (previous flagship) | $5.00 | $25.00 | $0.50 |
+| Claude Opus 4.8 | $5.00 | $25.00 | $0.50 |
+| Claude Opus 4.7 | $5.00 | $25.00 | $0.50 |
+| Claude Opus 4.5 | $5.00 | $25.00 | $0.50 |
+| Claude Sonnet 5.5 | $2.00 | $10.00 | $0.20 |
+| Claude Sonnet 5 | $2.00 | $10.00 | $0.20 |
+| Claude Sonnet 4.6 | $3.00 | $15.00 | $0.30 |
+| Claude Haiku 4.5 | $1.00 | $5.00 | $0.10 |
 
 ### Google
 
-| Model | Input (per 1M) | Output (per 1M) |
-|-------|---------------|-----------------|
-| Gemini 3.1 Pro | $2.00 | $12.00 |
-| Gemini 3.8 Flash | $0.75 | $3.75 |
-| Gemini 3.6 Flash | $0.75 | $3.75 |
-| Gemini 3.5 Flash | $1.50 | $9.00 |
-| Gemini 3.5 Flash Lite | $0.30 | $2.50 |
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| Gemini 3.1 Pro | $2.00 | $12.00 | $0.20 |
+| Gemini 3.8 Flash | $0.75 | $3.75 | $0.075 |
+| Gemini 3.6 Flash | $0.75 | $3.75 | $0.075 |
+| Gemini 3.5 Flash | $1.50 | $9.00 | $0.15 |
+| Gemini 3.5 Flash Lite | $0.30 | $2.50 | $0.03 |
 
 Gemini Pro models double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.50 in · $15.00 out above the threshold. Flash tiers are flat.
 
 ### xAI Grok
 
-| Model | Input (per 1M) | Output (per 1M) | Context |
-|-------|---------------|-----------------|---------|
-| Grok 4.7 (flagship) | $2.00 | $6.00 | 500K |
-| Grok 4.6 | $2.00 | $6.00 | 500K |
-| Grok 4.5 | $2.00 | $6.00 | 500K |
-| Grok 4.3 | $1.25 | $2.50 | 1M |
-| Grok Build 0.1 | $1.00 | $2.00 | 256K |
+| Model | Input (per 1M) | Output (per 1M) | Context | Cached input (per 1M) |
+|-------|----------------|-----------------|---------|-----------------------|
+| Grok 4.7 (flagship) | $2.00 | $6.00 | 500K | $0.50 |
+| Grok 4.6 | $2.00 | $6.00 | 500K | $0.50 |
+| Grok 4.5 | $2.00 | $6.00 | 500K | $0.30 |
+| Grok 4.3 | $1.25 | $2.50 | 1M | $0.20 |
+| Grok Build 0.1 | $1.00 | $2.00 | 256K | $0.20 |
 
 Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.7, 4.6 and 4.5 are $4.00 in · $12.00 out above the threshold), mirroring xAI's official long-context tier. Live Search adds one flat surcharge per call: $0.30 on Grok 4.5 / 4.6 / 4.7 / 4.20, $0.12 on Grok 4.3 and below.
 
 ### Z.AI
 
-| Model | Input (per 1M) | Output (per 1M) | Context |
-|-------|---------------|-----------------|---------|
-| GLM-5.3 | $1.40 | $4.40 | 1M |
-| GLM-5.3 Flash | $0.15 | $0.50 | 1M |
-| GLM-5.2 | $1.40 | $4.40 | 1M |
-| GLM-5.1 | $1.40 | $4.40 | 200K |
-| GLM-5 | $1.00 | $3.20 | 200K |
-| GLM-5 Turbo | $1.20 | $4.00 | 200K |
+| Model | Input (per 1M) | Output (per 1M) | Context | Cached input (per 1M) |
+|-------|----------------|-----------------|---------|-----------------------|
+| GLM-5.3 | $1.40 | $4.40 | 1M | $0.26 |
+| GLM-5.3 Flash | $0.15 | $0.50 | 1M | $0.03 |
+| GLM-5.2 | $1.40 | $4.40 | 1M | $0.26 |
+| GLM-5.1 | $1.40 | $4.40 | 200K | $0.26 |
+| GLM-5 | $1.00 | $3.20 | 200K | $0.20 |
+| GLM-5 Turbo | $1.20 | $4.00 | 200K | — |
 
 ### Moonshot
 
-| Model | Input (per 1M) | Output (per 1M) | Context |
-|-------|---------------|-----------------|---------|
-| Kimi K3 | $3.00 | $15.00 | 1M |
+| Model | Input (per 1M) | Output (per 1M) | Context | Cached input (per 1M) |
+|-------|----------------|-----------------|---------|-----------------------|
+| Kimi K3 | $3.00 | $15.00 | 1M | $0.30 |
 
 ### MiniMax
 
-| Model | Input (per 1M) | Output (per 1M) |
-|-------|---------------|-----------------|
-| MiniMax M3 | $0.30 | $1.20 |
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| MiniMax M3 | $0.30 | $1.20 | — |
 
 ### Qwen
 
-| Model | Input (per 1M) | Output (per 1M) |
-|-------|---------------|-----------------|
-| Qwen3.7 Max | $1.48 | $4.43 |
-| Qwen3.7 Plus | $0.32 | $1.28 |
-| Qwen3.7 Flash | $0.03 | $0.13 |
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| Qwen3.7 Max | $1.48 | $4.43 | — |
+| Qwen3.7 Plus | $0.32 | $1.28 | — |
+| Qwen3.7 Flash | $0.03 | $0.13 | — |
 
 ### DeepSeek
 
-| Model | Input (per 1M) | Output (per 1M) |
-|-------|---------------|-----------------|
-| DeepSeek V4 Flash Chat | $0.14 | $0.28 |
-| DeepSeek V4 Flash Reasoner | $0.14 | $0.28 |
-| DeepSeek V4 Flash Vision (image input) | $0.30 | $1.20 |
-| DeepSeek V4 Pro | $1.32 | $3.96 |
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| DeepSeek V4 Flash Chat | $0.14 | $0.28 | $0.028 |
+| DeepSeek V4 Flash Reasoner | $0.14 | $0.28 | $0.028 |
+| DeepSeek V4 Flash Vision (image input) | $0.30 | $1.20 | $0.006 |
+| DeepSeek V4 Pro | $1.32 | $3.96 | $0.044 |
 
 ### Free Tier (5 models)
 
