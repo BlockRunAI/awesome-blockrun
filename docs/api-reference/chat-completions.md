@@ -45,7 +45,7 @@ named that path first. Prefer the canonical form in new code.
 | `reasoning_effort` | string | No | Reasoning depth for GPT-5.x / o-series (`none`, `minimal`, `low`, `medium`, `high`, `xhigh`) |
 | `thinking` | object | No | Anthropic extended thinking, e.g. `{"type":"enabled","budget_tokens":2048}` or `{"type":"disabled"}` |
 | `prompt_cache` | boolean | No | Opt in to Anthropic prompt caching (Anthropic models only). Consumed by the gateway, never forwarded |
-| `search_parameters` | object | No | xAI Live Search on `xai/*` models: `{"mode":"auto"\|"on"\|"off","sources":[…],"return_citations":true,"from_date":"YYYY-MM-DD","to_date":"YYYY-MM-DD","max_search_results":≤50}`. Adds $0.025 per source to the quote (estimated at `max_search_results`, default 10) plus a 5% margin on that search leg |
+| `search_parameters` | object | No | xAI Live Search on `xai/*` models: `{"mode":"auto"\|"on"\|"off","sources":[…],"return_citations":true,"from_date":"YYYY-MM-DD","to_date":"YYYY-MM-DD","max_search_results":≤50}`. Adds one flat surcharge per call to the quote — $0.30 on Grok 4.5 / 4.6 / 4.7 / 4.20, $0.12 on Grok 4.3 and below — whatever `max_search_results` is; `mode: "off"` adds nothing |
 
 Unknown parameters (`seed`, `n`, `logprobs`, `top_k`, …) are kept and forwarded verbatim to OpenAI-compatible upstreams. `stream_options` is the one exception: it is never forwarded — the gateway sets its own `stream_options.include_usage` because billing needs the usage frame.
 

@@ -90,7 +90,7 @@ Gemini Pro models double the input rate and add 50% to the output rate above 200
 | Grok 4.3 | $1.25 | $2.50 | 1M |
 | Grok Build 0.1 | $1.00 | $2.00 | 256K |
 
-Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.7, 4.6 and 4.5 are $4.00 in · $12.00 out above the threshold), mirroring xAI's official long-context tier. Live Search adds $0.025 per source used.
+Grok doubles the per-token rates above 200K prompt tokens (the whole request reprices — e.g. Grok 4.7, 4.6 and 4.5 are $4.00 in · $12.00 out above the threshold), mirroring xAI's official long-context tier. Live Search adds one flat surcharge per call: $0.30 on Grok 4.5 / 4.6 / 4.7 / 4.20, $0.12 on Grok 4.3 and below.
 
 ### Z.AI
 
