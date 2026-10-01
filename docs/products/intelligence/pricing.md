@@ -40,7 +40,7 @@ The free tier costs $0 — 5 reasoning, coding, and vision models with no per-to
 
 How the cached rate reaches an x402 payment depends on the scheme the client signs:
 
-- **`upto`** — the client signs a ceiling and is charged actual usage after the call, with cached tokens at the cached rate. Offered on DeepSeek and Anthropic models, and it needs no ETH (the USDC approval is a gasless signature).
+- **`upto`** — the client signs a ceiling and is charged actual usage after the call. On DeepSeek models, cached tokens are charged at the cached rate; other models bill cached tokens at the input rate. Offered on DeepSeek and Anthropic models, and it needs no ETH (the USDC approval is a gasless signature).
 - **`exact`** — the client signs the price quoted before the call. Nobody knows about a cache hit yet, so the quote uses the full input rate.
 
 ### OpenAI
