@@ -9,6 +9,10 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ## [2026-10-02]
 
+### Removed — Gemma 4 31B (free), the same day
+- **`nvidia/gemma-4-31b`** is delisted. The free upstream stopped answering: no response inside 120 seconds, on short and realistic prompts alike. Calls now redirect to `nvidia/nemotron-3-super-120b`, and it comes back when the upstream does.
+- Visible chat models are now **86**; total catalog **113**; free models **7**.
+
 ### Added — Qwen3.8 Max, Tencent Hy4 Preview, Laguna S 2.1, Muse Glimmer 30B, Gemma 4 31B on Base
 - **`qwen/qwen3.8-max`** ($2.00/M in · $6.00/M out, **1M context**, 131K max output) — the newest Qwen flagship. Falls back to Qwen3.7 Max, which costs less, if its upstream fails.
 - **`tencent/hy4-preview`** ($0.834/M · $2.501/M, **1M context**, 64K max output) — Tencent's 770B open-weight MoE. It reasons before answering; a small `max_tokens` can be spent entirely on reasoning.
