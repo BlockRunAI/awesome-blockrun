@@ -28,10 +28,10 @@ Media generation and Live Search still carry a 5% platform margin, which covers:
 | DeepSeek V4 Flash Chat | ~7M input tokens |
 | Gemini 3.5 Flash | ~635K input tokens |
 | Image generation | ~10–65 images |
-| **Free tier** (5 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
+| **Free tier** (8 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
 
 :::tip{title="Start with the free tier"}
-The free tier costs $0 — 5 reasoning, coding, and vision models with no per-token charge. You still need a funded wallet for the x402 handshake, but these calls don't draw it down.
+The free tier costs $0 — 8 reasoning, coding, and vision models with no per-token charge. You still need a funded wallet for the x402 handshake, but these calls don't draw it down.
 :::
 
 ## Full Price List
@@ -129,9 +129,22 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
+| Qwen3.8 Max | $2.00 | $6.00 | — |
 | Qwen3.7 Max | $1.48 | $4.43 | — |
 | Qwen3.7 Plus | $0.32 | $1.28 | — |
 | Qwen3.7 Flash | $0.03 | $0.13 | — |
+
+### Tencent
+
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| Tencent Hy4 Preview | $0.834 | $2.501 | — |
+
+### Poolside
+
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| Laguna S 2.1 | $0.09 | $0.18 | — |
 
 ### DeepSeek
 
@@ -142,9 +155,9 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 | DeepSeek V4 Flash Vision (image input) | $0.30 | $1.20 | $0.006 |
 | DeepSeek V4 Pro | $1.32 | $3.96 | $0.044 |
 
-### Free Tier (5 models)
+### Free Tier (8 models)
 
-The free tier is 5 reasoning, coding, and vision models with no per-token
+The free tier is 8 reasoning, coding, and vision models with no per-token
 charge. The lineup is kept current by a self-healing health gate that routes
 around any model whose upstream is temporarily unavailable and auto-recovers
 it, so existing calls keep working. All free-tier models are `FREE` for both

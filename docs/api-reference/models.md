@@ -233,6 +233,7 @@ K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-tok
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `qwen/qwen3.8-max` | Qwen3.8 Max (flagship) | $2.00/M | $6.00/M | 1M |
 | `qwen/qwen3.7-max` | Qwen3.7 Max | $1.475/M | $4.425/M | 1M |
 | `qwen/qwen3.7-plus` | Qwen3.7 Plus | $0.32/M | $1.28/M | 1M |
 | `qwen/qwen3.7-flash` | Qwen3.7 Flash | $0.03/M | $0.13/M | 1M |
@@ -242,7 +243,14 @@ K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-tok
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `tencent/hy4-preview` | Tencent Hy4 Preview (770B MoE, reasoning) | $0.834/M | $2.501/M | 1M |
 | `tencent/hy3` | Tencent Hy3 | $0.132/M | $0.528/M | 256K |
+
+### Poolside
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `poolside/laguna-s-2.1` | Laguna S 2.1 (coding) | $0.09/M | $0.18/M | 1M |
 
 ### Xiaomi
 
@@ -262,7 +270,7 @@ Open-weight models billed at a flat per-request price instead of per token — t
 
 ### Free Tier (open-weight)
 
-Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billing_mode: "free"`). There are **5** free models listed on mainnet.
+Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billing_mode: "free"`). There are **8** free models listed on mainnet.
 
 | Model ID | Name | Input Price | Output Price |
 |----------|------|-------------|--------------|
@@ -272,6 +280,8 @@ Open-weight models served free of charge (no x402 payment), subject to a small p
 | `nvidia/llama-3.2-11b-vision` | Llama 3.2 11B Vision | **FREE** | **FREE** |
 | `cohere/north-mini-code` | Cohere North Mini Code (coding) | **FREE** | **FREE** |
 | `poolside/laguna-xs-2.1` | Poolside Laguna XS 2.1 (coding) | **FREE** | **FREE** |
+| `nvidia/muse-glimmer-30b` | Muse Glimmer 30B (Meta, reasoning) | **FREE** | **FREE** |
+| `nvidia/gemma-4-31b` | Gemma 4 31B (Google) | **FREE** | **FREE** |
 
 ### Image Generation
 
