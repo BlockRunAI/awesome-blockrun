@@ -1,11 +1,11 @@
 ---
 title: BlockRun MCP
-description: A Model Context Protocol server that gives Claude Code 82 models, crypto data, voice calls, media generation, and prediction markets with zero API keys.
+description: A Model Context Protocol server that gives Claude Code 87 models, crypto data, voice calls, media generation, and prediction markets with zero API keys.
 ---
 
 # BlockRun MCP
 
-Give Claude Code access to 109 AI models, 66 crypto data endpoints, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
+Give Claude Code access to 114 AI models, 66 crypto data endpoints, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
 
 BlockRun MCP is a Model Context Protocol server that connects Claude Code to BlockRun's intelligence, trading, and creation capabilities.
 

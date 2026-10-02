@@ -399,7 +399,7 @@ The XRPL gateway mirrored the main BlockRun catalog (last catalog sync in the ga
 | **Google** | gemini-3.1-pro, gemini-3-flash-preview, gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite |
 | **xAI** | grok-4.7, grok-4.5, grok-4.3, grok-build-0.1 |
 | **DeepSeek** | deepseek-chat, deepseek-reasoner, deepseek-v4-pro |
-| **FREE tier** | nemotron-3-ultra-550b, nemotron-3.5-lightning, nemotron-3-nano-omni-30b-a3b-reasoning, llama-3.2-11b-vision, north-mini-code, laguna-xs-2.1 |
+| **FREE tier** | nemotron-3-ultra-550b, nemotron-3.5-lightning, nemotron-3-nano-omni-30b-a3b-reasoning, llama-3.2-11b-vision, north-mini-code, laguna-xs-2.1, muse-glimmer-30b, gemma-4-31b |
 
 See [Intelligence Pricing](../products/intelligence/pricing.md) for full pricing details.
 
@@ -433,7 +433,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 82 models with live pricing to pick the right one for each call.
+Browse all 87 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}

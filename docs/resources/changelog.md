@@ -7,6 +7,19 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-10-02]
+
+### Added — Qwen3.8 Max, Tencent Hy4 Preview, Laguna S 2.1, Muse Glimmer 30B, Gemma 4 31B on Base
+- **`qwen/qwen3.8-max`** ($2.00/M in · $6.00/M out, **1M context**, 131K max output) — the newest Qwen flagship. Falls back to Qwen3.7 Max, which costs less, if its upstream fails.
+- **`tencent/hy4-preview`** ($0.834/M · $2.501/M, **1M context**, 64K max output) — Tencent's 770B open-weight MoE. It reasons before answering; a small `max_tokens` can be spent entirely on reasoning.
+- **`poolside/laguna-s-2.1`** ($0.09/M · $0.18/M, **1M context**, 131K max output) — Poolside's 118B open-weight coding model, the paid sibling of the free Laguna XS 2.1.
+- **`nvidia/muse-glimmer-30b`** (free, 131K) — Meta's open 30B after Llama. Reasons first; ask for 1000+ `max_tokens`.
+- **`nvidia/gemma-4-31b`** (free, 131K) — Google's Gemma 4.
+- Solana (`sol.blockrun.ai`) has listed all five since 2026-09-07; Base (`blockrun.ai`) now matches. Each was verified with real completions on the upstream the gateway uses, and each paid price is the upstream's rate.
+- Visible chat models are now **87**; total catalog **114**; free models **8**.
+
+---
+
 ## [2026-09-29]
 
 ### Added — Claude Opus 5.5, Claude Sonnet 5.5, Grok 4.7
