@@ -210,7 +210,7 @@ client.chat("moonshot/kimi-k3", prompt)
 | Fastest | `google/gemini-3-flash-preview` |
 | Best reasoning | `openai/o3` |
 | Best for code | `openai/gpt-5.3-codex` or `anthropic/claude-sonnet-4.6` |
-| Best quality | `anthropic/claude-opus-5` |
+| Best quality | `anthropic/claude-opus-5.5` |
 
 ## Error Handling
 
