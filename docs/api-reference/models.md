@@ -60,10 +60,22 @@ Only models that are currently available are returned — there is no `available
 ## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-**71 chat / LLM models** are publicly listed on mainnet, plus **9 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**82 chat / LLM models** are publicly listed on mainnet, plus **12 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens, only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform fee.
+
+### OpenAI GPT-6 Family
+
+Astra is the flagship; Sol (released 2026-09-22 with Luna) is the cost-efficient tier below it. All three bill a **long-context tier** — 2x input and cached rates, 1.5x output for the whole request once the prompt exceeds 272K tokens (mirrors OpenAI's official pricing: `gpt-6-sol` is $4.00/M in · $15.00/M out above the threshold). All three serve [Flex](/docs/getting-started/enterprise-api#flex) at half the standard rate.
+
+| Model ID | Name | Input Price | Output Price | Context |
+|----------|------|-------------|--------------|---------|
+| `openai/gpt-6-astra` | GPT-6 Astra | $10.00/M | $50.00/M | 1M |
+| `openai/gpt-6-sol` | GPT-6 Sol | $2.00/M | $10.00/M | 1M |
+| `openai/gpt-6-luna` | GPT-6 Luna | $0.10/M | $0.50/M | 1M |
+
+GPT-6 models accept `reasoning_effort` `low` through `xhigh` (Sol and Luna also accept `none`; Astra does not) and reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`.
 
 ### OpenAI GPT-5.6 Family
 
@@ -71,8 +83,8 @@ Released 2026-07-09 — three fixed tiers (Sol / Terra / Luna) replacing the sin
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `openai/gpt-5.6-sol` | GPT-5.6 Sol | $5.00/M | $30.00/M | 1M |
-| `openai/gpt-5.6-sol-pro` | GPT-5.6 Sol Pro | $5.00/M | $30.00/M | 1M |
+| `openai/gpt-5.6-sol` | GPT-5.6 Sol | $4.00/M | $20.00/M | 1M |
+| `openai/gpt-5.6-sol-pro` | GPT-5.6 Sol Pro | $4.00/M | $20.00/M | 1M |
 | `openai/gpt-5.6-terra` | GPT-5.6 Terra | $2.00/M | $12.00/M | 1M |
 | `openai/gpt-5.6-terra-pro` | GPT-5.6 Terra Pro | $2.00/M | $12.00/M | 1M |
 | `openai/gpt-5.6-luna` | GPT-5.6 Luna | $0.20/M | $1.20/M | 1M |
@@ -104,6 +116,7 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 | `openai/gpt-5.2-pro` | GPT-5.2 Pro | $21.00/M | $168.00/M | 400K |
 | `openai/gpt-5.2` | GPT-5.2 | $1.75/M | $14.00/M | 400K |
 | `openai/gpt-5.3-codex` | GPT-5.3 Codex | $1.75/M | $14.00/M | 400K |
+| `openai/gpt-5.1` | GPT-5.1 | $1.25/M | $10.00/M | 400K |
 | `openai/gpt-5-mini` | GPT-5 Mini | $0.25/M | $2.00/M | 200K |
 
 ### OpenAI O-Series (Reasoning)
@@ -129,6 +142,7 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `anthropic/claude-fable-5.1` | Claude Fable 5.1 | $10.00/M | $50.00/M | 1M |
 | `anthropic/claude-fable-5` | Claude Fable 5 | $10.00/M | $50.00/M | 1M |
 | `anthropic/claude-opus-4.5` | Claude Opus 4.5 | $5.00/M | $25.00/M | 200K |
 | `anthropic/claude-opus-4.7` | Claude Opus 4.7 | $5.00/M | $25.00/M | 1M |
@@ -141,12 +155,12 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 | `anthropic/claude-sonnet-5.5` | Claude Sonnet 5.5 | $2.00/M | $10.00/M | 1M |
 | `anthropic/claude-haiku-4.5` | Claude Haiku 4.5 | $1.00/M | $5.00/M | 200K |
 
-:::warning{title="Claude Opus 4.7 / 4.8 / 5 / 5.5, Fable 5 and Sonnet 5 / 5.5 behavior"}
+:::warning{title="Claude Opus 4.7 / 4.8 / 5 / 5.5, Fable 5 / 5.1 and Sonnet 5 / 5.5 behavior"}
 These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); the gateway drops them so calls succeed. They use adaptive thinking (built-in, not API-configurable). The model may decline a request with HTTP 200 and `stop_reason: "refusal"` (`finish_reason: "content_filter"` on the OpenAI-compatible endpoint) — check the stop reason before reading content.
 
 **Opus 5.5 and Sonnet 5.5** add three differences, all absorbed by the gateway so a request that works on Opus 5 still works here:
 
-- **Forced tool choice.** Both reject `tool_choice: "required"` / a named tool (Anthropic `any` / `tool`). The gateway serves it as `auto`; name the tool in your prompt if the call must happen.
+- **Forced tool choice.** Both — and Fable 5.1 — reject `tool_choice: "required"` / a named tool (Anthropic `any` / `tool`). The gateway serves it as `auto`; name the tool in your prompt if the call must happen.
 - **Turning thinking off.** Opus 5.5 cannot turn thinking off at all — a `{"type": "disabled"}` block is dropped and the model thinks adaptively; use a low `output_config.effort` to keep it short. Sonnet 5.5 calls "off" `between_tools`; the gateway translates `disabled` for you and caps effort at `high`, the most that mode allows.
 - **Cache reads on Opus 5.5** are $0.20/M — 0.05x input, where other Claude models read at 0.1x.
 :::
@@ -173,6 +187,7 @@ Gemini **Pro** models (`gemini-2.5-pro`, `gemini-3.1-pro`) bill a **long-context
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `xai/grok-4.7` | Grok 4.7 | $2.00/M | $6.00/M | 500K |
+| `xai/grok-4.6` | Grok 4.6 | $2.00/M | $6.00/M | 500K |
 | `xai/grok-4.5` | Grok 4.5 | $2.00/M | $6.00/M | 500K |
 | `xai/grok-4.3` | Grok 4.3 | $1.25/M | $2.50/M | 1M |
 | `xai/grok-build-0.1` | Grok Build 0.1 | $1.00/M | $2.00/M | 256K |
@@ -184,7 +199,7 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `deepseek/deepseek-v4-pro` | DeepSeek V4 Pro | $1.32/M | $3.96/M | 1M |
-| `deepseek/deepseek-v4-flash-vision-exp` | DeepSeek V4 Flash Vision (image input) | $0.44/M | $1.32/M | 1M |
+| `deepseek/deepseek-v4-flash-vision-exp` | DeepSeek V4 Flash Vision (image input) | $0.30/M | $1.20/M | 1M |
 | `deepseek/deepseek-chat` | DeepSeek V4 Flash Chat | $0.14/M | $0.28/M | 1M |
 | `deepseek/deepseek-reasoner` | DeepSeek V4 Flash Reasoner | $0.14/M | $0.28/M | 1M |
 

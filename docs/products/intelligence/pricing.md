@@ -48,6 +48,8 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
 | GPT-6 Astra (flagship) | $10.00 | $50.00 | $1.00 |
+| GPT-6 Sol | $2.00 | $10.00 | $0.20 |
+| GPT-6 Luna | $0.10 | $0.50 | $0.01 |
 | GPT-5.6 Sol | $4.00 | $20.00 | $0.40 |
 | GPT-5.6 Sol Pro | $4.00 | $20.00 | $0.40 |
 | GPT-5.6 Terra | $2.00 | $12.00 | $0.20 |
@@ -64,7 +66,8 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
-| Claude Fable 5 (most capable) | $10.00 | $50.00 | $1.00 |
+| Claude Fable 5.1 (most capable) | $10.00 | $50.00 | $0.25 |
+| Claude Fable 5 | $10.00 | $50.00 | $1.00 |
 | Claude Opus 5.5 (flagship) | $4.00 | $20.00 | $0.20 |
 | Claude Opus 5 (previous flagship) | $5.00 | $25.00 | $0.50 |
 | Claude Opus 4.8 | $5.00 | $25.00 | $0.50 |

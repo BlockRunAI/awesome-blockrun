@@ -122,16 +122,16 @@ Yes — a flat $0.001 transaction fee on every paid call, which covers on-chain 
 ### Which AI models are available?
 
 82 models including:
-- OpenAI (GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2)
-- Anthropic (Claude Opus 5.5, Opus 5, Opus 4.8, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Haiku 4.5)
+- OpenAI (GPT-6 Astra, GPT-6 Sol, GPT-6 Luna, GPT-5.6 Sol, GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2)
+- Anthropic (Claude Fable 5.1, Opus 5.5, Opus 5, Opus 4.8, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Haiku 4.5)
 - Google (Gemini 3.1 Pro, Gemini 3.5 Flash)
 - DeepSeek (V4 Flash Chat, V4 Pro, Reasoner)
 - Z.AI (GLM-5.2 with 1M context, GLM-5.1, GLM-5, GLM-5 Turbo)
 - Moonshot (Kimi K3 — 1M context, image + text input)
 - MiniMax (MiniMax M3)
 - Qwen (Qwen3.7 Max — 1M context, Alibaba flagship)
-- xAI (Grok 4.7, Grok 4.5, Grok 4.3, Grok Build 0.1)
-- Plus a free tier of 5 reasoning, coding, and vision models
+- xAI (Grok 4.7, Grok 4.6, Grok 4.5, Grok 4.3, Grok Build 0.1)
+- Plus a free tier of 6 reasoning, coding, and vision models
 
 Full list: [Models](../api-reference/models.md)
 

@@ -19,6 +19,45 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ---
 
+## [2026-09-25]
+
+### Added — GPT-6 Sol and GPT-6 Luna
+- **`openai/gpt-6-sol`** ($2.00/M in · $10.00/M out, cached $0.20/M, **1M context**, 128K max output, vision) — the cost-efficient GPT-6 tier below the Astra flagship, for complex coding and agentic work.
+- **`openai/gpt-6-luna`** ($0.10/M · $0.50/M, cached $0.01/M, **1M context**, 128K max output, vision) — the smallest GPT-6 tier.
+- Like `gpt-6-astra`, both reprice the whole request at 2x input and cached rates, 1.5x output once the prompt exceeds 272K tokens — `gpt-6-sol` is $4.00/$15.00 above the threshold — as OpenAI bills it.
+- Unlike Astra, both accept `reasoning_effort: "none"`. Both reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`; `reasoning_effort: "max"` is rejected upstream despite the model page listing it.
+- Both serve Flex (`service_tier: "flex"`, half the standard rate), verified with a paid call on 2026-09-26 against a no-tier control.
+
+---
+
+## [2026-09-08]
+
+### Added — Claude Fable 5.1, Grok 4.6
+- **`anthropic/claude-fable-5.1`** ($10.00/M · $50.00/M, cached $0.25/M, **1M context**, 128K max output, vision) — Anthropic's most capable model, successor to Fable 5 in the same tier at the same price. It rejects a forced tool choice; the gateway serves `tool_choice: "required"` or a named tool as `auto`. Anthropic's dashed id `claude-fable-5-1` resolves too.
+- **`xai/grok-4.6`** ($2.00/M · $6.00/M, cached $0.50/M, **500K context**, vision, reasoning effort) — doubles to $4.00/$12.00 once a prompt reaches 200K tokens.
+
+---
+
+## [2026-09-07]
+
+### Added — GPT-5.1
+- **`openai/gpt-5.1`** ($1.25/M · $10.00/M, **400K context**, 128K max output, vision and tools).
+
+### Fixed — long-context tier removed where OpenAI does not charge one
+- `openai/gpt-5.2`, `gpt-5.2-pro`, `gpt-5.3-codex`, `gpt-5.4-mini` and `gpt-5.4-nano` were repricing requests above 272K prompt tokens; OpenAI bills those five flat. They are flat now.
+
+---
+
+## [2026-09-05]
+
+### Added — GPT-6 Astra
+- **`openai/gpt-6-astra`** ($10.00/M · $50.00/M, cached $1.00/M, **1M context**, 128K max output, vision) — OpenAI's GPT-6 flagship for long-horizon agentic work and computer use. 2x input / 1.5x output above 272K prompt tokens ($20.00/$75.00). It rejects `reasoning_effort: "none"`.
+
+### Fixed — GPT-5.6 Sol at OpenAI's cut price
+- **`openai/gpt-5.6-sol`** and **`openai/gpt-5.6-sol-pro`** bill $4.00/$20.00, following OpenAI's 2026-08-21 cut from $5.00/$30.00.
+
+---
+
 ## [2026-08-30]
 
 ### Added — Qwen3.8 Flash, DeepSeek V4 Flash Vision, MiMo-V2.5

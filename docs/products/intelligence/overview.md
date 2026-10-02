@@ -26,7 +26,11 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 ### OpenAI
 | Model | Input | Output |
 |-------|-------|--------|
-| GPT-5.5 (flagship) | $5.00/M | $30.00/M |
+| GPT-6 Astra (flagship) | $10.00/M | $50.00/M |
+| GPT-6 Sol | $2.00/M | $10.00/M |
+| GPT-6 Luna | $0.10/M | $0.50/M |
+| GPT-5.6 Sol | $4.00/M | $20.00/M |
+| GPT-5.5 | $5.00/M | $30.00/M |
 | GPT-5.4 | $2.50/M | $15.00/M |
 | GPT-5.4 Pro | $30.00/M | $180.00/M |
 | GPT-5.2 | $1.75/M | $14.00/M |
@@ -34,7 +38,8 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 ### Anthropic
 | Model | Input | Output |
 |-------|-------|--------|
-| Claude Fable 5 (most capable) | $10.00/M | $50.00/M |
+| Claude Fable 5.1 (most capable) | $10.00/M | $50.00/M |
+| Claude Fable 5 | $10.00/M | $50.00/M |
 | Claude Opus 5.5 (flagship) | $4.00/M | $20.00/M |
 | Claude Opus 5 (previous flagship) | $5.00/M | $25.00/M |
 | Claude Opus 4.8 | $5.00/M | $25.00/M |
@@ -50,6 +55,15 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 |-------|-------|--------|
 | Gemini 3.1 Pro | $2.00/M | $12.00/M |
 | Gemini 3.5 Flash | $1.50/M | $9.00/M |
+
+### xAI
+| Model | Input | Output |
+|-------|-------|--------|
+| Grok 4.7 (flagship) | $2.00/M | $6.00/M |
+| Grok 4.6 | $2.00/M | $6.00/M |
+| Grok 4.5 | $2.00/M | $6.00/M |
+| Grok 4.3 | $1.25/M | $2.50/M |
+| Grok Build 0.1 | $1.00/M | $2.00/M |
 
 ### Z.AI
 | Model | Input | Output |

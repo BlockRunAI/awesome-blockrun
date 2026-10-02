@@ -80,11 +80,11 @@ All BlockRun chat models are available. A sample of what the live catalog lists 
 
 | Provider | Models |
 |----------|--------|
-| OpenAI | gpt-5.5, gpt-5.4, gpt-5.4-mini, gpt-5.2, o3, o1 |
-| Anthropic | claude-fable-5, claude-opus-5.5, claude-opus-5, claude-opus-4.8, claude-sonnet-5.5, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
+| OpenAI | gpt-6-astra, gpt-6-sol, gpt-6-luna, gpt-5.5, gpt-5.4, gpt-5.4-mini, gpt-5.2, o3, o1 |
+| Anthropic | claude-fable-5.1, claude-fable-5, claude-opus-5.5, claude-opus-5, claude-opus-4.8, claude-sonnet-5.5, claude-sonnet-5, claude-sonnet-4.6, claude-haiku-4.5 |
 | Google | gemini-3.1-pro, gemini-3.5-flash, gemini-3-flash-preview, gemini-2.5-flash-lite |
 | DeepSeek | deepseek-v4-pro, deepseek-chat, deepseek-reasoner |
-| xAI | grok-4.7, grok-4.5, grok-4.3, grok-build-0.1 |
+| xAI | grok-4.7, grok-4.6, grok-4.5, grok-4.3, grok-build-0.1 |
 | Free tier | nemotron-3-ultra-550b, nemotron-3.5-lightning, north-mini-code |
 
 See [Models Reference](../api-reference/models.md) for the full list, or `curl https://blockrun.ai/api/v1/models`.
