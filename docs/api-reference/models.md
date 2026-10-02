@@ -281,7 +281,6 @@ Open-weight models served free of charge (no x402 payment), subject to a small p
 | `cohere/north-mini-code` | Cohere North Mini Code (coding) | **FREE** | **FREE** |
 | `poolside/laguna-xs-2.1` | Poolside Laguna XS 2.1 (coding) | **FREE** | **FREE** |
 | `nvidia/muse-glimmer-30b` | Muse Glimmer 30B (Meta, reasoning) | **FREE** | **FREE** |
-| `nvidia/gemma-4-31b` | Gemma 4 31B (Google) | **FREE** | **FREE** |
 
 ### Image Generation
 

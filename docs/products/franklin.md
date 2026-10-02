@@ -1,6 +1,6 @@
 ---
 title: Franklin Agent
-description: Franklin is the AI agent with a wallet. It writes code and spends USDC autonomously across 87 models and paid APIs, settling per outcome over x402. No API keys.
+description: Franklin is the AI agent with a wallet. It writes code and spends USDC autonomously across 86 models and paid APIs, settling per outcome over x402. No API keys.
 ---
 
 # Franklin Agent
@@ -116,7 +116,7 @@ Inside a session: `/model`, `/plan` / `/execute`, `/ultrathink`, `/compact`, `/c
 
 Franklin is the autonomous agent on top of the BlockRun stack — it uses the same pieces you can use directly:
 
-- **Models & routing** — picks the best model per task via [ClawRouter](routing/clawrouter.md)'s scoring, across 87 chat models. Four profiles: `auto`, `eco`, `premium`, `free`.
+- **Models & routing** — picks the best model per task via [ClawRouter](routing/clawrouter.md)'s scoring, across 86 chat models. Four profiles: `auto`, `eco`, `premium`, `free`.
 - **Paid APIs** — search, market data, media, RPC, prediction markets and more, paid per call over [x402](../x402/how-it-works.md).
 - **One wallet** — the wallet is the identity; fund it on Solana or Base ([Wallet Setup](../getting-started/wallet-setup.md)).
 
