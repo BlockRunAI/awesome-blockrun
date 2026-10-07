@@ -1,30 +1,25 @@
 ---
 title: Decisions (Typed Judgments)
-description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible. Free with a key, or pay per call over x402.
+description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible. Free with a BlockRun API key at api.blockrun.ai.
 ---
 
 # Decisions (Typed Judgments)
 
 Send context and a set of questions with a fixed answer space; get back one typed answer per question instead of text.
 
-The endpoint is compatible with OpenAI's Decisions API: same request, same response, served by `gpt-6-luna`. Any OpenAI SDK works with the base URL changed.
+The endpoint is compatible with OpenAI's Decisions API: same request, same response, served by `gpt-6-luna`. Any OpenAI SDK works with `base_url` set to `https://api.blockrun.ai/v1`.
 
-:::note{title="Two ways in"}
-**Free with an API key** at `api.blockrun.ai` — get a key at [user.blockrun.ai](https://user.blockrun.ai) (registration, not a card).
-**Pay per call over x402** at `blockrun.ai` — for an agent that has a wallet and no key.
-Both take the same body and return the same response.
+:::note{title="Free with a key — the only way in"}
+Register at [user.blockrun.ai](https://user.blockrun.ai) and create an API key (registration, not a card). Decisions is served only at `api.blockrun.ai`. It is **not** sold per call over x402 on `blockrun.ai`: the smallest payment an x402 call can settle is more than a judgment costs, so a paid route would charge more than the answer is worth.
 :::
 
-## Endpoints
+## Endpoint
 
 | Endpoint | Auth | Price |
 |----------|------|-------|
 | `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | Free, with a per-key hourly limit |
-| `POST https://blockrun.ai/api/v1/decisions` | x402 payment header | Input tokens at $0.10 per 1M, at least $0.001 a call, plus the $0.001 transaction fee |
 
-Output tokens are not billed on either rail. On the paid rail almost every call lands on the minimum — $0.002 in total — because $0.001 buys 10,000 input tokens. Asking several questions in one call costs the same as asking one.
-
-The per-key limit on the free rail is reported in the response when you reach it; read it there rather than copying a number from this page.
+Asking several questions in one call is still one call against the limit. The per-key limit is reported in the response when you reach it; read it there rather than copying a number from this page.
 
 ---
 
@@ -60,8 +55,8 @@ curl https://api.blockrun.ai/v1/decisions \
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `model` | string | no | `gpt-6-luna`, the only Decisions model. `openai/gpt-6-luna` is accepted too. |
-| `input` | string \| array | yes | The evidence. A string, or messages whose `content` holds text and inline base64 images. Hosted image URLs are not accepted. |
-| `questions` | array | yes | What to evaluate. Each has a `type`, a `name` you choose, and `instructions` in plain language. |
+| `input` | string \| array | yes | The evidence. A string, or messages whose `content` holds text and inline base64 images. Hosted image URLs are not accepted. At most 120,000 characters of text and 8 images per call. |
+| `questions` | array | yes | What to evaluate. Each has a `type`, a `name` you choose, and `instructions` in plain language. At most 64 questions, 30,000 characters in all, and 255 choices or levels each. |
 
 ### Question types
 
@@ -150,12 +145,6 @@ const { answers } = await res.json();
 console.log(answers[0].probability > 0.9 ? "refund requested" : "unclear");
 ```
 
-## Paying per call instead (x402)
-
-An agent with a wallet can skip the key. Send the same body to `https://blockrun.ai/api/v1/decisions`; the first response is a `402` quoting the price for that input, and an x402 client signs it and retries. With the [Python SDK](../sdks/python.md) or [TypeScript SDK](../sdks/typescript.md) wallet setup, any x402-aware HTTP client handles the round trip.
-
-The `402` body names the rate in `paymentInfo` (`pricingUnit: "per-input-token"`, `inputPricePerMillion`, `minimumUsd`) so a caller can budget before paying.
-
 ---
 
 ## Ask questions the input can answer
@@ -166,20 +155,19 @@ The shape that works in a pipeline: build the input with every fact the judgment
 
 ## Errors
 
-| Status | Meaning | Charged? |
-|--------|---------|----------|
-| 400 | The body did not match the schema; OpenAI's error envelope names the field | No |
-| 401 | Free rail: missing or invalid key | No |
-| 402 | Paid rail: payment required, or the payment did not verify | No |
-| 4xx from the model | Relayed as returned (for example, duplicate choice values) | No |
-| 429 | Free rail: per-key hourly limit reached; the response carries when to retry | No |
-| 502 / 504 | The model was unreachable or timed out | No |
+| Status | Meaning |
+|--------|---------|
+| 400 | The body did not match the schema or is over a cap; OpenAI's error envelope names the field |
+| 401 | Missing or invalid key |
+| 4xx from the model | Relayed as returned (for example, duplicate choice values) |
+| 429 | Per-key hourly limit reached; the response carries when to retry |
+| 502 / 504 | The model was unreachable or timed out |
 
 See [Error Handling](errors.md) for the shared error shape.
 
 ## Migrating from `/v1/decide`
 
-`POST https://api.blockrun.ai/v1/decide` — the older `state` + `noul` / `choice` / `score` shape — is still accepted and answered by the same model. New code should use `/v1/decisions`. See [Decide (legacy)](decide.md).
+`POST https://api.blockrun.ai/v1/decide` — the older `state` + `noul` / `choice` / `score` shape — is still accepted as a compatibility alias, with the same key, and answered by the same model. New code should use `/v1/decisions`. See [Decide (legacy)](decide.md).
 
 ::::cards
 :::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
