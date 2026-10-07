@@ -146,6 +146,12 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 |-------|----------------|-----------------|-----------------------|
 | Laguna S 2.1 | $0.09 | $0.18 | — |
 
+### Mistral
+
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| Mistral Large 4 | $0.68 | $2.09 | — |
+
 ### DeepSeek
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
