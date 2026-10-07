@@ -9,6 +9,11 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ## [2026-10-07]
 
+### Changed — Decisions replaces OpenJev; free with a key, on api.blockrun.ai only
+- Typed judgments are now **OpenAI Decisions-compatible** (`gpt-6-luna`): `predicate`, `choice` and `score` questions over text or images. [`POST https://api.blockrun.ai/v1/decisions`](../api-reference/decisions.md), free for any registered key — register at [user.blockrun.ai](https://user.blockrun.ai) and create one. Any OpenAI SDK works with `base_url="https://api.blockrun.ai/v1"`.
+- **Not sold over x402.** There is no Decisions route or price on `blockrun.ai`: the x402 minimum payment is above what a judgment costs.
+- **OpenJev is retired.** `POST https://api.blockrun.ai/v1/decide` stays as a compatibility alias that translates the old shape; see [Decide (legacy)](../api-reference/decide.md).
+
 ### Added — Mistral Large 4
 - **`mistral/mistral-large-4`** ($0.68/M in · $2.09/M out, **512K context**, 262K max output) — Mistral's flagship, released 2026-10-06. Reasoning, tool calling, JSON mode and image input. It reasons by default and the reasoning bills as output, so leave room in `max_tokens`.
 - The price is Mistral's launch rate, half its $1.36 / $4.18 list. When Mistral ends the promotion the price here moves with it.
