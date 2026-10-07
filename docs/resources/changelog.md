@@ -7,6 +7,13 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-10-07]
+
+### Added — Mistral Large 4
+- **`mistral/mistral-large-4`** ($0.68/M in · $2.09/M out, **512K context**, 262K max output) — Mistral's flagship, released 2026-10-06. Reasoning, tool calling, JSON mode and image input. It reasons by default and the reasoning bills as output, so leave room in `max_tokens`.
+- The price is Mistral's launch rate, half its $1.36 / $4.18 list. When Mistral ends the promotion the price here moves with it.
+- Visible chat models are now **87**; total catalog **114**.
+
 ## [2026-10-02]
 
 ### Removed — Gemma 4 31B (free), the same day
