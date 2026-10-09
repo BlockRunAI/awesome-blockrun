@@ -9,10 +9,15 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ## [2026-10-09]
 
+### Changed — GPT-6 reasoning effort
+- **`reasoning_effort: "max"` now works on every GPT-6 model.** It used to fail with a 400 on chat completions. On plain chat the gateway now lowers it to `xhigh`; on tool calls, which the gateway serves through OpenAI's Responses API, `max` is sent as asked.
+- **GPT-6 tool calls now run at the effort you ask for.** They used to run at `medium` whatever the request said, so a `low` call billed medium reasoning; now it bills low. With no `reasoning_effort`, tool calls still default to `medium`.
+- `none` and `minimal` are raised to `low` on `gpt-6-astra` and `gpt-6.1-sol`. `gpt-6-sol` and `gpt-6-luna` accept `none`; `minimal` is raised to `low` on all four.
+
 ### Added — GPT-6.1 Sol
 - **`openai/gpt-6.1-sol`** ($2.00/M in · $10.00/M out, **1M context**, 128K max output, vision, reasoning) — OpenAI's 2026-09-29 refresh of the GPT-6 Sol tier, knowledge cutoff 2026-04-30. Same price as `gpt-6-sol`, but cached input is **$0.10/M**, half of Sol's $0.20/M; cache writes are $2.50/M.
 - Like the rest of GPT-6, it reprices the whole request at 2x input and cached rates, 1.5x output once the prompt exceeds 272K tokens — $4.00/$15.00 above the threshold — as OpenAI bills it.
-- Tool calls work: the gateway routes them through OpenAI's Responses API, so no client change is needed. `reasoning_effort` accepts `low` through `xhigh`; `none` and `minimal` are raised to `low`. No Flex tier yet.
+- Tool calls work: the gateway routes them through OpenAI's Responses API, so no client change is needed. `reasoning_effort` accepts `low` through `max` (see the effort change above); `none` and `minimal` are raised to `low`. No Flex tier yet.
 - Falls back to `gpt-6-sol`, at the same rate, if its upstream fails.
 - Visible chat models are now **88**; total catalog **115**.
 
@@ -63,7 +68,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - **`openai/gpt-6-sol`** ($2.00/M in · $10.00/M out, cached $0.20/M, **1M context**, 128K max output, vision) — the cost-efficient GPT-6 tier below the Astra flagship, for complex coding and agentic work.
 - **`openai/gpt-6-luna`** ($0.10/M · $0.50/M, cached $0.01/M, **1M context**, 128K max output, vision) — the smallest GPT-6 tier.
 - Like `gpt-6-astra`, both reprice the whole request at 2x input and cached rates, 1.5x output once the prompt exceeds 272K tokens — `gpt-6-sol` is $4.00/$15.00 above the threshold — as OpenAI bills it.
-- Unlike Astra, both accept `reasoning_effort: "none"`. Both reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`; `reasoning_effort: "max"` is rejected upstream despite the model page listing it.
+- Unlike Astra, both accept `reasoning_effort: "none"`. Both reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`; `reasoning_effort: "max"` is rejected upstream despite the model page listing it (since 2026-10-09 the gateway accepts it; see that entry).
 - Both serve Flex (`service_tier: "flex"`, half the standard rate), verified with a paid call on 2026-09-26 against a no-tier control.
 
 ---
