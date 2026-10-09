@@ -60,22 +60,23 @@ Only models that are currently available are returned — there is no `available
 ## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-**82 chat / LLM models** are publicly listed on mainnet, plus **12 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**88 chat / LLM models** are publicly listed on mainnet, plus **12 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens, only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform fee.
 
 ### OpenAI GPT-6 Family
 
-Astra is the flagship; Sol (released 2026-09-22 with Luna) is the cost-efficient tier below it. All three bill a **long-context tier** — 2x input and cached rates, 1.5x output for the whole request once the prompt exceeds 272K tokens (mirrors OpenAI's official pricing: `gpt-6-sol` is $4.00/M in · $15.00/M out above the threshold). All three serve [Flex](/docs/getting-started/enterprise-api#flex) at half the standard rate.
+Astra is the flagship; Sol (released 2026-09-22 with Luna) is the cost-efficient tier below it, and GPT-6.1 Sol (released 2026-09-29) is its refresh at the same price with a cheaper cached rate ($0.10/M against Sol's $0.20/M). All four bill a **long-context tier** — 2x input and cached rates, 1.5x output for the whole request once the prompt exceeds 272K tokens (mirrors OpenAI's official pricing: `gpt-6-sol` and `gpt-6.1-sol` are $4.00/M in · $15.00/M out above the threshold). Astra, Sol and Luna serve [Flex](/docs/getting-started/enterprise-api#flex) at half the standard rate; GPT-6.1 Sol does not offer Flex yet.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `openai/gpt-6-astra` | GPT-6 Astra | $10.00/M | $50.00/M | 1M |
+| `openai/gpt-6.1-sol` | GPT-6.1 Sol | $2.00/M | $10.00/M | 1M |
 | `openai/gpt-6-sol` | GPT-6 Sol | $2.00/M | $10.00/M | 1M |
 | `openai/gpt-6-luna` | GPT-6 Luna | $0.10/M | $0.50/M | 1M |
 
-GPT-6 models accept `reasoning_effort` `low` through `xhigh` (Sol and Luna also accept `none`; Astra does not) and reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`.
+GPT-6 models accept `reasoning_effort` `low` through `xhigh` (Sol and Luna also accept `none`; Astra does not, and on GPT-6.1 Sol `none` and `minimal` are raised to `low`) and reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`.
 
 ### OpenAI GPT-5.6 Family
 

@@ -7,6 +7,15 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-10-09]
+
+### Added — GPT-6.1 Sol
+- **`openai/gpt-6.1-sol`** ($2.00/M in · $10.00/M out, **1M context**, 128K max output, vision, reasoning) — OpenAI's 2026-09-29 refresh of the GPT-6 Sol tier, knowledge cutoff 2026-04-30. Same price as `gpt-6-sol`, but cached input is **$0.10/M**, half of Sol's $0.20/M; cache writes are $2.50/M.
+- Like the rest of GPT-6, it reprices the whole request at 2x input and cached rates, 1.5x output once the prompt exceeds 272K tokens — $4.00/$15.00 above the threshold — as OpenAI bills it.
+- Tool calls work: the gateway routes them through OpenAI's Responses API, so no client change is needed. `reasoning_effort` accepts `low` through `xhigh`; `none` and `minimal` are raised to `low`. No Flex tier yet.
+- Falls back to `gpt-6-sol`, at the same rate, if its upstream fails.
+- Visible chat models are now **88**; total catalog **115**.
+
 ## [2026-10-07]
 
 ### Changed — Decisions replaces OpenJev; free with a key, on api.blockrun.ai only

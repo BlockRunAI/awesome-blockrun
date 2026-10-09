@@ -48,6 +48,7 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
 | GPT-6 Astra (flagship) | $10.00 | $50.00 | $1.00 |
+| GPT-6.1 Sol | $2.00 | $10.00 | $0.10 |
 | GPT-6 Sol | $2.00 | $10.00 | $0.20 |
 | GPT-6 Luna | $0.10 | $0.50 | $0.01 |
 | GPT-5.6 Sol | $4.00 | $20.00 | $0.40 |
