@@ -10,8 +10,8 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 ## [2026-10-09]
 
 ### Changed — GPT-6 reasoning effort
-- **`reasoning_effort: "max"` now works on every GPT-6 model.** It used to fail with a 400 on chat completions. On plain chat the gateway now lowers it to `xhigh`; on tool calls, which the gateway serves through OpenAI's Responses API, `max` is sent as asked.
-- **GPT-6 tool calls now run at the effort you ask for.** They used to run at `medium` whatever the request said, so a `low` call billed medium reasoning; now it bills low. With no `reasoning_effort`, tool calls still default to `medium`.
+- **`reasoning_effort: "max"` now works on every GPT-6 model.** It used to fail with a 400 on chat completions. On plain chat the gateway now lowers it to `xhigh`; on tool calls, which the gateway serves through OpenAI's Responses API, it is served at `high` (see below).
+- **GPT-6 tool calls now run at the effort you ask for, up to `high`.** They used to run at `medium` whatever the request said, so a `low` call billed medium reasoning; now it bills low. `xhigh` and `max` are served at `high`, because the per-call price does not yet account for reasoning effort. With no `reasoning_effort`, tool calls still default to `medium`.
 - `none` and `minimal` are raised to `low` on `gpt-6-astra` and `gpt-6.1-sol`. `gpt-6-sol` and `gpt-6-luna` accept `none`; `minimal` is raised to `low` on all four.
 
 ### Added — GPT-6.1 Sol
