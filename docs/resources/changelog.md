@@ -7,11 +7,18 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-10-10]
+
+### Changed — GPT-6 calls are priced by reasoning effort
+- A pay-per-call chat request is charged before it runs: its input plus a tenth of its `max_tokens` as output. On GPT-6, higher `reasoning_effort` spends more reasoning, which bills as output; measured on GPT-6.1 Sol, `high` ran up to 2.3x the output of `medium`, `xhigh` up to 2.5x, `max` up to 4.4x.
+- On every GPT-6 model the output share of the quote now scales with the effort requested: **2.5x at `high`, 3x at `xhigh`, 4.5x at `max`**, never past `max_tokens`. No effort, `low` and `medium` are charged exactly as before. On plain chat, where `max` is served as `xhigh`, it is charged as `xhigh`.
+- This applies to `/v1/chat/completions` and `/v1/responses`. Metered API-key billing (user.blockrun.ai, api.blockrun.ai) bills actual usage and is unaffected.
+
 ## [2026-10-09]
 
 ### Changed — GPT-6 reasoning effort
-- **`reasoning_effort: "max"` now works on every GPT-6 model.** It used to fail with a 400 on chat completions. On plain chat the gateway now lowers it to `xhigh`; on tool calls, which the gateway serves through OpenAI's Responses API, it is served at `high` (see below).
-- **GPT-6 tool calls now run at the effort you ask for, up to `high`.** They used to run at `medium` whatever the request said, so a `low` call billed medium reasoning; now it bills low. `xhigh` and `max` are served at `high`, because the per-call price does not yet account for reasoning effort. With no `reasoning_effort`, tool calls still default to `medium`.
+- **`reasoning_effort: "max"` now works on every GPT-6 model.** It used to fail with a 400 on chat completions. On plain chat the gateway now lowers it to `xhigh`; on tool calls, which the gateway serves through OpenAI's Responses API, it is sent as `max`.
+- **GPT-6 tool calls now run at the effort you ask for.** They used to run at `medium` whatever the request said, so a `low` call billed medium reasoning; now it bills low. With no `reasoning_effort`, tool calls still default to `medium`.
 - `none` and `minimal` are raised to `low` on `gpt-6-astra` and `gpt-6.1-sol`. `gpt-6-sol` and `gpt-6-luna` accept `none`; `minimal` is raised to `low` on all four.
 
 ### Added — GPT-6.1 Sol
