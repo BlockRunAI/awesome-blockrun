@@ -46,7 +46,7 @@ A missing or unknown key returns `401`:
 
 ## Account endpoints
 
-Four `GET` endpoints answer questions about the key you are holding. They are **free**, never counted against your rate limit as paid traffic, and **never cached** — the balance you read is the balance the next call is gated on.
+These `GET` endpoints answer questions about the key you are holding. They are **free**, never counted against your rate limit as paid traffic, and **never cached** — the balance you read is the balance the next call is gated on.
 
 | Endpoint | Answers |
 |----------|---------|
@@ -54,6 +54,7 @@ Four `GET` endpoints answer questions about the key you are holding. They are **
 | `GET /v1/account` | Same payload as `/v1/credits` |
 | `GET /v1/usage/summary` | Totals over a window, broken down by day, model, endpoint and key |
 | `GET /v1/usage` | The row-level ledger, newest first, paginated |
+| `GET /v1/key`, `/v1/activity`, `/v1/generation` | The same ledger in OpenRouter's shapes — see [OpenRouter-compatible billing reads](#openrouter-compatible-billing-reads) |
 
 ### `GET /v1/credits` — balance
 
@@ -71,7 +72,8 @@ curl https://api.blockrun.ai/v1/credits -H "Authorization: Bearer brk_live_..."
   "spent_usd": 137.42,
   "remaining_usd": 362.58,
   "blocked": false,
-  "blocked_reason": null
+  "blocked_reason": null,
+  "data": { "total_credits": 500, "total_usage": 137.42 }
 }
 ```
 
@@ -85,6 +87,8 @@ curl https://api.blockrun.ai/v1/credits -H "Authorization: Bearer brk_live_..."
 | `blocked_reason` | Set when `blocked` is `true`: one of the codes in [Refusals](#refusals) below. |
 
 `/v1/account` returns exactly the same object; use whichever name reads better in your code.
+
+`data` is OpenRouter's `GET /credits` body, so code written against it reads ours unchanged. `total_credits - total_usage` equals `remaining_usd`; on an account with no ceiling `total_credits` is `null`, for the same reason `remaining_usd` is.
 
 :::info{title="Balance is the only limit on paid calls"}
 Paying accounts carry **no practical requests-per-minute quota** on this gateway — the balance is the bound (see [Rate limits](#rate-limits)). That is why this endpoint exists: a client that cannot read its balance meets the limit as a surprise `402`. Poll it before a batch, and show `remaining_usd` in your CLI.
@@ -179,6 +183,19 @@ Rows are newest first. Page with `cursor` until `next_cursor` is `null`; treat t
 | `correction_of` | `null` on a normal row. When set, this row corrects the row whose `request_id` it names: its token and cost fields are signed **deltas** against that row, and it is not a call. Sum `cost_usd` including these; count calls excluding them. |
 
 Pass the `request_id` from a row (also returned on every response as the `x-blockrun-request-id` header) when you contact support about a charge.
+
+## OpenRouter-compatible billing reads
+
+If your tooling already reads OpenRouter's billing API, point it at `https://api.blockrun.ai/v1` with your BlockRun key. These answer from the same ledger as `/v1/usage`, in OpenRouter's field names and types, and are free and never cached. Any of your account's keys can call them — no separate management key.
+
+| Endpoint | OpenRouter equivalent | Notes |
+|----------|----------------------|-------|
+| `GET /v1/credits` | `GET /credits` | `data.total_credits`, `data.total_usage` — see above. |
+| `GET /v1/key` (alias `/v1/auth/key`) | `GET /key` | `usage`, `usage_daily`, `usage_weekly`, `usage_monthly` are **this key's** spend over its lifetime, the UTC day, the UTC week (from Monday) and the UTC month. `limit` / `limit_remaining` are the **account's** (limits here are per account, not per key), `null` when nothing bounds it. `budgets` lists every ceiling the gateway enforces, the daily spend cap first; `effective_budget` is the one with least headroom. `byok_*` are always 0. |
+| `GET /v1/activity` | `GET /activity` | One row per UTC day, model and endpoint for the last 30 **completed** UTC days (today is excluded). Filters: `date=YYYY-MM-DD`, `api_key_hash=<sha256 hex of one of your keys>`. `user_id`, `workspace_id` and `group_by` are refused with 400 — accounts here have no members or workspaces. `endpoint_id` is the endpoint family (`chat/completions`, `videos/generations`), `provider_name` is `BlockRun`, `reasoning_tokens` is 0 (reasoning is inside `completion_tokens`, where it is billed). |
+| `GET /v1/generation?id=` | `GET /generation` | `id` is the response body's `id` or the `x-blockrun-request-id` header. Looks back 2 UTC days, at most 20,000 calls; a call is readable a few seconds after it completes, so retry a 404 briefly (OpenRouter behaves the same). At most 60 lookups per minute per account. For anything older use `/v1/usage?from=&to=`. An async call — a media job or a background Response — is answered whole: its create and every poll, with `total_cost` the sum (the charge lands on the poll that settled it) and `job_id` / `job_status` / `rows` saying what was added up. Corrections to a call are folded in, whichever of its ids you ask with. `cost_state: "pending"` means the charge is not final yet (a job still queued or running, a charge not yet priced, or `complete: false` because a day of the lookup could not be read or the scan stopped before the call's first row), so do not book `total_cost: 0` as free. Fields we do not record (latency, finish reason, app attribution) are `null`. |
+
+`/v1/key` and `/v1/activity` also carry `unavailable_days` and `counted_through` beside `data`, as `/v1/usage/summary` does: a day we could not read is named, never counted as zero.
 
 ## What a call costs
 
