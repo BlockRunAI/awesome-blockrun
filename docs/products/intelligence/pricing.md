@@ -157,9 +157,9 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
-| DeepSeek V4.1 Flash | $0.14 | $0.28 | $0.028 |
-| DeepSeek Chat (V4.1 Flash, compatibility id) | $0.14 | $0.28 | $0.028 |
-| DeepSeek Reasoner (V4.1 Flash, thinking on) | $0.14 | $0.28 | $0.028 |
+| DeepSeek V4.1 Flash | $0.14 | $0.28 | $0.006 |
+| DeepSeek Chat (V4.1 Flash, compatibility id) | $0.14 | $0.28 | $0.006 |
+| DeepSeek Reasoner (V4.1 Flash, thinking on) | $0.14 | $0.28 | $0.006 |
 | DeepSeek V4 Flash Vision (image input) | $0.30 | $1.20 | $0.006 |
 | DeepSeek V4 Pro | $1.32 | $3.96 | $0.044 |
 
