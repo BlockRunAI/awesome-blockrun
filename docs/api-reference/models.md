@@ -259,7 +259,7 @@ K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-tok
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `mistral/mistral-large-4` | Mistral Large 4 (reasoning, image input) | $0.68/M | $2.09/M | 512K |
+| `mistral/mistral-large-4` | Mistral Large 4 (reasoning, image input) | $1.36/M | $4.18/M | 512K |
 
 ### Xiaomi
 

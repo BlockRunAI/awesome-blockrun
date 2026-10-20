@@ -151,7 +151,7 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
-| Mistral Large 4 | $0.68 | $2.09 | — |
+| Mistral Large 4 | $1.36 | $4.18 | — |
 
 ### DeepSeek
 
