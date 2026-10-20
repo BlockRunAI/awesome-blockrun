@@ -60,7 +60,7 @@ Only models that are currently available are returned — there is no `available
 ## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-**88 chat / LLM models** are publicly listed on mainnet, plus **12 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**89 chat / LLM models** are publicly listed on mainnet, plus **12 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
 :::
 
 All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens, only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform fee.
@@ -201,8 +201,9 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 |----------|------|-------------|--------------|---------|
 | `deepseek/deepseek-v4-pro` | DeepSeek V4 Pro | $1.32/M | $3.96/M | 1M |
 | `deepseek/deepseek-v4-flash-vision-exp` | DeepSeek V4 Flash Vision (image input) | $0.30/M | $1.20/M | 1M |
-| `deepseek/deepseek-chat` | DeepSeek V4 Flash Chat | $0.14/M | $0.28/M | 1M |
-| `deepseek/deepseek-reasoner` | DeepSeek V4 Flash Reasoner | $0.14/M | $0.28/M | 1M |
+| `deepseek/deepseek-v4.1-flash` | DeepSeek V4.1 Flash (non-thinking) | $0.14/M | $0.28/M | 1M |
+| `deepseek/deepseek-chat` | DeepSeek Chat (V4.1 Flash) — compatibility id, same model as `deepseek/deepseek-v4.1-flash` | $0.14/M | $0.28/M | 1M |
+| `deepseek/deepseek-reasoner` | DeepSeek Reasoner (V4.1 Flash) — same model with thinking on | $0.14/M | $0.28/M | 1M |
 
 ### Z.AI
 

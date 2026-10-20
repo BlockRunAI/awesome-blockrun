@@ -25,7 +25,7 @@ Media generation and Live Search still carry a 5% platform margin, which covers:
 | Model | Approximate Usage |
 |-------|------------------|
 | GPT-5.5 | ~200K input tokens |
-| DeepSeek V4 Flash Chat | ~7M input tokens |
+| DeepSeek V4.1 Flash | ~7M input tokens |
 | Gemini 3.5 Flash | ~635K input tokens |
 | Image generation | ~10–65 images |
 | **Free tier** (8 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
@@ -157,8 +157,9 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
-| DeepSeek V4 Flash Chat | $0.14 | $0.28 | $0.028 |
-| DeepSeek V4 Flash Reasoner | $0.14 | $0.28 | $0.028 |
+| DeepSeek V4.1 Flash | $0.14 | $0.28 | $0.028 |
+| DeepSeek Chat (V4.1 Flash, compatibility id) | $0.14 | $0.28 | $0.028 |
+| DeepSeek Reasoner (V4.1 Flash, thinking on) | $0.14 | $0.28 | $0.028 |
 | DeepSeek V4 Flash Vision (image input) | $0.30 | $1.20 | $0.006 |
 | DeepSeek V4 Pro | $1.32 | $3.96 | $0.044 |
 
@@ -199,7 +200,7 @@ Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$
 | Anthropic Claude Sonnet 5.5 | $2.00/$10.00 | $2.00/$10.00 | 0% + $0.001/request |
 | Anthropic Claude Sonnet 5 | $2.00/$10.00 | $2.00/$10.00 | 0% + $0.001/request |
 | Anthropic Claude Sonnet 4.6 | $3.00/$15.00 | $3.00/$15.00 | 0% + $0.001/request |
-| DeepSeek V4 Flash Chat | $0.14/$0.28 | $0.14/$0.28 | 0% + $0.001/request |
+| DeepSeek V4.1 Flash | $0.14/$0.28 | $0.14/$0.28 | 0% + $0.001/request |
 
 Chat is billed at the provider's list rate with no margin, plus a flat $0.001 transaction fee per request, and you get:
 - No API key management
