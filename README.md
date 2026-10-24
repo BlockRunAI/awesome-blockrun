@@ -362,7 +362,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 | [Surf](https://asksurf.ai) | Crypto Data | 83 endpoints — CEX, on-chain SQL, wallet labels, social, news |
 | [Tatum](https://tatum.io) | Multi-chain RPC | JSON-RPC across <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains |
 | [Pyth](https://pyth.network) | Market Data | Crypto, FX, commodity and equity prices |
-| [golf-evm-math](https://golf-evm-math.x402-evm-math.workers.dev) | SEC / DeFi / Prediction-Market Data | Independent x402 seller (USDC on Base, no key): SEC EDGAR filings and 8-K feed ($0.003-0.008), Kalshi vs Polymarket cross-venue sports prices ($0.005), Merkl stablecoin yields, Morpho liquidation risk, Bittensor registration cost. Free $0.001 samples at /sample/*; OpenAPI at /openapi.json |
+| [Dominion Data](https://dominion-data.x402-evm-math.workers.dev) | SEC / DeFi / Prediction-Market Data | Independent x402 seller (USDC on Base, no key): SEC EDGAR filings and 8-K feed ($0.003-0.008), Kalshi vs Polymarket cross-venue sports prices ($0.005), Merkl stablecoin yields, Morpho liquidation risk, Bittensor registration cost. Free $0.001 samples at /sample/*; OpenAPI at /openapi.json |
 
 ### x402 Facilitators
 
