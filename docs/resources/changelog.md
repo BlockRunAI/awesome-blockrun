@@ -11,7 +11,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ### Added — Kimi K3.1 Pro
 - **`moonshot/kimi-k3.1-pro`** ($2.00/M in · $10.00/M out, $0.20/M cached, **1M context**, image + text input, returns `reasoning_content`) — Moonshot's post-trained successor to Kimi K3, built for long-horizon coding and agents. Cheaper than K3's $3.00/$15.00. Verified live with real completions, streaming, forced and automatic tool calls, and vision before listing.
-- Kimi K3.1 Pro replaces K3 as the featured Kimi. `moonshot/kimi-k3` is hidden from the public list but stays routable; with `allow_fallback` on, a failed K3 call is retried on K3.1 Pro.
+- Kimi K3.1 Pro replaces K3 as the featured Kimi. `moonshot/kimi-k3` is hidden from the public list but stays routable.
 - Visible model counts are unchanged.
 
 ## [2026-10-10]
