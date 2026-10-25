@@ -221,9 +221,9 @@ Grok bills a **long-context tier** at 2x the rates above once a request's prompt
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `moonshot/kimi-k3` | Kimi K3 | $3.00/M | $15.00/M | 1M |
+| `moonshot/kimi-k3.1-pro` | Kimi K3.1 Pro | $2.00/M | $10.00/M | 1M |
 
-K3 is the current flagship — a 2.8-trillion-parameter open MoE with a **1M-token context window**, image + text input, returning `reasoning_content` on completions. K2.7 (256K, adds **video** input) remains routable but superseded; K2.6 and K2.5 are earlier multi-modal generations, still routable.
+K3.1 Pro is the current flagship — Moonshot's post-trained successor to K3, built for long-horizon coding and agents, with a **1M-token context window**, image + text input, and `reasoning_content` on completions. Cached input is $0.20/M. K3 ($3.00/$15.00) remains routable but superseded. K2.7 (256K, adds **video** input) remains routable but superseded; K2.6 and K2.5 are earlier multi-modal generations, still routable.
 
 ### MiniMax
 
