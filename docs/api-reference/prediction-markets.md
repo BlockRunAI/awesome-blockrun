@@ -118,7 +118,7 @@ Cross-context wallet labels and on-chain relationship graph data.
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/api/v1/pm/markets/search` | GET | Search markets across Polymarket, Kalshi, Limitless, Opinion, and Predict.Fun in a single call |
+| `/api/v1/pm/markets/search` | GET | Search markets across Polymarket, Kalshi, Limitless, Opinion, and Predict.Fun in a single call. Not charged when no market matches |
 
 > **Retired.** Predexon discontinued market matching on 2026-07-20, and the whole
 > canonical layer went with it: `matching-markets`, `matching-markets/pairs`,
@@ -284,6 +284,11 @@ curl "https://blockrun.ai/api/v1/pm/markets/search?q=election&venue=kalshi"
 
 Searches Polymarket, Kalshi, Limitless, Opinion and Predict.Fun in one call.
 `q` is required — omitting it returns `422`.
+
+A search that matches no market is not charged: the response comes back with
+`X-Payment-Waived: empty-result` and no payment receipt, and nothing settles.
+This covers a generous per-wallet allowance of empty searches; beyond it,
+empty results are charged like any other call.
 
 ---
 
