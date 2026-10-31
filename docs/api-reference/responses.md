@@ -65,7 +65,7 @@ All paid OpenAI models: GPT-5.x (including `-pro` tiers), o-series, and the code
 
 Identical to Chat Completions: send the request without payment, receive a `402` with a USDC quote, sign the x402 authorization, and resend with the `PAYMENT-SIGNATURE` header. The [SDKs](../getting-started/sdk-developers.md) handle this automatically.
 
-The quote is estimated input tokens plus **10% of `max_output_tokens`** at the model's list rates (per-token chat carries no platform margin), floored at $0.001, plus the flat **$0.001 transaction fee** — so the smallest possible charge is $0.002. The `402` body uses the OpenAI error envelope:
+The quote is estimated input tokens plus **50% of `max_output_tokens`** at the model's list rates (per-token chat carries no platform margin), floored at $0.001, plus the flat **$0.001 transaction fee** — so the smallest possible charge is $0.002. The `402` body uses the OpenAI error envelope:
 
 ```json
 {

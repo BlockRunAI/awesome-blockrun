@@ -243,7 +243,7 @@ WWW-Authenticate: X402 requirements="<same value>"
 }
 ```
 
-**How the quote is computed.** Estimated input tokens at the model's input rate, plus **10% of `max_tokens`** at the output rate — most calls use a small fraction of their ceiling. Per-token chat carries **no platform margin** (list price, since 2026-08-07); the quote is floored at $0.001 and then the flat **$0.001 per-request transaction fee** is added. `amount` is in micro-USDC (6 decimals). The settled amount is the signed amount — there is no post-hoc refund when the model uses fewer tokens, so set `max_tokens` to what you need. Prompts at or above a model's long-context threshold re-price the whole request at that model's long-context rates.
+**How the quote is computed.** Estimated input tokens at the model's input rate, plus **50% of `max_tokens`** at the output rate. Per-token chat carries **no platform margin** (list price, since 2026-08-07); the quote is floored at $0.001 and then the flat **$0.001 per-request transaction fee** is added. `amount` is in micro-USDC (6 decimals). The settled amount is the signed amount — there is no post-hoc refund when the model uses fewer tokens, so set `max_tokens` to what you need. Prompts at or above a model's long-context threshold re-price the whole request at that model's long-context rates.
 
 ### Payment rejected (402 with a `code`)
 
