@@ -69,7 +69,7 @@ When you make a request without payment, the server returns HTTP 402 with:
 
 The requirements are base64-encoded in three equivalent headers — `PAYMENT-REQUIRED` (x402 v2), `X-Payment-Required`, and `WWW-Authenticate: X402 requirements="…"` — and the JSON body repeats the price as `price.amount` in USD, plus the challenge itself (`x402Version`, `accepts`) mirrored at the top level for clients that only read the body.
 
-On BlockRun the price for chat is the model's list rate — estimated input tokens plus 10% of `max_tokens` output — with no platform margin, plus a flat **$0.001 transaction fee** per paid call. Media generation (image, video, music, speech) and Live Search carry a 5% margin on top of their list rate, plus the same fee.
+On BlockRun the price for chat is the model's list rate — estimated input tokens plus 50% of `max_tokens` output — with no platform margin, plus a flat **$0.001 transaction fee** per paid call. Media generation (image, video, music, speech) and Live Search carry a 5% margin on top of their list rate, plus the same fee.
 
 ### Payment Authorization
 

@@ -7,6 +7,13 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-10-30]
+
+### Changed — Pay-per-call chat quotes half of `max_tokens` as output
+- A pay-per-call chat request is charged before it runs: its input plus **half** of its `max_tokens` as output. The charge is still fixed up front and settled as quoted, so set `max_tokens` to what you need: a lower `max_tokens` is a lower price.
+- GPT-6 `reasoning_effort` no longer raises the price on top of this: every effort is quoted at half of `max_tokens`, which is above what the measured effort factors came to.
+- Applies on blockrun.ai to `/v1/chat/completions`, `/v1/messages`, `/v1/responses` and native Gemini. Metered API-key billing (user.blockrun.ai, api.blockrun.ai) bills actual usage and is unaffected.
+
 ## [2026-10-25]
 
 ### Added — Kimi K3.1 Pro
@@ -17,7 +24,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 ## [2026-10-10]
 
 ### Changed — GPT-6 calls are priced by reasoning effort
-- A pay-per-call chat request is charged before it runs: its input plus a tenth of its `max_tokens` as output. On GPT-6, higher `reasoning_effort` spends more reasoning, which bills as output; measured on GPT-6.1 Sol, `high` ran up to 2.3x the output of `medium`, `xhigh` up to 2.5x, `max` up to 4.4x.
+- A pay-per-call chat request is charged before it runs: its input plus a share of its `max_tokens` as output. On GPT-6, higher `reasoning_effort` spends more reasoning, which bills as output; measured on GPT-6.1 Sol, `high` ran up to 2.3x the output of `medium`, `xhigh` up to 2.5x, `max` up to 4.4x.
 - On every GPT-6 model the output share of the quote now scales with the effort requested: **2.5x at `high`, 3x at `xhigh`, 4.5x at `max`**, never past `max_tokens`. No effort, `low` and `medium` are charged exactly as before. On plain chat, where `max` is served as `xhigh`, it is charged as `xhigh`.
 - This applies to `/v1/chat/completions` and `/v1/responses`. Metered API-key billing (user.blockrun.ai, api.blockrun.ai) bills actual usage and is unaffected.
 
