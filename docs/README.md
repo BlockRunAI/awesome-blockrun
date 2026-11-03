@@ -70,7 +70,7 @@ ClawRouter scores each prompt and picks the cheapest model that can handle it â€
 :::
 
 :::card{title="Creation" href="products/creation/nano-banana.md" icon="Image"}
-Image, video (Sora 2, Seedance), music, and voice generation via micropayments. No API keys.
+Image, video (Seedance, Grok Imagine), music, and voice generation via micropayments. No API keys.
 :::
 
 :::card{title="Trading" href="products/trading/overview.md" icon="TrendingUp"}

@@ -122,7 +122,7 @@ These are the orders of magnitude BlockRun's shared capacity currently runs at, 
 | Flagship chat (`openai/*`, `anthropic/*`, `google/*`) | thousands / model | hundreds of K–millions / model | shared capacity across all paid traffic |
 | Cost-efficient chat (`deepseek/*`, `xai/*`, `moonshot/*`, `minimax/*`, `zai/*`) | thousands+ / model | generous | usually no observed throttling at current traffic |
 | Free tier (`billing_mode: "free"` open-weight models) | 30 RPM / 300 per hour per IP | varies | gateway-enforced per-IP limit (above); high-concurrency callers should use a paid model |
-| Video (`bytedance/*`, `*/sora-2`) | varies per model | varies | generation jobs are async; throttling typically surfaces as long queue waits, not `429` |
+| Video (`bytedance/*`, `xai/grok-imagine-video*`) | varies per model | varies | generation jobs are async; throttling typically surfaces as long queue waits, not `429` |
 | Music / speech / voice | per-job | n/a | per-job or per-account concurrency caps |
 
 ## Why no platform quota?

@@ -55,7 +55,7 @@ OpenAI-compatible. 89 models across chat, reasoning, coding, and vision — plus
 | POST | `/api/v1/images/generations` | Image generation (gpt-image-1/2, Nano Banana, CogView-4, Grok Imagine) | Per image, per size |
 | GET  | `/api/v1/images/generations/{id}` | Async image poll for slow models (gpt-image-2, etc.) | Free |
 | POST | `/api/v1/images/image2image` | Image edit / inpainting + multi-image fusion (gpt-image-1/2, Nano Banana, Nano Banana Pro) | Per image |
-| POST | `/api/v1/videos/generations` | Video generation (Seedance, Grok Imagine Video, Sora 2) | Per second / token-metered, varies |
+| POST | `/api/v1/videos/generations` | Video generation (Seedance, Grok Imagine Video) | Per second / token-metered, varies |
 | GET  | `/api/v1/videos/generations/{id}` | Async video poll (settlement happens here on completion) | Free |
 | POST | `/api/v1/videos` | Standard multimodal `content[]` body — delegates to `/videos/generations` | Per second / token-metered |
 | GET  | `/api/v1/videos/{id}` | Poll a job created via `/api/v1/videos` | Free |

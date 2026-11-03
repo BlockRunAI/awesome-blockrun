@@ -1,6 +1,6 @@
 ---
 title: GOAT SDK Integration
-description: Combine GOAT SDK's cross-chain execution with BlockRun's 116 AI models, paid per request over x402 — until the official plugin ships.
+description: Combine GOAT SDK's cross-chain execution with BlockRun's 115 AI models, paid per request over x402 — until the official plugin ships.
 ---
 
 # GOAT SDK Integration
@@ -129,7 +129,7 @@ const { text } = await generateText({
 | GOAT Provides | BlockRun Adds |
 |---------------|---------------|
 | Cross-chain execution | AI decision making |
-| Protocol integrations | 89 chat models (116 total) |
+| Protocol integrations | 89 chat models (115 total) |
 | Wallet management | Pay-per-request AI |
 | Transaction building | No API key hassle |
 

@@ -313,7 +313,7 @@ Generate images from a text prompt with the same pay-per-call model.
 :::
 
 :::card{title="Video Generation" href="video-generation.md" icon="Image"}
-Generate video clips with Sora 2, Grok Imagine and Seedance.
+Generate video clips with Grok Imagine and Seedance.
 :::
 
 :::card{title="Error handling" href="errors.md" icon="Code"}

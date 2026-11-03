@@ -5,7 +5,7 @@ description: A Model Context Protocol server that gives Claude Code 89 models, c
 
 # BlockRun MCP
 
-Give Claude Code access to 116 AI models, 66 crypto data endpoints, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
+Give Claude Code access to 115 AI models, 66 crypto data endpoints, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
 
 BlockRun MCP is a Model Context Protocol server that connects Claude Code to BlockRun's intelligence, trading, and creation capabilities.
 
@@ -292,7 +292,7 @@ Generate a poster announcing our launch, retro-futuristic, headline "NOW LIVE"
 
 #### `blockrun_video`
 
-Short AI video from a text prompt and optional seed image — `azure/sora-2`, `xai/grok-imagine-video`, `xai/grok-imagine-video-1.5`, and `bytedance/seedance-1.5-pro` / `2.0-mini` / `2.0-fast` / `2.0` / `2.5`. Async and client-polled (typically 60–180s, 9-minute hard cap); you are charged only when a finished video comes back.
+Short AI video from a text prompt and optional seed image — `xai/grok-imagine-video`, `xai/grok-imagine-video-1.5`, and `bytedance/seedance-1.5-pro` / `2.0-mini` / `2.0-fast` / `2.0` / `2.5`. Async and client-polled (typically 60–180s, 9-minute hard cap); you are charged only when a finished video comes back.
 
 #### `blockrun_realface`
 
