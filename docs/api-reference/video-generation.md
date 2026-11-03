@@ -57,6 +57,8 @@ Key guarantees:
 | **Replay-protected** | Each signed authorization can submit exactly one job (nonce claim on POST). Re-sending a used authorization returns `402` with `code: "PAYMENT_REPLAY"`. |
 | **Tamper-evident poll** | `poll_url` carries the billed `duration`, image-to-video flag, resolution and reference counts, HMAC-signed into `sig`. A hand-built poll query returns `400` — use `poll_url` verbatim. |
 | **Durable output** | The clip is mirrored to BlockRun's storage before settlement; `data[].url` is the permanent BlockRun-hosted URL, `data[].source_url` is the (often temporary) upstream URL. |
+| **Released only once the charge confirms** | The result is handed over only after the transfer is confirmed on-chain. While it confirms — or while a concurrent request holds the settle — a poll returns `202` with `payment_status: "settling"` and `Retry-After: 3`; keep polling `poll_url` with the same wallet. No second charge is taken while a transfer is unresolved. The poll that sees it confirm returns `payment.status: "settled"` with that transaction hash. |
+| **Cancelled authorization** | Cancelling the signed authorization (EIP-3009 `cancelAuthorization`) while its transfer is pending counts as a failed payment: the result is not released and the paying wallet is refused further paid calls. |
 | **Claimable for ~48h** | If your client times out mid-poll, re-GET the same `poll_url` later with a fresh signature from the same wallet — no resubmission needed. |
 
 :::note{title="SDKs and ClawRouter hide all of this"}

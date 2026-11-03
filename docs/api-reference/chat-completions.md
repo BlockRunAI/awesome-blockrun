@@ -136,7 +136,10 @@ Reasoning models (DeepSeek, Z.AI GLM, MiniMax, Moonshot Kimi, Claude with thinki
 | `X-Max-Tokens-Capped` / `-Requested` / `-Effective` | when `max_tokens` was clamped | See `max_tokens` above |
 | `X-Context-Truncated: true` | when the prompt was trimmed to fit the context window | `X-Messages-Removed` gives the count |
 | `X-Free-Model: true` | free-tier models | No payment was required |
-| `X-Fallback-Used: true` | when the requested model failed over | `X-Original-Model` / `X-Fallback-Model` name both sides |
+| `X-Fallback-Used: true` | when the requested model failed over — streaming and non-streaming alike | `X-Original-Model` / `X-Fallback-Model` name both sides; the body's `model` (each chunk's, when streaming) is the model that answered |
+| `X-Health-Reroute: true` | free-tier models, when the requested model was unhealthy and another answered | `X-Original-Model` is what you asked for, `X-Served-Model` what answered |
+
+The model-swap headers above are listed in `Access-Control-Expose-Headers` whenever they are present, so browser clients can read them too.
 
 **Protocol naming convention:**
 - **Claude native `/v1/messages`**: `usage.input_tokens`, `usage.output_tokens`, `usage.cache_creation_input_tokens`, `usage.cache_read_input_tokens`

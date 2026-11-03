@@ -7,6 +7,25 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-03]
+
+### Changed — Async media is released once its payment confirms
+- On image generation, image editing, music and video, a finished job's result is now handed over only after its payment is confirmed on-chain. While the transfer confirms, the poll (or the POST, on the fast path) answers `202` with `payment_status: "settling"` and `Retry-After: 3`. Keep polling `poll_url` with the same wallet; no second charge is taken while a transfer is unresolved.
+- A transfer that confirms under a different transaction hash, for example after the facilitator bumped its gas, is still recognised as paid.
+- Cancelling the signed authorization while its transfer is pending counts as a failed payment: the result is not released.
+
+### Changed — Errors never carry upstream text on a 429 or 5xx
+- `debug` now appears only on a caller-fault `4xx`, redacted. Rate limits, upstream failures and gateway errors return just `code` and `message`. Quote the `x-blockrun-gateway-request-id` response header when you report one. See [Errors](../api-reference/errors.md).
+
+### Added — Model-swap headers on streams, readable from browsers
+- A paid stream that fails over to its fallback model now sends `X-Fallback-Used`, `X-Original-Model` and `X-Fallback-Model`, as non-streaming responses already did.
+- Model-swap headers are listed in `Access-Control-Expose-Headers` whenever they are present.
+
+### Fixed
+- Unpaid requests with an empty or invalid body (discovery crawlers, uptime monitors) got a `500` from 2026-11-02 03:54 UTC to 2026-11-03 00:30 UTC instead of the `402` challenge. Paid calls were unaffected.
+- `sol.blockrun.ai` now redirects `http://` to `https://` with a `301` and sends `Strict-Transport-Security`, matching blockrun.ai.
+- `llms.txt` no longer lists the internal-only `/v1/zerox/trade-analytics/*` endpoints.
+
 ## [2026-10-25]
 
 ### Added — Kimi K3.1 Pro

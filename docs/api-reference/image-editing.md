@@ -92,7 +92,7 @@ this endpoint is **hybrid** — it is *not* always synchronous:
   **never charged**.
 
 :::note{title="No charge until the image is ready"}
-On the slow async path nothing is debited at submit time (`payment_status: "verified"`). USDC settles exactly once — on the first poll that sees `status: "completed"`. Failed jobs and never-polled jobs are never charged. The signed authorization is valid for 600s (`maxTimeoutSeconds` in the challenge), so finish polling within 10 minutes of signing.
+On the slow async path nothing is debited at submit time (`payment_status: "verified"`). USDC settles exactly once — on the first poll that sees `status: "completed"` — and the image is released once that charge confirms on-chain (until then: `202`, `payment_status: "settling"`, `Retry-After: 3`). Failed jobs and never-polled jobs are never charged. The signed authorization is valid for 600s (`maxTimeoutSeconds` in the challenge), so finish polling within 10 minutes of signing.
 :::
 
 The envelope fields, poll responses, status enum
