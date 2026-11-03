@@ -78,8 +78,7 @@ When an upstream rate-limits a request, BlockRun returns a `429 Rate Limited` re
   "message": "…",
   "code": "RATE_LIMITED",
   "source": "<source-tag>",
-  "retry_after_seconds": 60,
-  "debug": "<upstream error message>"
+  "retry_after_seconds": 60
 }
 ```
 
