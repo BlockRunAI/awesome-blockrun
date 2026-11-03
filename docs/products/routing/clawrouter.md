@@ -320,7 +320,7 @@ The same wallet pays for the rest of the gateway through the proxy. Prices as pu
 
 - **Image generation** — `/cr-imagegen a dog dancing on the beach` (`--model`, `--size`). Nine models from $0.015/image (CogView-4) to $0.10/image (Nano Banana Pro); default `gpt-image` at $0.02/image.
 - **Image editing** — `/img2img --image ~/photo.png change the background to a starry sky`, with optional `--mask`.
-- **Video generation** — `/videogen a red apple slowly spinning` (`--model`, `--duration`), or `POST /v1/videos/generations`. Seedance 1.5 Pro / 2.0 Fast / 2.0 / 2.5, Sora 2, and Grok Imagine; the MP4 is downloaded to local disk so it survives the upstream's temporary bucket.
+- **Video generation** — `/videogen a red apple slowly spinning` (`--model`, `--duration`), or `POST /v1/videos/generations`. Seedance 1.5 Pro / 2.0 Fast / 2.0 / 2.5 and Grok Imagine; the MP4 is downloaded to local disk so it survives the upstream's temporary bucket.
 - **Phone and voice** — `/cr-call +14155552671 "Confirm tomorrow's 3pm meeting"` places a real outbound AI voice call ($0.54 flat, up to 30 minutes); `clawrouter phone lookup|fraud|numbers ...` handles carrier lookup ($0.01), fraud signals ($0.05) and 30-day number leases ($5).
 
 ## Why ClawRouter?

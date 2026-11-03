@@ -235,7 +235,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 |------|-------------|
 | `blockrun_chat` | <!-- br:models.chatVisible -->90<!-- /br:models.chatVisible --> AI models (GPT-5.5, Claude, Gemini, Grok, DeepSeek, Kimi, and more) |
 | `blockrun_image` | Image generation — gpt-image-2, Nano Banana Pro, Grok Imagine, CogView-4 |
-| `blockrun_video` | Video generation — Sora 2, Seedance 2.0, Grok Imagine Video |
+| `blockrun_video` | Video generation — Seedance 2.0, Grok Imagine Video |
 | `blockrun_realface` | Enroll a real person (liveness) or AI character (Virtual Portrait) for Seedance video |
 | `blockrun_music` | MiniMax music generation |
 | `blockrun_speech` | ElevenLabs text-to-speech + cinematic sound effects |
