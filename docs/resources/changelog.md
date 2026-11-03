@@ -20,11 +20,16 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 ### Added — Model-swap headers on streams, readable from browsers
 - A paid stream that fails over to its fallback model now sends `X-Fallback-Used`, `X-Original-Model` and `X-Fallback-Model`, as non-streaming responses already did.
 - Model-swap headers are listed in `Access-Control-Expose-Headers` whenever they are present.
+- Swap headers and response bodies name public model ids. When the same model answers from another endpoint, it is no longer reported as a swap.
+
+### Changed — Errors inside a stream carry a code, not upstream text
+- A failure after a stream has started ends with a fixed message and a code: `deadline`, `stall`, `rate_limited` or `upstream_error`. An upstream rejection of one of your parameters still gives its redacted reason. See [Errors](../api-reference/errors.md#errors-after-a-stream-has-started).
 
 ### Fixed
 - Unpaid requests with an empty or invalid body (discovery crawlers, uptime monitors) got a `500` from 2026-11-02 03:54 UTC to 2026-11-03 00:30 UTC instead of the `402` challenge. Paid calls were unaffected.
 - `sol.blockrun.ai` now redirects `http://` to `https://` with a `301` and sends `Strict-Transport-Security`, matching blockrun.ai.
 - `llms.txt` no longer lists the internal-only `/v1/zerox/trade-analytics/*` endpoints.
+- Prediction-market paths with a template placeholder instead of an id (for example `REPLACE_WITH_MARKET_ID`, `TOKEN_ID`, `test`) now return `404` before any payment is requested, instead of being charged.
 
 ## [2026-10-25]
 

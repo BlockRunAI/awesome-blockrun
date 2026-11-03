@@ -62,6 +62,20 @@ Gateway errors use the OpenAI envelope, with `message` and `code` mirrored at th
 | `TIMEOUT` | 504 | Upstream did not answer within 120s |
 | `INTERNAL_ERROR` | 500 | Anything unclassified |
 
+### Errors after a stream has started
+
+Once a `stream: true` response has begun, the status is already `200`, so a failure arrives as a final SSE error event instead. Its message is fixed text ending in a code, never upstream text:
+
+| Code | Meaning |
+|------|---------|
+| `(code: deadline)` | The response ran past the gateway's time limit and was cut off |
+| `(code: stall)` | The upstream stopped sending data and the stream was cut off |
+| `(code: rate_limited)` | The upstream hit its rate limit mid-response; retry shortly |
+| `(code: upstream_error)` | The upstream failed before completing the response |
+| `Upstream rejected the request (4xx): …` | The upstream refused one of your parameters; the redacted reason follows, as with `debug` above |
+
+Billing for a cut-off stream follows the settlement rules for that endpoint: see the `X-Payment-*` response headers.
+
 ## Common Errors
 
 ### 400 - Invalid Request
