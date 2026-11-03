@@ -21,7 +21,7 @@ BlockRun uses standard HTTP status codes and returns detailed error information.
 
 ## Error Response Format
 
-Gateway errors use the OpenAI envelope, with `message` and `code` mirrored at the top level for older clients. `debug` carries the upstream text when there is one, **redacted**: credentials, URLs and any routing infrastructure we do not sell under its own name are removed before the response is sent. The status code and the upstream's own description of the fault survive, so `debug` stays useful for a bug report — it is just not a verbatim copy.
+Gateway errors use the OpenAI envelope, with `message` and `code` mirrored at the top level for older clients. `debug` appears only when the fault is yours to fix — a `4xx` such as an upstream rejecting one of your parameters — and then carries the upstream's description of it, **redacted**: credentials, URLs, deployment and account identifiers, and any routing infrastructure we do not sell under its own name are removed. A `429` or `5xx` never carries upstream text: it describes our capacity or an upstream fault, which you cannot act on, so the body has just `code` and `message` (we keep the full text in our logs — quote the `x-blockrun-gateway-request-id` response header when you report one).
 
 ```json
 {
@@ -33,7 +33,7 @@ Gateway errors use the OpenAI envelope, with `message` and `code` mirrored at th
   },
   "message": "Message @bc1max on Telegram for help.",
   "code": "INVALID_PARAMETER",
-  "debug": "<upstream error text, redacted>"
+  "debug": "<the upstream's description of the rejected parameter, redacted>"
 }
 ```
 
@@ -149,8 +149,7 @@ Headers: `Retry-After: 60`, `X-RateLimit-Source: <model family>`. Free models ad
 ```json
 {
   "error": {"message": "Model unavailable — Message @bc1max on Telegram for help.", "type": "api_error", "code": "MODEL_UNAVAILABLE", "param": null},
-  "code": "MODEL_UNAVAILABLE",
-  "debug": "<upstream text>"
+  "code": "MODEL_UNAVAILABLE"
 }
 ```
 
@@ -162,8 +161,7 @@ Retry, or fail over to a same-tier model from a different family. Not settled.
 {
   "error": {"message": "Unexpected error — Message @bc1max on Telegram for help.", "type": "api_error", "code": "INTERNAL_ERROR", "param": null},
   "message": "Message @bc1max on Telegram for help.",
-  "code": "INTERNAL_ERROR",
-  "debug": "<error text>"
+  "code": "INTERNAL_ERROR"
 }
 ```
 
