@@ -119,7 +119,9 @@ switch to an async job you poll. The split is purely by elapsed time:
    runs you get `202` (`status: queued | in_progress`). When it finishes you
    get `200` with the image URLs, and **that is the moment you are charged** —
    settlement happens exactly once, on the first poll that observes
-   `status: "completed"`.
+   `status: "completed"`, and the URLs are released once that charge is
+   confirmed on-chain (until then the poll answers `202` with
+   `payment_status: "settling"`).
 
 | Guarantee | Meaning |
 |-----------|---------|
@@ -131,6 +133,8 @@ switch to an async job you poll. The split is purely by elapsed time:
 | Authorization lifetime | The `402` challenge sets `maxTimeoutSeconds: 600`; the same authorization must still be valid when the settling poll lands, so finish polling within 10 minutes of signing. |
 | Stalled jobs | A job still `in_progress` after 1 hour is marked `failed` ("Job stalled …") and is never charged. |
 | Settlement timing | Fast path: inside the `200` POST. Slow path: on the first `completed` poll. Identical to `/v1/videos/generations` and `/v1/images/image2image`. |
+| Released only once the charge confirms | The result is handed over only after the transfer is confirmed on-chain. While it confirms — or while a concurrent request holds the settle — a poll (or, on the fast path, the POST itself) returns `202` with `payment_status: "settling"` and `Retry-After: 3`; keep polling `poll_url` with the same wallet. No second charge is taken while a transfer is unresolved. The poll that sees it confirm returns `payment.status: "settled"` with that transaction hash. |
+| Cancelled authorization | Cancelling the signed authorization (EIP-3009 `cancelAuthorization`) while its transfer is pending counts as a failed payment: the result is not released and the paying wallet is refused further paid calls. |
 
 ### Async job envelope (`202`)
 
