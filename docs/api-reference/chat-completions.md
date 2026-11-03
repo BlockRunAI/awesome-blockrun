@@ -137,7 +137,7 @@ Reasoning models (DeepSeek, Z.AI GLM, MiniMax, Moonshot Kimi, Claude with thinki
 | `X-Context-Truncated: true` | when the prompt was trimmed to fit the context window | `X-Messages-Removed` gives the count |
 | `X-Free-Model: true` | free-tier models | No payment was required |
 | `X-Fallback-Used: true` | when the requested model failed over — streaming and non-streaming alike | `X-Original-Model` / `X-Fallback-Model` name both sides; the body's `model` (each chunk's, when streaming) is the model that answered |
-| `X-Health-Reroute: true` | free-tier models, when the requested model was unhealthy and another answered | `X-Original-Model` is what you asked for, `X-Served-Model` what answered |
+| `X-Health-Reroute: true` | free-tier models, when the requested model was unhealthy and a different model answered | `X-Original-Model` is what you asked for, `X-Served-Model` what answered. Model ids in these headers and in the body are public ids; serving the same model from another endpoint is not a swap and sends no swap headers |
 
 The model-swap headers above are listed in `Access-Control-Expose-Headers` whenever they are present, so browser clients can read them too.
 
