@@ -69,7 +69,7 @@ When you make a request without payment, the server returns HTTP 402 with:
 
 The requirements are base64-encoded in three equivalent headers — `PAYMENT-REQUIRED` (x402 v2), `X-Payment-Required`, and `WWW-Authenticate: X402 requirements="…"` — and the JSON body repeats the price as `price.amount` in USD, plus the challenge itself (`x402Version`, `accepts`) mirrored at the top level for clients that only read the body.
 
-On BlockRun the price for chat is the model's list rate — estimated input tokens plus 10% of `max_tokens` output — with no platform margin, plus a flat **$0.001 transaction fee** per paid call. Media generation (image, video, music, speech) and Live Search carry a 5% margin on top of their list rate, plus the same fee.
+On BlockRun chat is priced at the model's list rate with no platform margin, plus a flat **$0.001 transaction fee** per paid call. The 402 quotes input plus output at your `max_tokens` (8192 when you send none). An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. Media generation (image, video, music, speech) and Live Search carry a 5% margin on top of their list rate, plus the same fee.
 
 ### Payment Authorization
 
@@ -98,13 +98,13 @@ The payment payload includes:
   "x402Version": 2,
   "resource": {
     "url": "https://blockrun.ai/api/v1/chat/completions",
-    "description": "GPT-5.5 API call (~17 input, 8192 max output tokens)",
+    "description": "GPT-5.5 API call (~18 input, 8192 max output tokens)",
     "mimeType": "application/json"
   },
   "accepted": {
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "25685",
+    "amount": "246850",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "payTo": "0x...",
     "maxTimeoutSeconds": 300,
@@ -115,7 +115,7 @@ The payment payload includes:
     "authorization": {
       "from": "0x...",
       "to": "0x...",
-      "value": "25685",
+      "value": "246850",
       "validAfter": "1234567890",
       "validBefore": "1234568190",
       "nonce": "0x..."

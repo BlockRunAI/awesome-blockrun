@@ -208,7 +208,7 @@ Full list: [Models Reference](../api-reference/models.md)
 
 ## Pricing
 
-Pay only for what you use, at the per-token price in the live catalog (`client.list_models()` or `GET https://blockrun.ai/api/v1/models`).
+Chat is billed at the per-token price in the live catalog (`client.list_models()` or `GET https://blockrun.ai/api/v1/models`). The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced.
 
 Example costs per 1M tokens:
 

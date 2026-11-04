@@ -161,7 +161,7 @@ before you build a threshold or skip a `try/catch`.
 | Backend | What happens |
 |---|---|
 | OpenAI-compatible (OpenAI, DeepSeek, Z.AI) | Forwarded verbatim. The shape is **enforced by the decoder** — a schema is a guarantee. |
-| Anthropic, Bedrock, Google | These APIs have no OpenAI-shaped `response_format`. The gateway emulates it: the instruction (and, for `json_schema`, your schema) is appended to the system prompt, and a wrapping ` ```json ` fence is stripped from the reply. Non-streaming only — see below. |
+| Claude (`anthropic/*`) and Gemini (`google/*`) | The gateway emulates `response_format` on these models: the instruction (and, for `json_schema`, your schema) is appended to the system prompt, and a wrapping ` ```json ` fence is stripped from the reply. Non-streaming only — see below. |
 
 **On the emulated path it is a prompt, not a constraint.** The model can still
 return something that does not validate against your schema, and nothing will
@@ -169,26 +169,17 @@ tell you. Parse defensively there; on the native path you can rely on it.
 
 **Streaming does not strip the fence.** A fence spans chunk boundaries, so the
 emulated path relies on the instruction alone and a streamed reply may arrive
-wrapped in ` ```json `. If you need a parseable body from Claude or Bedrock,
-ask for it non-streaming.
+wrapped in ` ```json `. If you need a parseable body from a Claude or Gemini
+model, ask for it non-streaming.
 
-Two things were broken here before 2026-09-20 and are worth stating, because
-anything written against the old behaviour was written against a lie:
+Gemini also has native structured output (`responseMimeType` /
+`responseSchema`), which this endpoint does not map onto yet: its schema
+dialect is an OpenAPI subset rather than JSON Schema, so forwarding a caller's
+schema verbatim would reject requests that work today.
 
-- `json_schema` was **silently dropped** on Anthropic and Bedrock. Every
-  emulation site tested for `json_object` only, and `response_format` never
-  reaches the Anthropic SDK, so the stricter of the two requests was the one
-  that did nothing.
-- **Google had no emulation at all** — `response_format` was dropped outright.
-  Measured on `gemini-3.8-flash` with `{"type":"json_object"}`, the reply was
-  "Here is the object in JSON format:", a fenced body, then a parenthetical
-  note about which population figure it chose. This page previously claimed
-  Gemini was emulated; it was not.
-
-Both are emulated now. Gemini also has native structured output
-(`responseMimeType` / `responseSchema`) which the gateway does not use yet:
-its schema dialect is an OpenAPI subset rather than JSON Schema, so
-forwarding a caller's schema verbatim would reject requests that work today.
+Before 2026-09-20, `json_schema` was ignored on Claude models and
+`response_format` was ignored entirely on Gemini models. Both are emulated now.
+If you tested structured output on those models before that date, test again.
 :::
 
 :::info{title="Claude-native context_management requires the anthropic-beta header"}
@@ -201,7 +192,7 @@ If you use the Claude-native `POST /v1/messages` endpoint with the `context_mana
 
 ### Payment Required (402)
 
-When you first make a request without payment, you'll receive:
+When you first make a request without payment, you'll receive a quote. The example below is the live quote for `{"model": "openai/gpt-5.5", "messages": [{"role": "user", "content": "Hello"}]}`, which sets no `max_tokens` and so is quoted at the default 8192:
 
 ```http
 HTTP/1.1 402 Payment Required
@@ -215,10 +206,10 @@ WWW-Authenticate: X402 requirements="<same value>"
 ```json
 {
   "x402Version": 2,
-  "accepts": [{"scheme": "exact", "network": "eip155:8453", "amount": "25685", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300}],
+  "accepts": [{"scheme": "exact", "network": "eip155:8453", "amount": "246850", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300}],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
-  "price": {"amount": "0.025685", "currency": "USD"},
+  "price": {"amount": "0.246850", "currency": "USD"},
   "paymentInfo": {"network": "base", "asset": "USDC", "x402Version": 2}
 }
 ```
@@ -231,7 +222,7 @@ WWW-Authenticate: X402 requirements="<same value>"
   "accepts": [{
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "25685",
+    "amount": "246850",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "payTo": "0x…",
     "maxTimeoutSeconds": 300,
@@ -239,14 +230,22 @@ WWW-Authenticate: X402 requirements="<same value>"
   }],
   "resource": {
     "url": "https://blockrun.ai/api/v1/chat/completions",
-    "description": "GPT-5.5 API call (~17 input, 8192 max output tokens)",
+    "description": "GPT-5.5 API call (~18 input, 8192 max output tokens)",
     "mimeType": "application/json"
   },
   "extensions": {"bazaar": {…}}
 }
 ```
 
-**How the quote is computed.** Estimated input tokens at the model's input rate, plus **10% of `max_tokens`** at the output rate — most calls use a small fraction of their ceiling. Per-token chat carries **no platform margin** (list price, since 2026-08-07); the quote is floored at $0.001 and then the flat **$0.001 per-request transaction fee** is added. `amount` is in micro-USDC (6 decimals). The settled amount is the signed amount — there is no post-hoc refund when the model uses fewer tokens, so set `max_tokens` to what you need. Prompts at or above a model's long-context threshold re-price the whole request at that model's long-context rates.
+**How the quote is computed.** The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced.
+
+- **The quote** is the estimated input tokens at the model's input rate, plus the **full `max_tokens`** at the output rate (8192 when you send none, capped at the model's maximum output). Per-token chat carries **no platform margin** (list price, since 2026-08-07). The quote is floored at $0.001, then the flat **$0.001 per-request transaction fee** is added. `amount` is in micro-USDC (6 decimals).
+- **Worked example.** The quote above is GPT-5.5 at $5 / $30 per 1M tokens: 18 input tokens ($0.00009) + 8192 output tokens ($0.24576) + the $0.001 fee = **$0.246850** (`"246850"`). The same request with `"max_tokens": 1000` is quoted at **$0.031090** (`"31090"`).
+- **`exact`** (every paid model, both chains) settles the signed amount, whatever the reply's length. There is no refund for tokens the model did not produce.
+- **`upto`** (Base) is offered as a second `accepts` entry on the models whose payments support it, currently the DeepSeek and Anthropic models. You authorize the same ceiling, and the gateway settles only the tokens produced.
+- **Batch settlement** (`batch-settlement`, on `sol.blockrun.ai`) also charges only the tokens produced.
+
+Pick the `accepts` entry by its `scheme`; do not assume `accepts[0]`. Prompts at or above a model's long-context threshold re-price the whole request at that model's long-context rates.
 
 ### Payment rejected (402 with a `code`)
 

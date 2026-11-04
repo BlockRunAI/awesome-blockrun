@@ -359,7 +359,7 @@ Call this tool **first** whenever another `blockrun_*` tool returns a payment or
 | `powerful` | `anthropic/claude-opus-5`, `anthropic/claude-opus-4.8`, `openai/gpt-5.6-sol` | Complex tasks, 1M context |
 | `cheap` | `deepseek/deepseek-v4-pro`, `qwen/qwen3.7-flash`, `minimax/minimax-m3` | Cost savings |
 | `reasoning` | `anthropic/claude-opus-5`, `anthropic/claude-opus-4.8`, `openai/gpt-5.6-sol` | Logic and math |
-| `free` | NVIDIA-hosted open models only | Development, zero-cost |
+| `free` | Free open models only | Development, zero-cost |
 | `coding` | Coding-tuned models (`openai/gpt-5.3-codex`, `xai/grok-build-0.1`, `zai/glm-5.2`, …) | Code generation/review |
 | `glm` | `zai/glm-5` / `5.2` / `5.1` / `5-turbo` | Strong general + coding at low token cost |
 

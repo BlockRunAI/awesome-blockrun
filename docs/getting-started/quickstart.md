@@ -81,7 +81,7 @@ print(client.chat("openai/gpt-5.5", "Write a haiku about micropayments."))
 :::
 
 :::step{title="Check your balance"}
-Confirm the charge — each call costs a fraction of a cent.
+Confirm the charge. On the default `exact` payment a chat call is charged its input plus its full `max_tokens` as output, so the GPT-5.5 haiku above, at the 1,024 `max_tokens` the MCP and SDK send by default, costs about $0.03. Set `max_tokens` to what you need, or pay with `upto` (Base) or batch settlement (Solana) to be charged only the tokens produced.
 
 ```
 blockrun_wallet action:"status"

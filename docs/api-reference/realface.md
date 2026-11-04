@@ -256,7 +256,7 @@ Returns the wallet's enrolled RealFaces. Free, rate-limited (same 120/hour/IP bu
 
 ```json
 {
-  "wallet": "0xCC8c44AD3dc2A58D841c3EB26131E49b22665EF8",
+  "wallet": "0xYourWalletAddress",
   "realfaces": [
     {
       "assetId": "ta_f85b20b9394e47be9502d819bee7929c",
@@ -288,7 +288,8 @@ The video playground reads this same list and shows it in the `real_face_asset_i
 
 ## Storage and privacy
 
-- Wallet → enrolled RealFace list stored in BlockRun's GCS (`gs://blockrun-prod-2026-logs/realfaces/<wallet>.json`)
+- Wallet → enrolled RealFace list is stored by BlockRun
+- Request content you send to blockrun.ai (Base) — the request body, including the name and image URL, and the response — is retained by BlockRun. The Solana gateway (sol.blockrun.ai) stores no request content
 - The image URL you supplied is kept for previewing in the UI
 - The face/liveness data goes **directly from the rights-holder's phone to the upstream identity service** — BlockRun servers never receive face image bytes during the H5
 - We do not analyze, redistribute, or use enrolled faces for any purpose other than serving the asset id back to your wallet and forwarding requests for Seedance generation

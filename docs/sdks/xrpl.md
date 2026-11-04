@@ -170,7 +170,7 @@ print(result.routing.savings)    # 0.94 (94% savings vs baseline)
 
 | Profile | Behavior | Best For |
 |---------|----------|----------|
-| `"free"` | Always uses free NVIDIA-hosted models | Development, testing |
+| `"free"` | Always uses free models | Development, testing |
 | `"eco"` | Maximizes cost savings | Bulk processing |
 | `"auto"` | Balances quality and cost (default) | Production workloads |
 | `"premium"` | Always uses top-tier models | Critical tasks |
