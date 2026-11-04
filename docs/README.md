@@ -25,8 +25,8 @@ BlockRun creates a non-custodial wallet on first run. Send a few dollars of USDC
 Ask for an LLM completion, an image, a market quote, a swap. Your client signs an x402 payment locally and the request settles in the same round-trip.
 :::
 
-:::step{title="Pay only for what you use"}
-Each call costs a fraction of a cent — per-token chat is billed at provider cost with no platform margin, plus a flat $0.001 transaction fee; media generation and Live Search carry 5%. No monthly bill, no seats, no minimums.
+:::step{title="Pay per call"}
+Per-token chat is billed at provider cost with no platform margin, plus a flat $0.001 transaction fee; media generation and Live Search carry 5%. The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. No monthly bill, no seats, no minimums.
 :::
 
 ::::

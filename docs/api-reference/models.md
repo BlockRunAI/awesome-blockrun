@@ -76,7 +76,7 @@ Astra is the flagship; Sol (released 2026-09-22 with Luna) is the cost-efficient
 | `openai/gpt-6-sol` | GPT-6 Sol | $2.00/M | $10.00/M | 1M |
 | `openai/gpt-6-luna` | GPT-6 Luna | $0.10/M | $0.50/M | 1M |
 
-GPT-6 models accept `reasoning_effort` `low` through `max` and reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`. On plain chat the gateway lowers `max` to `xhigh`. Tool calls, which it serves through OpenAI's Responses API, run at the effort you ask for, `max` included, and at `medium` when none is sent. Higher effort spends more reasoning, which bills as output, so the per-call price scales with it: the output share of the quote is 2.5x at `high`, 3x at `xhigh` and 4.5x at `max` (never past `max_tokens`); no effort, `low` and `medium` are priced as before. `none` and `minimal` are raised to `low` on Astra and GPT-6.1 Sol; Sol and Luna accept `none`, and raise `minimal` to `low`.
+GPT-6 models accept `reasoning_effort` `low` through `max` and reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`. On plain chat the gateway lowers `max` to `xhigh`. Tool calls, which it serves through OpenAI's Responses API, run at the effort you ask for, `max` included, and at `medium` when none is sent. Higher effort spends more reasoning, which bills as output and counts against `max_tokens`. An `exact` payment is already quoted at the full `max_tokens`, so effort does not change its price; set `max_tokens` high enough for the reasoning you ask for. `none` and `minimal` are raised to `low` on Astra and GPT-6.1 Sol; Sol and Luna accept `none`, and raise `minimal` to `low`.
 
 ### OpenAI GPT-5.6 Family
 

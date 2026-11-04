@@ -17,7 +17,7 @@ Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversa
 
 ClawRouter analyzes your prompt and automatically picks the right model tier:
 
-- **Simple questions** → Cheap models (Gemini 2.5 Flash on `auto`; a free NVIDIA-hosted model on `eco`)
+- **Simple questions** → Cheap models (Gemini 2.5 Flash on `auto`; a free model on `eco`)
 - **Medium complexity** → Balanced models (Kimi K2.7)
 - **Complex reasoning** → Premium models (Gemini 3.1 Pro on `auto`; Claude Fable 5 on `premium`)
 - **Math, logic, proofs** → Reasoning models (Grok 4.1 Fast Reasoning)
@@ -218,7 +218,7 @@ Real decisions from Router Core's bundled defaults on `auto` (prices are output 
 | "Prove that the sum of two odd integers is even, step by step." | REASONING / reasoning | deepseek/deepseek-v4-pro | $3.96 |
 | "Cancel order B-42 and book the 9am flight to SFO." (tools attached) | AGENTIC / tool_agent_parallel | anthropic/claude-opus-4.8 | $25.00 |
 
-Note the second row: the REASONING primary is Grok 4.1 Fast Reasoning, but the portfolio ranked DeepSeek V4 Pro higher for this task shape. The tier primary is a starting point. Add `/model eco` and the SIMPLE row becomes a free NVIDIA-hosted model at $0.
+Note the second row: the REASONING primary is Grok 4.1 Fast Reasoning, but the portfolio ranked DeepSeek V4 Pro higher for this task shape. The tier primary is a starting point. Add `/model eco` and the SIMPLE row becomes a free model at $0.
 
 ## Features
 
@@ -226,7 +226,8 @@ Note the second row: the REASONING primary is Grok 4.1 Fast Reasoning, but the p
 
 - 15-dimension weighted scoring runs on your machine in <1ms
 - No external API calls for routing decisions
-- Full privacy - your prompts never leave your machine for routing
+- The routing decision runs locally: your prompt is not sent anywhere to choose a model
+- The request itself then goes to the BlockRun gateway that serves the chosen model. blockrun.ai (Base) stores request and response content; sol.blockrun.ai (Solana) stores none. Free models run on third-party free tiers whose terms may let the host use prompts, so don't send sensitive data to a free model
 
 ### 91 Models
 
@@ -242,7 +243,7 @@ Access all major providers through one wallet:
 - **Qwen**: Qwen3.7 Max, Qwen3.7 Plus, Qwen3.7 Flash
 - **MiniMax**: MiniMax M3, MiniMax M2.7
 - **Tencent / Xiaomi**: Hy3, MiMo-V2.5 Pro
-- **Free tier (all FREE)**: 5 NVIDIA-hosted chat, reasoning and vision models with no per-token charge
+- **Free tier (all FREE)**: free chat, reasoning and vision models with no per-token charge
 
 [View all models →](../intelligence/pricing.md)
 

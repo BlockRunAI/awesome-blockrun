@@ -153,7 +153,7 @@ Returns the list of portraits the given wallet has enrolled. Free (rate-limited 
 
 ```json
 {
-  "wallet": "0xCC8c44AD3dc2A58D841c3EB26131E49b22665EF8",
+  "wallet": "0xYourWalletAddress",
   "portraits": [
     {
       "assetId": "ta_abcdef1234567890",
@@ -183,7 +183,8 @@ The video playground at `/models/bytedance-seedance-2.0-fast` reads this same li
 
 ## Storage and privacy
 
-- Wallet → portrait list is stored in BlockRun's GCS (`gs://blockrun-prod-2026-logs/portraits/<wallet>.json`)
+- Wallet → portrait list is stored by BlockRun
+- Request content you send to blockrun.ai (Base) — the request body, including the name and image URL, and the response — is retained by BlockRun. The Solana gateway (sol.blockrun.ai) stores no request content
 - The image URL you supplied is kept for previewing in the UI; the canonical image bytes are stored upstream with the inference provider
 - We do not analyze, redistribute, or use your portrait images for any purpose other than serving the asset back to your wallet and forwarding it for Seedance generation
 - Delete is not currently exposed via API — open a GitHub issue or email vicky@blockrun.ai if you need an entry removed

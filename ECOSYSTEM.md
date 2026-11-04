@@ -180,7 +180,7 @@ Want to add an integration? [Open an issue](https://github.com/blockrunai/awesom
 
 | Profile | Strategy | Example Models |
 |---------|----------|----------------|
-| `free` | Free models only | Nemotron 3.5 Lightning (NVIDIA-hosted free tier, no wallet needed) |
+| `free` | Free models only | Nemotron 3.5 Lightning (free tier, no wallet needed) |
 | `eco` | Cheapest capable | DeepSeek, Gemini Flash Lite |
 | `auto` | Balanced cost/quality | GPT-5 Mini, Gemini Flash |
 | `premium` | Best quality | Claude Opus 5, GPT-5.6 Sol |

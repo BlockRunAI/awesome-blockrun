@@ -86,7 +86,7 @@ BlockRun is a unified API gateway — use account credits with one API key, or U
 | **Anthropic-Compat** | `/v1/messages` | Per token | Drop-in for Claude's Messages API |
 | **Image Generation** | `/v1/images/generations` | $0.015–0.15/image | GPT Image 1/2, Nano Banana / 2 / Pro, Grok Imagine / Pro, Seedream 5.0 Pro, CogView-4 |
 | **Image Editing** | `/v1/images/image2image` | Per request | AI-powered inpainting and image-to-image |
-| **Video Generation** | `/v1/videos/generations` | Per M tokens | Seedance 1.5 Pro, 2.0 Fast, 2.0 Pro, 2.5 (with BytePlus RealFace support); Grok Imagine Video |
+| **Video Generation** | `/v1/videos/generations` | Per M tokens | Seedance 1.5 Pro, 2.0 Fast, 2.0 Pro, 2.5 (with RealFace support); Grok Imagine Video |
 | **Music Generation** | `/v1/audio/generations` | Per track | Suno-powered text-to-music |
 | **Voice Calls** | `/v1/voice/call` | $0.541/call (flat, ≤30min) | Outbound AI conversation calls — Bland.ai upstream |
 | **Phone Numbers** | `/v1/phone/numbers/*` | $5.001/30 days | Wallet-owned US/CA numbers — Twilio upstream |
@@ -294,7 +294,7 @@ Full directory with one line per public repo: [Ecosystem docs](./docs/resources/
 
 | Profile | Strategy | Example Models |
 |---------|----------|----------------|
-| `free` | Free models only | Nemotron 3.5 Lightning (NVIDIA-hosted free tier, no wallet needed) |
+| `free` | Free models only | Nemotron 3.5 Lightning (free tier, no wallet needed) |
 | `eco` | Cheapest capable | DeepSeek, Gemini Flash Lite |
 | `auto` | Balanced cost/quality | GPT-5 Mini, Gemini Flash |
 | `premium` | Best quality | Claude Opus 5, GPT-5.6 Sol |

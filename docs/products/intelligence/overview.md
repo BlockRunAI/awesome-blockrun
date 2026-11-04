@@ -109,6 +109,8 @@ See [Pricing](pricing.md) for complete list and calculator.
 Your cost = Provider cost (no platform margin on chat tokens) + $0.001 per request
 ```
 
+The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced.
+
 The flat $0.001 per request covers:
 - USDC settlement infrastructure
 - Smart routing and load balancing

@@ -5,12 +5,13 @@ description: BlockRun Intelligence pricing — per-token chat at provider cost w
 
 # Intelligence Pricing
 
-Pay only for what you use. Per-token chat is billed at **provider cost** — no platform margin.
+Per-token chat is billed at **provider cost** — no platform margin. The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. See [How the quote is computed](../../api-reference/chat-completions.md#payment-required-402).
 
 ## Pricing Formula
 
 ```
-Your cost = Provider cost          (per-token chat — no platform margin)
+Your cost = Provider cost          (per-token chat — no platform margin;
+                                     on exact: input + your full max_tokens)
               + $0.001 / request     (flat x402 transaction fee)
 ```
 

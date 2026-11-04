@@ -27,7 +27,7 @@ Client sends a normal API request:
 ```bash
 curl -X POST https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -d '{"model": "openai/gpt-5.4", "messages": [...]}'
+  -d '{"model": "openai/gpt-5.4", "messages": [{"role": "user", "content": "Hello"}]}'
 ```
 :::
 
@@ -47,7 +47,7 @@ WWW-Authenticate: X402 requirements="<same value>"
   "accepts": [{
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "25685",
+    "amount": "123925",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "payTo": "0x...",
     "maxTimeoutSeconds": 300,
@@ -55,7 +55,7 @@ WWW-Authenticate: X402 requirements="<same value>"
   }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
-  "price": {"amount": "0.025685", "currency": "USD"},
+  "price": {"amount": "0.123925", "currency": "USD"},
   "paymentInfo": {"network": "base", "asset": "USDC", "x402Version": 2}
 }
 ```
@@ -70,7 +70,7 @@ The three headers carry the full requirements as the same base64 value (`resourc
   "accepts": [{
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "25685",
+    "amount": "123925",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "payTo": "0x...",
     "maxTimeoutSeconds": 300,
@@ -78,7 +78,7 @@ The three headers carry the full requirements as the same base64 value (`resourc
   }],
   "resource": {
     "url": "https://blockrun.ai/api/v1/chat/completions",
-    "description": "GPT-5.4 API call (~17 input, 8192 max output tokens)",
+    "description": "GPT-5.4 API call (~18 input, 8192 max output tokens)",
     "mimeType": "application/json"
   },
   "extensions": {"bazaar": {…}}
@@ -86,6 +86,8 @@ The three headers carry the full requirements as the same base64 value (`resourc
 ```
 
 `amount` is micro-USDC (6 decimals) and already includes the flat $0.001 transaction fee; `extra` is the EIP-712 domain to sign against. `resource.description` states the token estimate the quote was built from.
+
+The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. This request sets no `max_tokens`, so it is quoted at the default 8192: 18 input tokens at $2.50 per 1M plus 8192 output tokens at $15 per 1M, plus the $0.001 fee, is $0.123925. When a model offers more than one scheme, `accepts` carries one entry per scheme: pick the one whose `scheme` you sign, not `accepts[0]`.
 :::
 
 :::step{title="Sign Authorization"}
@@ -135,7 +137,7 @@ Key points:
 - Private key never leaves the client
 - Authorization expires in 5 minutes (`validBefore`)
 - Clock skew tolerance of 10 minutes (`validAfter`)
-- `value` is micro-USDC and must equal the `amount` you were quoted: `$0.025685` → `"25685"`
+- `value` is micro-USDC and must equal the `amount` you were quoted: `$0.123925` → `"123925"`
 - The header value is the **base64 of the JSON payment payload** shown in the next step (`btoa(JSON.stringify(payload))`)
 
 :::note{title="Paying on Solana"}
@@ -149,7 +151,7 @@ Client sends the request again with the `PAYMENT-SIGNATURE` header (x402 v2):
 curl -X POST https://blockrun.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "PAYMENT-SIGNATURE: <base64-encoded-payment>" \
-  -d '{"model": "openai/gpt-5.4", "messages": [...]}'
+  -d '{"model": "openai/gpt-5.4", "messages": [{"role": "user", "content": "Hello"}]}'
 ```
 
 The payment payload contains:
@@ -164,7 +166,7 @@ The payment payload contains:
   "accepted": {
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "25685",
+    "amount": "123925",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "payTo": "0x...",
     "maxTimeoutSeconds": 300,
@@ -175,7 +177,7 @@ The payment payload contains:
     "authorization": {
       "from": "0x...",
       "to": "0x...",
-      "value": "25685",
+      "value": "123925",
       "validAfter": "1234567890",
       "validBefore": "1234568190",
       "nonce": "0x..."

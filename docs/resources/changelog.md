@@ -9,6 +9,13 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ## [2026-11-03]
 
+### Changed — Pay-per-call chat is charged at your full max_tokens
+- The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced.
+- On blockrun.ai an `exact` chat payment used to be quoted at a share of `max_tokens` as output. It is now quoted, and settled, at the full `max_tokens`, the same as `exact` on sol.blockrun.ai. A request with no `max_tokens` is quoted at the default 8192 (or the model's maximum output, if lower). Example: `openai/gpt-5.5` with a one-word prompt and no `max_tokens` is now quoted $0.246850; with `"max_tokens": 1000` it is $0.031090.
+- `upto` is offered on Base as a second `accepts` entry on the models that support it, currently the DeepSeek and Anthropic models. It authorizes the same ceiling and settles only the tokens produced. Select the entry by `scheme`, not by position.
+- The GPT-6 reasoning-effort uplift from 2026-10-10 no longer changes a price: the quote is already the full ceiling.
+- This applies to `/v1/chat/completions`, `/v1/messages` and `/v1/responses` (where the ceiling is `max_output_tokens`, and an unset one is the model's maximum output, not 8192). Metered API-key billing (user.blockrun.ai, api.blockrun.ai) bills actual usage and is unaffected. See [How the quote is computed](../api-reference/chat-completions.md#payment-required-402).
+
 ### Changed — Async media is released once its payment confirms
 - On image generation, image editing, music and video, a finished job's result is now handed over only after its payment is confirmed on-chain. While the transfer confirms, the poll (or the POST, on the fast path) answers `202` with `payment_status: "settling"` and `Retry-After: 3`. Keep polling `poll_url` with the same wallet; no second charge is taken while a transfer is unresolved.
 - A transfer that confirms under a different transaction hash, for example after the facilitator bumped its gas, is still recognised as paid.
@@ -40,7 +47,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ## [2026-10-10]
 
-### Changed — GPT-6 calls are priced by reasoning effort
+### Changed — GPT-6 calls are priced by reasoning effort *(superseded 2026-11-03: `exact` chat is now quoted at the full `max_tokens`)*
 - A pay-per-call chat request is charged before it runs: its input plus a tenth of its `max_tokens` as output. On GPT-6, higher `reasoning_effort` spends more reasoning, which bills as output; measured on GPT-6.1 Sol, `high` ran up to 2.3x the output of `medium`, `xhigh` up to 2.5x, `max` up to 4.4x.
 - On every GPT-6 model the output share of the quote now scales with the effort requested: **2.5x at `high`, 3x at `xhigh`, 4.5x at `max`**, never past `max_tokens`. No effort, `low` and `medium` are charged exactly as before. On plain chat, where `max` is served as `xhigh`, it is charged as `xhigh`.
 - This applies to `/v1/chat/completions` and `/v1/responses`. Metered API-key billing (user.blockrun.ai, api.blockrun.ai) bills actual usage and is unaffected.
@@ -160,7 +167,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - Added **`nvidia/nemotron-3.5-lightning`** (thinking-mode reasoning, 131K context, ~35 tok/s), **`nvidia/nemotron-3-nano-30b`** (~121 tok/s, the fastest free model in the catalog) and **`nvidia/llama-3.2-11b-vision`** (Meta Llama 3.2, 128K context, image input) — each verified with a real completion through the gateway before listing.
 - **`nvidia/gpt-oss-120b`** and **`nvidia/gpt-oss-20b`** recovered upstream and no longer redirect elsewhere.
 - **`nvidia/nemotron-3.5-lightning`** and **`nvidia/nemotron-3-nano-omni-30b-a3b-reasoning`** now serve from a larger free-tier capacity pool, with their previous route kept as the fallback — same models, 4.9s median against 16.3s, and Lightning gains a **1M-token context** (was 131K). Image input verified through the new route before moving the vision model.
-- Added three more free models: **`nvidia/nemotron-3-ultra-550b`** (550B/55B MoE, **1M context** — the largest free model in the catalog, and unreachable on our own NVIDIA key), **`cohere/north-mini-code`** (compact coding, sub-second) and **`poolside/laguna-xs-2.1`** (coding, ~161 tok/s).
+- Added three more free models: **`nvidia/nemotron-3-ultra-550b`** (550B/55B MoE, **1M context** — the largest free model in the catalog), **`cohere/north-mini-code`** (compact coding, sub-second) and **`poolside/laguna-xs-2.1`** (coding, ~161 tok/s).
 - Visible chat models are now **73** (was 71); total catalog **97**; free models **7** (was 5).
 
 ### Fixed — an upstream error delivered as HTTP 200 no longer reads as an empty answer
@@ -300,7 +307,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 ## [2026-07-20]
 
 ### Added — Qwen3.7 Max (Alibaba flagship)
-- Added **`qwen/qwen3.7-max`** ($1.48/$4.43 per 1M, **1M context**), Alibaba's Qwen flagship — the Max tier, strong reasoning + coding + agentic tool use. Verified live before listing. Fills the gap where the only Qwen models were the free NVIDIA-hosted tier.
+- Added **`qwen/qwen3.7-max`** ($1.48/$4.43 per 1M, **1M context**), Alibaba's Qwen flagship — the Max tier, strong reasoning + coding + agentic tool use. Verified live before listing. Fills the gap where the only Qwen models were the free tier.
 - Visible chat models are now **61** (was 60); total catalog **81** across chat, image, video, music, speech, and sound effects.
 
 ---
@@ -435,7 +442,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 ### Changed — Seedance defaults bumped to 720p + synced audio
 - `/api/v1/videos/generations` now defaults `resolution: "720p"` for all Seedance models (was 480p). Override by passing an explicit `resolution` (`360p` / `480p` / `720p` / `1080p`; `1080p` is the max — `2K`/`4K` are rejected with a `400`).
 - `/api/v1/videos/generations` now defaults `generate_audio: true` for text-to-video Seedance calls (`false` for image-conditioned or `real_face_asset_id` calls, where audio defaults are off per upstream guidance). Pass an explicit boolean to override.
-- Output now matches JiMeng / BytePlus directly — same resolution, same multimodal audio path. Per-clip cost ≈ 2× the old 480p baseline because Seedance meters by tokens and 720p doubles the per-second count.
+- Output now matches the model maker's own output — same resolution, same multimodal audio path. Per-clip cost ≈ 2× the old 480p baseline because Seedance meters by tokens and 720p doubles the per-second count.
 - Updated pricing table: **$0.46 / $1.19 / $1.49** per 5s 720p clip for 1.5-pro / 2.0-fast / 2.0 (was $0.22 / $0.57 / $0.71 at 480p, text-to-video).
 - `tokensPerSecondAtDefault` updated to **20,256** in the model catalog (was 10,128).
 
@@ -459,8 +466,8 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - **`GET /api/v1/voice/call/{id}`** — free polling endpoint for call status / transcript / recording.
 - See [Phone & Voice API reference](../api-reference/voice-phone.md).
 
-### Added — BytePlus RealFace for Seedance video *(deprecated 2026-05-22 — see [Removed](#removed--realface-real-person-likeness-is-no-longer-offered))*
-- `bytedance/seedance-2.0-fast` and `bytedance/seedance-2.0` now accept a `real_face_asset_id` parameter (`ta_xxxxxx` format) for face-reference image-to-video. Asset IDs are managed in BytePlus's RealFace catalog.
+### Added — RealFace for Seedance video *(deprecated 2026-05-22 — see [Removed](#removed--realface-real-person-likeness-is-no-longer-offered))*
+- `bytedance/seedance-2.0-fast` and `bytedance/seedance-2.0` now accept a `real_face_asset_id` parameter (`ta_xxxxxx` format) for face-reference image-to-video. Asset IDs are managed in the upstream RealFace catalog.
 - **Superseded by [Virtual Portrait enrollment](../api-reference/virtual-portrait.md) (2026-05-22)** — the API field name is preserved, but the only supported asset type is now a BlockRun-issued Virtual Portrait (`POST /v1/portrait/enroll`). Real-person likeness is not offered.
 
 ### Added — Brand: Franklin → Franklin Agent
@@ -559,8 +566,8 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - Google models (Gemini 2.5 Pro, Gemini 2.5 Flash)
 - xAI models (Grok 4)
 - DeepSeek models (V3, R1)
-- Meta models via Together.ai (Llama 3.3 70B)
-- Qwen models via Together.ai (Qwen 2.5 72B)
+- Meta models (Llama 3.3 70B)
+- Qwen models (Qwen 2.5 72B)
 - Mistral models (Mistral Large)
 - Python SDK (`blockrun-llm`)
 - TypeScript SDK (`@blockrun/llm`)
