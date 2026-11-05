@@ -210,7 +210,7 @@ BlockRun routes to these providers via x402:
 | Nano Banana | $0.05 |
 | Nano Banana Pro | $0.10–0.15 |
 | CogView-4 | $0.015–0.02 |
-| Grok Imagine / Grok Imagine Pro | $0.02 / $0.07 |
+| Grok Imagine / Grok Imagine Pro | $0.02 / $0.06 |
 
 ## x402 Protocol
 

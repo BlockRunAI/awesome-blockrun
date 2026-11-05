@@ -7,6 +7,13 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-04]
+
+### Changed — Grok Imagine Pro generates at medium quality, at a new price
+- xAI retired the model behind `xai/grok-imagine-image-pro` on 2026-11-02 and began serving its requests at the low quality of Grok Imagine 2.0. Pro now requests Grok Imagine 2.0 at medium quality, one tier above `xai/grok-imagine-image-2.0`.
+- A 1024x1024 image is quoted at $0.064, up from $0.0535. The 402 quote always shows the current price before you pay.
+- For the lower price, use `xai/grok-imagine-image-2.0` at $0.043 per image. The model id `xai/grok-imagine-image-pro` is unchanged.
+
 ## [2026-11-03]
 
 ### Changed — Pay-per-call chat is charged at your full max_tokens
