@@ -37,18 +37,18 @@ Solana batch funding challenges identify the configured public resource URL, not
 
 ## Discover supported requests before paying
 
-- Read the current model list. `openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.
+- Read the current model list. `openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026, and on Base chat requests for it now route to `openai/gpt-5-nano`. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.
 - Music costs **$0.20 per track including the transaction fee**. Read the live `402` quote before signing.
 - FX and commodity spot prices are available, but their free historical-bar source is unsupported (`501`). Equity symbol lists may return `available: false`; a listed symbol is not a promise of price coverage.
 - UMA markets requires `state`. Kalshi trades requires `ticker` or `event_ticker`.
 - Smart activity requires at least one meaningful threshold: PnL of 5000, ROI of 0.15, 100 trades, or volume of 10000. Per-market smart money uses a PnL threshold of 1000; the alternative thresholds remain valid.
 - The Base gateway rejects requests missing these market parameters before payment. The Solana gateway does not pre-check them, so send them yourself.
-- On Base, Binance minute candles default to the last hour when both timestamps are omitted. Elsewhere, send a short time range. Unix timestamps are seconds.
+- On Base, when both timestamps are omitted, Binance 1s and 1m candles use a window sized from `limit`, or the last hour with no `limit`. Elsewhere, send a short time range. Unix timestamps are seconds.
 - Register stable submit/discovery endpoints. A historical `/audio/generations/{id}` URL is a particular task, not a reusable public API entry. Unauthorized access to an old job says nothing about whether new music generation works.
 
 ## Free wallet authentication
 
-`POST /api/v1/onramp/token` and `POST /api/v1/phone/numbers/release` support wallet messages instead of zero-value payments: EIP-191 on Base (hex signature), ed25519 on Solana (base58 signature). Send the owner address in `X-Wallet-Address` to obtain the message in a `401` response, sign it locally, and resend the identical body with `X-Wallet-Address`, `X-Wallet-Timestamp` and `X-Wallet-Signature`. The proof binds origin, method, path, wallet, body hash and timestamp, expires after five minutes and can be used once. The Onramp destination must match the signer and number release still requires ownership. GET returns a message template with HTTP 401, not an x402 quote. POST returns the exact body-bound message. No transaction or payment is necessary.
+`POST /api/v1/onramp/token` and `POST /api/v1/phone/numbers/release` support wallet messages instead of zero-value payments: EIP-191 on Base (hex signature), ed25519 on Solana (base58 signature). Send the owner address in `X-Wallet-Address` to obtain the message in a `401` response, sign it locally, and resend the identical body with `X-Wallet-Address`, `X-Wallet-Timestamp` and `X-Wallet-Signature`. The proof binds origin, method, path, wallet, body hash and timestamp, expires after five minutes and can be used once. The Onramp destination must match the signer and number release still requires ownership. On Base, a bare request with no wallet or payment header answers `402`, carrying both the x402 identity challenge that existing clients sign and the `authentication` instructions; GET carries a message template. On Solana, GET returns a message template with HTTP 401. POST with `X-Wallet-Address` returns the exact body-bound message. No transaction or payment is necessary.
 
 A payment-only wallet tool that cannot sign messages needs client support for this flow. Increasing the fee is not a substitute for an identity proof on a free operation.
 
