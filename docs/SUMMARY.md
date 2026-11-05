@@ -62,6 +62,7 @@
 * [Virtual Portrait Enrollment](api-reference/virtual-portrait.md)
 * [RealFace Enrollment](api-reference/realface.md)
 * [Music Generation](api-reference/music-generation.md)
+* [Agent wallet integration and result recovery](api-reference/agent-wallet-integration.md)
 * [Text-to-Speech & Sound Effects](api-reference/text-to-speech.md)
 * [Search](api-reference/search.md)
 * [Decisions (Typed Judgments)](api-reference/decisions.md)

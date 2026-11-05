@@ -137,7 +137,6 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 | `openai/gpt-4.1` | GPT-4.1 | $2.00/M | $8.00/M | 128K |
 | `openai/gpt-4.1-mini` | GPT-4.1 Mini | $0.40/M | $1.60/M | 128K |
 | `openai/gpt-4o-mini` | GPT-4o Mini | $0.15/M | $0.60/M | 128K |
-| `openai/gpt-4.1-nano` | GPT-4.1 Nano | $0.10/M | $0.40/M | 128K |
 
 ### Anthropic Claude
 
@@ -405,3 +404,5 @@ Route each prompt to the cheapest model that can handle it, automatically.
 :::
 
 ::::
+
+`openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026 and is no longer advertised as available. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.

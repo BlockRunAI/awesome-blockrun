@@ -17,7 +17,7 @@ MiniMax always generates a ~3 minute track per call. Generation takes 1-3 minute
 
 | Model | Price | Notes |
 |-------|-------|-------|
-| minimax/music-2.5+ | $0.1585 | MiniMax flagship — supports lyrics, instrumental, and style prompts |
+| minimax/music-2.5+ | $0.20 | MiniMax flagship — supports lyrics, instrumental, and style prompts |
 
 ## Endpoint
 
@@ -62,10 +62,10 @@ POST /api/v1/audio/generations
 }
 ```
 
-The `url` is a time-limited CDN link (expires in ~24h). Download immediately if you need to store the file.
+Successful responses use a BlockRun-hosted backup URL. Download the track if you need your own durable copy.
 
 :::warning{title="Set a long client timeout"}
-Generation takes 1-3 minutes. Do not set your client timeout below 200 seconds or the request will abort before the track is ready.
+Generation typically takes 1–3 minutes. Handle `202` plus `poll_url`: the POST hands off after about 10 seconds. Poll the same job rather than submitting another paid generation.
 :::
 
 ## Payment
@@ -80,9 +80,9 @@ Same x402 flow as all BlockRun endpoints:
 // 402 response body
 {
   "x402Version": 2,
-  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "157500", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300 }],
+  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "200000", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 600 }],
   "error": "Payment Required",
-  "price": { "amount": "0.158500", "currency": "USD" },
+  "price": { "amount": "0.200000", "currency": "USD" },
   "generation_info": {
     "output_duration": "~3 minutes of audio per track",
     "generation_time": "~2 minutes to generate"
@@ -179,7 +179,7 @@ Create an instrumental ambient track for a meditation app
 
 | Model | BlockRun Price |
 |-------|----------------|
-| music-2.5+ | $0.1585/track (provider cost + 5% margin + $0.001 transaction fee, $0.15 base) |
+| music-2.5+ | $0.20/track ($0.199 service price + $0.001 transaction fee) |
 
 Prices in USD, paid in USDC on Base network. Minimum charge is $0.001/request ($0.002 all-in with the transaction fee).
 
@@ -195,7 +195,7 @@ python3 -c "from blockrun_llm import get_wallet_address; print(get_wallet_addres
 ## Troubleshooting
 
 ### "Music generation timed out"
-Generation can take up to 3 minutes. Increase your client timeout to at least 200 seconds.
+Generation typically takes 1–3 minutes. Follow the original `poll_url`; submitting a new authorization starts another billable request.
 
 ### "Payment verification failed"
 Insufficient USDC balance. Check your wallet on [Basescan](https://basescan.org).

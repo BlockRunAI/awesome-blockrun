@@ -8,7 +8,7 @@ description: Generate full-length music tracks with lyrics, instrumental, or cus
 Generate full-length music tracks with lyrics, instrumental, or custom style prompts.
 
 :::warning{title="Generation is slow — be ready to poll"}
-`minimax/music-2.5+` produces a ~3 minute track per call regardless of duration hints, and takes 1–3 minutes to do it. Tracks that finish within **60s** come back inline as `200`; slower ones return **`202` + `poll_url`** and you poll until `completed`. Set your client timeout to at least 100 seconds per request and handle both shapes.
+`minimax/music-2.5+` produces a ~3 minute track per call regardless of duration hints, and takes 1–3 minutes to do it. Tracks that finish within **10s** come back inline as `200`; slower ones return **`202` + `poll_url`** and you poll until `completed`. Set your client timeout to at least 100 seconds per request and handle both shapes.
 :::
 
 ## Endpoint
@@ -44,19 +44,23 @@ GET  https://blockrun.ai/api/v1/audio/models               # list music models (
 
 | Model ID | Price (quoted) | Notes |
 |----------|-------|-------|
-| `minimax/music-2.5+` | $0.1585 | MiniMax flagship — supports lyrics, instrumental, and style prompts; ~3 min output; up to 240s billed as one track |
+| `minimax/music-2.5+` | $0.20 | MiniMax flagship — supports lyrics, instrumental, and style prompts; ~3 min output; up to 240s billed as one track |
 
-`GET /api/v1/audio/models` returns the same list with `billing_mode: "per_track"`, `pricing.per_track` (the $0.15 base rate before margin and fee), `supports_lyrics` and `supports_instrumental`.
+`GET /api/v1/audio/models` returns the same list with `billing_mode: "per_track"`, `pricing.per_track` (the $0.199 service price before the $0.001 transaction fee), `supports_lyrics` and `supports_instrumental`.
 
 ## How it works — inline or async
 
 1. **`POST /api/v1/audio/generations`** without a payment header returns a `402` challenge (headers `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate`) whose body quotes the full price and repeats the ~3 min / 1–3 min facts under `generation_info`.
-2. Re-send the POST with a signed `X-Payment` header. The gateway **verifies only** (no charge yet), claims the authorization's nonce so it cannot be reused, and starts generation.
-3. **Fast path (finished within 60s):** the track is mirrored to BlockRun storage, the payment is settled, and you get `200` with the classic `{ created, model, data: [...] }` body plus `PAYMENT-RESPONSE` and `X-Payment-Receipt` headers.
+2. Re-send the POST with a signed `X-Payment` header. On Base, the gateway **verifies only** (no charge yet), claims the authorization's nonce so it cannot be reused, and starts generation.
+3. **Fast path (finished within 10s):** the track is mirrored to BlockRun storage, the payment is settled, and you get `200` with the classic `{ created, model, data: [...] }` body plus `PAYMENT-RESPONSE` and `X-Payment-Receipt` headers.
 4. **Slow path:** you get `202` with `{ id, poll_url, status: "queued" }`. Generation keeps running server-side. Poll `GET {poll_url}` every 3–10s with an `x-payment` header signed by the **same wallet** (a fresh signature is fine; an unsigned poll returns its own `402` challenge so x402 clients re-sign automatically). The first poll that observes `completed` mirrors the track, **settles the payment, and returns the URL** once the transfer is confirmed on-chain. Until it confirms, that poll — or the POST, if the track finished inline — answers `202` with `payment_status: "settling"` and `Retry-After: 3`; keep polling `poll_url` with the same wallet, and no second charge is taken. Cancelling the signed authorization while its transfer is pending counts as a failed payment: the track is not released and the paying wallet is refused further paid calls. A job that never completes is marked `failed` after 1 hour and is never charged.
 
+:::note{title="Solana settles at submit"}
+On `sol.blockrun.ai` a music payment settles when the POST is accepted, because a Solana transaction's blockhash would expire during generation, so the no-charge steps above and below describe Base. To be charged only when the track is delivered on Solana, send `x-charge-on-completion: true` with the paid POST.
+:::
+
 :::note{title="No charge on failure"}
-Settlement is the only step that moves USDC and it runs only after a track exists. A generation that throws, times out, or is polled as `failed` returns with `PAYMENT-RESPONSE: {success:false}` (or `payment_status: "not_charged"` on a poll) and nothing is charged. The gateway takes a per-job settlement lock before charging, so re-polling a finished job — or a concurrent poll — returns `payment.status: "already_settled"` and never bills twice.
+On Base, settlement is the only step that moves USDC and it runs only after a track exists. A generation that throws, times out, or is polled as `failed` returns with `PAYMENT-RESPONSE: {success:false}` (or `payment_status: "not_charged"` on a poll) and nothing is charged. The gateway takes a per-job settlement lock before charging, so re-polling a finished job — or a concurrent poll — returns `payment.status: "already_settled"` and never bills twice.
 :::
 
 ## Response
@@ -85,7 +89,7 @@ Settlement is the only step that moves USDC and it runs only after a track exist
   "object": "audio.generation.job",
   "status": "queued",
   "model": "minimax/music-2.5+",
-  "price": { "amount": "0.158500", "currency": "USD" },
+  "price": { "amount": "0.200000", "currency": "USD" },
   "payment_status": "verified",
   "created": 1775488202,
   "poll_url": "/api/v1/audio/generations/<job id>",
@@ -118,7 +122,7 @@ Settlement is the only step that moves USDC and it runs only after a track exist
   "data": [
     { "url": "https://blockrun.ai/api/media/audios/2026/08/12/<id>.mp3", "duration_seconds": 186, "lyrics": "..." }
   ],
-  "price": { "amount": "0.158500", "currency": "USD" },
+  "price": { "amount": "0.200000", "currency": "USD" },
   "payment": { "status": "settled", "tx_hash": "0x…", "network": "base" }
 }
 ```
@@ -201,7 +205,7 @@ def sign(resp):
         extra=acc.get("extra"),
     )
 
-# Step 1: get the challenge, sign it, submit (waits up to ~60s inline)
+# Step 1: get the challenge, sign it, submit (waits up to ~10s inline)
 challenge = requests.post(f"{BASE}/api/v1/audio/generations", json=body)
 result = requests.post(
     f"{BASE}/api/v1/audio/generations",
@@ -248,16 +252,16 @@ body = {
 
 | Model | Price/track (quoted) |
 |-------|-------------|
-| `minimax/music-2.5+` | $0.1585 |
+| `minimax/music-2.5+` | $0.20 |
 
-Price = `$0.15 × 1.05 + $0.001` — the $0.15 base rate, the 5% BlockRun media margin, and the flat $0.001 per-transaction fee charged on every paid call. That is the `price.amount` the `402` body quotes and the amount settled on-chain; there is no other minimum. Paid in USDC on Base (or Solana via `sol.blockrun.ai`).
+Price = $0.20 per track, including the transaction fee. That is the `price.amount` the `402` body quotes and the amount settled on-chain; there is no other minimum. Paid in USDC on Base (or Solana via `sol.blockrun.ai`).
 
 ## Limitations
 
 | Limitation | Detail |
 |------------|--------|
 | Output duration | Always ~3 minutes (model behaviour) |
-| Generation time | 1–3 minutes per call; inline `200` only if it finishes within 60s, otherwise `202` + poll |
+| Generation time | 1–3 minutes per call; inline `200` only if it finishes within 10s, otherwise `202` + poll |
 | Job lifetime | A job still `queued` / `in_progress` after 1 hour is marked `failed` (not charged) |
 | Format | MP3 only |
 | Tracks per request | 1 |

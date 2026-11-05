@@ -41,7 +41,7 @@ Replace `blockrun.ai` with `sol.blockrun.ai`, `nano.blockrun.ai`, or `testnet.bl
 
 ## AI Model Gateway
 
-OpenAI-compatible. 92 models across chat, reasoning, coding, and vision — plus image, video, music, and speech generation. Per-model pricing is published live at `/api/v1/models`.
+OpenAI-compatible. 91 models across chat, reasoning, coding, and vision — plus image, video, music, and speech generation. Per-model pricing is published live at `/api/v1/models`.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
@@ -60,7 +60,7 @@ OpenAI-compatible. 92 models across chat, reasoning, coding, and vision — plus
 | POST | `/api/v1/videos` | Standard multimodal `content[]` body — delegates to `/videos/generations` | Per second / token-metered |
 | GET  | `/api/v1/videos/{id}` | Poll a job created via `/api/v1/videos` | Free |
 | POST | `/api/v1/audio/speech` | Text-to-speech (ElevenLabs voices; `bytedance/seed-audio-1.0` at $0.003 / second) | $0.05–$0.10 / 1k chars |
-| POST | `/api/v1/audio/generations` | Music generation (MiniMax Music) | $0.1585 / track |
+| POST | `/api/v1/audio/generations` | Music generation (MiniMax Music) | $0.20 / track |
 | POST | `/api/v1/audio/sound-effects` | Sound-effect generation | $0.0535 / generation |
 | GET  | `/api/v1/audio/voices` | List available TTS voices | Free |
 | POST | `/api/v1/portrait/enroll` | Enroll AI character as a Virtual Portrait (`ta_xxx`) for Seedance | **$0.011 / enrollment** |
@@ -234,3 +234,5 @@ The threat model and non-custodial guarantees for paid calls.
 :::
 
 ::::
+
+For wallet-tool response limits, recovery, supported query parameters and free number-release authentication, see [Agent wallet integration and result recovery](../api-reference/agent-wallet-integration.md).
