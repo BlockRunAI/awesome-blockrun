@@ -21,6 +21,7 @@ POST https://blockrun.ai/api/v1/search
 |--------|----------|-------------|
 | `Content-Type` | Yes | Must be `application/json` |
 | `PAYMENT-SIGNATURE` | Conditional | Base64-encoded x402 payment payload (required after 402, x402 v2). `X-PAYMENT` is accepted as an alias. |
+| `Prefer` | No | Send `respond-async` to get `202` with `poll_url` after about ten seconds instead of holding the connection. See [result recovery](agent-wallet-integration.md). |
 
 ### Body Parameters
 
