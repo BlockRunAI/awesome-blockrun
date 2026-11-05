@@ -57,7 +57,7 @@ Prices are what the `402` challenge quotes and what is billed for **one** image 
 | `zai/cogview-4` | Zhipu AI | 512x512 – 1440x1440 | $0.01675 / $0.022 |
 | `xai/grok-imagine-image` | xAI | 1024x1024 | $0.022 |
 | `xai/grok-imagine-image-2.0` | xAI | 1024x1024 | $0.043 |
-| `xai/grok-imagine-image-pro` | xAI | 1024x1024 | $0.0535 |
+| `xai/grok-imagine-image-pro` | xAI | 1024x1024 | $0.064 |
 | `bytedance/seedream-5-pro` | ByteDance | 1024x1024 – 2848x1600 (8 sizes) | $0.04825 / $0.0955 |
 
 `GET /api/v1/images/models` returns the same catalog with `pricing.sizes[]` per model (catalog rates, before margin and fee). `openai/dall-e-3` was removed from the catalog and now returns the unknown-model `400`.
@@ -321,7 +321,8 @@ billed = catalog rate for the size × n × 1.05   (5% platform margin on media)
 | ChatGPT Images 2.0 | 1024x1024 | $0.06 | $0.064 |
 | ChatGPT Images 2.0 | 1536x1024 / 1024x1536 | $0.12 | $0.127 |
 | Grok Imagine | 1024x1024 | $0.02 | $0.022 |
-| Grok Imagine Pro | 1024x1024 | $0.07 | $0.0745 |
+| Grok Imagine 2.0 | 1024x1024 | $0.04 | $0.043 |
+| Grok Imagine Pro | 1024x1024 | $0.06 | $0.064 |
 | Nano Banana | 1024x1024 | $0.05 | $0.0535 |
 | Nano Banana 2 | 1024x1024 | $0.09 | $0.0955 |
 | Nano Banana Pro | 1024x1024 / 2048x2048 | $0.10 | $0.106 |

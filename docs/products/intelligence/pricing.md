@@ -188,7 +188,7 @@ input and output — call `GET /api/v1/models` for the current live list.
 | Seedream 5.0 Pro (2K and above) | $0.09 |
 | CogView-4 | $0.015 |
 | Grok Imagine | $0.02 |
-| Grok Imagine Pro | $0.07 |
+| Grok Imagine Pro | $0.06 |
 
 Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$0.05–$0.10 per 1k characters**, sound effects **$0.0535/generation**.
 
