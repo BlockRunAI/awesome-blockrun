@@ -69,6 +69,10 @@ POST https://blockrun.ai/api/v1/search
 
 Successful responses also carry two headers: `PAYMENT-RESPONSE` (the x402 v2 settlement receipt — base64 JSON with `success`, `transaction`, `network`, `payer`) and `X-Payment-Receipt` (the on-chain settlement transaction hash).
 
+### Recovering an existing submission (409 or 202)
+
+Retry the original signed credential to obtain its existing `poll_url` without another charge. Without `Prefer: respond-async`, this returns `409` with `code: "SEARCH_ALREADY_SUBMITTED"`; callers that opt into async receive `202`. The pointer contains no private result. Poll it with a fresh proof from the submitting wallet as described in [result recovery](agent-wallet-integration.md). Saving the result runs after the paid answer is ready, so a slow final storage write does not hold the original response open.
+
 ### Payment Required (402)
 
 When you first make a request without payment, you'll receive:
