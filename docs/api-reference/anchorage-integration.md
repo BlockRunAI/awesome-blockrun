@@ -9,11 +9,11 @@ The November 5, 2026 audit tested the Base and Solana x402 gateways. It did not 
 
 ## Long requests and lost responses
 
-Handle HTTP `202` and retain `id`, `poll_url`, the original signed credential and any receipt before retrying. Music submits hand off after about ten seconds. Search also returns a recovery handle when it runs longer than that window. An exact search credential can recover the original result and receipt for 24 hours through `GET /api/v1/search/{id}`. The poll requires that original payment header; knowing the job URL alone grants no access.
+Handle HTTP `202` and retain `id`, `poll_url`, the original signed credential and any receipt before retrying. Music submits hand off after about ten seconds. Search also returns a recovery handle when it runs longer than that window. An exact search credential recovers the original task pointer for 24 hours. Retrieve the result and receipt through `GET /api/v1/search/{id}` using a fresh wallet message proof or an unused payment authorization from the same wallet; the poll never settles another payment. A historical payment credential or job URL alone grants no content access.
 
 A recoverable replay returns `202` with the original task pointer. Poll that task. A new authorization starts a separate billable submission. Do not treat every `402`, timeout or missing client response as proof that nothing settled: inspect the original receipt or ledger first.
 
-Solana transactions have a limited recent-blockhash lifetime. An already paid music task should be recovered through its original submission binding or a wallet ownership proof, rather than by simulating the old transaction again. A genuinely new payment requires a newly constructed transaction with a current blockhash.
+Solana transactions have a limited recent-blockhash lifetime. An already paid music task should be located through its original submission binding, then polled with a wallet ownership proof or fresh identity authorization. Re-simulating the old transaction is unnecessary. A genuinely new payment requires a newly constructed transaction with a current blockhash.
 
 ## Response contracts and size limits
 
