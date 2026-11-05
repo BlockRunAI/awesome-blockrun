@@ -405,4 +405,4 @@ Route each prompt to the cheapest model that can handle it, automatically.
 
 ::::
 
-`openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026 and is no longer advertised as available. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.
+`openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026 and is no longer advertised as available. On Base, chat requests for it now route to `openai/gpt-5-nano`. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.
