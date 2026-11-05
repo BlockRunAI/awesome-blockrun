@@ -50,7 +50,7 @@ client = OpenAI(
     base_url="https://api.blockrun.ai/v1",
 )
 response = client.chat.completions.create(
-    model="openai/gpt-4.1-nano",
+    model="openai/gpt-4.1-mini",
     messages=[{"role": "user", "content": "Hello!"}],
 )
 print(response.choices[0].message.content)
@@ -62,14 +62,14 @@ The BlockRun SDK updates extend account authentication to chat/streaming, media,
 from blockrun_llm import LLMClient
 
 with LLMClient() as client:  # Reads BLOCKRUN_API_KEY
-    print(client.chat("openai/gpt-4.1-nano", "Hello!"))
+    print(client.chat("openai/gpt-4.1-mini", "Hello!"))
 ```
 
 ```typescript
 import { LLMClient } from '@blockrun/llm';
 
 const client = new LLMClient(); // Reads BLOCKRUN_API_KEY
-console.log(await client.chat('openai/gpt-4.1-nano', 'Hello!'));
+console.log(await client.chat('openai/gpt-4.1-mini', 'Hello!'));
 ```
 
 For wallet billing, start with **Solana** at [sol.blockrun.ai](https://sol.blockrun.ai), followed by **Base** at [blockrun.ai](https://blockrun.ai). Existing wallet users can keep their selected chain. Account credits and wallet USDC balances are separate; an account credit error should not silently switch payment modes.
@@ -125,7 +125,7 @@ Real-time prediction market data powered by Predexon:
 
 ## Supported Models
 
-**<!-- br:models.chatVisible -->90<!-- /br:models.chatVisible --> models** across 11 providers — <!-- br:models.free -->7<!-- /br:models.free --> of them free and keyless. All accessible through a single OpenAI-compatible API.
+**<!-- br:models.chatVisible -->90<!-- /br:models.chatVisible --> models** across 11 providers — <!-- br:models.free -->8<!-- /br:models.free --> of them free and keyless. All accessible through a single OpenAI-compatible API.
 
 ### LLMs
 

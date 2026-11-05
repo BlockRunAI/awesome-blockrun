@@ -1,6 +1,6 @@
 ---
 title: Python SDK
-description: The official BlockRun Python SDK — call 91 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+description: The official BlockRun Python SDK — call 90 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
 ---
 
 # Python SDK
@@ -420,7 +420,7 @@ from blockrun_llm import MusicClient
 
 music = MusicClient()
 res = music.generate("upbeat synthwave, driving bassline", model="minimax/music-2.5+", instrumental=True)
-print(res.data[0].url)   # URL expires ~24h; download promptly. ~$0.1585/track
+print(res.data[0].url)   # BlockRun-hosted backup URL; $0.20/track
 # For vocals: instrumental=False with lyrics="..." (passing both instrumental=True and lyrics raises ValueError)
 ```
 
@@ -1069,7 +1069,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 91 models with live pricing to pick the right one for each call.
+Browse all 90 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
