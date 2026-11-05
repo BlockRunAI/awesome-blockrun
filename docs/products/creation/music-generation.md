@@ -80,7 +80,7 @@ Same x402 flow as all BlockRun endpoints:
 // 402 response body
 {
   "x402Version": 2,
-  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "200000", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300 }],
+  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "200000", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 600 }],
   "error": "Payment Required",
   "price": { "amount": "0.200000", "currency": "USD" },
   "generation_info": {

@@ -51,12 +51,16 @@ GET  https://blockrun.ai/api/v1/audio/models               # list music models (
 ## How it works — inline or async
 
 1. **`POST /api/v1/audio/generations`** without a payment header returns a `402` challenge (headers `X-Payment-Required` / `PAYMENT-REQUIRED` / `WWW-Authenticate`) whose body quotes the full price and repeats the ~3 min / 1–3 min facts under `generation_info`.
-2. Re-send the POST with a signed `X-Payment` header. The gateway **verifies only** (no charge yet), claims the authorization's nonce so it cannot be reused, and starts generation.
+2. Re-send the POST with a signed `X-Payment` header. On Base, the gateway **verifies only** (no charge yet), claims the authorization's nonce so it cannot be reused, and starts generation.
 3. **Fast path (finished within 10s):** the track is mirrored to BlockRun storage, the payment is settled, and you get `200` with the classic `{ created, model, data: [...] }` body plus `PAYMENT-RESPONSE` and `X-Payment-Receipt` headers.
 4. **Slow path:** you get `202` with `{ id, poll_url, status: "queued" }`. Generation keeps running server-side. Poll `GET {poll_url}` every 3–10s with an `x-payment` header signed by the **same wallet** (a fresh signature is fine; an unsigned poll returns its own `402` challenge so x402 clients re-sign automatically). The first poll that observes `completed` mirrors the track, **settles the payment, and returns the URL** once the transfer is confirmed on-chain. Until it confirms, that poll — or the POST, if the track finished inline — answers `202` with `payment_status: "settling"` and `Retry-After: 3`; keep polling `poll_url` with the same wallet, and no second charge is taken. Cancelling the signed authorization while its transfer is pending counts as a failed payment: the track is not released and the paying wallet is refused further paid calls. A job that never completes is marked `failed` after 1 hour and is never charged.
 
+:::note{title="Solana settles at submit"}
+On `sol.blockrun.ai` a music payment settles when the POST is accepted, because a Solana transaction's blockhash would expire during generation, so the no-charge steps above and below describe Base. To be charged only when the track is delivered on Solana, send `x-charge-on-completion: true` with the paid POST.
+:::
+
 :::note{title="No charge on failure"}
-Settlement is the only step that moves USDC and it runs only after a track exists. A generation that throws, times out, or is polled as `failed` returns with `PAYMENT-RESPONSE: {success:false}` (or `payment_status: "not_charged"` on a poll) and nothing is charged. The gateway takes a per-job settlement lock before charging, so re-polling a finished job — or a concurrent poll — returns `payment.status: "already_settled"` and never bills twice.
+On Base, settlement is the only step that moves USDC and it runs only after a track exists. A generation that throws, times out, or is polled as `failed` returns with `PAYMENT-RESPONSE: {success:false}` (or `payment_status: "not_charged"` on a poll) and nothing is charged. The gateway takes a per-job settlement lock before charging, so re-polling a finished job — or a concurrent poll — returns `payment.status: "already_settled"` and never bills twice.
 :::
 
 ## Response
@@ -250,7 +254,7 @@ body = {
 |-------|-------------|
 | `minimax/music-2.5+` | $0.20 |
 
-Price = `$0.15 × 1.05 + $0.001` — the $0.15 base rate, the 5% BlockRun media margin, and the flat $0.001 per-transaction fee charged on every paid call. That is the `price.amount` the `402` body quotes and the amount settled on-chain; there is no other minimum. Paid in USDC on Base (or Solana via `sol.blockrun.ai`).
+Price = $0.20 per track, including the transaction fee. That is the `price.amount` the `402` body quotes and the amount settled on-chain; there is no other minimum. Paid in USDC on Base (or Solana via `sol.blockrun.ai`).
 
 ## Limitations
 

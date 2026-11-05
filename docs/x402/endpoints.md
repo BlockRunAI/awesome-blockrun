@@ -235,4 +235,4 @@ The threat model and non-custodial guarantees for paid calls.
 
 ::::
 
-For wallet-tool response limits, recovery, supported query parameters and free number-release authentication, see [Anchorage integration and result recovery](../api-reference/anchorage-integration.md).
+For wallet-tool response limits, recovery, supported query parameters and free number-release authentication, see [Agent wallet integration and result recovery](../api-reference/agent-wallet-integration.md).

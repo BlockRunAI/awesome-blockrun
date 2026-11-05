@@ -89,7 +89,7 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | **Image Generation** | `/v1/images/generations` | $0.015–0.10/image | ✅ Live |
 | **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
 | **Video Generation** | `/v1/videos/generations` | Per second / per M tokens | ✅ Live |
-| **Music Generation** | `/v1/audio/generations` | $0.1585/track | ✅ Live |
+| **Music Generation** | `/v1/audio/generations` | $0.20/track | ✅ Live |
 | **Text-to-Speech** | `/v1/audio/speech` | $0.05–0.10/1k chars | ✅ Live |
 | **Sound Effects** | `/v1/audio/sound-effects` | $0.0535/generation | ✅ Live |
 | **Voice Calls** | `/v1/voice/call` | $0.541 flat | ✅ Live |

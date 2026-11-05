@@ -129,7 +129,7 @@ const { text } = await generateText({
 | GOAT Provides | BlockRun Adds |
 |---------------|---------------|
 | Cross-chain execution | AI decision making |
-| Protocol integrations | 90 chat models (115 total) |
+| Protocol integrations | 90 chat models (116 total) |
 | Wallet management | Pay-per-request AI |
 | Transaction building | No API key hassle |
 
