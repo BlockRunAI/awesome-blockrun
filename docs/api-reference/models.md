@@ -287,6 +287,7 @@ Open-weight models served free of charge (no x402 payment), subject to a small p
 | `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | Nemotron 3 Nano Omni (vision) | **FREE** | **FREE** |
 | `nvidia/nemotron-3-super-120b` | Nemotron 3.5 Super VL (reasoning, vision) | **FREE** | **FREE** |
 | `nvidia/nemotron-3.5-bolt` | Nemotron 3.5 Bolt (fast, vision) | **FREE** | **FREE** |
+| `nvidia/minimax-m3.1-flash` | MiniMax M3.1 Flash (reasoning, tools) | **FREE** | **FREE** |
 | `cohere/north-mini-code` | Cohere North Mini Code (coding) | **FREE** | **FREE** |
 | `poolside/laguna-xs-2.1` | Poolside Laguna XS 2.1 (coding) | **FREE** | **FREE** |
 | `nvidia/muse-glimmer-30b` | Muse Glimmer 30B (Meta, reasoning) | **FREE** | **FREE** |
