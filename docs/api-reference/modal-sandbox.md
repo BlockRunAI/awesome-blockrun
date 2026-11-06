@@ -23,7 +23,7 @@ paid call.
 - Base only
 - Managed Python 3.11 image only — custom images and `setup_commands` are not enabled on the public API yet
 - CPU sandboxes: up to 1 vCPU and 1 GiB RAM. GPU sandboxes (`gpu` set): up to 8 vCPU and 32 GiB RAM
-- Sandbox lifetime (`timeout`): 10 s to 24 h. Up to 300 s is billed at the flat create price; anything longer is billed per hour of the *requested* lifetime, charged upfront, with no refund on early terminate
+- Sandbox lifetime (`timeout`): 10 s to 24 h. Up to 300 s at no more than 1 vCPU and 1024 MB is billed at the flat create price; anything longer or larger is billed per hour of the *requested* lifetime, never below the flat price, charged upfront, with no refund on early terminate
 - `exec` commands are capped at 60 s per call
 :::
 
@@ -38,23 +38,23 @@ paid call.
 
 ### Create pricing
 
-`sandbox/create` is priced by the requested `timeout` and `gpu`. The 402
+`sandbox/create` is priced by the requested `timeout`, `gpu`, `cpu` and `memory`. The 402
 response tells you which mode applies (`price.model` is `"flat"` or
 `"hourly"`; hourly quotes also carry `hourly_rate_usd`, `duration_hours` and
 `refund_policy`).
 
-| Sandbox | Flat rate (`timeout` ≤ 300 s) | Hourly rate (`timeout` > 300 s) |
+| Sandbox | Flat rate (`timeout` ≤ 300 s, `cpu` ≤ 1, `memory` ≤ 1024) | Hourly rate (anything longer or larger) |
 |---------|-------------------------------|---------------------------------|
-| CPU (no `gpu`) | $0.011 | $0.10 / hour |
-| `T4` | $0.051 | $1.50 / hour |
-| `L4` | $0.081 | $2.00 / hour |
-| `A10G` | $0.101 | $2.50 / hour |
-| `A100` | $0.201 | $4.00 / hour |
-| `H100` | $0.401 | $8.00 / hour |
+| CPU (no `gpu`) | $0.011 | $0.25 / hour |
+| `T4` | $0.051 | $4.00 / hour |
+| `L4` | $0.081 | $4.50 / hour |
+| `A10G` | $0.101 | $5.00 / hour |
+| `A100` | $0.201 | $7.00 / hour |
+| `H100` | $0.401 | $9.00 / hour |
 
 Hourly billing is exact, not rounded up — a 3600 s CPU sandbox is quoted at
-`$0.1010` (one hour at $0.10 plus the $0.001 fee), and 1801 s on a `T4` is
-1801/3600 × $1.50. The full requested duration is settled in one x402 payment
+`$0.2510` (one hour at $0.25 plus the $0.001 fee), and 1801 s on a `T4` is
+1801/3600 × $4.00. The full requested duration is settled in one x402 payment
 at create time whether or not you terminate early.
 
 ---
@@ -68,7 +68,7 @@ Create a managed Python 3.11 sandbox session with bounded resource and lifetime 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `image` | string | No | Managed image. Only `python:3.11` is currently available |
-| `timeout` | integer | No | Sandbox lifetime in seconds, 10–86400 (default: 300). Above 300 switches to hourly billing |
+| `timeout` | integer | No | Sandbox lifetime in seconds, 10–86400 (default: 300). Above 300 bills hourly |
 | `cpu` | number | No | CPU cores, max 1.0 for CPU sandboxes, 8 with a `gpu` (default: 1.0) |
 | `memory` | integer | No | Memory in MB, max 1024 for CPU sandboxes, 32768 with a `gpu` (default: 512) |
 | `gpu` | string | No | GPU type: `T4`, `L4`, `A10G`, `A100` or `H100`. Omit for a CPU-only sandbox |
