@@ -69,7 +69,7 @@ Create a managed Python 3.11 sandbox session with bounded resource and lifetime 
 |-----------|------|----------|-------------|
 | `image` | string | No | Managed image. Only `python:3.11` is currently available |
 | `timeout` | integer | No | Sandbox lifetime in seconds, 10–86400 (default: 300). Above 300 bills hourly |
-| `cpu` | number | No | CPU cores, max 1.0 for CPU sandboxes, 8 with a `gpu` (default: 1.0) |
+| `cpu` | number | No | CPU cores, min 0.125, max 1.0 for CPU sandboxes, 8 with a `gpu` (default: 1.0) |
 | `memory` | integer | No | Memory in MB, max 1024 for CPU sandboxes, 32768 with a `gpu` (default: 512) |
 | `gpu` | string | No | GPU type: `T4`, `L4`, `A10G`, `A100` or `H100`. Omit for a CPU-only sandbox |
 
