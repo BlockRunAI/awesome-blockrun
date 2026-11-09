@@ -125,7 +125,7 @@ Real-time prediction market data powered by Predexon:
 
 ## Supported Models
 
-**<!-- br:models.chatVisible -->91<!-- /br:models.chatVisible --> models** across 11 providers — <!-- br:models.free -->8<!-- /br:models.free --> of them free and keyless. All accessible through a single OpenAI-compatible API.
+**<!-- br:models.chatVisible -->91<!-- /br:models.chatVisible --> models** across 11 providers — <!-- br:models.free -->9<!-- /br:models.free --> of them free and keyless. All accessible through a single OpenAI-compatible API.
 
 ### LLMs
 
