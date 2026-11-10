@@ -16,7 +16,7 @@ The endpoint is compatible with OpenAI's Decisions API: same request, same respo
 | `POST https://blockrun.ai/v1/decisions` | x402 (`payment-signature`, after the 402) | Estimated input tokens × $0.10 per 1M, plus the $0.001 transaction fee. Output is not billed. |
 | `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | Input tokens the model reports, at the same rate, from your credit |
 
-On x402 the 402 quotes the price before you pay, and that quote is what settles (`exact`). The estimate counts ASCII text at 2.5 characters a token, any other character as one token, and each image as 1,600 tokens, so it errs high. A one-question call on a 2,000-character message costs about $0.0011; a call at every limit below, in English, about $0.0085. Nothing is charged unless the model answers.
+On x402 the 402 quotes the price before you pay, and that quote is what settles (`exact`). The estimate is an upper bound over the whole input as JSON: printable ASCII at 1.5 characters a token, a control character at 1, any other character at up to 3 (4 outside the BMP), and each inline `data:image/*` image at 1,600 tokens. Past 272K tokens the whole request is priced at $0.20 per 1M. A one-question call on a 2,000-character English message costs about $0.0012; a call at every limit below, in English, about $0.013. Nothing is charged unless the model returns an answer.
 
 ---
 
