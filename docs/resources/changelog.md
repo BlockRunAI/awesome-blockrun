@@ -7,6 +7,14 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-10]
+
+### Added — Claude Fable 5.2; Decisions on x402
+- **`anthropic/claude-fable-5.2`** ($8.00/M · $40.00/M, cached $0.20/M, **1M context**, 128K max output, vision) — Anthropic's most capable model, successor to Fable 5.1 at a lower price. Thinking is always on; a forced tool choice is served as `auto`; `speed: "fast"` is refused before payment. No fallback model: a failure is an error and is not charged, and a refusal with no output is not charged. Anthropic retains requests to this model for 30 days, so it is not available under zero data retention.
+- **`POST /v1/decisions` on blockrun.ai** — OpenAI Decisions over x402: estimated input tokens × $0.10/M plus the $0.001 fee, quoted in the 402. The keyed endpoint on api.blockrun.ai bills reported input tokens from credit.
+
+---
+
 ## [2026-11-04]
 
 ### Changed — Grok Imagine Pro generates at medium quality, at a new price

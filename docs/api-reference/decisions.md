@@ -1,25 +1,22 @@
 ---
 title: Decisions (Typed Judgments)
-description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible. Free with a BlockRun API key at api.blockrun.ai.
+description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible. Per call over x402, from about $0.0011, or billed to a BlockRun API key.
 ---
 
 # Decisions (Typed Judgments)
 
 Send context and a set of questions with a fixed answer space; get back one typed answer per question instead of text.
 
-The endpoint is compatible with OpenAI's Decisions API: same request, same response, served by `gpt-6-luna`. Any OpenAI SDK works with `base_url` set to `https://api.blockrun.ai/v1`.
-
-:::note{title="Free with a key — the only way in"}
-Register at [user.blockrun.ai](https://user.blockrun.ai) and create an API key (registration, not a card). Decisions is served only at `api.blockrun.ai`. It is **not** sold per call over x402 on `blockrun.ai`: the smallest payment an x402 call can settle is more than a judgment costs, so a paid route would charge more than the answer is worth.
-:::
+The endpoint is compatible with OpenAI's Decisions API: same request, same response, served by `gpt-6-luna`. Any OpenAI SDK works with `base_url` set to `https://api.blockrun.ai/v1` and a key.
 
 ## Endpoint
 
 | Endpoint | Auth | Price |
 |----------|------|-------|
-| `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | Free, with a per-key hourly limit |
+| `POST https://blockrun.ai/v1/decisions` | x402 (`payment-signature`, after the 402) | Estimated input tokens × $0.10 per 1M, plus the $0.001 transaction fee. Output is not billed. |
+| `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | Input tokens the model reports, at the same rate, from your credit |
 
-Asking several questions in one call is still one call against the limit. The per-key limit is reported in the response when you reach it; read it there rather than copying a number from this page.
+On x402 the 402 quotes the price before you pay, and that quote is what settles (`exact`). The estimate counts ASCII text at 2.5 characters a token, any other character as one token, and each image as 1,600 tokens, so it errs high. A one-question call on a 2,000-character message costs about $0.0011; a call at every limit below, in English, about $0.0085. Nothing is charged unless the model answers.
 
 ---
 

@@ -68,7 +68,8 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
-| Claude Fable 5.1 (most capable) | $10.00 | $50.00 | $0.25 |
+| Claude Fable 5.2 (most capable) | $8.00 | $40.00 | $0.20 |
+| Claude Fable 5.1 | $10.00 | $50.00 | $0.25 |
 | Claude Fable 5 | $10.00 | $50.00 | $1.00 |
 | Claude Opus 5.5 (flagship) | $4.00 | $20.00 | $0.20 |
 | Claude Opus 5 (previous flagship) | $5.00 | $25.00 | $0.50 |
