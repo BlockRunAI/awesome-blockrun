@@ -157,6 +157,7 @@ The shape that works in a pipeline: build the input with every fact the judgment
 | 400 | The body did not match the schema or is over a cap; OpenAI's error envelope names the field |
 | 401 | Missing or invalid key |
 | 4xx from the model | Relayed as returned (for example, duplicate choice values) |
+| 413 | The body is over 10 MB, counted in bytes (x402 rail); refused before payment |
 | 429 | Per-key hourly limit reached; the response carries when to retry |
 | 502 / 504 | The model was unreachable or timed out |
 
