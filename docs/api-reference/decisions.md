@@ -1,6 +1,6 @@
 ---
 title: Decisions (Typed Judgments)
-description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible, priced per call over x402 or paid from credit with a BlockRun API key.
+description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible; pay per call over x402 or from API-key credit.
 ---
 
 # Decisions (Typed Judgments)
