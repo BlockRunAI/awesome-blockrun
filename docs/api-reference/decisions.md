@@ -1,6 +1,6 @@
 ---
 title: Decisions (Typed Judgments)
-description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible. Per call over x402, from about $0.0011, or billed to a BlockRun API key.
+description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible, priced per call or billed to a key.
 ---
 
 # Decisions (Typed Judgments)
