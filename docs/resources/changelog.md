@@ -7,6 +7,13 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-10]
+
+### Changed — Decisions are paid from credit
+- [`POST https://api.blockrun.ai/v1/decisions`](../api-reference/decisions.md) and `/v1/decide` are no longer free. You pay for input tokens at the `gpt-6-luna` input price ($0.10 per million), plus your account margin, from your credit.
+- There is no hourly limit any more. Your balance is the limit. A prepaid account with no balance gets `402`.
+- A timeout is charged the hold: the price of 64,000 input tokens, plus your margin. Errors from your request or from OpenAI are not charged. No refunds. See [Billing](../api-reference/decisions.md#billing).
+
 ## [2026-11-04]
 
 ### Changed — Grok Imagine Pro generates at medium quality, at a new price
