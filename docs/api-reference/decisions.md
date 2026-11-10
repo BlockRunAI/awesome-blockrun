@@ -1,6 +1,6 @@
 ---
 title: Decisions (Typed Judgments)
-description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible, priced per call over x402 or paid from credit with a BlockRun API key.
+description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible; pay per call over x402 or from API-key credit.
 ---
 
 # Decisions (Typed Judgments)
@@ -22,7 +22,7 @@ On x402 the 402 quotes the price before you pay, and that quote is what settles 
 
 ## Billing: API key and credit
 
-A decision on `api.blockrun.ai` is paid from your credit.
+A decision on `api.blockrun.ai` is paid from your credit. Register at [user.blockrun.ai](https://user.blockrun.ai), create an API key, and add credit.
 
 - You pay for the input tokens OpenAI reports, at the `gpt-6-luna` input price ($0.10 per million). Your account margin is added.
 - There is no output charge.
