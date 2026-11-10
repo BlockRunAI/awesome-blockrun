@@ -1,6 +1,6 @@
 ---
 title: Decisions (Typed Judgments)
-description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible. Free with a BlockRun API key at api.blockrun.ai.
+description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible. Paid from credit with a BlockRun API key at api.blockrun.ai.
 ---
 
 # Decisions (Typed Judgments)
@@ -9,17 +9,39 @@ Send context and a set of questions with a fixed answer space; get back one type
 
 The endpoint is compatible with OpenAI's Decisions API: same request, same response, served by `gpt-6-luna`. Any OpenAI SDK works with `base_url` set to `https://api.blockrun.ai/v1`.
 
-:::note{title="Free with a key — the only way in"}
-Register at [user.blockrun.ai](https://user.blockrun.ai) and create an API key (registration, not a card). Decisions is served only at `api.blockrun.ai`. It is **not** sold per call over x402 on `blockrun.ai`: the smallest payment an x402 call can settle is more than a judgment costs, so a paid route would charge more than the answer is worth.
+:::note{title="An API key and credit — the only way in"}
+Register at [user.blockrun.ai](https://user.blockrun.ai), create an API key, and add credit. Decisions is served only at `api.blockrun.ai`. It is **not** sold per call over x402 on `blockrun.ai`.
 :::
 
 ## Endpoint
 
 | Endpoint | Auth | Price |
 |----------|------|-------|
-| `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | Free, with a per-key hourly limit |
+| `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | $0.10 per million input tokens, plus your account margin |
 
-Asking several questions in one call is still one call against the limit. The per-key limit is reported in the response when you reach it; read it there rather than copying a number from this page.
+## Billing
+
+A decision is paid from your credit.
+
+- You pay for the input tokens OpenAI reports, at the `gpt-6-luna` input price ($0.10 per million). Your account margin is added.
+- There is no output charge.
+- Several questions in one call are one call. You pay for its input tokens.
+- A prepaid account with no balance gets `402`.
+- There is no hourly limit. Your balance is the limit.
+
+Before the call goes to OpenAI, we hold the price of 64,000 input tokens, plus your margin. That is $0.0064 before margin at today's price. A served call is then charged its real input tokens, not the hold.
+
+What you pay when a call does not go to plan:
+
+| Outcome | You pay |
+|---------|---------|
+| OpenAI times out (`504`, after 30 seconds) | The hold. OpenAI may have done the work. |
+| A `200` whose token count cannot be read | The hold |
+| Your own `4xx` | Nothing |
+| An OpenAI `4xx` or `5xx` | Nothing |
+| OpenAI could not be reached (`502`) | Nothing |
+
+There are no refunds.
 
 ---
 
@@ -159,9 +181,11 @@ The shape that works in a pipeline: build the input with every fact the judgment
 |--------|---------|
 | 400 | The body did not match the schema or is over a cap; OpenAI's error envelope names the field |
 | 401 | Missing or invalid key |
-| 4xx from the model | Relayed as returned (for example, duplicate choice values) |
-| 429 | Per-key hourly limit reached; the response carries when to retry |
-| 502 / 504 | The model was unreachable or timed out |
+| 402 | No balance left, or a credit limit or daily cap reached. Add credit at [user.blockrun.ai](https://user.blockrun.ai/dashboard/credits) |
+| 4xx from the model | Relayed as returned (for example, duplicate choice values). Not charged |
+| 429 | Too many bad-key attempts from your address; the response carries when to retry |
+| 502 | The model returned an error or could not be reached. Not charged |
+| 504 | The model timed out. Charged the hold (see [Billing](#billing)) |
 
 See [Error Handling](errors.md) for the shared error shape.
 
