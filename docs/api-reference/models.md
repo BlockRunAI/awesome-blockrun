@@ -161,7 +161,7 @@ These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); t
 
 **Opus 5.5 and Sonnet 5.5** add three differences, all absorbed by the gateway so a request that works on Opus 5 still works here:
 
-- **Fable 5.2.** Anthropic retains requests to this model for 30 days, so it is not available under zero data retention. It has no fallback model: if it fails you get an error and are not charged, and a refusal that produced no output is not charged either. `speed: "fast"` is refused.
+- **Fable 5.2.** Anthropic retains requests to this model for 30 days, so it is not available under zero data retention. It has no fallback model. If it fails before you are charged, you get an error and pay nothing. A non-streaming call is charged once it has run 45 seconds, and a stream when it starts producing output; a failure after that returns 502 saying you were charged, so do not pay again. A refusal that produced no output is not charged when the input is 100K tokens or less, unless the call was already charged at 45 seconds. `speed: "fast"` is refused.
 - **Forced tool choice.** Both — and Fable 5.1 and 5.2 — reject `tool_choice: "required"` / a named tool (Anthropic `any` / `tool`). The gateway serves it as `auto`; name the tool in your prompt if the call must happen.
 - **Turning thinking off.** Opus 5.5 cannot turn thinking off at all — a `{"type": "disabled"}` block is dropped and the model thinks adaptively; use a low `output_config.effort` to keep it short. Sonnet 5.5 calls "off" `between_tools`; the gateway translates `disabled` for you and caps effort at `high`, the most that mode allows.
 - **Cache reads on Opus 5.5** are $0.20/M — 0.05x input, where other Claude models read at 0.1x.

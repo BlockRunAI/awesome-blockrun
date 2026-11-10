@@ -23,6 +23,12 @@ The endpoint used to be served by OpenJev, an open-source NLI model BlockRun hos
 
 Auth is unchanged: `Authorization: Bearer <your key>` from [user.blockrun.ai](https://user.blockrun.ai).
 
+## Billing
+
+`/v1/decide` is billed exactly like [Decisions](decisions.md#billing-api-key-and-credit): input tokens at the `gpt-6-luna` input price, plus your account margin, paid from credit.
+
+One extra case. If OpenAI answers but the answer cannot be turned into the old shape, you get `502` and pay for the input tokens used.
+
 ::::cards
 :::card{title="Decisions" href="decisions.md" icon="Brain"}
 The current endpoint: request, response, limits and errors.

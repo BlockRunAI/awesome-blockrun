@@ -1,22 +1,48 @@
 ---
 title: Decisions (Typed Judgments)
-description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible, priced per call or billed to a key.
+description: Yes/no probabilities, labelled choices and rubric scores over text or images. OpenAI Decisions-compatible, priced per call over x402 or paid from credit with a BlockRun API key.
 ---
 
 # Decisions (Typed Judgments)
 
 Send context and a set of questions with a fixed answer space; get back one typed answer per question instead of text.
 
-The endpoint is compatible with OpenAI's Decisions API: same request, same response, served by `gpt-6-luna`. Any OpenAI SDK works with `base_url` set to `https://api.blockrun.ai/v1` and a key.
+The endpoint is compatible with OpenAI's Decisions API: same request, same response, served by `gpt-6-luna`. Any OpenAI SDK works with `base_url` set to `https://api.blockrun.ai/v1` and a key, or pay per call over x402 at `https://blockrun.ai/v1/decisions`.
 
 ## Endpoint
 
 | Endpoint | Auth | Price |
 |----------|------|-------|
 | `POST https://blockrun.ai/v1/decisions` | x402 (`payment-signature`, after the 402) | Estimated input tokens × $0.10 per 1M, plus the $0.001 transaction fee. Output is not billed. |
-| `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | Input tokens the model reports, at the same rate, from your credit |
+| `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | $0.10 per million input tokens, plus your account margin, from your credit |
+
+## Billing: pay per call (x402)
 
 On x402 the 402 quotes the price before you pay, and that quote is what settles (`exact`). The estimate is an upper bound over the whole input as JSON: every ASCII character at 1 token, any other character at up to 3 (4 outside the BMP), and each inline `data:image/*` image at 2,500 tokens. Past 272K tokens the whole request is priced at $0.20 per 1M. A one-question call on a 2,000-character English message costs about $0.0012; a call at every limit below, in English, about $0.018. Nothing is charged unless the model returns an answer.
+
+## Billing: API key and credit
+
+A decision on `api.blockrun.ai` is paid from your credit.
+
+- You pay for the input tokens OpenAI reports, at the `gpt-6-luna` input price ($0.10 per million). Your account margin is added.
+- There is no output charge.
+- Several questions in one call are one call. You pay for its input tokens.
+- A prepaid account with no balance gets `402`.
+- There is no hourly limit. Your balance is the limit.
+
+Before the call goes to OpenAI, we hold the price of 64,000 input tokens, plus your margin. That is $0.0064 before margin at today's price. A served call is then charged its real input tokens, not the hold.
+
+What you pay when a call does not go to plan:
+
+| Outcome | You pay |
+|---------|---------|
+| OpenAI times out (`504`, after 30 seconds) | The hold. OpenAI may have done the work. |
+| A `200` whose token count cannot be read | The hold |
+| Your own `4xx` | Nothing |
+| An OpenAI `4xx` or `5xx` | Nothing |
+| OpenAI could not be reached (`502`) | Nothing |
+
+There are no refunds.
 
 ---
 
@@ -156,10 +182,12 @@ The shape that works in a pipeline: build the input with every fact the judgment
 |--------|---------|
 | 400 | The body did not match the schema or is over a cap; OpenAI's error envelope names the field |
 | 401 | Missing or invalid key |
-| 4xx from the model | Relayed as returned (for example, duplicate choice values) |
+| 402 | x402: the payment quote (pay it and retry). Key: no balance left, or a credit limit or daily cap reached. Add credit at [user.blockrun.ai](https://user.blockrun.ai/dashboard/credits) |
+| 4xx from the model | Relayed as returned (for example, duplicate choice values). Not charged |
 | 413 | The body is over 10 MB, counted in bytes (x402 rail); refused before payment |
-| 429 | Per-key hourly limit reached; the response carries when to retry |
-| 502 / 504 | The model was unreachable or timed out |
+| 429 | x402: too many unpaid quote requests. Key: too many bad-key attempts from your address. The response carries when to retry |
+| 502 | The model returned an error or could not be reached. Not charged |
+| 504 | The model timed out. On a key, charged the hold (see [Billing](#billing-api-key-and-credit)); on x402, not charged |
 
 See [Error Handling](errors.md) for the shared error shape.
 
