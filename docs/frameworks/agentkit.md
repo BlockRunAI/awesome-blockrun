@@ -1,6 +1,6 @@
 ---
 title: AgentKit Integration
-description: Pair Coinbase AgentKit with BlockRun so your agents both hold on-chain assets and pay per request for 117 AI models.
+description: Pair Coinbase AgentKit with BlockRun so your agents both hold on-chain assets and pay per request for 118 AI models.
 ---
 
 # AgentKit Integration
@@ -21,7 +21,7 @@ AgentKit provides:
 - Framework extensions (`coinbase-agentkit-langchain`, …)
 
 BlockRun adds:
-- 91 chat models (115 in the full catalog)
+- 92 chat models (115 in the full catalog)
 - Pay-per-request intelligence
 - No API key management
 

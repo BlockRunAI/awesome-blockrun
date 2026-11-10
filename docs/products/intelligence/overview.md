@@ -1,11 +1,11 @@
 ---
 title: Intelligence
-description: BlockRun Intelligence gives your agent 91 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
+description: BlockRun Intelligence gives your agent 92 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
 ---
 
 # Intelligence
 
-AI accesses any LLM. 91 models, pay-per-request.
+AI accesses any LLM. 92 models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and more — without managing API keys or subscriptions.
 
@@ -38,7 +38,8 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates �
 ### Anthropic
 | Model | Input | Output |
 |-------|-------|--------|
-| Claude Fable 5.1 (most capable) | $10.00/M | $50.00/M |
+| Claude Fable 5.2 (most capable) | $8.00/M | $40.00/M |
+| Claude Fable 5.1 | $10.00/M | $50.00/M |
 | Claude Fable 5 | $10.00/M | $50.00/M |
 | Claude Opus 5.5 (flagship) | $4.00/M | $20.00/M |
 | Claude Opus 5 (previous flagship) | $5.00/M | $25.00/M |
