@@ -7,6 +7,15 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-11]
+
+### Changed — Seedance video has synced audio by default for every input
+- `/v1/videos/generations` now defaults `generate_audio: true` on every Seedance call: text-to-video, image-to-video, first/last frame, reference images/video/audio and RealFace. Before, audio was on by default only for text-to-video.
+- Pass `generate_audio: false` for a silent clip. An explicit value is always honored.
+- The price is unchanged; audio was already included in the per-second rate.
+
+---
+
 ## [2026-11-10]
 
 ### Added — Claude Fable 5.2; Decisions on x402
