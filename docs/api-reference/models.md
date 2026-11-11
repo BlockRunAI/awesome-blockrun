@@ -313,7 +313,7 @@ Media prices below include the 5% media margin; the flat $0.001 transaction fee 
 
 ### Video Generation
 
-Seedance defaults to **720p with synced audio** for text-to-video; pass `resolution` / `generate_audio` to override. See [Video Generation API](video-generation.md).
+Seedance defaults to **720p without audio**; pass `generate_audio: true` for a synced soundtrack (same price), or `resolution` to change the tier. See [Video Generation API](video-generation.md).
 
 | Model ID | Name | Price (5s 720p default) | Max duration |
 |----------|------|--------------------------|--------------|

@@ -63,11 +63,11 @@ The TypeScript `VideoClient`, the Python `VideoClient`, and the local ClawRouter
 |---|---|---|---|---|---|---|
 | `xai/grok-imagine-video` | Grok Imagine Video | 1–15 (default 8) | 480p (default), 720p | ✅ | — | ❌ |
 | `xai/grok-imagine-video-1.5` | Grok Imagine Video 1.5 | 1–15 (default 8) | 480p (default), 720p, **1080p** | ✅ | ✅ | ❌ |
-| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | 4–12 (default 5) | 480p, 720p (default), 1080p | ✅ | ✅ (t2v) | ❌ |
-| `bytedance/seedance-2.0-mini` | Seedance 2.0 Mini | 4–15 (default 5) | 480p, 720p (default) | ✅ | ✅ (t2v) | ✅ |
-| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | 4–15 (default 5) | 480p, 720p (default) | ✅ | ✅ (t2v) | ✅ |
-| `bytedance/seedance-2.0` (Pro) | Seedance 2.0 Pro | 4–15 (default 5) | 480p, 720p (default), 1080p, **4K** | ✅ | ✅ (t2v) | ✅ |
-| `bytedance/seedance-2.5` | Seedance 2.5 | 4–**30** (default 5) | 480p, 720p (default) | ✅ | ✅ (t2v) | ❌ |
+| `bytedance/seedance-1.5-pro` | Seedance 1.5 Pro | 4–12 (default 5) | 480p, 720p (default), 1080p | ✅ | ✅ (opt-in) | ❌ |
+| `bytedance/seedance-2.0-mini` | Seedance 2.0 Mini | 4–15 (default 5) | 480p, 720p (default) | ✅ | ✅ (opt-in) | ✅ |
+| `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | 4–15 (default 5) | 480p, 720p (default) | ✅ | ✅ (opt-in) | ✅ |
+| `bytedance/seedance-2.0` (Pro) | Seedance 2.0 Pro | 4–15 (default 5) | 480p, 720p (default), 1080p, **4K** | ✅ | ✅ (opt-in) | ✅ |
+| `bytedance/seedance-2.5` | Seedance 2.5 | 4–**30** (default 5) | 480p, 720p (default) | ✅ | ✅ (opt-in) | ❌ |
 
 The live list, with per-second rates and duration caps, is at `GET https://blockrun.ai/api/v1/video/models` (free, rate-limited). An unpaid `GET /api/v1/videos/generations` returns the same catalog inside a 402 discovery body, including each Grok SKU's `pricePerSecondByResolution`, `defaultResolution` and `perGenerationFee`.
 
@@ -75,7 +75,7 @@ Notes:
 
 - **Sora 2** (`azure/sora-2`) is **retired**: its provider shut it down on 2026-11-02, and a request for it returns `400` (`model_retired`) before any payment, naming the available models. No other model is substituted under its id.
 - **Grok Imagine** accepts `duration_seconds` from **1 to 15** (default 8) and an optional `image_url` (first frame). `resolution` **is honored and is a billing tier** — `xai/grok-imagine-video` renders `480p`/`720p`, and `xai/grok-imagine-video-1.5` adds `1080p`; omitting it bills and renders `480p`, and anything off-tier returns a `400` before payment that lists the supported tiers and their rates. `aspect_ratio` is also honored: both SKUs accept `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `3:2`, `2:3` (the Seedance-only `adaptive` and `21:9` return a `400`). Grok Imagine Video **1.5** is xAI's flagship generation — better physics and prompt adherence, with native synced audio in the same pass. The remaining Seedance-only params (`generate_audio`, `seed`, RealFace, reference media) are not sent upstream for either Grok SKU.
-- **Seedance** supports a default of 5s, a floor of **4s** (a `duration_seconds` below 4 returns `400` before payment) and a per-tier maximum — **`seedance-2.5` allows up to 30s, `seedance-2.0` / `seedance-2.0-fast` / `seedance-2.0-mini` up to 15s, `seedance-1.5-pro` up to 12s** (above the max also returns `400`). The gateway bumps the default to **720p** and sets `generate_audio` per the t2v/i2v split below. `seedance-2.0`, `seedance-2.0-fast` and `seedance-2.0-mini` accept a `real_face_asset_id` (`ta_xxxx`) for character/identity consistency and multiple reference images (omni). `seedance-2.5` takes first/last-frame seeding, up to **30** reference images and reference video/audio clips, but not RealFace. `seedance-2.0-fast` finishes in ~60–80s; `seedance-2.0` (Pro) is higher quality and slower; `seedance-2.0-mini` is the budget tier at roughly half the Fast rate.
+- **Seedance** supports a default of 5s, a floor of **4s** (a `duration_seconds` below 4 returns `400` before payment) and a per-tier maximum — **`seedance-2.5` allows up to 30s, `seedance-2.0` / `seedance-2.0-fast` / `seedance-2.0-mini` up to 15s, `seedance-1.5-pro` up to 12s** (above the max also returns `400`). The gateway bumps the default to **720p**; audio is **off by default** — pass `generate_audio: true` for a soundtrack (a non-empty `reference_audios` also turns it on). `seedance-2.0`, `seedance-2.0-fast` and `seedance-2.0-mini` accept a `real_face_asset_id` (`ta_xxxx`) for character/identity consistency and multiple reference images (omni). `seedance-2.5` takes first/last-frame seeding, up to **30** reference images and reference video/audio clips, but not RealFace. `seedance-2.0-fast` finishes in ~60–80s; `seedance-2.0` (Pro) is higher quality and slower; `seedance-2.0-mini` is the budget tier at roughly half the Fast rate.
 
 ---
 
@@ -109,7 +109,7 @@ An inline `data:` image is decoded and checked for real image bytes (PNG, JPEG, 
 | `duration_seconds` | integer | No | Duration to bill for. Defaults to the model default. Must respect the model's range (Seedance: 4s floor; 2.5 = 30s, 2.0 / 2.0-fast / 2.0-mini = 15s, 1.5-pro = 12s max; Grok: 1–15) or you get a `400` before payment. |
 | `resolution` | string | No | `480p` / `720p` / `1080p` / `4K`, gated **per model** from the upstream parameter schema: `bytedance/seedance-2.0` accepts all four (`4K` is real 3840×2160); `seedance-1.5-pro` accepts `480p` / `720p` / `1080p`; `seedance-2.0-fast` and `seedance-2.5` accept `480p` / `720p` only. **Defaults to `720p`** on Seedance; higher resolutions cost more tokens upstream. Anything off-list returns a `400` before payment (`360p` / `540p` / `1K` / `2K` are not offered by any model). `seedance-2.0-mini` renders `480p` / `720p` — keep to those; a higher value is not rejected up front for this SKU. On Grok it selects the billing tier (see above). |
 | `aspect_ratio` | string | No | Seedance: `adaptive` / `16:9` / `9:16` / `1:1` / `4:3` / `3:4` / `21:9` (`9:21` is not offered by any Seedance model). Grok: `16:9` / `9:16` / `1:1` / `4:3` / `3:4` / `3:2` / `2:3`. Off-list values return `400` before payment. |
-| `generate_audio` | boolean | No | Synced audio track. **Seedance default: `true` for text-to-video, `false` for image/face/reference-conditioned.** Pass explicitly to override. Ignored by Grok. |
+| `generate_audio` | boolean | No | Synced audio track. **Seedance default: `false`** in every mode, text-to-video included — pass `true` to get audio. The one exception: when `reference_audios` is non-empty and you omit this field, audio is on. An explicit value always wins. Price is the same either way. Ignored by Grok. |
 | `seed` | integer | No | Reproducibility seed (Seedance). Same seed + prompt + params ≈ same clip. |
 | `watermark` | boolean | No | Embed the upstream Seedance watermark. Off by default at the gateway. |
 | `return_last_frame` | boolean | No | Also return the last frame as a still — useful for chaining clips. Seedance only. |
@@ -280,7 +280,7 @@ On settlement the response also carries `PAYMENT-RESPONSE` (base64 JSON `{succes
 }
 ```
 
-One failure class is recoverable client-side: when only the **generated soundtrack** trips upstream audio-copyright moderation on a Seedance clip, the body adds `error_code: "output_audio_moderation"` and `retry_with: { "generate_audio": false }` — resubmit with `generate_audio: false` (or add "no background music, silent" to the prompt).
+One failure class is recoverable client-side: when only the **generated soundtrack** trips upstream audio-copyright moderation on a Seedance clip, the body adds `error_code: "output_audio_moderation"` and `retry_with: { "generate_audio": false }` — resubmit with `generate_audio: false` (or add "no background music, silent" to the prompt). Since audio is off by default, this only happens when you asked for audio (`generate_audio: true`) or sent `reference_audios`.
 
 ### Response fields
 

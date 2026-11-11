@@ -7,6 +7,15 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-11]
+
+### Changed — Seedance audio is off by default
+- `POST /v1/videos/generations` no longer adds a soundtrack to Seedance clips unless you ask. Pass `generate_audio: true` to get synced audio — text-to-video included, which used to default to on.
+- A non-empty `reference_audios` still turns audio on when you omit `generate_audio`. An explicit `generate_audio` always wins.
+- Price unchanged: a clip costs the same with or without audio.
+
+---
+
 ## [2026-11-10]
 
 ### Added — Claude Fable 5.2; Decisions on x402
