@@ -76,7 +76,7 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | Claude Opus 4.8 | $5.00 | $25.00 | $0.50 |
 | Claude Opus 4.7 | $5.00 | $25.00 | $0.50 |
 | Claude Opus 4.5 | $5.00 | $25.00 | $0.50 |
-| Claude Sonnet 5.5 | $2.00 | $10.00 | $0.20 |
+| Claude Sonnet 5.5 | $2.00 | $10.00 | $0.10 |
 | Claude Sonnet 5 | $2.00 | $10.00 | $0.20 |
 | Claude Sonnet 4.6 | $3.00 | $15.00 | $0.30 |
 | Claude Haiku 4.5 | $1.00 | $5.00 | $0.10 |
