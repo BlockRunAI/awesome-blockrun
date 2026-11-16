@@ -139,10 +139,6 @@ carry `PAYMENT-RESPONSE` and `X-Payment-Receipt` (transaction hash) headers.
 
 ::::cards
 
-:::card{title="Surf — Crypto Data" href="surf.md" icon="ChartLine"}
-Exchange depth, liquidations, on-chain SQL and wallet labels.
-:::
-
 :::card{title="DefiLlama" href="defillama.md" icon="Landmark"}
 Protocol TVL, per-chain TVL and yield pools.
 :::
