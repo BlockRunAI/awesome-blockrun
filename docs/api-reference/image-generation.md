@@ -53,6 +53,7 @@ Prices are what the `402` challenge quotes and what is billed for **one** image 
 | `openai/gpt-image-2` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.064 / $0.127 |
 | `google/nano-banana` | Google | 1024x1024 | $0.0535 |
 | `google/nano-banana-2` | Google | 1024x1024 | $0.0955 |
+| `google/nano-banana-2-lite` | Google | 1024x1024 | $0.0535 |
 | `google/nano-banana-2.1` | Google | 1024x1024 | $0.0745 |
 | `google/nano-banana-pro` | Google | 1024x1024, 2048x2048, 4096x4096 | $0.106 / $0.106 / $0.316 |
 | `zai/cogview-4` | Zhipu AI | 512x512 – 1440x1440 | $0.01675 / $0.022 |
@@ -382,7 +383,7 @@ A `402 { "error": "Payment settlement failed" }` (with a `PAYMENT-RESPONSE` head
 | Fast & reliable | `google/nano-banana` |
 | Best prompt following | `openai/gpt-image-2` |
 | Largest output (up to 2848x1600 / 4K-class) | `bytedance/seedream-5-pro` (async, ~2 min) |
-| Image editing (img2img) | `openai/gpt-image-1`, `openai/gpt-image-2`, `google/nano-banana`, `google/nano-banana-2`, `google/nano-banana-2.1`, or `google/nano-banana-pro` |
+| Image editing (img2img) | `openai/gpt-image-1`, `openai/gpt-image-2`, `google/nano-banana`, `google/nano-banana-2`, `google/nano-banana-2-lite`, `google/nano-banana-2.1`, or `google/nano-banana-pro` |
 | Multi-image fusion (ref + logo → 1 image) | `google/nano-banana(-2/-pro)` (≤3) or `openai/gpt-image-1/2` (≤4) — see [Image Editing](image-editing.md) |
 | Multilingual text in images / character consistency | `openai/gpt-image-2` |
 | xAI-style stylization | `xai/grok-imagine-image-pro` |
