@@ -305,7 +305,7 @@ Media prices below include the 5% media margin; the flat $0.001 transaction fee 
 | `openai/gpt-image-2` | ChatGPT Images 2.0 | $0.063-0.126/image |
 | `google/nano-banana` | Nano Banana | $0.0525/image |
 | `google/nano-banana-2` | Nano Banana 2 | $0.0945/image |
-| `google/nano-banana-pro` | Nano Banana Pro | $0.105-0.1575/image |
+| `google/nano-banana-pro` | Nano Banana Pro | $0.105-0.315/image |
 | `xai/grok-imagine-image` | Grok Imagine | $0.021/image |
 | `xai/grok-imagine-image-2.0` | Grok Imagine 2.0 | $0.042/image |
 | `xai/grok-imagine-image-pro` | Grok Imagine Pro | $0.063/image |

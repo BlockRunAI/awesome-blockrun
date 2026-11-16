@@ -72,7 +72,7 @@ Prices are what the `402` challenge quotes and what is billed for **one** edit a
 | `openai/gpt-image-2` | OpenAI | ✅ | 4 | 1024x1024, 1536x1024, 1024x1536 | $0.064 / $0.127 |
 | `google/nano-banana` | Google (Gemini 2.5 Flash Image) | ❌ prompt-only | 3 | 1024x1024 | $0.0535 |
 | `google/nano-banana-2` | Google (Gemini 3.1 Flash Image) | ❌ prompt-only | 3 | 1024x1024 | $0.0955 |
-| `google/nano-banana-pro` | Google (Gemini 3 Pro Image) | ❌ prompt-only | 3 | 1024x1024, 2048x2048, 4096x4096 | $0.106 / $0.106 / $0.1585 |
+| `google/nano-banana-pro` | Google (Gemini 3 Pro Image) | ❌ prompt-only | 3 | 1024x1024, 2048x2048, 4096x4096 | $0.106 / $0.106 / $0.316 |
 
 ## Hybrid sync/async flow & settlement
 
@@ -277,7 +277,7 @@ billed = catalog rate for the size × n × 1.05   (5% platform margin on media)
 | Nano Banana 2 | 1024x1024 | $0.09 | $0.0955 |
 | Nano Banana Pro | 1024x1024 | $0.10 | $0.106 |
 | Nano Banana Pro | 2048x2048 | $0.10 | $0.106 |
-| Nano Banana Pro | 4096x4096 | $0.15 | $0.1585 |
+| Nano Banana Pro | 4096x4096 | $0.30 | $0.316 |
 
 The number of *source* images does not change the price — you pay per output image.
 
