@@ -42,7 +42,7 @@ print(response)
 | Variable | Description |
 |----------|-------------|
 | `BLOCKRUN_WALLET_KEY` | Your Base chain wallet private key (`0x` + 64 hex). `BASE_CHAIN_WALLET_KEY` is accepted as an alias |
-| `BLOCKRUN_API_URL` | API endpoint (default: https://blockrun.ai/api) |
+| `BLOCKRUN_API_URL` | API endpoint (default: `https://blockrun.ai/api`) |
 | `BLOCKRUN_CHAT_TIMEOUT` | Default chat request timeout in seconds (default: 600) |
 | `BLOCKRUN_MAX_COST_PER_CALL` | Refuse any single quote above this USD amount (see [Spend limits](#spend-limits)) |
 | `BLOCKRUN_MAX_SESSION_COST` | Refuse quotes once the session total would exceed this USD amount |

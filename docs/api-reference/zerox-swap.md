@@ -295,10 +295,6 @@ Both paths answer `404 Not Found` unless the request carries BlockRun's internal
 How agents combine market data, sentiment, and 0x swaps with risk guardrails.
 :::
 
-:::card{title="Surf — Crypto Data" href="surf.md" icon="Search"}
-Prices, funding, wallet labels, and on-chain SQL to inform a swap decision.
-:::
-
 :::card{title="Error Handling" href="errors.md" icon="Code"}
 The gateway-wide error envelope; 0x bodies are passed through verbatim.
 :::
