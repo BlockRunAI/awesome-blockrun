@@ -44,7 +44,7 @@ GET  https://blockrun.ai/api/v1/images/generations/{id}  # poll (async slow path
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `model` | string | No | Model to use (default: `openai/gpt-image-2`). Supported: `openai/gpt-image-1`, `openai/gpt-image-2`, `google/nano-banana`, `google/nano-banana-2`, `google/nano-banana-pro`. Any other ID (including generation-only models such as `bytedance/seedream-5-pro`) returns `400` listing the supported set. |
+| `model` | string | No | Model to use (default: `openai/gpt-image-2`). Supported: `openai/gpt-image-1`, `openai/gpt-image-2`, `google/nano-banana`, `google/nano-banana-2`, `google/nano-banana-2.1`, `google/nano-banana-pro`. Any other ID (including generation-only models such as `bytedance/seedream-5-pro`) returns `400` listing the supported set. |
 | `prompt` | string | Yes | Description of edits to make |
 | `image` | string \| string[] | Yes | Source image as a base64 data URI, **or an array of data URIs** to fuse multiple sources into one variant (e.g. a reference image + a brand logo). OpenAI-compatible `image[]`. Max 4 images for OpenAI, 3 for Google. See [Accepted image formats](#accepted-image-formats). |
 | `mask` | string | No | Mask as a base64 data URI, validated like `image`. OpenAI models only. Single-image only — cannot be combined with a multi-image `image[]` array. |
@@ -72,6 +72,7 @@ Prices are what the `402` challenge quotes and what is billed for **one** edit a
 | `openai/gpt-image-2` | OpenAI | ✅ | 4 | 1024x1024, 1536x1024, 1024x1536 | $0.064 / $0.127 |
 | `google/nano-banana` | Google (Gemini 2.5 Flash Image) | ❌ prompt-only | 3 | 1024x1024 | $0.0535 |
 | `google/nano-banana-2` | Google (Gemini 3.1 Flash Image) | ❌ prompt-only | 3 | 1024x1024 | $0.0955 |
+| `google/nano-banana-2.1` | Google (Nano Banana 2.1) | ❌ prompt-only | 3 | 1024x1024 | $0.0745 |
 | `google/nano-banana-pro` | Google (Gemini 3 Pro Image) | ❌ prompt-only | 3 | 1024x1024, 2048x2048, 4096x4096 | $0.106 / $0.106 / $0.316 |
 
 ## Hybrid sync/async flow & settlement
