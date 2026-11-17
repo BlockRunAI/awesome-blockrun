@@ -123,8 +123,8 @@ Cross-context wallet labels and on-chain relationship graph data.
 > **Retired.** Predexon discontinued market matching on 2026-07-20, and the whole
 > canonical layer went with it: `matching-markets`, `matching-markets/pairs`,
 > `markets`, `markets/listings` and `outcomes/{predexon_id}` were removed from
-> the gateway (upstream answers `410`; the gateway now returns `404 Not Found`
-> for them). The `dflow/*` endpoints (`dflow/trades`, `dflow/wallet/positions/{wallet}`,
+> the gateway (upstream answers `410`; since 2026-11-17 the gateway answers
+> `410 Gone` too, naming `markets/search` as the replacement, before any payment). The `dflow/*` endpoints (`dflow/trades`, `dflow/wallet/positions/{wallet}`,
 > `dflow/wallet/pnl/{wallet}`) were removed on 2026-08-04 for the same reason —
 > they no longer exist upstream. `markets/search` above is the surviving
 > cross-venue endpoint.
