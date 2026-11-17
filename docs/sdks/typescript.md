@@ -498,8 +498,8 @@ Access real-time prediction market data from Polymarket, Kalshi, Limitless, Opin
 > `matching-markets`) hit endpoints Predexon sunset on 2026-07-20 — they now
 > throw `RetiredEndpointError` before any network I/O. The dFlow endpoints
 > return `404`; that category is gone. Use `markets/search` for cross-venue
-> lookups. `sports/*` is returning an upstream `500` as of 2026-08-04 and is
-> withheld from discovery until it recovers.
+> lookups. `sports/*` returned an upstream `500` from 2026-08-04 and now
+> answers `410` (retired 2026-11-17); use `markets/search`.
 
 
 ### `pm(path, params?)`
