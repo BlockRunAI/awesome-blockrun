@@ -7,6 +7,13 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-17]
+
+### Added — Gemini Decision 1 on Decisions
+- **`gemini-decision-1`** by Google on [`POST /v1/decisions`](../api-reference/decisions.md) — up to 1,000 yes/no, choice and score questions about one input in a single call, each with a probability and a confidence. Text and images. $0.10 per million input tokens, nothing for output; pay per call on blockrun.ai and sol.blockrun.ai ($0.001 fee, at most $0.027215 a call), or from credit on api.blockrun.ai. `gpt-6-luna` stays the default.
+
+---
+
 ## [2026-11-11]
 
 ### Changed — Seedance video has synced audio by default for every input

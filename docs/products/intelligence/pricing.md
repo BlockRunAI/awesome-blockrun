@@ -236,6 +236,17 @@ Image prices include the 5% media margin; the flat $0.001 transaction fee is add
 
 Other media, before the $0.001 fee: video from **$0.05/sec**, music **$0.199/track**, text-to-speech from **$0.0525 per 1k characters**, sound effects **$0.0525/generation**. See [Models](../../api-reference/models.md) for every media SKU.
 
+## Decisions (typed judgments)
+
+[Decisions](../../api-reference/decisions.md) answers yes/no, choice and rubric questions about one input with a probability for each. Only input tokens are billed; there is no output charge.
+
+| Model | Input (per 1M tokens) | Output | Questions per call |
+|-------|----------------------|--------|--------------------|
+| Gemini Decision 1 (`gemini-decision-1`, Google) | $0.10 | not billed | up to 1,000 |
+| gpt-6-luna (`gpt-6-luna`, OpenAI) | $0.10 ($0.20 past 272K tokens) | not billed | up to 64 |
+
+Paying per call adds the $0.001 per-call fee to the quoted token cost, and a Gemini Decision 1 call costs at most $0.027215. With an API key on api.blockrun.ai, the reported input tokens are paid from credit plus your account margin, with no per-call fee.
+
 ## Cost Comparison: BlockRun vs Direct
 
 | Provider | Direct Pricing | BlockRun | Difference |
