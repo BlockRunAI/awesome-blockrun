@@ -65,7 +65,7 @@ blockrun_wallet action:"setup"
 Then send USDC (SPL) on the **Solana** network (Coinbase → pick "Solana", or Phantom/Solflare/Backpack). Switch back with `blockrun_wallet action:"chain" chain:"base"`.
 
 :::info
-Music, speech, the Modal sandbox, DeFi data, paid RealFace, paid stock prices, and native Anthropic (`claude-*`) settle on Base only. Image and video generation pay on either chain.
+Music, speech, the Modal sandbox, DeFi data, paid RealFace, and native Anthropic (`claude-*`) settle on Base only. Image and video generation pay on either chain.
 :::
 
 ## What You Can Do Now
@@ -85,7 +85,7 @@ Use GPT-5.5 to get a second opinion on this code
 ```
 
 ```
-Ask Kimi K3 to review this function
+Ask Kimi K3.1 Pro to review this function
 ```
 
 Claude routes to the model you name — or picks one by intent with `mode:"fast"` / `"balanced"` / `"powerful"` / `"cheap"` / `"reasoning"` / `"coding"` / `"glm"` — and pays via x402. Run `blockrun_models` for the live list with pricing.
@@ -96,26 +96,26 @@ Claude routes to the model you name — or picks one by intent with `mode:"fast"
 Generate a logo for a crypto trading bot
 ```
 
-Claude calls `blockrun_image` — models include `google/nano-banana`, `google/nano-banana-pro`, `openai/gpt-image-2`, `xai/grok-imagine-image`, `zai/cogview-4`, and `bytedance/seedream-5-pro`; edits (img2img, inpaint, fusion) too. ~$0.015-0.15 per image. Install the `image-prompting` skill for text-accurate prompts (see [Skills](../mcp/skills.md)).
+Claude calls `blockrun_image` — models include `google/nano-banana`, `google/nano-banana-pro`, `openai/gpt-image-2`, `xai/grok-imagine-image`, `zai/cogview-4`, and `bytedance/seedream-5-pro`; edits (img2img, inpaint, fusion) too. From about $0.017 per image. Install the `image-prompting` skill for text-accurate prompts (see [Skills](../mcp/skills.md)).
 
 ### Video, Music, and Speech
 
 ```
 Generate a 5-second video of a sunset over Tokyo
-Compose a 60-second lo-fi hip-hop loop
+Compose a lo-fi hip-hop track for a coding stream
 Speak this paragraph with the sarah voice
 ```
 
 `blockrun_video` and `blockrun_music` are async and payment-on-completion — if a job fails or times out you are not charged.
 
-### Live Web and X Search
+### Live Web Search and Research
 
 ```
-What are people saying about @sama on X right now?
+What's the latest news on the Fed rate decision?
 Find me the top 5 papers on speculative decoding from the last 90 days
 ```
 
-`blockrun_search` covers live web, X/Twitter, and news with citations; `blockrun_exa` does neural research, cited answers, and page reading.
+`blockrun_search` covers live web and news with citations; `blockrun_exa` does neural research, cited answers, and page reading.
 
 ### Prediction Markets — read and trade
 
@@ -129,12 +129,12 @@ If "hold" is above 70%, put $2 on it
 ### Crypto and On-chain Data
 
 ```
-What's this wallet labeled, and what does it hold?
-Top 10 tokens by DEX volume on Base, last 24h
+What's the USDC balance of 0x... on Base?
+Liquidity and 24h volume for the PEPE pairs on Base
 Call eth_getBalance on Arbitrum for 0x...
 ```
 
-`blockrun_price` (Pyth-backed quotes), `blockrun_dex`, `blockrun_defi` (TVL, yields), and `blockrun_rpc` (raw JSON-RPC on 40 chains). The `crypto-data` skill says which one to use.
+`blockrun_price` (free daily-close quotes), `blockrun_dex`, `blockrun_defi` (TVL, yields), and `blockrun_rpc` (raw JSON-RPC on 40 chains). The `crypto-data` skill says which one to use.
 
 ### Phone Calls and Sandboxed Compute
 
@@ -212,14 +212,13 @@ Full list in [Skills](../mcp/skills.md). [Trading](../products/trading/overview.
 ## Pricing
 
 - **Intelligence:** Provider cost, no platform margin on chat tokens, plus $0.001 per request (no subscriptions)
-- **Images:** $0.015-0.15 per image
+- **Images:** from about $0.017 per image
 - **Free tier:** `mode:"free"` chat, DEX data, crypto/FX/commodity prices, model list, Polymarket reads — $0
 - **Trading tools:** Built into Franklin, free and open source — you pay only for the data they buy
 
 $1 gets you approximately:
-- ~500 GPT-5.4 calls
-- ~10,000 DeepSeek calls
-- ~20–65 image generations
+- up to ~500 short chat calls on an inexpensive model such as DeepSeek (the minimum is $0.002 per call, fee included)
+- ~18 `google/nano-banana` images, or ~59 `zai/cogview-4` images
 
 ## Security
 

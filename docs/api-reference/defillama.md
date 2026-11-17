@@ -28,7 +28,31 @@ Prices above include the flat $0.001 transaction fee added to every paid call
 request time rather than copying from this page.
 
 Query-string parameters are forwarded to DefiLlama unchanged, so any filter the
-upstream endpoint accepts works here too.
+upstream endpoint accepts works here too — except the compact-delivery
+parameters below, which BlockRun consumes.
+
+### Compact delivery
+
+The full datasets run to several MB. Add `format=compact` to get a bounded page
+instead (at most 256 KB):
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `format` | — | `compact` turns compact delivery on; without it the raw upstream body is returned |
+| `limit` | `25` | Rows per page, 1–100 |
+| `offset` | `0` | Rows to skip |
+| `fields` | a default set (`id`, `name`, `slug`, `symbol`, `category`, `chain`, `chains`, `tvl`, `tvlUsd`, `apy`, `pool`, `project`) | Up to 20 comma-separated top-level property names to keep |
+
+The response is `{ "format": "compact", "data": [...], "pagination": { offset,
+limit, returned, total, next_offset } }`. Each page is a separately paid call.
+Bad compact parameters, or `fields` that match nothing, return `400` before any
+charge; a selection still too large for the budget returns `413`, also
+uncharged.
+
+```bash
+curl "https://blockrun.ai/api/v1/defillama/yields?format=compact&limit=50&fields=project,chain,symbol,apy,tvlUsd" \
+  -H "X-Payment: <x402_payment_token>"
+```
 
 ---
 
@@ -150,11 +174,14 @@ hash) and `X-Payment-Response` (base64 x402 settlement receipt).
 | Status | Meaning | Charged? |
 |--------|---------|----------|
 | `400` | DefiLlama rejected the request (unknown slug, bad parameter). Upstream `4xx` codes are passed through as-is with `error: "Bad Request"` and the upstream body in `details` | No |
+| `400` | `error: "Invalid delivery parameters"` or `"Response cannot be delivered"` — bad compact `limit`/`offset`/`fields`, or none of the selected `fields` exist | No |
+| `413` | `error: "Response cannot be delivered"` — the compact selection exceeds the 256 KB budget; select fewer fields | No |
 | `402` | No payment header — body carries `price` and the headers carry the signed requirements | No |
 | `402` | `error: "Payment verification failed"` with a machine-readable `code`: `PAYMENT_INVALID`, `PAYMENT_UNFUNDED` (insufficient USDC or expired `validBefore`) or `PAYMENT_BLOCKHASH_STALE`; `message` explains the fix when one is known | No |
 | `402` | `code: "PAYMENT_REPLAY"` — the payment authorization was already used. Sign a fresh one per request | No |
 | `402` | `error: "Payment settlement failed"` — data was fetched but settlement did not land; `details` has the reason | No |
 | `404` | Unknown BlockRun endpoint — body lists `available` paths | No |
+| `500` | `error: "Payment not confirmed"` (`payment_status: "unknown"`) — settlement could not be confirmed or ruled out; check the chain before signing another payment | Possibly |
 | `502` | DefiLlama upstream error or 25s timeout (`"Payment was NOT charged."`) | No |
 | `503` | Service paused | No |
 
@@ -166,7 +193,7 @@ never costs you anything.
 ::::cards
 
 :::card{title="Market Data" href="market-data.md" icon="ChartLine"}
-Exchange and on-chain data across 66 endpoints.
+Free crypto, FX and commodity prices.
 :::
 
 :::card{title="0x Swap (DEX)" href="zerox-swap.md" icon="ArrowLeftRight"}

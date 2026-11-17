@@ -1,6 +1,6 @@
 ---
 title: Intelligence Pricing
-description: BlockRun Intelligence pricing — per-token chat at provider cost with no platform margin, a full price list, image rates, and a free tier of 5 models.
+description: BlockRun Intelligence pricing — per-token chat at provider cost with no platform margin, a full price list, image rates, and a free tier of 9 models.
 ---
 
 # Intelligence Pricing
@@ -27,12 +27,12 @@ Media generation and Live Search still carry a 5% platform margin, which covers:
 |-------|------------------|
 | GPT-5.5 | ~200K input tokens |
 | DeepSeek V4.1 Flash | ~7M input tokens |
-| Gemini 3.5 Flash | ~635K input tokens |
-| Image generation | ~10–65 images |
-| **Free tier** (8 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
+| Gemini 3.5 Flash | ~667K input tokens |
+| Image generation | ~2–60 images |
+| **Free tier** (9 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
 
 :::tip{title="Start with the free tier"}
-The free tier costs $0 — 8 reasoning, coding, and vision models with no per-token charge. You still need a funded wallet for the x402 handshake, but these calls don't draw it down.
+The free tier costs $0 — 9 reasoning, coding, and vision models with no per-token charge. You still need a funded wallet for the x402 handshake, but these calls don't draw it down.
 :::
 
 ## Full Price List
@@ -62,7 +62,23 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | GPT-5.5 Pro | $30.00 | $180.00 | — |
 | GPT-5.4 | $2.50 | $15.00 | $0.25 |
 | GPT-5.4 Pro | $30.00 | $180.00 | — |
+| GPT-5.4 Mini | $0.75 | $4.50 | $0.075 |
+| GPT-5.4 Nano | $0.20 | $1.25 | $0.02 |
+| GPT-5.3 Codex | $1.75 | $14.00 | $0.175 |
 | GPT-5.2 | $1.75 | $14.00 | $0.175 |
+| GPT-5.2 Pro | $21.00 | $168.00 | — |
+| GPT-5.1 | $1.25 | $10.00 | $0.125 |
+| GPT-5 Mini | $0.25 | $2.00 | $0.025 |
+| GPT-4.1 | $2.00 | $8.00 | $0.50 |
+| GPT-4.1 Mini | $0.40 | $1.60 | $0.10 |
+| GPT-4o | $2.50 | $10.00 | $1.25 |
+| GPT-4o Mini | $0.15 | $0.60 | $0.075 |
+| o1 | $15.00 | $60.00 | $7.50 |
+| o3 | $2.00 | $8.00 | $0.50 |
+| o3-mini | $1.10 | $4.40 | $0.55 |
+| o4-mini | $1.10 | $4.40 | $0.275 |
+
+`openai/chat-latest` (ChatGPT Instant, GPT-5.5) bills at GPT-5.5's rates.
 
 ### Anthropic
 
@@ -79,19 +95,27 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | Claude Sonnet 5.5 | $2.00 | $10.00 | $0.10 |
 | Claude Sonnet 5 | $2.00 | $10.00 | $0.20 |
 | Claude Sonnet 4.6 | $3.00 | $15.00 | $0.30 |
+| Claude Sonnet 4.5 | $3.00 | $15.00 | $0.30 |
 | Claude Haiku 4.5 | $1.00 | $5.00 | $0.10 |
 
 ### Google
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
+| Gemini 4 Carbon | $2.00 | $10.00 | $0.10 |
+| Gemini 4 Argon | $2.00 | $10.00 | $0.10 |
 | Gemini 3.1 Pro | $2.00 | $12.00 | $0.20 |
+| Gemini 2.5 Pro | $1.25 | $10.00 | $0.125 |
 | Gemini 3.8 Flash | $0.75 | $3.75 | $0.075 |
 | Gemini 3.6 Flash | $0.75 | $3.75 | $0.075 |
 | Gemini 3.5 Flash | $1.50 | $9.00 | $0.15 |
+| Gemini 3 Flash Preview | $0.50 | $3.00 | — |
+| Gemini 2.5 Flash | $0.30 | $2.50 | $0.03 |
 | Gemini 3.5 Flash Lite | $0.30 | $2.50 | $0.03 |
+| Gemini 3.1 Flash Lite | $0.25 | $1.50 | $0.025 |
+| Gemini 2.5 Flash Lite | $0.10 | $0.40 | $0.01 |
 
-Gemini Pro models double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.50 in · $15.00 out above the threshold. Flash tiers are flat.
+Gemini 3.1 Pro and 2.5 Pro double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.50 in · $15.00 out above the threshold. Flash tiers are flat.
 
 ### xAI Grok
 
@@ -120,13 +144,14 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 
 | Model | Input (per 1M) | Output (per 1M) | Context | Cached input (per 1M) |
 |-------|----------------|-----------------|---------|-----------------------|
-| Kimi K3 | $3.00 | $15.00 | 1M | $0.30 |
+| Kimi K3.1 Pro | $2.00 | $10.00 | 1M | $0.20 |
 
 ### MiniMax
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
 | MiniMax M3 | $0.30 | $1.20 | — |
+| MiniMax M2.7 | $0.30 | $1.20 | — |
 
 ### Qwen
 
@@ -136,6 +161,9 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 | Qwen3.7 Max | $1.48 | $4.43 | — |
 | Qwen3.7 Plus | $0.32 | $1.28 | — |
 | Qwen3.7 Flash | $0.03 | $0.13 | — |
+| Qwen3.8 Flash | $0.15 | $0.47 | — |
+
+Qwen3.7 Plus reprices to $0.96 in · $3.84 out from 256K prompt tokens; Qwen3.7 Flash steps to $0.10 · $0.40 from 32K and $0.20 · $0.80 from 256K (the whole request reprices).
 
 ### Tencent
 
@@ -148,6 +176,13 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
 | Laguna S 2.1 | $0.09 | $0.18 | — |
+
+### Xiaomi
+
+| Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
+|-------|----------------|-----------------|-----------------------|
+| MiMo V2.5 | $0.14 | $0.28 | — |
+| Xiaomi MiMo-V2.5 Pro | $0.435 | $0.87 | — |
 
 ### Mistral
 
@@ -165,9 +200,9 @@ Grok doubles the per-token rates above 200K prompt tokens (the whole request rep
 | DeepSeek V4 Flash Vision (image input) | $0.30 | $1.20 | $0.006 |
 | DeepSeek V4 Pro | $1.32 | $3.96 | $0.044 |
 
-### Free Tier (8 models)
+### Free Tier (9 models)
 
-The free tier is 8 reasoning, coding, and vision models with no per-token
+The free tier is 9 reasoning, coding, and vision models with no per-token
 charge. The lineup is kept current by a self-healing health gate that routes
 around any model whose upstream is temporarily unavailable and auto-recovers
 it, so existing calls keep working. All free-tier models are `FREE` for both
@@ -175,23 +210,31 @@ input and output — call `GET /api/v1/models` for the current live list.
 
 ## Image Generation
 
+Image prices include the 5% media margin; the flat $0.001 transaction fee is added per call.
+
 | Model | Price per Image |
 |-------|-----------------|
-| GPT Image 1 (1024x1024) | $0.02 |
-| GPT Image 1 (wide/tall) | $0.04 |
-| ChatGPT Images 2.0 (1024x1024) | $0.06 |
-| ChatGPT Images 2.0 (wide/tall) | $0.12 |
-| Nano Banana | $0.05 |
-| Nano Banana 2 | $0.09 |
-| Nano Banana Pro (up to 2048²) | $0.10 |
-| Nano Banana Pro (4K) | $0.15 |
-| Seedream 5.0 Pro (up to 2048x1024) | $0.045 |
-| Seedream 5.0 Pro (2K and above) | $0.09 |
-| CogView-4 | $0.015 |
-| Grok Imagine | $0.02 |
-| Grok Imagine Pro | $0.06 |
+| GPT Image 1 (1024x1024) | $0.021 |
+| GPT Image 1 (wide/tall) | $0.042 |
+| ChatGPT Images 2.0 (1024x1024) | $0.063 |
+| ChatGPT Images 2.0 (wide/tall) | $0.126 |
+| GPT Image 2.5 Flare / Sunburst (1024x1024) | $0.294 |
+| GPT Image 2.5 Flare / Sunburst (wide/tall) | $0.588 |
+| Nano Banana | $0.0525 |
+| Nano Banana 2 | $0.0945 |
+| Nano Banana 2 Lite | $0.0525 |
+| Nano Banana 2.1 | $0.0735 |
+| Nano Banana Pro (up to 2048²) | $0.105 |
+| Nano Banana Pro (4K) | $0.315 |
+| Seedream 5.0 Pro (up to 2048x1024) | $0.04725 |
+| Seedream 5.0 Pro (2K and above) | $0.0945 |
+| CogView-4 (up to 1344x768) | $0.01575 |
+| CogView-4 (1440x1440) | $0.021 |
+| Grok Imagine | $0.021 |
+| Grok Imagine 2.0 | $0.042 |
+| Grok Imagine Pro | $0.063 |
 
-Other media: video from **$0.05/sec**, music **$0.15/track**, text-to-speech **$0.05–$0.10 per 1k characters**, sound effects **$0.0535/generation**.
+Other media, before the $0.001 fee: video from **$0.05/sec**, music **$0.199/track**, text-to-speech from **$0.0525 per 1k characters**, sound effects **$0.0525/generation**. See [Models](../../api-reference/models.md) for every media SKU.
 
 ## Cost Comparison: BlockRun vs Direct
 

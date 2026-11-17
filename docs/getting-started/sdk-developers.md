@@ -90,7 +90,12 @@ export BLOCKRUN_MAX_SESSION_COST=10
 # Optional: chat timeout in seconds (default 600) and a per-call transaction log
 export BLOCKRUN_CHAT_TIMEOUT=600
 export BLOCKRUN_TX_LOG=1
+
+# Alternative to a wallet: a BlockRun API key bills prepaid account credit instead of x402
+# export BLOCKRUN_API_KEY=brk_live_...
 ```
+
+See [Enterprise API](enterprise-api.md) for API-key accounts.
 
 ### Programmatic Configuration
 
@@ -230,8 +235,8 @@ except PaymentError as e:
     print(f"Payment failed: {e}")            # e.g. insufficient USDC
     print(f"Fund: {client.get_wallet_address()}")
 except APIError as e:
-    if e.status_code == 429:
-        print("Too many requests, backing off")
+    if e.status_code in (429, 503):         # rate limit, or model temporarily unavailable — not charged
+        print(f"Backing off for {e.retry_after_seconds or 60}s")
     else:
         print(f"API error {e.status_code}: {e}")
 ```
@@ -311,7 +316,7 @@ results = asyncio.run(process_batch(my_items))
 
 BlockRun's request and response shapes are OpenAI-compatible, but authentication is an x402 payment, not a bearer token — a paid model answers `402 Payment Required` until a signed USDC authorization is attached, and your private key must never be sent as an API key. Two ways to keep the official SDK surface:
 
-- **Free models** need no payment, so the plain `openai` SDK works against `https://blockrun.ai/api/v1` with any placeholder `api_key` for `nvidia/*` free models (per-IP rate limits apply).
+- **Free models** need no payment, so the plain `openai` SDK works against `https://blockrun.ai/api/v1` with any placeholder `api_key` for the $0 models in the catalog, such as `nvidia/nemotron-3.5-lightning` (per-IP rate limits apply).
 - **Paid models**: use `blockrun-llm` (`AnthropicClient` wraps the official `anthropic` SDK; `pip install "blockrun-llm[anthropic]"`), or [`blockrun-llm-vip`](https://pypi.org/project/blockrun-llm-vip/), which subclasses the official `anthropic` and `openai` SDKs and only swaps the transport to add x402 signing.
 
 ```python

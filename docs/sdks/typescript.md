@@ -65,7 +65,7 @@ const response = await client.chat('openai/gpt-5.5', 'Hello!');
 console.log(response);
 ```
 
-**Latest version: v3.13.2 on npm** (v3.13.3 is tagged in the repo as of 2026-08-26 and ships on the next GitHub release — check `npm view @blockrun/llm version`).
+**Latest version: v4.3.0 on npm** (check `npm view @blockrun/llm version`).
 
 ## Configuration
 
@@ -75,13 +75,13 @@ console.log(response);
 import { LLMClient } from '@blockrun/llm';
 
 const client = new LLMClient({
-  privateKey: '0x...',               // Optional if BASE_CHAIN_WALLET_KEY is set
+  privateKey: '0x...',               // Optional if BASE_CHAIN_WALLET_KEY (or BLOCKRUN_WALLET_KEY) is set
   apiUrl: 'https://blockrun.ai/api', // Optional: API endpoint
   timeout: 600000                    // Optional: timeout in ms (default 600s)
 });
 ```
 
-`LLMClient` reads `BASE_CHAIN_WALLET_KEY` when `privateKey` is omitted and throws if neither is present. It does not create a wallet for you — use `setupAgentWallet()` for that:
+`LLMClient` reads `BASE_CHAIN_WALLET_KEY` (then `BLOCKRUN_WALLET_KEY`) when `privateKey` is omitted and throws if none is present. It does not create a wallet for you — use `setupAgentWallet()` for that:
 
 ```typescript
 import { setupAgentWallet } from '@blockrun/llm';
@@ -96,8 +96,8 @@ console.log(client.getWalletAddress());   // fund this address with USDC on Base
 
 | Variable | Used by | Description |
 |----------|---------|-------------|
-| `BASE_CHAIN_WALLET_KEY` | `LLMClient`, `OpenAI`, `AnthropicClient` | Base wallet private key (`0x…`) |
-| `BLOCKRUN_WALLET_KEY` | `BlockrunClient`, the specialized clients, `setupAgentWallet()` | Same key; these clients accept either variable (`BLOCKRUN_WALLET_KEY` first) |
+| `BASE_CHAIN_WALLET_KEY` / `BLOCKRUN_WALLET_KEY` | every Base client | Base wallet private key (`0x…`). Every client accepts either: `LLMClient` and `OpenAI` check `BASE_CHAIN_WALLET_KEY` first, the others `BLOCKRUN_WALLET_KEY` first. `AnthropicClient` and `setupAgentWallet()` fall back to `~/.blockrun/.session` |
+| `BLOCKRUN_API_KEY` | every client | A BlockRun API key (`brk_…`, or pass `apiKey`). Bills prepaid account credit on `api.blockrun.ai` instead of signing x402 payments — see [Enterprise API](../getting-started/enterprise-api.md) |
 | `SOLANA_WALLET_KEY` | `SolanaLLMClient` | Solana secret key — bs58, CLI JSON array, or hex |
 | `BLOCKRUN_CHAT_TIMEOUT` | all chat clients | Default chat timeout in **seconds** (default 600) |
 | `BLOCKRUN_HOME` | wallet storage | Overrides `~/.blockrun` for the Base wallet file. Security-sensitive: it redirects where the signing key is read and written |
@@ -152,7 +152,7 @@ console.log(`Tokens used: ${result.usage?.total_tokens}`);
 
 ### `chatCompletionStream(model, messages, options?)`
 
-Same parameters as `chatCompletion`, streamed. Returns a standard `fetch` `Response` whose body is an SSE stream (the SDK pre-signs the payment from a 1-hour cache on repeat calls to the same model, skipping the 402 round-trip). See [Streaming](#streaming) below for a full example, or use the [OpenAI-compatible client](#drop-in-openai--anthropic-clients), which yields parsed chunks.
+Same parameters as `chatCompletion`, streamed. Returns a standard `fetch` `Response` whose body is an SSE stream (the SDK pre-signs the payment from a 1-hour cache on repeat calls to the same model, skipping the 402 round-trip). See [Streaming](#streaming) below for a full example, or use the [OpenAI-compatible client](#drop-in-openai-anthropic-clients), which yields parsed chunks.
 
 **Returns:** `Promise<Response>`
 
@@ -206,7 +206,7 @@ const result = await client.smartChat('What is 2+2?');
 console.log(result.response);           // "4"
 console.log(result.model);              // "google/gemini-2.5-flash"
 console.log(result.routing.tier);       // "SIMPLE"
-console.log(result.routing.savings);    // 0.88 (84% savings vs the premium baseline)
+console.log(result.routing.savings);    // e.g. 0.88 (88% below the premium baseline)
 ```
 
 ### Three ways to route
@@ -233,7 +233,7 @@ The aliases are resolved locally by `LLMClient`, `SolanaLLMClient` and the OpenA
 
 | Profile | Behavior | Best For |
 |---------|----------|----------|
-| `"eco"` | Cheapest capable model — ranks the free NVIDIA tier first, so simple requests cost $0 | Bulk processing, zero-cost testing |
+| `"eco"` | Cheapest capable model — ranks the free tier first, so simple requests cost $0 | Bulk processing, zero-cost testing |
 | `"auto"` | Balances quality and cost (default) | Production workloads |
 | `"premium"` | Always uses top-tier models | Critical tasks |
 
@@ -254,7 +254,7 @@ console.log(result.routing.savings);  // 1 (100%)
 const result3 = await client.smartChat('Review this contract for legal issues...', {
   routingProfile: 'premium'
 });
-console.log(result3.model);  // "anthropic/claude-opus-4.7"
+console.log(result3.model);  // e.g. "anthropic/claude-fable-5"
 ```
 
 ### 4-Tier Model Selection
@@ -263,10 +263,10 @@ The router classifies prompts into four tiers (`routing.tier`); each tier × pro
 
 | Tier | Example Tasks | Typical Models |
 |------|---------------|----------------|
-| **SIMPLE** | Greetings, math, lookups | Gemini Flash, GPT-4o-mini, free NVIDIA tier (eco) |
-| **MEDIUM** | Explanations, summaries, code snippets | GPT-4o, Claude Sonnet, Kimi |
-| **COMPLEX** | Analysis, architecture, long documents | Gemini 3.1 Pro, Claude Fable 5 (premium) |
-| **REASONING** | Multi-step logic, proofs | Grok reasoning, o3, DeepSeek Reasoner |
+| **SIMPLE** | Greetings, math, lookups | Gemini 2.5 Flash, Gemini 3 Flash, free tier (eco) |
+| **MEDIUM** | Explanations, summaries, code snippets | Gemini 3.5 Flash, GLM-5.3 Flash, GPT-5.6 Terra, Claude Sonnet 5 (premium) |
+| **COMPLEX** | Analysis, architecture, long documents | Gemini 3.1 Pro, Claude Sonnet 5, Claude Fable 5 (premium) |
+| **REASONING** | Multi-step logic, proofs | DeepSeek Reasoner, DeepSeek V4 Pro, Grok 4.3 |
 
 The [ClawRouter README](https://github.com/BlockRunAI/ClawRouter#how-it-works) is the live source of truth for the tier configs as models and prices move.
 
@@ -390,7 +390,7 @@ const routed = await client.smartChat('What is 2+2?');   // routing parity with 
 const address = await client.getWalletAddress();          // async on Solana
 ```
 
-`SolanaLLMClient` has `chat`, `chatCompletion`, `smartChat`, `smartChatCompletion`, `route`, `listModels`, `getBalance`, `imageEdit`, `search`, `pm`/`pmQuery`, the `exa*`, `defi*`, `dex*` and `modal*` helpers, `getSpending()` and `isSolana()`.
+`SolanaLLMClient` has `chat`, `chatCompletion`, `smartChat`, `smartChatCompletion`, `route`, `listModels`, `getBalance`, `image`, `imageEdit`, `video`, `music`, `search`, `pm`/`pmQuery`, the `exa*`, `defi*`, `dex*` and `modal*` helpers, `getSpending()` and `isSolana()`.
 
 A Solana payment is pinned to a blockhash valid for roughly 60 seconds. If it expires between signing and verification, the client re-signs against a fresh blockhash and retries — at most twice, with a short backoff (v3.13.3). The retry fires only on the gateway's explicit verification-phase stale signal, before any transaction is broadcast, so you cannot be double-charged; settlement failures, insufficient funds and ambiguous rejections still fail immediately as `PaymentError`.
 
@@ -423,7 +423,7 @@ First call: request → 402 with price → sign locally → retry with `PAYMENT-
 
 ## Specialized clients
 
-Like the Python SDK, every non-chat capability has its own client class, exported from `@blockrun/llm`. Each takes the same options (`{ privateKey?, apiUrl?, timeout? }`) and returns Promises.
+Like the Python SDK, most non-chat capabilities have their own client class, exported from `@blockrun/llm`. Each takes the same options (`{ privateKey?, apiUrl?, timeout? }`) and returns Promises.
 
 :::note{title="Shared instantiation"}
 Construct any client with `new XClient({ privateKey })`, or rely on `BLOCKRUN_WALLET_KEY` / `BASE_CHAIN_WALLET_KEY` in the environment. All expose `getWalletAddress()`; most expose `getSpending()`.
@@ -432,7 +432,7 @@ Construct any client with `new XClient({ privateKey })`, or rely on `BLOCKRUN_WA
 ```typescript
 import {
   ImageClient, VideoClient, MusicClient, SpeechClient, VoiceClient,
-  PhoneClient, PortraitClient, SearchClient, PriceClient, SurfClient, RpcClient,
+  PhoneClient, PortraitClient, SearchClient, PriceClient, RpcClient,
 } from '@blockrun/llm';
 
 // Image — generate + edit/fuse
@@ -449,16 +449,16 @@ const tts = new SpeechClient();
 const audio = await tts.generate('Hello!', { voice: 'sarah', responseFormat: 'mp3' });
 const sfx = await tts.soundEffect('rain on a tin roof', { durationSeconds: 5 });
 
-// Search, prices, crypto data, RPC
+// Search, prices, RPC
 const search = new SearchClient();
 const news   = await search.search('agent payments', { sources: ['web', 'news'], maxResults: 10 });
 const px     = new PriceClient();
-const btc    = await px.price('crypto', 'BTC-USD');
+const btc    = await px.price('crypto', 'BTC-USD');                 // free daily close; equities answer 501
 const rpc    = new RpcClient();
 const block  = await rpc.call('ethereum', 'eth_blockNumber');   // $0.003/call
 ```
 
-The full method surface mirrors the Python SDK (see the [Python](python.md) page for per-method params, pricing tiers, and `ta_…` identity assets); the only differences are camelCase options and `Promise` returns.
+The method surface mirrors the Python SDK (see the [Python](python.md) page for per-method params, pricing tiers, and `ta_…` identity assets) with camelCase options and `Promise` returns; the TypeScript SDK has no `RealFaceClient` — call the RealFace endpoints through `BlockrunClient`. `SurfClient` is still exported but deprecated: the Surf endpoints were retired on 2026-09-06 and answer `410`. Use `PriceClient`, the `defi*`, `pm` and `dex*` methods instead.
 
 ### `BlockrunClient` — the universal primitive
 
@@ -469,11 +469,11 @@ import { BlockrunClient } from '@blockrun/llm';
 
 const br = new BlockrunClient();   // BLOCKRUN_WALLET_KEY or BASE_CHAIN_WALLET_KEY
 
-// get<T>(path, params?) — synchronous GET (price, ranking, list, news)
-const btc = await br.get('/v1/crypto/price', { symbol: 'BTC' });
+// get<T>(path, params?) — synchronous GET (prices, lists, data reads)
+const btc = await br.get('/v1/crypto/price/BTC-USD');
 
-// post<T>(path, body?) — synchronous POST (on-chain SQL, search)
-const rows = await br.get('/v1/defillama/protocols', {});
+// post<T>(path, body?) — synchronous POST (search, RPC)
+const res = await br.post('/v1/search', { query: 'x402 adoption', sources: ['web'] });
 
 // poll<T>(path, body?, { budgetMs, intervalMs }) — submit + poll (image, video, music, voice)
 const video = await br.poll('/v1/videos/generations', { model: 'xai/grok-imagine-video', prompt: 'a red apple spinning' });
@@ -591,11 +591,8 @@ const ident   = await client.pmWalletIdentity("0xabc...");
 const batch   = await client.pmWalletIdentities(["0xabc...", "0xdef..."]);  // up to 200
 const cluster = await client.pmWalletCluster("0xabc...");
 
-// Sports (currently upstream 500 — see note above)
-const cats    = await client.pmSportsCategories();
-const games   = await client.pmSportsMarkets({ category: "nba" });
-
 // Retired: pmMarkets(), pmListings(), pmOutcome() throw RetiredEndpointError.
+// pmSportsCategories() / pmSportsMarkets() hit sports/*, which answers 410 Gone.
 // Use pm("markets/search", { q }) instead.
 ```
 
@@ -674,7 +671,9 @@ try {
     console.error('Endpoint retired upstream:', error.message);
   } else if (error instanceof APIError) {
     console.error(`API error (${error.statusCode}):`, error.message);
-    // error.response holds the parsed body when there is one
+    // error.response holds the parsed body when there is one. A 429 (rate
+    // limit) or 503 (model temporarily unavailable) charged nothing — the body
+    // says how long to wait before retrying
   } else if (error instanceof BlockrunError) {
     console.error('SDK error:', error.message);
   } else {
@@ -716,6 +715,8 @@ interface ChatUsage {
   prompt_tokens: number;
   completion_tokens: number;
   total_tokens: number;
+  cache_read_input_tokens?: number;      // prompt-cache hits, when reported
+  cache_creation_input_tokens?: number;
 }
 
 interface Model {
@@ -729,7 +730,7 @@ interface Model {
   maxOutput: number;        // mapped from API's max_output
   categories: string[];     // e.g., ["chat", "reasoning", "coding", "vision"]
   available: boolean;
-  billingMode?: string;     // "paid" | "free" | "flat"
+  billingMode?: "paid" | "free" | "flat";
   flatPrice?: number;       // per-request price for flat-billed models
   hidden?: boolean;
 }

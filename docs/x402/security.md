@@ -63,7 +63,7 @@ Signatures use [EIP-712](https://eips.ethereum.org/EIPS/eip-712) typed structure
 | Threat | Protection |
 |--------|------------|
 | Key theft during transmission | Private key never sent |
-| Overpayment | Exact amount specified in signature |
+| Overpayment | Amount fixed in the signature — an `exact` payment settles that amount, an `upto` payment settles at most that ceiling |
 | Replay attacks | Unique nonce per transaction |
 | Cross-chain replay | Chain ID in signature domain |
 | Stale authorizations | Time-bounded validity window (`maxTimeoutSeconds`, 300s on most endpoints) |
@@ -135,13 +135,13 @@ The CDP Facilitator (Coinbase Developer Platform) provides:
 
 ### Can BlockRun steal my funds?
 
-No. BlockRun can only claim the exact amount you authorized for a specific request. Your wallet remains under your control.
+No. BlockRun can claim at most the amount you authorized for a specific request. Your wallet remains under your control.
 
 ### What if I sign but the request fails?
 
-Verification happens first and settlement only after the upstream response, so a request that fails on OUR side — the upstream returning `4xx`/`5xx`, a `504` timeout, or a JSON-RPC `-32603` internal error — is never settled, and the payment authorization is released so an honest retry verifies cleanly.
+Verification happens first and settlement only after the upstream response, so a request whose upstream answers with an HTTP error — a `4xx`/`5xx` status, a timeout, or a JSON-RPC `-32603` internal error — is never settled. When the fault is upstream's (a `5xx`, a timeout, `-32603`), the payment authorization is also released so an honest retry with the same signed header verifies cleanly; after a `4xx` caused by your request, the authorization is consumed (no funds move, but it cannot be replayed), so sign a fresh one.
 
-**What you do pay for is the upstream round trip, not a successful answer.** A request that reaches the provider and is rejected because of what you sent — an unknown JSON-RPC method (`-32601`), invalid params (`-32602`), a reverted `eth_call` — settles normally. We made the call and paid for it upstream; the error is the answer to the question you asked. Malformed requests we can reject locally, before contacting anyone, are always free. Async media jobs are settled when the job completes, not when it is submitted. On chat, an `exact` payment settles its quote, which is input plus output at your full `max_tokens`, however short the reply. Set `max_tokens` to what you need, or pay with `upto` (Base) or batch settlement (Solana) to be charged only the tokens produced.
+**What you do pay for is the upstream round trip, not a successful answer.** A JSON-RPC request that reaches the node and is rejected inside a `200` response because of what you sent — an unknown method (`-32601`), invalid params (`-32602`), a reverted `eth_call` — settles normally. We made the call and paid for it upstream; the error is the answer to the question you asked. Malformed requests we can reject locally, before contacting anyone, are always free. Async media jobs are settled when the job completes, not when it is submitted. On chat, an `exact` payment settles its quote, which is input plus output at your full `max_tokens`, however short the reply. Set `max_tokens` to what you need, or pay with `upto` (Base) or batch settlement (Solana) to be charged only the tokens produced.
 
 ### Can someone replay my payment?
 

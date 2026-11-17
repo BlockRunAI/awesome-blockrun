@@ -55,7 +55,7 @@ Standard BlockRun two-step:
 2. Sign the EIP-3009 transfer authorization for **$0.011 USDC on Base** (`$0.01` enrolment + `$0.001` transaction fee — the requirements say `11000` micro-USDC)
 3. **Retry the same request with `X-Payment: <base64>`** (`Payment-Signature` is accepted too) → server verifies, rejects a reused authorization (`402`, `code: "PAYMENT_REPLAY"`), registers the portrait, settles the payment after registration succeeds, returns the `ta_xxx`
 
-Settlement happens **after** the portrait is successfully enrolled. If enrollment fails (content filter, network error), no payment is taken — the route returns 502 and the caller can retry with a fresh signature. If settlement itself fails after a successful enrollment, BlockRun absorbs the cost rather than leave the user with a paid-but-unrecoverable state.
+Settlement happens **after** the portrait is successfully enrolled. If enrollment fails (content filter, network error), no payment is taken — the route returns 502 and the caller can retry with a fresh signature. If settlement itself fails after a successful enrollment, the asset is **withheld** (no `asset_id`) and the route answers `402` — nothing was charged; sign a fresh payment and send the request again.
 
 If you're using `clawrouter` locally, this flow is fully automatic — just call the endpoint.
 
@@ -65,7 +65,6 @@ If you're using `clawrouter` locally, this flow is fully automatic — just call
 {
   "object": "virtual_portrait",
   "asset_id": "ta_abcdef1234567890",
-  "group_id": "legacy_rf_…",
   "name": "My Spokesperson",
   "image_url": "https://blockrun.ai/api/media/…",
   "source_image_url": "https://example.com/character.jpg",
@@ -89,7 +88,6 @@ The settlement receipt is also returned in the `X-Payment-Response` / `PAYMENT-R
 | Field | Description |
 |-------|-------------|
 | `asset_id` | The `ta_…` id to pass as `real_face_asset_id` on Seedance |
-| `group_id` | Internal asset-group id, returned for your own reference. No endpoint accepts it — enrollment mints its own group, so there is nothing to pass it back to. Not returned by the portraits listing |
 | `image_url` | The BlockRun-hosted mirror of your image (so the listing thumbnail survives a dead source URL); falls back to the original URL if mirroring failed |
 | `source_image_url` / `mirrored` | The URL you supplied, and whether the mirror succeeded |
 | `usage.compatible_models` | Which BlockRun video models accept this asset id |
@@ -129,7 +127,7 @@ curl -X POST http://localhost:8402/v1/portrait/enroll \
 
 ### Using the enrolled portrait
 
-Take the returned `asset_id` and pass it as `real_face_asset_id` on a Seedance call:
+Take the returned `asset_id` and pass it as `real_face_asset_id` on a Seedance call paid by the **same wallet that enrolled it** (any other wallet gets `403`, not charged):
 
 ```bash
 curl -X POST http://localhost:8402/v1/videos/generations \
@@ -178,7 +176,9 @@ The video playground at `/models/bytedance-seedance-2.0-fast` reads this same li
 | 402 | `Payment Required` | First request — sign + retry with `X-Payment` header |
 | 402 | `Payment verification failed` | `code` is `PAYMENT_INVALID` (signature/amount/recipient mismatch — re-sign), `PAYMENT_UNFUNDED` (insufficient USDC or expired window) or `PAYMENT_BLOCKHASH_STALE`; a `message` explains when known, `debug` carries the raw reason |
 | 402 | `Payment authorization already used` | `code: "PAYMENT_REPLAY"` — each authorization is single-use; sign a fresh one |
-| 502 | varies | Enrollment failed (content filter, image too big, network) — **no payment taken**, safe to retry with a different image |
+| 402 | `Payment settlement failed. Sign a fresh payment and send the request again.` | Enrollment succeeded but the payment did not settle — the asset is withheld, nothing charged; re-sign and retry |
+| 422 | `image_url refused` | `code` set; `image_url` must resolve to a public address at every redirect — **no payment taken** |
+| 502 | `Portrait enrollment failed` | Enrollment failed (content filter, image too big, network) — **no payment taken**, safe to retry with a different image |
 | 429 | `Rate limit exceeded` | Listing endpoint only (120/hour/IP) — back off per `Retry-After` header |
 
 ## Storage and privacy

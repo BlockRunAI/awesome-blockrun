@@ -7,7 +7,7 @@ description: The Go SDK for BlockRun — call 121 AI models, generate images, vi
 
 The Go SDK for BlockRun provides access to 121 AI models via x402 micropayments — pay per call in USDC on **Base** or **Solana**, no API keys. Beyond chat it covers image, video, music and speech generation, web search, market data, prediction markets, DeFi and DEX data, and multi-chain JSON-RPC.
 
-**Source:** [github.com/BlockRunAI/blockrun-llm-go](https://github.com/BlockRunAI/blockrun-llm-go) · `go get github.com/BlockRunAI/blockrun-llm-go@v0.20.0` · Go 1.22+ · MIT
+**Source:** [github.com/BlockRunAI/blockrun-llm-go](https://github.com/BlockRunAI/blockrun-llm-go) · `go get github.com/BlockRunAI/blockrun-llm-go@v0.24.1` · Go 1.22+ · MIT
 
 :::tip{title="In a hurry?"}
 New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md) first to fund a wallet, then come back for the full SDK reference.
@@ -17,7 +17,7 @@ New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md)
 
 :::step{title="Install"}
 ```bash
-go get github.com/BlockRunAI/blockrun-llm-go@v0.20.0
+go get github.com/BlockRunAI/blockrun-llm-go@v0.24.1
 ```
 :::
 
@@ -66,6 +66,7 @@ Every method takes a `context.Context` first, and every constructor returns `(cl
 | `SOLANA_WALLET_KEY` | bs58 Solana private key, for the `*Solana` constructors | Yes for Solana (or pass to constructor) |
 | `SOLANA_RPC_URL` | Solana RPC used for mint info / blockhash when the 402 does not carry one | No |
 | `BLOCKRUN_API_URL` | Custom API endpoint | No (default: `https://blockrun.ai/api`) |
+| `BLOCKRUN_CHAT_TIMEOUT` | Default chat timeout in seconds | No |
 
 ```bash
 export BLOCKRUN_WALLET_KEY=0x...your_private_key...
@@ -229,7 +230,7 @@ result, err = imageClient.Edit(ctx, "make the sky purple",
     []string{"data:image/png;base64,..."}, nil)
 ```
 
-Current image models: `openai/gpt-image-1`, `openai/gpt-image-2`, `google/nano-banana`, `google/nano-banana-2`, `google/nano-banana-pro`, `bytedance/seedream-5-pro`, `zai/cogview-4`, `xai/grok-imagine-image`, `xai/grok-imagine-image-pro`. `client.ListImageModels(ctx)` returns the live list with pricing.
+Current image models: `openai/gpt-image-1`, `openai/gpt-image-2`, `openai/gpt-image-2.5-flare`, `openai/gpt-image-2.5-sunburst`, `google/nano-banana`, `google/nano-banana-2`, `google/nano-banana-2-lite`, `google/nano-banana-2.1`, `google/nano-banana-pro`, `bytedance/seedream-5-pro`, `zai/cogview-4`, `xai/grok-imagine-image`, `xai/grok-imagine-image-2.0`, `xai/grok-imagine-image-pro`. `client.ListImageModels(ctx)` returns the live list with pricing.
 
 ### Video, Music and Speech
 
@@ -259,7 +260,7 @@ Video options also support `LastFrameURL` (first/last-frame interpolation), `Ref
 
 ```go
 result, err := client.Search(ctx, "latest AI news", &blockrun.SearchOptions{
-    Sources:    []string{"web", "x", "news"},
+    Sources:    []string{"web", "news"},
     MaxResults: 5,
     FromDate:   "2026-01-01",
 })
@@ -273,16 +274,15 @@ answer, err := client.ExaAnswer(ctx, "What is x402?", nil)
 
 ### Market Data
 
-Realtime quotes and OHLC history for crypto, FX, commodities and equities. Crypto / FX / commodity reads are free; equities are paid.
+Daily-close quotes and OHLC history for crypto, FX and commodities — free. Equity prices are not currently served: `CategoryStocks` / `CategoryUSStock` price and history calls answer `501`.
 
 ```go
 btc, err := client.Price(ctx, blockrun.CategoryCrypto, "BTC-USD", nil)
 fmt.Println(btc.Price)
 
-aapl, err := client.Price(ctx, blockrun.CategoryStocks, "AAPL", &blockrun.PriceOptions{Market: "us"})
-
+now := time.Now().Unix()
 bars, err := client.History(ctx, blockrun.CategoryCrypto, "BTC-USD", &blockrun.HistoryOptions{
-    Resolution: "D", From: 1700000000, To: 1710000000,
+    Resolution: "D", From: now - 30*86400, To: now,
 })
 symbols, err := client.ListSymbols(ctx, blockrun.CategoryCrypto, &blockrun.ListOptions{Query: "sol"})
 ```
@@ -334,7 +334,9 @@ Supported slugs are exported as `blockrun.RPCSupportedNetworks`; aliases (`eth`,
 
 ### Other Clients
 
-`NewVoiceClient` (outbound AI phone calls), `NewPhoneClient` (number lookup and caller-ID provisioning), `NewSurfClient` (crypto intelligence endpoints), `NewPortraitClient` / `NewRealFaceClient` (reusable face assets for video), and `client.ModalSandboxCreate` / `ModalSandboxExec` (sandboxed compute). See the [README](https://github.com/BlockRunAI/blockrun-llm-go#features) for each.
+`NewVoiceClient` (outbound AI phone calls), `NewPhoneClient` (number lookup and caller-ID provisioning), `NewPortraitClient` / `NewRealFaceClient` (reusable face assets for video), and `client.ModalSandboxCreate` / `ModalSandboxExec` (sandboxed compute). See the [README](https://github.com/BlockRunAI/blockrun-llm-go#features) for each.
+
+`NewSurfClient` is still exported but retired: the Surf endpoints were shut down on 2026-09-06 and answer `410`. Use `Price` / `History` for prices, the `Defi*` methods for TVL and yields, `PM` for prediction markets, and the `Dex*` methods for swaps.
 
 ### Wallet Operations
 
@@ -370,7 +372,8 @@ if err != nil {
         fmt.Printf("Invalid input: %s - %s\n", e.Field, e.Message)
     case *blockrun.APIError:
         fmt.Printf("API error %d: %s\n", e.StatusCode, e.Message)
-        if e.StatusCode == 429 {
+        if e.StatusCode == 429 || e.StatusCode == 503 {
+            // rate limited, or the model is temporarily unavailable — nothing was charged
             time.Sleep(60 * time.Second)
         }
     default:

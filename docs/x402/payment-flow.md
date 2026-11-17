@@ -300,16 +300,27 @@ Anything else — a signature that doesn't match, the wrong network or asset, a 
 {
   "error": "Payment verification failed",
   "code": "PAYMENT_INVALID",
-  "message": "Message @bc1max on Telegram for help.",
-  "debug": "<facilitator reason>"
+  "message": "Email hello@blockrun.ai for help.",
+  "debug": "<facilitator reason>",
+  "payer": "0x…"
 }
 ```
+
+### Other refusals
+
+All of these come back as a `402` before any work runs, and nothing is charged:
+
+| `code` | Cause | Fix |
+|--------|-------|-----|
+| `PAYMENT_WINDOW_TOO_SHORT` | The authorization expires in less than 120 s (`validBefore` on `exact`, `deadline` on `upto`), so it could lapse before settlement | Sign with `validBefore` / `deadline` = now + `maxTimeoutSeconds` and check the signing machine's clock |
+| `PAYMENT_OVERSIGNED` | An `exact` payment signed for more than 3% above this request's price (`exact` settles the signed amount, so the gateway refuses rather than keep the difference) | Sign the amount from a fresh 402 for this request |
+| `SETTLEMENT_UNAVAILABLE` | The gateway cannot settle payments right now; your wallet and payment are fine | Retry in a few minutes |
 
 The Anthropic-compatible `/v1/messages` and `/v1/responses` endpoints report the same failures inside their vendor error envelopes (`"Payment verification failed: …"`) without the `code` field.
 
 ## Timing
 
-Typical payment flow timing:
+Rough, order-of-magnitude figures for where the time goes (illustrative, not a benchmark; your network and the model dominate):
 
 | Step | Time |
 |------|------|
@@ -320,7 +331,7 @@ Typical payment flow timing:
 | On-chain settlement | ~2s, after the response is ready |
 | **Total overhead** | **~200ms** |
 
-The payment overhead is minimal compared to AI model execution time. The authorization is valid for 300s (`maxTimeoutSeconds`), so the whole exchange — including a long stream — has to settle inside that window; the gateway caps a single streamed response at 500s and each upstream call at 120s.
+The payment overhead is small next to model execution time. A chat authorization is valid for 300s (`maxTimeoutSeconds` in the 402; video quotes allow 600s). A streamed response is settled when its first output frame arrives, so a long stream does not have to finish inside that window — see [Chat Completions → Timeouts](../api-reference/chat-completions.md) for the stream deadlines.
 
 ## What's next?
 

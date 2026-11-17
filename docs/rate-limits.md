@@ -42,7 +42,7 @@ Content-Type: application/json
 
 | Field / Header | Meaning |
 |----------------|---------|
-| `Retry-After` (header) | Seconds to wait before retrying. Honor this. Taken from the upstream when it says; otherwise 60. |
+| `Retry-After` (header) | Seconds to wait before retrying. Honor this. Taken from the upstream when it says, capped at 60; otherwise 60. |
 | `X-RateLimit-Source` (header) / `source` | The model family whose capacity is exhausted — a failover hint. |
 | `code` | Always `RATE_LIMITED` for this case. |
 | `retry_after_seconds` | Same value as `Retry-After`, in the body for convenience. |
@@ -56,11 +56,18 @@ This applies to both the standard (`POST /api/v1/chat/completions`) and Anthropi
 
 ```python
 import time
-resp = client.chat(...)
-if resp.status_code == 429:
-    time.sleep(int(resp.headers.get("Retry-After", 60)))
-    resp = client.chat(...)            # retry
-    # or: client.chat(model="openai/gpt-5.5", ...)  # cross-family failover
+from blockrun_llm import LLMClient, APIError
+
+client = LLMClient()
+prompt = "Summarize this ticket in one line."
+try:
+    reply = client.chat("anthropic/claude-sonnet-4.6", prompt)
+except APIError as e:
+    if e.status_code != 429:
+        raise
+    time.sleep(e.retry_after_seconds or 60)
+    reply = client.chat("anthropic/claude-sonnet-4.6", prompt)  # retry
+    # or: reply = client.chat("openai/gpt-5.5", prompt)         # cross-family failover
 ```
 
 ## Behind the gateway

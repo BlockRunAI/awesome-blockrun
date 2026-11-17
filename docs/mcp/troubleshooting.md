@@ -163,9 +163,9 @@ export BLOCKRUN_WALLET_KEY=0x...
 
 ### "Rate limited"
 
-**Cause:** Too many requests in a short period. Only the free tier is rate limited; paid calls are not.
+**Cause:** Too many requests in a short period. BlockRun only throttles the free tier (30 requests/minute per IP); a `429` on a paid model is the upstream's own capacity limit, returned with a `Retry-After`. See [Rate Limits](../rate-limits.md).
 
-**Solution:** Wait 60 seconds and retry, or pass a paid `mode` / explicit `model`. Consider session budgets to pace unattended agents.
+**Solution:** Wait for the `Retry-After` and retry, or pass a paid `mode` / explicit `model` (or a different one). Consider session budgets to pace unattended agents.
 
 ### "The free tier did not answer within …s"
 
@@ -222,6 +222,12 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 **Cause:** Upstream queue congestion. Both tools are async and payment-on-completion; a typical clip takes 60–180s and the video poll budget is 9 minutes.
 
 **Solution:** **No charge** was made. Retry, or pick a faster model. Don't retry-loop — let one job finish.
+
+### `blockrun_price` says equity quotes are not served
+
+**Cause:** Stock and US-equity price/history were withdrawn; the gateway answers `501` before any payment. Not an outage.
+
+**Solution:** Nothing was charged and retrying will not help. The stock ticker catalog (`action:"list" category:"stocks"`) and crypto / FX / commodity quotes still work and are free.
 
 ### Modal sandbox charged more than expected
 
@@ -285,7 +291,7 @@ blockrun_wallet action:"setup"                  # Solana address + funding QR
 Applies instantly — no env vars, no file editing, no restart. Switch back with `chain:"base"`.
 
 :::info
-`blockrun_music`, `blockrun_speech`, `blockrun_modal`, `blockrun_defi`, paid `blockrun_realface`, paid stock `blockrun_price`, and native Anthropic (`claude-*`) settle on Base only. In Solana mode they return a "switch to Base" message instead of charging. `blockrun_image` and `blockrun_video` pay on either chain.
+`blockrun_music`, `blockrun_speech`, `blockrun_modal`, `blockrun_defi`, paid `blockrun_realface`, and native Anthropic (`claude-*`) settle on Base only. In Solana mode they return a "switch to Base" message instead of charging. `blockrun_image` and `blockrun_video` pay on either chain.
 :::
 
 ## Getting Help

@@ -46,7 +46,7 @@ Key guarantees:
 | **Idempotent re-polls** | The gateway claims a per-job settlement lock before charging, so concurrent or repeated polls of a finished job return the same video URL with `payment.status: "already_settled"` — you are never double-charged. |
 | **Replay-protected** | Each signed authorization can submit exactly one job (nonce claim on POST). Re-sending a used authorization returns `402` with `code: "PAYMENT_REPLAY"`. |
 | **Tamper-evident poll** | `poll_url` carries the billed `duration`, image-to-video flag, resolution and reference counts, HMAC-signed into `sig`. A hand-built poll query returns `400` — use `poll_url` verbatim. |
-| **Durable output** | The clip is mirrored to BlockRun's storage before settlement; `data[].url` is the permanent BlockRun-hosted URL, `data[].source_url` is the (often temporary) upstream URL. |
+| **Durable output** | The clip is mirrored to BlockRun's storage before settlement; `data[].url` is the permanent BlockRun-hosted URL (`backed_up: true`). |
 | **Released only once the charge confirms** | The result is handed over only after the transfer is confirmed on-chain. While it confirms — or while a concurrent request holds the settle — a poll returns `202` with `payment_status: "settling"` and `Retry-After: 3`; keep polling `poll_url` with the same wallet. No second charge is taken while a transfer is unresolved. The poll that sees it confirm returns `payment.status: "settled"` with that transaction hash. |
 | **Cancelled authorization** | Cancelling the signed authorization (EIP-3009 `cancelAuthorization`) while its transfer is pending counts as a failed payment: the result is not released and the paying wallet is refused further paid calls. |
 | **Claimable for ~48h** | If your client times out mid-poll, re-GET the same `poll_url` later with a fresh signature from the same wallet — no resubmission needed. |
@@ -73,8 +73,8 @@ The live list, with per-second rates and duration caps, is at `GET https://block
 
 Notes:
 
-- **Sora 2** (`azure/sora-2`) is **retired**: its provider shut it down on 2026-11-02, and a request for it returns `400` (`model_retired`) before any payment, naming the available models. No other model is substituted under its id.
-- **Grok Imagine** accepts `duration_seconds` from **1 to 15** (default 8) and an optional `image_url` (first frame). `resolution` **is honored and is a billing tier** — `xai/grok-imagine-video` renders `480p`/`720p`, and `xai/grok-imagine-video-1.5` adds `1080p`; omitting it bills and renders `480p`, and anything off-tier returns a `400` before payment that lists the supported tiers and their rates. `aspect_ratio` is also honored: both SKUs accept `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `3:2`, `2:3` (the Seedance-only `adaptive` and `21:9` return a `400`). Grok Imagine Video **1.5** is xAI's flagship generation — better physics and prompt adherence, with native synced audio in the same pass. The remaining Seedance-only params (`generate_audio`, `seed`, RealFace, reference media) are not sent upstream for either Grok SKU.
+- **Sora 2** (`openai/sora-2`, or bare `sora-2`) is **retired**: it was shut down on 2026-11-02, and a request for it returns `400` (`code: "model_retired"`, with `retired_on`) before any payment, naming the available models. No other model is substituted under its id.
+- **Grok Imagine** accepts `duration_seconds` from **1 to 15** (default 8) and an optional `image_url` (first frame); `xai/grok-imagine-video-1.5` also takes a `last_frame_url` for first-and-last-frame at `480p` / `720p` (`1080p` with a last frame returns `400` before payment). `resolution` **is honored and is a billing tier** — `xai/grok-imagine-video` renders `480p`/`720p`, and `xai/grok-imagine-video-1.5` adds `1080p`; omitting it bills and renders `480p`, and anything off-tier returns a `400` before payment that lists the supported tiers and their rates. `aspect_ratio` is also honored: both SKUs accept `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `3:2`, `2:3` (the Seedance-only `adaptive` and `21:9` return a `400`). Grok Imagine Video **1.5** is xAI's flagship generation — better physics and prompt adherence, with native synced audio in the same pass. The remaining Seedance-only params (`generate_audio`, `seed`, RealFace, reference media) are not sent upstream for either Grok SKU. Each input image (first frame, last frame) adds xAI's per-image rate: $0.002 on `xai/grok-imagine-video`, $0.01 on `xai/grok-imagine-video-1.5`.
 - **Seedance** supports a default of 5s, a floor of **4s** (a `duration_seconds` below 4 returns `400` before payment) and a per-tier maximum — **`seedance-2.5` allows up to 30s, `seedance-2.0` / `seedance-2.0-fast` / `seedance-2.0-mini` up to 15s, `seedance-1.5-pro` up to 12s** (above the max also returns `400`). The gateway bumps the default to **720p** and turns synced audio **on by default for every input** — text, image-to-video, first/last frame, reference images/video/audio and RealFace; pass `generate_audio: false` for a silent clip. The price is the same either way. `seedance-2.0`, `seedance-2.0-fast` and `seedance-2.0-mini` accept a `real_face_asset_id` (`ta_xxxx`) for character/identity consistency and multiple reference images (omni). `seedance-2.5` takes first/last-frame seeding, up to **30** reference images and reference video/audio clips, but not RealFace. `seedance-2.0-fast` finishes in ~60–80s; `seedance-2.0` (Pro) is higher quality and slower; `seedance-2.0-mini` is the budget tier at roughly half the Fast rate.
 
 ---
@@ -83,8 +83,8 @@ Notes:
 
 Whether you can seed generation from an image — and how — depends on the subject:
 
-- **Non-human subject** (product, scene, animal, object): pass `image_url` (a public `https` URL to the first frame, or an inline `data:image/...;base64,` URI) on **Grok** or any **Seedance** model. Seedance image-to-video is billed at the same per-token rate as text-to-video.
-- **A specific real person**: Seedance rejects a seed image that contains a real face (`400`, `code: "INPUT_IMAGE_REAL_PERSON"`). Use **Seedance 2.0 / 2.0-fast / 2.0-mini + a RealFace `ta_xxxx` asset** — enroll the person once *with their consent* ([RealFace](realface.md), ~1-min on-phone liveness, $0.011), then pass `real_face_asset_id`. Details in [Character consistency](#character-consistency-seedance-20-mini--fast--pro) below.
+- **Non-human subject** (product, scene, animal, object): pass `image_url` (a public `https` URL to the first frame, or an inline `data:image/...;base64,` URI) on **Grok** or any **Seedance** model. Seedance image-to-video is billed at the same per-token rate as text-to-video; on Grok each input image adds a flat per-image rate (see [Pricing](#pricing)).
+- **A specific real person**: Seedance rejects a seed image that contains a real face (`400`, `code: "INPUT_IMAGE_REAL_PERSON"`). Use **Seedance 2.0 / 2.0-fast / 2.0-mini + a RealFace `ta_xxxx` asset** — enroll the person once *with their consent* ([RealFace](realface.md), ~1-min on-phone liveness, $0.011), then pass `real_face_asset_id`. Details in [Character consistency](#character-consistency-seedance-20-mini-fast-pro) below.
 - **An AI character / mascot**: same flow with a [Virtual Portrait](virtual-portrait.md) asset (no liveness step, $0.011).
 
 :::note{title="Inline data URIs are sniffed before the 402"}
@@ -100,8 +100,8 @@ An inline `data:` image is decoded and checked for real image bytes (PNG, JPEG, 
 | `model` | string | No | Video model ID (default `xai/grok-imagine-video`). See table above. Unknown ids return `400` listing the available models. |
 | `prompt` | string | **Yes** | Text description of the video to generate. |
 | `image_url` | string (URL or data URI) | No | Seed image for image-to-video (all video models support it). Mutually exclusive with `real_face_asset_id`. |
-| `real_face_asset_id` | string | No | Character/face reference asset (`ta_xxxxxx`) from a [Virtual Portrait](virtual-portrait.md) (AI character) or [RealFace](realface.md) (real person). **Seedance 2.0 / 2.0-fast / 2.0-mini only.** Mutually exclusive with `image_url`. |
-| `last_frame_url` | string (URL or data URI) | No | Final-frame target for first-and-last-frame interpolation. Send with `image_url` (first frame) — alone it returns `400`. **Seedance only** (1.5-pro, 2.0-mini, 2.0-fast, 2.0). Cannot be combined with `real_face_asset_id`. |
+| `real_face_asset_id` | string | No | Character/face reference asset (`ta_xxxxxx`) from a [Virtual Portrait](virtual-portrait.md) (AI character) or [RealFace](realface.md) (real person). **Seedance 2.0 / 2.0-fast / 2.0-mini only.** Mutually exclusive with `image_url`. Must have been enrolled by the **paying wallet** — anyone else's asset returns `403` after verification, with nothing charged. |
+| `last_frame_url` | string (URL or data URI) | No | Final-frame target for first-and-last-frame interpolation. Send with `image_url` (first frame) — alone it returns `400`. Every Seedance model, plus `xai/grok-imagine-video-1.5` at `480p` / `720p`; any other model returns `400` before payment. Cannot be combined with `real_face_asset_id`. |
 | `reference_image_urls` | string[] (1–9; 1–30 on `seedance-2.5`) | No | Multiple reference images for character/style consistency (cite them as "image 1", "image 2" in the prompt). **`seedance-2.0` / `seedance-2.0-fast` / `seedance-2.0-mini` / `seedance-2.5` only.** Its own mode — cannot be combined with `image_url`, `last_frame_url` or `real_face_asset_id`. No surcharge. |
 | `reference_videos` | array of `{url, role?, duration_seconds?}` (1–3) | No | Reference videos for reference-to-video (r2v). **Live** on `bytedance/seedance-2.0`, `bytedance/seedance-2.0-fast`, `bytedance/seedance-2.0-mini` and `bytedance/seedance-2.5`; any other model is a `400` before payment. Each clip must be within the model's ceiling: **15.2s** on the 2.0 family, **30.2s** on 2.5. `url` must be `http(s)` and ≤ 2048 characters. `role`, if sent, must be `"reference"` — it is the only role the upstream honours. `duration_seconds` is optional and is **not** used for pricing; a declared length over the model's ceiling gets a `400` before payment. Billed per reference second; see the reference-media note below. Flat `video_url` is rejected with a `400` pointing at this field. |
 | `reference_audios` | array of `{url, role?, duration_seconds?}` (1–3) | No | Reference audios for r2v, same models, ceilings and `url` / `role` / `duration_seconds` rules as `reference_videos`. Needs a reference image or video alongside. A reference audio second is billed at 0.3× a reference video second. Flat `audio_url` is rejected with a `400` pointing at this field. |
@@ -140,15 +140,15 @@ All prices below are the amounts quoted in the `402` challenge and actually bill
 
 | Model | Billing basis | Effective price (720p unless noted) |
 |---|---|---|
-| `xai/grok-imagine-video` | $0.05 / sec @ 480p (default) · $0.07 / sec @ 720p (official rates) + $0.001 / generation + $0.001 fee | **8s = $0.562** · **15s = $1.052** (480p: **8s = $0.402**) |
-| `xai/grok-imagine-video-1.5` | $0.08 / sec @ 480p (default) · $0.14 / sec @ 720p · $0.25 / sec @ 1080p (official rates) + $0.001 / generation + $0.001 fee | **8s = $1.122** · **15s = $2.102** (480p: **8s = $0.642**; 1080p: **8s = $2.002**) |
+| `xai/grok-imagine-video` | $0.05 / sec @ 480p (default) · $0.07 / sec @ 720p (official rates) + $0.002 / input image + $0.001 / generation + $0.001 fee | **8s = $0.562** · **15s = $1.052** (480p: **8s = $0.402**) |
+| `xai/grok-imagine-video-1.5` | $0.08 / sec @ 480p (default) · $0.14 / sec @ 720p · $0.25 / sec @ 1080p (official rates) + $0.01 / input image + $0.001 / generation + $0.001 fee | **8s = $1.122** · **15s = $2.102** (480p: **8s = $0.642**; 1080p: **8s = $2.002**) |
 | `bytedance/seedance-1.5-pro` | Token-metered ($3.108 / M tokens) ≈ $0.070 / sec | **5s ≈ $0.355** · **12s ≈ $0.850** |
 | `bytedance/seedance-2.0-mini` | Token-metered ($3.5 / M tokens) ≈ $0.0797 / sec | **5s ≈ $0.400** · **15s ≈ $1.197** |
 | `bytedance/seedance-2.0-fast` | Token-metered ($7.252 / M tokens) ≈ $0.165 / sec | **5s ≈ $0.827** · **15s ≈ $2.478** |
 | `bytedance/seedance-2.0` (Pro) | Token-metered ($9.9715 / M tokens) ≈ $0.227 / sec | **5s ≈ $1.136** · **15s ≈ $3.407** |
 | `bytedance/seedance-2.5` | Token-metered ($13.8565 / M tokens) ≈ $0.315 / sec | **5s ≈ $1.579** · **30s ≈ $9.468** |
 
-**Seedance token math:** at the 720p default a clip uses **~21,690 tokens/second** (a 5s clip ≈ 108,450 tokens). Price = `duration × 21,690 × resolution-factor × rate-per-M ÷ 1,000,000 × 1.05 + $0.001`. Image-to-video is billed at the **same per-token rate** as text-to-video (no i2v discount). The resolution token factor relative to 720p (=1) is: `480p ×0.5`, `1080p ×2.25`, and `4K ×9` (area-proportional) — so dropping to `480p` halves the per-clip cost and `1080p`/`4K` cost proportionally more (a 5s `seedance-2.0` clip is ≈ $2.556 at 1080p and ≈ $10.220 at 4K). `4K` (real 3840×2160) is available **only on `bytedance/seedance-2.0`**; the ceiling is `1080p` on `seedance-1.5-pro` and `720p` on `seedance-2.0-fast`/`seedance-2.0-mini`/`seedance-2.5`; anything above a model's ceiling returns a `400` before payment. On a completed poll the response carries `usage.total_tokens` with `token_source: "upstream"` when the upstream reported the metered count, or `"estimated"` when the gateway fell back to this formula. Grok Imagine bills per second **by resolution tier**, at xAI's official rates with no margin: on `xai/grok-imagine-video` `480p` is $0.05/sec (the default when `resolution` is omitted) and `720p` $0.07/sec, with `1080p`/`4K` rejected before payment; on `xai/grok-imagine-video-1.5` `480p` is $0.08/sec (default), `720p` $0.14/sec and `1080p` $0.25/sec, with `4K` rejected before payment. Both SKUs add a flat **$0.001 per generation** on top of rate × duration — it does not scale with length, so a 1s clip and a 15s clip carry the same one.
+**Seedance token math:** at the 720p default a clip uses **~21,690 tokens/second** (a 5s clip ≈ 108,450 tokens). Price = `duration × 21,690 × resolution-factor × rate-per-M ÷ 1,000,000 × 1.05 + $0.001`. Image-to-video is billed at the **same per-token rate** as text-to-video (no i2v discount). The resolution token factor relative to 720p (=1) is: `480p ×0.5`, `1080p ×2.25`, and `4K ×9` (area-proportional) — so dropping to `480p` halves the per-clip cost and `1080p`/`4K` cost proportionally more (a 5s `seedance-2.0` clip is ≈ $2.556 at 1080p and ≈ $10.220 at 4K). `4K` (real 3840×2160) is available **only on `bytedance/seedance-2.0`**; the ceiling is `1080p` on `seedance-1.5-pro` and `720p` on `seedance-2.0-fast`/`seedance-2.0-mini`/`seedance-2.5`; anything above a model's ceiling returns a `400` before payment. On a completed poll the response carries `usage.total_tokens` with `token_source: "upstream"` when the upstream reported the metered count, or `"estimated"` when the gateway fell back to this formula. Grok Imagine bills per second **by resolution tier**, at xAI's official rates with no margin: on `xai/grok-imagine-video` `480p` is $0.05/sec (the default when `resolution` is omitted) and `720p` $0.07/sec, with `1080p`/`4K` rejected before payment; on `xai/grok-imagine-video-1.5` `480p` is $0.08/sec (default), `720p` $0.14/sec and `1080p` $0.25/sec, with `4K` rejected before payment. Both SKUs add a flat **$0.001 per generation** on top of rate × duration — it does not scale with length, so a 1s clip and a 15s clip carry the same one — plus xAI's per-input-image rate for each `image_url` / `last_frame_url` sent ($0.002 on `xai/grok-imagine-video`, $0.01 on 1.5; e.g. an 8s 480p image-to-video on `xai/grok-imagine-video` quotes $0.404). The text-to-video prices in the table carry no input image.
 
 **Reference media:** a reference video second costs about what an output second costs (~21,600 tokens/second, measured). The gateway cannot read a clip's length before it is fetched, so **every reference clip is quoted at its model's ceiling**, rounded down to whole seconds as the upstream bills: 15s on the 2.0 family and 30s on `seedance-2.5`. A declared `duration_seconds` never lowers the quote. Reference images add nothing. At 720p, one reference video on a 5s clip quotes **$4.529** on `seedance-2.0`, **$1.590** on `seedance-2.0-mini` and **$11.007** on `seedance-2.5`. The 402 and 202 bodies carry a `quote_basis` block saying exactly this (`reference_duration_selection: "per_clip_model_ceiling"`, `media_duration_verified: false`), and the poll settles that same amount.
 
@@ -168,7 +168,7 @@ An unpaid POST returns `402` with the x402 requirement in three equivalent heade
 ```json
 {
   "x402Version": 2,
-  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "1122000", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300 }],
+  "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "1122000", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 600 }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "price": {
@@ -189,7 +189,7 @@ An unpaid POST returns `402` with the x402 requirement in three equivalent heade
 }
 ```
 
-`price.amount` is the full amount you will be charged (media price + $0.001 fee). On the Grok SKUs `pricePerSecond` states the rate of the **tier actually billed** and `resolution` / `perGenerationFee` are present so the arithmetic reconciles; on Seedance `pricePerSecond` is the model's flat display rate. The decoded requirement's `accepts[0].amount` is the same figure in USDC base units (6 decimals) — and now identical to the body's own `accepts[0].amount`.
+`price.amount` is the full amount you will be charged (media price + $0.001 fee). On the Grok SKUs `pricePerSecond` states the rate of the **tier actually billed** and `resolution` / `perGenerationFee` are present so the arithmetic reconciles (plus `pricePerInputImage` and `inputImages` when you sent a seed image); on Seedance `pricePerSecond` is the model's flat display rate. The decoded requirement's `accepts[0].amount` is the same figure in USDC base units (6 decimals) — and now identical to the body's own `accepts[0].amount`.
 
 Sign that requirement and re-send the POST with the signature in `X-Payment` (also accepted: `Payment-Signature`). A verification failure returns `402` with a machine-readable `code`:
 
@@ -252,14 +252,13 @@ The `id` is opaque — treat it as a token, not a string to parse. The `poll_url
   "data": [
     {
       "url": "https://blockrun.ai/api/media/media/videos/2026/05/27/<id>.mp4",
-      "source_url": "https://<upstream-host>/<id>.mp4",
       "duration_seconds": 5,
       "request_id": "<upstream request id>",
       "backed_up": true
     }
   ],
   "usage": { "total_tokens": 108450, "token_source": "upstream" },
-  "price": { "amount": "0.826810", "currency": "USD" },
+  "price": { "amount": "0.826803", "currency": "USD" },
   "payment": { "status": "settled", "tx_hash": "0x…", "network": "base" }
 }
 ```
@@ -289,7 +288,7 @@ One failure class is recoverable client-side: when only the **generated soundtra
 | `id` | string | Job id. Opaque on the POST; the poll echoes an internal job reference — always navigate via `poll_url`. |
 | `status` | string | `queued` → `in_progress` → `completed` \| `failed` |
 | `data[].url` | string | Permanent BlockRun-hosted URL. Falls back to the upstream URL if the mirror fails (`backed_up: false`). |
-| `data[].source_url` | string | Original upstream URL (may expire) |
+| `data[].last_frame_url` | string | Only with `return_last_frame: true`: the final frame as a still, mirrored like the clip (`last_frame_backed_up` alongside) |
 | `data[].duration_seconds` | integer | Duration of the generated clip (falls back to the billed duration when the upstream does not echo one) |
 | `data[].request_id` | string | Upstream request id for debugging |
 | `data[].backed_up` | boolean | `true` when mirrored to BlockRun's storage |
@@ -321,7 +320,7 @@ console.log(result.data[0].url);  // permanent MP4 URL
 console.log(result.txHash);       // settlement tx
 ```
 
-`VideoClient` polls every 5s within an overall `budgetMs` (default 900000ms / 15 min); `timeout` (default 120000ms) is the per-HTTP-call limit. Options mirror the request params: `model`, `imageUrl`, `lastFrameUrl`, `referenceImageUrls`, `realFaceAssetId`, `durationSeconds`, `aspectRatio`, `resolution`, `generateAudio`, `seed`, `watermark`, `returnLastFrame`.
+`VideoClient` polls every 5s within an overall `budgetMs` (default 900000ms / 15 min); `timeout` (default 120000ms) is the per-HTTP-call limit. Options mirror the request params: `model`, `imageUrl`, `lastFrameUrl`, `referenceImageUrls`, `referenceVideos`, `referenceAudios`, `realFaceAssetId`, `durationSeconds`, `aspectRatio`, `resolution`, `generateAudio`, `seed`, `watermark`, `returnLastFrame`.
 :::
 
 :::tab{label="Python SDK"}
@@ -423,13 +422,14 @@ Set your HTTP client timeout to at least 60s per request (the poll that complete
 
 | Code | Where | Description |
 |---|---|---|
-| 400 | POST | Invalid JSON; unknown / unavailable model; bad or missing prompt; `duration_seconds` outside the model's range or not in its allowed set; off-list `resolution` / `aspect_ratio` for the model; `image_url` / `real_face_asset_id` / `last_frame_url` / `reference_image_urls` on a model that lacks the capability, or in a disallowed combination; `input_type` mismatch (`inferred_input_type` tells you what you sent); malformed inline image data. All of these fire **before** the 402. |
+| 400 | POST | Invalid JSON; unknown / unavailable model; a retired model (`code: "model_retired"`); bad or missing prompt; `duration_seconds` outside the model's range or not in its allowed set; off-list `resolution` / `aspect_ratio` for the model; `image_url` / `real_face_asset_id` / `last_frame_url` / `reference_image_urls` on a model that lacks the capability, or in a disallowed combination; `input_type` mismatch (`inferred_input_type` tells you what you sent); malformed inline image data. All of these fire **before** the 402. |
 | 400 | POST | After payment, on submit: `code: "INPUT_IMAGE_REAL_PERSON"` (Seedance rejected a seed image containing a real face — use RealFace), `Content policy violation`, or `code: "INVALID_VIDEO_REQUEST"` (upstream rejected a parameter). **No charge** — settlement only happens on a completed poll. |
 | 400 | GET | Invalid job id, missing `?model` / `?duration`, model/provider mismatch, or invalid `?sig` — poll the `poll_url` verbatim. |
 | 402 | POST / GET | Payment required (no header → x402 challenge), or verification failed (`code`: `PAYMENT_INVALID` / `PAYMENT_UNFUNDED` / `PAYMENT_REPLAY`). On a completed-but-unsettleable poll (`Payment settlement failed`), the clip was generated but the signed authorization could not be settled (often expired) — retry the poll with a fresh signature. |
+| 403 | POST / GET | POST: `real_face_asset_id` not enrolled by the paying wallet, or no paying wallet could be established. GET: `Payment payer mismatch` — the poll is signed by a different wallet from the one that submitted the job. Nothing charged. |
 | 429 | POST / GET | Upstream rate limit (`code: "RATE_LIMITED"`). Response includes `Retry-After` and `retry_after_seconds`. |
 | 500 | POST / GET | Server / provider configuration error. |
-| 503 | POST | `reference_videos` / `reference_audios` sent while the operator kill switch is set (`R2V_ENABLED` = `false` / `0` / `no` / `off`). Carries `Retry-After: 300`. No charge. It is checked AFTER the shape and capability checks, so a request that is malformed, or that names a model without reference-media support, gets its `400` rather than being told to retry. Jobs already submitted stay pollable: the poll route never reads the switch. |
+| 503 | POST | `reference_videos` / `reference_audios` sent while the operator kill switch is set (`R2V_ENABLED` = `false` / `0` / `no` / `off`). Carries `Retry-After: 300`. No charge. It is checked AFTER the shape and capability checks, so a request that is malformed, or that names a model without reference-media support, gets its `400` rather than being told to retry. Jobs already submitted stay pollable: the poll route never reads the switch. Also `503` with `Retry-After: 5` when the `real_face_asset_id` ownership check hits a storage error — nothing charged, retry with the same payment. |
 | 504 | POST | Upstream submit timed out (>~20s). **No payment taken** — retry. |
 | 504 | GET | Upstream poll timed out — retry the poll in a few seconds. |
 

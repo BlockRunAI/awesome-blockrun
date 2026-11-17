@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 71 chat, image, video, music and speech models from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
+description: List and price 121 models — chat, image, video, music and speech — from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
 ---
 
 # Models
@@ -28,11 +28,11 @@ Each model object in the response includes:
 | `description` | string | Model description |
 | `context_window` | number | Context window size in tokens |
 | `max_output` | number | Maximum output tokens |
-| `categories` | string[] | Model capabilities: `"chat"`, `"reasoning"`, `"coding"`, `"vision"` (image / video / audio rows carry `"image"`, `"video"`, `"audio"`, `"speech"`, `"sound-effects"`) |
-| `billing_mode` | string | `"paid"` (per-token), `"flat"` (per-request), `"free"`, or a media mode such as `"per_image"` |
-| `pricing` | object | `{ input, output }` in USD per 1M tokens for per-token models; `{ flat }` for flat-priced models (fee-inclusive); `{ per_image }`, `{ per_second }`, etc. for media |
+| `categories` | string[] | Model capabilities: `"chat"`, `"reasoning"`, `"coding"`, `"vision"`, `"search"` (media rows carry `"image"`, `"video"`, `"music"`, `"speech"`, `"tts"`, `"sound_effect"`; the Decisions row carries `"judgment"`) |
+| `billing_mode` | string | `"paid"` (per-token chat models), `"free"`, or a media mode: `"per_image"`, `"per_second"`, `"per_track"`, `"per_character"`, `"per_generation"`. The one Decisions judgment row (not a chat model) uses `"per_token"` |
+| `pricing` | object | `{ input, output }` in USD per 1M tokens for per-token models, plus `cache_read` / `cache_write` where the model has them and `long_context` (a list of repricing steps) on models that reprice above a prompt threshold; `{ per_image }`, `{ per_second }`, `{ per_track }`, `{ per_1k_chars }`, `{ per_generation }` with `transaction_fee` for media |
 
-Only models that are currently available are returned — there is no `available` flag to check.
+Only models that are currently available are returned. Chat rows also carry `available: true`.
 
 ### Example Response
 
@@ -46,12 +46,20 @@ Only models that are currently available are returned — there is no `available
       "created": 1700000000,
       "owned_by": "openai",
       "name": "GPT-5.5",
-      "description": "OpenAI's flagship — first fully retrained base since GPT-4.5; 1M context, 128K output, native agent + computer use",
+      "description": "First fully retrained base since GPT-4.5. 1M context, 128K output, native agent + computer use",
       "context_window": 1050000,
       "max_output": 128000,
-      "categories": ["chat", "coding", "vision"],
+      "categories": ["chat", "reasoning", "coding", "vision"],
       "billing_mode": "paid",
-      "pricing": { "input": 5.00, "output": 30.00 }
+      "available": true,
+      "pricing": {
+        "input": 5,
+        "output": 30,
+        "cache_read": 0.5,
+        "long_context": [
+          { "threshold": 272000, "inclusive": false, "input": 10, "output": 45, "cache_read": 1 }
+        ]
+      }
     }
   ]
 }
@@ -60,10 +68,10 @@ Only models that are currently available are returned — there is no `available
 ## Available Models (chat / image / video / music / speech / sound effects)
 
 :::note
-**89 chat / LLM models** are publicly listed on mainnet, plus **12 image**, **8 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. Call `GET /api/v1/models` for the exact live list.
+**93 chat / LLM models** are publicly listed on mainnet, plus **14 image**, **7 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. The catalog also carries one `judgment` row, `openai/gpt-6-luna-decisions`, for the [Decisions](decisions.md) endpoint. Call `GET /api/v1/models` for the exact live list.
 :::
 
-All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens, only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform fee.
+All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens, only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform margin.
 
 ### OpenAI GPT-6 Family
 
@@ -249,7 +257,6 @@ K3.1 Pro is the current flagship — Moonshot's post-trained successor to K3, bu
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `tencent/hy4-preview` | Tencent Hy4 Preview (770B MoE, reasoning) | $0.834/M | $2.501/M | 1M |
-| `tencent/hy3` | Tencent Hy3 | $0.132/M | $0.528/M | 256K |
 
 ### Poolside
 
@@ -270,9 +277,9 @@ K3.1 Pro is the current flagship — Moonshot's post-trained successor to K3, bu
 | `xiaomi/mimo-v2.5` | Xiaomi MiMo-V2.5 (multimodal) | $0.14/M | $0.28/M | 1M |
 | `xiaomi/mimo-v2.5-pro` | Xiaomi MiMo-V2.5 Pro | $0.435/M | $0.87/M | 1M |
 
-### Flat-priced (open-weight)
+### Flat-priced (testnet only)
 
-Open-weight models billed at a flat per-request price instead of per token — the request is the unit, whatever its length.
+Open-weight models billed at a flat per-request price instead of per token — the request is the unit, whatever its length. These are served on the Base Sepolia testnet (`testnet.blockrun.ai`) for developer testing and are not in the mainnet catalog.
 
 | Model ID | Name | Price | Context |
 |----------|------|-------|---------|
@@ -281,14 +288,14 @@ Open-weight models billed at a flat per-request price instead of per token — t
 
 ### Free Tier (open-weight)
 
-Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billing_mode: "free"`). There are **8** free models listed on mainnet.
+Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billing_mode: "free"`). There are **9** free models listed on mainnet.
 
 | Model ID | Name | Input Price | Output Price |
 |----------|------|-------------|--------------|
 | `nvidia/nemotron-3-ultra-550b` | Nemotron 3 Ultra 550B (1M ctx) | **FREE** | **FREE** |
 | `nvidia/nemotron-3.5-lightning` | Nemotron 3.5 Lightning (1M ctx) | **FREE** | **FREE** |
 | `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | Nemotron 3 Nano Omni (vision) | **FREE** | **FREE** |
-| `nvidia/nemotron-3-super-120b` | Nemotron 3.5 Super VL (reasoning, vision) | **FREE** | **FREE** |
+| `nvidia/nemotron-3-super-120b` | Nemotron 3.5 Super 120B (reasoning, vision) | **FREE** | **FREE** |
 | `nvidia/nemotron-3.5-bolt` | Nemotron 3.5 Bolt (fast, vision) | **FREE** | **FREE** |
 | `nvidia/minimax-m3.1-flash` | MiniMax M3.1 Flash (reasoning, tools) | **FREE** | **FREE** |
 | `cohere/north-mini-code` | Cohere North Mini Code (coding) | **FREE** | **FREE** |
@@ -303,6 +310,8 @@ Media prices below include the 5% media margin; the flat $0.001 transaction fee 
 |----------|------|-------|
 | `openai/gpt-image-1` | GPT Image 1 | $0.021-0.042/image |
 | `openai/gpt-image-2` | ChatGPT Images 2.0 | $0.063-0.126/image |
+| `openai/gpt-image-2.5-flare` | GPT Image 2.5 Flare | $0.294-0.588/image |
+| `openai/gpt-image-2.5-sunburst` | GPT Image 2.5 Sunburst | $0.294-0.588/image |
 | `google/nano-banana` | Nano Banana | $0.0525/image |
 | `google/nano-banana-2` | Nano Banana 2 | $0.0945/image |
 | `google/nano-banana-2-lite` | Nano Banana 2 Lite | $0.0525/image |
@@ -327,6 +336,20 @@ Seedance defaults to **720p with synced audio** on every clip, whatever the inpu
 | `bytedance/seedance-2.0-fast` | Seedance 2.0 Fast | ~$0.165/sec ($0.83 / 5s clip) | 15s |
 | `bytedance/seedance-2.0` | Seedance 2.0 Pro | ~$0.227/sec ($1.14 / 5s clip) | 15s |
 | `bytedance/seedance-2.5` | Seedance 2.5 | ~$0.315/sec ($1.58 / 5s clip) | 30s |
+
+### Music, Speech and Sound Effects
+
+Prices include the 5% media margin; the flat $0.001 transaction fee is added per call.
+
+| Model ID | Name | Price |
+|----------|------|-------|
+| `minimax/music-2.5+` | MiniMax Music 2.5+ | $0.199/track |
+| `elevenlabs/flash-v2.5` | ElevenLabs Flash v2.5 | $0.0525 per 1k characters (up to 40,000 per call) |
+| `elevenlabs/turbo-v2.5` | ElevenLabs Turbo v2.5 | $0.0525 per 1k characters (up to 40,000 per call) |
+| `elevenlabs/multilingual-v2` | ElevenLabs Multilingual v2 | $0.105 per 1k characters (up to 10,000 per call) |
+| `elevenlabs/v3` | ElevenLabs v3 | $0.105 per 1k characters (up to 5,000 per call) |
+| `bytedance/seed-audio-1.0` | Seed Audio 1.0 | $0.003 per second of audio, estimated from input length (about $0.315 per 1k characters; up to 120s) |
+| `elevenlabs/sound-effects` | ElevenLabs Sound Effects | $0.0525/generation (up to 22s) |
 
 For character consistency across multiple Seedance videos, enroll a [Virtual Portrait](virtual-portrait.md) ($0.011 one-time, no government ID) for AI characters, or a [RealFace](realface.md) ($0.011 one-time, no government ID, requires brief on-phone liveness check) for real people. Pass the returned `ta_xxx` as `real_face_asset_id`.
 

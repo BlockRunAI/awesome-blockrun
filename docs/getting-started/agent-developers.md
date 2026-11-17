@@ -75,7 +75,7 @@ response = client.chat("deepseek/deepseek-chat", "Summarize these documents...")
 |-----------|--------|-------|
 | [ElizaOS](../frameworks/elizaos.md) | Released | Full plugin |
 | [AgentKit](../frameworks/agentkit.md) | Compatible | SDK integration |
-| [GOAT SDK](../frameworks/goat.md) | In Review | Planned plugin |
+| [GOAT SDK](../frameworks/goat.md) | Compatible | SDK integration (no official plugin yet) |
 | [LangChain](../frameworks/langchain.md) | Available | LiteLLM adapter or custom LLM class |
 
 ## Architecture

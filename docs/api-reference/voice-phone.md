@@ -36,7 +36,7 @@ Wallet ownership is recorded by the gateway — only the wallet that bought a nu
 | `/api/v1/phone/numbers/buy` | POST | **$5.001** | Provision a new number for the calling wallet (30-day lease). US default; other countries via `country` parameter (may require carrier regulatory approval — see below). |
 | `/api/v1/phone/numbers/renew` | POST | **$5.001** | Extend an active number's lease by 30 days |
 | `/api/v1/phone/numbers/list` | POST | $0.002 | List the calling wallet's numbers |
-| `/api/v1/phone/numbers/release` | POST | **Free** | Release a number you own back to the pool (still signed via x402 so the gateway knows which wallet is asking) |
+| `/api/v1/phone/numbers/release` | POST | **Free** | Release a number you own back to the pool (signed with your wallet so the gateway knows who is asking — no payment) |
 | `/api/v1/voice/call` | POST | **$0.541** | Place an outbound AI call (max 30 min, default 5 min) |
 | `/api/v1/voice/call/{call_id}` | GET | **Free** | Poll call status / fetch transcript |
 
@@ -79,7 +79,7 @@ Provisions a new phone number from the carrier catalog in your chosen country, r
 
 Most non-US/CA countries require per-country KYC documentation (address proof, business identity) before a number can be purchased. The approval is account-level — once it's in place for a country, all subsequent purchases work transparently.
 
-**If you need a number outside the US:** call the endpoint with your desired `country` code. If the carrier rejects the purchase with a regulatory error, our gateway returns a `502 Purchase failed` with the upstream message in `details` (not charged). Email `care@blockrun.ai` with the country you need — we'll complete the regulatory registration (usually 1–5 business days for carrier review) and let you know when the country is live.
+**If you need a number outside the US:** call the endpoint with your desired `country` code. If the carrier rejects the purchase with a regulatory error, our gateway returns a `502 Purchase failed` (not charged). Email `care@blockrun.ai` with the country you need — we'll complete the regulatory registration (usually 1–5 business days for carrier review) and let you know when the country is live.
 
 Pricing is flat **$5.001 / 30 days** regardless of country (we absorb the carrier cost difference). Renewal also $5.001.
 
@@ -153,7 +153,7 @@ Expired numbers still appear with `active: false` until they are reclaimed.
 
 ## POST /api/v1/phone/numbers/release
 
-Releases a number you own back to the pool, immediately. Free — the request still goes through the x402 flow (a $0 authorization) so the gateway knows which wallet is asking.
+Releases a number you own back to the pool, immediately. Free — no payment moves, but the gateway needs to know which wallet is asking. Prove it with a wallet signature: POST the body with `X-Wallet-Address`, and the `401`/`402` answer carries an `authentication` object with the exact EIP-191 `message` to sign (valid 300 s); sign it locally and resend the **identical** body with `X-Wallet-Address`, `X-Wallet-Timestamp` and `X-Wallet-Signature`. Each signed proof is single-use (`409` on reuse). A `$0` x402 authorization is still accepted from older clients; the SDKs' `releaseNumber` / `release_number` handle this for you.
 
 ### Request Body
 
@@ -167,7 +167,7 @@ Releases a number you own back to the pool, immediately. Free — the request st
 { "released": true, "phone_number": "+14155551234" }
 ```
 
-`403 Forbidden` (`reason: "wrong_wallet"`) if another wallet owns it; `404 Not Found` if it isn't in the registry.
+`403 Forbidden` (`reason: "wrong_wallet"`) if another wallet owns it; `404 Not Found` if it isn't in the registry; `502 Number release failed` if the carrier did not release it (the number stays in your registry so you can retry).
 
 ---
 
@@ -214,7 +214,8 @@ The settlement transaction hash is in the `X-Payment-Receipt` header. The call i
 - `403 Forbidden` with `reason: "expired"` — the `from` number's lease lapsed; renew or buy a new one.
 - `403 Forbidden` — destination is an emergency-services number.
 - `400 ambiguous_from` — wallet owns multiple active numbers; specify `from` explicitly. Response includes `your_active_numbers`.
-- `502 Call initiation failed` — the voice provider refused to place the call. **Not charged**; upstream reason in `details`.
+- `502 Call initiation failed` — the voice provider refused to place the call. **Not charged**.
+- `402 Payment settlement failed` — the call was accepted but the payment did not settle; the call is stopped and nothing is charged.
 
 ---
 
@@ -246,7 +247,7 @@ Poll for call status, transcript, and final outcome. **Free** — no payment req
 
 The upstream call record is passed through as-is (field set may vary by call); BlockRun adds `ended_by` and `ended_by_reason` on top. `status` values: `queued`, `started`, `ringing`, `in-progress`, `completed`, `error`. Use `ended_by` rather than `status` to decide whether the call is finished.
 
-An unknown `call_id` returns `404 Call not found`. Requesting the literal `{call_id}` placeholder returns a 402-shaped discovery record (`price.free: true`) — substitute the real id.
+An unknown `call_id` returns `404 Call not found`. Polling is rate-limited per client: past the limit you get `429` with `Retry-After` — poll every few seconds, not in a tight loop. Requesting the literal `{call_id}` placeholder returns a 402-shaped discovery record (`price.free: true`) — substitute the real id.
 
 ### `ended_by` — why the call ended
 
@@ -281,8 +282,9 @@ Without an explicit "end the call after X" instruction, the AI tends to keep vol
 ```typescript
 import { PhoneClient, VoiceClient } from '@blockrun/llm';
 
-const phone = new PhoneClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
-const voice = new VoiceClient({ privateKey: process.env.BASE_CHAIN_WALLET_KEY });
+// Reads BLOCKRUN_WALLET_KEY from the environment when privateKey is omitted
+const phone = new PhoneClient({ privateKey: process.env.BLOCKRUN_WALLET_KEY });
+const voice = new VoiceClient({ privateKey: process.env.BLOCKRUN_WALLET_KEY });
 
 // 1) One-time setup: buy a number
 const number = await phone.buyNumber({ country: 'US', areaCode: '415' });
@@ -423,12 +425,15 @@ The number is owned by **the wallet address that paid the buy x402**. Lose your 
 | 200 | Success — `X-Payment-Receipt` carries the settlement tx hash |
 | 400 | `Invalid request body` — missing/short `to` or `task`, unknown keys, `max_duration` out of range; also `ambiguous_from`. Validated before payment, **not charged** |
 | 402 | Payment required — sign and retry. Verification failures carry a machine-readable `code`: `PAYMENT_INVALID`, `PAYMENT_UNFUNDED`, or `PAYMENT_BLOCKHASH_STALE` (plus `message` / `details`); re-using an authorization returns `code: "PAYMENT_REPLAY"` — sign a fresh one per request |
+| 401 | `Wallet signature required` — `numbers/release` sent with wallet headers but a missing or invalid signature; the body carries the `authentication` message to sign |
 | 403 | `no_active_number` / `Forbidden` (`reason`: `wrong_wallet`, `expired`, `not_found`) — buy, renew, or use a different `from`; also emergency-number destinations |
 | 404 | Unknown `call_id` on poll; unknown `/v1/phone/<path>`; no numbers available for the requested country/area code; releasing a number not in the registry |
-| 502 | Voice provider or carrier rejected the request (call initiation, number purchase, lookup 5xx) — **not charged** |
+| 409 | `numbers/release` wallet proof already used — sign a new timestamp |
+| 429 | Call-status polling too fast — honor `Retry-After` |
+| 502 | Voice provider or carrier rejected the request (call initiation, number purchase, number release, lookup 5xx) — **not charged** |
 | 503 | Phone / voice integration not configured, or temporarily paused |
 
-Upstream 4xx on lookups is forwarded with its original status. Upstream calls time out after 30 seconds (15 seconds for status polls) and surface as `502` / `500`, never charged.
+Upstream 4xx on lookups is forwarded with its original status. Placing a call times out after 30 seconds; status polls and carrier (lookup / number) requests after 15 seconds. A timeout surfaces as `502` / `500`, never charged.
 
 ---
 

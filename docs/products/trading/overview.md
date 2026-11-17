@@ -10,13 +10,13 @@ Your AI just became a trader — one that has to ask before it spends.
 Trading is Franklin's flagship arena. The [Franklin agent](../franklin.md) ships with the trading tools built in: it buys live market data, computes signals locally, keeps a wallet-bound trading journal, paper-trades against real prices, and proposes real-money trade plans that nothing executes until you approve. There is no separate trading package to install.
 
 :::note{title="alpha-mcp is retired"}
-Earlier versions of these pages documented `alpha-mcp`, a standalone MCP server. That repo has not shipped since January 2026. The maintained trading surface is Franklin itself — this section documents Franklin 3.42.0.
+Earlier versions of these pages documented `alpha-mcp`, a standalone MCP server. That repo has not shipped since January 2026. The maintained trading surface is Franklin itself — this section documents Franklin 3.49.
 :::
 
 ## What It Does
 
 - **Technical Analysis** — `TradingSignal`: price, RSI, MACD, Bollinger Bands, volatility, and a bullish / bearish / neutral verdict, computed locally from live market data
-- **Multi-asset market data** — `TradingMarket`: crypto spot, trending coins, market overview, FX pairs, commodities, and equities across 12 markets via the BlockRun gateway
+- **Multi-asset market data** — `TradingMarket`: crypto spot, trending coins, market overview, FX pairs and commodities via the BlockRun gateway (the equity action is wired, but the gateway does not currently serve equity prices)
 - **Paper trading** — open and close simulated positions at live prices, with a persistent portfolio and trade log across sessions
 - **Prediction markets** — research odds across Polymarket, Kalshi and others (`PredictionMarket`), and place real bets on Polymarket (`PolymarketBet`)
 - **DEX routes** — read-only quotes on Solana (Jupiter) and Base (0x)
@@ -29,7 +29,7 @@ Earlier versions of these pages documented `alpha-mcp`, a standalone MCP server.
 **Franklin is free and open source (Apache-2.0).** You only pay, from your own wallet over x402, for the intelligence and data the agent actually uses:
 
 - Signals and crypto / FX / commodity prices: free
-- Equity prices, prediction-market data, on-chain RPC, web search: paid per call from the agent wallet — the tool descriptions show the per-call price before Franklin calls them
+- Prediction-market data, on-chain RPC, web search: paid per call from the agent wallet — the tool descriptions show the per-call price before Franklin calls them
 - Model calls: provider cost, no platform margin, plus $0.001 per request
 - Polymarket bets: your own funds on Polygon, plus network fees — bets do **not** draw from the `--max-spend` AI budget
 
@@ -57,7 +57,7 @@ Franklin calls `TradingSignal` and returns a signal report with a verdict. Signa
 | Live market data | Crypto spot, trending, market overview | Free |
 | Local indicators | RSI, MACD, Bollinger, volatility | Free (computed on your machine) |
 | BlockRun gateway | FX pairs, commodities | Free |
-| BlockRun gateway | Equity prices (12 markets) | Pay-per-call |
+| BlockRun gateway | Equity prices (12 markets) | Not currently served (the gateway answers `501`, nothing charged) |
 | BlockRun gateway | Prediction-market search, wallet profiles, smart money | Pay-per-call |
 | BlockRun gateway | Read-only JSON-RPC across 40 chains | Pay-per-call |
 | Jupiter (Solana) / 0x (Base) | DEX quotes | Free (quote only) |
@@ -88,7 +88,7 @@ Franklin's money guardrails are layered, and each has a hard bound:
 | Your own rules | `PreSpend` lifecycle hooks can veto any money-moving tool |
 
 :::warning{title="DEX execution is currently paused"}
-In 3.42.0 the live swap tools (`JupiterSwap`, `Base0xSwap`, `Base0xGaslessSwap`) are temporarily disabled while Franklin adds complete local transaction validation — Franklin will not sign opaque upstream transaction bytes. Quotes still work. Polymarket bets and paper trading are unaffected. See [Risk Management](risk-management.md) for the full enforcement model.
+In 3.49 the live swap tools (`JupiterSwap`, `Base0xSwap`, `Base0xGaslessSwap`) are temporarily disabled while Franklin adds complete local transaction validation — Franklin will not sign opaque upstream transaction bytes. Quotes still work. Polymarket bets and paper trading are unaffected. See [Risk Management](risk-management.md) for the full enforcement model.
 :::
 
 ## Franklin Trading (specialized fork)

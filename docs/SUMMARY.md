@@ -73,7 +73,7 @@
 * [Polymarket Funding](api-reference/polymarket-funding.md)
 * [Modal Sandbox](api-reference/modal-sandbox.md)
 * [DefiLlama](api-reference/defillama.md)
-* [Market Data (Pyth)](api-reference/market-data.md)
+* [Market Data](api-reference/market-data.md)
 * [Multi-chain RPC](api-reference/multi-chain-rpc.md)
 * [Phone & Voice](api-reference/voice-phone.md)
 * [Models](api-reference/models.md)

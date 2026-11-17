@@ -56,7 +56,7 @@ number.
 
 | Tier | `eco` | `auto` |
 |---|---|---|
-| SIMPLE | `nvidia/nemotron-3.5-lightning` | `google/gemini-2.5-flash` |
+| SIMPLE | `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | `google/gemini-2.5-flash` |
 | MEDIUM | `google/gemini-3.1-flash-lite` | `deepseek/deepseek-v4-pro` |
 | COMPLEX | `google/gemini-3.1-flash-lite` | `google/gemini-3.1-pro` |
 | REASONING | `deepseek/deepseek-reasoner` | `deepseek/deepseek-reasoner` |
@@ -65,15 +65,12 @@ number.
 tier absorbs the majority of traffic. `auto` trades some of that for headroom on
 quality, which is why it is the default.
 
-These are the **priced** picks, and they are not always the router's actual
-primary. ClawRouter's `auto` MEDIUM primary is `moonshot/kimi-k2.7` and its
-REASONING primary (both profiles) is `xai/grok-4-1-fast-reasoning`; both are
-withheld from `GET /api/v1/models`, and a public claim priced on a model you
-cannot look up is not defensible. Where the primary is hidden, the mix prices
-the cheapest *visible* model in the same tier's fallback chain instead. That
-substitution only ever moves the published figure down, so the number is
-conservative. The `eco` SIMPLE row moved the same way when NVIDIA retired
-`deepseek-v4-flash` on 2026-08-12 — its replacement is also free, so the `eco`
+These are the **priced** picks recorded in `src/brand/savings-mix.json`, and
+they are not always the router's current primary: the mix is re-checked by hand
+when ClawRouter's routing config changes. Every priced pick is a model listed on
+`GET /api/v1/models`, because a public claim priced on a model you cannot look
+up is not defensible. The `eco` SIMPLE pick has moved several times as the free
+tier's models were retired; each replacement was also free, so the `eco`
 figure did not change.
 
 ## Reproduce it
@@ -101,7 +98,9 @@ ClawRouter-Hermes.
 
 Three public benchmark families, run through one host framework with their own
 validators, three arms per task — the previous rules router, the constraint-first
-V3.4 router, and a pinned flagship — sharing a frozen model catalog, pricing
+V3.4 router, and a pinned flagship (V3.4 is the last policy benchmarked; V3.5,
+which ClawRouter ships today, is a catalog refresh on the same scorer and
+weights) — sharing a frozen model catalog, pricing
 snapshot, tool surface and scorer:
 
 | Source family | Share of strict cohort | What it measures |

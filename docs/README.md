@@ -62,7 +62,7 @@ Four product families, one payment layer.
 ::::cards
 
 :::card{title="Intelligence" href="products/intelligence/overview.md" icon="Brain"}
-93 LLMs (GPT, Claude, Gemini, DeepSeek, Grok, Kimi, Llama) through one OpenAI-compatible API. Pay per request.
+93 LLMs (GPT, Claude, Gemini, DeepSeek, Grok, Kimi, Qwen) through one OpenAI-compatible API. Pay per request.
 :::
 
 :::card{title="Routing" href="products/routing/clawrouter.md" icon="Route"}
@@ -91,6 +91,6 @@ No API keys to rotate, no subscriptions to cancel, no per-provider signups. Just
 
 - **Website:** [blockrun.ai](https://blockrun.ai)
 - **GitHub:** [github.com/BlockRunAI](https://github.com/BlockRunAI)
-- **x402 Services:** [live service directory](https://blockrun.ai/models)
+- **x402 Services:** [live service directory](https://blockrun.ai/services)
 - **Every public repo:** [Ecosystem](resources/ecosystem.md) — routers, plugins, SDKs, Franklin apps, skills
 - **Enterprise (API keys + wire billing):** [Enterprise API](getting-started/enterprise-api.md) — sign in at [user.blockrun.ai](https://user.blockrun.ai)

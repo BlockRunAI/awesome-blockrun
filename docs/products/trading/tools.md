@@ -43,7 +43,7 @@ Market data across asset classes.
 - `overview` — top 20 by market cap (free)
 - `fxPrice` — FX pairs like `EUR-USD` via the BlockRun gateway (free)
 - `commodityPrice` — `XAU-USD` (gold), `XAG-USD` (silver), … (free)
-- `stockPrice` — equities across `us`, `hk`, `jp`, `kr`, `gb`, `de`, `fr`, `nl`, `ie`, `lu`, `cn`, `ca` (paid per call from the agent wallet; `market` is required)
+- `stockPrice` — equities across `us`, `hk`, `jp`, `kr`, `gb`, `de`, `fr`, `nl`, `ie`, `lu`, `cn`, `ca` (`market` is required). The BlockRun gateway does not currently serve equity prices, so this action returns an error and nothing is charged — see [Market Data](../../api-reference/market-data.md)
 
 **Example usage:**
 
@@ -52,7 +52,7 @@ What's gold doing today?
 ```
 
 ```
-Price of 7203 on the Tokyo exchange
+What's EUR-USD at?
 ```
 
 ---
@@ -136,7 +136,7 @@ Every placement is a dry-run preview unless `confirm:true`; a confirmed placemen
 
 Read-only DEX routes and prices: Jupiter on Solana, 0x on Base.
 
-`JupiterSwap`, `Base0xSwap`, and `Base0xGaslessSwap` exist but are **temporarily disabled in 3.42.0** while Franklin adds complete local transaction, Permit2, and EIP-712 validation — Franklin will not sign opaque transaction bytes handed back by an upstream. When re-enabled they remain behind `TradePlan`.
+`JupiterSwap`, `Base0xSwap`, and `Base0xGaslessSwap` exist but are **temporarily disabled in 3.49** while Franklin adds complete local transaction, Permit2, and EIP-712 validation — Franklin will not sign opaque transaction bytes handed back by an upstream. When re-enabled they remain behind `TradePlan`.
 
 **Example usage:**
 

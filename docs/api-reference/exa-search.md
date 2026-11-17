@@ -58,7 +58,6 @@ Narrow your search to a specific type of content:
 | `research paper` | Academic papers and preprints |
 | `linkedin profile` | LinkedIn profile pages |
 | `personal site` | Personal and portfolio sites |
-| `tweet` | Twitter/X posts |
 | `financial report` | Earnings reports and financial filings |
 | `pdf` | PDF documents |
 | `company` | Company websites and about pages |
@@ -186,7 +185,7 @@ const urls = search.results.map(r => r.url);
 const pages = await client.exaContents(urls);
 
 // Step 3: Feed into LLM for analysis
-const analysis = await client.chat("anthropic/claude-opus-5", [
+const analysis = await client.chatCompletion("anthropic/claude-opus-5", [
   { role: "system", content: "Analyze based only on the provided sources." },
   { role: "user", content: `Sources:\n${pages.results.map(p => p.text).join("\n---\n")}\n\nQuestion: What is driving x402 adoption?` }
 ]);
@@ -275,7 +274,8 @@ from blockrun_llm import LLMClient
 client = LLMClient()
 
 # Search
-results = client.exa_search("x402 payment protocol", num_results=5)
+# Extra keyword arguments are sent to Exa as-is, so use Exa's camelCase names
+results = client.exa_search("x402 payment protocol", numResults=5)
 
 # Get a cited answer
 answer = client.exa_answer("What is the x402 protocol?")
@@ -285,7 +285,7 @@ print(answer["answer"])
 pages = client.exa_contents(["https://x402.org", "https://blockrun.ai"])
 
 # Find similar pages
-similar = client.exa_find_similar("https://blockrun.ai", num_results=10)
+similar = client.exa_find_similar("https://blockrun.ai", numResults=10)
 ```
 :::
 
@@ -365,11 +365,11 @@ Successful responses carry `X-Payment-Response` (x402 v2 settlement receipt) and
 | Code | Description |
 |------|-------------|
 | 402 | Payment required — sign and retry. Also returned when a payment header is present but fails verification (`error: "Payment verification failed"`, see codes below), when an authorization is reused (`code: "PAYMENT_REPLAY"`), or when settlement fails after the call (`error: "Payment settlement failed"`) |
-| 400–499 | Exa rejected the request — the upstream status is passed through unchanged with `error: "Bad Request"`, `status`, and Exa's own error in `details`. **Payment was NOT charged.** |
+| 400–499 | Exa rejected the request — the upstream status is passed through unchanged with `error: "Bad Request"` and `status`; a caller-fault 4xx also carries Exa's (scrubbed) reason in `details`. **Payment was NOT charged.** |
 | 404 | Unknown endpoint path (`available` lists the four valid paths) |
 | 502 | Exa returned a 5xx (`error: "Upstream provider error"`). Payment was NOT charged |
 | 503 | Exa integration not configured, or temporarily paused |
-| 500 | Gateway error (`error: "Internal server error"`), including a 30-second upstream timeout |
+| 500 | Gateway error (`error: "Internal server error"`), including a 30-second upstream timeout. Also a `500` carrying a transaction hash when the settlement outcome could not be confirmed — check that hash on-chain before paying again |
 
 Payment is verified before the upstream call and settled only after Exa answers, so a failed or rejected request never costs anything.
 

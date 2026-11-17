@@ -21,7 +21,7 @@ AgentKit provides:
 - Framework extensions (`coinbase-agentkit-langchain`, …)
 
 BlockRun adds:
-- 93 chat models (119 in the full catalog)
+- 93 chat models (121 in the full catalog)
 - Pay-per-request intelligence
 - No API key management
 
@@ -117,7 +117,7 @@ AgentKit's LangChain extension turns every action provider into a tool. Run the 
 ```bash
 pip install coinbase-agentkit-langchain langchain-openai langgraph 'blockrun-litellm[proxy]'
 export BLOCKRUN_WALLET_KEY=0x...
-blockrun-litellm-proxy --port 4001 &
+blockrun-litellm-proxy --port 4001 --chain base &
 ```
 
 ```python

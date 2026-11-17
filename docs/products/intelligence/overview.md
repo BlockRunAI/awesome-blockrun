@@ -27,6 +27,7 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 | Model | Input | Output |
 |-------|-------|--------|
 | GPT-6 Astra (flagship) | $10.00/M | $50.00/M |
+| GPT-6.1 Sol | $2.00/M | $10.00/M |
 | GPT-6 Sol | $2.00/M | $10.00/M |
 | GPT-6 Luna | $0.10/M | $0.50/M |
 | GPT-5.6 Sol | $4.00/M | $20.00/M |
@@ -54,6 +55,8 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 ### Google
 | Model | Input | Output |
 |-------|-------|--------|
+| Gemini 4 Carbon | $2.00/M | $10.00/M |
+| Gemini 4 Argon | $2.00/M | $10.00/M |
 | Gemini 3.1 Pro | $2.00/M | $12.00/M |
 | Gemini 3.5 Flash | $1.50/M | $9.00/M |
 
@@ -69,7 +72,9 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 ### Z.AI
 | Model | Input | Output |
 |-------|-------|--------|
-| GLM-5.2 (flagship, 1M context) | $1.40/M | $4.40/M |
+| GLM-5.3 (flagship, 1M context) | $1.40/M | $4.40/M |
+| GLM-5.3 Flash (1M context) | $0.15/M | $0.50/M |
+| GLM-5.2 (1M context) | $1.40/M | $4.40/M |
 | GLM-5.1 | $1.40/M | $4.40/M |
 | GLM-5 | $1.00/M | $3.20/M |
 | GLM-5 Turbo | $1.20/M | $4.00/M |
@@ -77,7 +82,7 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 ### Moonshot
 | Model | Input | Output |
 |-------|-------|--------|
-| Kimi K3 (1M context, image + text input) | $3.00/M | $15.00/M |
+| Kimi K3.1 Pro (1M context, image + text input) | $2.00/M | $10.00/M |
 
 ### MiniMax
 | Model | Input | Output |
@@ -98,7 +103,7 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 | DeepSeek V4 Pro | $1.32/M | $3.96/M |
 
 ### Free tier
-6 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
+9 free models with no per-token charge (you still need a funded wallet for the x402 handshake, but these calls don't draw it down).
 
 *M = million tokens. Provider rates, billed with no BlockRun margin on chat tokens; a flat $0.001 transaction fee is added per request.*
 

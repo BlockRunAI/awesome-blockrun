@@ -7,7 +7,7 @@ description: The official BlockRun Python SDK — call 93 LLMs, smart routing, a
 
 The official Python SDK for BlockRun — pay per call in USDC, no API keys or subscriptions.
 
-**Source:** [github.com/BlockRunAI/blockrun-llm](https://github.com/BlockRunAI/blockrun-llm) · [PyPI: blockrun-llm](https://pypi.org/project/blockrun-llm/) · MIT · current release **1.13.0** · Python 3.9+
+**Source:** [github.com/BlockRunAI/blockrun-llm](https://github.com/BlockRunAI/blockrun-llm) · [PyPI: blockrun-llm](https://pypi.org/project/blockrun-llm/) · MIT · current release **1.23.0** · Python 3.9+
 
 :::tip{title="In a hurry?"}
 New to BlockRun? Run the [5-Minute Quickstart](../getting-started/quickstart.md) first to fund a wallet, then come back for the full SDK reference.
@@ -49,6 +49,8 @@ print(response)
 | `BLOCKRUN_TX_LOG` | `1` or a directory path — write a per-call transaction log (see [Transaction log](#transaction-log-and-cost-tracking)) |
 | `SOLANA_WALLET_KEY` | Solana secret key for `SolanaLLMClient` (bs58 keypair/seed, Solana CLI JSON array, or 64-byte hex) |
 | `SOLANA_RPC_URL` | Optional Solana RPC used to fetch a blockhash when signing (defaults to BlockRun's proxy) |
+| `BLOCKRUN_PAYMENT_SCHEME` | `exact` (default) or `auto` — see `payment_scheme` under [Client Options](#client-options) |
+| `BLOCKRUN_API_KEY` | A BlockRun API key (`brk_…`). When set, every client bills prepaid account credit on `api.blockrun.ai` instead of signing x402 payments — see [Enterprise API](../getting-started/enterprise-api.md) |
 
 If no key is passed or set, every client falls back to the wallet file at `~/.blockrun/.session` (legacy `~/.blockrun/wallet.key` is still honoured); Solana clients use `~/.blockrun/.solana-session`. `LLMClient()` raises `ValueError` when none of these exist — call `setup_agent_wallet()` to create one (see [Wallet helpers](#wallet-helpers)).
 
@@ -65,8 +67,11 @@ client = LLMClient(
     transaction_log=None,               # True → ./log/, or a directory path (default: BLOCKRUN_TX_LOG)
     max_cost_per_call=None,             # USD ceiling per quote (default: unset)
     max_session_cost=None,              # USD ceiling per client session (default: unset)
+    payment_scheme=None,                # "exact" (default) or "auto" (default: BLOCKRUN_PAYMENT_SCHEME)
 )
 ```
+
+`payment_scheme="auto"` lets a chat call pay with an x402 `upto` ceiling (the full `max_tokens`) and settle at the actual cost after the call, when the 402 offers it and the wallet can use it; otherwise it signs `exact` as before. The actual cost can be more than the `exact` quote but never more than the ceiling.
 
 `AsyncLLMClient` takes the same arguments. `SolanaLLMClient` / `AsyncSolanaLLMClient` add `rpc_url`, `rpc_headers` and `image_timeout` (default 200s) and default `api_url` to `https://sol.blockrun.ai/api`.
 
@@ -210,7 +215,7 @@ print(result.routing.savings)    # 0.90 (90% savings vs the baseline flagship)
 ```python
 decision = client.route("Prove that the square root of 2 is irrational")
 
-print(decision.model)       # "deepseek/deepseek-v4-pro"
+print(decision.model)       # "deepseek/deepseek-reasoner"
 print(decision.tier)        # "REASONING"
 print(decision.task_type)   # "reasoning"
 print(decision.method)      # "portfolio"
@@ -246,7 +251,7 @@ response = client.chat_completion("blockrun/auto", messages)
 
 | Profile | Behavior | Best For |
 |---------|----------|----------|
-| `"free"` | Only the 5 $0 NVIDIA models — no wallet needed | Development, testing |
+| `"free"` | Only $0 free-tier models — no USDC needed | Development, testing |
 | `"eco"` | Cheapest capable model per tier | Bulk processing |
 | `"auto"` | Balances quality and cost (default) | Production workloads |
 | `"premium"` | Top-tier models | Critical tasks |
@@ -259,7 +264,7 @@ print(result.routing.cost_estimate) # 0.0
 
 # Maximum savings
 result = client.smart_chat("Summarize this article: ...", routing_profile="eco")
-print(result.model)  # "google/gemini-3.1-flash-lite"
+print(result.model)  # e.g. "zai/glm-5.3-flash"
 
 # Premium for critical tasks
 result = client.smart_chat("Review this contract for legal issues...", routing_profile="premium")
@@ -313,7 +318,7 @@ from blockrun_llm import (
 
 ### Every client routes
 
-`LLMClient`, `AsyncLLMClient`, `SolanaLLMClient` and `AsyncSolanaLLMClient` all expose `route()`, `smart_chat()` and `smart_chat_completion()`. Both chains run the same engine over the same catalog, so the same request picks the same model, and the x402 minimum in the cost estimate is the same $0.001 on both chains.
+`LLMClient`, `AsyncLLMClient`, `SolanaLLMClient` and `AsyncSolanaLLMClient` all expose `route()`, `smart_chat()` and `smart_chat_completion()`. Both chains run the same engine over the same catalog, so the same request picks the same model. The cost estimate is floored at the SDK's per-chain payment minimum ($0.002 on Base, $0.001 on Solana); the real charge is always the gateway's 402 quote.
 
 ```python
 import asyncio
@@ -366,7 +371,7 @@ The payer must already hold a USDC token account on Solana — the SDK fails fas
 `LLMClient` covers chat and routing. Everything else — image, video, music, speech, voice, search, prices, RPC, and more — lives in a dedicated client class. Each is imported from `blockrun_llm` and constructed independently.
 
 :::note{title="Every client shares one constructor"}
-`Client(private_key=None, api_url=None, timeout=...)`. The key is resolved in order: the `private_key` argument → `BLOCKRUN_WALLET_KEY` → `BASE_CHAIN_WALLET_KEY` → `~/.blockrun/.session`. So if you've run `setup_agent_wallet()` or the MCP's `blockrun_wallet action:"setup"`, no argument is needed. Every client also exposes `get_wallet_address()` and `close()`.
+`Client(private_key=None, api_url=None, timeout=...)`. The key is resolved in order: the `private_key` argument → `BLOCKRUN_WALLET_KEY` → `BASE_CHAIN_WALLET_KEY` → `~/.blockrun/.session` (a `BLOCKRUN_API_KEY` in the environment, or a `brk_…` key passed as `private_key`, takes precedence over the wallet variables and switches the client to account billing). So if you've run `setup_agent_wallet()` or the MCP's `blockrun_wallet action:"setup"`, no argument is needed. Every client also exposes `get_wallet_address()` and `close()`.
 :::
 
 ### Media generation
@@ -387,7 +392,7 @@ res = img.edit("Place this logo on the t-shirt", image=["data:image/png;base64,.
 print(res.data[0].url)
 ```
 
-Models: `google/nano-banana`, `google/nano-banana-2` ($0.09), `google/nano-banana-pro`, `bytedance/seedream-5-pro` ($0.045–0.09 by resolution), `openai/gpt-image-1`, `openai/gpt-image-2`, `zai/cogview-4`, `xai/grok-imagine-image(-pro)`.
+Models: `google/nano-banana`, `google/nano-banana-2` ($0.0955 incl. fee), `google/nano-banana-2-lite`, `google/nano-banana-2.1`, `google/nano-banana-pro`, `bytedance/seedream-5-pro` ($0.0483–0.0955 incl. fee, by resolution), `openai/gpt-image-1`, `openai/gpt-image-2`, `openai/gpt-image-2.5-flare`, `openai/gpt-image-2.5-sunburst`, `zai/cogview-4`, `xai/grok-imagine-image`, `xai/grok-imagine-image-2.0`, `xai/grok-imagine-image-pro`. `list_image_models()` returns the live list with pricing.
 
 #### `VideoClient`
 
@@ -439,7 +444,7 @@ sfx = tts.sound_effect("rain on a tin roof", duration_seconds=6.0)
 voices = tts.list_voices()  # free, 60 req/min/IP
 ```
 
-Voices: `sarah`, `george`, `laura`, `charlie`, `river`, `roger`, `callum`, `harry`, or a raw ElevenLabs `voice_id`. Formats: `mp3` (default), `opus`, `pcm`, `wav`. Speed `0.7`–`1.2`. Billed per character (`chars/1000 × rate`, $0.001 floor — $0.002 all-in with the transaction fee) — flash/turbo cap 40k chars, multilingual-v2 10k, v3 5k.
+Voices: `sarah`, `george`, `laura`, `charlie`, `river`, `roger`, `callum`, `harry` (the live alias list is `list_voices()`), or a raw ElevenLabs `voice_id`. An unknown voice is refused with `400` `UNKNOWN_VOICE` before anything is charged. Formats: `mp3` (default), `opus`, `pcm`, `wav`. Speed `0.7`–`1.2`. Billed per character (`chars/1000 × rate`, $0.001 floor — $0.002 all-in with the transaction fee) — flash/turbo cap 40k chars, multilingual-v2 10k, v3 5k.
 
 ### Data & infrastructure
 
@@ -457,32 +462,27 @@ for c in res.citations:
 
 `max_results` 1–50 (default 10); optional `from_date`/`to_date` (`YYYY-MM-DD`). $0.08 per call (+ $0.001 fee), whatever `max_results` is.
 
-#### `PriceClient` — crypto / FX / commodities / stocks
+#### `PriceClient` — crypto / FX / commodities
 
 ```python
 from blockrun_llm import PriceClient
 
-px = PriceClient()                              # set require_wallet=False to use only free categories
-btc = px.price("crypto", "BTC-USD")             # crypto, fx, commodity are FREE; usstock, stocks are paid
-print(btc.price, btc.publishTime)
+import time
 
-bars = px.history("crypto", "BTC-USD", resolution="D", from_ts=1700000000, to_ts=1710000000)
+px = PriceClient()                              # set require_wallet=False to use only free categories
+btc = px.price("crypto", "BTC-USD")             # crypto, fx, commodity are FREE (daily close, not realtime)
+print(btc.price, btc.publish_time)
+
+now = int(time.time())
+bars = px.history("crypto", "BTC-USD", resolution="D", from_ts=now - 30 * 86400, to_ts=now)
 symbols = px.list_symbols("crypto", q="ETH", limit=20)
 ```
 
-For `stocks`, pass `market` (`us`, `hk`, `jp`, `kr`, `gb`, `de`, `fr`, `nl`, `ie`, `lu`, `cn`, `ca`) and optionally `session` (`pre`/`post`/`on`). Resolutions: `1,5,15,60,240,D,W,M`.
+Equity prices are not currently served: `usstock` and `stocks` price/history calls answer `501` (the `list_symbols` catalog still answers, with `available: false`). Resolutions: `1,5,15,60,240,D,W,M`.
 
-#### `SurfClient` — crypto data (80+ endpoints)
+#### `SurfClient` — retired
 
-```python
-from blockrun_llm import SurfClient
-
-surf = SurfClient()
-ranking = surf.call("market/ranking", params={"limit": 20})   # auto GET/POST from the catalog
-catalog = surf.endpoints()                                     # static: every path + tier + price
-```
-
-Tiers: T1 `$0.0085` (reads/lists), T2 `$0.0085` (AI rankings/trends/search), T3 `$0.0085` (heavy LLM + on-chain SQL). Use `surf.get(path, params)` / `surf.post(path, body)` for explicit verbs.
+The Surf crypto-data endpoints were retired on 2026-09-06 and `/v1/surf/*` answers `410` (`endpoint_retired`). `SurfClient` is still exported so existing imports keep working, but it is deprecated and every call fails. Use `PriceClient` for prices, `client.defi_*` for TVL and yields ([DefiLlama](../api-reference/defillama.md)), `client.pm()` for [prediction markets](../api-reference/prediction-markets.md), and `client.dex_*` for [DEX quotes](../api-reference/zerox-swap.md).
 
 #### `RpcClient` — multi-chain JSON-RPC
 
@@ -509,9 +509,9 @@ from blockrun_llm import PhoneClient
 phone = PhoneClient()
 info  = phone.lookup("+14155552671")          # $0.011 - carrier + line type
 fraud = phone.lookup_fraud("+14155552671")    # $0.051 - + SIM-swap / call-forwarding signals
-num   = phone.buy_number(country="US", area_code="415")  # $5 / 30 days (settles after Twilio confirms)
+num   = phone.buy_number(country="US", area_code="415")  # $5 / 30 days (settles only once the number is provisioned)
 phone.renew_number(num["phone_number"])       # $5 / +30 days
-phone.list_numbers()                          # $0.003
+phone.list_numbers()                          # $0.002
 phone.release_number(num["phone_number"])     # free
 ```
 
@@ -524,7 +524,7 @@ voice = VoiceClient()
 call = voice.call(
     to="+14155552671",
     task="Confirm the 3pm dental appointment and offer to reschedule if needed.",
-    voice="maya",            # nat | josh | maya | june | paige | derek | florian, or a Bland.ai id
+    voice="maya",            # nat | josh | maya | june | paige | derek | florian, or a custom voice id
     max_duration=5,          # 1–30 minutes
     language="en-US",
 )
@@ -562,8 +562,8 @@ client = LLMClient()
 
 # Modal secure sandbox
 sb = client.modal_sandbox_create()
-out = client.modal_sandbox_exec(sb["id"], code="print(2+2)")
-client.modal_sandbox_status(sb["id"]); client.modal_sandbox_terminate(sb["id"])
+out = client.modal_sandbox_exec(sb["sandbox_id"], ["python", "-c", "print(2+2)"])
+client.modal_sandbox_status(sb["sandbox_id"]); client.modal_sandbox_terminate(sb["sandbox_id"])
 
 # DeFi (DeFiLlama) + DEX (0x)
 yields = client.defi_yields(); protocols = client.defi_protocols()
@@ -571,8 +571,8 @@ quote  = client.dex_quote(...); gasless = client.dex_gasless_quote(...)
 
 # Wallet helpers
 print(client.get_balance())    # USDC on the active chain
-print(client.get_spending())   # session totals: {"total_usd": ..., "calls": ...}
-print(client.onramp())         # Coinbase on-ramp link
+print(client.get_spending())   # session totals: {"total_usd": ..., "calls": ..., "ceiling_usd": ...}
+print(client.onramp(client.get_wallet_address()))   # one-time Coinbase Onramp link
 ```
 
 ## Prediction Markets (Powered by Predexon)
@@ -802,11 +802,13 @@ except SpendLimitError as e:
 except PaymentError as e:
     print(f"Payment failed: {e}")            # e.status_code / e.response carry the gateway's
     # Check your USDC balance                # code + reason when a 402 was rejected
+except RetiredEndpointError as e:
+    print(f"Helper retired upstream: {e}")   # e.g. pm_markets()
 except APIError as e:
     print(f"API error ({e.status_code}): {e}")
     print(f"Details: {e.response}")
-except RetiredEndpointError as e:
-    print(f"Helper retired upstream: {e}")   # e.g. pm_markets()
+    if e.status_code in (429, 503):           # rate limit / model breaker open: nothing was charged
+        print(f"Retry after {e.retry_after_seconds or 60}s")
 ```
 
 All exceptions derive from `blockrun_llm.BlockrunError`. When a paid request fails after the payment signature was sent, the error names the settlement tx hash if the gateway reported one; the SDK never advances the fallback chain (and never signs a second payment) after that point.
@@ -1039,7 +1041,7 @@ try:
 except APIError as e:
     # Error messages only contain safe, user-facing information
     # No internal stack traces, file paths, or sensitive data
-    print(e.message)
+    print(e)
 ```
 
 ### Monitoring Spending

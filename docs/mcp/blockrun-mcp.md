@@ -5,7 +5,7 @@ description: A Model Context Protocol server that gives Claude Code 93 models, c
 
 # BlockRun MCP
 
-Give Claude Code access to 121 AI models, 66 crypto data endpoints, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
+Give Claude Code access to 121 AI models, crypto and DeFi data, voice calls, image/video/music generation, prediction markets (read *and* trade), multi-chain RPC, and a sandbox runtime — all with zero API keys.
 
 BlockRun MCP is a Model Context Protocol server that connects Claude Code to BlockRun's intelligence, trading, and creation capabilities.
 
@@ -123,9 +123,9 @@ Prompt-based skills for every tool family install from a separate marketplace �
 |------------|---------|
 | **Multi-model access** | "Use GPT-5.5 to review this code" |
 | **Image, video, music, speech** | "Generate a logo for my app" · "A 5-second clip of a sunset over Tokyo" |
-| **Real-time data** | "What's trending on X?" · "Polymarket odds on the next Fed decision?" |
+| **Real-time data** | "What happened in AI news today?" · "Polymarket odds on the next Fed decision?" |
 | **Trading** | "If 'hold' is above 70%, put $2 on it" (confirm-gated) |
-| **On-chain & crypto** | "What's this wallet labeled, and what does it hold?" |
+| **On-chain & crypto** | "What's the USDC balance of this wallet on Base?" · "TVL of Aave across chains?" |
 | **Cost optimization** | "Use DeepSeek for bulk processing" · `mode:"free"` for drafts |
 
 ## How It Works
@@ -188,7 +188,7 @@ blockrun_wallet action:"setup"                  # shows the Solana address + fun
 Then send USDC (SPL) on the **Solana** network — from Coinbase (pick "Solana"), Phantom, Solflare, or Backpack. Switch back anytime with `blockrun_wallet action:"chain" chain:"base"`. The server keeps both wallets; switching just changes which one pays.
 
 :::info
-**Base-only** (these fall back to Base regardless of active chain): `blockrun_music`, `blockrun_speech`, `blockrun_modal`, `blockrun_defi`, paid `blockrun_realface`, paid stock `blockrun_price`, and native Anthropic (`claude-*`) passthrough. In Solana mode they return a "switch to Base" message instead of charging. `blockrun_image` and `blockrun_video` pay on either chain.
+**Base-only** (these fall back to Base regardless of active chain): `blockrun_music`, `blockrun_speech`, `blockrun_modal`, `blockrun_defi`, paid `blockrun_realface`, and native Anthropic (`claude-*`) passthrough. In Solana mode they return a "switch to Base" message instead of charging. `blockrun_image` and `blockrun_video` pay on either chain.
 :::
 
 ## Available Tools
@@ -212,7 +212,7 @@ blockrun_chat mode:"free" message:"Draft a commit message for this diff"
 | Param | Type | Description |
 |-------|------|-------------|
 | `message` | string | The prompt (appended as the final user turn when `messages` is also given). |
-| `model` | string | Explicit model id, e.g. `openai/gpt-5.5`, `moonshot/kimi-k3`, `zai/glm-5`. Overrides `mode`. |
+| `model` | string | Explicit model id, e.g. `openai/gpt-5.5`, `moonshot/kimi-k3.1-pro`, `zai/glm-5`. Overrides `mode`. |
 | `mode` | enum | Pick a model by intent: `fast`, `balanced` (default), `powerful`, `cheap`, `reasoning`, `free`, `coding`, `glm`. Ignored when `model` is set. |
 | `system` | string | System prompt. |
 | `max_tokens` | number | Default `1024`. |
@@ -231,10 +231,10 @@ List every available LLM, image, video, music and speech model with live pricing
 
 #### `blockrun_search`
 
-Live web + X/Twitter + news search with AI-summarised results and citations. Body: `{ query, sources: ["web","x","news"], max_results, from_date, to_date }`. `sources` accepts any subset (default all three; `["x"]` for tweets only). `max_results` is 1–50 and drives the price — pass a small value to cap spend.
+Live web + news search with AI-summarised results and citations. Body: `{ query, sources: ["web","news"], max_results, from_date, to_date }`. `sources` accepts any subset of `["web","news"]` (default `["web"]`; pass both for news coverage). There is no X/Twitter source — asking for one is refused before payment. `max_results` is 1–50 (default 10) and does not change the price: each call is one flat charge, quoted in the tool description.
 
 ```
-blockrun_search body:{query:"what are people saying about @sama", sources:["x"], max_results:5}
+blockrun_search body:{query:"latest on the Fed rate decision", sources:["web","news"], max_results:10}
 ```
 
 #### `blockrun_exa`
@@ -245,7 +245,7 @@ Neural semantic web search — `search`, `answer` (cited), `contents` (read URLs
 
 #### `blockrun_markets`
 
-Prediction-market and derivatives data via the Predexon aggregator — Polymarket (markets, candles, trades, orderbooks, leaderboards, smart-wallet PnL), Kalshi, Limitless, Opinion, Predict.Fun, dFlow, Binance Futures, sports, and cross-venue search. See [Prediction Markets reference](../api-reference/prediction-markets.md).
+Prediction-market and derivatives data via the Predexon aggregator — Polymarket (markets, candles, trades, orderbooks, leaderboards, smart-wallet PnL), Kalshi, Limitless, Opinion, Predict.Fun, Binance Futures, and cross-venue search (`markets/search`, which also covers sports markets). See [Prediction Markets reference](../api-reference/prediction-markets.md).
 
 #### `blockrun_polymarket_read`
 
@@ -266,7 +266,7 @@ blockrun_polymarket action:"buy" token_id:"<id>" amount_usd:5 order_type:"FOK" c
 
 #### `blockrun_price`
 
-Pyth-backed realtime quotes and OHLC history — crypto, FX, commodities (free) and 12 global stock markets (paid). Actions: `price`, `history`, `list`.
+Daily-close quotes for crypto, FX and commodities, plus crypto OHLC history — free (realtime feeds on request). Actions: `price`, `history`, `list`. The stock ticker catalog (`action:"list" category:"stocks"`) is free too, but equity quotes and history are not served: those calls return a `501` before any payment.
 
 #### `blockrun_dex`
 
@@ -406,7 +406,7 @@ claude mcp remove blockrun -s user
 ## Pricing
 
 - **Intelligence:** Provider cost, no platform margin on chat tokens, plus $0.001 per request
-- **Images:** $0.015-0.15 per image
+- **Images:** from about $0.017 per image (`zai/cogview-4`) — see [Image Generation](../api-reference/image-generation.md) for every model
 - **Free tier:** `blockrun_chat mode:"free"`, `blockrun_dex`, crypto/FX/commodity `blockrun_price`, `blockrun_models`, `blockrun_polymarket_read`, and `blockrun_speech action:"voices"` cost $0
 - **No subscriptions, no minimums**
 

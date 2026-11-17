@@ -6,7 +6,7 @@ description: The BlockRun XRPL SDK (pay-on-XRPL with RLUSD) is deprecated and it
 # XRPL SDK (Python)
 
 :::danger{title="Deprecated — gateway offline"}
-The XRPL pay-on-XRPL SDK (`blockrun-llm-xrpl`, RLUSD settlement on the XRP Ledger) has been **sunset**. As of 2026-08-29 the gateway it talks to, `https://xrpl.blockrun.ai/api`, no longer serves requests (`/v1/models` and `/v1/chat/completions` return HTTP 404), and the gateway repository [`BlockRunAI/blockrun-xrpl`](https://github.com/BlockRunAI/blockrun-xrpl) is archived on GitHub. The last SDK release is **0.2.0** (2026-06-25); there is no testnet mode — the gateway only ever ran against XRPL mainnet (`xrpl:0`). Calls made with this SDK will fail.
+The XRPL pay-on-XRPL SDK (`blockrun-llm-xrpl`, RLUSD settlement on the XRP Ledger) has been **sunset**. As of 2026-08-29 the gateway it talks to, `https://xrpl.blockrun.ai/api`, no longer serves requests (`/v1/models` and `/v1/chat/completions` return HTTP 404), and the gateway repository (`BlockRunAI/blockrun-xrpl`) is archived and no longer public. The last SDK release is **0.2.0** (2026-06-25); there is no testnet mode — the gateway only ever ran against XRPL mainnet (`xrpl:0`). Calls made with this SDK will fail.
 
 Use the [Python SDK](python.md) or [TypeScript SDK](typescript.md) on **Base** or **Solana** instead — same models, same API, actively maintained. Read-only XRP/XRPL access via [Multi-chain RPC](../api-reference/multi-chain-rpc.md) (`xrp` network) is unaffected and stays supported.
 
@@ -421,7 +421,6 @@ See [Intelligence Pricing](../products/intelligence/pricing.md) for full pricing
 
 - **PyPI**: [blockrun-llm-xrpl](https://pypi.org/project/blockrun-llm-xrpl/)
 - **GitHub**: [github.com/BlockRunAI/blockrun-llm-xrpl](https://github.com/BlockRunAI/blockrun-llm-xrpl)
-- **Gateway (archived)**: [github.com/BlockRunAI/blockrun-xrpl](https://github.com/BlockRunAI/blockrun-xrpl)
 - **XRPL Explorer**: [xrpscan.com](https://xrpscan.com)
 
 ## What's next?

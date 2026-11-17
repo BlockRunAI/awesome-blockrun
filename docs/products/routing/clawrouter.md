@@ -10,7 +10,7 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 93 models, zero API keys.
 
 :::tip{title="In a hurry?"}
-Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it. Current release: **v0.12.253** (August 29, 2026).
+Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it. Current release: **v0.12.314** (November 12, 2026).
 :::
 
 ## Overview
@@ -18,10 +18,10 @@ Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversa
 ClawRouter analyzes your prompt and automatically picks the right model tier:
 
 - **Simple questions** → Cheap models (Gemini 2.5 Flash on `auto`; a free model on `eco`)
-- **Medium complexity** → Balanced models (Kimi K2.7)
+- **Medium complexity** → Balanced models (Gemini 3.5 Flash on `auto`; GLM-5.3 Flash on `eco`)
 - **Complex reasoning** → Premium models (Gemini 3.1 Pro on `auto`; Claude Fable 5 on `premium`)
-- **Math, logic, proofs** → Reasoning models (Grok 4.1 Fast Reasoning)
-- **Turns that need their tools** → Agent-tuned models (Kimi K2.7, Claude Sonnet 4.6) — selected automatically in any profile
+- **Math, logic, proofs** → Reasoning models (DeepSeek Reasoner on `auto` and `eco`; Claude Sonnet 5 on `premium`)
+- **Turns that need their tools** → Agent-tuned models (GPT-5 Mini, Claude Sonnet 5) — selected automatically in any profile
 
 **Result:** 84% average cost savings on the auto profile (98% on eco) versus pinning Claude Opus 5, with no quality loss.
 
@@ -79,7 +79,7 @@ response = client.chat.completions.create(model="blockrun/auto", messages=[...])
 
 ClawRouter does **not** pick "the cheapest model that can handle the prompt" — that framing was tested in v0.12.47 and reverted within 24 hours when fast/cheap models started giving shallow answers on hard tasks. The real architecture is **constraint-first**: hard requirements decide which models may compete, and a multi-objective ranker optimized across quality, cost, speed and reliability decides which one wins.
 
-Since v0.12.242 the decision itself is made by [Router Core](https://github.com/BlockRunAI/router-core) (`@blockrun/router-core`, **V3.4**) — the routing engine extracted from ClawRouter and now shared by every BlockRun product (ClawRouter, Franklin, the `@blockrun/llm` SDKs, ClawRouter-Hermes). ClawRouter inlines it at build time, pinned to an exact commit, and injects its live model catalog at startup.
+Since v0.12.242 the decision itself is made by [Router Core](https://github.com/BlockRunAI/router-core) (`@blockrun/router-core`, **V3.5**) — the routing engine extracted from ClawRouter and now shared by every BlockRun product (ClawRouter, Franklin, the `@blockrun/llm` SDKs, ClawRouter-Hermes). ClawRouter inlines it at build time, pinned to an exact commit, and injects its live model catalog at startup.
 
 For the full technical deep-dive, see [Inside ClawRouter's Decision Layer](https://blockrun.ai/signal/clawrouter-quality-vs-cost-real-time-routing) and the [constraint-first router report](https://blockrun.ai/signal/router-v3-4-constraint-first-auto-routing). The summary:
 
@@ -153,19 +153,23 @@ We descend by **quality first**, then trade quality for speed. Example COMPLEX-t
 
 ```
 google/gemini-3.1-pro           ← primary
-google/gemini-3-flash-preview
-xai/grok-4-0709
-google/gemini-2.5-pro
+google/gemini-3.6-flash
+google/gemini-3.5-flash
 anthropic/claude-sonnet-5
+xai/grok-4.5
+google/gemini-2.5-pro
 anthropic/claude-sonnet-4.6
-deepseek/deepseek-chat
-google/gemini-2.5-flash
 openai/gpt-5.6-terra
 openai/gpt-5.5
-openai/gpt-5.4                  ← last resort
+openai/gpt-5.4
+zai/glm-5.3
+moonshot/kimi-k3
+deepseek/deepseek-v4-pro
+deepseek/deepseek-chat
+google/gemini-2.5-flash         ← last resort
 ```
 
-GPT-5.4 sits last despite the highest IQ — its 6.2s latency creates a worse compounded experience across multi-step workflows than a slightly-lower-IQ model that completes in 1.4s.
+The chain ends on cheap, fast models, so an outage across the flagships still gets an answer.
 
 Full chains for every profile, plus the per-profile ranking weights, live in the repo's [routing-profiles.md](https://github.com/BlockRunAI/ClawRouter/blob/main/docs/routing-profiles.md).
 
@@ -188,29 +192,29 @@ Every request is its own settled x402 transaction. There is no session state to 
 
 ### 4-Tier Model Selection
 
-Curated primaries per tier and profile (prices are input/output $/M tokens, as published in the ClawRouter README):
+Curated primaries per tier and profile (prices are input/output $/M tokens from `GET /api/v1/models`):
 
 | Tier | ECO Model | AUTO Model | PREMIUM Model | AGENTIC Model ‡ |
 |---|---|---|---|---|
-| **SIMPLE** | nemotron-3.5-lightning (**FREE**) | gemini-2.5-flash ($0.30/$2.50) | kimi-k2.7 † ($0.95/$4.00) | gpt-4o-mini ($0.15/$0.60) |
-| **MEDIUM** | gemini-3.1-flash-lite ($0.25/$1.50) | kimi-k2.7 † ($0.95/$4.00) | gpt-5.3-codex ($1.75/$14.00) | kimi-k2.7 † ($0.95/$4.00) |
-| **COMPLEX** | gemini-3.1-flash-lite ($0.25/$1.50) | gemini-3.1-pro ($2/$12) | claude-fable-5 ($10/$50) | claude-sonnet-4.6 ($3/$15) |
-| **REASONING** | grok-4-1-fast-reasoning † ($0.20/$0.50) | grok-4-1-fast-reasoning † ($0.20/$0.50) | claude-sonnet-4.6 ($3/$15) | claude-sonnet-4.6 ($3/$15) |
+| **SIMPLE** | nemotron-3.5-lightning (**FREE**) | gemini-2.5-flash ($0.30/$2.50) | gemini-3.5-flash ($1.50/$9.00) | gpt-4o-mini ($0.15/$0.60) |
+| **MEDIUM** | glm-5.3-flash ($0.15/$0.50) | gemini-3.5-flash ($1.50/$9.00) | gpt-5.3-codex ($1.75/$14.00) | gpt-5-mini ($0.25/$2.00) |
+| **COMPLEX** | glm-5.3-flash ($0.15/$0.50) | gemini-3.1-pro ($2/$12) | claude-fable-5 ($10/$50) | claude-sonnet-5 ($2/$10) |
+| **REASONING** | deepseek-reasoner ($0.14/$0.28) | deepseek-reasoner ($0.14/$0.28) | claude-sonnet-5 ($2/$10) | claude-sonnet-5 ($2/$10) |
 
-† Withheld from `/v1/models` — the router still calls it by direct ID, but you will not find it on the public pricing page. The published savings claim is priced on visible models only, which makes it conservative.
+Every primary in this table is listed on `GET /api/v1/models`.
 ‡ Not a profile you pick — auto-selected in any profile when the turn actually needs its attached tools; prefers models that keep going instead of stopping to ask. Force or disable with `routing.overrides.agenticMode`.
 
-The primary is where the tier starts, not where the request necessarily lands: the portfolio ranks every capability-eligible candidate for the detected task, so a tool-calling turn and a proof in the same tier resolve to different models. `/model free` is an alias rather than a routed profile: it pins the free default (`free/nemotron-3.5-lightning`, the same model that opens ECO SIMPLE) and walks the other free models as fallbacks, for $0 routing across the 6 free models.
+The primary is where the tier starts, not where the request necessarily lands: the portfolio ranks every capability-eligible candidate for the detected task, so a tool-calling turn and a proof in the same tier resolve to different models. `/model free` is an alias rather than a routed profile: it pins the free default (`free/nemotron-3.5-lightning`, the same model that opens ECO SIMPLE) and walks the other free models as fallbacks, for $0 routing.
 
 ### Router Core V3.4: measured, with limits
 
-On router-core's frozen three-arm agent benchmark (τ-bench, BrowseComp, Terminal-Bench — three arms per task: the previous rules router, the constraint-first router, and a pinned flagship) the V3.4 policy completed **57%** of tasks vs **49%** for the previous rules router, at **6.4%** lower cost per successful task, and spent **8.9%** of the tokens a pinned flagship would have — while giving up 10 points of success against that flagship. The paired 95% interval on the quality gain is −1.9 to +15.5 points and crosses zero, so the router is not statistically proven better across the production distribution; the scorecard records `releaseEligible: false`. See [Routing Benchmarks](./benchmarks.md).
+V3.4 is the last policy benchmarked; V3.5, which ClawRouter ships today, is a catalog refresh on the same scorer and weights. On router-core's frozen three-arm agent benchmark (τ-bench, BrowseComp, Terminal-Bench — three arms per task: the previous rules router, the constraint-first router, and a pinned flagship) the V3.4 policy completed **57%** of tasks vs **49%** for the previous rules router, at **6.4%** lower cost per successful task, and spent **8.9%** of the tokens a pinned flagship would have — while giving up 10 points of success against that flagship. The paired 95% interval on the quality gain is −1.9 to +15.5 points and crosses zero, so the router is not statistically proven better across the production distribution; the scorecard records `releaseEligible: false`. See [Routing Benchmarks](./benchmarks.md).
 
 Two levers exist if you disagree with the new policy: `routing.strategy: "rules"` restores the V2 primary-first selector, and `routing.shadow` compares both strategies locally on a sample of requests without a second paid call.
 
 ## Smart Routing Examples
 
-Real decisions from Router Core's bundled defaults on `auto` (prices are output $/M from the ClawRouter README):
+Real decisions from Router Core's bundled defaults on `auto` against the live catalog (prices are output $/M from `GET /api/v1/models`):
 
 | Prompt | Tier / task | Routed To | Output $/M |
 |--------|-------------|-----------|------------|
@@ -218,7 +222,7 @@ Real decisions from Router Core's bundled defaults on `auto` (prices are output 
 | "Prove that the sum of two odd integers is even, step by step." | REASONING / reasoning | deepseek/deepseek-v4-pro | $3.96 |
 | "Cancel order B-42 and book the 9am flight to SFO." (tools attached) | AGENTIC / tool_agent_parallel | anthropic/claude-opus-4.8 | $25.00 |
 
-Note the second row: the REASONING primary is Grok 4.1 Fast Reasoning, but the portfolio ranked DeepSeek V4 Pro higher for this task shape. The tier primary is a starting point. Add `/model eco` and the SIMPLE row becomes a free model at $0.
+Note the second row: the REASONING primary is DeepSeek Reasoner, but the portfolio ranked DeepSeek V4 Pro higher for this task shape. The tier primary is a starting point. Add `/model eco` and the SIMPLE row becomes a free model at $0.
 
 ## Features
 
@@ -233,16 +237,16 @@ Note the second row: the REASONING primary is Grok 4.1 Fast Reasoning, but the p
 
 Access all major providers through one wallet:
 
-- **OpenAI**: GPT-5.6 (Terra, Luna, Sol, and their Pro modes), GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-4.1, GPT-4o, o3, o4-mini
-- **Anthropic**: Claude Fable 5, Claude Opus 5, Claude Opus 4.8, Sonnet 5, Sonnet 4.6, Haiku 4.5
-- **Google**: Gemini 3.1 Pro, Gemini 3.6 Flash, Gemini 3.5 Flash, Gemini 3.5 Flash Lite, Gemini 2.5 Pro, Gemini 2.5 Flash
-- **DeepSeek**: DeepSeek V4 Pro, DeepSeek V4 Flash Chat, DeepSeek Reasoner
-- **xAI**: Grok 4.5, Grok 4.3, Grok Build 0.1
-- **Z.AI**: GLM-5.2 (flagship, 1M context), GLM-5.1, GLM-5, GLM-5 Turbo
-- **Moonshot**: Kimi K3 (flagship, 1M context)
-- **Qwen**: Qwen3.7 Max, Qwen3.7 Plus, Qwen3.7 Flash
+- **OpenAI**: GPT-6 (Astra, Sol, Luna), GPT-6.1 Sol, GPT-5.6 (Terra, Luna, Sol, and their Pro modes), GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-4.1, GPT-4o, o3, o4-mini
+- **Anthropic**: Claude Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Opus 5, Opus 4.8, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Haiku 4.5
+- **Google**: Gemini 4 Argon, Gemini 4 Carbon, Gemini 3.1 Pro, Gemini 3.8 Flash, Gemini 3.6 Flash, Gemini 3.5 Flash, Gemini 3.5 Flash Lite, Gemini 2.5 Pro, Gemini 2.5 Flash
+- **DeepSeek**: DeepSeek V4 Pro, DeepSeek V4.1 Flash (also as DeepSeek Chat / Reasoner)
+- **xAI**: Grok 4.7, Grok 4.6, Grok 4.5, Grok 4.3, Grok Build 0.1
+- **Z.AI**: GLM-5.3 (flagship, 1M context), GLM-5.3 Flash, GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo
+- **Moonshot**: Kimi K3.1 Pro (flagship, 1M context)
+- **Qwen**: Qwen3.8 Max, Qwen3.8 Flash, Qwen3.7 Max, Qwen3.7 Plus, Qwen3.7 Flash
 - **MiniMax**: MiniMax M3, MiniMax M2.7
-- **Tencent / Xiaomi**: Hy3, MiMo-V2.5 Pro
+- **Tencent / Xiaomi**: Hy4 Preview, MiMo-V2.5, MiMo-V2.5 Pro
 - **Free tier (all FREE)**: free chat, reasoning and vision models with no per-token charge
 
 [View all models →](../intelligence/pricing.md)
@@ -270,7 +274,7 @@ Once installed and enabled with `/model blockrun/auto`, ClawRouter works automat
 ```
 You: Explain quantum computing in simple terms
 
-ClawRouter: [Routes to google/gemini-2.5-flash - SIMPLE tier]
+ClawRouter: [Routes to google/gemini-2.5-flash - MEDIUM tier]
 Response: Quantum computing uses quantum mechanics...
 ```
 
@@ -292,6 +296,7 @@ Shortcuts also work: `/model grok`, `/model br-sonnet`, `/model gpt5`, `/model o
 /wallet recover         # Restore wallet from mnemonic on a new machine
 /wallet solana          # Switch to Solana USDC payments
 /wallet base            # Switch to Base (EVM) USDC payments
+/wallet arc             # Switch to Arc (EVM) USDC payments — same address as Base
 /stats                  # View usage and savings
 /exclude add <model>    # Block a model from routing (aliases work: "grok-4", "free")
 /exclude remove <model> # Unblock a model
@@ -317,11 +322,11 @@ Non-streaming responses also carry `x-clawrouter-profile`, `x-clawrouter-tier`, 
 
 ## Beyond Chat
 
-The same wallet pays for the rest of the gateway through the proxy. Prices as published in the ClawRouter README:
+The same wallet pays for the rest of the gateway through the proxy. Live per-model media prices are on [blockrun.ai/pricing](https://blockrun.ai/pricing):
 
-- **Image generation** — `/cr-imagegen a dog dancing on the beach` (`--model`, `--size`). Nine models from $0.015/image (CogView-4) to $0.10/image (Nano Banana Pro); default `gpt-image` at $0.02/image.
+- **Image generation** — `/cr-imagegen a dog dancing on the beach` (`--model`, `--size`). Every gateway image model, from CogView-4 up to GPT Image 2.5 and Nano Banana Pro at 4K; default `gpt-image`.
 - **Image editing** — `/img2img --image ~/photo.png change the background to a starry sky`, with optional `--mask`.
-- **Video generation** — `/videogen a red apple slowly spinning` (`--model`, `--duration`), or `POST /v1/videos/generations`. Seedance 1.5 Pro / 2.0 Fast / 2.0 / 2.5 and Grok Imagine; the MP4 is downloaded to local disk so it survives the upstream's temporary bucket.
+- **Video generation** — `/videogen a red apple slowly spinning` (`--model`, `--duration`), or `POST /v1/videos/generations`. Seedance 1.5 Pro / 2.0 Mini / 2.0 Fast / 2.0 / 2.5 and Grok Imagine Video / Video 1.5; the MP4 is downloaded to local disk so it survives the upstream's temporary bucket.
 - **Phone and voice** — `/cr-call +14155552671 "Confirm tomorrow's 3pm meeting"` places a real outbound AI voice call ($0.54 flat, up to 30 minutes); `clawrouter phone lookup|fraud|numbers ...` handles carrier lookup ($0.01), fraud signals ($0.05) and 30-day number leases ($5).
 
 ## Why ClawRouter?
@@ -363,8 +368,10 @@ Smart routing to appropriate models:
 20 medium requests → DeepSeek V4 Pro ($3.96/M) = $0.08
 10 complex requests → Claude Opus 5 ($25.00/M) = $0.25
 
-Total: $0.35 (saved $2.15 = 84% savings)
+Total: $0.35 (saved $2.15 = 86% savings)
 ```
+
+This mix is illustrative. The published 84% figure is computed from a stated workload mix priced on the live catalog — see [Routing Benchmarks](./benchmarks.md).
 
 ## Supported Models
 
@@ -372,24 +379,24 @@ ClawRouter has access to all models available through BlockRun Intelligence:
 
 ### Chat Models
 
-- **OpenAI**: GPT-5.6 Terra / Luna / Sol (+ Pro), GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-4.1, GPT-4o, o1, o3, o4-mini
-- **Anthropic Claude**: Fable 5, Opus 5, Opus 4.8, Sonnet 5, Sonnet 4.6, Haiku 4.5
-- **Google Gemini**: 3.1 Pro, 3.6 Flash, 3.5 Flash, 3.5 Flash Lite, 2.5 Pro, 2.5 Flash, 2.5 Flash Lite
-- **DeepSeek**: V4 Pro, V4 Flash Chat, Reasoner
-- **xAI Grok**: Grok 4.5, Grok 4.3, Grok Build 0.1
-- **Z.AI**: GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo
-- **Moonshot**: Kimi K3 flagship (1M context)
-- **Qwen**: Qwen3.7 Max, Plus, Flash
+- **OpenAI**: GPT-6 Astra / Sol / Luna, GPT-6.1 Sol, GPT-5.6 Terra / Luna / Sol (+ Pro), GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-4.1, GPT-4o, o1, o3, o4-mini
+- **Anthropic Claude**: Fable 5.2, Fable 5.1, Fable 5, Opus 5.5, Opus 5, Opus 4.8, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Haiku 4.5
+- **Google Gemini**: 4 Argon, 4 Carbon, 3.1 Pro, 3.8 Flash, 3.6 Flash, 3.5 Flash, 3.5 Flash Lite, 2.5 Pro, 2.5 Flash, 2.5 Flash Lite
+- **DeepSeek**: V4 Pro, V4.1 Flash (also as Chat / Reasoner)
+- **xAI Grok**: Grok 4.7, Grok 4.6, Grok 4.5, Grok 4.3, Grok Build 0.1
+- **Z.AI**: GLM-5.3 (1M context), GLM-5.3 Flash, GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo
+- **Moonshot**: Kimi K3.1 Pro flagship (1M context)
+- **Qwen**: Qwen3.8 Max, Qwen3.8 Flash, Qwen3.7 Max, Plus, Flash
 - **MiniMax**: MiniMax M3, M2.7
-- **Tencent / Xiaomi**: Hy3, MiMo-V2.5 Pro
-- **Free tier**: 5 models, no per-token charge
+- **Tencent / Xiaomi**: Hy4 Preview, MiMo-V2.5, MiMo-V2.5 Pro
+- **Free tier**: 9 models, no per-token charge
 
 ### Image Generation
 
-- GPT Image 1 / GPT Image 2
-- Nano Banana / Nano Banana 2 / Nano Banana Pro
+- GPT Image 1 / GPT Image 2 / GPT Image 2.5 Flare / GPT Image 2.5 Sunburst
+- Nano Banana / Nano Banana 2 / Nano Banana 2 Lite / Nano Banana 2.1 / Nano Banana Pro
 - Seedream 5
-- Grok Imagine / Grok Imagine Pro
+- Grok Imagine / Grok Imagine 2.0 / Grok Imagine Pro
 - CogView-4
 
 [View full pricing →](../intelligence/pricing.md)
@@ -407,11 +414,11 @@ from blockrun_llm import LLMClient
 client = LLMClient()
 
 # Auto-route to optimal model
-result = client.smart_chat("What is 2+2?")
-print(result.response)        # "4"
+result = client.smart_chat("What is the capital of France?")
+print(result.response)        # "Paris"
 print(result.model)           # "google/gemini-2.5-flash"
 print(result.routing.tier)    # "SIMPLE"
-print(result.routing.savings) # 0.94 (94% savings)
+print(result.routing.savings) # ~0.9 (vs the pinned baseline)
 
 # Use routing profiles
 result = client.smart_chat("Complex reasoning task...", routing_profile="premium")
@@ -427,11 +434,11 @@ import { LLMClient } from '@blockrun/llm';
 const client = new LLMClient({ privateKey: '0x...' });
 
 // Auto-route to optimal model
-const result = await client.smartChat('What is 2+2?');
-console.log(result.response);        // "4"
+const result = await client.smartChat('What is the capital of France?');
+console.log(result.response);        // "Paris"
 console.log(result.model);           // "google/gemini-2.5-flash"
 console.log(result.routing.tier);    // "SIMPLE"
-console.log(result.routing.savings); // 0.94
+console.log(result.routing.savings); // ~0.9
 
 // Use routing profiles
 const result2 = await client.smartChat('Complex reasoning task...', {
@@ -470,6 +477,7 @@ For basic usage, no configuration is needed. For advanced options:
 
 | Variable | Default | Description |
 |---|---|---|
+| `BLOCKRUN_API_KEY` | unset | A `brk_live_…` key from [user.blockrun.ai](https://user.blockrun.ai); when set, ClawRouter pays from account credit via `api.blockrun.ai` instead of the wallet (`clawrouter login` / `clawrouter logout`) |
 | `BLOCKRUN_WALLET_KEY` | auto-generated | Your wallet private key (a saved `~/.openclaw/blockrun/wallet.key` takes priority) |
 | `BLOCKRUN_PROXY_PORT` | `8402` | Local proxy port |
 | `CLAWROUTER_PAYMENT_CHAIN` | persisted selection | `solana` or `base`; overrides the saved payment chain |
@@ -515,7 +523,7 @@ Image generation bypasses `maxCostPerRun` — it is charged per x402 payment and
 Run the checklist:
 
 ```bash
-cat ~/.openclaw/extensions/clawrouter/package.json | grep version   # should be 0.12+
+cat ~/.openclaw/extensions/blockrun-clawrouter/package.json | grep version   # should be 0.12+
 curl http://localhost:8402/health                                   # proxy up, wallet, chain, balance
 ```
 
@@ -524,8 +532,8 @@ Then, in a conversation, `/wallet` for both addresses and the balance. If you in
 For anything else, the doctor collects diagnostics and asks a model to analyze them:
 
 ```bash
-npx @blockrun/clawrouter doctor                     # Sonnet, ~$0.003
-npx @blockrun/clawrouter doctor opus "why is my request failing?"   # Opus, ~$0.01
+npx @blockrun/clawrouter doctor                     # Claude Sonnet 4.6, ~$0.003
+npx @blockrun/clawrouter doctor opus "why is my request failing?"   # Claude Opus 5, ~$0.01
 ```
 
 ### Wrong model selected
@@ -551,15 +559,17 @@ Set a session cap with `maxCostPerRun`, switch to `/model eco`, or `/exclude add
 ### Updating
 
 ```bash
-npx @blockrun/clawrouter@latest
+clawrouter update
 openclaw gateway restart
 ```
+
+`clawrouter update` refreshes both the OpenClaw-managed plugin and the global CLI, so they cannot drift apart.
 
 ## FAQ
 
 ### Do I need API keys?
 
-No. ClawRouter uses x402 micropayments with USDC on Solana or Base. Just fund your wallet — or stay on the 6 free models with no wallet at all.
+No. ClawRouter uses x402 micropayments with USDC on Solana, Base or Arc. Just fund your wallet — or stay on the 9 free models with no wallet at all. Prefer a card? Sign up at [user.blockrun.ai](https://user.blockrun.ai) and run `clawrouter login brk_live_…`.
 
 ### How much should I fund my wallet?
 

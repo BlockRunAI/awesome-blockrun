@@ -28,7 +28,7 @@ POST https://blockrun.ai/api/v1/search
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `query` | string | Yes | Search query text (1-1000 characters) |
-| `sources` | array | No | Sources to search (default: `["web"]`) |
+| `sources` | array | No | Any of `"web"`, `"news"` (default: `["web"]`); anything else is a `400` before payment |
 | `max_results` | integer | No | Maximum results per source, 1-50 (default: 10) |
 | `from_date` | string | No | Start date filter (`YYYY-MM-DD`) |
 | `to_date` | string | No | End date filter (`YYYY-MM-DD`) |
@@ -83,7 +83,7 @@ When you first make a request without payment, you'll receive:
   "accepts": [{
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "263500",
+    "amount": "81000",
     "asset": "0x8335…",
     "payTo": "0x…",
     "maxTimeoutSeconds": 300
@@ -91,9 +91,9 @@ When you first make a request without payment, you'll receive:
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
   "price": {
-    "amount": "0.2625",
+    "amount": "0.0810",
     "currency": "USD",
-    "perSourceCost": 0.025,
+    "perCallPrice": 0.08,
     "maxResults": 10
   },
   "paymentInfo": {
@@ -106,7 +106,7 @@ When you first make a request without payment, you'll receive:
 
 The full x402 v2 payment requirements are in the `X-Payment-Required` and `PAYMENT-REQUIRED` headers (base64 JSON, identical content) and in `WWW-Authenticate: X402 requirements="..."`, and are now also mirrored at the top of the JSON body as `x402Version`/`accepts` (for clients that only read the body). Sign against `accepts[0].amount` (header or body, they're identical): it is the exact USDC (6-decimal) amount you will be charged — `81000`, i.e. $0.081, for every search. `price.amount` in the body is the same figure rounded to 4 decimals for display (`"0.0810"`), and `price.perCallPrice` is the $0.08 before the fee. Payment authorizations are valid for `maxTimeoutSeconds: 300`.
 
-A `GET` to the same URL returns a 402 quoting the default price (10 sources) — useful for discovery.
+A `GET` to the same URL returns a 402 quoting the flat per-call price — useful for discovery.
 
 ### Payment verification failed (402)
 
@@ -173,7 +173,7 @@ client = LLMClient()
 
 # Basic search
 results = client.search("latest AI funding rounds")
-print(results["summary"])
+print(results.summary)
 
 # Advanced search with date filtering
 results = client.search(
@@ -183,8 +183,8 @@ results = client.search(
     from_date="2026-01-01",
     to_date="2026-02-24"
 )
-print(results["summary"])
-for cite in results["citations"]:
+print(results.summary)
+for cite in results.citations or []:
     print(f"  - {cite['title']}: {cite['url']}")
 ```
 :::
@@ -200,14 +200,14 @@ const results = await client.search('latest AI funding rounds');
 console.log(results.summary);
 
 // Advanced search with date filtering
-const results = await client.search('OpenAI announcements', {
+const filtered = await client.search('OpenAI announcements', {
   sources: ['web', 'news'],
   maxResults: 25,
   fromDate: '2026-01-01',
   toDate: '2026-02-24'
 });
-console.log(results.summary);
-results.citations.forEach(cite =>
+console.log(filtered.summary);
+filtered.citations?.forEach(cite =>
   console.log(`  - ${cite.title}: ${cite.url}`)
 );
 ```
@@ -217,7 +217,7 @@ results.citations.forEach(cite =>
 
 ## Chat Completions Alternative
 
-You can also access Grok's live search through the Chat Completions API by including `search_parameters` in your request:
+You can also access Grok's live search through the Chat Completions API by including `search_parameters` in a request to an `xai/` (Grok) model — other models do not search, and the SDKs refuse search on them:
 
 ```json
 {
@@ -239,8 +239,9 @@ This gives you the raw chat completion response with search-augmented context. T
 | Code | Description |
 |------|-------------|
 | 400 | Invalid request — body is not JSON (`code: "INVALID_JSON"`) or fails validation (`error: "Invalid request body"` with Zod `details`) |
-| 402 | Payment required, payment verification failed (see `code` above), replayed authorization (`PAYMENT_REPLAY`), or settlement failed |
-| 500 | Server error (`error: "Internal server error"`, with `details`) — includes upstream search failures |
+| 402 | Payment required, payment verification failed (see `code` above), replayed authorization (`PAYMENT_REPLAY`), or settlement failed (`payment_status: "not_charged"`) |
+| 409 | `code: "SEARCH_ALREADY_SUBMITTED"` — this signed credential was already submitted; the body carries its `poll_url` (see [recovering an existing submission](#recovering-an-existing-submission-409-or-202)) |
+| 500 | `error: "Search failed"` with `payment_status` (`not_charged`, or `unknown` — check the original receipt before signing again), or `error: "Internal server error"` |
 
 Upstream calls are made only after payment verifies; settlement happens after the search returns, so a failed search is never charged.
 
@@ -265,11 +266,11 @@ Upstream calls are made only after payment verifies; settlement happens after th
 ::::cards
 
 :::card{title="Chat Completions" href="chat-completions.md" icon="Brain"}
-Add `search_parameters` to any chat call for search-augmented context.
+Add `search_parameters` to a Grok (`xai/`) chat call for search-augmented context.
 :::
 
 :::card{title="Intelligence Pricing" href="../products/intelligence/pricing.md" icon="TrendingUp"}
-Per-token model pricing alongside the per-source search cost.
+Per-token model pricing alongside the per-call search price.
 :::
 
 :::card{title="Error Handling" href="errors.md" icon="Code"}

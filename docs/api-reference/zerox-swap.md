@@ -244,7 +244,7 @@ const supported = chains.find(c => c.chainId === 8453);
 
 ## Errors
 
-The gateway is a thin passthrough — a 0x 4xx keeps its original status code, with the 0x body wrapped as `details`:
+The gateway is a thin passthrough — a 0x 4xx keeps its original status code, with the 0x body wrapped as `details` (omitted for `401`/`403`/`429`, which describe BlockRun's own 0x key rather than your request):
 
 ```json
 {

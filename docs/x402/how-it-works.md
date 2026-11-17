@@ -69,7 +69,7 @@ When you make a request without payment, the server returns HTTP 402 with:
 
 The requirements are base64-encoded in three equivalent headers — `PAYMENT-REQUIRED` (x402 v2), `X-Payment-Required`, and `WWW-Authenticate: X402 requirements="…"` — and the JSON body repeats the price as `price.amount` in USD, plus the challenge itself (`x402Version`, `accepts`) mirrored at the top level for clients that only read the body.
 
-On BlockRun chat is priced at the model's list rate with no platform margin, plus a flat **$0.001 transaction fee** per paid call. The 402 quotes input plus output at your `max_tokens` (8192 when you send none). An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. Media generation (image, video, music, speech) and Live Search carry a 5% margin on top of their list rate, plus the same fee.
+On BlockRun chat is priced at the model's list rate with no platform margin, plus a flat **$0.001 transaction fee** per paid call. The 402 quotes input plus output at your `max_tokens` (8192 when you send none). An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. Media generation (image, video, music, speech) carries a 5% margin on top of its list rate, plus the same fee; Live Search is a flat $0.08 per call plus the fee.
 
 ### Payment Authorization
 
