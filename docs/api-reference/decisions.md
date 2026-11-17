@@ -1,6 +1,6 @@
 ---
 title: Decisions (Typed Judgments)
-description: Ask up to 1,000 yes/no, choice and rubric questions about one text or image input and get a probability for each. Gemini Decision 1 by Google or OpenAI's gpt-6-luna.
+description: Up to 1,000 yes/no, choice and rubric questions about one input, a probability for each. Gemini Decision 1 by Google or OpenAI's gpt-6-luna.
 ---
 
 # Decisions (Typed Judgments)
