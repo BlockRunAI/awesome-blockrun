@@ -1,11 +1,11 @@
 ---
 title: Intelligence
-description: BlockRun Intelligence gives your agent 93 LLMs through one OpenAI-compatible API, paid per request in USDC â€” no API keys, no subscriptions.
+description: BlockRun Intelligence gives your agent 96 LLMs through one OpenAI-compatible API, paid per request in USDC â€” no API keys, no subscriptions.
 ---
 
 # Intelligence
 
-AI accesses any LLM. 93 models, pay-per-request.
+AI accesses any LLM. 96 models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and more â€” without managing API keys or subscriptions.
 
@@ -26,7 +26,9 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 ### OpenAI
 | Model | Input | Output |
 |-------|-------|--------|
-| GPT-6 Astra (flagship) | $10.00/M | $50.00/M |
+| GPT-6.2 Astra (flagship) | $8.00/M | $40.00/M |
+| GPT-6.2 Sol | $2.00/M | $10.00/M |
+| GPT-6 Astra | $10.00/M | $50.00/M |
 | GPT-6.1 Sol | $2.00/M | $10.00/M |
 | GPT-6 Sol | $2.00/M | $10.00/M |
 | GPT-6 Luna | $0.10/M | $0.50/M |
@@ -57,6 +59,7 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates â
 |-------|-------|--------|
 | Gemini 4 Carbon | $2.00/M | $10.00/M |
 | Gemini 4 Argon | $2.00/M | $10.00/M |
+| Gemini 4 Hydrogen | $1.50/M | $7.50/M |
 | Gemini 3.1 Pro | $2.00/M | $12.00/M |
 | Gemini 3.5 Flash | $1.50/M | $9.00/M |
 
