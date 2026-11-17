@@ -129,15 +129,13 @@ Cross-context wallet labels and on-chain relationship graph data.
 > they no longer exist upstream. `markets/search` above is the surviving
 > cross-venue endpoint.
 
-### Sports Markets — temporarily unavailable
+### Sports Markets — retired
 
 `/api/v1/pm/sports/*` (`sports/categories`, `sports/markets`,
-`sports/markets/{game_id}`, `sports/outcomes/{predexon_id}`, all Tier 1) is
-returning an upstream `500` as of 2026-08-04 and is withheld from discovery until
-Predexon restores it. The routes still resolve (they answer `402` unpaid), so
-existing integrations keep working the moment upstream recovers; new ones should
-not build on it yet. While upstream is down a paid call returns `502` and is not
-charged.
+`sports/markets/{game_id}`, `sports/outcomes/{predexon_id}`) returned an upstream
+`500` on every call from 2026-08-04, and still did on 2026-11-17. The gateway now
+answers `410 Gone` for them before any payment, naming `markets/search` as the
+replacement: use it to find sports markets across venues.
 
 ### Other Platforms (Tier 1: $0.0085)
 
