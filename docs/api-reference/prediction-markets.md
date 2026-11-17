@@ -125,9 +125,9 @@ Cross-context wallet labels and on-chain relationship graph data.
 > `markets`, `markets/listings` and `outcomes/{predexon_id}` were removed from
 > the gateway (upstream answers `410`; since 2026-11-17 the gateway answers
 > `410 Gone` too, naming `markets/search` as the replacement, before any payment). The `dflow/*` endpoints (`dflow/trades`, `dflow/wallet/positions/{wallet}`,
-> `dflow/wallet/pnl/{wallet}`) were removed on 2026-08-04 for the same reason —
-> they no longer exist upstream. `markets/search` above is the surviving
-> cross-venue endpoint.
+> `dflow/wallet/pnl/{wallet}`) were removed on 2026-08-04 because they no longer
+> exist upstream; they now answer `404` like any unknown path. `markets/search`
+> above is the surviving cross-venue endpoint.
 
 ### Sports Markets — retired
 
@@ -303,7 +303,7 @@ client = LLMClient()
 # Market data ($0.0085)
 markets = client.pm("polymarket/markets", search="bitcoin", limit=10)
 events = client.pm("polymarket/events")
-trades = client.pm("kalshi/trades")
+trades = client.pm("kalshi/trades", event_ticker="<event_ticker>")  # ticker or event_ticker required
 
 # Wallet analytics ($0.0085)
 profile = client.pm("polymarket/wallet/0x1234...abcd")
@@ -370,16 +370,18 @@ Works on all clients: `LLMClient` (Base), `AsyncLLMClient`, and `SolanaLLMClient
 
 ## Errors
 
-Payment is verified before the request is forwarded and settled only after Predexon answers, so a rejected or failed request is never charged. Upstream calls time out after 30 seconds.
+Payment is verified before the request is forwarded and settled only after Predexon answers, so a rejected or failed request is never charged. Upstream calls time out after 30 seconds (answered as `502`).
 
 | Code | Description |
 |------|-------------|
-| 402 | Payment required (no payment header), payment verification failed (see codes below), authorization reused (`code: "PAYMENT_REPLAY"`), or settlement failed after the call (`error: "Payment settlement failed"`) |
+| 402 | Payment required (no payment header), payment verification failed (see codes below), authorization reused (`code: "PAYMENT_REPLAY"`), or settlement failed after the call (`error: "Payment settlement failed"`, `payment_status: "not_charged"`) |
+| 400 | `error: "Invalid parameters"` (`payment_charged: false`) — a required parameter the gateway checks before forwarding is missing: `state` on `polymarket/uma/markets`, `ticker` or `event_ticker` on `kalshi/trades`, or a minimum threshold (e.g. `min_total_pnl`, `min_roi`) on the smart-money endpoints |
 | 400–499 | Predexon rejected the request — its status is passed through unchanged with `error: "Bad Request"`, a `message` of the form `Predexon <status>: <upstream reason> (payment NOT charged)`, `status`, `endpoint`, `method`, Predexon's body in `details`, and for known endpoints a `hint` with the correct call shape. `422` is what a missing required param (e.g. `q` on `markets/search`) produces |
-| 404 | Unknown or retired endpoint (`error: "Not Found"`) |
-| 502 | Predexon returned a 5xx (`error: "Upstream provider error"`). Payment was NOT charged, and the payment nonce is released so the SDKs can retry with the same signed header |
-| 503 | Predexon integration not configured, or temporarily paused |
-| 500 | Gateway error (`error: "Internal server error"`), including an upstream timeout |
+| 404 | Unknown endpoint, or a placeholder id such as `REPLACE_WITH_MARKET_ID` in a path parameter (`error: "Not Found"`) |
+| 410 | Retired endpoint (`matching-markets*`, `markets`, `markets/listings`, `outcomes/*`, `sports/*`) — `error: "Gone"` with `replacement: "/api/v1/pm/markets/search"`, before any payment |
+| 502 | Predexon returned a 5xx, could not be reached, timed out, or returned an unreadable body (`error: "Upstream provider error"`). Payment was NOT charged, and the payment nonce is released so the SDKs can retry with the same signed header |
+| 503 | Predexon integration not configured or temporarily paused, or Predexon is rate limiting / failing for that endpoint (`Retry-After` header) |
+| 500 | Gateway error (`error: "Internal server error"`), or `error: "Payment not confirmed"` (`payment_status: "unknown"`, with `tx_hash` when one exists) — check the chain before signing another payment |
 
 Successful responses carry `X-Payment-Response` (x402 v2 settlement receipt) and `X-Payment-Receipt` (the settlement transaction hash).
 

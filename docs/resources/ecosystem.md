@@ -27,7 +27,7 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | [ClawRouter-Hermes](https://github.com/BlockRunAI/ClawRouter-Hermes) | ClawRouter for [NousResearch Hermes](https://github.com/NousResearch/hermes-agent) — Python plugin wrapping the ClawRouter proxy; one Hermes provider for the whole catalog, paid per request in USDC on Base & Solana | `pip install hermes-plugin-clawrouter` then `hermes plugins enable clawrouter` |
 | [dsh-clawrouter](https://github.com/BlockRunAI/dsh-clawrouter) | Safety gate for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): a stronger model reviews dangerous tool calls before they run. Adds vision and the full model catalog from one wallet, paid per request over x402 | `dsh plugin --profile web add dsh-clawrouter` |
 | [clawrouter-codex](https://github.com/BlockRunAI/clawrouter-codex) | OpenAI Codex (CLI, IDE, Desktop) ↔ BlockRun bridge — translates the Responses API to Chat Completions, pays per request from a local wallet, `blockrun/auto` smart routing, zero API keys | `npx @blockrun/clawrouter-codex up` then `codex --profile clawrouter` |
-| [blockrun-claude-plugin](https://github.com/BlockRunAI/blockrun-claude-plugin) | Claude Code media plugin (prototype) — wraps the MCP media profile with spend confirmation before each paid call, a running cost meter, a status-line balance, and `/blockrun-media:*` slash commands | `claude --plugin-dir /path/to/blockrun-plugin` |
+| [blockrun-claude-plugin](https://github.com/BlockRunAI/blockrun-claude-plugin) | Claude Code media plugin (prototype) — wraps the MCP media profile with spend confirmation before each paid call, a running cost meter, a status-line balance, and `/blockrun-media:*` slash commands | `/plugin marketplace add BlockRunAI/blockrun-claude-plugin` then `/plugin install blockrun-media@blockrun` |
 | [blockrun-codex-plugin](https://github.com/BlockRunAI/blockrun-codex-plugin) | Codex port of the media plugin — image / video / audio with spend gate and real-ledger cost meter | `codex plugin marketplace add BlockRunAI/blockrun-codex-plugin` then `codex plugin install blockrun-media` |
 | [@blockrun/opencode](https://www.npmjs.com/package/@blockrun/opencode) | OpenCode plugin — chat, multi-turn messages, image generation and an auto-generated wallet for OpenCode agents (npm only, no public repo) | add `"@blockrun/opencode"` to the `plugin` list in `opencode.json` |
 | [blockrun-litellm](https://github.com/BlockRunAI/blockrun-litellm) | LiteLLM adapter — call x402-paid models through LiteLLM as an in-process custom provider (`blockrun/<model>`) or a local OpenAI-compatible proxy. Base and Solana | `pip install blockrun-litellm` (`[proxy]`, `[solana]` extras) |
@@ -38,7 +38,7 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 
 | Project | What it is | Install |
 |---------|------------|---------|
-| [blockrun-llm](https://github.com/BlockRunAI/blockrun-llm) | Python SDK — every model, pay-per-call with USDC, OpenAI-compatible, zero rate limits. Chat, images, video, music, search, prediction markets, smart routing, Base + Solana | `pip install blockrun-llm` (`[solana]` extra) |
+| [blockrun-llm](https://github.com/BlockRunAI/blockrun-llm) | Python SDK — every model, pay-per-call with USDC, OpenAI-compatible, no platform rate limit on paid calls. Chat, images, video, music, search, prediction markets, smart routing, Base + Solana | `pip install blockrun-llm` (`[solana]` extra) |
 | [blockrun-llm-ts](https://github.com/BlockRunAI/blockrun-llm-ts) | TypeScript SDK — smart routing built in, OpenAI drop-in, Base + Solana | `npm install @blockrun/llm` |
 | [blockrun-llm-go](https://github.com/BlockRunAI/blockrun-llm-go) | Go SDK — chat, image, video, music, speech, voice, web search, market data, prediction markets, DeFi/DEX and multi-chain RPC. Base or Solana | `go get github.com/BlockRunAI/blockrun-llm-go` |
 | [blockrun-llm-vip](https://github.com/BlockRunAI/blockrun-llm-vip) | Native passthrough for the Anthropic and OpenAI APIs (Python) — subclasses the official SDKs and swaps only transport and base URL, so responses come back verbatim: real thinking-block signatures, native `content[]`, cache-token usage. Zero model substitution. Base or Solana | `pip install blockrun-llm-vip` |
@@ -53,7 +53,6 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | [Franklin-Trading](https://github.com/BlockRunAI/Franklin-Trading) | Wallet-native trading agent forked from Franklin — multi-persona debate, Backtest → Paper → Live lifecycle, multi-venue on-chain execution, x402 USDC receipt per fill | `npm install -g @blockrun/franklin-trading` |
 | [franklin-canvas](https://github.com/BlockRunAI/franklin-canvas) | Open-source node-based AI media studio — image, video and music on an infinite canvas, or let an agent build a whole short film from one prompt. Pay-per-use in USDC | `git clone` + `npm start` |
 | [franklin-bet](https://github.com/BlockRunAI/franklin-bet) | AI World Cup match predictions — a council of frontier models researches the form, reads live odds, and bets on every 2026 World Cup match. Static, reproducible pipeline built on Franklin × BlockRun | `npm run generate -- --agent` |
-| [franklin-run](https://github.com/BlockRunAI/franklin-run) | Source of [franklin.run](https://franklin.run), Franklin's landing site, blog and docs (13 locales) | — |
 
 ### Skills, agents, and samples
 
@@ -75,41 +74,41 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | [branding](https://github.com/BlockRunAI/branding) | Official brand kit — logos, colors, and usage guidelines ([live preview](https://blockrunai.github.io/branding/)) |
 | [renovate-config](https://github.com/BlockRunAI/renovate-config) | Shared Renovate preset for every BlockRun repo |
 
-### Enterprise (coming soon)
+### Enterprise
 
-**user.blockrun.ai** — enterprise access for teams that cannot run wallets: authenticate with an API key (`brk_live_…`), pay by wire (prepaid credit), and get billed post-hoc at exact actual usage — no per-call minimum, no per-call fee. It is a standard x402-paying client of the main gateway, so the gateway itself stays wallet-native. **Sign-in and self-serve API keys are not yet open**; contact the team via [Telegram](https://t.me/+mroQv4-4hGgzOGUx) for early access.
+**user.blockrun.ai** — API-key access for teams that cannot run wallets: sign in, mint a key (`brk_live_…`), fund the account with prepaid credit or a monthly invoice, and call `https://api.blockrun.ai/v1` with Bearer auth — billed at exact actual usage, no per-call minimum, no per-call fee. It is a standard x402-paying client of the main gateway, so the gateway itself stays wallet-native. See [Enterprise API](../getting-started/enterprise-api.md).
 
 ## API Products
 
 | Product | Endpoint | Pricing | Status |
 |---------|----------|---------|--------|
-| **LLM Chat** | `/v1/chat/completions` | Per token (provider cost, no platform margin) + $0.001/request | ✅ Live |
-| **Anthropic-Compat** | `/v1/messages` | Per token + $0.001/request | ✅ Live |
-| **Responses API** | `/v1/responses` | Per token + $0.001/request | ✅ Live |
-| **Image Generation** | `/v1/images/generations` | $0.015–0.10/image | ✅ Live |
-| **Image Editing** | `/v1/images/image2image` | Per request | ✅ Live |
-| **Video Generation** | `/v1/videos/generations` | Per second / per M tokens | ✅ Live |
-| **Music Generation** | `/v1/audio/generations` | $0.20/track | ✅ Live |
-| **Text-to-Speech** | `/v1/audio/speech` | $0.05–0.10/1k chars | ✅ Live |
-| **Sound Effects** | `/v1/audio/sound-effects` | $0.0535/generation | ✅ Live |
-| **Voice Calls** | `/v1/voice/call` | $0.541 flat | ✅ Live |
-| **Phone Numbers** | `/v1/phone/numbers/*` | $5.001/30 days | ✅ Live |
-| **Search** | `/v1/search` | $0.026/source | ✅ Live |
+| **LLM Chat** | `/api/v1/chat/completions` | Per token (provider cost, no platform margin) + $0.001/request | ✅ Live |
+| **Anthropic-Compat** | `/api/v1/messages` | Per token + $0.001/request | ✅ Live |
+| **Responses API** | `/api/v1/responses` | Per token + $0.001/request | ✅ Live |
+| **Image Generation** | `/api/v1/images/generations` | from about $0.017/image | ✅ Live |
+| **Image Editing** | `/api/v1/images/image2image` · `/api/v1/images/edits` | Per image (same as generation) | ✅ Live |
+| **Video Generation** | `/api/v1/videos/generations` | Per second / per M tokens | ✅ Live |
+| **Music Generation** | `/api/v1/audio/generations` | $0.20/track | ✅ Live |
+| **Text-to-Speech** | `/api/v1/audio/speech` | $0.0525–0.105/1k chars; Seed Audio $0.003/sec | ✅ Live |
+| **Sound Effects** | `/api/v1/audio/sound-effects` | $0.0535/generation | ✅ Live |
+| **Voice Calls** | `/api/v1/voice/call` | $0.541 flat | ✅ Live |
+| **Phone Numbers** | `/api/v1/phone/numbers/*` | $5.001/30 days | ✅ Live |
+| **Search** | `/api/v1/search` | $0.081/call | ✅ Live |
 | **Exa Web Search** | `/api/v1/exa/*` | $0.003–0.011 | ✅ Live |
 | **0x Swap (DEX)** | `/api/v1/zerox/*` | Free | ✅ Live |
 | **Multi-chain RPC** | `/api/v1/rpc/{network}` (40 chains) | $0.003/call | ✅ Live |
-| **Prediction Markets** | `/v1/pm/*` | $0.0085 | ✅ Live |
+| **Prediction Markets** | `/api/v1/pm/*` | $0.0085 | ✅ Live |
 | **DefiLlama** | `/api/v1/defillama/*` | $0.002–0.006 | ✅ Live |
-| **Market Data (Pyth)** | `/v1/{crypto,fx,commodity}/*` | Free | ✅ Live |
-| **Equity Prices (Pyth)** | `/v1/{usstock,stocks}/*` | $0.002 | ✅ Live |
-| **RealFace Enrollment** | `/v1/realface/enroll` | $0.011 | ✅ Live |
-| **Virtual Portrait** | `/v1/portrait/enroll` | $0.011 | ✅ Live |
-| **Polymarket Funding** | `/v1/polymarket/fund` | $0.011 fee | ✅ Live |
-| **Coinbase Onramp** | `/v1/onramp/token` | Free (Base only) | ✅ Live |
-| **Modal Sandbox** | `/v1/modal/*` | $0.002–0.011 | ✅ Live |
-| **Models** | `/v1/models` | Free | ✅ Live |
+| **Market Data** | `/api/v1/{crypto,fx,commodity}/*` | Free | ✅ Live |
+| **Equity Prices** | `/api/v1/{usstock,stocks}/*` | — (ticker list free) | ⛔ Not served — price/history answer `501` before payment |
+| **RealFace Enrollment** | `/api/v1/realface/enroll` | $0.011 | ✅ Live |
+| **Virtual Portrait** | `/api/v1/portrait/enroll` | $0.011 | ✅ Live |
+| **Polymarket Funding** | `/api/v1/polymarket/fund` | $0.011 fee | ✅ Live |
+| **Coinbase Onramp** | `/api/v1/onramp/token` | Free (Base only) | ✅ Live |
+| **Modal Sandbox** | `/api/v1/modal/sandbox/*` | $0.002/call; `create` from $0.011 (billed lifetime) | ✅ Live |
+| **Models** | `/api/v1/models` | Free | ✅ Live |
 | **Pricing** | `/api/pricing` | Free | ✅ Live |
-| **Balance** | `/v1/balance` | Free | ✅ Live |
+| **Balance** | `/api/v1/balance` | Free | ✅ Live |
 
 Per-token chat carries **no platform margin** — only the flat $0.001 transaction fee. Media generation and Live Search carry 5%. See [Pricing](../products/intelligence/pricing.md) and the full [x402 endpoint catalog](../x402/endpoints.md).
 
@@ -126,9 +125,9 @@ Per-token chat carries **no platform margin** — only the flat $0.001 transacti
 | LiteLLM | Released | [blockrun-litellm](https://github.com/BlockRunAI/blockrun-litellm) |
 | Continue | Released | [Native provider](https://github.com/continuedev/continue/commit/becda53a17be7c8c8a254bc914ff92bb01ba8d9c) — ClawRouter as a built-in LLM provider |
 | ElizaOS | Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
-| GOAT SDK | In Review | [GitHub Issue](https://github.com/crossmint/goat) |
+| GOAT SDK | Compatible (no official plugin yet) | [Integration Guide](../frameworks/goat.md) |
 | AgentKit | Available | [Integration Guide](../frameworks/agentkit.md) |
-| LangChain | Available | [Custom LLM Guide](../frameworks/langchain.md) |
+| LangChain | Available | [Integration Guide](../frameworks/langchain.md) |
 
 ## Community Projects
 
@@ -177,12 +176,10 @@ BlockRun works with the x402 facilitator network:
 | [OKX OnchainOS](https://web3.okx.com) | Agentic wallet behind XClawRouter |
 | [Predexon](https://predexon.com) | Prediction market data |
 | [Modal](https://modal.com) | Sandbox compute (isolated code execution) |
-| [Bland.ai](https://bland.ai) | Conversational voice AI — outbound calls |
-| [Twilio](https://twilio.com) | Phone-number provisioning (wallet-owned US/CA numbers) |
 | [Exa](https://exa.ai) | Neural web search |
 | [0x](https://0x.org) | DEX aggregation (Swap V2 + Gasless V2) |
 | [Tatum](https://tatum.io) | Multi-chain JSON-RPC (40 chains) |
-| [Pyth](https://pyth.network) | Crypto, FX, commodity and equity prices |
+| [Pyth](https://pyth.network) | Price-feed catalog (crypto, FX, commodities) |
 
 ## AI Providers
 
@@ -193,24 +190,27 @@ BlockRun routes to these providers via x402:
 | OpenAI | GPT-6 Astra, GPT-6 Sol, GPT-6 Luna, GPT-5.6 Sol, GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2 | $0.10–$30.00 / $0.50–$180.00 |
 | Anthropic | Claude Fable 5.2, Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Opus 4.8, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
 | Google | Gemini 3.1 Pro, Gemini 3.5 Flash | $1.50–$2.00 / $9.00–$12.00 |
-| DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Flash Reasoner, DeepSeek V4 Flash Vision, DeepSeek V4 Pro | $0.14–$1.32 / $0.28–$3.96 |
+| DeepSeek | DeepSeek Chat (V4.1 Flash), DeepSeek Reasoner (V4.1 Flash), DeepSeek V4 Flash Vision, DeepSeek V4 Pro | $0.14–$1.32 / $0.28–$3.96 |
 | xAI | Grok 4.7, Grok 4.6, Grok 4.5, Grok 4.3, Grok Build 0.1 | $1.00–$2.00 / $2.00–$6.00 |
 | Z.AI | GLM-5.2 (1M context), GLM-5.1, GLM-5, GLM-5 Turbo | $1.00–$1.40 / $3.20–$4.40 |
-| Moonshot | Kimi K3 (1M context, image + text input) | $3.00 / $15.00 |
+| Moonshot | Kimi K3.1 Pro (1M context, image + text input) | $2.00 / $10.00 |
 | MiniMax | MiniMax M3 (1M context) | $0.30 / $1.20 |
-| Qwen | Qwen3.7 Max (1M context, flagship) | $1.48 / $4.43 |
-| Free tier | 5 reasoning, coding, and vision models | **Free** |
+| Qwen | Qwen3.8 Max (flagship), Qwen3.7 Max (1M context) | $1.48–2.00 / $4.43–6.00 |
+| Free tier | 9 free reasoning, coding, and vision models | **Free** |
 
 ### Image Models
 
 | Model | Price per image |
 |-------|----------------|
-| OpenAI GPT Image 1 | $0.02–0.04 |
-| OpenAI ChatGPT Images 2.0 | $0.06–0.12 |
-| Nano Banana | $0.05 |
-| Nano Banana Pro | $0.10–0.15 |
-| CogView-4 | $0.015–0.02 |
-| Grok Imagine / Grok Imagine Pro | $0.02 / $0.06 |
+| OpenAI GPT Image 1 | $0.022–0.043 |
+| OpenAI ChatGPT Images 2.0 | $0.064–0.127 |
+| OpenAI GPT Image 2.5 Flare / Sunburst | $0.295–0.589 |
+| Nano Banana | $0.0535 |
+| Nano Banana Pro | $0.106–0.316 |
+| CogView-4 | $0.01675–0.022 |
+| Grok Imagine / Grok Imagine Pro | $0.022 / $0.064 |
+
+Prices include the $0.001 transaction fee and vary by size; every model and size is in [Image Generation](../api-reference/image-generation.md).
 
 ## x402 Protocol
 

@@ -13,7 +13,7 @@ The trade-plan gate and the exposure caps live in code, not in a system prompt. 
 
 ## The five layers
 
-| Layer | What it bounds | Value (Franklin 3.42.0) | Adjustable? |
+| Layer | What it bounds | Value (Franklin 3.49) | Adjustable? |
 |-------|----------------|-------------------------|-------------|
 | **Wallet + session cap** | Total gateway spend | Wallet balance is the hard limit; `--max-spend <usd>` caps a session | Flag |
 | **Paper-trading caps** | Simulated positions | $400 per position · $900 total exposure · cash sufficiency · $1,000 starting bankroll | No (code defaults) |
@@ -180,7 +180,7 @@ What's my current exposure?
 ## Current limitations
 
 - Paper-trading caps ($400 / $900 / $1,000) are code defaults, not user-configurable
-- Live DEX execution (`JupiterSwap`, `Base0xSwap`, `Base0xGaslessSwap`) is paused in 3.42.0 pending complete local transaction validation; quotes work, and the tools stay behind `TradePlan` when they return
+- Live DEX execution (`JupiterSwap`, `Base0xSwap`, `Base0xGaslessSwap`) is paused in 3.49 pending complete local transaction validation; quotes work, and the tools stay behind `TradePlan` when they return
 - Trade plans initiated from surfaces without an approval UI are rejected by the gate
 
 ## What's next?

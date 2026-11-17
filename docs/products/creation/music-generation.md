@@ -32,7 +32,6 @@ POST /api/v1/audio/generations
   "model": "minimax/music-2.5+",
   "prompt": "upbeat synthwave with warm neon pads and a driving beat",
   "instrumental": true,
-  "lyrics": "optional lyrics if not instrumental",
   "duration_seconds": 30
 }
 ```
@@ -44,7 +43,7 @@ POST /api/v1/audio/generations
 | `model` | string | No | Model ID (default: `minimax/music-2.5+`) |
 | `prompt` | string | Yes | Music style, mood, or description |
 | `instrumental` | boolean | No | Generate without vocals (default: false) |
-| `lyrics` | string | No | Custom lyrics. Cannot be used with `instrumental: true` |
+| `lyrics` | string | No | Custom lyrics. Cannot be used with `instrumental: true` (returns `400`). Omit it and leave `instrumental` false to get auto-generated lyrics. |
 | `duration_seconds` | integer | No | Target duration hint 5-240s (default: 30). MiniMax ignores this — output is always ~3 min. |
 
 ## Response
@@ -65,7 +64,7 @@ POST /api/v1/audio/generations
 Successful responses use a BlockRun-hosted backup URL. Download the track if you need your own durable copy.
 
 :::warning{title="Set a long client timeout"}
-Generation typically takes 1–3 minutes. Handle `202` plus `poll_url`: the POST hands off after about 10 seconds. Poll the same job rather than submitting another paid generation.
+Generation typically takes 1–3 minutes. Handle `202` plus `poll_url`: the POST hands off after about 60 seconds (about 10 seconds if you send `Prefer: respond-async`). Poll the same job rather than submitting another paid generation — see the poll loop in the [Music Generation API](../../api-reference/music-generation.md#direct-api-python).
 :::
 
 ## Payment
@@ -132,6 +131,8 @@ result = requests.post(
     headers={"X-Payment": payload},
     timeout=200,
 )
+# A 202 means the track outlived the inline window: poll result.json()["poll_url"]
+# with the same wallet (full loop in the Music Generation API reference).
 track_url = result.json()["data"][0]["url"]
 print(f"Track: {track_url}")
 print(f"Tx: {result.headers['X-Payment-Receipt']}")
@@ -185,10 +186,10 @@ Prices in USD, paid in USDC on Base network. Minimum charge is $0.001/request ($
 
 ## Wallet Requirements
 
-Funded wallet on Base mainnet. Recommended balance: $5+ for ~30 tracks.
+Funded wallet on Base mainnet. Recommended balance: $5+ for ~25 tracks.
 
 ```bash
-# Check balance
+# Print your wallet address (check its USDC balance on Basescan)
 python3 -c "from blockrun_llm import get_wallet_address; print(get_wallet_address())"
 ```
 

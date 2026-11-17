@@ -182,10 +182,11 @@ The shape that works in a pipeline: build the input with every fact the judgment
 |--------|---------|
 | 400 | The body did not match the schema or is over a cap; OpenAI's error envelope names the field |
 | 401 | Missing or invalid key |
-| 402 | x402: the payment quote (pay it and retry). Key: no balance left, or a credit limit or daily cap reached. Add credit at [user.blockrun.ai](https://user.blockrun.ai/dashboard/credits) |
+| 402 | x402: the payment quote (pay it and retry), or `payment_status: "not_charged"` when your payment did not settle — the answer is withheld and nothing moved; sign a fresh payment. Key: no balance left, or a credit limit or daily cap reached. Add credit at [user.blockrun.ai](https://user.blockrun.ai/dashboard/credits) |
 | 4xx from the model | Relayed as returned (for example, duplicate choice values). Not charged |
 | 413 | The body is over 10 MB, counted in bytes (x402 rail); refused before payment |
 | 429 | x402: too many unpaid quote requests. Key: too many bad-key attempts from your address. The response carries when to retry |
+| 500 | x402 only: `payment_status: "unknown"` — the settlement outcome could not be confirmed (a `tx_hash` is included when there is one). The answer is withheld. Check the hash before paying again |
 | 502 | The model returned an error or could not be reached. Not charged |
 | 504 | The model timed out. On a key, charged the hold (see [Billing](#billing-api-key-and-credit)); on x402, not charged |
 

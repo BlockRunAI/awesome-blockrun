@@ -25,6 +25,7 @@ paid call.
 - CPU sandboxes: up to 1 vCPU and 1 GiB RAM. GPU sandboxes (`gpu` set): up to 8 vCPU and 32 GiB RAM
 - Sandbox lifetime (`timeout`): 10 s to 24 h. Up to 300 s at no more than 1 vCPU and 1024 MB is billed at the flat create price; anything longer or larger is billed per hour of the *requested* lifetime, never below the flat price, charged upfront, with no refund on early terminate
 - `exec` commands are capped at 60 s per call
+- At most 5 live sandboxes per wallet, of which at most 2 with a GPU
 :::
 
 ## Endpoints
@@ -239,9 +240,12 @@ curl -X POST https://blockrun.ai/api/v1/modal/sandbox/terminate \
 | `402` | No payment header — body carries `price`, headers carry the signed requirements | No |
 | `402` | `error: "Payment verification failed"` with a machine-readable `code`: `PAYMENT_INVALID`, `PAYMENT_UNFUNDED` (insufficient USDC or expired `validBefore`) or `PAYMENT_BLOCKHASH_STALE`; `message` explains the fix when one is known | No |
 | `402` | `code: "PAYMENT_REPLAY"` — the payment authorization was already used. Sign a fresh one per request | No |
-| `402` | `error: "Payment settlement failed"` — the sandbox call ran but settlement did not land; `details` has the reason | No |
+| `402` | `error: "Payment settlement failed"` (`payment_status: "not_charged"`) — the sandbox call ran but settlement did not land; `details` has the reason. A `create` whose payment did not land is stopped | No |
 | `404` | Unknown endpoint — body lists `available` paths | No |
-| `502` | Sandbox service error or timeout (`"Payment was NOT charged."`) | No |
+| `429` | `code: "SANDBOX_LIMIT"` on `create` — the wallet already holds 5 live sandboxes (or 2 with a GPU). Terminate one or wait for one to time out | No |
+| `500` | `error: "Payment could not be confirmed"` (`payment_status: "unknown"`) on `create` — the sandbox was stopped; check your original payment on chain before authorizing another request | Possibly |
+| `502` | Sandbox service error or unreadable response (`"Payment was NOT charged."`) | No |
+| `504` | `error: "Upstream timeout"` — the sandbox service did not answer in time (`"Payment was NOT charged."`) | No |
 | `503` | Sandbox integration not configured or paused | No |
 
 Payment settles only after a successful upstream response. Successful responses

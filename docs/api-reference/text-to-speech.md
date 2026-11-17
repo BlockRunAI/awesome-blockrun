@@ -36,7 +36,7 @@ GET  https://blockrun.ai/api/v1/audio/voices           # list voices (free)
 |-----------|------|----------|-------------|
 | `model` | string | No | Model ID (default: `elevenlabs/flash-v2.5`). Unknown ids return `400` listing the available models. |
 | `input` | string | Yes | Text to synthesize (1 char minimum; per-model maximum below — over it returns `400` before payment) |
-| `voice` | string | No | Voice alias (e.g. `sarah`, `george`, case-insensitive) or a raw `voice_id` from `/v1/audio/voices` (default: `sarah`). Ignored by `bytedance/seed-audio-1.0`. |
+| `voice` | string | No | Voice alias — `sarah`, `george`, `laura`, `charlie`, `river`, `roger`, `callum`, `harry` (case-insensitive) — or a raw ElevenLabs `voice_id` from `/v1/audio/voices` (default: `sarah`). Anything else is sent on as a `voice_id`; one that doesn't exist returns `400 UNKNOWN_VOICE`, not charged (see [Error Codes](#error-codes)). Ignored by `bytedance/seed-audio-1.0`. |
 | `response_format` | string | No | `mp3` (default), `opus`, `pcm`, `wav` |
 | `speed` | number | No | Playback speed 0.7–1.2 |
 
@@ -44,14 +44,14 @@ GET  https://blockrun.ai/api/v1/audio/voices           # list voices (free)
 
 | Model ID | Price | Max input | Best for |
 |----------|-------|-----------|----------|
-| `elevenlabs/flash-v2.5` | $0.05 / 1k chars | 40,000 | Real-time voice agents (~75ms) |
-| `elevenlabs/turbo-v2.5` | $0.05 / 1k chars | 40,000 | Balanced quality/latency |
-| `elevenlabs/multilingual-v2` | $0.10 / 1k chars | 10,000 | Studio-grade narration |
-| `elevenlabs/v3` | $0.10 / 1k chars | 5,000 | Maximum expressiveness |
+| `elevenlabs/flash-v2.5` | $0.0525 / 1k chars | 40,000 | Real-time voice agents (~75ms) |
+| `elevenlabs/turbo-v2.5` | $0.0525 / 1k chars | 40,000 | Balanced quality/latency |
+| `elevenlabs/multilingual-v2` | $0.105 / 1k chars | 10,000 | Studio-grade narration |
+| `elevenlabs/v3` | $0.105 / 1k chars | 5,000 | Maximum expressiveness |
 | `bytedance/seed-audio-1.0` | $0.003 / second of audio | 3,000 | Prompt-directed audio creation (voice, emotion, staging) |
 
 :::info
-ElevenLabs models: price = `(characters / 1000) × model rate × 1.05` (the 5% BlockRun media margin), floored at $0.001, **plus the flat $0.001 transaction fee** charged on every paid call — so the minimum quote is **$0.002** per request and 1,000 characters on `flash-v2.5` is **$0.0535**. The price is quoted up front in the 402 challenge and settlement only fires after the audio is generated and stored — a failed generation is never charged.
+ElevenLabs models: price = `(characters / 1000) × rate`, where the rate above already includes the 5% BlockRun media margin (catalog $0.05 / $0.10 × 1.05), floored at $0.001, **plus the flat $0.001 transaction fee** charged on every paid call — so the minimum quote is **$0.002** per request and 1,000 characters on `flash-v2.5` is **$0.0535**. The price is quoted up front in the 402 challenge and settlement only fires after the audio is generated and stored — a failed generation is never charged.
 :::
 
 #### Seed Audio 1.0 (ByteDance)
@@ -176,11 +176,12 @@ Returns the available voices with their `voice_id`, `name`, `category`, `labels`
 | Code | Description |
 |------|-------------|
 | 400 | Invalid JSON or parameters (`details` carries the schema issues), unknown / unavailable model, or `input` over the model's character cap (`Input too long: N characters (max M for <model>)`). All before payment. |
+| 400 `UNKNOWN_VOICE` | `voice` is neither an alias nor a voice that exists upstream: `{ "error": "Unknown voice", "message": "Voice \"…\" was not found. …", "code": "UNKNOWN_VOICE", "voices": ["sarah", "george", …] }`. Raised after the payment is verified but before anything settles — **not charged**; fix the voice and re-sign. |
 | 402 | Payment required (challenge), or verification failed with a machine-readable `code`: `PAYMENT_INVALID` (default), `PAYMENT_UNFUNDED` (authorization not executable on-chain — usually insufficient USDC on Base, or an expired window), `PAYMENT_REPLAY` (authorization already used — sign a fresh one). Also `Payment settlement failed` when the audio was produced but the authorization could not be settled (retry with a fresh signature). |
 | 429 | Upstream rate limit — `Retry-After: 30`. Not charged. |
 | 502 | Upstream provider error (`Upstream provider error`). Not charged. |
 | 504 | Synthesis timed out. Not charged; retry. |
-| 500 | Server / storage error (including a failed upload of the finished audio — no URL, so no charge). |
+| 500 | Server / storage error (including a failed upload of the finished audio — no URL, so no charge), or a provider configuration error (`AI provider configuration error`, naming the model). Not charged. |
 
 Every failure after a verified payment carries a `PAYMENT-RESPONSE` header with `success: false` so you can confirm nothing was settled.
 

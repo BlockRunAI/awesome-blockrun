@@ -42,18 +42,18 @@ named that path first. Prefer the canonical form in new code.
 | `tool_choice` | string \| object | No | Tool selection strategy (`auto`, `none`, `required`, or a specific tool) |
 | `response_format` | object | No | Output format, e.g. `{"type":"json_object"}` or `{"type":"json_schema","json_schema":{…}}` (see Structured outputs below) |
 | `stop` | string \| array | No | Stop sequence(s) |
-| `reasoning_effort` | string | No | Reasoning depth for GPT-5.x / o-series (`none`, `minimal`, `low`, `medium`, `high`, `xhigh`) |
+| `reasoning_effort` | string | No | Reasoning depth for GPT-6 / GPT-5.x / o-series (`none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max` on GPT-6) |
 | `thinking` | object | No | Anthropic extended thinking, e.g. `{"type":"enabled","budget_tokens":2048}` or `{"type":"disabled"}` |
 | `prompt_cache` | boolean | No | Opt in to Anthropic prompt caching (Anthropic models only). Consumed by the gateway, never forwarded |
 | `search_parameters` | object | No | xAI Live Search on `xai/*` models: `{"mode":"auto"\|"on"\|"off","sources":[…],"return_citations":true,"from_date":"YYYY-MM-DD","to_date":"YYYY-MM-DD","max_search_results":≤50}`. Adds one flat surcharge per call to the quote — $0.30 on Grok 4.5 / 4.6 / 4.7 / 4.20, $0.12 on Grok 4.3 and below — whatever `max_search_results` is; `mode: "off"` adds nothing |
 
-Unknown parameters (`seed`, `n`, `logprobs`, `top_k`, …) are kept and forwarded verbatim to OpenAI-compatible upstreams. `stream_options` is the one exception: it is never forwarded — the gateway sets its own `stream_options.include_usage` because billing needs the usage frame.
+Unknown parameters (`seed`, `logprobs`, `top_k`, …) are kept and forwarded verbatim to OpenAI-compatible upstreams. Parameters the quote cannot price are refused before payment with `400` / `UNSUPPORTED_PARAMETER`: `n` or `best_of` above 1, a `service_tier` other than `auto`, `default` or `flex`, and a non-empty `plugins`. `stream_options` is the one exception: it is never forwarded — the gateway sets its own `stream_options.include_usage` because billing needs the usage frame.
 
 ### Message Object
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `role` | string | One of: `system`, `user`, `assistant`, `tool` (`function` is accepted for legacy clients) |
+| `role` | string | One of: `system`, `developer` (folded into `system`), `user`, `assistant`, `tool` (`function` is accepted for legacy clients) |
 | `content` | string \| array \| null | Text, or an array of content parts (`{"type":"text","text":…}`, `{"type":"image_url","image_url":{"url":…}}` on vision models). `null` is allowed on assistant turns that only carry `tool_calls` |
 | `tool_calls` | array | Assistant turns: `[{"id","type":"function","function":{"name","arguments"}}]` |
 | `tool_call_id` | string | Required on `tool` messages — the id of the call being answered |
@@ -278,20 +278,24 @@ The first request returns `402 Payment Required` with a price quote. Sign it and
 
 | Status | `code` | When |
 |--------|--------|------|
-| 400 | `INVALID_JSON`, `INVALID_REQUEST_BODY` (with `details`), `EMPTY_CONVERSATION`, `INVALID_PARAMETER`, `CONTEXT_LENGTH_EXCEEDED`, `CONTENT_FILTERED`, `INVALID_IMAGE_URL`, `REQUEST_TOO_LARGE`, `STREAM_UNSUPPORTED` | Caller-side problems, including upstream rejections of your parameters (surfaced as 400, not 500) |
+| 400 | `INVALID_JSON`, `INVALID_REQUEST_BODY` (with `details`), `EMPTY_CONVERSATION`, `UNSUPPORTED_PARAMETER`, `INVALID_PARAMETER`, `UPSTREAM_INVALID_REQUEST`, `CONTEXT_LENGTH_EXCEEDED`, `INPUT_TOO_LARGE`, `CONTENT_FILTERED`, `INVALID_IMAGE_URL`, `IMAGE_INPUT_UNSUPPORTED`, `STREAM_UNSUPPORTED`, `SEARCH_UNSUPPORTED_MODEL`, `SEARCH_STREAM_UNSUPPORTED`, `REASONING_FORMAT_ERROR`, `TOOL_ID_FORMAT_ERROR`, `INVALID_REQUEST` | Caller-side problems, including upstream rejections of your parameters (surfaced as 400, not 500) |
 | 400 | — | Unknown model: `{"error":"Unknown model: <id>. Try one of: …. Full list: GET /v1/models"}` |
-| 429 | `RATE_LIMITED` | Upstream capacity exhausted for that model — `Retry-After` and `X-RateLimit-Source` set; see [Rate Limits](rate-limits.md) |
+| 413 | `REQUEST_TOO_LARGE` | Body over 25 MB (by `Content-Length`), refused before anything else |
+| 429 | `RATE_LIMITED` | Upstream capacity exhausted for that model — `Retry-After` (at most 60) and `X-RateLimit-Source` set; see [Rate Limits](rate-limits.md) |
 | 429 | `FREE_TIER_RATE_LIMITED` | Free models only: per-IP limit of 30 requests/minute or 300 requests/hour hit — `Retry-After`, `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` set |
-| 503 | `MODEL_UNAVAILABLE`, `PROVIDER_CONFIG_ERROR` | Upstream is down or over capacity; retry or fail over |
-| 504 | `TIMEOUT` | Upstream did not answer within the 120s per-call timeout. Not settled |
+| 429 | `FREE_MODEL_FAILED`, `STREAM_FAILED` | Free models only: the free pool is out of capacity — `Retry-After: 30` |
+| 500 | `INTERNAL_ERROR` | Anything unclassified. Not settled |
+| 503 | `MODEL_UNAVAILABLE` | The model is paused or the upstream is down or over capacity. Not settled. When the gateway can tell how long, `Retry-After` and `retry_after_seconds` say when to retry — a model the gateway has paused after repeated failures carries the seconds until it reopens (1–300); an upstream 502/503 carries 30 |
+| 503 | `PROVIDER_CONFIG_ERROR` | A credential or quota problem on our side. Not settled |
+| 504 | `TIMEOUT` | The upstream did not answer within the 120s per-call timeout, or itself answered 504. Not settled |
 
 Errors use the OpenAI envelope — `error.message`, `error.type`, `error.code`, `error.param` — with `message` and `code` mirrored at the top level for older clients. Full details in [Error Handling](errors.md).
 
 ### Timeouts
 
-- Each upstream call has a **120s** timeout (non-streaming, and time-to-first-byte / stall between chunks when streaming).
-- A streaming response has an overall deadline of **500s**; a stream that hits it is terminated.
-- Payment authorizations are valid for **300s** (`maxTimeoutSeconds`); settlement happens after the response (non-streaming) or after the last chunk (streaming), so the whole call has to finish inside that window.
+- Each upstream call has a **120s** timeout (non-streaming, and the stall between chunks when streaming). Claude models get up to 240s for the first token of a stream.
+- A paid stream has an overall deadline of **58 minutes** (3,480s); a free-model stream, **500s**. A stream that hits it is terminated.
+- Payment authorizations are valid for **300s** (`maxTimeoutSeconds`). A non-streaming call settles after the response. A streaming call is held until its first output token and settles there, so a stream that fails before producing anything is not charged and a long stream does not outrun the authorization.
 
 ## Example
 

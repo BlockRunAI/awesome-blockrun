@@ -20,7 +20,7 @@ Pick one of the three install methods.
 :::tab{label="Global install"}
 ```bash
 npm install -g @blockrun/franklin
-franklin --version      # 3.42.0 or later
+franklin --version      # 3.49 or later
 ```
 :::
 
@@ -143,7 +143,7 @@ Non-interactive runs (`-p`) fail closed. Add `--approve-trades` and make sure th
 
 ### Swap tool says execution is unavailable
 
-Expected in 3.42.0: `JupiterSwap`, `Base0xSwap`, and `Base0xGaslessSwap` are paused while local transaction validation lands. Use `JupiterQuote` / `Base0xQuote` for routes and prices.
+Expected in 3.49: `JupiterSwap`, `Base0xSwap`, and `Base0xGaslessSwap` are paused while local transaction validation lands. Use `JupiterQuote` / `Base0xQuote` for routes and prices.
 
 ### MCP servers or gateway not reachable
 

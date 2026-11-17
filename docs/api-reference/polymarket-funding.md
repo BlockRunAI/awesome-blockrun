@@ -132,8 +132,9 @@ The confirmed deposit transaction hash is also returned in the `X-Deposit-Tx` re
 | `402` | `Payment verification failed` | Fee authorization rejected. `code` is `PAYMENT_INVALID`, `PAYMENT_UNFUNDED` (insufficient USDC or expired window) or `PAYMENT_BLOCKHASH_STALE`, with a `message` when known | No |
 | `402` | `Payment authorization already used` | `code: "PAYMENT_REPLAY"` — the **fee** authorization was already used; sign a fresh one | No |
 | `403` | `Forbidden` | `recipient` is not the Polymarket bridge address for `depositWallet` | No |
-| `409` | `Deposit authorization already used` | `code: "PAYMENT_REPLAY"` — the **deposit** authorization was already submitted; sign a fresh one | No |
-| `502` | `Deposit settlement failed` | Deposit failed to settle / reverted on-chain — **no USDC moved** | No |
+| `402` | `Deposit settlement failed` | `payment_status: "not_charged"` — the deposit did not settle; **no USDC moved**. Sign a new deposit authorization | No |
+| `409` | `Deposit authorization already used` | `code: "PAYMENT_REPLAY"` — the **deposit** authorization was already submitted. `deposit_status` says whether that earlier submission `moved`, `not_moved` or is `unknown`; check on chain before signing another | No |
+| `502` | `Deposit settlement failed` | `payment_status: "unknown"` — the deposit could not be confirmed, so **your USDC may have moved**. Check `depositWallet` on chain before signing another | No |
 | `503` | `Bridge unavailable` | Polymarket bridge unreachable for recipient validation — try again shortly | No |
 
 Every non-2xx response that could otherwise be ambiguous states explicitly whether your USDC moved and whether the fee was charged. **The fee is charged only on a confirmed deposit.**

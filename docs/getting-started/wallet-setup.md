@@ -16,7 +16,7 @@ BlockRun accepts USDC on **Base** (default) or **Solana** for payments. Your age
 | **Solana Mainnet** | — | Production | USDC (SPL) |
 
 :::info{title="MCP users: pay on Solana"}
-Switch to Solana with `blockrun_wallet action:"chain" chain:"solana"` then `blockrun_wallet action:"setup"` — no env vars or restart. See [Claude Code MCP](../mcp/blockrun-mcp.md#pay-on-solana-optional). Some tools (music, speech, paid stock prices, smart routing, native Anthropic) settle on Base only.
+Switch to Solana with `blockrun_wallet action:"chain" chain:"solana"` then `blockrun_wallet action:"setup"` — no env vars or restart. See [Claude Code MCP](../mcp/blockrun-mcp.md#pay-on-solana-optional). Some tools (music, speech, the Modal sandbox, DeFi data, paid RealFace, native Anthropic) settle on Base only.
 :::
 
 ## How It Works
@@ -99,7 +99,7 @@ import_wallet("0x...")
 
 ### Option 3: BlockRun MCP session wallet
 
-Installing [BlockRun MCP](/docs/mcp/blockrun-mcp) auto-creates a wallet at `~/.blockrun/.session` on first use — the Python and TypeScript SDKs read the same file automatically, so one funded wallet serves your MCP tools and your scripts:
+Installing [BlockRun MCP](../mcp/blockrun-mcp.md) auto-creates a wallet at `~/.blockrun/.session` on first use — the Python and TypeScript SDKs read the same file automatically, so one funded wallet serves your MCP tools and your scripts:
 
 ```bash
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
@@ -154,7 +154,7 @@ View your wallet on [Basescan](https://basescan.org) by searching your address.
 | Claude Code / MCP | `~/.blockrun/.session` |
 | Python SDK | `BLOCKRUN_WALLET_KEY` env var, else `~/.blockrun/.session` (legacy `~/.blockrun/wallet.key` still read) |
 | Python SDK (Solana) | `SOLANA_WALLET_KEY` env var, else `~/.blockrun/.solana-session` |
-| TypeScript SDK | `BASE_CHAIN_WALLET_KEY` env var for `new LLMClient()`; `~/.blockrun/.session` is read by `setupAgentWallet()` |
+| TypeScript SDK | `BASE_CHAIN_WALLET_KEY` (or `BLOCKRUN_WALLET_KEY`) env var for `new LLMClient()`; `~/.blockrun/.session` is read by `setupAgentWallet()` |
 
 Every file is written with mode `0600`. The MCP and both SDKs share the Base file, so one funded wallet serves all of them.
 
@@ -219,9 +219,11 @@ response = client.chat("openai/gpt-oss-20b", "Hello!")
 
 **TypeScript:**
 ```typescript
-import { testnetClient } from '@blockrun/llm';
+import { LLMClient } from '@blockrun/llm';
 
-const client = testnetClient({ privateKey: '0x...' });
+// The TypeScript SDK has no testnet helper: point apiUrl at testnet and it
+// signs on Base Sepolia, the network the testnet 402 asks for.
+const client = new LLMClient({ privateKey: '0x...', apiUrl: 'https://testnet.blockrun.ai/api' });
 const response = await client.chat('openai/gpt-oss-20b', 'Hello!');
 ```
 :::

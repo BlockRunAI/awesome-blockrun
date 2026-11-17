@@ -33,7 +33,7 @@ POST https://blockrun.ai/api/v1/responses
 | `instructions` | string | No | System/developer instructions |
 | `max_output_tokens` | integer | No | Maximum tokens to generate. Defaults to the model's `max_output` when omitted, and is clamped to it — it bounds the x402 quote, so set it deliberately |
 | `stream` | boolean | No | Stream native Responses SSE events (default: `false`) |
-| `tools` | array | No | Responses tool definitions — works together with `reasoning` on all GPT-5.x models |
+| `tools` | array | No | Responses tool definitions — works together with `reasoning` on GPT-6 and GPT-5.x models |
 | `tool_choice` | string \| object | No | Tool selection strategy |
 | `reasoning` | object | No | Reasoning config, e.g. `{"effort": "high"}` |
 | `include` | array | No | Extra output fields, e.g. `["reasoning.encrypted_content"]` for reasoning continuity across turns |
@@ -55,7 +55,7 @@ This is the same model Codex CLI uses by default (`store: false` + full-context 
 
 `background: true` is accepted only for enterprise-allowlisted wallets (`403` otherwise) and cannot be combined with `stream: true`: create the response non-streaming, it returns immediately with `status: "queued"`, then attach with `GET /v1/responses/{id}?stream=true` (resume after a disconnect with `&starting_after=<sequence_number>`) or cancel with `POST /v1/responses/{id}/cancel`. The signed quote is settled at create time. Everyone else: keep generations inside one HTTP exchange.
 
-Missing `model`, or a body with neither `input` nor `instructions`, is a `400`. A non-OpenAI or free model id is a `400` pointing you to `/v1/chat/completions`.
+A body over 25 MB is a `413`. Missing `model`, or a body with neither `input` nor `instructions`, is a `400`. A non-OpenAI or free model id is a `400` pointing you to `/v1/chat/completions`.
 
 ## Supported models
 
@@ -65,7 +65,7 @@ All paid OpenAI models: GPT-5.x (including `-pro` tiers), o-series, and the code
 
 Identical to Chat Completions: send the request without payment, receive a `402` with a USDC quote, sign the x402 authorization, and resend with the `PAYMENT-SIGNATURE` header. The [SDKs](../getting-started/sdk-developers.md) handle this automatically.
 
-The 402 quotes input plus output at your `max_output_tokens` (the model's `max_output` when you send none), at the model's list rates (per-token chat carries no platform margin), floored at $0.001, plus the flat **$0.001 transaction fee**, so the smallest possible charge is $0.002. An `exact` payment settles that quote, so set `max_output_tokens` to what you need: `gpt-5.2` with a one-word input and no `max_output_tokens` is quoted for its full 128,000-token maximum, $1.793032. The `402` body uses the OpenAI error envelope. This is the live quote for the first example below (`gpt-5.2`, 200 `max_output_tokens`):
+The 402 quotes input plus output at your `max_output_tokens` (the model's `max_output` when you send none), at the model's list rates (per-token chat carries no platform margin), floored at $0.001, plus the flat **$0.001 transaction fee**, so the smallest possible charge is $0.002. An `exact` payment settles that quote, so set `max_output_tokens` to what you need: `gpt-5.2` with a one-word input and no `max_output_tokens` is quoted for its full 128,000-token maximum, $1.793030. The `402` body uses the OpenAI error envelope. This is the live quote for the first example below (`gpt-5.2`, 200 `max_output_tokens`):
 
 ```json
 {
@@ -122,4 +122,4 @@ Set `"stream": true` and consume native Responses SSE events (`response.created`
 
 ## Response
 
-The native OpenAI Responses object (or SSE event stream) is returned unmodified — `id` (`resp_…`), `output` array with `reasoning` / `message` / `function_call` items, and `usage` with `input_tokens`, `output_tokens`, `input_tokens_details.cached_tokens`, and `output_tokens_details.reasoning_tokens`. The `X-Payment-Response` header (base64 JSON `{"success","transaction","network","payer"}`) carries the settlement transaction hash on non-streaming calls. Upstream 4xx/5xx errors are passed through in OpenAI's envelope with the upstream status; nothing is settled on a failed call.
+The native OpenAI Responses object (or SSE event stream) is returned unmodified — `id` (`resp_…`), `output` array with `reasoning` / `message` / `function_call` items, and `usage` with `input_tokens`, `output_tokens`, `input_tokens_details.cached_tokens`, and `output_tokens_details.reasoning_tokens`. The `X-Payment-Response` header (base64 JSON `{"success","transaction","network","payer"}`) carries the settlement transaction hash on non-streaming calls. Upstream 4xx/5xx errors are relayed in OpenAI's envelope with the upstream status, scrubbed of upstream internals; a call that never reached an answer is `504` on a timeout and `503` otherwise. Nothing is settled on a failed call. A stream is held until its first output event and settled there, so a stream that fails before producing anything is not charged.

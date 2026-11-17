@@ -5,7 +5,7 @@ description: Generate images with GPT Image, Nano Banana, Seedream, CogView-4, o
 
 # Image Generation API
 
-Generate images using GPT Image (including ChatGPT Images 2.0), Google Nano Banana (including Nano Banana 2 and Pro), ByteDance Seedream 5.0 Pro, CogView-4, or xAI Grok Imagine.
+Generate images using GPT Image (including ChatGPT Images 2.0 and GPT Image 2.5 Flare / Sunburst), Google Nano Banana (including Nano Banana 2, 2.1, 2 Lite and Pro), ByteDance Seedream 5.0 Pro, CogView-4, or xAI Grok Imagine.
 
 ## Endpoint
 
@@ -36,12 +36,13 @@ The body must be `application/json`. A body that is not valid JSON returns `400 
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `model` | string | Yes | Model to use (see below). An unknown ID returns `400` whose `error` lists every available model ID. |
+| `model` | string | Yes | Model to use (see below). The maker prefix may be omitted when the name is unambiguous — `nano-banana` resolves to `google/nano-banana` (as LiteLLM's OpenAI provider sends it); the price, quote and logs use the full ID. An unknown ID returns `400` whose `error` lists every available model ID. |
 | `prompt` | string | Yes | Image description |
 | `size` | string | No | Image dimensions (default: `"1024x1024"`). Must be one of the model's listed sizes — anything else returns `400` naming the valid sizes for that model. |
 | `n` | integer | No | Number of images (default: 1, min 1, max 10). Validated before the 402 so an out-of-range value never costs a signed round-trip. |
+| `quality` | string | No | `low` \| `medium` \| `high` \| `xhigh` \| `max` \| `auto`. Accepted **only** by `openai/gpt-image-2.5-flare` and `openai/gpt-image-2.5-sunburst`, whose flat per-size price already covers the top tier — the price does not change with `quality`. Sending it to any other model returns `400` before payment, naming the models that accept it. |
 
-Unknown fields (for example OpenAI's `quality`, `style`, `response_format`) are ignored, not rejected.
+Other unknown fields (for example OpenAI's `style`, `response_format`) are ignored, not rejected.
 
 ### Available Models
 
@@ -51,6 +52,8 @@ Prices are what the `402` challenge quotes and what is billed for **one** image 
 |----------|----------|-------|-------|
 | `openai/gpt-image-1` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.022 / $0.043 |
 | `openai/gpt-image-2` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.064 / $0.127 |
+| `openai/gpt-image-2.5-flare` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.295 / $0.589 |
+| `openai/gpt-image-2.5-sunburst` | OpenAI | 1024x1024, 1536x1024, 1024x1536 | $0.295 / $0.589 |
 | `google/nano-banana` | Google | 1024x1024 | $0.0535 |
 | `google/nano-banana-2` | Google | 1024x1024 | $0.0955 |
 | `google/nano-banana-2-lite` | Google | 1024x1024 | $0.0535 |
@@ -184,12 +187,11 @@ Plain OpenAI SDKs don't understand the `202` envelope. Use a model that complete
   "data": [
     {
       "url": "https://blockrun.ai/api/media/media/images/2026/04/17/<id>.jpg",
-      "source_url": "https://<upstream-host>/...",
       "backed_up": true,
       "revised_prompt": "..."
     }
   ],
-  "price": { "amount": "0.016750", "currency": "USD" },
+  "price": { "amount": "0.016750", "currency": "USD", "basis": "per_image", "pricePerImage": 0.01575, "totalImages": 1 },
   "payment": { "status": "settled", "tx_hash": "0x…", "network": "base" }
 }
 ```
@@ -203,16 +205,17 @@ Headers: `PAYMENT-RESPONSE` (x402 settlement receipt) and `X-Payment-Receipt` (t
 | `id` | string | Per-call job id — the same value used as `job_id` in the async envelope, poll responses and replay `402`s, so you can reconcile 1:1 |
 | `created` | integer | Unix timestamp |
 | `data` | array | Array of generated images |
-| `data[].url` | string | Permanent BlockRun-hosted proxy URL when the mirror to durable storage succeeds — this applies to every model, including the ones whose raw output is base64 (`openai/gpt-image-*`, `google/nano-banana*`, `xai/grok-imagine-image*`). If the mirror fails, `url` is the raw upstream value instead: a temporary upstream URL or a `data:image/...;base64,` URI |
-| `data[].source_url` | string | Original upstream URL; for base64 outputs only the MIME type is kept (e.g. `"data:image/png"`), never the payload |
-| `data[].backed_up` | boolean | `true` when the image was mirrored to BlockRun's durable storage |
+| `data[].url` | string | Permanent BlockRun-hosted proxy URL — for every model, including the ones whose raw output is base64 (`openai/gpt-image-*`, `google/nano-banana*`, `xai/grok-imagine-image*`). The image is mirrored to durable storage **before** the charge: if storage is unavailable at that point, nothing is settled and the call answers `202` (`payment_status: "not_charged"`, `Retry-After: 5`) — poll `poll_url` with the same wallet. Only a job that has already been paid for can hand back an unmirrored copy (the upstream URL or a `data:image/...;base64,` URI), with `backed_up: false` |
+| `data[].backed_up` | boolean | `true` when the image is served from BlockRun's durable storage |
 | `data[].revised_prompt` | string | Expanded prompt (when the model rewrites it) |
 | `price.amount` | string | USD billed for this call (includes the 5% margin and the $0.001 transaction fee) |
+| `price.basis` / `price.pricePerImage` / `price.totalImages` | string / number / integer | How `amount` was derived: `"per_image"`, the per-image price after the 5% margin (before the fee), and `n` |
+| `usage` | object | Only when the model reports token usage. Informational — images are priced per image, not per token |
 | `payment.status` | string | `settled` \| `already_settled` |
 | `payment.tx_hash` | string | On-chain USDC settlement tx (also in `X-Payment-Receipt`) |
 
-:::info{title="Why both url and source_url?"}
-Upstream image URLs are usually temporary (they can expire within an hour). BlockRun mirrors each generated image to durable cloud storage and returns the permanent proxy URL as `url`; `source_url` is the original (possibly short-lived) upstream URL.
+:::info{title="Why a BlockRun-hosted URL?"}
+Upstream image URLs are usually temporary (they can expire within an hour), and base64 output can be megabytes. BlockRun mirrors each generated image to durable cloud storage before charging and returns the permanent proxy URL as `url`.
 :::
 
 ## Examples
@@ -322,11 +325,15 @@ billed = catalog rate for the size × n × 1.05   (5% platform margin on media)
 | GPT Image 1 | 1536x1024 / 1024x1536 | $0.04 | $0.043 |
 | ChatGPT Images 2.0 | 1024x1024 | $0.06 | $0.064 |
 | ChatGPT Images 2.0 | 1536x1024 / 1024x1536 | $0.12 | $0.127 |
+| GPT Image 2.5 Flare / Sunburst | 1024x1024 | $0.28 | $0.295 |
+| GPT Image 2.5 Flare / Sunburst | 1536x1024 / 1024x1536 | $0.56 | $0.589 |
 | Grok Imagine | 1024x1024 | $0.02 | $0.022 |
 | Grok Imagine 2.0 | 1024x1024 | $0.04 | $0.043 |
 | Grok Imagine Pro | 1024x1024 | $0.06 | $0.064 |
 | Nano Banana | 1024x1024 | $0.05 | $0.0535 |
 | Nano Banana 2 | 1024x1024 | $0.09 | $0.0955 |
+| Nano Banana 2 Lite | 1024x1024 | $0.05 | $0.0535 |
+| Nano Banana 2.1 | 1024x1024 | $0.07 | $0.0745 |
 | Nano Banana Pro | 1024x1024 / 2048x2048 | $0.10 | $0.106 |
 | Nano Banana Pro 4K | 4096x4096 | $0.30 | $0.316 |
 | Seedream 5.0 Pro | ≤ ~2.36M pixels (1024x1024, 1280x720, 2048x1024) | $0.045 | $0.04825 |
@@ -336,12 +343,13 @@ billed = catalog rate for the size × n × 1.05   (5% platform margin on media)
 
 | Code | Description |
 |------|-------------|
-| 400 | Invalid request: malformed JSON, failed validation (`details[]`), unknown model (the message lists the available IDs), invalid size for the model, `n` outside 1–10, or a **content-policy rejection** (`{ "error": "Content policy violation", "details" }`) — content-policy rejections are `400`, not `403` |
+| 400 | Invalid request: malformed JSON, failed validation (`details[]`), unknown model (the message lists the available IDs), invalid size for the model, `n` outside 1–10, a `quality` sent to a model that does not accept it, or a **content-policy rejection** (`{ "error": "Content policy violation", "details" }`) — content-policy rejections are `400`, not `403` |
 | 402 | Payment required, rejected, or replayed — see below. A `402` never means the image was generated and billed. |
 | 403 | Poll only — `Payment payer mismatch`: the polling wallet is not the one that submitted the job |
 | 404 | Poll only — `Job not found` (expired or never created) |
-| 429 | Upstream rate limit: `{ "error": "Rate limit exceeded", "code": "RATE_LIMITED", "source": "<model maker>", "retry_after_seconds", "details" }` with `Retry-After` and `X-RateLimit-Source` headers. BlockRun applies no per-IP limit of its own to this endpoint (only `GET /api/v1/images/models` is limited, 100 req/hour per IP) |
-| 500 | Server error (`Image generation failed` / `Internal server error`, with `details` and, on the inline path, the `job_id`). Settlement never ran, so nothing was billed |
+| 422 | `{ "error": "No image generated", "code": "NO_IMAGE_GENERATED", "message", "finish_reason"?, "job_id"? }` — the model answered without an image (for example a Nano Banana safety or recitation stop). Not charged; rephrasing or retrying usually helps |
+| 429 | Upstream rate limit: `{ "error": "Rate limit exceeded", "code": "RATE_LIMITED", "source": "<model maker>", "retry_after_seconds" }` with `Retry-After` and `X-RateLimit-Source` headers. BlockRun applies no per-IP limit of its own to this endpoint (only `GET /api/v1/images/models` is limited, 100 req/hour per IP) |
+| 500 | Server error (`Image generation failed` with the `job_id` on the inline path, or `Internal server error`). Settlement never ran, so nothing was billed |
 
 ### 402 responses
 
@@ -353,13 +361,13 @@ The unpaid `402` is a normal x402 challenge: the signable requirements live in t
   "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "53500", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 600 }],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
-  "price": { "amount": "0.053500", "currency": "USD", "pricePerImage": 0.05, "totalImages": 1 },
+  "price": { "amount": "0.053500", "currency": "USD", "basis": "per_image", "pricePerImage": 0.0525, "totalImages": 1 },
   "generation_info": { "generation_time": "~10s-10min upstream depending on model and prompt complexity", "flow": "hybrid", "note": "..." },
   "paymentInfo": { "network": "base", "asset": "USDC", "x402Version": 2 }
 }
 ```
 
-`price.amount` is the billed total; `pricePerImage` is the catalog rate before margin and fee.
+`price.amount` is the billed total; `pricePerImage` is the per-image price after the 5% margin, before the once-per-call fee (`amount = pricePerImage × totalImages + $0.001`).
 
 When a payment header is present but rejected, the body is `{ "error": "Payment verification failed", "code", "message"?, "details" }` and `code` is machine-readable:
 
@@ -382,9 +390,11 @@ A `402 { "error": "Payment settlement failed" }` (with a `PAYMENT-RESPONSE` head
 | Pro-level quality at Flash speed | `google/nano-banana-2` |
 | Fast & reliable | `google/nano-banana` |
 | Best prompt following | `openai/gpt-image-2` |
+| OpenAI's most capable / precision editing | `openai/gpt-image-2.5-sunburst` (accepts `quality`) |
+| GPT Image 2.5 at lower latency | `openai/gpt-image-2.5-flare` (generation only, accepts `quality`) |
 | Largest output (up to 2848x1600 / 4K-class) | `bytedance/seedream-5-pro` (async, ~2 min) |
-| Image editing (img2img) | `openai/gpt-image-1`, `openai/gpt-image-2`, `google/nano-banana`, `google/nano-banana-2`, `google/nano-banana-2-lite`, `google/nano-banana-2.1`, or `google/nano-banana-pro` |
-| Multi-image fusion (ref + logo → 1 image) | `google/nano-banana(-2/-pro)` (≤3) or `openai/gpt-image-1/2` (≤4) — see [Image Editing](image-editing.md) |
+| Image editing (img2img) | `openai/gpt-image-1`, `openai/gpt-image-2`, `openai/gpt-image-2.5-sunburst`, `google/nano-banana`, `google/nano-banana-2`, `google/nano-banana-2-lite`, `google/nano-banana-2.1`, or `google/nano-banana-pro` |
+| Multi-image fusion (ref + logo → 1 image) | any edit-capable `google/nano-banana*` (≤3) or `openai/gpt-image-1/2/2.5-sunburst` (≤4) — see [Image Editing](image-editing.md) |
 | Multilingual text in images / character consistency | `openai/gpt-image-2` |
 | xAI-style stylization | `xai/grok-imagine-image-pro` |
 

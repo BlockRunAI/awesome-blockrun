@@ -39,7 +39,7 @@ Solana batch funding challenges identify the configured public resource URL, not
 
 - Read the current model list. `openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026, and on Base chat requests for it now route to `openai/gpt-5-nano`. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.
 - Music costs **$0.20 per track including the transaction fee**. Read the live `402` quote before signing.
-- FX and commodity spot prices are available, but their free historical-bar source is unsupported (`501`). Equity symbol lists may return `available: false`; a listed symbol is not a promise of price coverage.
+- Crypto, FX and commodity spot prices are free daily closes (`realtime: false`). FX and commodity history is unsupported (`501`). Equity prices are not currently served: the equity `/price` and `/history` routes answer `501` before any payment, and the equity symbol lists return `available: false` — a listed symbol is not a promise of price coverage. See [Market Data](market-data.md).
 - UMA markets requires `state`. Kalshi trades requires `ticker` or `event_ticker`.
 - Smart activity requires at least one meaningful threshold: PnL of 5000, ROI of 0.15, 100 trades, or volume of 10000. Per-market smart money uses a PnL threshold of 1000; the alternative thresholds remain valid.
 - The Base gateway rejects requests missing these market parameters before payment. The Solana gateway does not pre-check them, so send them yourself.

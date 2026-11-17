@@ -27,7 +27,7 @@ The same paths are available on each gateway. The 402 response advertises which 
 
 All live gateways implement [x402 v2](https://x402.org). Facilitators: Coinbase CDP for Base, native Solana verification, Circle Gateway for `nano.blockrun.ai`.
 
-Per-token chat (`/chat/completions`, `/messages`, `/responses`) is billed at provider cost with **no platform margin** — only the flat **$0.001 / request** transaction fee is added. Media generation and Live Search carry a 5% margin. Every price quoted below already includes the transaction fee.
+Per-token chat (`/chat/completions`, `/messages`, `/responses`) is billed at provider cost with **no platform margin** — only the flat **$0.001 / request** transaction fee is added. Media generation carries a 5% margin; Live Search is a flat $0.08 per call. Flat prices quoted below already include the transaction fee; per-unit rates (per 1k characters, per second) are shown with the fee separately.
 
 ## Discovery
 
@@ -52,15 +52,18 @@ OpenAI-compatible. 93 models across chat, reasoning, coding, and vision — plus
 | GET  | `/api/v1/responses/{id}` | Poll or attach (`?stream=true`) to a background response | Free (settled at create) |
 | POST | `/api/v1/responses/{id}/cancel` | Cancel a background response | Free |
 | POST | `/api/v1beta/models/{model}:generateContent` | Native Gemini `generateContent` passthrough | Token-based — allowlisted enterprise payers only |
-| POST | `/api/v1/images/generations` | Image generation (gpt-image-1/2, Nano Banana, CogView-4, Grok Imagine) | Per image, per size |
+| POST | `/api/v1/decisions` | OpenAI-compatible typed judgments (predicate / choice / score) — see [Decisions](../api-reference/decisions.md) | $0.001 + token cost, quoted in the 402 |
+| POST | `/api/v1/images/generations` | Image generation (GPT Image, Nano Banana, Grok Imagine, Seedream, CogView-4) | Per image, per size |
 | GET  | `/api/v1/images/generations/{id}` | Async image poll for slow models (gpt-image-2, etc.) | Free |
-| POST | `/api/v1/images/image2image` | Image edit / inpainting + multi-image fusion (gpt-image-1/2, Nano Banana, Nano Banana Pro) | Per image |
+| POST | `/api/v1/images/image2image` | Image edit / inpainting + multi-image fusion (GPT Image, Nano Banana family) | Per image |
+| POST | `/api/v1/images/edits` | OpenAI / LiteLLM-compatible path for image edits — same models, prices and job polling as `/images/image2image` | Per image |
 | POST | `/api/v1/videos/generations` | Video generation (Seedance, Grok Imagine Video) | Per second / token-metered, varies |
 | GET  | `/api/v1/videos/generations/{id}` | Async video poll (settlement happens here on completion) | Free |
 | POST | `/api/v1/videos` | Standard multimodal `content[]` body — delegates to `/videos/generations` | Per second / token-metered |
 | GET  | `/api/v1/videos/{id}` | Poll a job created via `/api/v1/videos` | Free |
-| POST | `/api/v1/audio/speech` | Text-to-speech (ElevenLabs voices; `bytedance/seed-audio-1.0` at $0.003 / second) | $0.05–$0.10 / 1k chars |
+| POST | `/api/v1/audio/speech` | Text-to-speech (ElevenLabs voices, `bytedance/seed-audio-1.0`) | $0.0525–$0.105 / 1k chars (ElevenLabs) or $0.003 / second of audio (Seed Audio), + $0.001 per call |
 | POST | `/api/v1/audio/generations` | Music generation (MiniMax Music) | $0.20 / track |
+| GET  | `/api/v1/audio/generations/{id}` | Poll a music job | Free |
 | POST | `/api/v1/audio/sound-effects` | Sound-effect generation | $0.0535 / generation |
 | GET  | `/api/v1/audio/voices` | List available TTS voices | Free |
 | POST | `/api/v1/portrait/enroll` | Enroll AI character as a Virtual Portrait (`ta_xxx`) for Seedance | **$0.011 / enrollment** |
@@ -77,7 +80,8 @@ Per-model pricing is published at `/api/v1/models` and embedded in every 402 res
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| POST | `/api/v1/search` | Live search (web / news / X) | $0.08 per call + $0.001 fee, any `max_results` |
+| POST | `/api/v1/search` | Live search (web / news) | $0.081 per call ($0.08 + the fee), any `max_results` |
+| GET  | `/api/v1/search/{id}` | Poll an async search (`Prefer: respond-async`) — wallet proof required, never settles again | Free |
 | POST | `/api/v1/exa/search` | Web search | $0.011 / call |
 | POST | `/api/v1/exa/find-similar` | Find semantically similar pages | $0.011 / call |
 | POST | `/api/v1/exa/answer` | AI answer with citations | $0.011 / call |
@@ -101,7 +105,7 @@ Per-model pricing is published at `/api/v1/models` and embedded in every 402 res
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
 | POST | `/api/v1/polymarket/fund` | Bridge USDC from Base into a Polymarket (Polygon) account — see [Polymarket Funding](../api-reference/polymarket-funding.md) | $0.011 fee + the deposit amount |
-| POST | `/api/v1/onramp/token` | Mint a one-time Coinbase Onramp link for a Base wallet (the x402 signature is used as authentication only) | Free — Base USDC only |
+| POST | `/api/v1/onramp/token` | Mint a one-time Coinbase Onramp link for a Base wallet (a wallet signature proves ownership; no payment moves) | Free — Base USDC only |
 
 ## Sandbox Compute
 
@@ -138,27 +142,27 @@ Ephemeral, isolated Python sandboxes for agent code execution.
 
 See [DefiLlama](../api-reference/defillama.md).
 
-## Financial Data (Pyth-backed)
+## Financial Data
 
-Real-time and historical prices. All `list` endpoints are free. **Crypto, FX, and commodity** price/history are also free; **stock** price/history (US and non-US) are **$0.002/call**.
+Spot prices are free daily closes (`realtime: false`), not realtime ticks. All `list` endpoints are free. **Crypto, FX and commodity** spot prices and **crypto** OHLC history are free. **Equity prices are not currently served**: stock price/history (US and non-US) answer `501` before any payment. See [Market Data](../api-reference/market-data.md).
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| GET | `/api/v1/usstock/list` | US tickers | Free |
-| GET | `/api/v1/usstock/price/{symbol}` | US stock spot price | $0.002 |
-| GET | `/api/v1/usstock/history/{symbol}` | US stock OHLC | $0.002 |
-| GET | `/api/v1/stocks/{market}/list` | Non-US markets (HK, JP, ...) | Free |
-| GET | `/api/v1/stocks/{market}/price/{symbol}` | Non-US stock price | $0.002 |
-| GET | `/api/v1/stocks/{market}/history/{symbol}` | Non-US OHLC | $0.002 |
+| GET | `/api/v1/usstock/list` | US tickers (`available: false`) | Free |
+| GET | `/api/v1/usstock/price/{symbol}` | US stock spot price | `501` — not currently served |
+| GET | `/api/v1/usstock/history/{symbol}` | US stock OHLC | `501` — not currently served |
+| GET | `/api/v1/stocks/{market}/list` | Tickers per market (HK, JP, ...) (`available: false`) | Free |
+| GET | `/api/v1/stocks/{market}/price/{symbol}` | Stock price | `501` — not currently served |
+| GET | `/api/v1/stocks/{market}/history/{symbol}` | Stock OHLC | `501` — not currently served |
 | GET | `/api/v1/crypto/list` | Crypto tickers | Free |
-| GET | `/api/v1/crypto/price/{symbol}` | Crypto spot | Free |
+| GET | `/api/v1/crypto/price/{symbol}` | Crypto spot (daily close) | Free |
 | GET | `/api/v1/crypto/history/{symbol}` | Crypto OHLC | Free |
 | GET | `/api/v1/fx/list` | FX pairs | Free |
-| GET | `/api/v1/fx/price/{symbol}` | FX spot | Free |
-| GET | `/api/v1/fx/history/{symbol}` | FX OHLC | Free |
+| GET | `/api/v1/fx/price/{symbol}` | FX spot (daily close) | Free |
+| GET | `/api/v1/fx/history/{symbol}` | FX OHLC | `501` — no free OHLC source |
 | GET | `/api/v1/commodity/list` | Commodities | Free |
-| GET | `/api/v1/commodity/price/{symbol}` | Commodity spot | Free |
-| GET | `/api/v1/commodity/history/{symbol}` | Commodity OHLC | Free |
+| GET | `/api/v1/commodity/price/{symbol}` | Commodity spot (daily close) | Free |
+| GET | `/api/v1/commodity/history/{symbol}` | Commodity OHLC | `501` — no free OHLC source |
 
 ## Blockchain RPC
 

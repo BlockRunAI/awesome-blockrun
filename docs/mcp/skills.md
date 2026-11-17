@@ -23,9 +23,12 @@ Every skill ships inside the [blockrun-mcp](https://github.com/BlockRunAI/blockr
 | Skill | Use when | Tools it drives |
 |-------|----------|-----------------|
 | `blockrun` | **Start here.** Which tool answers a question, how the wallet works, how to make a first call for free. | all |
+| `blockrun-setup` | Installing the MCP in Claude Code, Cursor, Codex or another client — the nvm/Homebrew PATH fix, first-run wallet, funding, profiles. | `blockrun_wallet` |
+| `blockrun-debug` | The MCP is installed but misbehaving — `Failed to connect`, `spawn npx ENOENT`, HTTP 402, media timeouts. Symptom → cause → fix. | all |
+| `blockrun-upgrade` | The server prints `Update available`, or you need to upgrade, pin or roll back `@blockrun/mcp`. | — |
 | `search` | Real-time web or news results with citations — "what just happened" questions. | `blockrun_search` |
 | `exa-research` | Researching products, papers, competitors, reading pages, cited answers. | `blockrun_exa` |
-| `crypto-data` | Any crypto data question — prices, FX, OHLC, DEX pairs, TVL. Says which of the four overlapping tools to use and which are free. | `blockrun_price` `blockrun_dex` `blockrun_defi` `blockrun_rpc` |
+| `crypto-data` | Any crypto data question — prices, FX, OHLC, DEX pairs, TVL, raw chain reads. Says which of the four overlapping tools to use and which are free. | `blockrun_price` `blockrun_dex` `blockrun_defi` `blockrun_rpc` |
 | `rpc` | Raw blockchain JSON-RPC — contract reads, balances, blocks, logs, gas — across 40 chains. | `blockrun_rpc` |
 | `prediction-markets` | Event probabilities, Polymarket / Kalshi odds, finding markets on a topic. | `blockrun_markets` |
 | `polymarket-trading` | Actually placing, managing, or redeeming real bets — setup, funding, confirm-gated orders. | `blockrun_polymarket` `blockrun_polymarket_read` |
@@ -34,6 +37,7 @@ Every skill ships inside the [blockrun-mcp](https://github.com/BlockRunAI/blockr
 | `phone` | Number intelligence (carrier, SIM-swap, call-forwarding), US/CA number leases, outbound AI calls. | `blockrun_phone` |
 | `modal` | Running code in a disposable remote container, optional GPU. | `blockrun_modal` |
 | `gentech-blockrun` | GenTech Labs' daily-usage and multi-tool pipeline patterns from Hermes Agent. | all |
+| `decide` | Typed judgments over your own data — yes/no probabilities, a labelled choice, a rubric score. Not an MCP tool: it calls the [Decisions API](../api-reference/decisions.md) directly. | — |
 
 Install any of them the same way: `/plugin install <skill>@blockrun-mcp`, e.g. `/plugin install polymarket-trading@blockrun-mcp`. The same commands work from the shell as `claude plugin marketplace add BlockRunAI/blockrun-mcp` and `claude plugin install <skill>@blockrun-mcp`.
 
@@ -155,7 +159,7 @@ Skills often work alongside MCP servers:
 |-------|----------|
 | image-prompting | blockrun-mcp (`blockrun_image`) |
 | polymarket-trading | blockrun-mcp (`blockrun_markets` → `blockrun_polymarket`) |
-| crypto-data | blockrun-mcp (five data tools) |
+| crypto-data | blockrun-mcp (four data tools) |
 
 ## Managing Skills
 
@@ -180,7 +184,7 @@ If the skill loads but the tool call fails, the problem is the MCP, not the skil
 
 ### Skill Conflicts
 
-If multiple skills handle similar tasks, use explicit invocation to specify which one. `crypto-data` exists for exactly this: it routes across the five overlapping crypto tools.
+If multiple skills handle similar tasks, use explicit invocation to specify which one. `crypto-data` exists for exactly this: it routes across the four overlapping crypto tools.
 
 ### Skill Not Found
 

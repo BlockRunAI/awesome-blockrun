@@ -15,7 +15,7 @@ No official `langchain-blockrun` package yet; use the two paths below or the Blo
 
 ## Path 1 — `ChatOpenAI` via the BlockRun LiteLLM sidecar (recommended)
 
-[`blockrun-litellm`](https://pypi.org/project/blockrun-litellm/) (v0.9.1) ships a local OpenAI-compatible proxy that signs x402 payments with your wallet. Any LangChain chat model that speaks the OpenAI protocol — `ChatOpenAI` — then works unchanged, including tool calling, streaming and async, which the string-in/string-out custom class in Path 2 cannot offer.
+[`blockrun-litellm`](https://pypi.org/project/blockrun-litellm/) (v0.10.3) ships a local OpenAI-compatible proxy that signs x402 payments with your wallet. Any LangChain chat model that speaks the OpenAI protocol — `ChatOpenAI` — then works unchanged, including tool calling, streaming and async, which the string-in/string-out custom class in Path 2 cannot offer.
 
 ::::steps
 
@@ -27,11 +27,11 @@ pip install 'blockrun-litellm[proxy]' langchain langchain-openai
 
 :::step{title="Start the sidecar"}
 ```bash
-export BLOCKRUN_WALLET_KEY=0x...        # Base wallet; never leaves your machine
-blockrun-litellm-proxy --port 4001      # → http://127.0.0.1:4001/v1
+export BLOCKRUN_WALLET_KEY=0x...                 # Base wallet; never leaves your machine
+blockrun-litellm-proxy --port 4001 --chain base  # → http://127.0.0.1:4001/v1
 ```
 
-Add `--api-url https://sol.blockrun.ai/api` with a `SOLANA_WALLET_KEY` to pay on Solana. Keep the bind on loopback unless you also set `BLOCKRUN_PROXY_TOKEN`.
+Since v0.10.0 the sidecar's default chain is Solana, so pass `--chain base` (or `BLOCKRUN_CHAIN=base`) to pay from a Base wallet. To pay on Solana instead, install `'blockrun-litellm[proxy,solana]'`, export `SOLANA_WALLET_KEY` and drop the flag. Keep the bind on loopback unless you also set `BLOCKRUN_PROXY_TOKEN`.
 :::
 
 :::step{title="Point ChatOpenAI at it"}

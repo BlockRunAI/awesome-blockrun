@@ -15,26 +15,25 @@ A funded wallet on Base — $5–10 covers roughly 50–100 images. Your private
 
 ## Available Models
 
-| Model | Price | Best For |
+| Model | Price per image | Best For |
 |-------|-------|----------|
-| Google Nano Banana | $0.05 | Fast, affordable generation |
-| Google Nano Banana 2 | $0.09 | Mid-tier quality step above Nano Banana |
-| Google Nano Banana Pro | $0.10 | Higher quality outputs |
-| ByteDance Seedream 5.0 Pro | $0.045-0.09 | Up to 4K-class resolution, reference-image editing |
-| OpenAI GPT Image 1 | $0.02-0.04 | Native OpenAI image generation |
-| OpenAI ChatGPT Images 2.0 | $0.06-0.12 | Premium quality, text rendering, edits |
-| Zhipu CogView-4 | $0.015 | Cheapest, Chinese prompts |
-| xAI Grok Imagine | $0.02-0.06 | Stylized generation |
+| Google Nano Banana | $0.0535 | Fast, affordable generation |
+| Google Nano Banana 2 Lite | $0.0535 | Lowest-cost Nano Banana |
+| Google Nano Banana 2.1 | $0.0745 | Newer Flash-tier model with thinking |
+| Google Nano Banana 2 | $0.0955 | Pro-level quality at Flash speed |
+| Google Nano Banana Pro | $0.106-0.316 | Highest quality, up to 4K |
+| ByteDance Seedream 5.0 Pro | $0.04825-0.0955 | Up to 4K-class resolution |
+| OpenAI GPT Image 1 | $0.022-0.043 | Native OpenAI image generation |
+| OpenAI ChatGPT Images 2.0 | $0.064-0.127 | Premium quality, text rendering, edits |
+| OpenAI GPT Image 2.5 Flare / Sunburst | $0.295-0.589 | OpenAI's newest; Sunburst for precision edits |
+| Zhipu CogView-4 | $0.01675-0.022 | Cheapest, Chinese prompts |
+| xAI Grok Imagine (base / 2.0 / Pro) | $0.022-0.064 | Stylized generation |
+
+Prices are what one image costs at the cheapest–largest size, including the 5% media margin and the $0.001 per-call transaction fee — the same figures as the [Image Generation API](../../api-reference/image-generation.md#pricing), which lists every size.
 
 ## Installation
 
 Image generation ships as the `blockrun_image` tool in [BlockRun MCP](../../mcp/blockrun-mcp.md) — there is no separate skill to install:
-
-```bash
-claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
-```
-
-Or via the BlockRun MCP which includes image generation:
 
 ```bash
 claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
@@ -72,30 +71,36 @@ Generate a 16:9 banner image of blockchain nodes
 
 1. Claude sends your prompt to BlockRun API
 2. API responds with HTTP 402 (Payment Required) + price
-3. SDK signs USDC transaction locally (EIP-712)
-4. BlockRun verifies on-chain, generates image
-5. Image returned to Claude
+3. The MCP signs a USDC authorization locally (EIP-712)
+4. BlockRun verifies the signature and generates the image
+5. The payment settles once the image is ready, and the image is returned to Claude — a failed generation is never charged
 
 **Your private key stays on your machine** — only the signature is sent.
 
 ## Pricing Details
 
+Billed per image, 5% margin and $0.001 transaction fee included:
+
 | Model | Resolution | Price |
 |-------|------------|-------|
-| Nano Banana | 1024x1024 | $0.05 |
-| Nano Banana 2 | 1024x1024 | $0.09 |
-| Nano Banana Pro | up to 2048x2048 | $0.10 |
-| Nano Banana Pro | 4096x4096 (4K) | $0.15 |
-| Seedream 5.0 Pro | up to 2048x1024 | $0.045 |
-| Seedream 5.0 Pro | 2048x2048 and above | $0.09 |
-| GPT Image 1 | 1024x1024 | $0.02 |
-| GPT Image 1 | wide/tall | $0.04 |
-| ChatGPT Images 2.0 | 1024x1024 | $0.06 |
-| ChatGPT Images 2.0 | wide/tall | $0.12 |
-| CogView-4 | up to 1344px | $0.015 |
-| CogView-4 | 1440x1440 | $0.02 |
-| Grok Imagine | 1024x1024 | $0.02 |
-| Grok Imagine Pro | 1024x1024 | $0.06 |
+| Nano Banana / Nano Banana 2 Lite | 1024x1024 | $0.0535 |
+| Nano Banana 2.1 | 1024x1024 | $0.0745 |
+| Nano Banana 2 | 1024x1024 | $0.0955 |
+| Nano Banana Pro | up to 2048x2048 | $0.106 |
+| Nano Banana Pro | 4096x4096 (4K) | $0.316 |
+| Seedream 5.0 Pro | up to 2048x1024 | $0.04825 |
+| Seedream 5.0 Pro | 2048x2048 and above | $0.0955 |
+| GPT Image 1 | 1024x1024 | $0.022 |
+| GPT Image 1 | wide/tall | $0.043 |
+| ChatGPT Images 2.0 | 1024x1024 | $0.064 |
+| ChatGPT Images 2.0 | wide/tall | $0.127 |
+| GPT Image 2.5 Flare / Sunburst | 1024x1024 | $0.295 |
+| GPT Image 2.5 Flare / Sunburst | wide/tall | $0.589 |
+| CogView-4 | up to 1344px | $0.01675 |
+| CogView-4 | 1440x1440 | $0.022 |
+| Grok Imagine | 1024x1024 | $0.022 |
+| Grok Imagine 2.0 | 1024x1024 | $0.043 |
+| Grok Imagine Pro | 1024x1024 | $0.064 |
 
 ## Example Session
 
@@ -110,7 +115,7 @@ Claude: I'll generate this using Nano Banana.
 Here's your logo:
 [Image displayed]
 
-Cost: $0.05 USDC
+Cost: $0.0535 USDC
 Transaction: 0x...
 
 Want me to try variations or a different style?
@@ -159,9 +164,9 @@ Recommended balance: $5-10 for ~50-100 images
 
 ### "Insufficient balance"
 
-Check your USDC balance:
+Check your USDC balance — run the `blockrun_wallet` tool, or ask Claude:
 ```
-blockrun balance
+What's my BlockRun wallet balance?
 ```
 
 ### "Generation failed"
@@ -172,7 +177,7 @@ blockrun balance
 
 ### "Timeout"
 
-Complex prompts may take longer. Wait up to 30 seconds.
+Most models finish within 30 seconds. Seedream 5.0 Pro (~2 minutes) and slower GPT Image renders switch to a job that is polled until it completes — you are charged only when the image is ready.
 
 ## Security
 

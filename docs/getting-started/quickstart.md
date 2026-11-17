@@ -96,7 +96,7 @@ print(client.get_spending())    # {"total_usd": ..., "calls": ...} for this sess
 ::::
 
 :::warning
-If a call returns `402 Payment Required` after retrying, your wallet is empty or on the wrong chain. Run `blockrun_wallet action:"setup"` and confirm you funded the **active** chain. In Python, `LLMClient()` raising `ValueError: No wallet configured` means no key was found — run `setup_agent_wallet()` or set `BLOCKRUN_WALLET_KEY`. Solana users install `pip install "blockrun-llm[solana]"` and use `SolanaLLMClient`.
+If a call returns `402 Payment Required` after retrying, your wallet is empty or on the wrong chain. Run `blockrun_wallet action:"setup"` and confirm you funded the **active** chain. In Python, `LLMClient()` raising `ValueError: No credential configured` means no key was found — run `setup_agent_wallet()` or set `BLOCKRUN_WALLET_KEY`. Solana users install `pip install "blockrun-llm[solana]"` and use `SolanaLLMClient`.
 :::
 
 ## What's next?

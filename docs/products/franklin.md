@@ -7,7 +7,7 @@ description: Franklin is the AI agent with a wallet. It writes code and spends U
 
 **The AI agent with a wallet.** Other coding agents write code; Franklin writes code *and spends money to get the job done* — picking the best model per task, buying data, generating media, paying for search, proposing trades you approve, all autonomously from one USDC wallet.
 
-**Source:** [github.com/BlockRunAI/Franklin](https://github.com/BlockRunAI/Franklin) · [npm: @blockrun/franklin](https://www.npmjs.com/package/@blockrun/franklin) · Apache-2.0 · current release **3.42.2** (2026-08-29)
+**Source:** [github.com/BlockRunAI/Franklin](https://github.com/BlockRunAI/Franklin) · [npm: @blockrun/franklin](https://www.npmjs.com/package/@blockrun/franklin) · Apache-2.0 · current npm release **3.49.27** (2026-11-10)
 
 :::tip{title="YOPO — You Only Pay Outcome"}
 Not a subscription (pay for access), not generic pay-per-call (pay for trying). You set an outcome and a budget; Franklin decides what to call, what to pay for, and when to stop. Provider rates plus a flat $0.001 per request (no margin on chat tokens; media generation and Live Search carry 5%), settled per action in USDC — no monthly fees, no rate limits, and no overdraft: when the wallet is empty, Franklin stops.
@@ -27,7 +27,7 @@ franklin --version
 :::
 
 :::step{title="Run — free out of the box"}
-Franklin starts on the free tier (5 reasoning, coding, and vision models), no wallet needed.
+Franklin starts on the gateway's free models (reasoning, coding, and vision), no wallet needed.
 
 ```bash
 franklin
@@ -99,7 +99,7 @@ franklin predict -m <model> -q "<question>"  # headless forecast with a research
 franklin proxy / init / daemon # payment proxy for Anthropic-compatible CLIs (port 8402)
 franklin telegram / slack      # remote control from chat (owner-locked)
 franklin serve / panel         # local agent server + browser mission control (many agents, remote approvals)
-franklin skills / plugins / mcp / migrate / task / content
+franklin skills / plugins / migrate / task / content
 ```
 
 Inside a session: `/model`, `/plan` / `/execute`, `/ultrathink`, `/compact`, `/cost`, `/goal <objective>` (autonomous goal with adversarially verified completion), `/loop <interval> <prompt>`, `/remember` / `/flush` / `/dream` (memory), `/session-search`, `/mcp`, `/insights`, `/help`.

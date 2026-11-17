@@ -90,7 +90,7 @@ Retry-After: 60
 X-RateLimit-Source: <source-tag>
 ```
 
-- `Retry-After` — RFC-7231 compliant; seconds to wait before retrying. BlockRun extracts this from the upstream error when available, otherwise defaults to `60`.
+- `Retry-After` — RFC-7231 compliant; seconds to wait before retrying. BlockRun relays the upstream's value when it gives one, capped at `60`, and otherwise defaults to `60`.
 - `X-RateLimit-Source` — the model-family prefix of the model you called (e.g. `openai`, `anthropic`), i.e. the capacity pool that hit the limit. Treat it as a coarse failover hint, not a stable identifier.
 - `source` field in JSON body — same value, mirrored for clients that prefer body parsing over headers.
 

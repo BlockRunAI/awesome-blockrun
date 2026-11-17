@@ -12,11 +12,13 @@ BlockRun uses standard HTTP status codes and returns detailed error information.
 | Code | Meaning |
 |------|---------|
 | 200 | Success |
-| 400 | Bad Request - invalid parameters, unknown model, oversized body, or an upstream rejection of one of your parameters (surfaced as 400, never 500) |
-| 402 | Payment Required - sign and retry with payment; or a payment that failed verification (carries a `code`, see below) |
+| 400 | Bad Request - invalid parameters, unknown model, or an upstream rejection of one of your parameters (surfaced as 400, never 500) |
+| 402 | Payment Required - sign and retry with payment; or a payment that failed verification or did not settle (carries a `code`, see below) |
+| 413 | Body too large (over 25 MB on chat) - refused before anything else |
 | 429 | Rate limited - upstream capacity for that model, or the per-IP free-tier limit; honor `Retry-After` |
-| 503 | Model unavailable / upstream configuration problem - retry or fail over |
-| 500 | Server Error - something unexpected went wrong |
+| 500 | Server Error - something unexpected went wrong; nothing settled |
+| 502 | The upstream failed after your payment had already settled - the body says you were charged; do not pay again |
+| 503 | Model unavailable / upstream configuration problem - nothing settled; honor `Retry-After` when present, or fail over |
 | 504 | Upstream timed out (120s) - nothing settled; retry |
 
 ## Error Response Format
@@ -26,12 +28,12 @@ Gateway errors use the OpenAI envelope, with `message` and `code` mirrored at th
 ```json
 {
   "error": {
-    "message": "Invalid request parameter — Message @bc1max on Telegram for help.",
+    "message": "Invalid request parameter — Email hello@blockrun.ai for help.",
     "type": "invalid_request_error",
     "code": "INVALID_PARAMETER",
     "param": null
   },
-  "message": "Message @bc1max on Telegram for help.",
+  "message": "Email hello@blockrun.ai for help.",
   "code": "INVALID_PARAMETER",
   "debug": "<the upstream's description of the rejected parameter, redacted>"
 }
@@ -46,21 +48,28 @@ Gateway errors use the OpenAI envelope, with `message` and `code` mirrored at th
 | `INVALID_JSON` | 400 | Body is not valid JSON |
 | `INVALID_REQUEST_BODY` | 400 | Schema validation failed; `details` lists the offending paths |
 | `EMPTY_CONVERSATION` | 400 | `messages` had only `system` entries |
+| `UNSUPPORTED_PARAMETER` | 400 | A parameter the quote cannot price: `n` or `best_of` above 1, an unknown `service_tier`, a non-empty `plugins`. Refused before payment |
 | `INVALID_PARAMETER` | 400 | Upstream rejected one of your sampling/tool parameters |
+| `UPSTREAM_INVALID_REQUEST` | 400 | Upstream answered 400/413/422 to your request; its redacted reason is in `message` |
 | `CONTEXT_LENGTH_EXCEEDED` | 400 | Prompt does not fit the model's context window |
+| `INPUT_TOO_LARGE` | 400 | `max_tokens` out of the model's range |
 | `INVALID_IMAGE_URL` | 400 | An `image_url` could not be fetched |
-| `REQUEST_TOO_LARGE` | 400 | Body over the size limit |
+| `IMAGE_INPUT_UNSUPPORTED` | 400 | An image sent to a model that cannot read it. Refused before payment |
 | `CONTENT_FILTERED` | 400 | Upstream safety filter blocked the request |
 | `STREAM_UNSUPPORTED` | 400 | `stream: true` on a model that only serves non-streaming |
+| `SEARCH_UNSUPPORTED_MODEL`, `SEARCH_STREAM_UNSUPPORTED` | 400 | `search_parameters` on a non-`xai/*` model, or with `stream: true` |
 | `REASONING_FORMAT_ERROR`, `TOOL_ID_FORMAT_ERROR`, `INVALID_REQUEST` | 400 | Message-history shape problems |
 | `PAYMENT_INVALID`, `PAYMENT_UNFUNDED`, `PAYMENT_BLOCKHASH_STALE`, `PAYMENT_REPLAY` | 402 | Payment verification failed — see below |
+| `PAYMENT_NOT_SETTLED` | 402 | The payment verified but did not settle, so the request was stopped and nothing was delivered. Sign a fresh payment to retry |
+| `REQUEST_TOO_LARGE` | 413 | Body over 25 MB |
 | `RATE_LIMITED` | 429 | Upstream capacity for that model exhausted; `Retry-After` + `X-RateLimit-Source` set |
 | `FREE_TIER_RATE_LIMITED` | 429 | Per-IP free-tier limit (30/min, 300/hour) |
 | `STREAM_FAILED`, `FREE_MODEL_FAILED` | 429 | Free-model capacity exhausted; `Retry-After: 30` |
-| `MODEL_UNAVAILABLE` | 503 | Upstream reports the model missing, overloaded, or at capacity |
-| `PROVIDER_CONFIG_ERROR` | 503 | Upstream credential/quota problem on our side |
-| `TIMEOUT` | 504 | Upstream did not answer within 120s |
 | `INTERNAL_ERROR` | 500 | Anything unclassified |
+| `UPSTREAM_FAILED_AFTER_SETTLE` | 502 | The upstream failed after your payment settled. You were charged; do not pay again. The call is booked for a manual refund |
+| `MODEL_UNAVAILABLE` | 503 | The model is paused after repeated recent failures, or the upstream reports it missing, overloaded, or at capacity. `Retry-After` and `retry_after_seconds` are set when the gateway knows when to retry |
+| `PROVIDER_CONFIG_ERROR` | 503 | Upstream credential/quota problem on our side |
+| `TIMEOUT` | 504 | Upstream did not answer within 120s, or answered 504 itself |
 
 ### Errors after a stream has started
 
@@ -150,6 +159,7 @@ Verification always runs before settlement, so none of these charged you. On the
 ```json
 {
   "error": {"message": "Rate limited — … retry after 60s, or fail over to a same-tier model on a different provider.", "type": "rate_limit_error", "code": "RATE_LIMITED", "param": null},
+  "message": "Rate limited — …",
   "code": "RATE_LIMITED",
   "source": "openai",
   "retry_after_seconds": 60
@@ -160,21 +170,28 @@ Headers: `Retry-After: 60`, `X-RateLimit-Source: <model family>`. Free models ad
 
 ### 503 - Model Unavailable
 
+```http
+HTTP/1.1 503 Service Unavailable
+Retry-After: 42
+```
+
 ```json
 {
-  "error": {"message": "Model unavailable — Message @bc1max on Telegram for help.", "type": "api_error", "code": "MODEL_UNAVAILABLE", "param": null},
-  "code": "MODEL_UNAVAILABLE"
+  "error": {"message": "Model unavailable — this model failed repeatedly in the last few minutes and is paused; retry after 42s or fail over to a same-tier model on a different provider — Email hello@blockrun.ai for help.", "type": "api_error", "code": "MODEL_UNAVAILABLE", "param": null},
+  "message": "Email hello@blockrun.ai for help.",
+  "code": "MODEL_UNAVAILABLE",
+  "retry_after_seconds": 42
 }
 ```
 
-Retry, or fail over to a same-tier model from a different family. Not settled.
+When the gateway has paused a model after a run of recent failures, the call is refused before it reaches any upstream, and `Retry-After` / `retry_after_seconds` give the seconds until the pause lifts (1–300). An upstream 502/503 answers the same code with `Retry-After: 30`. Other `MODEL_UNAVAILABLE` answers carry no retry hint. Retry after the hint, or fail over to a same-tier model from a different family. Not settled. The Anthropic-compatible `/v1/messages` answers a paused model with `503` `overloaded_error` and the same `Retry-After`.
 
 ### 500 - Server Error
 
 ```json
 {
-  "error": {"message": "Unexpected error — Message @bc1max on Telegram for help.", "type": "api_error", "code": "INTERNAL_ERROR", "param": null},
-  "message": "Message @bc1max on Telegram for help.",
+  "error": {"message": "Unexpected error — Email hello@blockrun.ai for help.", "type": "api_error", "code": "INTERNAL_ERROR", "param": null},
+  "message": "Email hello@blockrun.ai for help.",
   "code": "INTERNAL_ERROR"
 }
 ```
@@ -183,7 +200,7 @@ Retry, or fail over to a same-tier model from a different family. Not settled.
 - Unclassified upstream error
 - Temporary service issue
 
-Settlement happens only after a successful upstream response, so a `500`/`503`/`504` never charges you.
+Settlement happens only once the upstream has produced output, so a `500`/`503`/`504` never charges you. The one exception is `502` `UPSTREAM_FAILED_AFTER_SETTLE`: on a few models a non-streaming call still running at 45 seconds settles then, and if the upstream fails after that the body says `payment_status: "charged"` and the call is booked for a manual refund.
 
 ## SDK Error Classes
 
@@ -242,7 +259,7 @@ try {
 1. Read the `code`: `PAYMENT_UNFUNDED` → top up USDC on Base (or on Solana for `sol.blockrun.ai`)
 2. `PAYMENT_REPLAY` → your client reused a nonce; sign a fresh authorization per request
 3. `PAYMENT_BLOCKHASH_STALE` → re-sign; the Solana blockhash expired between signing and sending
-4. `PAYMENT_INVALID` → confirm you signed the exact `accepts[0]` entry from the header (network, asset, amount, `payTo`) and that the wallet is on the right network
+4. `PAYMENT_INVALID` → confirm you signed exactly the `accepts` entry you chose from the header (network, asset, amount, `payTo`) and that the wallet is on the right network
 
 ### "Unknown model"
 

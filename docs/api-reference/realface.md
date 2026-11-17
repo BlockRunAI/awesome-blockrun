@@ -196,10 +196,11 @@ Settlement happens **after** the upstream face-match succeeds. Failure modes tha
 
 - `402` — payment verification failed: `{ "error": "Payment verification failed", "code": "PAYMENT_INVALID" | "PAYMENT_UNFUNDED" | "PAYMENT_BLOCKHASH_STALE", "message"?, "debug", "payer" }`, or `code: "PAYMENT_REPLAY"` when the authorization was already used — sign a fresh one
 - `425 Too Early` — group is not yet `active` (rights-holder hasn't done H5); body carries `group_status` and a `hint`
-- `422 Unprocessable` — the face service rejected the image (bad/oversized photo, no clear single face; may carry a `code`) or the face-match failed (uploaded photo doesn't match the live face)
+- `404` — `group_id` is not a handle this service issued (see step 3)
+- `422 Unprocessable` — the face service rejected the image (bad/oversized photo, no clear single face; may carry a `code` and a `hint`), `image_url` does not resolve to a public address at every redirect, or the face-match failed (uploaded photo doesn't match the live face)
 - `502 Bad Gateway` — the upstream group-status check or the upload itself failed
 
-If settlement itself fails after a successful enrollment, BlockRun absorbs the cost.
+If settlement itself fails after a successful face-match, the asset is **withheld** — no `asset_id` is returned and the call answers `402` (`Payment settlement failed. Sign a fresh payment and send the request again.`); nothing was charged, so sign a fresh payment and retry.
 
 ### Response
 
@@ -244,7 +245,7 @@ curl -X POST http://localhost:8402/v1/videos/generations \
   }'
 ```
 
-The same `ta_xxx` can be reused across as many videos as you want — pay only the per-clip token cost each time. No re-enrollment fee.
+The same `ta_xxx` can be reused across as many videos as you want — pay only the per-clip token cost each time. No re-enrollment fee. The video call must be paid by the **same wallet that enrolled the asset**: an asset id is not a secret (the listing below is public), so a call paid by any other wallet is refused with `403` before anything is charged.
 
 ## Listing enrolled RealFaces
 

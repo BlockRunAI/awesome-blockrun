@@ -14,7 +14,7 @@ Frequently asked questions about BlockRun — payments, products, models, wallet
 BlockRun is economic infrastructure for AI agents. It provides:
 - **Trading** — Franklin's built-in trading tools: live signals, paper trading, Polymarket bets, and a trade-plan gate for real money
 - **Creation** — generate images, video, music, and speech, paid per output
-- **Intelligence** — Access to 71 chat/LLM models via x402 micropayments
+- **Intelligence** — Access to 93 chat models via x402 micropayments
 - **Routing** — ClawRouter picks the cheapest capable model locally, in under 1ms
 
 ### What makes BlockRun different?
@@ -29,16 +29,16 @@ BlockRun is economic infrastructure for AI agents. It provides:
 ### Is BlockRun free?
 
 - **Trading (Franklin):** Free and open source — you pay only for the market data and models the tools use
-- **Creation:** Pay-per-use — images $0.015–0.15, video from $0.05/sec, music $0.15/track, text-to-speech $0.05–0.10 per 1k chars
+- **Creation:** Pay-per-use — images from about $0.017, video from $0.05/sec, music $0.20/track, text-to-speech $0.0525–0.105 per 1k chars (Seed Audio $0.003 per second of audio)
 - **Intelligence:** Provider cost with **no platform margin** on per-token chat (since 2026-08-07) — only a flat $0.001 transaction fee per request. Media generation and Live Search carry 5%.
-- **Free tier:** 5 chat/reasoning/vision models with no per-token charge
+- **Free tier:** 9 free chat, reasoning and vision models with no per-token charge
 
 ## Products
 
 ### How does trading work?
 
 Trading is built into the Franklin agent — there is no separate package to install (the earlier `alpha-mcp` server is retired). Franklin can:
-- Analyze markets (`TradingSignal`: RSI, MACD, Bollinger Bands computed locally from live data; `TradingMarket` for crypto, FX, commodities, and equities)
+- Analyze markets (`TradingSignal`: RSI, MACD, Bollinger Bands computed locally from live data; `TradingMarket` for crypto, FX and commodities)
 - Paper-trade at live prices with a persistent portfolio and journal
 - Research prediction-market odds and place real Polymarket bets
 - Propose real-money `TradePlan`s that nothing executes until you approve
@@ -59,7 +59,7 @@ Franklin is the AI agent with a wallet — it holds USDC and spends it autonomou
 
 ### Can I use an API key instead of a wallet?
 
-Enterprise access at **user.blockrun.ai** is coming soon: API keys (`brk_live_…`), wire/prepaid billing, and post-hoc billing at exact usage with no per-call minimum. Sign-in is not yet open — reach out on [Telegram](https://t.me/+mroQv4-4hGgzOGUx) for early access. Everyone else pays per call from a wallet; no API key is ever required.
+Yes. Sign in at **user.blockrun.ai**, mint an API key (`brk_live_…`), fund the account with prepaid credit or a monthly invoice, and call `https://api.blockrun.ai/v1` with Bearer auth — billed at exact usage, no per-call minimum or fee. See [Enterprise API](../getting-started/enterprise-api.md). Everyone else pays per call from a wallet; no API key is ever required.
 
 ## Payments
 
@@ -85,11 +85,11 @@ Send USDC to your wallet address on Base (or Solana):
 - [Coinbase](https://coinbase.com) — Direct withdrawal to Base or Solana
 - [Base Bridge](https://bridge.base.org) — Bridge from Ethereum
 - [Uniswap](https://app.uniswap.org) — Swap on Base
-- `POST /v1/onramp/token` — a free Coinbase Onramp link for a Base wallet (`blockrun fund` in the CLI)
+- `POST /api/v1/onramp/token` — a free Coinbase Onramp link for a Base wallet (`blockrun fund` in the CLI)
 
 ### What if a request fails?
 
-You pay for the upstream round trip. If the call fails on our side — the provider is down, times out, or returns a JSON-RPC `-32603` — it doesn't settle. If the provider rejects what you sent (unknown method, invalid params, a reverted call), it does: we made the call on your behalf. Requests we can reject locally, before contacting anyone, are always free.
+A failed chat, media or search call is not charged: payment settles only when a result comes back. Raw multi-chain RPC is the exception — you pay for the upstream round trip. If an RPC call fails on our side (the node is down, times out, or returns a JSON-RPC `-32603`) it doesn't settle; if the node rejects what you sent (unknown method, invalid params, a reverted call) it does, because we made the call on your behalf. Requests we can reject locally, before contacting anyone, are always free.
 
 ### Can I get a refund?
 
@@ -107,11 +107,11 @@ The paper-trading caps and the trade-plan gate live in code, not in a prompt, an
 
 ### What can Franklin trade?
 
-Paper positions at live prices across crypto, FX, commodities, and equities; real bets on Polymarket (Polygon, your own funds); and read-only DEX quotes on Solana (Jupiter) and Base (0x). Live DEX swap execution is currently paused while Franklin adds complete local transaction validation.
+Paper positions at live prices across crypto, FX and commodities; real bets on Polymarket (Polygon, your own funds); and read-only DEX quotes on Solana (Jupiter) and Base (0x). Live DEX swap execution is currently paused while Franklin adds complete local transaction validation.
 
 ### Does BlockRun charge trading fees?
 
-No. Franklin's trading tools are free and open source. You pay only for the paid data they buy from the agent wallet (equity prices, prediction-market data, on-chain RPC, web search — signals and crypto/FX/commodity prices are free), for model calls, and for Polymarket network fees.
+No. Franklin's trading tools are free and open source. You pay only for the paid data they buy from the agent wallet (prediction-market data, on-chain RPC, web search — signals and crypto/FX/commodity prices are free), for model calls, and for Polymarket network fees.
 
 ### Is there a per-request fee?
 
@@ -125,13 +125,13 @@ Yes — a flat $0.001 transaction fee on every paid call, which covers on-chain 
 - OpenAI (GPT-6 Astra, GPT-6 Sol, GPT-6 Luna, GPT-5.6 Sol, GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2)
 - Anthropic (Claude Fable 5.2, Fable 5.1, Opus 5.5, Opus 5, Opus 4.8, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Haiku 4.5)
 - Google (Gemini 3.1 Pro, Gemini 3.5 Flash)
-- DeepSeek (V4 Flash Chat, V4 Pro, Reasoner)
+- DeepSeek (DeepSeek Chat and DeepSeek Reasoner on V4.1 Flash, V4 Pro)
 - Z.AI (GLM-5.2 with 1M context, GLM-5.1, GLM-5, GLM-5 Turbo)
-- Moonshot (Kimi K3 — 1M context, image + text input)
+- Moonshot (Kimi K3.1 Pro — 1M context, image + text input)
 - MiniMax (MiniMax M3)
-- Qwen (Qwen3.7 Max — 1M context, Alibaba flagship)
+- Qwen (Qwen3.8 Max, Qwen3.7 Max — 1M context)
 - xAI (Grok 4.7, Grok 4.6, Grok 4.5, Grok 4.3, Grok Build 0.1)
-- Plus a free tier of 6 reasoning, coding, and vision models
+- Plus 9 free reasoning, coding, and vision models
 
 Full list: [Models](../api-reference/models.md)
 
@@ -158,8 +158,8 @@ Then call the `blockrun_wallet` tool with `action:"setup"` in Claude Code.
 - LiteLLM (blockrun-litellm)
 - Continue (native provider)
 - ElizaOS (plugin)
-- AgentKit (SDK integration) and LangChain (custom LLM class) — planned
-- GOAT SDK (in review)
+- AgentKit and LangChain (via the Python SDK or the blockrun-litellm sidecar)
+- GOAT SDK (via the TypeScript SDK; no official plugin yet)
 
 Install commands for each are in the [Ecosystem](ecosystem.md).
 
@@ -234,8 +234,10 @@ blockrun_wallet action:"setup"
 
 Check your balance and fund if needed:
 ```
-blockrun balance
+blockrun_wallet
 ```
+
+(or `blockrun status` with the CLI)
 
 ### "Network error"
 
