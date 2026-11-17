@@ -29,8 +29,8 @@ Each model object in the response includes:
 | `context_window` | number | Context window size in tokens |
 | `max_output` | number | Maximum output tokens |
 | `categories` | string[] | Model capabilities: `"chat"`, `"reasoning"`, `"coding"`, `"vision"`, `"search"` (media rows carry `"image"`, `"video"`, `"music"`, `"speech"`, `"tts"`, `"sound_effect"`; the Decisions row carries `"judgment"`) |
-| `billing_mode` | string | `"paid"` (per-token chat models), `"free"`, or a media mode: `"per_image"`, `"per_second"`, `"per_track"`, `"per_character"`, `"per_generation"`. The one Decisions judgment row (not a chat model) uses `"per_token"` |
-| `pricing` | object | `{ input, output }` in USD per 1M tokens for per-token models, plus `cache_read` / `cache_write` where the model has them and `long_context` (a list of repricing steps) on models that reprice above a prompt threshold; `{ per_image }`, `{ per_second }`, `{ per_track }`, `{ per_1k_chars }`, `{ per_generation }` with `transaction_fee` for media |
+| `billing_mode` | string | `"paid"` (per-token chat models), `"free"`, `"flat"` (per-request; testnet only, see Flat-priced models below), or a media mode: `"per_image"`, `"per_second"`, `"per_track"`, `"per_character"`, `"per_generation"`. The one Decisions judgment row (not a chat model) uses `"per_token"` |
+| `pricing` | object | `{ input, output }` in USD per 1M tokens for per-token models, plus `cache_read` / `cache_write` where the model has them and `long_context` (a list of repricing steps) on models that reprice above a prompt threshold; `{ flat }` for flat-priced models (fee-inclusive; testnet only); `{ per_image }`, `{ per_second }`, `{ per_track }`, `{ per_1k_chars }`, `{ per_generation }` with `transaction_fee` for media |
 
 Only models that are currently available are returned. Chat rows also carry `available: true`.
 
@@ -71,7 +71,7 @@ Only models that are currently available are returned. Chat rows also carry `ava
 **93 chat / LLM models** are publicly listed on mainnet, plus **14 image**, **7 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. The catalog also carries one `judgment` row, `openai/gpt-6-luna-decisions`, for the [Decisions](decisions.md) endpoint. Call `GET /api/v1/models` for the exact live list.
 :::
 
-All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens, only the flat $0.001/request transaction fee. Media and Live Search still carry a 5% platform margin.
+All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens, only the flat $0.001/request transaction fee. Media carries a 5% platform margin; Live Search is a flat per-call price (see [Search](search.md)).
 
 ### OpenAI GPT-6 Family
 

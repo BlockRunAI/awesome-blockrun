@@ -71,7 +71,7 @@ client = LLMClient(
 )
 ```
 
-`payment_scheme="auto"` lets a chat call pay with an x402 `upto` ceiling (the full `max_tokens`) and settle at the actual cost after the call, when the 402 offers it and the wallet can use it; otherwise it signs `exact` as before. The actual cost can be more than the `exact` quote but never more than the ceiling.
+`payment_scheme="auto"` lets a chat call pay with an x402 `upto` ceiling (the full `max_tokens`) and settle at the actual cost after the call, when the 402 offers it and the wallet can use it; otherwise it signs `exact` as before. The ceiling is the same full-`max_tokens` amount the `exact` quote charges, so `upto` never costs more than `exact` would and usually costs less.
 
 `AsyncLLMClient` takes the same arguments. `SolanaLLMClient` / `AsyncSolanaLLMClient` add `rpc_url`, `rpc_headers` and `image_timeout` (default 200s) and default `api_url` to `https://sol.blockrun.ai/api`.
 
