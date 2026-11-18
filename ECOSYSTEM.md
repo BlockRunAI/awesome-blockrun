@@ -47,25 +47,17 @@ Full catalog with per-path prices: [x402 Endpoints](./docs/x402/endpoints.md).
 
 BlockRun works with the x402 facilitator network:
 
-| Facilitator | Network | Discovery Endpoint |
-|-------------|---------|-------------------|
-| [Coinbase CDP](https://coinbase.com/cloud) | Base, Ethereum | `api.cdp.coinbase.com/platform/v2/x402/discovery/resources` |
-| [Circle Gateway](https://developers.circle.com/gateway/nanopayments) | Polygon, Arbitrum, Optimism, Unichain (batched nanopayments, `nano.blockrun.ai`) | — |
-| [PayAI](https://payai.network) | Base, Solana | `facilitator.payai.network/discovery/resources` |
-| [QuestFlow](https://questflow.ai) | Base | `facilitator.questflow.ai/discovery/resources` |
-| [AnySpend](https://anyspend.com) | Base | `mainnet.anyspend.com/x402/discovery/resources` |
-| [AurraCloud](https://aurracloud.com) | Base | `x402-facilitator.aurracloud.com/discovery/resources` |
-| [thirdweb](https://thirdweb.com) | Base, Ethereum | `api.thirdweb.com/v1/payments/x402/discovery/resources` |
 | Facilitator | Network | Discovery Endpoint | Status |
 |-------------|---------|-------------------|--------|
 | [Coinbase CDP](https://coinbase.com/cloud) | Base, Ethereum | `api.cdp.coinbase.com/platform/v2/x402/discovery/resources` | ✅ Live |
+| [Circle Gateway](https://developers.circle.com/gateway/nanopayments) | Polygon, Arbitrum, Optimism, Unichain (batched nanopayments, `nano.blockrun.ai`) | — | ✅ Live |
 | [PayAI](https://payai.network) | Base, Solana | `facilitator.payai.network/discovery/resources` | ✅ Live |
-| [QuestFlow](https://questflow.ai) | Base | `facilitator.questflow.ai/discovery/resources` | ⚠️ 500 |
+| [QuestFlow](https://questflow.ai) | Base | `facilitator.questflow.ai/discovery/resources` | ⚠️ Redirects to homepage |
 | [AnySpend](https://anyspend.com) | Base | `mainnet.anyspend.com/x402/discovery/resources` | ✅ Live |
 | [AurraCloud](https://aurracloud.com) | Base | `x402-facilitator.aurracloud.com/discovery/resources` | ❌ Unreachable |
 | [thirdweb](https://thirdweb.com) | Base, Ethereum | `api.thirdweb.com/v1/payments/x402/discovery/resources` | ✅ Live |
 
-<sub>Status column verified 2026-08-02 by GET on each discovery endpoint. `facilitator.questflow.ai` returned HTTP 500 (`not authorized on x402-prod to execute command aggregate: "discoverable_resources"`); `x402-facilitator.aurracloud.com` did not resolve (its apex `aurracloud.com` does). The other four returned resource lists.</sub>
+<sub>Status verified 2026-11-18 by GET on each discovery endpoint. `facilitator.questflow.ai/discovery/resources` answers 302 to the questflow.ai homepage instead of a resource list. `x402-facilitator.aurracloud.com` does not resolve (NXDOMAIN). Coinbase CDP, PayAI, AnySpend and thirdweb returned resource lists. Circle Gateway has no discovery endpoint; it is the live rail behind `nano.blockrun.ai`.</sub>
 
 ## Partners
 

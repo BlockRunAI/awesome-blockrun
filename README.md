@@ -350,6 +350,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 |---------|-------------|
 | [![Circle](https://img.shields.io/badge/Circle-Alliance_Partner-00D4AA)](https://partners.circle.com/partner/blockrunai) | Official Circle Alliance Partner powering USDC payments on Base |
 | [![AWS](https://img.shields.io/badge/AWS-AgentCore_Payments_Launch_Partner-FF9900)](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) | Launch partner for Amazon Bedrock AgentCore Payments (GA Aug 2026) — agents on AWS pay for BlockRun's pay-per-use endpoints via x402 |
+| [![Anchorage Digital](https://img.shields.io/badge/Anchorage_Digital-Institutional_Partner-1A1A1A)](https://www.anchorage.com) | Agentic Banking workflows pay for BlockRun inference per request over x402, for institutional research and trading agents |
 
 ### Data Partners
 
