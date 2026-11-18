@@ -373,7 +373,6 @@ BlockRun aggregates services from the x402 facilitator network:
 | [Circle Gateway](https://developers.circle.com/gateway/nanopayments) | Polygon, Arbitrum, Optimism, Unichain (batched nanopayments via `nano.blockrun.ai`) |
 | [PayAI](https://payai.network) | Base, Solana |
 | [thirdweb](https://thirdweb.com) | Base, Ethereum |
-| [QuestFlow](https://questflow.ai) | Base |
 | [AnySpend](https://anyspend.com) | Base |
 | [AurraCloud](https://aurracloud.com) | Base |
 
