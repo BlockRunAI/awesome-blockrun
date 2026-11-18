@@ -17,11 +17,10 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 | **Search** | `/v1/search` | $0.025/source | ✅ Live |
 | **Exa Web Search** | `/v1/exa/*` | $0.003–0.011 | ✅ Live |
 | **Prediction Markets** | `/v1/pm/*` | $0.0085 | ✅ Live |
-| **Surf Crypto Data** | `/v1/surf/*` (83 endpoints) | $0.0085 | ✅ Live |
 | **DefiLlama** | `/v1/defillama/*` | $0.002–0.006 | ✅ Live |
 | **0x Swap (DEX)** | `/v1/zerox/*` | Free | ✅ Live |
 | **Multi-chain RPC** | `/v1/rpc/{network}` (<!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains) | $0.003/call | ✅ Live |
-| **Market Data (Pyth)** | `/v1/{crypto,fx,commodity}/*` · `/v1/{usstock,stocks}/*` | Free · $0.002 | ✅ Live |
+| **Market Data (Pyth)** | `/v1/{crypto,fx,commodity}/*` | Free | ✅ Live |
 | **Modal Sandbox** | `/v1/modal/*` | $0.002–0.011 | ✅ Live |
 | **RealFace / Virtual Portrait** | `/v1/realface/enroll`, `/v1/portrait/enroll` | $0.011 | ✅ Live |
 | **Polymarket Funding** | `/v1/polymarket/fund` | $0.011 fee | ✅ Live |
@@ -45,17 +44,13 @@ Full catalog with per-path prices: [x402 Endpoints](./docs/x402/endpoints.md).
 
 ## x402 Facilitators
 
-BlockRun works with the x402 facilitator network:
+BlockRun settles x402 payments through these facilitators:
 
-| Facilitator | Network | Discovery Endpoint | Status |
-|-------------|---------|-------------------|--------|
-| [Coinbase CDP](https://coinbase.com/cloud) | Base, Ethereum | `api.cdp.coinbase.com/platform/v2/x402/discovery/resources` | ✅ Live |
-| [Circle Gateway](https://developers.circle.com/gateway/nanopayments) | Polygon, Arbitrum, Optimism, Unichain (batched nanopayments, `nano.blockrun.ai`) | — | ✅ Live |
-| [PayAI](https://payai.network) | Base, Solana | `facilitator.payai.network/discovery/resources` | ✅ Live |
-| [AnySpend](https://anyspend.com) | Base | `mainnet.anyspend.com/x402/discovery/resources` | ✅ Live |
-| [thirdweb](https://thirdweb.com) | Base, Ethereum | `api.thirdweb.com/v1/payments/x402/discovery/resources` | ✅ Live |
-
-<sub>Status verified 2026-11-18 by GET on each discovery endpoint. Coinbase CDP, PayAI, AnySpend and thirdweb returned resource lists. Circle Gateway has no discovery endpoint; it is the live rail behind `nano.blockrun.ai`.</sub>
+| Facilitator | Gateway | Network |
+|-------------|---------|---------|
+| [Coinbase CDP](https://coinbase.com/cloud) | `blockrun.ai` | Base |
+| [PayAI](https://payai.network) | `sol.blockrun.ai` | Solana |
+| [Circle Gateway](https://developers.circle.com/gateway/nanopayments) | `nano.blockrun.ai` | Polygon, Arbitrum, Optimism, Unichain (gas-free, batched nanopayments) |
 
 ## Partners
 
@@ -64,35 +59,32 @@ BlockRun works with the x402 facilitator network:
 | [Circle](https://partners.circle.com/partner/blockrunai) | Alliance Partner — USDC payments on Base; Circle Gateway nanopayments on `nano.blockrun.ai` |
 | [OKX OnchainOS](https://web3.okx.com) | Agentic wallet behind XClawRouter |
 | [Amazon Web Services](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) | Launch partner — Amazon Bedrock AgentCore Payments (GA Aug 2026) pays for BlockRun endpoints via x402 |
-| [Anchorage Digital](https://www.anchorage.com) | Institutional partner — Agentic Banking workflows pay for BlockRun inference per request over x402, for research and trading agents |
-| [Coinbase CDP](https://coinbase.com/cloud) | x402 facilitator infrastructure |
-| [x402 Foundation](https://x402.org) | Protocol development |
-| [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
+| [Anchorage Digital](https://www.anchorage.com/insights/anchorage-digital-partners-with-blockrun-to-bring-pay-per-request-inference-to-institutional-research-agents) | Institutional partner — Agentic Banking workflows pay for BlockRun inference per request over x402, for research and trading agents |
+| [Coinbase CDP](https://coinbase.com/cloud) | x402 facilitator — settles Base USDC on `blockrun.ai` |
+| [PayAI](https://payai.network) | x402 facilitator — settles Solana USDC on `sol.blockrun.ai` |
 | [Predexon](https://predexon.com) | Prediction market data (Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance) |
-| [Entropy Index](https://www.entropyindex.com) | Regime / risk gate — heat check before size ($0.25 Base USDC x402); complementary to PM data |
 | [Modal](https://modal.com) | Sandbox compute (managed Python sandboxes for isolated code execution) |
-| [Surf (asksurf.ai)](https://asksurf.ai) | Crypto data — 83 endpoints |
 | [Exa](https://exa.ai) | Neural web search |
 | [0x](https://0x.org) | DEX aggregation (Swap V2 + Gasless V2) |
-| [Pyth](https://pyth.network) | Crypto, FX, commodity and equity prices |
+| [Pyth](https://pyth.network) | Crypto, FX and commodity prices |
 | [Bland.ai](https://bland.ai) / [Twilio](https://twilio.com) | Voice calls / phone-number provisioning |
 
 ## Community Integrations
 
 | Project | Category | Description |
 |---------|----------|-------------|
-| [Arch Tools](https://archtools.dev) | AI Tools / MCP | 53 production-ready AI tools via MCP with x402 USDC payments on Base L2. Web scraping, crypto data, AI generation, OCR, and more. |
 | [LLM_trader](https://github.com/qrak/LLM_trader) | Trading Bot | Autonomous crypto trading bot with Visual Cortex for chart analysis |
 | [Voyage GEO](https://github.com/onvoyage-ai/voyage-geo-agent) | AI Analytics | Generative Engine Optimization - track AI brand mentions across multiple models |
-| [PulseNetwork](https://pulsenetwork.theaslangroupllc.com) | API Catalog | 76-origin x402 API catalog (950+ pay-per-call intelligence endpoints: token safety, macro, geopolitical, sports, clinical trials) — purchasable by BlockRun-powered agents via CDP/PayAI facilitator discovery |
-| [TensorFeed](https://tensorfeed.ai) | AI Intelligence | AI-industry intelligence for agents: vendor pricing, model status, deprecations, CVEs, capital, research. Daily-fresh JSON feeds. Premium endpoints priced in USDC via x402, cataloged in CDP Bazaar ([manifest](https://tensorfeed.ai/.well-known/x402.json), [/developers](https://tensorfeed.ai/developers)) |
+| [PredictOS](https://github.com/PredictionXBT/PredictOS) | Prediction Markets | Prediction market analysis platform; BlockRun is one of its AI providers, paid over x402 |
+| [Spraay](https://github.com/plagtech/spraay-x402-gateway) | x402 Gateway | Multi-chain x402 payment gateway with BlockRun as one of its two AI inference providers |
+| [NoFx](https://github.com/NoFxAiOS/nofx) | Crypto Trading | Personal AI trading assistant — any market, any model, pay with USDC |
+| [Metaculus Forecast Bot](https://github.com/eltociear/metaculus-forecast-bot) | Forecasting | Forecasting bot for the Metaculus AI Benchmark; BlockRun is its LLM backend, paid by wallet signature |
 
-| [Counterra](https://github.com/billiondollarapps/counterra) | Accounting | Open-source accounting for x402 spend — decodes settlements into journal entries with per-agent attribution, exports to QuickBooks/Xero |
 ### Claude Code Tools
 
 | Tool | Description | Install |
 |------|-------------|---------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server — <!-- br:mcp.tools -->19<!-- /br:mcp.tools --> tools across <!-- br:models.chatVisible -->93<!-- /br:models.chatVisible --> AI models, image/video/music/speech gen, voice calls, crypto data (Surf), prediction markets, DEX prices, raw JSON-RPC (<!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains), DeFi TVL/yields, sandboxed code exec, search | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server — <!-- br:mcp.tools -->19<!-- /br:mcp.tools --> tools across <!-- br:models.chatVisible -->93<!-- /br:models.chatVisible --> AI models, image/video/music/speech gen, voice calls, prediction markets, DEX prices, raw JSON-RPC (<!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains), DeFi TVL/yields, sandboxed code exec, search | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
 | [blockrun-claude-plugin](https://github.com/BlockRunAI/blockrun-claude-plugin) | Media plugin — spend confirmation before each paid image/video/audio call, running cost meter, balance status line | `claude --plugin-dir /path/to/blockrun-plugin` |
 | [Claude-Code-GPT-IMAGE2-SeeDance-BlockRun](https://github.com/BlockRunAI/Claude-Code-GPT-IMAGE2-SeeDance-BlockRun) | `/headshot`, `/dance`, `/poster`, `/launch-film` — 848 prompt cases as one-line commands, pay per image | `curl -fsSL https://raw.githubusercontent.com/BlockRunAI/Claude-Code-GPT-IMAGE2-SeeDance-BlockRun/main/install.sh \| bash` |
 | [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp) | AI crypto-trading MCP — technical analysis, sentiment, DEX swaps on Base, risk limits | `claude mcp add alpha npx @blockrun/alpha` |
@@ -135,7 +127,6 @@ Every public, non-archived repo in the [BlockRunAI org](https://github.com/Block
 |---------|----------|-------|--------|-------------|
 | [Continue](https://github.com/continuedev/continue) | IDE Extension | 32K+ | ✅ Released | [Native provider](https://github.com/continuedev/continue/commit/becda53a17be7c8c8a254bc914ff92bb01ba8d9c) |
 | [Amazon Bedrock AgentCore](https://aws.amazon.com/bedrock/agentcore/) | Agent Platform | Official | ✅ Released | [AgentCore Payments](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) — launch partner |
-| [GOAT SDK](https://github.com/crossmint/goat) | Agent Framework | 150K+ downloads | In Review | - |
 | [ElizaOS](https://github.com/elizaOS/eliza) | Agent Framework | 60K+ | ✅ Released | [elizaos-plugin-blockrun](https://github.com/BlockRunAI/elizaos-plugin-blockrun) |
 | [OpenAI Codex](https://github.com/openai/codex) | Coding Agent | — | ✅ Released | [clawrouter-codex](https://github.com/BlockRunAI/clawrouter-codex) · [blockrun-codex-plugin](https://github.com/BlockRunAI/blockrun-codex-plugin) |
 | [Hermes](https://github.com/NousResearch/hermes-agent) | Agent Framework | — | ✅ Released | [ClawRouter-Hermes](https://github.com/BlockRunAI/ClawRouter-Hermes) |
@@ -144,11 +135,8 @@ Every public, non-archived repo in the [BlockRunAI org](https://github.com/Block
 | [LiteLLM](https://github.com/BerriAI/litellm) | LLM Gateway | — | ✅ Released | [blockrun-litellm](https://github.com/BlockRunAI/blockrun-litellm) |
 | [OKX OnchainOS](https://web3.okx.com) | Agent Wallet | — | ✅ Released | [XClawRouter](https://github.com/BlockRunAI/XClawRouter) |
 | [lobster.cash](https://lobster.cash) | OpenClaw Plugin | — | ✅ Released | [lobstercash-blockrun-skill](https://github.com/BlockRunAI/lobstercash-blockrun-skill) |
-| [AgentKit](https://github.com/coinbase/agentkit) | Agent Framework | Official | Planned | Example code |
-| [LangChain](https://github.com/langchain-ai/langchain) | LLM Framework | 100K+ | Planned | Custom LLM provider |
-| [OctoBot](https://github.com/Drakkar-Software/OctoBot) | Trading Bot | 5K+ | Planned | Integration |
 
-Want to add an integration? [Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or submit a PR!
+Built an integration? [Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) with a link to the code that calls BlockRun.
 
 ## SDKs
 
@@ -217,11 +205,6 @@ BlockRun routes to these AI providers via x402:
 
 ## Become a Partner
 
-Interested in partnering with BlockRun?
+Interested in partnering with BlockRun? Write to [hello@blockrun.ai](mailto:hello@blockrun.ai).
 
-- **Facilitators** - Integrate your x402 facilitator
-- **Agent Frameworks** - Add BlockRun as an LLM provider
-- **AI Providers** - Get listed on our gateway
-- **Data Providers** - Monetize your API via x402
-
-[Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or reach out on [Telegram](https://t.me/+mroQv4-4hGgzOGUx).
+This page lists companies we work with and projects built on BlockRun. A standalone x402 service is not listed here, however well it works; to talk about a route on the BlockRun gateway, email us.
