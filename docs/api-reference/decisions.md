@@ -14,7 +14,7 @@ The request and response follow OpenAI's Decisions API, so any OpenAI SDK works.
 | Endpoint | Auth | Price |
 |----------|------|-------|
 | `POST https://blockrun.ai/v1/decisions` | Pay per call: x402 `exact` (`payment-signature`, after the 402) | Estimated input tokens × $0.10 per 1M, plus the $0.001 per-call fee. Output is not billed. A Gemini Decision 1 call costs at most $0.027215. |
-| `POST https://sol.blockrun.ai/v1/decisions` | Pay per call: x402 `exact` or `batch` | `exact`: as above. `batch`: the input tokens the model reports × $0.10 per 1M, with no per-call fee. |
+| `POST https://sol.blockrun.ai/v1/decisions` | Pay per call: x402 `exact` or `batch` | `exact`: as above. `batch`: the input tokens the model reports × $0.10 per 1M, with no per-call fee. The call that opens a new batch channel pays its `exact` quote. |
 | `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | $0.10 per million input tokens, plus your account margin, from your credit |
 
 Both models cost $0.10 per million input tokens.
@@ -41,7 +41,7 @@ The 402 quotes the price before you pay, and on `exact` that quote is what settl
 - **Gemini Decision 1** also counts 8 tokens per choice or level, and its priced tokens never exceed its 262,144-token window, so a call costs at most $0.027215.
 - **gpt-6-luna**: past 272K tokens the whole request is priced at $0.20 per 1M.
 
-A one-question call on a 2,000-character English message costs about $0.0012 on either model. On `sol.blockrun.ai` the `batch` scheme charges the tokens the model reports instead of the estimate, with no per-call fee. Nothing is charged unless the model returns an answer.
+A one-question call on a 2,000-character English message costs about $0.0012 on either model. On `sol.blockrun.ai` the `batch` scheme charges the tokens the model reports instead of the estimate, with no per-call fee; the call that opens a new channel pays its `exact` quote. Nothing is charged unless the model returns an answer.
 
 ## Billing: API key and credit
 
