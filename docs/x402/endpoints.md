@@ -25,7 +25,7 @@ The same paths are available on each gateway. The 402 response advertises which 
 | `xrpl.blockrun.ai` | XRP Ledger | RLUSD (Ripple-issued USD) | — | **Sunset — the gateway no longer serves requests** (returns 404 as of 2026-08-29). Use Base or Solana. See the [XRPL SDK notice](../sdks/xrpl.md). |
 | `testnet.blockrun.ai` | Base Sepolia — `eip155:84532` | USDC `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | Per-call onchain | Free test USDC. Smaller model catalog. |
 
-All live gateways implement [x402 v2](https://x402.org). Facilitators: Coinbase CDP for Base, native Solana verification, Circle Gateway for `nano.blockrun.ai`.
+All live gateways implement [x402 v2](https://x402.org). Facilitators: Coinbase CDP for Base, PayAI for Solana, Circle Gateway for `nano.blockrun.ai`.
 
 Per-token chat (`/chat/completions`, `/messages`, `/responses`) is billed at provider cost with **no platform margin** — only the flat **$0.001 / request** transaction fee is added. Media generation carries a 5% margin; Live Search is a flat $0.08 per call. Flat prices quoted below already include the transaction fee; per-unit rates (per 1k characters, per second) are shown with the fee separately.
 

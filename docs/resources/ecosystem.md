@@ -153,24 +153,23 @@ Projects built by the community using BlockRun.
 
 ## x402 Facilitators
 
-BlockRun works with the x402 facilitator network:
+BlockRun settles x402 payments through these facilitators:
 
-| Facilitator | Network | Link |
-|-------------|---------|------|
-| Coinbase CDP | Base, Ethereum | [coinbase.com/cloud](https://coinbase.com/cloud) |
-| Circle Gateway | Polygon, Arbitrum, Optimism, Unichain (batched nanopayments) | [developers.circle.com/gateway](https://developers.circle.com/gateway/nanopayments) |
-| PayAI | Base, Solana | [payai.network](https://payai.network) |
-| AnySpend | Base | [anyspend.com](https://anyspend.com) |
-| thirdweb | Base, Ethereum | [thirdweb.com](https://thirdweb.com) |
+| Facilitator | Gateway | Network |
+|-------------|---------|---------|
+| [Coinbase CDP](https://coinbase.com/cloud) | `blockrun.ai` | Base |
+| [PayAI](https://payai.network) | `sol.blockrun.ai` | Solana |
+| [Circle Gateway](https://developers.circle.com/gateway/nanopayments) | `nano.blockrun.ai` | Polygon, Arbitrum, Optimism, Unichain (gas-free, batched nanopayments) |
 
 ## Partners
 
 | Partner | Relationship |
 |---------|--------------|
 | [Circle](https://partners.circle.com/partner/blockrunai) | Alliance Partner — USDC payments on Base; Circle Gateway nanopayments on `nano.blockrun.ai` |
-| [Coinbase CDP](https://coinbase.com/cloud) | x402 facilitator infrastructure |
-| [x402 Foundation](https://x402.org) | Protocol development |
-| [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
+| [Amazon Web Services](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) | Launch partner — Amazon Bedrock AgentCore Payments pays for BlockRun endpoints via x402 |
+| [Anchorage Digital](https://www.anchorage.com/insights/anchorage-digital-partners-with-blockrun-to-bring-pay-per-request-inference-to-institutional-research-agents) | Institutional partner — Agentic Banking workflows pay for BlockRun inference per request over x402, for research and trading agents |
+| [Coinbase CDP](https://coinbase.com/cloud) | x402 facilitator — settles Base USDC on `blockrun.ai` |
+| [PayAI](https://payai.network) | x402 facilitator — settles Solana USDC on `sol.blockrun.ai` |
 | [OKX OnchainOS](https://web3.okx.com) | Agentic wallet behind XClawRouter |
 | [Predexon](https://predexon.com) | Prediction market data |
 | [Modal](https://modal.com) | Sandbox compute (isolated code execution) |
@@ -229,14 +228,9 @@ Building with BlockRun? We'd love to feature your project!
 
 ## Become a Partner
 
-Interested in partnering with BlockRun?
+Interested in partnering with BlockRun? Write to [hello@blockrun.ai](mailto:hello@blockrun.ai).
 
-- **Facilitators** — Integrate your x402 facilitator
-- **Agent Frameworks** — Add BlockRun as an LLM provider
-- **AI Providers** — Get listed on our gateway
-- **Data Providers** — Monetize your API via x402
-
-Contact: [Open an issue](https://github.com/blockrunai/awesome-blockrun/issues) or [Telegram](https://t.me/+mroQv4-4hGgzOGUx)
+This page lists companies we work with and projects built on BlockRun. A standalone x402 service is not listed here, however well it works; to talk about a route on the BlockRun gateway, email us.
 
 ## What's next?
 

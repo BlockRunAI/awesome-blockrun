@@ -5,15 +5,14 @@
 | Partner | Contribution |
 |---------|--------------|
 | [Coinbase CDP](https://coinbase.com/cloud) | x402 facilitator infrastructure |
-| [x402 Foundation](https://x402.org) | Protocol development |
-| [thirdweb](https://thirdweb.com) | Wallet infrastructure |
+| [PayAI](https://payai.network) | x402 facilitator for Solana |
+| [Circle](https://partners.circle.com/partner/blockrunai) | USDC, and Circle Gateway nanopayments |
 
 ## Integrations
 
 | Project | Status | Link |
 |---------|--------|------|
 | Continue | ✅ Merged | [continuedev/continue@becda53](https://github.com/continuedev/continue/commit/becda53a17be7c8c8a254bc914ff92bb01ba8d9c) |
-| GOAT SDK | In Review | [crossmint/goat](https://github.com/crossmint/goat) |
 
 ## Contributors
 

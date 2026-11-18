@@ -90,12 +90,11 @@ BlockRun is a unified API gateway — use account credits with one API key, or U
 | **Music Generation** | `/v1/audio/generations` | Per track | Suno-powered text-to-music |
 | **Voice Calls** | `/v1/voice/call` | $0.541/call (flat, ≤30min) | Outbound AI conversation calls — Bland.ai upstream |
 | **Phone Numbers** | `/v1/phone/numbers/*` | $5.001/30 days | Wallet-owned US/CA numbers — Twilio upstream |
-| **Surf Crypto Data** | `/api/v1/surf/*` | $0.0085 | 83 endpoints: CEX, on-chain SQL, prediction markets, wallet labels, social mindshare, news, search (asksurf.ai) |
 | **Web Search** | `/api/v1/exa/*` | $0.011/search | Neural web search, find-similar, page contents, AI answers (Exa) |
 | **DEX Aggregation** | `/api/v1/zerox/*` | Free | 0x Swap V2 + Gasless V2 across 100+ venues |
 | **Sandbox Runtime** | `/api/v1/modal/*` | Per run | Secure isolated Python execution (Modal) |
 | **Prediction Markets** | `/v1/pm/*` | $0.0085 | Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance Futures (Predexon) |
-| **Trading Markets** | `/v1/stocks/{market}/*` | $0.002 | Equity tickers across US, KR, JP, CN, etc. (Pyth) |
+| **Market Data** | `/v1/{crypto,fx,commodity}/*` | Free | Crypto, FX and commodity spot prices (Pyth) |
 | **Models** | `/v1/models` | Free | List all available models with pricing |
 | **Pricing** | `/v1/pricing` | Free | Detailed pricing for all models |
 | **Balance** | `/v1/balance` | Free | Check USDC wallet balance |
@@ -319,9 +318,6 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 | [OKX OnchainOS](https://web3.okx.com) | ✅ Released | [XClawRouter](https://github.com/BlockRunAI/XClawRouter) — ClawRouter with the OKX Agentic Wallet |
 | [lobster.cash](https://lobster.cash) | ✅ Released | [lobstercash-blockrun-skill](https://github.com/BlockRunAI/lobstercash-blockrun-skill) |
 | [Amazon Bedrock AgentCore](https://aws.amazon.com/bedrock/agentcore/) | ✅ Released | [AgentCore Payments](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) — managed x402 wallet for Strands, LangGraph and OpenClaw agents; BlockRun is a launch partner |
-| [GOAT SDK](https://github.com/crossmint/goat) | 🔄 In Review | Agent framework integration |
-| [AgentKit](https://github.com/coinbase/agentkit) | 📋 Planned | Coinbase agent framework |
-| [LangChain](https://github.com/langchain-ai/langchain) | 📋 Planned | Custom LLM provider |
 
 ---
 
@@ -350,7 +346,7 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 |---------|-------------|
 | [![Circle](https://img.shields.io/badge/Circle-Alliance_Partner-00D4AA)](https://partners.circle.com/partner/blockrunai) | Official Circle Alliance Partner powering USDC payments on Base |
 | [![AWS](https://img.shields.io/badge/AWS-AgentCore_Payments_Launch_Partner-FF9900)](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) | Launch partner for Amazon Bedrock AgentCore Payments (GA Aug 2026) — agents on AWS pay for BlockRun's pay-per-use endpoints via x402 |
-| [![Anchorage Digital](https://img.shields.io/badge/Anchorage_Digital-Institutional_Partner-1A1A1A)](https://www.anchorage.com) | Agentic Banking workflows pay for BlockRun inference per request over x402, for institutional research and trading agents |
+| [![Anchorage Digital](https://img.shields.io/badge/Anchorage_Digital-Institutional_Partner-1A1A1A)](https://www.anchorage.com/insights/anchorage-digital-partners-with-blockrun-to-bring-pay-per-request-inference-to-institutional-research-agents) | Agentic Banking workflows pay for BlockRun inference per request over x402, for institutional research and trading agents |
 
 ### Data Partners
 
@@ -358,28 +354,18 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 |---------|---------|-------------|
 | [Exa](https://exa.ai) | Web Search | Neural web search, find-similar, page contents, AI-grounded answers |
 | [Predexon](https://predexon.com) | Prediction Markets | Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance Futures data |
-| [Entropy Index](https://www.entropyindex.com) | Regime / risk | Pre-action regime gate for agentic capital — heat check before size ($0.25 Base USDC x402). |
 | [Modal](https://modal.com) | Sandbox Compute | Managed Python sandboxes for isolated code execution |
-| [Surf](https://asksurf.ai) | Crypto Data | 83 endpoints — CEX, on-chain SQL, wallet labels, social, news |
-| [Pyth](https://pyth.network) | Market Data | Crypto, FX, commodity and equity prices |
+| [Pyth](https://pyth.network) | Market Data | Crypto, FX and commodity prices |
 
 ### x402 Facilitators
 
-BlockRun aggregates services from the x402 facilitator network:
+BlockRun settles x402 payments through these facilitators:
 
-| Facilitator | Network |
-|-------------|---------|
-| [Coinbase CDP](https://coinbase.com/cloud) | Base, Ethereum |
-| [Circle Gateway](https://developers.circle.com/gateway/nanopayments) | Polygon, Arbitrum, Optimism, Unichain (batched nanopayments via `nano.blockrun.ai`) |
-| [PayAI](https://payai.network) | Base, Solana |
-| [thirdweb](https://thirdweb.com) | Base, Ethereum |
-| [AnySpend](https://anyspend.com) | Base |
-
-### Protocol Partner
-
-| Partner | Relationship |
-|---------|--------------|
-| [x402 Foundation](https://x402.org) | Protocol development |
+| Facilitator | Gateway | Network |
+|-------------|---------|---------|
+| [Coinbase CDP](https://coinbase.com/cloud) | `blockrun.ai` | Base |
+| [PayAI](https://payai.network) | `sol.blockrun.ai` | Solana |
+| [Circle Gateway](https://developers.circle.com/gateway/nanopayments) | `nano.blockrun.ai` | Polygon, Arbitrum, Optimism, Unichain (gas-free, batched nanopayments) |
 
 ### Events
 
@@ -424,7 +410,7 @@ The **x402 protocol** (HTTP 402 "Payment Required") lets any HTTP request includ
 | Phase | Timeline | Focus |
 |-------|----------|-------|
 | LLM Gateway | Now | Pay-per-request access to <!-- br:models.chatVisible -->93<!-- /br:models.chatVisible --> AI models |
-| Premium Data | Now | Neural web search (Exa), prediction markets (Predexon), Surf crypto data, DEX, image / video / music generation, voice calls |
+| Premium Data | Now | Neural web search (Exa), prediction markets (Predexon), DEX, image / video / music generation, voice calls |
 | Agent Wallets | Now | Per-agent delegation budgets (blockrun-mcp), Franklin agent wallet, spend confirmation plugins |
 | Multi-Chain | Now | Solana + Base gateways live; Polygon / Arbitrum / Optimism / Unichain via Circle Gateway (`nano.blockrun.ai`) |
 | Trust | In progress | Smart routing shipped (router-core); service ratings and uptime tracking next |
