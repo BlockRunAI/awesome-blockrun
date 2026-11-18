@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 121 models — chat, image, video, music and speech — from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
+description: List and price 124 models — chat, image, video, music and speech — from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
 ---
 
 # Models
@@ -75,16 +75,18 @@ All prices shown are provider rates — and, for per-token chat, also the billed
 
 ### OpenAI GPT-6 Family
 
-Astra is the flagship; Sol (released 2026-09-22 with Luna) is the cost-efficient tier below it, and GPT-6.1 Sol (released 2026-09-29) is its refresh at the same price with a cheaper cached rate ($0.10/M against Sol's $0.20/M). All four bill a **long-context tier** — 2x input and cached rates, 1.5x output for the whole request once the prompt exceeds 272K tokens (mirrors OpenAI's official pricing: `gpt-6-sol` and `gpt-6.1-sol` are $4.00/M in · $15.00/M out above the threshold). Astra, Sol and Luna serve [Flex](/docs/getting-started/enterprise-api#flex) at half the standard rate; GPT-6.1 Sol does not offer Flex yet.
+GPT-6.2 Astra (released 2026-11-17) is OpenAI's most capable model, with output 20% below GPT-6 Astra's; GPT-6.2 Sol is the everyday tier at Sol's price, with knowledge through June 2026. Astra is the GPT-6 flagship; Sol (released 2026-09-22 with Luna) is the cost-efficient tier below it, and GPT-6.1 Sol (released 2026-09-29) is its refresh at the same price with a cheaper cached rate ($0.10/M against Sol's $0.20/M). All six bill a **long-context tier** — 2x input and cached rates, 1.5x output for the whole request once the prompt exceeds 272K tokens (mirrors OpenAI's official pricing: `gpt-6-sol` and `gpt-6.1-sol` are $4.00/M in · $15.00/M out above the threshold). Astra, Sol and Luna serve [Flex](/docs/getting-started/enterprise-api#flex) at half the standard rate; GPT-6.1 Sol and GPT-6.2 do not offer Flex, and a `service_tier: "flex"` request to them is refused before payment. GPT-6.2 writes a prompt cache by default, which OpenAI bills at 1.25x input ($10/M on Astra, $2.50/M on Sol), so its `exact` quote prices input at that write rate.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `openai/gpt-6.2-astra` | GPT-6.2 Astra | $8.00/M | $40.00/M | 1M |
+| `openai/gpt-6.2-sol` | GPT-6.2 Sol | $2.00/M | $10.00/M | 1M |
 | `openai/gpt-6-astra` | GPT-6 Astra | $10.00/M | $50.00/M | 1M |
 | `openai/gpt-6.1-sol` | GPT-6.1 Sol | $2.00/M | $10.00/M | 1M |
 | `openai/gpt-6-sol` | GPT-6 Sol | $2.00/M | $10.00/M | 1M |
 | `openai/gpt-6-luna` | GPT-6 Luna | $0.10/M | $0.50/M | 1M |
 
-GPT-6 models accept `reasoning_effort` `low` through `max` and reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`. On plain chat the gateway lowers `max` to `xhigh`. Tool calls, which it serves through OpenAI's Responses API, run at the effort you ask for, `max` included, and at `medium` when none is sent. Higher effort spends more reasoning, which bills as output and counts against `max_tokens`. An `exact` payment is already quoted at the full `max_tokens`, so effort does not change its price; set `max_tokens` high enough for the reasoning you ask for. `none` and `minimal` are raised to `low` on Astra and GPT-6.1 Sol; Sol and Luna accept `none`, and raise `minimal` to `low`.
+GPT-6 models accept `reasoning_effort` `low` through `max` and reject `temperature` other than 1, `top_p`, penalties, `logprobs` and `stop`. On plain chat the gateway lowers `max` to `xhigh`. Tool calls, which it serves through OpenAI's Responses API, run at the effort you ask for, `max` included, and at `medium` when none is sent. Higher effort spends more reasoning, which bills as output and counts against `max_tokens`. An `exact` payment is already quoted at the full `max_tokens`, so effort does not change its price; set `max_tokens` high enough for the reasoning you ask for. `none` and `minimal` are raised to `low` on Astra, GPT-6.1 Sol and both GPT-6.2 models; Sol and Luna accept `none`, and raise `minimal` to `low`. Raising `none` does not change an `exact` price (it is the full `max_tokens` either way); on `upto`, the little reasoning `low` spends bills as output.
 
 ### OpenAI GPT-5.6 Family
 
@@ -181,6 +183,7 @@ These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); t
 |----------|------|-------------|--------------|---------|
 | `google/gemini-4-carbon` | Gemini 4 Carbon | $2.00/M | $10.00/M | 1M |
 | `google/gemini-4-argon` | Gemini 4 Argon | $2.00/M | $10.00/M | 1M |
+| `google/gemini-4-hydrogen` | Gemini 4 Hydrogen | $1.50/M | $7.50/M | 1M |
 | `google/gemini-3.1-pro` | Gemini 3.1 Pro | $2.00/M | $12.00/M | 1M |
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
 | `google/gemini-3.5-flash` | Gemini 3.5 Flash | $1.50/M | $9.00/M | 1M |
