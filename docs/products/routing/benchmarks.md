@@ -145,8 +145,8 @@ router-core's `speed` and `reliability` terms are designed to consume.
 Three things this page is **not** saying:
 
 **Not that our per-token prices are lower than anyone else's.** Per-token chat
-pricing carries zero margin — you pay what the model costs. There is no
-per-token discount to claim, because there is no per-token markup to discount.
+is the vendor's list price plus a 5% platform fee. There is no per-token
+discount to claim.
 
 **Not that every call gets cheaper.** Add the $0.001 per-request fee and a single
 call to a frontier model costs marginally *more* here than buying that model's

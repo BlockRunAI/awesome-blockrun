@@ -1,21 +1,22 @@
 ---
 title: Intelligence Pricing
-description: BlockRun Intelligence pricing — per-token chat at provider cost with no platform margin, a full price list, image rates, and a free tier of 9 models.
+description: BlockRun Intelligence pricing — token prices at the vendor's list price plus a 5% platform fee, a full price list, image rates, and a free tier of 9 models.
 ---
 
 # Intelligence Pricing
 
-Per-token chat is billed at **provider cost** — no platform margin. The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. See [How the quote is computed](../../api-reference/chat-completions.md#payment-required-402).
+Per-token chat is billed at **the vendor's list price, plus a 5% platform fee**. The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. See [How the quote is computed](../../api-reference/chat-completions.md#payment-required-402).
 
 ## Pricing Formula
 
 ```
-Your cost = Provider cost          (per-token chat — no platform margin;
-                                     on exact: input + your full max_tokens)
+Your cost = Provider list price    (per-token chat; on exact: input + your
+                                     full max_tokens)
+              × 1.05                 (5% platform fee, before the $0.001 minimum)
               + $0.001 / request     (flat x402 transaction fee)
 ```
 
-Media generation and Live Search still carry a 5% platform margin, which covers:
+The per-token rates on this page, `/api/pricing` and `/v1/models` stay at the vendor's list price; the fee is published beside them (`chatPlatformFeePercent`, `platform_fee_percent`). No platform fee on free models, the Live Search surcharge or Decisions. Media generation carries a 5% margin. Together they cover:
 - x402 settlement infrastructure
 - Smart routing and reliability
 - No API key management
@@ -25,9 +26,9 @@ Media generation and Live Search still carry a 5% platform margin, which covers:
 
 | Model | Approximate Usage |
 |-------|------------------|
-| GPT-5.5 | ~200K input tokens |
-| DeepSeek V4.1 Flash | ~7M input tokens |
-| Gemini 3.5 Flash | ~667K input tokens |
+| GPT-5.5 | ~190K input tokens |
+| DeepSeek V4.1 Flash | ~6.8M input tokens |
+| Gemini 3.5 Flash | ~635K input tokens |
 | Image generation | ~2–60 images |
 | **Free tier** (9 models — reasoning, coding, and vision) | **Unlimited (FREE)** |
 
@@ -254,14 +255,14 @@ Paying per call adds the $0.001 per-call fee to the quoted token cost, and a Gem
 
 | Provider | Direct Pricing | BlockRun | Difference |
 |----------|---------------|----------|------------|
-| OpenAI GPT-5.4 | $2.50/$15.00 | $2.50/$15.00 | 0% + $0.001/request |
-| Anthropic Claude Opus 5.5 | $4.00/$20.00 | $4.00/$20.00 | 0% + $0.001/request |
-| Anthropic Claude Sonnet 5.5 | $2.00/$10.00 | $2.00/$10.00 | 0% + $0.001/request |
-| Anthropic Claude Sonnet 5 | $2.00/$10.00 | $2.00/$10.00 | 0% + $0.001/request |
-| Anthropic Claude Sonnet 4.6 | $3.00/$15.00 | $3.00/$15.00 | 0% + $0.001/request |
-| DeepSeek V4.1 Flash | $0.14/$0.28 | $0.14/$0.28 | 0% + $0.001/request |
+| OpenAI GPT-5.4 | $2.50/$15.00 | $2.50/$15.00 | +5% platform fee + $0.001/request |
+| Anthropic Claude Opus 5.5 | $4.00/$20.00 | $4.00/$20.00 | +5% platform fee + $0.001/request |
+| Anthropic Claude Sonnet 5.5 | $2.00/$10.00 | $2.00/$10.00 | +5% platform fee + $0.001/request |
+| Anthropic Claude Sonnet 5 | $2.00/$10.00 | $2.00/$10.00 | +5% platform fee + $0.001/request |
+| Anthropic Claude Sonnet 4.6 | $3.00/$15.00 | $3.00/$15.00 | +5% platform fee + $0.001/request |
+| DeepSeek V4.1 Flash | $0.14/$0.28 | $0.14/$0.28 | +5% platform fee + $0.001/request |
 
-Chat is billed at the provider's list rate with no margin, plus a flat $0.001 transaction fee per request, and you get:
+Chat is billed at the provider's list rate, plus a 5% platform fee and a flat $0.001 transaction fee per request, and you get:
 - No API key management
 - No monthly invoices
 - No prepaid credits
@@ -346,9 +347,9 @@ Shorter prompts = fewer input tokens = lower cost.
 - **No overage charges**
 - **No rate limit fees**
 
-The rates on this page are the providers' own published prices; chat tokens carry
-no margin — only the flat $0.001 transaction fee per request. Media generation and
-Live Search carry 5%.
+The rates on this page are the providers' own published prices. Chat adds a 5%
+platform fee on tokens and the flat $0.001 transaction fee per request. Media
+generation carries 5%.
 
 ## Payment Details
 

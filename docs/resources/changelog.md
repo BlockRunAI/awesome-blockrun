@@ -9,6 +9,11 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ## [2026-11-18]
 
+### Changed — A 5% platform fee on pay-per-call chat
+- Per-token chat paid per call on blockrun.ai and sol.blockrun.ai is billed at **the vendor's list price, plus a 5% platform fee**, then the flat **$0.001 per-request transaction fee** as before. The 402 quote includes it; `upto` and batch settlement apply it to the tokens produced. Example: `openai/gpt-5.5` with a one-word prompt and no `max_tokens` is quoted $0.259143 (was $0.246850).
+- Published per-token rates do not change: `/api/pricing`, `/v1/models` and the price list stay at each vendor's list price. The fee is published beside them as `chatPlatformFeePercent` (`/api/pricing`) and `platform_fee_percent` (each `/v1/models` chat row); a cost estimator should multiply token cost by `1 + fee / 100`.
+- No fee on free models, flat-priced rows, the Live Search surcharge, Decisions, `/v1/search`, media, or data and partner APIs. API-key accounts on [api.blockrun.ai](../getting-started/enterprise-api.md) are not affected.
+
 ### Added — Fast mode for GPT-6 Luna on api.blockrun.ai
 - `openai/gpt-6-luna` with `service_tier: "fast"`, or the alias `openai/gpt-6-luna-fast`, runs in OpenAI's Fast mode on [api.blockrun.ai](../getting-started/enterprise-api.md#fast): up to 2.5x faster at twice the standard rate ($0.20/M in, $1.00/M out; $0.40/$1.50 past 272K). Billed at the standard rate when OpenAI serves it at standard speed. Not on other models, background Responses or an absolute agreed price (a percentage discount still applies), and not on blockrun.ai or sol.blockrun.ai.
 

@@ -104,7 +104,7 @@ The payment payload includes:
   "accepted": {
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "246850",
+    "amount": "259143",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "payTo": "0x...",
     "maxTimeoutSeconds": 300,
@@ -115,7 +115,7 @@ The payment payload includes:
     "authorization": {
       "from": "0x...",
       "to": "0x...",
-      "value": "246850",
+      "value": "259143",
       "validAfter": "1234567890",
       "validBefore": "1234568190",
       "nonce": "0x..."

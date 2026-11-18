@@ -206,10 +206,10 @@ WWW-Authenticate: X402 requirements="<same value>"
 ```json
 {
   "x402Version": 2,
-  "accepts": [{"scheme": "exact", "network": "eip155:8453", "amount": "246850", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300}],
+  "accepts": [{"scheme": "exact", "network": "eip155:8453", "amount": "259143", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300}],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
-  "price": {"amount": "0.246850", "currency": "USD"},
+  "price": {"amount": "0.259143", "currency": "USD"},
   "paymentInfo": {"network": "base", "asset": "USDC", "x402Version": 2}
 }
 ```
@@ -222,7 +222,7 @@ WWW-Authenticate: X402 requirements="<same value>"
   "accepts": [{
     "scheme": "exact",
     "network": "eip155:8453",
-    "amount": "246850",
+    "amount": "259143",
     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "payTo": "0x…",
     "maxTimeoutSeconds": 300,
@@ -239,8 +239,8 @@ WWW-Authenticate: X402 requirements="<same value>"
 
 **How the quote is computed.** The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced.
 
-- **The quote** is the estimated input tokens at the model's input rate, plus the **full `max_tokens`** at the output rate (8192 when you send none, capped at the model's maximum output). Per-token chat carries **no platform margin** (list price, since 2026-08-07). The quote is floored at $0.001, then the flat **$0.001 per-request transaction fee** is added. `amount` is in micro-USDC (6 decimals).
-- **Worked example.** The quote above is GPT-5.5 at $5 / $30 per 1M tokens: 18 input tokens ($0.00009) + 8192 output tokens ($0.24576) + the $0.001 fee = **$0.246850** (`"246850"`). The same request with `"max_tokens": 1000` is quoted at **$0.031090** (`"31090"`).
+- **The quote** is the estimated input tokens at the model's input rate, plus the **full `max_tokens`** at the output rate (8192 when you send none, capped at the model's maximum output). Token prices are at the vendor's list price, plus a **5% platform fee** on the token total. The quote is floored at $0.001, then the flat **$0.001 per-request transaction fee** is added. `upto` and batch settlement apply the same fee to the tokens produced. `amount` is in micro-USDC (6 decimals).
+- **Worked example.** The quote above is GPT-5.5 at $5 / $30 per 1M tokens: 18 input tokens ($0.00009) + 8192 output tokens ($0.24576) = $0.24585, × 1.05 platform fee = $0.2581425, + the $0.001 fee = **$0.259143** (`"259143"`, rounded up to the micro-USDC). The same request with `"max_tokens": 1000` is quoted at **$0.032595** (`"32595"`).
 - **`exact`** (every paid model, both chains) settles the signed amount, whatever the reply's length. There is no refund for tokens the model did not produce.
 - **`upto`** (Base) is offered as a second `accepts` entry on the models whose payments support it, currently the DeepSeek and Anthropic models. You authorize the same ceiling, and the gateway settles only the tokens produced.
 - **Batch settlement** (`batch-settlement`, on `sol.blockrun.ai`) also charges only the tokens produced.
