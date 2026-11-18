@@ -42,13 +42,15 @@ The free tier costs $0 — 9 reasoning, coding, and vision models with no per-to
 How the cached rate reaches an x402 payment depends on the scheme the client signs:
 
 - **`upto`** — the client signs a ceiling and is charged actual usage after the call. On DeepSeek models, cached tokens are charged at the cached rate; other models bill cached tokens at the input rate. Offered on DeepSeek and Anthropic models, and it needs no ETH (the USDC approval is a gasless signature).
-- **`exact`** — the client signs the price quoted before the call. Nobody knows about a cache hit yet, so the quote uses the full input rate.
+- **`exact`** — the client signs the price quoted before the call. Nobody knows about a cache hit yet, so the quote uses the full input rate. On GPT-6.2, which writes a prompt cache by default at 1.25x input, it uses that write rate; `upto` adds the write premium only on the tokens actually written.
 
 ### OpenAI
 
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
-| GPT-6 Astra (flagship) | $10.00 | $50.00 | $1.00 |
+| GPT-6.2 Astra (flagship) | $8.00 | $40.00 | $0.40 |
+| GPT-6.2 Sol | $2.00 | $10.00 | $0.10 |
+| GPT-6 Astra | $10.00 | $50.00 | $1.00 |
 | GPT-6.1 Sol | $2.00 | $10.00 | $0.10 |
 | GPT-6 Sol | $2.00 | $10.00 | $0.20 |
 | GPT-6 Luna | $0.10 | $0.50 | $0.01 |
@@ -104,6 +106,7 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 |-------|----------------|-----------------|-----------------------|
 | Gemini 4 Carbon | $2.00 | $10.00 | $0.10 |
 | Gemini 4 Argon | $2.00 | $10.00 | $0.10 |
+| Gemini 4 Hydrogen | $1.50 | $7.50 | $0.075 |
 | Gemini 3.1 Pro | $2.00 | $12.00 | $0.20 |
 | Gemini 2.5 Pro | $1.25 | $10.00 | $0.125 |
 | Gemini 3.8 Flash | $0.75 | $3.75 | $0.075 |
@@ -115,7 +118,7 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | Gemini 3.1 Flash Lite | $0.25 | $1.50 | $0.025 |
 | Gemini 2.5 Flash Lite | $0.10 | $0.40 | $0.01 |
 
-Gemini 3.1 Pro and 2.5 Pro double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.50 in · $15.00 out above the threshold. Flash tiers are flat.
+Gemini 4 Carbon and Argon move to $4.00 / $20.00 (cached $0.20) on 2026-12-01; Gemini 4 Hydrogen has no announced change. Gemini 3.1 Pro and 2.5 Pro double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.50 in · $15.00 out above the threshold. Flash tiers are flat.
 
 ### xAI Grok
 

@@ -199,7 +199,7 @@ If your tooling already reads OpenRouter's billing API, point it at `https://api
 
 ## What a call costs
 
-**The base rate** is what `GET /v1/models` publishes for the model you called: `input` and `output` per million tokens, plus `cache_read` / `cache_write` on the models that have them. The account endpoints above, the catalogue reads and the free models cost nothing.
+**The base rate** is what `GET /v1/models` publishes for the model you called (with your key; with no key it lists the standard price): `input` and `output` per million tokens, plus `cache_read` / `cache_write` on the models that have them. The account endpoints above, the catalogue reads and the free models cost nothing.
 
 **There is no per-call fee and no minimum charge on this host.** The x402 transaction fee and the minimum payment exist to make on-chain micropayments viable; a key-metered account settles against credit, not a chain, so both are zero here. You pay metered usage times the rate, and nothing is added to it.
 
@@ -209,7 +209,7 @@ Two things move the rate away from the flat number on the catalogue. Both are vi
 
 Some models reprice above a prompt-token threshold, and **the whole request reprices** — not only the tokens above the line. OpenAI's threshold is 272K, charged at 2× input and 1.5× output for the entire call; other makers set their own, and whether a prompt of exactly the threshold already counts as long differs by maker too.
 
-The thresholds and the long-context rates are per model on the gateway's sheet, `GET https://blockrun.ai/api/pricing`, as the `longContextThreshold`, `longContextThresholdInclusive` and `longContext*Price` fields — 26 models carry them today. Where a catalog row from `GET /v1/models` carries `pricing.long_context`, it is the same ladder in the same order: a list of steps, so read the last one whose threshold your prompt cleared. A model that reprices more than once (some do) has more than one entry, and pricing off the first would put you under water above the second.
+The thresholds and the long-context rates are per model on the gateway's sheet, `GET https://blockrun.ai/api/pricing`, as the `longContextThreshold`, `longContextThresholdInclusive` and `longContext*Price` fields — 28 models carry them today. Where a catalog row from `GET /v1/models` carries `pricing.long_context`, it is the same ladder in the same order: a list of steps, so read the last one whose threshold your prompt cleared. A model that reprices more than once (some do) has more than one entry, and pricing off the first would put you under water above the second.
 
 ### Flex
 
@@ -271,6 +271,7 @@ Concurrent requests see each other: the worst-case cost of each in-flight call i
 
 - **Paid calls on a funded account**: the balance is the bound. There is a per-key safety ceiling of 12,000 requests/minute that exists only to stop one burst degrading a shared upstream; you will meet the provider's own limit (`429` with `Retry-After`) long before it.
 - **Free discovery** (`GET /v1/models`, `/v1/images/models`, `/v1/audio/voices`, the account endpoints) and **accounts with no billing terms**: 600 requests/minute per key, in a bucket separate from paid traffic, returned as `429` with `code: "rate_limit_exceeded"` and a `Retry-After` header.
+- **Model lists with no key** (`GET /v1/models`, `/v1/images/models`, `/v1/audio/models`, `/v1/video/models` with no `Authorization`, `x-api-key` or `x-goog-api-key` header): list prices, 120 requests/minute per IP address, same `429`. A key that is sent but wrong is still `401`.
 
 ## Errors
 

@@ -1,6 +1,6 @@
 ---
 title: TypeScript SDK
-description: The official BlockRun TypeScript/JavaScript SDK — call 93 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+description: The official BlockRun TypeScript/JavaScript SDK — call 96 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
 ---
 
 # TypeScript SDK
@@ -381,7 +381,7 @@ const client = new SolanaLLMClient();
 const client2 = new SolanaLLMClient({
   privateKey: 'your-bs58-solana-key',
   apiUrl: 'https://sol.blockrun.ai/api',        // default
-  rpcUrl: 'https://your-helius-or-tatum-rpc',   // default: BlockRun's own free proxy
+  rpcUrl: 'https://your-own-rpc',   // default: BlockRun's own free proxy
   rpcHeaders: { 'x-api-key': '...' },           // optional header-auth
 });
 
@@ -935,7 +935,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 93 models with live pricing to pick the right one for each call.
+Browse all 96 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}

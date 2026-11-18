@@ -83,7 +83,6 @@ BlockRun works with the x402 facilitator network:
 | [Surf (asksurf.ai)](https://asksurf.ai) | Crypto data — 83 endpoints |
 | [Exa](https://exa.ai) | Neural web search |
 | [0x](https://0x.org) | DEX aggregation (Swap V2 + Gasless V2) |
-| [Tatum](https://tatum.io) | Multi-chain JSON-RPC |
 | [Pyth](https://pyth.network) | Crypto, FX, commodity and equity prices |
 | [Bland.ai](https://bland.ai) / [Twilio](https://twilio.com) | Voice calls / phone-number provisioning |
 

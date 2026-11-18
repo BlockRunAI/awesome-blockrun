@@ -246,7 +246,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 | `blockrun_surf` | 83 crypto data endpoints (CEX, on-chain SQL, social, wallet labels) |
 | `blockrun_price` | Pyth quotes: crypto, FX, commodities, stocks |
 | `blockrun_dex` | Live DEX prices and liquidity via DexScreener (free) |
-| `blockrun_rpc` | Raw JSON-RPC on <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains — Ethereum, Base, Solana, Bitcoin, Sui, NEAR (Tatum gateway) |
+| `blockrun_rpc` | Raw JSON-RPC on <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains — Ethereum, Base, Solana, Bitcoin, Sui, NEAR |
 | `blockrun_defi` | DefiLlama — protocol TVL, chain TVL, yield pools (APY), token prices |
 | `blockrun_modal` | Sandboxed code execution — disposable container, optional GPU |
 | `blockrun_phone` | AI voice calls + wallet-owned US/CA numbers |
@@ -360,7 +360,6 @@ Built into both Python and TypeScript SDKs. Also available as standalone: [ClawR
 | [Entropy Index](https://www.entropyindex.com) | Regime / risk | Pre-action regime gate for agentic capital — heat check before size ($0.25 Base USDC x402). |
 | [Modal](https://modal.com) | Sandbox Compute | Managed Python sandboxes for isolated code execution |
 | [Surf](https://asksurf.ai) | Crypto Data | 83 endpoints — CEX, on-chain SQL, wallet labels, social, news |
-| [Tatum](https://tatum.io) | Multi-chain RPC | JSON-RPC across <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains |
 | [Pyth](https://pyth.network) | Market Data | Crypto, FX, commodity and equity prices |
 
 ### x402 Facilitators

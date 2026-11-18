@@ -9,6 +9,16 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 
 ## [2026-11-17]
 
+### Added — GPT-6.2 Astra, GPT-6.2 Sol and Gemini 4 Hydrogen
+- **`openai/gpt-6.2-astra`** ($8.00/M in · $40.00/M out, cached input $0.40/M, **1M context**, 128K max output, vision, reasoning) — OpenAI's most capable model, knowledge through May 2026. Its output rate is 20% below GPT-6 Astra's.
+- **`openai/gpt-6.2-sol`** ($2.00/M in · $10.00/M out, cached input $0.10/M, 1M context, 128K max output, vision, reasoning) — OpenAI's everyday model, knowledge through June 2026. Falls back to `gpt-6.1-sol`, at the same rate, if its upstream fails.
+- Both reprice the whole request at 2x input and cached rates, 1.5x output once the prompt exceeds 272K tokens, as OpenAI bills it ($16.00/$60.00 on Astra, $4.00/$15.00 on Sol).
+- Both write a prompt cache by default, billed by OpenAI at 1.25x input. The `exact` quote prices input at that write rate ($10.00/M on Astra, $2.50/M on Sol); `upto` adds the premium only on tokens actually written.
+- `reasoning_effort` takes `low`, `medium`, `high`, `xhigh` and `max`. On plain chat `max` is lowered to `xhigh`; tool calls run through OpenAI's Responses API at the effort you ask for, `max` included. `none` and `minimal` are raised to `low`.
+- Refused before payment on both, and on `gpt-6.1-sol`: `service_tier: "flex"` (OpenAI does not offer Flex on these models). Refused on every model: `prompt_cache_options.ttl` other than `"30m"` (a 12-hour cache write bills 2.5x input).
+- **`google/gemini-4-hydrogen`** ($1.50/M in · $7.50/M out, cached input $0.075/M, 1M context, 65,536 max output, thinking, vision, tools) — Google's fast, efficient Gemini 4 for everyday coding and agent work. No long-context tier and no announced price change. Multi-round tool calling works, with the thought signatures Gemini 4 requires handled by the gateway.
+- Visible chat models are now **96**; total catalog **124**.
+
 ### Added — Gemini Decision 1 on Decisions
 - **`gemini-decision-1`** by Google on [`POST /v1/decisions`](../api-reference/decisions.md) — up to 1,000 yes/no, choice and score questions about one input in a single call, each with a probability and a confidence. Text and images. $0.10 per million input tokens, nothing for output; pay per call on blockrun.ai and sol.blockrun.ai ($0.001 fee, at most $0.027215 a call), or from credit on api.blockrun.ai. `gpt-6-luna` stays the default.
 
