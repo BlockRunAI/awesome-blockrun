@@ -7,14 +7,13 @@ description: Up to 1,000 yes/no, choice and rubric questions about one input, a 
 
 Ask an agent's yes/no, multiple-choice and rubric questions in one request and get a calibrated probability for each. Two decision models answer the same request shape: **Gemini Decision 1** by Google, up to 1,000 questions per call over text and images, and OpenAI's **gpt-6-luna**, the default.
 
-The request and response follow OpenAI's Decisions API, so any OpenAI SDK works. Pay per call on `https://blockrun.ai/v1/decisions` or `https://sol.blockrun.ai/v1/decisions`, or use an API key at `https://api.blockrun.ai/v1` and pay from credit.
+The request and response follow OpenAI's Decisions API, so any OpenAI SDK works. Pay per call on `https://blockrun.ai/v1/decisions`, or use an API key at `https://api.blockrun.ai/v1` and pay from credit.
 
 ## Endpoint
 
 | Endpoint | Auth | Price |
 |----------|------|-------|
 | `POST https://blockrun.ai/v1/decisions` | Pay per call: x402 `exact` (`payment-signature`, after the 402) | Estimated input tokens × $0.10 per 1M, plus the $0.001 per-call fee. Output is not billed. A Gemini Decision 1 call costs at most $0.027215. |
-| `POST https://sol.blockrun.ai/v1/decisions` | Pay per call: x402 `exact` or `batch` | `exact`: as above. `batch`: the input tokens the model reports × $0.10 per 1M, with no per-call fee. |
 | `POST https://api.blockrun.ai/v1/decisions` | `Authorization: Bearer <your key>` | $0.10 per million input tokens, plus your account margin, from your credit |
 
 Both models cost $0.10 per million input tokens.
@@ -41,7 +40,7 @@ The 402 quotes the price before you pay, and on `exact` that quote is what settl
 - **Gemini Decision 1** also counts 8 tokens per choice or level, and its priced tokens never exceed its 262,144-token window, so a call costs at most $0.027215.
 - **gpt-6-luna**: past 272K tokens the whole request is priced at $0.20 per 1M.
 
-A one-question call on a 2,000-character English message costs about $0.0012 on either model. On `sol.blockrun.ai` the `batch` scheme charges the tokens the model reports instead of the estimate, with no per-call fee. Nothing is charged unless the model returns an answer.
+A one-question call on a 2,000-character English message costs about $0.0012 on either model. Nothing is charged unless the model returns an answer.
 
 ## Billing: API key and credit
 
