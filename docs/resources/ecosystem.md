@@ -161,7 +161,6 @@ BlockRun works with the x402 facilitator network:
 | Circle Gateway | Polygon, Arbitrum, Optimism, Unichain (batched nanopayments) | [developers.circle.com/gateway](https://developers.circle.com/gateway/nanopayments) |
 | PayAI | Base, Solana | [payai.network](https://payai.network) |
 | AnySpend | Base | [anyspend.com](https://anyspend.com) |
-| AurraCloud | Base | [aurracloud.com](https://aurracloud.com) |
 | thirdweb | Base, Ethereum | [thirdweb.com](https://thirdweb.com) |
 
 ## Partners
