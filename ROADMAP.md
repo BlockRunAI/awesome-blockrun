@@ -9,7 +9,7 @@ _Last updated: 2026-08-29_
 - [x] Smart routing — [router-core](https://github.com/BlockRunAI/router-core) powering ClawRouter, Franklin, Hermes and dsh-clawrouter
 - [x] Multi-chain expansion — Polygon / Arbitrum / Optimism / Unichain via Circle Gateway (`nano.blockrun.ai`)
 - [x] Agent wallets — per-agent delegation budgets in blockrun-mcp, [Franklin](https://github.com/BlockRunAI/Franklin) agent wallet, spend-confirmation plugins for Claude Code and Codex
-- [x] More facilitator integrations — Coinbase CDP, PayAI, thirdweb, QuestFlow, AnySpend, AurraCloud
+- [x] More facilitator integrations — Coinbase CDP, PayAI, thirdweb, AnySpend, AurraCloud
 - [x] Amazon Bedrock AgentCore Payments launch partner (GA Aug 2026)
 
 ## In progress
