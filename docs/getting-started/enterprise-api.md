@@ -176,7 +176,7 @@ Rows are newest first. Page with `cursor` until `next_cursor` is `null`; treat t
 |-------|---------|
 | `kind` | `chat` — a token-priced call you can re-derive from `input_tokens`/`output_tokens` and the [published rate](../products/intelligence/pricing.md) as adjusted by [what a call costs](#what-a-call-costs). `service` — a per-call or per-unit price (search, media, RPC) that only the gateway holds. |
 | `cost_state` | `priced` — final. `free` — nothing to charge (a catalogue read, a free model). `pending` — usage recorded, charge not yet settled; it will change, do not treat it as $0. |
-| `service_tier` | The processing tier the upstream reported for this call. `flex` is billed at **half** the standard rate and `fast` (or `priority`) at **twice** it, so this is what explains a line at half or double the published rate. Absent means standard — as it is on every row before 2026-09-23 and for every provider that reports no tier. See [What a call costs](#what-a-call-costs). |
+| `service_tier` | The processing tier the upstream reported for this call. `flex` is billed at **half** the standard rate and `fast` (or `priority`) at **twice** it, so this is what explains a line at half or double the published rate. The doubling applies only when the call asked for Fast; a `priority` row on a call that did not ask is billed at standard. Absent means standard — as it is on every row before 2026-09-23 and for every provider that reports no tier. See [What a call costs](#what-a-call-costs). |
 | `job_id`, `job_status` | Media only. A `202` create and every later poll of the same job share one `job_id`; the charge lands on the poll that completed. Fold rows by `job_id` to get one line per generation. The job is **one call**, made by its create: each poll is a row — poll as often as you like — but not a call. Sum `cost_usd` over every row; count calls skipping the polls. |
 | `usage_unit`, `usage_units` | For non-token charges: what was billed (`image`, `second`, `character` …) and how many. `null` on token-priced rows. |
 | `billing_basis`, `image_input_tokens` | `token` on an OpenAI image row (`openai/gpt-image-2`, `gpt-image-2.5-*`): a `service` by path, but one you can rebuild — `input_tokens`/`output_tokens` at OpenAI's published per-million rates, `image_input_tokens` being the slice of input at the image-input rate. Absent on every other row. See [Images from OpenAI are billed by token](#images-from-openai-are-billed-by-token). |
@@ -230,15 +230,15 @@ Four things worth knowing before you build on it:
 
 - **We bill from the tier the response reports.** If OpenAI serves the call at standard speed (the response says `default`), you pay the standard rate.
 - **Only `openai/gpt-6-luna` offers it.** `service_tier: "fast"` on any other model answers `400` with `fast_tier_unavailable` before anything is charged, and so does Fast on a background Response.
-- **Not on negotiated rates.** An account with a negotiated rate gets `400` with `fast_tier_not_contracted`; ask us to add it to your terms.
+- **Not on an absolute agreed price.** An account with an agreed per-million price on `openai/gpt-6-luna` gets `400` with `fast_tier_not_contracted`; ask us to add Fast to your terms. A percentage discount does not block it: see below.
 - **Only on this host.** blockrun.ai and sol.blockrun.ai do not take `service_tier: "fast"` today.
 
 ### If your account has negotiated terms
 
-Long context and Flex interact with a contract differently, and deliberately so:
+Long context, Flex and Fast interact with a contract differently, and deliberately so:
 
-- An **absolute agreed price** per million **suppresses** both tiers. The long-context and Flex rates are not part of what was agreed, so layering them on either charges more or discounts more than the contract says.
-- A **percentage discount** **follows** both tiers. A percentage is off whatever you would otherwise pay, and the tier is part of what you would otherwise pay.
+- An **absolute agreed price** per million **suppresses** long context and Flex. Their rates are not part of what was agreed, so layering them on either charges more or discounts more than the contract says. Fast is **refused** instead (`400`, `fast_tier_not_contracted`): the agreed price was set against standard serving, and Fast costs us twice that.
+- A **percentage discount** **follows** all three. A percentage is off whatever you would otherwise pay, and the tier is part of what you would otherwise pay, so a Fast call pays twice the rate and then gets the discount.
 
 ## Images from OpenAI are billed by token
 

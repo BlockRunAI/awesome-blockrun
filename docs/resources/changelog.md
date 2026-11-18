@@ -10,7 +10,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 ## [2026-11-18]
 
 ### Added — Fast mode for GPT-6 Luna on api.blockrun.ai
-- `openai/gpt-6-luna` with `service_tier: "fast"`, or the alias `openai/gpt-6-luna-fast`, runs in OpenAI's Fast mode on [api.blockrun.ai](../getting-started/enterprise-api.md#fast): up to 2.5x faster at twice the standard rate ($0.20/M in, $1.00/M out; $0.40/$1.50 past 272K). Billed at the standard rate when OpenAI serves it at standard speed. Not on other models, background Responses or negotiated rates, and not on blockrun.ai or sol.blockrun.ai.
+- `openai/gpt-6-luna` with `service_tier: "fast"`, or the alias `openai/gpt-6-luna-fast`, runs in OpenAI's Fast mode on [api.blockrun.ai](../getting-started/enterprise-api.md#fast): up to 2.5x faster at twice the standard rate ($0.20/M in, $1.00/M out; $0.40/$1.50 past 272K). Billed at the standard rate when OpenAI serves it at standard speed. Not on other models, background Responses or an absolute agreed price (a percentage discount still applies), and not on blockrun.ai or sol.blockrun.ai.
 
 ---
 
