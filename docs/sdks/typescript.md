@@ -381,7 +381,7 @@ const client = new SolanaLLMClient();
 const client2 = new SolanaLLMClient({
   privateKey: 'your-bs58-solana-key',
   apiUrl: 'https://sol.blockrun.ai/api',        // default
-  rpcUrl: 'https://your-helius-or-tatum-rpc',   // default: BlockRun's own free proxy
+  rpcUrl: 'https://your-own-rpc',   // default: BlockRun's own free proxy
   rpcHeaders: { 'x-api-key': '...' },           // optional header-auth
 });
 

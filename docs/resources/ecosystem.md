@@ -178,7 +178,6 @@ BlockRun works with the x402 facilitator network:
 | [Modal](https://modal.com) | Sandbox compute (isolated code execution) |
 | [Exa](https://exa.ai) | Neural web search |
 | [0x](https://0x.org) | DEX aggregation (Swap V2 + Gasless V2) |
-| [Tatum](https://tatum.io) | Multi-chain JSON-RPC (40 chains) |
 | [Pyth](https://pyth.network) | Price-feed catalog (crypto, FX, commodities) |
 
 ## AI Providers
