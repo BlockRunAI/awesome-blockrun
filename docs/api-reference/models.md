@@ -356,6 +356,15 @@ Prices include the 5% media margin; the flat $0.001 transaction fee is added per
 
 For character consistency across multiple Seedance videos, enroll a [Virtual Portrait](virtual-portrait.md) ($0.011 one-time, no government ID) for AI characters, or a [RealFace](realface.md) ($0.011 one-time, no government ID, requires brief on-phone liveness check) for real people. Pass the returned `ta_xxx` as `real_face_asset_id`.
 
+### Decisions (typed judgments)
+
+Entries with `categories: ["judgment"]` are Decisions models. Call them on [`POST /v1/decisions`](decisions.md), not `/v1/chat/completions`; only input tokens are billed.
+
+| Model ID | Name | Input | Notes |
+|----------|------|-------|-------|
+| `google/gemini-decision-1` | Gemini Decision 1 | $0.10/M | Up to 1,000 questions per call; text and images; at most $0.027215 per call |
+| `openai/gpt-6-luna-decisions` | GPT-6 Luna Decisions | $0.10/M | The default when `model` is omitted; up to 64 questions per call |
+
 ## Model Categories
 
 Each model includes a `categories` array in the API response. Categories indicate model capabilities:
@@ -364,6 +373,7 @@ Each model includes a `categories` array in the API response. Categories indicat
 - **reasoning** - Complex problem-solving
 - **coding** - Code generation and analysis
 - **vision** - Image understanding
+- **judgment** - Decisions models, served on `/v1/decisions`
 
 Filter models by category:
 

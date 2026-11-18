@@ -19,6 +19,9 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - **`google/gemini-4-hydrogen`** ($1.50/M in · $7.50/M out, cached input $0.075/M, 1M context, 65,536 max output, thinking, vision, tools) — Google's fast, efficient Gemini 4 for everyday coding and agent work. No long-context tier and no announced price change. Multi-round tool calling works, with the thought signatures Gemini 4 requires handled by the gateway.
 - Visible chat models are now **96**; total catalog **124**.
 
+### Added — Gemini Decision 1 on Decisions
+- **`gemini-decision-1`** by Google on [`POST /v1/decisions`](../api-reference/decisions.md) — up to 1,000 yes/no, choice and score questions about one input in a single call, each with a probability and a confidence. Text and images. $0.10 per million input tokens, nothing for output; pay per call on blockrun.ai ($0.001 fee, at most $0.027215 a call), or from credit on api.blockrun.ai. `gpt-6-luna` stays the default.
+
 ---
 
 ## [2026-11-11]
