@@ -53,10 +53,9 @@ BlockRun works with the x402 facilitator network:
 | [Circle Gateway](https://developers.circle.com/gateway/nanopayments) | Polygon, Arbitrum, Optimism, Unichain (batched nanopayments, `nano.blockrun.ai`) | — | ✅ Live |
 | [PayAI](https://payai.network) | Base, Solana | `facilitator.payai.network/discovery/resources` | ✅ Live |
 | [AnySpend](https://anyspend.com) | Base | `mainnet.anyspend.com/x402/discovery/resources` | ✅ Live |
-| [AurraCloud](https://aurracloud.com) | Base | `x402-facilitator.aurracloud.com/discovery/resources` | ❌ Unreachable |
 | [thirdweb](https://thirdweb.com) | Base, Ethereum | `api.thirdweb.com/v1/payments/x402/discovery/resources` | ✅ Live |
 
-<sub>Status verified 2026-11-18 by GET on each discovery endpoint. `x402-facilitator.aurracloud.com` does not resolve (NXDOMAIN). Coinbase CDP, PayAI, AnySpend and thirdweb returned resource lists. Circle Gateway has no discovery endpoint; it is the live rail behind `nano.blockrun.ai`.</sub>
+<sub>Status verified 2026-11-18 by GET on each discovery endpoint. Coinbase CDP, PayAI, AnySpend and thirdweb returned resource lists. Circle Gateway has no discovery endpoint; it is the live rail behind `nano.blockrun.ai`.</sub>
 
 ## Partners
 

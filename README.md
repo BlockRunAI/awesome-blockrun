@@ -374,7 +374,6 @@ BlockRun aggregates services from the x402 facilitator network:
 | [PayAI](https://payai.network) | Base, Solana |
 | [thirdweb](https://thirdweb.com) | Base, Ethereum |
 | [AnySpend](https://anyspend.com) | Base |
-| [AurraCloud](https://aurracloud.com) | Base |
 
 ### Protocol Partner
 
