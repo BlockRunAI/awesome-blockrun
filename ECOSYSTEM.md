@@ -74,6 +74,7 @@ BlockRun works with the x402 facilitator network:
 | [Circle](https://partners.circle.com/partner/blockrunai) | Alliance Partner — USDC payments on Base; Circle Gateway nanopayments on `nano.blockrun.ai` |
 | [OKX OnchainOS](https://web3.okx.com) | Agentic wallet behind XClawRouter |
 | [Amazon Web Services](https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-agentcore-payments-is-now-generally-available-enabling-agents-to-transact-safely-and-autonomously-at-scale/) | Launch partner — Amazon Bedrock AgentCore Payments (GA Aug 2026) pays for BlockRun endpoints via x402 |
+| [Anchorage Digital](https://www.anchorage.com) | Institutional partner — Agentic Banking workflows pay for BlockRun inference per request over x402, for research and trading agents |
 | [Coinbase CDP](https://coinbase.com/cloud) | x402 facilitator infrastructure |
 | [x402 Foundation](https://x402.org) | Protocol development |
 | [thirdweb](https://thirdweb.com) | Wallet & payment infrastructure |
