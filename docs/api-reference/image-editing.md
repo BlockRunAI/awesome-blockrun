@@ -79,7 +79,7 @@ Prices are what the `402` challenge quotes and what is billed for **one** edit a
 | `google/nano-banana-2` | Google (Gemini 3.1 Flash Image) | ❌ prompt-only | 3 | 1024x1024 | $0.0955 |
 | `google/nano-banana-2-lite` | Google (Gemini 3.1 Flash Lite Image) | ❌ prompt-only | 3 | 1024x1024 | $0.0535 |
 | `google/nano-banana-2.1` | Google (Nano Banana 2.1) | ❌ prompt-only | 3 | 1024x1024 | $0.0745 |
-| `google/nano-banana-pro` | Google (Gemini 3 Pro Image) | ❌ prompt-only | 3 | 1024x1024, 2048x2048, 4096x4096 | $0.106 / $0.106 / $0.316 |
+| `google/nano-banana-pro` | Google (Gemini 3 Pro Image) | ❌ prompt-only | 3 | 1024x1024, 2048x2048, 4096x4096 | $0.1795 / $0.1795 / $0.316 |
 
 ## Hybrid sync/async flow & settlement
 
@@ -288,8 +288,8 @@ billed = catalog rate for the size × n × 1.05   (5% platform margin on media)
 | Nano Banana 2 | 1024x1024 | $0.09 | $0.0955 |
 | Nano Banana 2 Lite | 1024x1024 | $0.05 | $0.0535 |
 | Nano Banana 2.1 | 1024x1024 | $0.07 | $0.0745 |
-| Nano Banana Pro | 1024x1024 | $0.10 | $0.106 |
-| Nano Banana Pro | 2048x2048 | $0.10 | $0.106 |
+| Nano Banana Pro | 1024x1024 | $0.17 | $0.1795 |
+| Nano Banana Pro | 2048x2048 | $0.17 | $0.1795 |
 | Nano Banana Pro | 4096x4096 | $0.30 | $0.316 |
 
 The number of *source* images does not change the price — you pay per output image.

@@ -320,7 +320,7 @@ Media prices below include the 5% media margin; the flat $0.001 transaction fee 
 | `google/nano-banana-2` | Nano Banana 2 | $0.0945/image |
 | `google/nano-banana-2-lite` | Nano Banana 2 Lite | $0.0525/image |
 | `google/nano-banana-2.1` | Nano Banana 2.1 | $0.0735/image |
-| `google/nano-banana-pro` | Nano Banana Pro | $0.105-0.315/image |
+| `google/nano-banana-pro` | Nano Banana Pro | $0.1785-0.315/image |
 | `xai/grok-imagine-image` | Grok Imagine | $0.021/image |
 | `xai/grok-imagine-image-2.0` | Grok Imagine 2.0 | $0.042/image |
 | `xai/grok-imagine-image-pro` | Grok Imagine Pro | $0.063/image |

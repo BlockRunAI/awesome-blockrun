@@ -13,6 +13,11 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - **`google/gemini-4-neon`** ($3.00/M in · $15.00/M out, cached input $0.15/M, 1M context, 65,536 max output, thinking, vision, tools) — Google's newest Gemini 4, released 2026-11-18, for agentic coding, knowledge work and long-context reasoning. No long-context tier and no announced price change. Multi-round tool calling works, with the thought signatures Gemini 4 requires handled by the gateway. Falls back to `google/gemini-3.1-pro` if its upstream fails and the caller allows fallback.
 - Visible chat models are now **97**; total catalog **125**.
 
+### Changed — Nano Banana Pro 1K and 2K price
+- **`google/nano-banana-pro`** at 1024x1024 and 2048x2048 is now $0.17 per image ($0.1795 charged with margin and fee), up from $0.10. Google bills these sizes at about $0.134 an image. 4K stays $0.30 ($0.316 charged). Generation and editing alike.
+
+---
+
 ## [2026-11-18]
 
 ### Changed — A 5% platform fee on pay-per-call chat
