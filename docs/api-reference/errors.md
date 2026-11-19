@@ -117,10 +117,10 @@ An unknown model is a plain-string error that suggests live IDs:
 ```json
 {
   "x402Version": 2,
-  "accepts": [{"scheme": "exact", "network": "eip155:8453", "amount": "246850", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300}],
+  "accepts": [{"scheme": "exact", "network": "eip155:8453", "amount": "259143", "asset": "0x8335…", "payTo": "0x…", "maxTimeoutSeconds": 300}],
   "error": "Payment Required",
   "message": "This endpoint requires x402 payment",
-  "price": {"amount": "0.246850", "currency": "USD"},
+  "price": {"amount": "0.259143", "currency": "USD"},
   "paymentInfo": {"network": "base", "asset": "USDC", "x402Version": 2}
 }
 ```
