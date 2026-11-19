@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 124 models — chat, image, video, music and speech — from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
+description: List and price 125 models — chat, image, video, music and speech — from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
 ---
 
 # Models
@@ -181,6 +181,7 @@ These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); t
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
+| `google/gemini-4-neon` | Gemini 4 Neon | $3.00/M | $15.00/M | 1M |
 | `google/gemini-4-carbon` | Gemini 4 Carbon | $2.00/M | $10.00/M | 1M |
 | `google/gemini-4-argon` | Gemini 4 Argon | $2.00/M | $10.00/M | 1M |
 | `google/gemini-4-hydrogen` | Gemini 4 Hydrogen | $1.50/M | $7.50/M | 1M |

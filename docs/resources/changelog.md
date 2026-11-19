@@ -7,6 +7,12 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-19]
+
+### Added — Gemini 4 Neon
+- **`google/gemini-4-neon`** ($3.00/M in · $15.00/M out, cached input $0.15/M, 1M context, 65,536 max output, thinking, vision, tools) — Google's newest Gemini 4, released 2026-11-18, for agentic coding, knowledge work and long-context reasoning. No long-context tier and no announced price change. Multi-round tool calling works, with the thought signatures Gemini 4 requires handled by the gateway. Falls back to `google/gemini-3.1-pro` if its upstream fails and the caller allows fallback.
+- Visible chat models are now **97**; total catalog **125**.
+
 ## [2026-11-18]
 
 ### Changed — A 5% platform fee on pay-per-call chat
