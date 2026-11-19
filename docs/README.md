@@ -1,6 +1,6 @@
 ---
 title: Introduction
-description: BlockRun is the routing and payment layer for AI agents — one endpoint for every model and tool, paid per call in USDC with no API keys or subscriptions.
+description: BlockRun is one endpoint for every model and tool an agent needs, paid per call — no API keys or subscriptions.
 ---
 
 # What is BlockRun?
