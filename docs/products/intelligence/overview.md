@@ -1,11 +1,11 @@
 ---
 title: Intelligence
-description: BlockRun Intelligence gives your agent 96 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
+description: BlockRun Intelligence gives your agent 97 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
 ---
 
 # Intelligence
 
-AI accesses any LLM. 96 models, pay-per-request.
+AI accesses any LLM. 97 models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and more — without managing API keys or subscriptions.
 
@@ -57,6 +57,7 @@ Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates �
 ### Google
 | Model | Input | Output |
 |-------|-------|--------|
+| Gemini 4 Neon | $3.00/M | $15.00/M |
 | Gemini 4 Carbon | $2.00/M | $10.00/M |
 | Gemini 4 Argon | $2.00/M | $10.00/M |
 | Gemini 4 Hydrogen | $1.50/M | $7.50/M |
