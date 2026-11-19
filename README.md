@@ -159,7 +159,7 @@ Real-time prediction market data powered by Predexon:
 | OpenAI ChatGPT Images 2.0 | $0.06–0.12 |
 | Nano Banana | $0.05 |
 | Nano Banana 2 | $0.09 |
-| Nano Banana Pro | $0.10–0.15 |
+| Nano Banana Pro | $0.17–0.30 |
 | Grok Imagine | $0.02 |
 | Grok Imagine Pro | $0.07 |
 | Seedream 5.0 Pro | $0.045–0.09 |

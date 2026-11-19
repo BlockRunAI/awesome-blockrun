@@ -21,7 +21,7 @@ A funded wallet on Base — $5–10 covers roughly 50–100 images. Your private
 | Google Nano Banana 2 Lite | $0.0535 | Lowest-cost Nano Banana |
 | Google Nano Banana 2.1 | $0.0745 | Newer Flash-tier model with thinking |
 | Google Nano Banana 2 | $0.0955 | Pro-level quality at Flash speed |
-| Google Nano Banana Pro | $0.106-0.316 | Highest quality, up to 4K |
+| Google Nano Banana Pro | $0.1795-0.316 | Highest quality, up to 4K |
 | ByteDance Seedream 5.0 Pro | $0.04825-0.0955 | Up to 4K-class resolution |
 | OpenAI GPT Image 1 | $0.022-0.043 | Native OpenAI image generation |
 | OpenAI ChatGPT Images 2.0 | $0.064-0.127 | Premium quality, text rendering, edits |
@@ -86,7 +86,7 @@ Billed per image, 5% margin and $0.001 transaction fee included:
 | Nano Banana / Nano Banana 2 Lite | 1024x1024 | $0.0535 |
 | Nano Banana 2.1 | 1024x1024 | $0.0745 |
 | Nano Banana 2 | 1024x1024 | $0.0955 |
-| Nano Banana Pro | up to 2048x2048 | $0.106 |
+| Nano Banana Pro | up to 2048x2048 | $0.1795 |
 | Nano Banana Pro | 4096x4096 (4K) | $0.316 |
 | Seedream 5.0 Pro | up to 2048x1024 | $0.04825 |
 | Seedream 5.0 Pro | 2048x2048 and above | $0.0955 |

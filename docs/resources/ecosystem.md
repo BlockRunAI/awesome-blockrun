@@ -202,7 +202,7 @@ BlockRun routes to these providers via x402:
 | OpenAI ChatGPT Images 2.0 | $0.064–0.127 |
 | OpenAI GPT Image 2.5 Flare / Sunburst | $0.295–0.589 |
 | Nano Banana | $0.0535 |
-| Nano Banana Pro | $0.106–0.316 |
+| Nano Banana Pro | $0.1795–0.316 |
 | CogView-4 | $0.01675–0.022 |
 | Grok Imagine / Grok Imagine Pro | $0.022 / $0.064 |
 

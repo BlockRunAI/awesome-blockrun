@@ -58,7 +58,7 @@ Prices are what the `402` challenge quotes and what is billed for **one** image 
 | `google/nano-banana-2` | Google | 1024x1024 | $0.0955 |
 | `google/nano-banana-2-lite` | Google | 1024x1024 | $0.0535 |
 | `google/nano-banana-2.1` | Google | 1024x1024 | $0.0745 |
-| `google/nano-banana-pro` | Google | 1024x1024, 2048x2048, 4096x4096 | $0.106 / $0.106 / $0.316 |
+| `google/nano-banana-pro` | Google | 1024x1024, 2048x2048, 4096x4096 | $0.1795 / $0.1795 / $0.316 |
 | `zai/cogview-4` | Zhipu AI | 512x512 – 1440x1440 | $0.01675 / $0.022 |
 | `xai/grok-imagine-image` | xAI | 1024x1024 | $0.022 |
 | `xai/grok-imagine-image-2.0` | xAI | 1024x1024 | $0.043 |
@@ -334,7 +334,7 @@ billed = catalog rate for the size × n × 1.05   (5% platform margin on media)
 | Nano Banana 2 | 1024x1024 | $0.09 | $0.0955 |
 | Nano Banana 2 Lite | 1024x1024 | $0.05 | $0.0535 |
 | Nano Banana 2.1 | 1024x1024 | $0.07 | $0.0745 |
-| Nano Banana Pro | 1024x1024 / 2048x2048 | $0.10 | $0.106 |
+| Nano Banana Pro | 1024x1024 / 2048x2048 | $0.17 | $0.1795 |
 | Nano Banana Pro 4K | 4096x4096 | $0.30 | $0.316 |
 | Seedream 5.0 Pro | ≤ ~2.36M pixels (1024x1024, 1280x720, 2048x1024) | $0.045 | $0.04825 |
 | Seedream 5.0 Pro | > 2.36M pixels (2048x2048 and larger) | $0.09 | $0.0955 |

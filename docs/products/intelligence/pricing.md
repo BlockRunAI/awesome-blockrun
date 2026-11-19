@@ -229,7 +229,7 @@ Image prices include the 5% media margin; the flat $0.001 transaction fee is add
 | Nano Banana 2 | $0.0945 |
 | Nano Banana 2 Lite | $0.0525 |
 | Nano Banana 2.1 | $0.0735 |
-| Nano Banana Pro (up to 2048²) | $0.105 |
+| Nano Banana Pro (up to 2048²) | $0.1785 |
 | Nano Banana Pro (4K) | $0.315 |
 | Seedream 5.0 Pro (up to 2048x1024) | $0.04725 |
 | Seedream 5.0 Pro (2K and above) | $0.0945 |
