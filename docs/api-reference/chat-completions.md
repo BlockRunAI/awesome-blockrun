@@ -145,8 +145,12 @@ The model-swap headers above are listed in `Access-Control-Expose-Headers` whene
 - **Claude native `/v1/messages`**: `usage.input_tokens`, `usage.output_tokens`, `usage.cache_creation_input_tokens`, `usage.cache_read_input_tokens`
 - **OpenAI-compat `/v1/chat/completions`**: `usage.prompt_tokens_details.cached_tokens` (reads), `usage.prompt_tokens_details.cached_creation_tokens` (writes), `usage.completion_tokens_details.reasoning_tokens` (reasoning)
 
-**Enabling prompt caching on Anthropic models:**
-Pass `"prompt_cache": true` in the request body, or embed `cache_control` blocks in your message content directly — both are honored.
+**Enabling prompt caching on Anthropic models** (every Claude model except the Fable family):
+- Put `"cache_control": {"type": "ephemeral"}` on the content part that ends the prefix you resend: a `text` part of a system, user, assistant or tool message, or an `image_url` part. Claude caches the prompt up to that part. At most 4 per request (more is a 400 before payment); `ttl` is ignored (5-minute cache); message-level and tool-definition markers are ignored.
+- Or pass `"prompt_cache": true` and the gateway places breakpoints for you (end of the system prompt and the last turns). It adds none when your request carries its own markers.
+- Prefixes shorter than the model's minimum cacheable length are simply not cached.
+
+Pricing: a request that writes a cache (your markers, or `prompt_cache`) is quoted with the whole estimated prompt at the model's cache-write rate, because the payment is signed before anyone knows whether the cache will be written or read. With `upto` (non-streaming Claude), the settlement then charges cache reads at the cache-read rate and cache writes at the cache-write rate, on the share of the prompt the upstream reports for each, plus the 5% platform fee. With `exact` (every stream), the quoted amount is what you pay.
 
 :::note{title="No phantom identity tokens in your billed input"}
 BlockRun does **not** prepend a hidden identity/system directive to your prompt by default. The `input_tokens` (`prompt_tokens`) you are billed for reflect exactly the messages you sent — there are no extra phantom input tokens added by the gateway.
