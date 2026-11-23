@@ -30,7 +30,7 @@ Earlier versions of these pages documented `alpha-mcp`, a standalone MCP server.
 
 - Signals and crypto / FX / commodity prices: free
 - Prediction-market data, on-chain RPC, web search: paid per call from the agent wallet — the tool descriptions show the per-call price before Franklin calls them
-- Model calls: provider cost, no platform margin, plus $0.001 per request
+- Model calls: vendor list price plus a 5% platform fee, plus $0.001 per request
 - Polymarket bets: your own funds on Polygon, plus network fees — bets do **not** draw from the `--max-spend` AI budget
 
 ## Quick Start

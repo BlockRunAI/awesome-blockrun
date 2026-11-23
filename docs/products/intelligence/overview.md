@@ -21,7 +21,7 @@ No API keys. No monthly bills. Just usage-based payments in USDC.
 
 ## Available Models
 
-Provider rates per 1M tokens. Since 2026-08-07 these are also the BILLED rates — per-token chat carries no platform margin; only the flat $0.001/request transaction fee is added. See [Pricing](pricing.md).
+Vendor list rates per 1M tokens. Per-token chat paid per call adds a 5% platform fee (since 2026-11-18), then the flat $0.001/request transaction fee. See [Pricing](pricing.md).
 
 ### OpenAI
 | Model | Input | Output |
@@ -116,7 +116,7 @@ See [Pricing](pricing.md) for complete list and calculator.
 ## Pricing Model
 
 ```
-Your cost = Provider cost (no platform margin on chat tokens) + $0.001 per request
+Your cost = Vendor list price × 1.05 (5% platform fee on chat tokens) + $0.001 per request
 ```
 
 The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced.

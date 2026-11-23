@@ -6,7 +6,7 @@ BlockRun is a unified API gateway — pay per request with USDC, no API keys nee
 
 | Product | Endpoint | Pricing | Status |
 |---------|----------|---------|--------|
-| **LLM Chat** | `/v1/chat/completions` | Per token — provider cost, no platform margin, + $0.001/request | ✅ Live |
+| **LLM Chat** | `/v1/chat/completions` | Per token — vendor list price + 5% platform fee, + $0.001/request | ✅ Live |
 | **Anthropic-Compat** | `/v1/messages` | Per token + $0.001/request | ✅ Live |
 | **Responses API** | `/v1/responses` | Per token + $0.001/request | ✅ Live |
 | **Image Generation** | `/v1/images/generations` | $0.015–0.15/image | ✅ Live |

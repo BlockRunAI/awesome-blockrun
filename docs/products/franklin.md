@@ -10,7 +10,7 @@ description: Franklin is the AI agent with a wallet. It writes code and spends U
 **Source:** [github.com/BlockRunAI/Franklin](https://github.com/BlockRunAI/Franklin) · [npm: @blockrun/franklin](https://www.npmjs.com/package/@blockrun/franklin) · Apache-2.0 · current npm release **3.49.27** (2026-11-10)
 
 :::tip{title="YOPO — You Only Pay Outcome"}
-Not a subscription (pay for access), not generic pay-per-call (pay for trying). You set an outcome and a budget; Franklin decides what to call, what to pay for, and when to stop. Provider rates plus a flat $0.001 per request (no margin on chat tokens; media generation and Live Search carry 5%), settled per action in USDC — no monthly fees, no rate limits, and no overdraft: when the wallet is empty, Franklin stops.
+Not a subscription (pay for access), not generic pay-per-call (pay for trying). You set an outcome and a budget; Franklin decides what to call, what to pay for, and when to stop. Vendor list rates plus a 5% platform fee on chat tokens and a flat $0.001 per request (media generation and Live Search carry 5%), settled per action in USDC — no monthly fees, no rate limits, and no overdraft: when the wallet is empty, Franklin stops.
 :::
 
 ## Quick start

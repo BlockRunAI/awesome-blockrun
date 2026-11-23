@@ -27,7 +27,7 @@ The same paths are available on each gateway. The 402 response advertises which 
 
 All live gateways implement [x402 v2](https://x402.org). Facilitators: Coinbase CDP for Base, PayAI for Solana, Circle Gateway for `nano.blockrun.ai`.
 
-Per-token chat (`/chat/completions`, `/messages`, `/responses`) is billed at provider cost with **no platform margin** — only the flat **$0.001 / request** transaction fee is added. Media generation carries a 5% margin; Live Search is a flat $0.08 per call. Flat prices quoted below already include the transaction fee; per-unit rates (per 1k characters, per second) are shown with the fee separately.
+Per-token chat (`/chat/completions`, `/messages`, `/responses`) is billed at the vendor's list price plus a **5% platform fee**, then the flat **$0.001 / request** transaction fee. Media generation carries a 5% margin; Live Search is a flat $0.08 per call. Flat prices quoted below already include the transaction fee; per-unit rates (per 1k characters, per second) are shown with the fee separately.
 
 ## Discovery
 

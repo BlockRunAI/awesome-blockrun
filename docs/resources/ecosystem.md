@@ -82,7 +82,7 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 
 | Product | Endpoint | Pricing | Status |
 |---------|----------|---------|--------|
-| **LLM Chat** | `/api/v1/chat/completions` | Per token (provider cost, no platform margin) + $0.001/request | ✅ Live |
+| **LLM Chat** | `/api/v1/chat/completions` | Per token (vendor list price + 5% platform fee) + $0.001/request | ✅ Live |
 | **Anthropic-Compat** | `/api/v1/messages` | Per token + $0.001/request | ✅ Live |
 | **Responses API** | `/api/v1/responses` | Per token + $0.001/request | ✅ Live |
 | **Image Generation** | `/api/v1/images/generations` | from about $0.017/image | ✅ Live |
@@ -110,7 +110,7 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | **Pricing** | `/api/pricing` | Free | ✅ Live |
 | **Balance** | `/api/v1/balance` | Free | ✅ Live |
 
-Per-token chat carries **no platform margin** — only the flat $0.001 transaction fee. Media generation and Live Search carry 5%. See [Pricing](../products/intelligence/pricing.md) and the full [x402 endpoint catalog](../x402/endpoints.md).
+Per-token chat carries a **5% platform fee** on the vendor's list price, then the flat $0.001 transaction fee. Media generation and Live Search carry 5%. See [Pricing](../products/intelligence/pricing.md) and the full [x402 endpoint catalog](../x402/endpoints.md).
 
 ## Framework Integrations
 
