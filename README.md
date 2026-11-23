@@ -94,7 +94,7 @@ BlockRun is a unified API gateway — use account credits with one API key, or U
 | **DEX Aggregation** | `/api/v1/zerox/*` | Free | 0x Swap V2 + Gasless V2 across 100+ venues |
 | **Sandbox Runtime** | `/api/v1/modal/*` | Per run | Secure isolated Python execution (Modal) |
 | **Prediction Markets** | `/v1/pm/*` | $0.0085 | Polymarket, Kalshi, Limitless, Opinion, Predict.Fun, Binance Futures (Predexon) |
-| **Market Data** | `/v1/{crypto,fx,commodity}/*` | Free | Crypto, FX and commodity spot prices (Pyth) |
+| **Market Data** | `/v1/{crypto,fx,commodity}/*` | Free | Latest crypto, FX, gold and silver prices (not realtime); crypto OHLC history |
 | **Models** | `/v1/models` | Free | List all available models with pricing |
 | **Pricing** | `/v1/pricing` | Free | Detailed pricing for all models |
 | **Balance** | `/v1/balance` | Free | Check USDC wallet balance |
@@ -241,7 +241,7 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 | `blockrun_exa` | Neural semantic search + grounded answers |
 | `blockrun_markets` | Polymarket, Kalshi, sports markets |
 | `blockrun_polymarket` | Place real USDC-settled Polymarket orders (CLOB V2 on Polygon) — discover markets with `blockrun_markets` first |
-| `blockrun_price` | Pyth quotes: crypto, FX, commodities, stocks |
+| `blockrun_price` | Latest crypto, FX, gold and silver prices (free, not realtime); stock symbol catalogs |
 | `blockrun_dex` | Live DEX prices and liquidity via DexScreener (free) |
 | `blockrun_rpc` | Raw JSON-RPC on <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains — Ethereum, Base, Solana, Bitcoin, Sui, NEAR |
 | `blockrun_defi` | DefiLlama — protocol TVL, chain TVL, yield pools (APY), token prices |
