@@ -29,8 +29,8 @@ Each model object in the response includes:
 | `context_window` | number | Context window size in tokens |
 | `max_output` | number | Maximum output tokens |
 | `categories` | string[] | Model capabilities: `"chat"`, `"reasoning"`, `"coding"`, `"vision"`, `"search"` (media rows carry `"image"`, `"video"`, `"music"`, `"speech"`, `"tts"`, `"sound_effect"`; the Decisions row carries `"judgment"`) |
-| `billing_mode` | string | `"paid"` (per-token chat models), `"free"`, `"flat"` (per-request; testnet only, see Flat-priced models below), or a media mode: `"per_image"`, `"per_second"`, `"per_track"`, `"per_character"`, `"per_generation"`. The one Decisions judgment row (not a chat model) uses `"per_token"` |
-| `pricing` | object | `{ input, output }` in USD per 1M tokens for per-token models, plus `cache_read` / `cache_write` where the model has them and `long_context` (a list of repricing steps) on models that reprice above a prompt threshold; `{ flat }` for flat-priced models (fee-inclusive; testnet only); `{ per_image }`, `{ per_second }`, `{ per_track }`, `{ per_1k_chars }`, `{ per_generation }` with `transaction_fee` for media |
+| `billing_mode` | string | `"paid"` (per-token chat models), `"free"`, or a media mode: `"per_image"`, `"per_second"`, `"per_track"`, `"per_character"`, `"per_generation"`. The one Decisions judgment row (not a chat model) uses `"per_token"` |
+| `pricing` | object | `{ input, output }` in USD per 1M tokens for per-token models, plus `cache_read` / `cache_write` where the model has them and `long_context` (a list of repricing steps) on models that reprice above a prompt threshold; `{ per_image }`, `{ per_second }`, `{ per_track }`, `{ per_1k_chars }`, `{ per_generation }` with `transaction_fee` for media |
 
 Only models that are currently available are returned. Chat rows also carry `available: true`.
 
@@ -281,15 +281,6 @@ K3.1 Pro is the current flagship — Moonshot's post-trained successor to K3, bu
 | `xiaomi/mimo-v2.5` | Xiaomi MiMo-V2.5 (multimodal) | $0.14/M | $0.28/M | 1M |
 | `xiaomi/mimo-v2.5-pro` | Xiaomi MiMo-V2.5 Pro | $0.435/M | $0.87/M | 1M |
 
-### Flat-priced (testnet only)
-
-Open-weight models billed at a flat per-request price instead of per token — the request is the unit, whatever its length. These are served on the Base Sepolia testnet (`testnet.blockrun.ai`) for developer testing and are not in the mainnet catalog.
-
-| Model ID | Name | Price | Context |
-|----------|------|-------|---------|
-| `openai/gpt-oss-120b` | GPT-OSS 120B | $0.002/request | 128K |
-| `openai/gpt-oss-20b` | GPT-OSS 20B | $0.001/request | 128K |
-
 ### Free Tier (open-weight)
 
 Open-weight models served free of charge (no x402 payment), subject to a small per-IP rate limit. The free tier auto-routes around any temporarily unavailable model, so the live set is best read from `GET /api/v1/models` (filter on `billing_mode: "free"`). There are **9** free models listed on mainnet.
@@ -389,7 +380,7 @@ Prices are per 1 million tokens. Your actual cost depends on:
 
 1. **Input tokens** - Length of your prompt and context
 2. **Output tokens** - Length of the model's response
-3. **Transaction fee** - a flat $0.001 per request; per-token chat also carries a 5% platform fee (media and Live Search carry 5%)
+3. **Transaction fee** - a flat $0.001 per request; per-token chat also carries a 5% platform fee (most media carries a 5% margin; Live Search is a flat price)
 
 The SDK calculates the exact price before each request.
 

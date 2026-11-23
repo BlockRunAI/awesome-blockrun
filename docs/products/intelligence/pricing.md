@@ -355,8 +355,8 @@ generation carries 5%.
 ## Payment Details
 
 - **Currency:** USDC on Base or Solana
-- **Settlement:** Instant, on-chain
-- **Verification:** [Basescan](https://basescan.org)
+- **Settlement:** On-chain. Base payments and Solana exact payments settle on-chain per call; Solana batch payments settle together in periodic sweeps.
+- **Verification:** [Basescan](https://basescan.org) / [Solscan](https://solscan.io)
 
 ## What's next?
 

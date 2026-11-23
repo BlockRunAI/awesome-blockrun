@@ -37,7 +37,6 @@ Full catalog with per-path prices: [x402 Endpoints](./docs/x402/endpoints.md).
 | **Base** | `blockrun.ai` | USDC | ✅ Live |
 | **Solana** | `sol.blockrun.ai` | USDC | ✅ Live |
 | **Polygon / Arbitrum / Optimism / Unichain** | `nano.blockrun.ai` | USDC via Circle Gateway (gas-free, batched) | ✅ Live |
-| **Base Sepolia** | `testnet.blockrun.ai` | USDC (testnet) | ✅ Testnet |
 | **XRP Ledger** | `xrpl.blockrun.ai` | RLUSD | ⛔ Sunset (offline) |
 
 **Enterprise (coming soon):** `user.blockrun.ai` — API keys (`brk_live_…`) + wire billing, billed post-hoc at exact usage with no per-call minimum. Sign-in is not yet open.
@@ -175,11 +174,11 @@ BlockRun routes to these AI providers via x402:
 | DeepSeek | DeepSeek V4 Flash Chat, DeepSeek V4 Flash Reasoner, DeepSeek V4 Flash Vision, DeepSeek V4 Pro | $0.14–$1.32 / $0.28–$3.96 |
 | xAI | Grok 4.7, Grok 4.6, Grok 4.5, Grok 4.3, Grok Build 0.1 | $1.00–$2.00 / $2.00–$6.00 |
 | Z.AI | GLM-5.3, GLM-5.3 Flash, GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo | $0.15–$1.40 / $0.50–$4.40 |
-| Moonshot | Kimi K3 (1M context, 2.8T open MoE, flagship) | $3.00 / $15.00 |
+| Moonshot | Kimi K3.1 Pro (1M context, vision, reasoning) | $2.00 / $10.00 |
 | MiniMax | MiniMax M3, MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
 | Qwen | Qwen3.8 Flash (1M context, image input), Qwen3.7 Max (Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
 | Xiaomi | MiMo-V2.5, MiMo-V2.5 Pro | $0.14–$0.435 / $0.28–$0.87 |
-| Free tier | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision, Cohere North Mini Code, Poolside Laguna XS 2.1, Muse Glimmer 30B, Gemma 4 31B (8 free models, keyless — no wallet needed) | **Free** |
+| Free tier | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3.5 Super 120B, Nemotron 3.5 Bolt, Nemotron 3 Nano Omni (vision), MiniMax M3.1 Flash, Cohere North Mini Code, Poolside Laguna XS 2.1, Muse Glimmer 30B (<!-- br:models.free -->9<!-- /br:models.free --> free models, keyless — no wallet needed) | **Free** |
 
 ### Image Models
 

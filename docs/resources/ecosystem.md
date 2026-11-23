@@ -110,7 +110,7 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | **Pricing** | `/api/pricing` | Free | ✅ Live |
 | **Balance** | `/api/v1/balance` | Free | ✅ Live |
 
-Per-token chat carries a **5% platform fee** on the vendor's list price, then the flat $0.001 transaction fee. Media generation and Live Search carry 5%. See [Pricing](../products/intelligence/pricing.md) and the full [x402 endpoint catalog](../x402/endpoints.md).
+Per-token chat carries a **5% platform fee** on the vendor's list price, then the flat $0.001 transaction fee. Most media generation carries a 5% margin; Live Search is a flat price per call. See [Pricing](../products/intelligence/pricing.md) and the full [x402 endpoint catalog](../x402/endpoints.md).
 
 ## Framework Integrations
 
@@ -148,7 +148,6 @@ Projects built by the community using BlockRun.
 | Base | `blockrun.ai` | USDC | Per-call x402 | ✅ Live |
 | Solana | `sol.blockrun.ai` | USDC (SPL) | Per-call x402 | ✅ Live |
 | Polygon / Arbitrum / Optimism / Unichain | `nano.blockrun.ai` | USDC via Circle Gateway | Gas-free, batched nanopayments | ✅ Live |
-| Base Sepolia | `testnet.blockrun.ai` | USDC (testnet) | Per-call x402 | ✅ Testnet |
 | XRP Ledger | `xrpl.blockrun.ai` | RLUSD | — | ⛔ Sunset (gateway offline) |
 
 ## x402 Facilitators

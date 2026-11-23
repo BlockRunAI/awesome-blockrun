@@ -620,37 +620,9 @@ const markets = await client.pm("polymarket/markets");
 
 Works on both `LLMClient` (Base) and `SolanaLLMClient`.
 
-## Testnet Usage
+## Testing without spending
 
-For development and testing without real USDC, point the client at the Base Sepolia gateway. (The TypeScript SDK has no `testnetClient()` helper — that is a Python SDK convenience; here you set `apiUrl`.)
-
-```typescript
-import { LLMClient } from '@blockrun/llm';
-
-const client = new LLMClient({
-  privateKey: process.env.BASE_CHAIN_WALLET_KEY as `0x${string}`,
-  apiUrl: 'https://testnet.blockrun.ai/api'
-});
-
-// Chat with a testnet model
-const response = await client.chat('openai/gpt-oss-20b', 'Hello!');
-console.log(response);
-```
-
-### Testnet Setup
-
-1. Get testnet ETH from [Alchemy Base Sepolia Faucet](https://www.alchemy.com/faucets/base-sepolia)
-2. Get testnet USDC from [Circle USDC Faucet](https://faucet.circle.com/)
-3. Set your wallet key: `export BASE_CHAIN_WALLET_KEY=0x...`
-
-### Available Testnet Models
-
-| Model | Price |
-|-------|-------|
-| `openai/gpt-oss-20b` | $0.001/request (flat) |
-| `openai/gpt-oss-120b` | $0.002/request (flat) |
-
-The testnet gateway also lists the image, music and video models — `curl https://testnet.blockrun.ai/api/v1/models` for the current set.
+The Base Sepolia testnet (`testnet.blockrun.ai`) was retired on 2026-10-02 and no longer answers. A client pointed at `https://testnet.blockrun.ai/api` cannot connect. To try the API without spending, call a free model on mainnet: free models take no payment, subject to a per-IP rate limit (see [Rate limits](../api-reference/rate-limits.md#free-tier-limits)). List them with `GET https://blockrun.ai/api/v1/models` and filter on `"billing_mode": "free"`.
 
 ## Error Handling
 

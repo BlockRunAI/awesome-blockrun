@@ -718,52 +718,9 @@ markets = client.pm("polymarket/markets")
 
 Works on all clients: `LLMClient` (Base), `AsyncLLMClient`, `SolanaLLMClient` and `AsyncSolanaLLMClient`.
 
-## Testnet Usage
+## Testing without spending
 
-For development and testing without real USDC, use the Base Sepolia testnet:
-
-```python
-from blockrun_llm import testnet_client
-
-# Create testnet client (uses Base Sepolia)
-client = testnet_client()  # Uses BLOCKRUN_WALLET_KEY
-
-# Chat with testnet model
-response = client.chat("openai/gpt-oss-20b", "Hello!")
-print(response)
-
-# Check testnet USDC balance
-balance = client.get_balance()
-print(f"Testnet USDC: ${balance:.4f}")
-
-# Verify you're on testnet
-print(f"Is testnet: {client.is_testnet()}")  # True
-```
-
-### Testnet Setup
-
-1. Get testnet ETH from [Alchemy Base Sepolia Faucet](https://www.alchemy.com/faucets/base-sepolia)
-2. Get testnet USDC from [Circle USDC Faucet](https://faucet.circle.com/)
-3. Set your wallet key: `export BLOCKRUN_WALLET_KEY=0x...`
-
-### Available Testnet Models
-
-| Model | Price |
-|-------|-------|
-| `openai/gpt-oss-20b` | $0.001/request (flat) |
-| `openai/gpt-oss-120b` | $0.002/request (flat) |
-
-Testnet also serves the image models and `minimax/music-2.5+` at mainnet prices — see `https://testnet.blockrun.ai/api/v1/models`. `async_testnet_client()` is the `AsyncLLMClient` equivalent.
-
-### Manual Testnet Configuration
-
-```python
-from blockrun_llm import LLMClient
-
-# Configure manually with testnet API URL
-client = LLMClient(api_url="https://testnet.blockrun.ai/api")
-response = client.chat("openai/gpt-oss-20b", "Hello!")
-```
+The Base Sepolia testnet (`testnet.blockrun.ai`) was retired on 2026-10-02 and no longer answers. `testnet_client()`, `async_testnet_client()` and `LLMClient(api_url="https://testnet.blockrun.ai/api")` are still exported but cannot connect. To try the API without spending, call a free model on mainnet: free models take no payment, subject to a per-IP rate limit (see [Rate limits](../api-reference/rate-limits.md#free-tier-limits)). List them with `GET https://blockrun.ai/api/v1/models` and filter on `"billing_mode": "free"`.
 
 ## Async Client
 

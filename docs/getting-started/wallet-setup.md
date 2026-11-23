@@ -1,6 +1,6 @@
 ---
 title: Wallet Setup
-description: Create and fund a BlockRun wallet with USDC on Base or Solana, manage keys and budgets, and run on testnet — your private key never leaves your machine.
+description: Create and fund a BlockRun wallet with USDC on Base or Solana, and manage keys and budgets — your private key never leaves your machine.
 ---
 
 # Wallet Setup
@@ -12,7 +12,6 @@ BlockRun accepts USDC on **Base** (default) or **Solana** for payments. Your age
 | Network | Chain ID | Usage | USDC |
 |---------|----------|-------|------|
 | **Base Mainnet** | 8453 | Production (default) | Real USDC |
-| **Base Sepolia** | 84532 | Development/Testing | Testnet USDC (free) |
 | **Solana Mainnet** | — | Production | USDC (SPL) |
 
 :::info{title="MCP users: pay on Solana"}
@@ -194,54 +193,9 @@ Your wallet is a standard Ethereum-compatible wallet. You can withdraw anytime u
 - Any Web3 wallet (MetaMask, Rainbow, etc.)
 - Import your private key and send to your desired address
 
-## Testnet Setup (Development)
+## Testing without spending
 
-For development and testing, use Base Sepolia testnet with free testnet USDC:
-
-::::steps
-
-:::step{title="Get testnet ETH"}
-Get free testnet ETH for gas from [Alchemy Base Sepolia Faucet](https://www.alchemy.com/faucets/base-sepolia).
-:::
-
-:::step{title="Get testnet USDC"}
-Get free testnet USDC from [Circle USDC Faucet](https://faucet.circle.com/).
-:::
-
-:::step{title="Configure the SDK for testnet"}
-**Python:**
-```python
-from blockrun_llm import testnet_client
-
-client = testnet_client()  # Uses BLOCKRUN_WALLET_KEY
-response = client.chat("openai/gpt-oss-20b", "Hello!")
-```
-
-**TypeScript:**
-```typescript
-import { LLMClient } from '@blockrun/llm';
-
-// The TypeScript SDK has no testnet helper: point apiUrl at testnet and it
-// signs on Base Sepolia, the network the testnet 402 asks for.
-const client = new LLMClient({ privateKey: '0x...', apiUrl: 'https://testnet.blockrun.ai/api' });
-const response = await client.chat('openai/gpt-oss-20b', 'Hello!');
-```
-:::
-
-::::
-
-### Testnet API Endpoint
-
-```
-https://testnet.blockrun.ai/api
-```
-
-### Available Testnet Models
-
-- `openai/gpt-oss-20b` - $0.001/request
-- `openai/gpt-oss-120b` - $0.002/request
-
-Testnet also lists the image models and `minimax/music-2.5+`; see `https://testnet.blockrun.ai/api/v1/models`.
+The Base Sepolia testnet (`testnet.blockrun.ai`) was retired on 2026-10-02 and no longer answers. The SDK testnet helpers are still exported but cannot connect. To try the API without spending, call a free model on mainnet: free models take no payment, subject to a per-IP rate limit (see [Rate limits](../api-reference/rate-limits.md#free-tier-limits)). List them with `GET https://blockrun.ai/api/v1/models` and filter on `"billing_mode": "free"`.
 
 ## Troubleshooting
 

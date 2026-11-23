@@ -23,7 +23,6 @@ The same paths are available on each gateway. The 402 response advertises which 
 | `sol.blockrun.ai` | Solana mainnet — `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | USDC SPL `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` | Per-call onchain | Solana SPL transfers. |
 | `nano.blockrun.ai` | Polygon / Arbitrum / Optimism / Unichain via Circle Gateway | USDC | Batched (Nanopayments) | Gas-free, sub-cent floor, batched onchain settlement. Base buyers use `blockrun.ai` (native x402). See [the Nanopayments launch post](https://blockrun.ai/signal/nanopayments-mainnet-circle-gateway). |
 | `xrpl.blockrun.ai` | XRP Ledger | RLUSD (Ripple-issued USD) | — | **Sunset — the gateway no longer serves requests** (returns 404 as of 2026-08-29). Use Base or Solana. See the [XRPL SDK notice](../sdks/xrpl.md). |
-| `testnet.blockrun.ai` | Base Sepolia — `eip155:84532` | USDC `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | Per-call onchain | Free test USDC. Smaller model catalog. |
 
 All live gateways implement [x402 v2](https://x402.org). Facilitators: Coinbase CDP for Base, PayAI for Solana, Circle Gateway for `nano.blockrun.ai`.
 
@@ -37,7 +36,7 @@ GET https://blockrun.ai/openapi.json         # Full OpenAPI 3.1 spec (read by x4
 GET https://blockrun.ai/api/v1/models        # Live model catalog with pricing
 ```
 
-Replace `blockrun.ai` with `sol.blockrun.ai`, `nano.blockrun.ai`, or `testnet.blockrun.ai` to discover the same endpoints scoped to a different network.
+Replace `blockrun.ai` with `sol.blockrun.ai` or `nano.blockrun.ai` to discover the same endpoints scoped to a different network.
 
 ## AI Model Gateway
 

@@ -26,7 +26,7 @@ Ask for an LLM completion, an image, a market quote, a swap. Your client signs a
 :::
 
 :::step{title="Pay per call"}
-Per-token chat is billed at the vendor's list price plus a 5% platform fee, then a flat $0.001 transaction fee; media generation and Live Search carry 5%. The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. No monthly bill, no seats, no minimums.
+Per-token chat is billed at the vendor's list price plus a 5% platform fee, then a flat $0.001 transaction fee; most media generation carries a 5% margin, and Live Search is a flat price per call. The 402 quotes input plus output at your `max_tokens`. An `exact` payment settles that quote, so set `max_tokens` to what you need. Pay with `upto` (Base) or batch settlement (Solana) and you are charged only the tokens produced. No monthly bill, no seats, no minimums.
 :::
 
 ::::
