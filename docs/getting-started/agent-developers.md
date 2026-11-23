@@ -251,7 +251,7 @@ print(client.get_wallet_address())
 
 - Private key stored locally (`~/.blockrun/.session`, mode 0600; Solana: `~/.blockrun/.solana-session`)
 - Only signatures sent to API
-- All payments verifiable on [Basescan](https://basescan.org)
+- Base payments and Solana exact payments settle on-chain per call; Solana batch payments settle together in periodic sweeps, so every payment can be checked on [Basescan](https://basescan.org) or [Solscan](https://solscan.io)
 - A failed paid request is never retried with a second payment — the SDK refuses to advance its fallback chain once a signature has gone out
 
 :::warning

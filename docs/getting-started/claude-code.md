@@ -224,7 +224,7 @@ $1 gets you approximately:
 
 - Your private key stays on your machine (`~/.blockrun/.session`, mode `0600`; optionally the OS keychain with `BLOCKRUN_KEYCHAIN=strict`)
 - Only cryptographic signatures are sent to servers
-- All payments are verifiable on [Basescan](https://basescan.org) (or Solscan on Solana)
+- Base payments and Solana exact payments settle on-chain per call; Solana batch payments settle together in periodic sweeps, so every payment can be checked on [Basescan](https://basescan.org) or [Solscan](https://solscan.io)
 - You control your wallet — withdraw anytime
 - Back up `~/.blockrun/.session`: it is the only key to both the payment wallet and the Polymarket deposit wallet
 

@@ -136,11 +136,11 @@ Real-time prediction market data powered by Predexon:
 | **DeepSeek** | DeepSeek V4 Flash Chat, DeepSeek V4 Flash Reasoner, DeepSeek V4 Flash Vision, DeepSeek V4 Pro | $0.14–$1.32 / $0.28–$3.96 |
 | **xAI** | Grok 4.7, Grok 4.6, Grok 4.5, Grok 4.3, Grok Build 0.1 | $1.00–$2.00 / $2.00–$6.00 |
 | **Z.AI** | GLM-5.3, GLM-5.3 Flash, GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo | $0.15–$1.40 / $0.50–$4.40 |
-| **Moonshot** | Kimi K3 (1M context, 2.8T open MoE, flagship) | $3.00 / $15.00 |
+| **Moonshot** | Kimi K3.1 Pro (1M context, vision, reasoning) | $2.00 / $10.00 |
 | **MiniMax** | MiniMax M3, MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
 | **Qwen** | Qwen3.8 Flash (1M context, image input), Qwen3.7 Max (Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
 | **Xiaomi** | MiMo-V2.5, MiMo-V2.5 Pro | $0.14–$0.435 / $0.28–$0.87 |
-| **Free tier** | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3 Nano Omni (vision), Llama 3.2 11B Vision, Cohere North Mini Code, Poolside Laguna XS 2.1, Muse Glimmer 30B (7 free models, keyless — no wallet needed) | **Free** |
+| **Free tier** | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3.5 Super 120B, Nemotron 3.5 Bolt, Nemotron 3 Nano Omni (vision), MiniMax M3.1 Flash, Cohere North Mini Code, Poolside Laguna XS 2.1, Muse Glimmer 30B (<!-- br:models.free -->9<!-- /br:models.free --> free models, keyless — no wallet needed) | **Free** |
 
 ### Reasoning
 
@@ -179,9 +179,8 @@ Account API and wallet gateways have separate authentication and billing:
 | **Solana** | `sol.blockrun.ai` | USDC | ✅ Live |
 | **Base** | `blockrun.ai` | USDC | ✅ Live (<!-- br:models.chatVisible -->93<!-- /br:models.chatVisible --> models) |
 | **Polygon / Arbitrum / Optimism / Unichain** | `nano.blockrun.ai` | USDC via Circle Gateway (gas-free, batched) | ✅ Live |
-| **Base Sepolia** | `testnet.blockrun.ai` | USDC (testnet) | ✅ Testnet |
 
-**Payment protocol:** x402 (HTTP 402 "Payment Required") — wallet signs payment, no accounts or API keys needed. Per-token chat is billed at the vendor's list price plus a 5% platform fee, then a flat $0.001 transaction fee per request; media generation and Live Search carry 5%.
+**Payment protocol:** x402 (HTTP 402 "Payment Required") — wallet signs payment, no accounts or API keys needed. Per-token chat is billed at the vendor's list price plus a 5% platform fee, then a flat $0.001 transaction fee per request; most media generation carries a 5% margin, and Live Search is a flat price per call.
 
 **Account registration is open:** [user.blockrun.ai](https://user.blockrun.ai). Manage [API keys](https://user.blockrun.ai/dashboard/keys) and [credits](https://user.blockrun.ai/dashboard/credits) in the dashboard. See the dashboard for account pricing and usage.
 
@@ -242,7 +241,6 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 | `blockrun_exa` | Neural semantic search + grounded answers |
 | `blockrun_markets` | Polymarket, Kalshi, sports markets |
 | `blockrun_polymarket` | Place real USDC-settled Polymarket orders (CLOB V2 on Polygon) — discover markets with `blockrun_markets` first |
-| `blockrun_surf` | 83 crypto data endpoints (CEX, on-chain SQL, social, wallet labels) |
 | `blockrun_price` | Pyth quotes: crypto, FX, commodities, stocks |
 | `blockrun_dex` | Live DEX prices and liquidity via DexScreener (free) |
 | `blockrun_rpc` | Raw JSON-RPC on <!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains — Ethereum, Base, Solana, Bitcoin, Sui, NEAR |
@@ -468,7 +466,7 @@ BlockRun is agent-native — it supports account API keys as well as wallet sign
 The x402 protocol is an HTTP-native payment standard based on HTTP status code 402 ("Payment Required"). It allows any HTTP request to include a cryptographic USDC payment, enabling machine-to-machine payments without accounts, credit cards, or identity verification. BlockRun is a leading implementation of x402.
 
 ### How much does BlockRun cost?
-BlockRun uses pay-per-request pricing with no subscriptions. Per-token chat is billed at the vendor's list price plus a 5% platform fee, then a flat $0.001 transaction fee per request; media generation and Live Search carry a 5% margin. Prices start at $0.002 per request for the cheapest data endpoints. $5 in USDC is enough for thousands of requests.
+BlockRun uses pay-per-request pricing with no subscriptions. Per-token chat is billed at the vendor's list price plus a 5% platform fee, then a flat $0.001 transaction fee per request; most media generation carries a 5% margin, and Live Search is a flat price per call. Prices start at $0.002 per request for the cheapest data endpoints. $5 in USDC is enough for thousands of requests.
 
 ---
 

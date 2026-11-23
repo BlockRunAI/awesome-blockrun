@@ -374,7 +374,7 @@ Full pricing: [Intelligence Pricing](../products/intelligence/pricing.md)
 ::::cards
 
 :::card{title="Set up your wallet" href="wallet-setup.md" icon="Wallet"}
-Fund on Base or Solana, configure keys, and run on testnet.
+Fund on Base or Solana and configure keys.
 :::
 
 :::card{title="Models reference" href="../api-reference/models.md" icon="Brain"}

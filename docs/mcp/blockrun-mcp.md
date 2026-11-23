@@ -419,7 +419,7 @@ See [Intelligence Pricing](../products/intelligence/pricing.md) for details.
 | Private key | Stored locally at `~/.blockrun/.session` (`0600`), or in the OS keychain with `BLOCKRUN_KEYCHAIN=strict` |
 | Payments | Only signatures sent, key never transmitted |
 | Trading | Polymarket orders are EIP-712-signed locally, `confirm:true` required, per-order cap |
-| Verification | All transactions viewable on Basescan / Solscan |
+| Verification | Base payments and Solana exact payments settle on-chain per call; Solana batch payments settle together in periodic sweeps; check them on Basescan / Solscan |
 | Control | You control your wallet, withdraw anytime |
 
 :::warning

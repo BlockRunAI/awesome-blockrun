@@ -183,7 +183,7 @@ Most models finish within 30 seconds. Seedream 5.0 Pro (~2 minutes) and slower G
 
 - Private key stored locally (`~/.blockrun/`)
 - Only EIP-712 signatures sent to server
-- All payments verifiable on [Basescan](https://basescan.org)
+- Base payments and Solana exact payments settle on-chain per call; Solana batch payments settle together in periodic sweeps, so every payment can be checked on [Basescan](https://basescan.org) or [Solscan](https://solscan.io)
 - No account needed — just a wallet
 
 ## What's next?
