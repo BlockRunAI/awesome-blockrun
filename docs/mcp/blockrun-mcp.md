@@ -405,7 +405,7 @@ claude mcp remove blockrun -s user
 
 ## Pricing
 
-- **Intelligence:** Provider cost, no platform margin on chat tokens, plus $0.001 per request
+- **Intelligence:** Vendor list price plus a 5% platform fee on chat tokens, plus $0.001 per request
 - **Images:** from about $0.017 per image (`zai/cogview-4`) — see [Image Generation](../api-reference/image-generation.md) for every model
 - **Free tier:** `blockrun_chat mode:"free"`, `blockrun_dex`, crypto/FX/commodity `blockrun_price`, `blockrun_models`, `blockrun_polymarket_read`, and `blockrun_speech action:"voices"` cost $0
 - **No subscriptions, no minimums**

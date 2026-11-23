@@ -181,7 +181,7 @@ Account API and wallet gateways have separate authentication and billing:
 | **Polygon / Arbitrum / Optimism / Unichain** | `nano.blockrun.ai` | USDC via Circle Gateway (gas-free, batched) | ✅ Live |
 | **Base Sepolia** | `testnet.blockrun.ai` | USDC (testnet) | ✅ Testnet |
 
-**Payment protocol:** x402 (HTTP 402 "Payment Required") — wallet signs payment, no accounts or API keys needed. Per-token chat carries no platform margin — only a flat $0.001 transaction fee per request; media generation and Live Search carry 5%.
+**Payment protocol:** x402 (HTTP 402 "Payment Required") — wallet signs payment, no accounts or API keys needed. Per-token chat is billed at the vendor's list price plus a 5% platform fee, then a flat $0.001 transaction fee per request; media generation and Live Search carry 5%.
 
 **Account registration is open:** [user.blockrun.ai](https://user.blockrun.ai). Manage [API keys](https://user.blockrun.ai/dashboard/keys) and [credits](https://user.blockrun.ai/dashboard/credits) in the dashboard. See the dashboard for account pricing and usage.
 
@@ -468,7 +468,7 @@ BlockRun is agent-native — it supports account API keys as well as wallet sign
 The x402 protocol is an HTTP-native payment standard based on HTTP status code 402 ("Payment Required"). It allows any HTTP request to include a cryptographic USDC payment, enabling machine-to-machine payments without accounts, credit cards, or identity verification. BlockRun is a leading implementation of x402.
 
 ### How much does BlockRun cost?
-BlockRun uses pay-per-request pricing with no subscriptions. Per-token chat is billed at provider cost with no platform margin — only a flat $0.001 transaction fee is added per request; media generation and Live Search carry a 5% margin. Prices start at $0.002 per request for the cheapest data endpoints. $5 in USDC is enough for thousands of requests.
+BlockRun uses pay-per-request pricing with no subscriptions. Per-token chat is billed at the vendor's list price plus a 5% platform fee, then a flat $0.001 transaction fee per request; media generation and Live Search carry a 5% margin. Prices start at $0.002 per request for the cheapest data endpoints. $5 in USDC is enough for thousands of requests.
 
 ---
 

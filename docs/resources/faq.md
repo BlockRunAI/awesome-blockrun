@@ -30,7 +30,7 @@ BlockRun is economic infrastructure for AI agents. It provides:
 
 - **Trading (Franklin):** Free and open source — you pay only for the market data and models the tools use
 - **Creation:** Pay-per-use — images from about $0.017, video from $0.05/sec, music $0.20/track, text-to-speech $0.0525–0.105 per 1k chars (Seed Audio $0.003 per second of audio)
-- **Intelligence:** Provider cost with **no platform margin** on per-token chat (since 2026-08-07) — only a flat $0.001 transaction fee per request. Media generation and Live Search carry 5%.
+- **Intelligence:** Vendor list price plus a **5% platform fee** on per-token chat (since 2026-11-18), then a flat $0.001 transaction fee per request. Media generation and Live Search carry 5%.
 - **Free tier:** 9 free chat, reasoning and vision models with no per-token charge
 
 ## Products
@@ -115,7 +115,7 @@ No. Franklin's trading tools are free and open source. You pay only for the paid
 
 ### Is there a per-request fee?
 
-Yes — a flat $0.001 transaction fee on every paid call, which covers on-chain settlement. That is the only thing added on top of provider cost for chat; there is no percentage margin on tokens.
+Yes — a flat $0.001 transaction fee on every paid call, which covers on-chain settlement, and on per-token chat a 5% platform fee on the vendor's list price.
 
 ## Technical
 

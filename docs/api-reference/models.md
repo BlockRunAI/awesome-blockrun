@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 125 models — chat, image, video, music and speech — from one BlockRun API — provider rates, no margin on chat tokens, $0.001 per call.
+description: List and price 125 models — chat, image, video, music and speech — from one BlockRun API — vendor list prices, a 5% platform fee on chat, $0.001 per call.
 ---
 
 # Models
@@ -71,7 +71,7 @@ Only models that are currently available are returned. Chat rows also carry `ava
 **93 chat / LLM models** are publicly listed on mainnet, plus **14 image**, **7 video**, **1 music**, **5 text-to-speech**, and **1 sound-effects** model — covering chat, image, video, music, speech, and sound-effects generation from one API. Additional deprecated / superseded LLM IDs remain routable for backwards compatibility but are hidden from the catalog. The catalog also carries one `judgment` row, `openai/gpt-6-luna-decisions`, for the [Decisions](decisions.md) endpoint. Call `GET /api/v1/models` for the exact live list.
 :::
 
-All prices shown are provider rates — and, for per-token chat, also the billed rates: BlockRun adds **no platform margin** on chat tokens, only the flat $0.001/request transaction fee. Media carries a 5% platform margin; Live Search is a flat per-call price (see [Search](search.md)).
+All prices shown are the vendor's list rates. Per-token chat paid per call adds a **5% platform fee** on the token amount, then the flat $0.001/request transaction fee. Media carries a 5% platform margin; Live Search is a flat per-call price (see [Search](search.md)).
 
 ### OpenAI GPT-6 Family
 
@@ -389,7 +389,7 @@ Prices are per 1 million tokens. Your actual cost depends on:
 
 1. **Input tokens** - Length of your prompt and context
 2. **Output tokens** - Length of the model's response
-3. **Transaction fee** - a flat $0.001 per request; chat tokens carry no platform margin (media and Live Search carry 5%)
+3. **Transaction fee** - a flat $0.001 per request; per-token chat also carries a 5% platform fee (media and Live Search carry 5%)
 
 The SDK calculates the exact price before each request.
 

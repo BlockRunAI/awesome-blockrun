@@ -211,7 +211,7 @@ Full list in [Skills](../mcp/skills.md). [Trading](../products/trading/overview.
 
 ## Pricing
 
-- **Intelligence:** Provider cost, no platform margin on chat tokens, plus $0.001 per request (no subscriptions)
+- **Intelligence:** Vendor list price plus a 5% platform fee on chat tokens, plus $0.001 per request (no subscriptions)
 - **Images:** from about $0.017 per image
 - **Free tier:** `mode:"free"` chat, DEX data, crypto/FX/commodity prices, model list, Polymarket reads — $0
 - **Trading tools:** Built into Franklin, free and open source — you pay only for the data they buy
