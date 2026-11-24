@@ -1,6 +1,6 @@
 ---
 title: Market Data
-description: Free spot prices for crypto, FX and commodities, free crypto OHLC history, on-chain US stock prices from tokenized-stock DEX pools, and free equity symbol catalogs.
+description: Free crypto, FX and commodity prices, free crypto OHLC history, on-chain US stock prices from tokenized-stock DEX pools, and free equity catalogs.
 ---
 
 # Market Data
