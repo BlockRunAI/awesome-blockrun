@@ -266,7 +266,7 @@ blockrun_polymarket action:"buy" token_id:"<id>" amount_usd:5 order_type:"FOK" c
 
 #### `blockrun_price`
 
-Daily-close quotes for crypto, FX and commodities, plus crypto OHLC history — free. Actions: `price`, `history`, `list`. US stock prices are on-chain and cost $0.005: `action:"price" category:"stocks" market:"us"` reads tokenized-stock DEX pools on your **active chain** (Base: Coinbase Tokenized Stocks; Solana: xStocks) and returns the price, every pool, the dividend multiplier, the US session and SEC company facts. The stock ticker catalog (`action:"list" category:"stocks"`) is free; US history and non-US quotes return a `501` before any payment.
+Daily-close quotes for crypto, FX and commodities, plus crypto OHLC history — free. Actions: `price`, `history`, `list`. US stock prices are on-chain and cost $0.005 (from `@blockrun/mcp` 0.56.0): `action:"price" category:"stocks" market:"us"` reads tokenized-stock DEX pools on your **active chain** (Base: Coinbase Tokenized Stocks; Solana: xStocks) and returns the price, every pool, the dividend multiplier, the US session and SEC company facts. The stock ticker catalog (`action:"list" category:"stocks"`) is free; US history and non-US quotes return a `501` before any payment.
 
 #### `blockrun_dex`
 
