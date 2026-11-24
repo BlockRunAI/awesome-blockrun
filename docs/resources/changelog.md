@@ -7,6 +7,19 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-24]
+
+### Retired — o1, o3-mini, o4-mini, Gemini 3.5 Flash, Cohere North Mini Code
+- **`openai/o1`, `openai/o1-mini`, `openai/o3-mini`, `openai/o4-mini`** — OpenAI shut these down on October 23, 2026. Calls to them (and their bare names) now go to **`openai/gpt-5.4-mini`** on chat, messages and responses, and are quoted and billed at GPT-5.4 Mini's price ($0.75/M in · $4.50/M out). `openai/o3` is unaffected.
+- **`google/gemini-3.5-flash`** — Google has served Gemini 3.6 Flash under this name since mid-October. Calls now go to **`google/gemini-3.6-flash`** on every API, at its $0.75/M in · $3.75/M out instead of $1.50/$9.00. Gemini 4 Argon now falls back to Gemini 4 Hydrogen, and Gemini 3.1 Pro to Gemini 4 Carbon.
+- **`cohere/north-mini-code`** (free) — no longer served upstream. Calls redirect to **`poolside/laguna-xs-2.1`**, the other free coding model.
+- Visible chat models are now **92**; total catalog **120**; free models **8**.
+
+### Fixed — GPT Image 1 edits
+- **`openai/gpt-image-1`** edits (`/v1/images/image2image`, `/v1/images/edits`) had been failing with a model-not-found error. They work again.
+
+---
+
 ## [2026-11-19]
 
 ### Added — Gemini 4 Neon

@@ -192,7 +192,7 @@ BlockRun routes to these providers via x402:
 | Moonshot | Kimi K3.1 Pro (1M context, image + text input) | $2.00 / $10.00 |
 | MiniMax | MiniMax M3 (1M context) | $0.30 / $1.20 |
 | Qwen | Qwen3.8 Max (flagship), Qwen3.7 Max (1M context) | $1.48–2.00 / $4.43–6.00 |
-| Free tier | 9 free reasoning, coding, and vision models | **Free** |
+| Free tier | 8 free reasoning, coding, and vision models | **Free** |
 
 ### Image Models
 

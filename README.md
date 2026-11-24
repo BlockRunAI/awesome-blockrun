@@ -130,9 +130,9 @@ Real-time prediction market data powered by Predexon:
 
 | Provider | Models | Input/Output per 1M tokens |
 |----------|--------|---------------------------|
-| **OpenAI** | GPT-6 Astra / Sol / Luna, GPT-5.6 Sol / Sol Pro / Terra / Terra Pro / Luna / Luna Pro, GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.4 Mini, GPT-5.4 Nano, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5.1, GPT-5 Mini, ChatGPT Instant, GPT-4.1 / Mini / Nano, GPT-4o / Mini, o1, o3, o3-mini, o4-mini | $0.10–$30.00 / $0.40–$180.00 |
+| **OpenAI** | GPT-6 Astra / Sol / Luna, GPT-5.6 Sol / Sol Pro / Terra / Terra Pro / Luna / Luna Pro, GPT-5.5, GPT-5.5 Pro, GPT-5.4, GPT-5.4 Pro, GPT-5.4 Mini, GPT-5.4 Nano, GPT-5.3 Codex, GPT-5.2, GPT-5.2 Pro, GPT-5.1, GPT-5 Mini, ChatGPT Instant, GPT-4.1 / Mini / Nano, GPT-4o / Mini, o3 | $0.10–$30.00 / $0.40–$180.00 |
 | **Anthropic** | Claude Fable 5.1, Claude Fable 5, Claude Opus 5.5, Claude Opus 5, Claude Opus 4.8, Claude Opus 4.7, Claude Opus 4.5, Claude Sonnet 5.5, Claude Sonnet 5, Claude Sonnet 4.6, Claude Sonnet 4.5, Claude Haiku 4.5 | $1.00–$10.00 / $5.00–$50.00 |
-| **Google** | Gemini 3.6 Flash, Gemini 3.5 Flash, Gemini 3.5 Flash Lite, Gemini 3.1 Pro, Gemini 3.1 Flash Lite, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
+| **Google** | Gemini 3.6 Flash, Gemini 3.5 Flash Lite, Gemini 3.1 Pro, Gemini 3.1 Flash Lite, Gemini 3 Flash Preview, Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite | $0.10–$2.00 / $0.40–$12.00 |
 | **DeepSeek** | DeepSeek V4 Flash Chat, DeepSeek V4 Flash Reasoner, DeepSeek V4 Flash Vision, DeepSeek V4 Pro | $0.14–$1.32 / $0.28–$3.96 |
 | **xAI** | Grok 4.7, Grok 4.6, Grok 4.5, Grok 4.3, Grok Build 0.1 | $1.00–$2.00 / $2.00–$6.00 |
 | **Z.AI** | GLM-5.3, GLM-5.3 Flash, GLM-5.2, GLM-5.1, GLM-5, GLM-5 Turbo | $0.15–$1.40 / $0.50–$4.40 |
@@ -140,15 +140,13 @@ Real-time prediction market data powered by Predexon:
 | **MiniMax** | MiniMax M3, MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
 | **Qwen** | Qwen3.8 Flash (1M context, image input), Qwen3.7 Max (Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
 | **Xiaomi** | MiMo-V2.5, MiMo-V2.5 Pro | $0.14–$0.435 / $0.28–$0.87 |
-| **Free tier** | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3.5 Super 120B, Nemotron 3.5 Bolt, Nemotron 3 Nano Omni (vision), MiniMax M3.1 Flash, Cohere North Mini Code, Poolside Laguna XS 2.1, Muse Glimmer 30B (<!-- br:models.free -->9<!-- /br:models.free --> free models, keyless — no wallet needed) | **Free** |
+| **Free tier** | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3.5 Super 120B, Nemotron 3.5 Bolt, Nemotron 3 Nano Omni (vision), MiniMax M3.1 Flash, Poolside Laguna XS 2.1, Muse Glimmer 30B (<!-- br:models.free -->9<!-- /br:models.free --> free models, keyless — no wallet needed) | **Free** |
 
 ### Reasoning
 
 | Model | Price (input/output per 1M) |
 |-------|---------------------------|
-| OpenAI o1 | $15.00 / $60.00 |
 | OpenAI o3 | $2.00 / $8.00 |
-| OpenAI o3-mini, o4-mini | $1.10 / $4.40 |
 | DeepSeek V4 Flash Reasoner | $0.14 / $0.28 |
 
 ### Image Generation

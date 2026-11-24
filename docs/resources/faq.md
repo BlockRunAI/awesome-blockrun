@@ -14,7 +14,7 @@ Frequently asked questions about BlockRun — payments, products, models, wallet
 BlockRun is economic infrastructure for AI agents. It provides:
 - **Trading** — Franklin's built-in trading tools: live signals, paper trading, Polymarket bets, and a trade-plan gate for real money
 - **Creation** — generate images, video, music, and speech, paid per output
-- **Intelligence** — Access to 97 chat models via x402 micropayments
+- **Intelligence** — Access to 92 chat models via x402 micropayments
 - **Routing** — ClawRouter picks the cheapest capable model locally, in under 1ms
 
 ### What makes BlockRun different?
@@ -31,7 +31,7 @@ BlockRun is economic infrastructure for AI agents. It provides:
 - **Trading (Franklin):** Free and open source — you pay only for the market data and models the tools use
 - **Creation:** Pay-per-use — images from about $0.017, video from $0.05/sec, music $0.20/track, text-to-speech $0.0525–0.105 per 1k chars (Seed Audio $0.003 per second of audio)
 - **Intelligence:** Vendor list price plus a **5% platform fee** on per-token chat (since 2026-11-18), then a flat $0.001 transaction fee per request. Most media generation carries a 5% margin; Live Search is a flat price per call.
-- **Free tier:** 9 free chat, reasoning and vision models with no per-token charge
+- **Free tier:** 8 free chat, reasoning and vision models with no per-token charge
 
 ## Products
 
@@ -121,7 +121,7 @@ Yes — a flat $0.001 transaction fee on every paid call, which covers on-chain 
 
 ### Which AI models are available?
 
-97 models including:
+92 models including:
 - OpenAI (GPT-6 Astra, GPT-6 Sol, GPT-6 Luna, GPT-5.6 Sol, GPT-5.5, GPT-5.4, GPT-5.4 Pro, GPT-5.2)
 - Anthropic (Claude Fable 5.2, Fable 5.1, Opus 5.5, Opus 5, Opus 4.8, Sonnet 5.5, Sonnet 5, Sonnet 4.6, Haiku 4.5)
 - Google (Gemini 3.1 Pro, Gemini 3.5 Flash)
@@ -131,7 +131,7 @@ Yes — a flat $0.001 transaction fee on every paid call, which covers on-chain 
 - MiniMax (MiniMax M3)
 - Qwen (Qwen3.8 Max, Qwen3.7 Max — 1M context)
 - xAI (Grok 4.7, Grok 4.6, Grok 4.5, Grok 4.3, Grok Build 0.1)
-- Plus 9 free reasoning, coding, and vision models
+- Plus 8 free reasoning, coding, and vision models
 
 Full list: [Models](../api-reference/models.md)
 
