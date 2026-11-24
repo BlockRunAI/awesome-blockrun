@@ -7,6 +7,15 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-12-01]
+
+### Retired — Gemini 2.5 Flash, Gemini 2.5 Pro
+- **`google/gemini-2.5-flash`** — Google moved it to Gemini 3.5 Flash-Lite on December 1. Calls now go to **`google/gemini-3.5-flash-lite`** at the same $0.30/M in · $2.50/M out, on every API including the native Gemini one. Gemini 3.5 Flash-Lite is now listed with image input.
+- **`google/gemini-2.5-pro`** — Google moved it to Gemini 3.8 Flash. Calls now go to **`google/gemini-3.8-flash`** at $0.75/M in · $3.75/M out instead of $1.25/$10.00, with no long-context surcharge.
+- Visible chat models are now **90**; total catalog **118**.
+
+---
+
 ## [2026-11-24]
 
 ### Retired — o1, o3-mini, o4-mini, Gemini 3.5 Flash, Cohere North Mini Code

@@ -1,6 +1,6 @@
 ---
 title: TypeScript SDK
-description: The official BlockRun TypeScript/JavaScript SDK — call 92 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
+description: The official BlockRun TypeScript/JavaScript SDK — call 90 LLMs, smart routing, and prediction markets over x402 micropayments with no API keys.
 ---
 
 # TypeScript SDK
@@ -404,7 +404,7 @@ import { LLMClient, type ChatMessage } from '@blockrun/llm';
 const client = new LLMClient();
 const messages: ChatMessage[] = [{ role: 'user', content: 'Explain quantum computing simply' }];
 
-const response = await client.chatCompletionStream('google/gemini-2.5-flash', messages);
+const response = await client.chatCompletionStream('google/gemini-3.5-flash-lite', messages);
 
 const reader = response.body!.getReader();
 const decoder = new TextDecoder();
@@ -908,7 +908,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 92 models with live pricing to pick the right one for each call.
+Browse all 90 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}
