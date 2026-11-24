@@ -187,7 +187,7 @@ print(f"Spent: ${spent['total_usd']:.4f} across {spent['calls']} calls")
 # OpenAI
 client.chat("openai/gpt-5.4", prompt)
 client.chat("openai/gpt-5.2", prompt)
-client.chat("openai/o1", prompt)
+client.chat("openai/o3", prompt)
 
 # Anthropic
 client.chat("anthropic/claude-opus-5", prompt)

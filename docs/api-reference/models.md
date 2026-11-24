@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 125 models — chat, image, video, music and speech — from one BlockRun API — vendor list prices, a 5% platform fee on chat, $0.001 per call.
+description: List and price 120 models — chat, image, video, music and speech — from one BlockRun API — vendor list prices, a 5% platform fee on chat, $0.001 per call.
 ---
 
 # Models
@@ -134,10 +134,7 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `openai/o1` | o1 | $15.00/M | $60.00/M | 200K |
 | `openai/o3` | o3 | $2.00/M | $8.00/M | 200K |
-| `openai/o3-mini` | o3-mini | $1.10/M | $4.40/M | 128K |
-| `openai/o4-mini` | o4-mini | $1.10/M | $4.40/M | 128K |
 
 ### OpenAI GPT-4.1 / GPT-4o
 
@@ -187,7 +184,6 @@ These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); t
 | `google/gemini-4-hydrogen` | Gemini 4 Hydrogen | $1.50/M | $7.50/M | 1M |
 | `google/gemini-3.1-pro` | Gemini 3.1 Pro | $2.00/M | $12.00/M | 1M |
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
-| `google/gemini-3.5-flash` | Gemini 3.5 Flash | $1.50/M | $9.00/M | 1M |
 | `google/gemini-3.8-flash` | Gemini 3.8 Flash | $0.75/M | $3.75/M | 1M |
 | `google/gemini-3.6-flash` | Gemini 3.6 Flash | $0.75/M | $3.75/M | 1M |
 | `google/gemini-3-flash-preview` | Gemini 3 Flash Preview | $0.50/M | $3.00/M | 1M |
@@ -293,7 +289,6 @@ Open-weight models served free of charge (no x402 payment), subject to a small p
 | `nvidia/nemotron-3-super-120b` | Nemotron 3.5 Super 120B (reasoning, vision) | **FREE** | **FREE** |
 | `nvidia/nemotron-3.5-bolt` | Nemotron 3.5 Bolt (fast, vision) | **FREE** | **FREE** |
 | `nvidia/minimax-m3.1-flash` | MiniMax M3.1 Flash (reasoning, tools) | **FREE** | **FREE** |
-| `cohere/north-mini-code` | Cohere North Mini Code (coding) | **FREE** | **FREE** |
 | `poolside/laguna-xs-2.1` | Poolside Laguna XS 2.1 (coding) | **FREE** | **FREE** |
 | `nvidia/muse-glimmer-30b` | Muse Glimmer 30B (Meta, reasoning) | **FREE** | **FREE** |
 
@@ -437,5 +432,7 @@ Route each prompt to the cheapest model that can handle it, automatically.
 :::
 
 ::::
+
+`openai/o1`, `openai/o1-mini`, `openai/o3-mini` and `openai/o4-mini` were retired by OpenAI on October 23, 2026; requests for them now route to `openai/gpt-5.4-mini` and are billed at its price. `google/gemini-3.5-flash` now routes to `google/gemini-3.6-flash`, which Google already served under that name, at 3.6 Flash's price. The free `cohere/north-mini-code` routes to `poolside/laguna-xs-2.1`.
 
 `openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026 and is no longer advertised as available. On Base, chat requests for it now route to `openai/gpt-5-nano`. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.

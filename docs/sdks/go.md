@@ -1,11 +1,11 @@
 ---
 title: Go SDK
-description: The Go SDK for BlockRun — call 125 AI models, generate images, video, music and speech, search the web, read market data and RPC, over x402 with no API keys.
+description: The Go SDK for BlockRun — call 120 AI models, generate images, video, music and speech, search the web, read market data and RPC, over x402 with no API keys.
 ---
 
 # Go SDK
 
-The Go SDK for BlockRun provides access to 125 AI models via x402 micropayments — pay per call in USDC on **Base** or **Solana**, no API keys. Beyond chat it covers image, video, music and speech generation, web search, market data, prediction markets, DeFi and DEX data, and multi-chain JSON-RPC.
+The Go SDK for BlockRun provides access to 120 AI models via x402 micropayments — pay per call in USDC on **Base** or **Solana**, no API keys. Beyond chat it covers image, video, music and speech generation, web search, market data, prediction markets, DeFi and DEX data, and multi-chain JSON-RPC.
 
 **Source:** [github.com/BlockRunAI/blockrun-llm-go](https://github.com/BlockRunAI/blockrun-llm-go) · `go get github.com/BlockRunAI/blockrun-llm-go@v0.24.1` · Go 1.22+ · MIT
 
@@ -388,7 +388,7 @@ if err != nil {
 // OpenAI
 client.Chat(ctx, "openai/gpt-5.2", prompt)
 client.Chat(ctx, "openai/gpt-5.5", prompt)
-client.Chat(ctx, "openai/o1", prompt)
+client.Chat(ctx, "openai/o3", prompt)
 
 // Anthropic
 client.Chat(ctx, "anthropic/claude-opus-5", prompt)
@@ -519,7 +519,7 @@ Fund a wallet with USDC and make your first paid call in under five minutes.
 :::
 
 :::card{title="Models & pricing" href="../api-reference/models.md" icon="Brain"}
-Browse all 97 models with live pricing to pick the right one for each call.
+Browse all 92 models with live pricing to pick the right one for each call.
 :::
 
 :::card{title="How payment works" href="../x402/how-it-works.md" icon="Zap"}

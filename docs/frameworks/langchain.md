@@ -1,6 +1,6 @@
 ---
 title: LangChain Integration
-description: Wrap BlockRun in a custom LangChain LLM class that handles x402 payments automatically — chains, agents, and RAG over 97 models.
+description: Wrap BlockRun in a custom LangChain LLM class that handles x402 payments automatically — chains, agents, and RAG over 92 models.
 ---
 
 # LangChain Integration
@@ -205,7 +205,7 @@ def get_model_for_task(task_type: str) -> str:
     elif task_type == "complex":
         return "openai/gpt-5.4"  # $2.50/M input tokens
     elif task_type == "reasoning":
-        return "openai/o1"  # $15/M input tokens
+        return "openai/o3"  # $2/M input tokens
     return "openai/gpt-5.4"
 
 # Dynamic model selection

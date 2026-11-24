@@ -7,7 +7,7 @@ description: ClawRouter is a smart LLM router for OpenClaw that picks the optima
 
 **84% cheaper than pinning one flagship for every request — 98% on `eco`. Automatically.**
 
-ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 97 models, zero API keys.
+ClawRouter is a smart LLM router for OpenClaw that routes every request to the cheapest model that can handle it. One wallet, 92 models, zero API keys.
 
 :::tip{title="In a hurry?"}
 Install, fund a wallet, then run `/model blockrun/auto` in any OpenClaw conversation — that's it. Current release: **v0.12.314** (November 12, 2026).
@@ -233,7 +233,7 @@ Note the second row: the REASONING primary is DeepSeek Reasoner, but the portfol
 - The routing decision runs locally: your prompt is not sent anywhere to choose a model
 - The request itself then goes to the BlockRun gateway that serves the chosen model. blockrun.ai (Base) stores request and response content; sol.blockrun.ai (Solana) stores none. Free models run on third-party free tiers whose terms may let the host use prompts, so don't send sensitive data to a free model
 
-### 97 Models
+### 92 Models
 
 Access all major providers through one wallet:
 
@@ -569,7 +569,7 @@ openclaw gateway restart
 
 ### Do I need API keys?
 
-No. ClawRouter uses x402 micropayments with USDC on Solana, Base or Arc. Just fund your wallet — or stay on the 9 free models with no wallet at all. Prefer a card? Sign up at [user.blockrun.ai](https://user.blockrun.ai) and run `clawrouter login brk_live_…`.
+No. ClawRouter uses x402 micropayments with USDC on Solana, Base or Arc. Just fund your wallet — or stay on the 8 free models with no wallet at all. Prefer a card? Sign up at [user.blockrun.ai](https://user.blockrun.ai) and run `clawrouter login brk_live_…`.
 
 ### How much should I fund my wallet?
 
@@ -596,7 +596,7 @@ No. AI model access requires internet. But routing decisions are made locally.
 ::::cards
 
 :::card{title="View all models" href="../intelligence/overview.md" icon="Brain"}
-97 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
+92 LLMs across OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and the free tier.
 :::
 
 :::card{title="Check pricing" href="../intelligence/pricing.md" icon="Zap"}

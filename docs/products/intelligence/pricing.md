@@ -76,10 +76,7 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | GPT-4.1 Mini | $0.40 | $1.60 | $0.10 |
 | GPT-4o | $2.50 | $10.00 | $1.25 |
 | GPT-4o Mini | $0.15 | $0.60 | $0.075 |
-| o1 | $15.00 | $60.00 | $7.50 |
 | o3 | $2.00 | $8.00 | $0.50 |
-| o3-mini | $1.10 | $4.40 | $0.55 |
-| o4-mini | $1.10 | $4.40 | $0.275 |
 
 `openai/chat-latest` (ChatGPT Instant, GPT-5.5) bills at GPT-5.5's rates.
 
@@ -323,7 +320,7 @@ response = client.chat("deepseek/deepseek-chat", "Summarize this text")
 
 ```python
 # For quick, simple tasks
-response = client.chat("google/gemini-3.5-flash", prompt)
+response = client.chat("google/gemini-3.6-flash", prompt)
 ```
 
 ### 3. Match Model to Task
