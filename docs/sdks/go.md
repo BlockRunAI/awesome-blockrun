@@ -274,7 +274,7 @@ answer, err := client.ExaAnswer(ctx, "What is x402?", nil)
 
 ### Market Data
 
-Daily-close quotes and OHLC history for crypto, FX and commodities — free. Equity prices are not currently served: `CategoryStocks` / `CategoryUSStock` price and history calls answer `501`.
+Daily-close quotes and OHLC history for crypto, FX and commodities — free. US stock prices are on-chain and paid ($0.005): a `CategoryStocks` price with market `us` (or `CategoryUSStock`) returns the on-chain price on Base; a ticker with no on-chain market answers `404` before payment. US history and non-US price/history answer `501`.
 
 ```go
 btc, err := client.Price(ctx, blockrun.CategoryCrypto, "BTC-USD", nil)

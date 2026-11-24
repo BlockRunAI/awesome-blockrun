@@ -16,7 +16,7 @@ Earlier versions of these pages documented `alpha-mcp`, a standalone MCP server.
 ## What It Does
 
 - **Technical Analysis** — `TradingSignal`: price, RSI, MACD, Bollinger Bands, volatility, and a bullish / bearish / neutral verdict, computed locally from live market data
-- **Multi-asset market data** — `TradingMarket`: crypto spot, trending coins, market overview, FX pairs and commodities via the BlockRun gateway (the equity action is wired, but the gateway does not currently serve equity prices)
+- **Multi-asset market data** — `TradingMarket`: crypto spot, trending coins, market overview, FX pairs and commodities via the BlockRun gateway, plus on-chain US stock prices (paid, from tokenized-stock DEX pools)
 - **Paper trading** — open and close simulated positions at live prices, with a persistent portfolio and trade log across sessions
 - **Prediction markets** — research odds across Polymarket, Kalshi and others (`PredictionMarket`), and place real bets on Polymarket (`PolymarketBet`)
 - **DEX routes** — read-only quotes on Solana (Jupiter) and Base (0x)
@@ -57,7 +57,8 @@ Franklin calls `TradingSignal` and returns a signal report with a verdict. Signa
 | Live market data | Crypto spot, trending, market overview | Free |
 | Local indicators | RSI, MACD, Bollinger, volatility | Free (computed on your machine) |
 | BlockRun gateway | FX pairs, commodities | Free |
-| BlockRun gateway | Equity prices (12 markets) | Not currently served (the gateway answers `501`, nothing charged) |
+| BlockRun gateway | US stock prices, on-chain | $0.005 per call |
+| BlockRun gateway | Non-US equity prices | Not served (the gateway answers `501`, nothing charged) |
 | BlockRun gateway | Prediction-market search, wallet profiles, smart money | Pay-per-call |
 | BlockRun gateway | Read-only JSON-RPC across 40 chains | Pay-per-call |
 | Jupiter (Solana) / 0x (Base) | DEX quotes | Free (quote only) |

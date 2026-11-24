@@ -225,9 +225,15 @@ claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest
 
 ### `blockrun_price` says equity quotes are not served
 
-**Cause:** Stock and US-equity price/history were withdrawn; the gateway answers `501` before any payment. Not an outage.
+**Cause:** Only the US stock **price** is served, on-chain. US history and every non-US price/history answer `501` before any payment. Not an outage.
 
-**Solution:** Nothing was charged and retrying will not help. The stock ticker catalog (`action:"list" category:"stocks"`) and crypto / FX / commodity quotes still work and are free.
+**Solution:** Nothing was charged and retrying will not help. Use `action:"price" category:"stocks" market:"us"` for a US price ($0.005). The stock ticker catalog (`action:"list" category:"stocks"`) and crypto / FX / commodity quotes are free.
+
+### `blockrun_price` says a US ticker has no on-chain market
+
+**Cause:** The ticker has no tokenized-stock pool deep enough to price on your active chain. Base and Solana cover different tickers (for example, SPY trades as an xStock on Solana but is not issued on Base).
+
+**Solution:** Nothing was charged. The answer's `otherChains` says whether the other chain has it; switch with `blockrun_wallet action:"chain"` if so.
 
 ### Modal sandbox charged more than expected
 

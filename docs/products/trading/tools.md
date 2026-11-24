@@ -43,7 +43,7 @@ Market data across asset classes.
 - `overview` — top 20 by market cap (free)
 - `fxPrice` — FX pairs like `EUR-USD` via the BlockRun gateway (free)
 - `commodityPrice` — `XAU-USD` (gold), `XAG-USD` (silver), … (free)
-- `stockPrice` — equities across `us`, `hk`, `jp`, `kr`, `gb`, `de`, `fr`, `nl`, `ie`, `lu`, `cn`, `ca` (`market` is required). The BlockRun gateway does not currently serve equity prices, so this action returns an error and nothing is charged — see [Market Data](../../api-reference/market-data.md)
+- `stockPrice` — with `market: "us"`, the on-chain US stock price ($0.005, from tokenized-stock DEX pools on the gateway's chain). Other markets return an error from the gateway and nothing is charged — see [Market Data](../../api-reference/market-data.md)
 
 **Example usage:**
 

@@ -453,7 +453,8 @@ const sfx = await tts.soundEffect('rain on a tin roof', { durationSeconds: 5 });
 const search = new SearchClient();
 const news   = await search.search('agent payments', { sources: ['web', 'news'], maxResults: 10 });
 const px     = new PriceClient();
-const btc    = await px.price('crypto', 'BTC-USD');                 // free daily close; equities answer 501
+const btc    = await px.price('crypto', 'BTC-USD');                 // free daily close
+const nvda   = await px.price('stocks', 'NVDA', { market: 'us' }); // $0.005, on-chain price on Base
 const rpc    = new RpcClient();
 const block  = await rpc.call('ethereum', 'eth_blockNumber');   // $0.003/call
 ```
