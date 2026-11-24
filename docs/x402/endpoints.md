@@ -143,16 +143,16 @@ See [DefiLlama](../api-reference/defillama.md).
 
 ## Financial Data
 
-Spot prices are free daily closes (`realtime: false`), not realtime ticks. All `list` endpoints are free. **Crypto, FX and commodity** spot prices and **crypto** OHLC history are free. **Equity prices are not currently served**: stock price/history (US and non-US) answer `501` before any payment. See [Market Data](../api-reference/market-data.md).
+Spot prices are free daily closes (`realtime: false`), not realtime ticks. All `list` endpoints are free. **Crypto, FX and commodity** spot prices and **crypto** OHLC history are free. US stock prices are on-chain: `/api/v1/stocks/us/price/{symbol}` ($0.005) reads tokenized-stock DEX pools — Coinbase Tokenized Stocks on Base at blockrun.ai, xStocks on Solana at sol.blockrun.ai — and a ticker with no on-chain market on that chain answers `404` before payment. US history and every non-US price/history answer `501` before any payment. See [Market Data](../api-reference/market-data.md).
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
-| GET | `/api/v1/usstock/list` | US tickers (`available: false`) | Free |
-| GET | `/api/v1/usstock/price/{symbol}` | US stock spot price | `501` — not currently served |
-| GET | `/api/v1/usstock/history/{symbol}` | US stock OHLC | `501` — not currently served |
-| GET | `/api/v1/stocks/{market}/list` | Tickers per market (HK, JP, ...) (`available: false`) | Free |
-| GET | `/api/v1/stocks/{market}/price/{symbol}` | Stock price | `501` — not currently served |
-| GET | `/api/v1/stocks/{market}/history/{symbol}` | Stock OHLC | `501` — not currently served |
+| GET | `/api/v1/stocks/us/price/{symbol}` | On-chain US stock price on this gateway's chain (alias `/api/v1/usstock/price/{symbol}`) | $0.005 |
+| GET | `/api/v1/stocks/us/list` | US tickers with `onchain: { base, solana }`; `?covered=true` for this chain's set (alias `/api/v1/usstock/list`) | Free |
+| GET | `/api/v1/stocks/us/history/{symbol}` | US stock OHLC | `501` — not served |
+| GET | `/api/v1/stocks/{market}/list` | Tickers for a non-US market (`available: false`) | Free |
+| GET | `/api/v1/stocks/{market}/price/{symbol}` | Non-US stock price | `501` — not served |
+| GET | `/api/v1/stocks/{market}/history/{symbol}` | Stock OHLC | `501` — not served |
 | GET | `/api/v1/crypto/list` | Crypto tickers | Free |
 | GET | `/api/v1/crypto/price/{symbol}` | Crypto spot (daily close) | Free |
 | GET | `/api/v1/crypto/history/{symbol}` | Crypto OHLC | Free |

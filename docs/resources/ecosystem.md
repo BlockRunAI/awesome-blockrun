@@ -100,7 +100,8 @@ Projects, integrations, and partners building with BlockRun and x402. Every row 
 | **Prediction Markets** | `/api/v1/pm/*` | $0.0085 | ✅ Live |
 | **DefiLlama** | `/api/v1/defillama/*` | $0.002–0.006 | ✅ Live |
 | **Market Data** | `/api/v1/{crypto,fx,commodity}/*` | Free | ✅ Live |
-| **Equity Prices** | `/api/v1/{usstock,stocks}/*` | — (ticker list free) | ⛔ Not served — price/history answer `501` before payment |
+| **US Stock Prices (on-chain)** | `/api/v1/stocks/us/price/*` | $0.005 | ✅ Live — Base (Coinbase Tokenized Stocks) at blockrun.ai, Solana (xStocks) at sol.blockrun.ai |
+| **Other Equity Data** | `/api/v1/{usstock,stocks}/*` | — (ticker list free) | ⛔ US history and non-US price/history answer `501` before payment |
 | **RealFace Enrollment** | `/api/v1/realface/enroll` | $0.011 | ✅ Live |
 | **Virtual Portrait** | `/api/v1/portrait/enroll` | $0.011 | ✅ Live |
 | **Polymarket Funding** | `/api/v1/polymarket/fund` | $0.011 fee | ✅ Live |

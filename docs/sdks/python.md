@@ -478,7 +478,7 @@ bars = px.history("crypto", "BTC-USD", resolution="D", from_ts=now - 30 * 86400,
 symbols = px.list_symbols("crypto", q="ETH", limit=20)
 ```
 
-Equity prices are not currently served: `usstock` and `stocks` price/history calls answer `501` (the `list_symbols` catalog still answers, with `available: false`). Resolutions: `1,5,15,60,240,D,W,M`.
+US stock prices are on-chain and paid ($0.005): `p.price("stocks", "NVDA", market="us")` returns the price plus every field the gateway sends (`chain`, `pools`, `multiplier`, `usMarket`, `asset`) as extra attributes. The Base client reads Base (Coinbase Tokenized Stocks); a ticker with no on-chain market answers `404` before payment. US history and non-US price/history answer `501`. Resolutions: `1,5,15,60,240,D,W,M`.
 
 #### `SurfClient` — retired
 
