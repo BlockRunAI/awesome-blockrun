@@ -1,13 +1,13 @@
 ---
 title: Agent Developers
-description: Build AI agents that pay for their own intelligence — 90 models via x402 micropayments. Use Franklin, the SDKs or the MCP, or the framework you already use.
+description: Build AI agents that pay for their own intelligence — 88 models via x402 micropayments. Use Franklin, the SDKs or the MCP, or the framework you already use.
 ---
 
 # Agent Developers
 
 Build AI agents that pay for their own intelligence.
 
-This guide is for agent developers. The primary paths are **[Franklin](../products/franklin.md)** (our autonomous agent), the **[SDKs](../sdks/python.md)**, and the **[BlockRun MCP](../mcp/blockrun-mcp.md)** — all on one wallet, 90 models via x402 micropayments. Already using a framework (ElizaOS, AgentKit, GOAT, LangChain)? See [Community integrations](../frameworks/elizaos.md).
+This guide is for agent developers. The primary paths are **[Franklin](../products/franklin.md)** (our autonomous agent), the **[SDKs](../sdks/python.md)**, and the **[BlockRun MCP](../mcp/blockrun-mcp.md)** — all on one wallet, 88 models via x402 micropayments. Already using a framework (ElizaOS, AgentKit, GOAT, LangChain)? See [Community integrations](../frameworks/elizaos.md).
 
 :::tip{title="Fastest path: Franklin"}
 Want an agent that already spends autonomously? [Franklin](../products/franklin.md) is one install (`npm install -g @blockrun/franklin`) and runs free out of the box — fund a wallet to unlock everything.
@@ -158,7 +158,7 @@ from blockrun_llm import LLMClient, SpendLimitError
 client = LLMClient(max_cost_per_call=0.50, max_session_cost=10.00)  # or BLOCKRUN_MAX_* env vars
 
 try:
-    response = client.chat("openai/o3", expensive_prompt)
+    response = client.chat("openai/gpt-6.1-sol", expensive_prompt)
 except SpendLimitError:
     # Fallback to cheaper model
     response = client.chat("deepseek/deepseek-chat", expensive_prompt)
@@ -200,7 +200,7 @@ results = asyncio.run(process_batch(my_items))
 - `anthropic/claude-opus-5.5` — Best for nuanced tasks
 
 ### Reasoning
-- `openai/o3` — Advanced reasoning
+- `openai/gpt-6.1-sol` — Advanced reasoning
 - `deepseek/deepseek-reasoner` — Cheaper reasoning
 
 Full list: [Models Reference](../api-reference/models.md)

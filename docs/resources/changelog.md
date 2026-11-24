@@ -7,6 +7,16 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-12-11]
+
+### Retired — o3, GPT-5 Mini, GPT-5 Nano
+- **`openai/o3`** — OpenAI shut it down on December 11, 2026. Calls to it (and bare `o3`) now go to **`openai/gpt-5.4-mini`** on chat, messages and responses, like the rest of the o-series, and are quoted and billed at GPT-5.4 Mini's $0.75/M in · $4.50/M out instead of $2.00/$8.00.
+- **`openai/gpt-5-mini`** — shut down the same day. Calls now go to **`openai/gpt-5.6-luna`** at $0.20/M in · $1.20/M out instead of $0.25/$2.00, with a 1M context window and image input.
+- **`openai/gpt-5-nano`** — shut down the same day. Calls now go to **`openai/gpt-6-luna`** at $0.10/M in · $0.50/M out instead of $0.05/$0.40: no current OpenAI model is as cheap. `openai/gpt-4.1-nano`, which went to GPT-5 Nano, now goes to GPT-6 Luna too.
+- Visible chat models are now **88**; total catalog **116**.
+
+---
+
 ## [2026-12-01]
 
 ### Retired — Gemini 2.5 Flash, Gemini 2.5 Pro
