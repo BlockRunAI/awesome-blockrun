@@ -116,7 +116,9 @@ How the price is made:
 2. A pool counts when it holds at least $20,000 on its USDC side (a SOL side
    counts at its USD value) and has liquidity active at its current price.
 3. With three or more such pools, any more than 3% from their weighted median
-   is dropped; of two that disagree, the deeper one is kept.
+   is dropped. With exactly two that disagree by more than 3%, the deeper one
+   is kept, the other is listed with `excludedReason: "outlier"`, and the
+   answer carries `staleWarning: ["pools_disagree"]`.
 4. The price is the USDC-weighted mean, divided by the token's dividend
    multiplier, so it is per share of the underlying stock.
 
@@ -133,15 +135,20 @@ The response carries:
 | `multiplier` | the dividend multiplier in force and any scheduled change (`next`) |
 | `pools[]` | every pool: `dex`, `quote`, `price`, `quoteSideUsd`, `tvlUsd`, `weight`, `included`, `excludedReason`, `lastTxAt`, `ageSeconds` |
 | `quoteSideUsd`, `tvlUsd`, `poolSpreadBps` | totals and the spread across the pools used |
-| `staleWarning`, `staleWarningText` | present when it applies: `single_pool`, `pools_disagree`, `inactive_pool` (a used pool with no transaction in 6 hours), `paused` |
+| `staleWarning`, `staleWarningText` | present when it applies: `single_pool` (one pool priced it, nothing cross-checks it), `pools_disagree` (two pools more than 3% apart; the deeper one priced it), `inactive_pool` (a used pool with no transaction in 6 hours), `paused` |
 | `slot` / `blockNumber`, `chainTime`, `readAt` | when and at what chain height it was read |
 | `usMarket` | `session` (`pre`, `regular`, `post`, `closed`) and `nextOpen` |
 | `asset` | on-chain token data, SEC EDGAR company facts, shares outstanding, and `marketCapUsd` (on-chain price × SEC shares; `null` when SEC has no single current count) |
 | `otherChains` | whether the other gateway's chain has a market for the ticker, and its URL |
 
-If the chain cannot be read in time, or no pool qualifies at that moment, the
-answer is `503` with `payment_status: "not_charged"` and the payment is
-released, so the same payment header can be retried.
+Neither failure after payment charges you; both answer `503` with
+`payment_status: "not_charged"` and release the payment:
+
+- `source_unavailable` — the chain could not be read in time. It carries
+  `Retry-After: 30`; retry with the same payment header.
+- `no_qualifying_pool` — the ticker is listed but no pool qualifies right now
+  (thin, inactive or paused). No `Retry-After`: an immediate retry will not
+  help; check `otherChains` or try later.
 
 ---
 
