@@ -37,7 +37,7 @@ Solana batch funding challenges identify the configured public resource URL, not
 
 ## Discover supported requests before paying
 
-- Read the current model list. `openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026, and on Base chat requests for it now route to `openai/gpt-6-luna` (`openai/gpt-5-nano` until OpenAI shut that down on December 11, 2026). `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.
+- Read the current model list. `openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026, and on Base chat requests for it now route to `openai/gpt-5-nano`. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.
 - Music costs **$0.20 per track including the transaction fee**. Read the live `402` quote before signing.
 - Crypto, FX and commodity spot prices are free daily closes (`realtime: false`). FX and commodity history is unsupported (`501`). US stock prices are on-chain and paid ($0.005): each gateway prices its own chain (Base or Solana), and a ticker with no on-chain market there answers `404` before payment — check `onchain` in the US list, or `?covered=true`. US history and non-US price/history answer `501` before any payment. See [Market Data](market-data.md).
 - UMA markets requires `state`. Kalshi trades requires `ticker` or `event_ticker`.
