@@ -83,7 +83,7 @@ BlockRun settles x402 payments through these facilitators:
 
 | Tool | Description | Install |
 |------|-------------|---------|
-| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server — <!-- br:mcp.tools -->19<!-- /br:mcp.tools --> tools across <!-- br:models.chatVisible -->97<!-- /br:models.chatVisible --> AI models, image/video/music/speech gen, voice calls, prediction markets, DEX prices, raw JSON-RPC (<!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains), DeFi TVL/yields, sandboxed code exec, search | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
+| [blockrun-mcp](https://github.com/BlockRunAI/blockrun-mcp) | MCP Server — <!-- br:mcp.tools -->19<!-- /br:mcp.tools --> tools across <!-- br:models.chatVisible -->93<!-- /br:models.chatVisible --> AI models, image/video/music/speech gen, voice calls, prediction markets, DEX prices, raw JSON-RPC (<!-- br:chains.rpc -->40<!-- /br:chains.rpc --> chains), DeFi TVL/yields, sandboxed code exec, search | `claude mcp add blockrun -s user -- npx -y @blockrun/mcp@latest` |
 | [blockrun-claude-plugin](https://github.com/BlockRunAI/blockrun-claude-plugin) | Media plugin — spend confirmation before each paid image/video/audio call, running cost meter, balance status line | `claude --plugin-dir /path/to/blockrun-plugin` |
 | [Claude-Code-GPT-IMAGE2-SeeDance-BlockRun](https://github.com/BlockRunAI/Claude-Code-GPT-IMAGE2-SeeDance-BlockRun) | `/headshot`, `/dance`, `/poster`, `/launch-film` — 848 prompt cases as one-line commands, pay per image | `curl -fsSL https://raw.githubusercontent.com/BlockRunAI/Claude-Code-GPT-IMAGE2-SeeDance-BlockRun/main/install.sh \| bash` |
 | [alpha-mcp](https://github.com/BlockRunAI/alpha-mcp) | AI crypto-trading MCP — technical analysis, sentiment, DEX swaps on Base, risk limits | `claude mcp add alpha npx @blockrun/alpha` |
@@ -178,7 +178,7 @@ BlockRun routes to these AI providers via x402:
 | MiniMax | MiniMax M3, MiniMax M2.7 (204K context, reasoning) | $0.30 / $1.20 |
 | Qwen | Qwen3.8 Flash (1M context, image input), Qwen3.7 Max (Alibaba flagship), Qwen3.7 Plus, Qwen3.7 Flash | $0.03–$1.48 / $0.13–$4.43 |
 | Xiaomi | MiMo-V2.5, MiMo-V2.5 Pro | $0.14–$0.435 / $0.28–$0.87 |
-| Free tier | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3.5 Super 120B, Nemotron 3.5 Bolt, Nemotron 3 Nano Omni (vision), MiniMax M3.1 Flash, Poolside Laguna XS 2.1, Muse Glimmer 30B (<!-- br:models.free -->9<!-- /br:models.free --> free models, keyless — no wallet needed) | **Free** |
+| Free tier | Nemotron 3 Ultra 550B, Nemotron 3.5 Lightning, Nemotron 3.5 Super 120B, Nemotron 3.5 Bolt, Nemotron 3 Nano Omni (vision), MiniMax M3.1 Flash, Poolside Laguna XS 2.1, Muse Glimmer 30B (<!-- br:models.free -->8<!-- /br:models.free --> free models, keyless — no wallet needed) | **Free** |
 
 ### Image Models
 
