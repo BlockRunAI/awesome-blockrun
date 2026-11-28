@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 118 models — chat, image, video, music and speech — from one BlockRun API — vendor list prices, a 5% platform fee on chat, $0.001 per call.
+description: List and price 119 models — chat, image, video, music and speech — from one BlockRun API — vendor list prices, a 5% platform fee on chat, $0.001 per call.
 ---
 
 # Models
