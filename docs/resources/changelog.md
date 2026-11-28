@@ -7,6 +7,15 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-11-28]
+
+### Added — GPT-6.1 Terra
+- **`openai/gpt-6.1-terra`** ($1.00/M in · $5.00/M out, cached input $0.05/M, 1M context, 128K max output, vision, tools) — OpenAI's cost-efficient GPT-6.1 model at half GPT-6.1 Sol's rate, with knowledge through June 2026. Prompts over 272K tokens bill the whole request at $2.00/M in · $7.50/M out, as OpenAI does. It serves [Flex](/docs/getting-started/enterprise-api#flex) at half the standard rate. It writes a prompt cache by default, which OpenAI bills at $1.25/M, so an `exact` quote prices input at that rate.
+- Accepts `reasoning_effort` `none` (like GPT-6 Sol and Luna); `minimal` is raised to `low`, and `max` is lowered to `xhigh` on plain chat. Tool calls run through the Responses API at the effort you ask for.
+- Visible chat models are now **93**; total catalog **121**.
+
+---
+
 ## [2026-11-24]
 
 ### Retired — o1, o3-mini, o4-mini, Gemini 3.5 Flash, Cohere North Mini Code
