@@ -176,7 +176,8 @@ Rows are newest first. Page with `cursor` until `next_cursor` is `null`; treat t
 |-------|---------|
 | `kind` | `chat` — a token-priced call you can re-derive from `input_tokens`/`output_tokens` and the [published rate](../products/intelligence/pricing.md) as adjusted by [what a call costs](#what-a-call-costs). `service` — a per-call or per-unit price (search, media, RPC) that only the gateway holds. |
 | `cost_state` | `priced` — final. `free` — nothing to charge (a catalogue read, a free model). `pending` — usage recorded, charge not yet settled; it will change, do not treat it as $0. |
-| `service_tier` | The processing tier the upstream reported for this call. `flex` is billed at **half** the standard rate and `fast` (or `priority`) at **twice** it, so this is what explains a line at half or double the published rate. The doubling applies only when the call asked for Fast; a `priority` row on a call that did not ask is billed at standard. Absent means standard — as it is on every row before 2026-09-23 and for every provider that reports no tier. See [What a call costs](#what-a-call-costs). |
+| `service_tier` | Processing tier reported by the upstream, when available. |
+| `billing_service_tier` | Set to `fast` in the JSON ledger when Fast rates apply. |
 | `job_id`, `job_status` | Media only. A `202` create and every later poll of the same job share one `job_id`; the charge lands on the poll that completed. Fold rows by `job_id` to get one line per generation. The job is **one call**, made by its create: each poll is a row — poll as often as you like — but not a call. Sum `cost_usd` over every row; count calls skipping the polls. |
 | `usage_unit`, `usage_units` | For non-token charges: what was billed (`image`, `second`, `character` …) and how many. `null` on token-priced rows. |
 | `billing_basis`, `image_input_tokens` | `token` on an OpenAI image row (`openai/gpt-image-2`, `gpt-image-2.5-*`): a `service` by path, but one you can rebuild — `input_tokens`/`output_tokens` at OpenAI's published per-million rates, `image_input_tokens` being the slice of input at the image-input rate. Absent on every other row. See [Images from OpenAI are billed by token](#images-from-openai-are-billed-by-token). |
@@ -203,7 +204,7 @@ If your tooling already reads OpenRouter's billing API, point it at `https://api
 
 **There is no per-call fee and no minimum charge on this host.** The x402 transaction fee and the minimum payment exist to make on-chain micropayments viable; a key-metered account settles against credit, not a chain, so both are zero here. You pay metered usage times the rate, and nothing is added to it.
 
-Three things move the rate away from the flat number on the catalogue. All three are visible on the ledger row, so any line you cannot reconcile against the published rate is explained by one of them.
+Context length, processing tier and account terms can affect the rate you pay.
 
 ### Long context
 
@@ -215,30 +216,54 @@ The thresholds and the long-context rates are per model on the gateway's sheet, 
 
 Send `service_tier: "flex"` and the call is billed at **half** the standard rate when the upstream serves it at that tier — half on input, output, cached read and cached write alike, and half the long-context rate above the threshold. Flex queues behind priority traffic, so it is slower on purpose: OpenAI's own SDKs default to a ten-minute timeout for it, and you should raise your client timeout to match.
 
-Flex is opt-in. A request that does not carry `service_tier: "flex"` is served and billed at the standard rate; nothing is silently moved onto the slower tier, and nothing is silently discounted.
+Flex is opt-in. Send `service_tier: "flex"` to request it.
 
 Four things worth knowing before you build on it:
 
 - **We bill from the tier the response reports, not from the tier you asked for.** Asking is not receiving, and the charge follows what actually happened.
 - **An explicit Flex ask is never silently downgraded.** When the upstream has no Flex capacity it answers `429` with `resource_unavailable`; that response carries no usage, so nothing is metered. Retry with backoff, or drop `service_tier` to take standard processing at the standard rate.
 - **Availability is the model provider's decision, and it is a limited beta.** OpenAI publishes the current list on the flex tab of their own pricing page; a model that does not offer Flex either rejects `service_tier` outright or serves the call at standard rates and bills accordingly. A model whose `openai/` id is served through a partner pool — the `-pro` tiers — is billed at standard rates whatever tier ran upstream, because the discount is not one we receive and so not one we can pass on.
-- **`service_tier` on every `GET /v1/usage` row is how you confirm it.** `flex` on the row means that line was billed at half. Absent means standard, which is also the case for every row before 2026-09-23 and for every provider that reports no tier at all.
+- **Check `service_tier` on `GET /v1/usage`.** A row marked `flex` uses the Flex rate, subject to your account terms.
 
 ### Fast
 
-`openai/gpt-6-luna` can run in OpenAI's Fast mode: up to 2.5x faster, at **twice** the standard rate in every column. That is $0.20 input and $1.00 output per million tokens, $0.40 / $1.50 past 272K, cached read $0.02 and cached write $0.25. Send `service_tier: "fast"` (`"priority"` is accepted as the same thing), or call the alias `openai/gpt-6-luna-fast`, which `GET /v1/models` lists at the Fast prices. Usage is recorded under `openai/gpt-6-luna` either way.
+On `POST /v1/chat/completions` or `POST /v1/responses`, send
+`service_tier: "fast"` or `"priority"` with an eligible OpenAI model.
+You can also use a `-fast` model ID such as `openai/gpt-6-luna-fast`.
+`GET /v1/models` lists Fast aliases with `service_tier: "fast"` and their prices.
 
-- **We bill from the tier the response reports.** If OpenAI serves the call at standard speed (the response says `default`), you pay the standard rate.
-- **Only `openai/gpt-6-luna` offers it.** `service_tier: "fast"` on any other model answers `400` with `fast_tier_unavailable` before anything is charged, and so does Fast on a background Response.
-- **Not on an absolute agreed price.** An account with an agreed per-million price on `openai/gpt-6-luna` gets `400` with `fast_tier_not_contracted`; ask us to add Fast to your terms. A percentage discount does not block it: see below.
-- **Only on this host.** blockrun.ai and sol.blockrun.ai do not take `service_tier: "fast"` today.
+| Luna Fast (USD per million tokens) | Input | Output | Cached input | 30-minute cache writes |
+|---|---:|---:|---:|---:|
+| Up to 272,000 input tokens | $0.20 | $1.00 | $0.02 | $0.25 |
+| Over 272,000 input tokens | $0.40 | $1.50 | $0.04 | $0.50 |
+
+The quote uses each model's published Fast rates. Settlement uses actual token
+usage and your account terms. When OpenAI returns `fast`, `priority`, or no tier
+for an explicit Fast request, Fast rates apply. When OpenAI returns `default`,
+Standard rates apply. The usage row records the base model ID.
+A model with a Fast input limit shows it as `max_input_tokens` on its Fast alias.
+
+Accounts with a credit ceiling must cover the full Fast quote before the call.
+When the request leaves out an output limit, Fast defaults to 8,192 on Chat
+Completions and 32,768 on Responses, subject to the model limit.
+
+Fast requires a foreground request. An unsupported model, a fixed rate for the model on
+the account, or a conflicting `service_tier` on the Fast alias returns HTTP
+`400` before payment. The Responses API accepts a 30-minute cache TTL. A
+12-hour TTL returns `400` whether set as the request default or on a cache
+breakpoint. Responses accepts supported caller-executed tools. Tools
+such as web search, file search and hosted containers return
+`400 unsupported_server_tool` before payment.
+
+Fast is available on `api.blockrun.ai`. The eligibility and pricing shown in
+`GET /v1/models` apply to this host.
 
 ### If your account has negotiated terms
 
-Long context, Flex and Fast interact with a contract differently, and deliberately so:
+Account terms apply to the processing tier and context length.
 
-- An **absolute agreed price** per million **suppresses** long context and Flex. Their rates are not part of what was agreed, so layering them on either charges more or discounts more than the contract says. Fast is **refused** instead (`400`, `fast_tier_not_contracted`): the agreed price was set against standard serving, and Fast costs us twice that.
-- A **percentage discount** **follows** all three. A percentage is off whatever you would otherwise pay, and the tier is part of what you would otherwise pay, so a Fast call pays twice the rate and then gets the discount.
+- An **absolute agreed price** per million suppresses long-context and Flex adjustments. A Fast request for that model returns `400 fast_tier_not_contracted`.
+- A **percentage discount** applies to the applicable long-context, Flex or Fast rate.
 
 ## Images from OpenAI are billed by token
 
