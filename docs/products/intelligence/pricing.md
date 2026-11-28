@@ -72,12 +72,10 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | GPT-5.2 | $1.75 | $14.00 | $0.175 |
 | GPT-5.2 Pro | $21.00 | $168.00 | — |
 | GPT-5.1 | $1.25 | $10.00 | $0.125 |
-| GPT-5 Mini | $0.25 | $2.00 | $0.025 |
 | GPT-4.1 | $2.00 | $8.00 | $0.50 |
 | GPT-4.1 Mini | $0.40 | $1.60 | $0.10 |
 | GPT-4o | $2.50 | $10.00 | $1.25 |
 | GPT-4o Mini | $0.15 | $0.60 | $0.075 |
-| o3 | $2.00 | $8.00 | $0.50 |
 
 `openai/chat-latest` (ChatGPT Instant, GPT-5.5) bills at GPT-5.5's rates.
 

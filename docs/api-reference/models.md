@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 119 models — chat, image, video, music and speech — from one BlockRun API — vendor list prices, a 5% platform fee on chat, $0.001 per call.
+description: List and price 117 models — chat, image, video, music and speech — from one BlockRun API — vendor list prices, a 5% platform fee on chat, $0.001 per call.
 ---
 
 # Models
@@ -129,13 +129,11 @@ Released 2026-04-23 — first fully retrained base since GPT-4.5.
 | `openai/gpt-5.2` | GPT-5.2 | $1.75/M | $14.00/M | 400K |
 | `openai/gpt-5.3-codex` | GPT-5.3 Codex | $1.75/M | $14.00/M | 400K |
 | `openai/gpt-5.1` | GPT-5.1 | $1.25/M | $10.00/M | 400K |
-| `openai/gpt-5-mini` | GPT-5 Mini | $0.25/M | $2.00/M | 200K |
 
 ### OpenAI O-Series (Reasoning)
 
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
-| `openai/o3` | o3 | $2.00/M | $8.00/M | 200K |
 
 ### OpenAI GPT-4.1 / GPT-4o
 
@@ -432,6 +430,6 @@ Route each prompt to the cheapest model that can handle it, automatically.
 
 ::::
 
-`openai/o1`, `openai/o1-mini`, `openai/o3-mini` and `openai/o4-mini` were retired by OpenAI on October 23, 2026; requests for them now route to `openai/gpt-5.4-mini` and are billed at its price. `google/gemini-3.5-flash` now routes to `google/gemini-3.6-flash`, which Google already served under that name, at 3.6 Flash's price. Since December 1, 2026, `google/gemini-2.5-flash` routes to `google/gemini-3.5-flash-lite` (same price) and `google/gemini-2.5-pro` to `google/gemini-3.8-flash`, the models Google moved them to. The free `cohere/north-mini-code` routes to `poolside/laguna-xs-2.1`.
+`openai/o1`, `openai/o1-mini`, `openai/o3-mini` and `openai/o4-mini` were retired by OpenAI on October 23, 2026; requests for them now route to `openai/gpt-5.4-mini` and are billed at its price. `google/gemini-3.5-flash` now routes to `google/gemini-3.6-flash`, which Google already served under that name, at 3.6 Flash's price. Since December 1, 2026, `google/gemini-2.5-flash` routes to `google/gemini-3.5-flash-lite` (same price) and `google/gemini-2.5-pro` to `google/gemini-3.8-flash`, the models Google moved them to. Since December 11, 2026, when OpenAI shut them down, `openai/o3` routes to `openai/gpt-5.4-mini` and `openai/gpt-5-mini` to `openai/gpt-5.6-luna`, each billed at the new model's price. OpenAI shut down `openai/gpt-5-nano` the same day, but no current OpenAI model is as cheap, so it is still served at its own price on chat completions until February 9, 2027; it no longer accepts `service_tier: "flex"`. The free `cohere/north-mini-code` routes to `poolside/laguna-xs-2.1`.
 
 `openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026 and is no longer advertised as available. On Base, chat requests for it now route to `openai/gpt-5-nano`. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.

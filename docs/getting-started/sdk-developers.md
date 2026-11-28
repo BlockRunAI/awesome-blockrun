@@ -187,7 +187,7 @@ print(f"Spent: ${spent['total_usd']:.4f} across {spent['calls']} calls")
 # OpenAI
 client.chat("openai/gpt-5.4", prompt)
 client.chat("openai/gpt-5.2", prompt)
-client.chat("openai/o3", prompt)
+client.chat("openai/gpt-6.1-sol", prompt)
 
 # Anthropic
 client.chat("anthropic/claude-opus-5", prompt)
@@ -213,7 +213,7 @@ client.chat("moonshot/kimi-k3.1-pro", prompt)
 | General purpose | `openai/gpt-5.4` |
 | Cheapest | `google/gemini-2.5-flash-lite` or `nvidia/nemotron-3.5-lightning` (free) |
 | Fastest | `google/gemini-3-flash-preview` |
-| Best reasoning | `openai/o3` |
+| Best reasoning | `openai/gpt-6.1-sol` |
 | Best for code | `openai/gpt-5.3-codex` or `anthropic/claude-sonnet-4.6` |
 | Best quality | `anthropic/claude-opus-5.5` |
 
