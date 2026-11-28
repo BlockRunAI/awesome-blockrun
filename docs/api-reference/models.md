@@ -1,6 +1,6 @@
 ---
 title: Models
-description: List and price 121 models — chat, image, video, music and speech — from one BlockRun API — vendor list prices, a 5% platform fee on chat, $0.001 per call.
+description: List and price 119 models — chat, image, video, music and speech — from one BlockRun API — vendor list prices, a 5% platform fee on chat, $0.001 per call.
 ---
 
 # Models
@@ -184,16 +184,14 @@ These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); t
 | `google/gemini-4-argon` | Gemini 4 Argon | $2.00/M | $10.00/M | 1M |
 | `google/gemini-4-hydrogen` | Gemini 4 Hydrogen | $1.50/M | $7.50/M | 1M |
 | `google/gemini-3.1-pro` | Gemini 3.1 Pro | $2.00/M | $12.00/M | 1M |
-| `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |
 | `google/gemini-3.8-flash` | Gemini 3.8 Flash | $0.75/M | $3.75/M | 1M |
 | `google/gemini-3.6-flash` | Gemini 3.6 Flash | $0.75/M | $3.75/M | 1M |
 | `google/gemini-3-flash-preview` | Gemini 3 Flash Preview | $0.50/M | $3.00/M | 1M |
-| `google/gemini-2.5-flash` | Gemini 2.5 Flash | $0.30/M | $2.50/M | 1M |
 | `google/gemini-3.5-flash-lite` | Gemini 3.5 Flash Lite | $0.30/M | $2.50/M | 1M |
 | `google/gemini-3.1-flash-lite` | Gemini 3.1 Flash Lite | $0.25/M | $1.50/M | 1M |
 | `google/gemini-2.5-flash-lite` | Gemini 2.5 Flash Lite | $0.10/M | $0.40/M | 1M |
 
-Gemini **Pro** models (`gemini-2.5-pro`, `gemini-3.1-pro`) bill a **long-context tier** — 2x input, 1.5x output above 200K prompt tokens (mirrors Google's official pricing: `gemini-2.5-pro` is $2.50/M in · $15.00/M out, `gemini-3.1-pro` is $4.00/M in · $18.00/M out above the threshold). Flash / Flash-Lite are flat-priced.
+Gemini **3.1 Pro** (`gemini-3.1-pro`) bills a **long-context tier** — 2x input, 1.5x output above 200K prompt tokens (mirrors Google's official pricing: $4.00/M in · $18.00/M out above the threshold). Flash / Flash-Lite are flat-priced.
 
 ### xAI Grok
 
@@ -434,6 +432,6 @@ Route each prompt to the cheapest model that can handle it, automatically.
 
 ::::
 
-`openai/o1`, `openai/o1-mini`, `openai/o3-mini` and `openai/o4-mini` were retired by OpenAI on October 23, 2026; requests for them now route to `openai/gpt-5.4-mini` and are billed at its price. `google/gemini-3.5-flash` now routes to `google/gemini-3.6-flash`, which Google already served under that name, at 3.6 Flash's price. The free `cohere/north-mini-code` routes to `poolside/laguna-xs-2.1`.
+`openai/o1`, `openai/o1-mini`, `openai/o3-mini` and `openai/o4-mini` were retired by OpenAI on October 23, 2026; requests for them now route to `openai/gpt-5.4-mini` and are billed at its price. `google/gemini-3.5-flash` now routes to `google/gemini-3.6-flash`, which Google already served under that name, at 3.6 Flash's price. Since December 1, 2026, `google/gemini-2.5-flash` routes to `google/gemini-3.5-flash-lite` (same price) and `google/gemini-2.5-pro` to `google/gemini-3.8-flash`, the models Google moved them to. The free `cohere/north-mini-code` routes to `poolside/laguna-xs-2.1`.
 
 `openai/gpt-4.1-nano` was retired by OpenAI on October 23, 2026 and is no longer advertised as available. On Base, chat requests for it now route to `openai/gpt-5-nano`. `openai/gpt-4.1-mini` is available, though OpenAI has scheduled its dated snapshot for removal on January 14, 2027.

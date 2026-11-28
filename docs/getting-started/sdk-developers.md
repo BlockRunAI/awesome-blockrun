@@ -352,7 +352,7 @@ Pay per request at the per-token price listed in the live catalog (`GET https://
 |-------|----------|-----------|
 | `openai/gpt-5.4` | $2.50 | $15.00 |
 | `deepseek/deepseek-chat` | $0.14 | $0.28 |
-| `google/gemini-2.5-flash` | $0.30 | $2.50 |
+| `google/gemini-3.5-flash-lite` | $0.30 | $2.50 |
 
 Full pricing: [Intelligence Pricing](../products/intelligence/pricing.md)
 
