@@ -30,6 +30,7 @@ Vendor list rates per 1M tokens. Per-token chat paid per call adds a 5% platform
 | GPT-6.2 Sol | $2.00/M | $10.00/M |
 | GPT-6 Astra | $10.00/M | $50.00/M |
 | GPT-6.1 Sol | $2.00/M | $10.00/M |
+| GPT-6.1 Terra | $1.00/M | $5.00/M |
 | GPT-6 Sol | $2.00/M | $10.00/M |
 | GPT-6 Luna | $0.10/M | $0.50/M |
 | GPT-5.6 Sol | $4.00/M | $20.00/M |
