@@ -180,8 +180,8 @@ These models reject all sampling parameters (`temperature`, `top_p`, `top_k`); t
 | Model ID | Name | Input Price | Output Price | Context |
 |----------|------|-------------|--------------|---------|
 | `google/gemini-4-neon` | Gemini 4 Neon | $3.00/M | $15.00/M | 1M |
-| `google/gemini-4-carbon` | Gemini 4 Carbon | $2.00/M | $10.00/M | 1M |
-| `google/gemini-4-argon` | Gemini 4 Argon | $2.00/M | $10.00/M | 1M |
+| `google/gemini-4-carbon` | Gemini 4 Carbon | $4.00/M | $20.00/M | 1M |
+| `google/gemini-4-argon` | Gemini 4 Argon | $4.00/M | $20.00/M | 1M |
 | `google/gemini-4-hydrogen` | Gemini 4 Hydrogen | $1.50/M | $7.50/M | 1M |
 | `google/gemini-3.1-pro` | Gemini 3.1 Pro | $2.00/M | $12.00/M | 1M |
 | `google/gemini-2.5-pro` | Gemini 2.5 Pro | $1.25/M | $10.00/M | 1M |

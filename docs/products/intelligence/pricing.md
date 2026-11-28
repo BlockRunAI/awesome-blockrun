@@ -104,8 +104,8 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | Model | Input (per 1M) | Output (per 1M) | Cached input (per 1M) |
 |-------|----------------|-----------------|-----------------------|
 | Gemini 4 Neon | $3.00 | $15.00 | $0.15 |
-| Gemini 4 Carbon | $2.00 | $10.00 | $0.10 |
-| Gemini 4 Argon | $2.00 | $10.00 | $0.10 |
+| Gemini 4 Carbon | $4.00 | $20.00 | $0.20 |
+| Gemini 4 Argon | $4.00 | $20.00 | $0.20 |
 | Gemini 4 Hydrogen | $1.50 | $7.50 | $0.075 |
 | Gemini 3.1 Pro | $2.00 | $12.00 | $0.20 |
 | Gemini 2.5 Pro | $1.25 | $10.00 | $0.125 |
@@ -118,7 +118,7 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | Gemini 3.1 Flash Lite | $0.25 | $1.50 | $0.025 |
 | Gemini 2.5 Flash Lite | $0.10 | $0.40 | $0.01 |
 
-Gemini 4 Carbon and Argon move to $4.00 / $20.00 (cached $0.20) on 2026-12-01; Gemini 4 Neon and Hydrogen have no announced change. Gemini 3.1 Pro and 2.5 Pro double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.50 in · $15.00 out above the threshold. Flash tiers are flat.
+Gemini 4 Carbon and Argon moved to $4.00 / $20.00 (cached $0.20) on 2026-12-01, when Google's introductory $2.00 / $10.00 rate ended; Gemini 4 Neon and Hydrogen have no announced change. Gemini 3.1 Pro and 2.5 Pro double the input rate and add 50% to the output rate above 200K prompt tokens (the whole request reprices), mirroring Google's official long-context pricing — e.g. Gemini 2.5 Pro is $2.50 in · $15.00 out above the threshold. Flash tiers are flat.
 
 ### xAI Grok
 

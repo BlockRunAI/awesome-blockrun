@@ -59,8 +59,8 @@ Vendor list rates per 1M tokens. Per-token chat paid per call adds a 5% platform
 | Model | Input | Output |
 |-------|-------|--------|
 | Gemini 4 Neon | $3.00/M | $15.00/M |
-| Gemini 4 Carbon | $2.00/M | $10.00/M |
-| Gemini 4 Argon | $2.00/M | $10.00/M |
+| Gemini 4 Carbon | $4.00/M | $20.00/M |
+| Gemini 4 Argon | $4.00/M | $20.00/M |
 | Gemini 4 Hydrogen | $1.50/M | $7.50/M |
 | Gemini 3.1 Pro | $2.00/M | $12.00/M |
 | Gemini 3.5 Flash | $1.50/M | $9.00/M |
