@@ -241,8 +241,7 @@ The quote uses each model's published Fast rates. Settlement uses actual token
 usage and your account terms. When OpenAI returns `fast`, `priority`, or no tier
 for an explicit Fast request, Fast rates apply. When OpenAI returns `default`,
 Standard rates apply. The usage row records the base model ID.
-GPT-5.4 and GPT-5.5 have a Fast limit of 272,000 input tokens. Their Fast alias
-shows this limit as `max_input_tokens`.
+A model with a Fast input limit shows it as `max_input_tokens` on its Fast alias.
 
 Accounts with a credit ceiling must cover the full Fast quote before the call.
 When the request leaves out an output limit, Fast defaults to 8,192 on Chat
