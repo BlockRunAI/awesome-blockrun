@@ -12,7 +12,16 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 ### Retired — Gemini 2.5 Flash, Gemini 2.5 Pro
 - **`google/gemini-2.5-flash`** — Google moved it to Gemini 3.5 Flash-Lite on December 1. Calls now go to **`google/gemini-3.5-flash-lite`** at the same $0.30/M in · $2.50/M out, on every API including the native Gemini one. Gemini 3.5 Flash-Lite is now listed with image input.
 - **`google/gemini-2.5-pro`** — Google moved it to Gemini 3.8 Flash. Calls now go to **`google/gemini-3.8-flash`** at $0.75/M in · $3.75/M out instead of $1.25/$10.00, with no long-context surcharge.
-- Visible chat models are now **90**; total catalog **118**.
+- Visible chat models are now **91**; total catalog **119**.
+
+---
+
+## [2026-11-28]
+
+### Added — GPT-6.1 Terra
+- **`openai/gpt-6.1-terra`** ($1.00/M in · $5.00/M out, cached input $0.05/M, 1M context, 128K max output, vision, tools) — OpenAI's cost-efficient GPT-6.1 model at half GPT-6.1 Sol's rate, with knowledge through June 2026. Prompts over 272K tokens bill the whole request at $2.00/M in · $7.50/M out, as OpenAI does. It serves [Flex](/docs/getting-started/enterprise-api#flex) at half the standard rate. It writes a prompt cache by default, which OpenAI bills at $1.25/M, so an `exact` quote prices input at that rate.
+- Accepts `reasoning_effort` `none` (like GPT-6 Sol and Luna); `minimal` is raised to `low`, and `max` is lowered to `xhigh` on plain chat. Tool calls run through the Responses API at the effort you ask for.
+- Visible chat models are now **93**; total catalog **121**.
 
 ---
 

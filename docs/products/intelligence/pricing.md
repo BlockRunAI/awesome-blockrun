@@ -53,6 +53,7 @@ How the cached rate reaches an x402 payment depends on the scheme the client sig
 | GPT-6.2 Sol | $2.00 | $10.00 | $0.10 |
 | GPT-6 Astra | $10.00 | $50.00 | $1.00 |
 | GPT-6.1 Sol | $2.00 | $10.00 | $0.10 |
+| GPT-6.1 Terra | $1.00 | $5.00 | $0.05 |
 | GPT-6 Sol | $2.00 | $10.00 | $0.20 |
 | GPT-6 Luna | $0.10 | $0.50 | $0.01 |
 | GPT-5.6 Sol | $4.00 | $20.00 | $0.40 |
