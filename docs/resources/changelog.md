@@ -7,6 +7,14 @@ description: All notable changes to BlockRun — gateway endpoints, model lineup
 
 All notable changes to BlockRun, newest first — gateway endpoints, model lineup, pricing, and SDK releases.
 
+## [2026-12-01]
+
+### Changed — Gemini 4 Argon and Carbon price
+- **`google/gemini-4-argon`** and **`google/gemini-4-carbon`** are now $4.00/M in · $20.00/M out, cached input $0.20/M, up from $2.00/M · $10.00/M (cached $0.10/M). Google's introductory rate for both ended on November 30, and we resell LLM tokens at Google's price, as announced when each model launched. Nothing else about either model changes.
+- Gemini 4 Argon now falls back to **`google/gemini-4-neon`** ($3.00/M · $15.00/M) instead of Gemini 4 Hydrogen, and Gemini 3.1 Pro to **`openai/gpt-5.6-terra`** (the same $2.00/M · $12.00/M) instead of Gemini 4 Carbon, so a fallback stays within the price range of the model you asked for. Gemini 4 Carbon still falls back to Gemini 4 Argon.
+
+---
+
 ## [2026-11-28]
 
 ### Added — GPT-6.1 Terra
