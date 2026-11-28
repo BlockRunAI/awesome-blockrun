@@ -13,7 +13,7 @@ All notable changes to BlockRun, newest first — gateway endpoints, model lineu
 - **`openai/o3`** — OpenAI shut it down on December 11, 2026. Calls to it (and bare `o3`) now go to **`openai/gpt-5.4-mini`** on chat, messages and responses, like the rest of the o-series, and are quoted and billed at GPT-5.4 Mini's $0.75/M in · $4.50/M out instead of $2.00/$8.00.
 - **`openai/gpt-5-mini`** — shut down the same day. Calls now go to **`openai/gpt-5.6-luna`** at $0.20/M in · $1.20/M out instead of $0.25/$2.00, with a 1M context window and image input.
 - **`openai/gpt-5-nano`** — OpenAI shut it down the same day, but no current OpenAI model is as cheap, so it stays at its own $0.05/M in · $0.40/M out on chat completions until February 9, 2027, when it is retired. It no longer accepts `service_tier: "flex"`, and Base's `/v1/responses` no longer serves it. `openai/gpt-4.1-nano` keeps going to it.
-- Visible chat models are now **88**; total catalog **116**.
+- Visible chat models are now **89**; total catalog **117**.
 
 ---
 
