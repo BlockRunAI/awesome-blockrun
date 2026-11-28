@@ -1,11 +1,11 @@
 ---
 title: Intelligence
-description: BlockRun Intelligence gives your agent 92 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
+description: BlockRun Intelligence gives your agent 93 LLMs through one OpenAI-compatible API, paid per request in USDC — no API keys, no subscriptions.
 ---
 
 # Intelligence
 
-AI accesses any LLM. 92 models, pay-per-request.
+AI accesses any LLM. 93 models, pay-per-request.
 
 BlockRun's Intelligence product gives your AI agent access to models from OpenAI, Anthropic, Google, xAI, DeepSeek, Z.AI, Moonshot, MiniMax, and more — without managing API keys or subscriptions.
 
@@ -30,6 +30,7 @@ Vendor list rates per 1M tokens. Per-token chat paid per call adds a 5% platform
 | GPT-6.2 Sol | $2.00/M | $10.00/M |
 | GPT-6 Astra | $10.00/M | $50.00/M |
 | GPT-6.1 Sol | $2.00/M | $10.00/M |
+| GPT-6.1 Terra | $1.00/M | $5.00/M |
 | GPT-6 Sol | $2.00/M | $10.00/M |
 | GPT-6 Luna | $0.10/M | $0.50/M |
 | GPT-5.6 Sol | $4.00/M | $20.00/M |

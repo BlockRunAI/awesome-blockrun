@@ -40,7 +40,7 @@ Replace `blockrun.ai` with `sol.blockrun.ai` or `nano.blockrun.ai` to discover t
 
 ## AI Model Gateway
 
-OpenAI-compatible. 92 models across chat, reasoning, coding, and vision — plus image, video, music, and speech generation. Per-model pricing is published live at `/api/v1/models`.
+OpenAI-compatible. 93 models across chat, reasoning, coding, and vision — plus image, video, music, and speech generation. Per-model pricing is published live at `/api/v1/models`.
 
 | Method | Path | Purpose | Pricing |
 |---|---|---|---|
